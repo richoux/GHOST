@@ -21,7 +21,7 @@ OBJECTS=$(patsubst %.cpp, $(OBJDIR)/%.o, $(notdir $(SOURCES)))
 
 # For rm
 SOURCESTILDE=$(foreach sdir, $(SRCDIR), $(wildcard $(sdir)/*.cpp~))
-INCLUDETILDE=$(foreach idir, $(IDIR), $(wildcard $(idir)/*.hpp~))
+INCLUDESTILDE=$(foreach idir, $(IDIR), $(wildcard $(idir)/*.hpp~))
 
 vpath %.cpp $(SRCDIR)
 
