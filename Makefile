@@ -10,7 +10,6 @@ CXXFLAGS=-std=c++0x -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare $(IDIRFL
 # Linker
 LINKER=g++ -o
 LFLAGS=$(IDIRFLAG)
-#LFLAGS=-W -Wall -Wextra -pedantic $(IDIRFLAG)
 
 # Directories
 SRCDIR=src src/constraints src/domains src/misc src/objectives src/variables
@@ -41,9 +40,6 @@ debug: CXXFLAGS += -g \
 
 $(BINDIR)/$(EXEC): $(OBJECTS)
 	@$(LINKER) $@ $(LFLAGS) $^
-
-# $(OBJECTS): $(SOURCES)
-# 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(OBJDIR)/%.o: %.cpp
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
