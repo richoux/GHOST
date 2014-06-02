@@ -24,9 +24,9 @@
  */
 
 
-#include "../include/random.hpp"
+#include "../include/misc/random.hpp"
 
-namespace wallin
+namespace ghost
 {
   Random::Random() : rng( rd() ) { }
 }

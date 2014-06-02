@@ -24,9 +24,9 @@
  */
 
 
-#include "../include/tools.hpp"
+#include "../include/misc/tools.hpp"
 
-namespace wallin
+namespace ghost
 {
   void updateConstraints( const std::vector< std::shared_ptr<Constraint> > &vecConstraints, const Grid &grid )
   {

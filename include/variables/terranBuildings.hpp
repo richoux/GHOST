@@ -56,7 +56,7 @@ namespace ghost
   class Bunker : public Building
   {
   public:
-    Bunker() : Building(3, 2, 8, 15, 15, 16, Terran, "U", 2) { }
+    Bunker() : Building(3, 2, 8, 15, 15, 16, Terran, 2, "U") { }
     Bunker(int pos) : Building(3, 2, 8, 15, 15, 16, Terran, 2, "U", pos) { }
   };
 

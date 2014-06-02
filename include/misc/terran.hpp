@@ -29,13 +29,14 @@
 #include <vector>
 #include <memory>
 
-#include "building.hpp"
-#include "constraint.hpp"
-#include "grid.hpp"
+#include "../variables/building.hpp"
+#include "../variables/terranBuildings.hpp"
+#include "../constraints/constraint.hpp"
+#include "../domains/grid.hpp"
 
 using namespace std;
 
-namespace wallin
+namespace ghost
 {
   // Academy
   shared_ptr<Building> a1;

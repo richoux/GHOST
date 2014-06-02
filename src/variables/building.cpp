@@ -50,7 +50,7 @@ namespace ghost
       race(race),
       treedepth(treedepth),
   { }
-
+      
   ostream& operator<<( ostream& os, const Building& b )
   {
     return os

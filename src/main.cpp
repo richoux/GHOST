@@ -28,18 +28,16 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
-//#include <set>
-
 #include <type_traits>
 
-#include "../include/building.hpp"
-#include "../include/constraint.hpp"
-#include "../include/grid.hpp"
-#include "../include/tools.hpp"
-#include "../include/terran.hpp"
+#include "../include/variables/building.hpp"
+#include "../include/constraints/constraint.hpp"
+#include "../include/domains/grid.hpp"
+#include "../include/misc/tools.hpp"
+#include "../include/misc/terran.hpp"
 #include "../include/solver.hpp"
 
-using namespace wallin;
+using namespace ghost;
 
 int main(int argc, char **argv)
 {

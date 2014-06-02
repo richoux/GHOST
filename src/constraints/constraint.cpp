@@ -24,9 +24,9 @@
  */
 
 
-#include "../include/constraint.hpp"
+#include "../include/constraints/constraint.hpp"
 
-namespace wallin
+namespace ghost
 {
   
   Constraint::Constraint(const std::vector< std::shared_ptr<Building> >& variables, const Grid& grid) 

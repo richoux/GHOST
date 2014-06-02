@@ -29,7 +29,7 @@
 #include <random>
 #include <unistd.h>
 
-namespace wallin
+namespace ghost
 {
   class Random
   {

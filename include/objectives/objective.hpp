@@ -32,11 +32,11 @@
 #include <algorithm>
 #include <limits>
 
-#include "building.hpp"
-#include "grid.hpp"
-#include "random.hpp"
+#include "../variables/building.hpp"
+#include "../domains/grid.hpp"
+#include "../misc/random.hpp"
 
-namespace wallin
+namespace ghost
 {
   class Objective
   {

@@ -37,12 +37,12 @@
 #include <algorithm>
 #include <cstdlib>
 
-#include "building.hpp"
-#include "random.hpp"
+#include "../variables/building.hpp"
+#include "../misc/random.hpp"
 
 using namespace std;
 
-namespace wallin
+namespace ghost
 {
   using mapFail = map<pair<int, int>, string>;
 

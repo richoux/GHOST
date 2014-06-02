@@ -24,9 +24,9 @@
  */
 
 
-#include "../include/grid.hpp"
+#include "../include/domains/grid.hpp"
 
-namespace wallin
+namespace ghost
 {
   Grid::Grid( int col, int row, int sRow, int sCol, int tRow, int tCol ) 
     : mCol_(col),

@@ -29,13 +29,13 @@
 #include <vector>
 #include <memory>
 
-#include "building.hpp"
-#include "constraint.hpp"
-#include "grid.hpp"
+#include "../variables/building.hpp"
+#include "../constraints/constraint.hpp"
+#include "../domains/grid.hpp"
 
 using namespace std;
 
-namespace wallin
+namespace ghost
 {
 
   std::shared_ptr<Building> c;

@@ -1,8 +1,5 @@
 # Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+obj/*.o
 
 # Compiled Dynamic libraries
 *.so
@@ -16,6 +13,4 @@
 *.lib
 
 # Executables
-*.exe
-*.out
-*.app
+bin/ghost

@@ -39,16 +39,16 @@
 #include <cassert>
 #include <typeinfo>
 
-#include "building.hpp"
-#include "constraint.hpp"
-#include "grid.hpp"
-#include "tools.hpp"
-#include "random.hpp"
-#include "objective.hpp"
+#include "variables/building.hpp"
+#include "constraints/constraint.hpp"
+#include "domains/grid.hpp"
+#include "misc/tools.hpp"
+#include "misc/random.hpp"
+#include "objectives/objective.hpp"
 
 using namespace std;
 
-namespace wallin
+namespace ghost
 {
   class Solver
   {

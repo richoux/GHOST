@@ -38,7 +38,7 @@ namespace ghost
   public:
     Building(int, int, int, int, int, int, Race, int, string, int = -1);
 
-    inline bool operator<( const Building& other )	const	{ return id < other.id; }
+    inline bool operator<( const Variable& other )	const	{ return id < other.getId(); }
     inline bool isOnGrid()				const	{ return value != -1; }
     
     inline int getLength()	const	{ return length; }

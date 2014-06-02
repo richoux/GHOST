@@ -32,11 +32,11 @@
 #include <typeinfo>
 #include <map>
 
-#include "building.hpp"
-#include "grid.hpp"
-#include "objective.hpp"
+#include "../variables/building.hpp"
+#include "../domains/grid.hpp"
+#include "../objectives/objective.hpp"
 
-namespace wallin
+namespace ghost
 {
   class Constraint
   {

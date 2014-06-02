@@ -24,9 +24,9 @@
  */
 
 
-#include "../include/objective.hpp"
+#include "../include/objectives/objective.hpp"
 
-namespace wallin
+namespace ghost
 {
   /*************/
   /* Objective */

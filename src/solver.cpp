@@ -29,7 +29,7 @@
 constexpr int TABU	= 5;
 constexpr int OPT_TIME	= 150;
 
-namespace wallin
+namespace ghost
 {
   Solver::Solver( const vector< shared_ptr<Constraint> >& vecConstraints, 
 		  const vector<shared_ptr<Building> >& vecBuildings, 
