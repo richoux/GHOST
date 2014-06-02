@@ -1,22 +1,20 @@
 /*
- * Wall-in is a C++ library designed for StarCraft: Brood,
- * making a wall optimizised for a given objective: minimize the
- * number of buildings, the technology needed, the number of gaps
- * between building big enough to let enter small units, etc.
- * To do so, it use some Constraint Programming techniques 
- * like meta-heuristics.
- * Please visit https://github.com/richoux/Wall-in 
- * for further information.
+ * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library 
+ * designed for StarCraft: Brood war. 
+ * GHOST is a meta-heuristic solver aiming to solve any kind of combinatorial 
+ * and optimization RTS-related problems represented by a CSP. It is an extension
+ * of a previous project Wall-in.
+ * Please visit https://github.com/richoux/GHOST for further information.
  * 
  * Copyright (C) 2014 Florian Richoux
  *
- * This file is part of Wall-in.
- * Wall-in is free software: you can redistribute it and/or 
+ * This file is part of GHOST.
+ * GHOST is free software: you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as published 
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
 
- * Wall-in is distributed in the hope that it will be useful,
+ * GHOST is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
