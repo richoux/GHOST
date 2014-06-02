@@ -4,11 +4,13 @@ EXEC=ghost
 # Compiler
 CXX=g++
 IDIR=include include/constraints include/domains include/misc include/objectives include/variables
-CXXFLAGS=-std=c++0x -Ofast -W -Wall -Wextra -pedantic -I$(IDIR)
+IDIRFLAG=$(foreach idir, $(IDIR), -I$(idir))
+CXXFLAGS=-std=c++0x -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare $(IDIRFLAG)
 
 # Linker
 LINKER=g++ -o
-LFLAGS=-W -Wall -Wextra -pedantic -I$(IDIR)
+LFLAGS=$(IDIRFLAG)
+#LFLAGS=-W -Wall -Wextra -pedantic $(IDIRFLAG)
 
 # Directories
 SRCDIR=src src/constraints src/domains src/misc src/objectives src/variables
@@ -25,21 +27,29 @@ INCLUDESTILDE=$(foreach idir, $(IDIR), $(wildcard $(idir)/*.hpp~))
 
 vpath %.cpp $(SRCDIR)
 
-# Rules
-all: CXXFLAGS += -DNDEBUG
-all: $(BINDIR)/$(EXEC)
+# Reminder, 'cause it is easy to forget makefile's fucked-up syntax...
+# $@ is what triggered the rule, ie the target before :
+# $^ is the whole dependencies list, ie everything after :
+# $< is the first item in the dependencies list
 
-debug: CXXFLAGS += -g
-debug: $(BINDIR)/$(EXEC)
+# Rules
+all: CXXFLAGS += -DNDEBUG \
+     $(BINDIR)/$(EXEC)
+
+debug: CXXFLAGS += -g \
+       $(BINDIR)/$(EXEC)
 
 $(BINDIR)/$(EXEC): $(OBJECTS)
-	@$(LINKER) $@ $(LFLAGS) $(OBJECTS)
+	@$(LINKER) $@ $(LFLAGS) $^
 
-$(OBJECTS): $(OBJDIR)/%.o : $(SOURCES)
+# $(OBJECTS): $(SOURCES)
+# 	@$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJDIR)/%.o: %.cpp
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
 .PHONY: all debug clean 
 
 clean:
-	rm -fr *~ $(OBJECTS) $(BINDIR)/$(EXEC) $(SOURCESTILDE) $(INCLUDESTILDE)
+	rm -fr core *~ $(OBJECTS) $(BINDIR)/$(EXEC) $(SOURCESTILDE) $(INCLUDESTILDE)
 

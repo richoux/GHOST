@@ -70,16 +70,16 @@ namespace ghost
       // 1 chance over 3 to be placed on the grid
       if( randomVar.getRandNum(3) == 0)
       {
-	shortName = b->getShort();
+	shortName = b->getName();
 		  
 	xPos = randomVar.getRandNum( grid.getNberRows() - b->getLength() );
 	yPos = randomVar.getRandNum( grid.getNberCols() - b->getHeight() );
-	b->setPos( grid.mat2lin( xPos, yPos ) );
+	b->setValue( grid.mat2lin( xPos, yPos ) );
 	
 	grid.add( *b );
       }
       else
-	b->setPos( -1 );
+	b->setValue( -1 );
     }
 
     updateConstraints( vecConstraints, grid );
@@ -88,7 +88,7 @@ namespace ghost
   void Solver::move( shared_ptr<Building>& building, int newPosition )
   {
     grid.clear( *building );
-    building->setPos( newPosition );
+    building->setValue( newPosition );
     grid.add( *building );
     updateConstraints( vecConstraints, grid );
   }
@@ -321,7 +321,7 @@ namespace ghost
 	  if( visited.find( b ) == visited.end() )
 	  {
 	    grid.clear( *b );
-	    b->setPos( -1 );
+	    b->setValue( -1 );
 	  }
 
 	// clean wall from unnecessary buildings.
@@ -341,7 +341,7 @@ namespace ghost
 		if( cost == 0. )
 		{
 		  grid.clear( *b );
-		  b->setPos( -1 );
+		  b->setValue( -1 );
 		  ng.update( grid );
 		  change = true;
 		}	  
@@ -357,19 +357,19 @@ namespace ghost
 	  sizeWall = currentSizeWall;
 	  bestCost = objectiveCost;
 	  for( int i = 0; i < vecBuildings.size(); ++i )
-	    bestSolution[i] = vecBuildings[i]->getPosition();
+	    bestSolution[i] = vecBuildings[i]->getValue();
 	}
       }
       reset();
       elapsedTime = chrono::system_clock::now() - start;
     }
-    while( ( objective->getName().compare("none") != 0 || loops == 0 )  && ( elapsedTime.count() < OPT_TIME )//|| ( elapsedTime.count() >= OPT_TIME && bestGlobalCost != 0 && elapsedTime.count() < 10 * OPT_TIME ) ) 
+    while( ( ( objective->getName().compare("none") != 0 || loops == 0 )  && ( elapsedTime.count() < OPT_TIME ) )//|| ( elapsedTime.count() >= OPT_TIME && bestGlobalCost != 0 && elapsedTime.count() < 10 * OPT_TIME ) ) 
 	   || ( objective->getName().compare("none") == 0 && elapsedTime.count() < timeout * loops ) );
 
     clearAllInGrid( vecBuildings, grid );
 
     for( int i = 0; i < vecBuildings.size(); ++i )
-      vecBuildings[i]->setPos( bestSolution[i] );
+      vecBuildings[i]->setValue( bestSolution[i] );
     
     addAllInGrid( vecBuildings, grid );
 

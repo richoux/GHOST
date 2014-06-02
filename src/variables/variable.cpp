@@ -34,14 +34,13 @@ namespace ghost
 {
   int Variable::numberVariables = 0;
   
-  Variable( string name,
-	    int value )
+  Variable::Variable( string name, int value )
     : name(name),
       id(Variable::numberVariables++),
       value(value)
   { }
 
-  std::ostream& operator<<( std::ostream& os, const Building& b )
+  std::ostream& operator<<( std::ostream& os, const Variable& b )
   {
     return os
       << "Type: " <<  typeid(b).name() << std::endl

@@ -48,9 +48,9 @@ namespace ghost
       gapBottom(bottom), 
       gapLeft(left),
       race(race),
-      treedepth(treedepth),
+      treedepth(treedepth)
   { }
-      
+  
   ostream& operator<<( ostream& os, const Building& b )
   {
     return os
@@ -59,7 +59,7 @@ namespace ghost
       << "Name: " << b.name << endl
       << "Id num: " << b.id << endl
       << "Tree depth: " << b.treedepth << endl
-      << "Position: " <<  b.position << endl
+      << "Position: " <<  b.value << endl
       << "Length: " <<  b.length << endl
       << "Height: " <<  b.height << endl
       << "Gap Top: " <<  b.gapTop << endl

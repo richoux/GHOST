@@ -51,13 +51,13 @@ namespace ghost
   {
     if( building.isOnGrid() )
     {
-      pair<int, int> pos = lin2mat( building.getPosition() );
+      pair<int, int> pos = lin2mat( building.getValue() );
       int row = pos.first;
       int col = pos.second;
      
       for( int x = row; x < row + building.getHeight(); ++x )
 	for( int y = col; y < col + building.getLength(); ++y )
-	  add(x, y, building.getShort(), building.getId() );
+	  add(x, y, building.getName(), building.getId() );
     }
   }
 
@@ -85,7 +85,7 @@ namespace ghost
     
     if( building.isOnGrid() )
     {
-      pair<int, int> pos = lin2mat( building.getPosition() );
+      pair<int, int> pos = lin2mat( building.getValue() );
       int row = pos.first;
       int col = pos.second;
 
@@ -96,7 +96,7 @@ namespace ghost
 
       for( int x = row; x < row_shift; ++x )
       {
-	add(x, col_shift, building.getShort(), building.getId() );	
+	add(x, col_shift, building.getName(), building.getId() );	
 
 	key = make_pair( x, col_shift );
 	if( failures_.find( key ) != failures_.end() )
@@ -116,10 +116,10 @@ namespace ghost
 	    --unbuildables;
 	}
 
-	clear(x, col, building.getShort(), building.getId() );
+	clear(x, col, building.getName(), building.getId() );
       }
       
-      building.shiftPos();
+      building.shiftValue();
     }
 
     return make_pair( overlaps, unbuildables );
@@ -129,7 +129,7 @@ namespace ghost
   {
     if( building.isOnGrid() )
     {
-      pair<int, int> pos = lin2mat( building.getPosition() );
+      pair<int, int> pos = lin2mat( building.getValue() );
       int row = pos.first;
       int col = pos.second;
 
@@ -138,11 +138,11 @@ namespace ghost
 
       for( int x = row; x < row_shift; ++x )
       {
-	add(x, col_shift, building.getShort(), building.getId() );	
-	clear(x, col, building.getShort(), building.getId() );
+	add(x, col_shift, building.getName(), building.getId() );	
+	clear(x, col, building.getName(), building.getId() );
       }
       
-      building.shiftPos();
+      building.shiftValue();
     }
   }
 
@@ -150,13 +150,13 @@ namespace ghost
   {
     if( building.isOnGrid() )
     {
-      pair<int, int> pos = lin2mat( building.getPosition() );
+      pair<int, int> pos = lin2mat( building.getValue() );
       int row = pos.first;
       int col = pos.second;
       
       for( int x = row; x < row + building.getHeight(); ++x )
 	for( int y = col; y < col + building.getLength(); ++y )
-	  clear(x, y, building.getShort(), building.getId() );
+	  clear(x, y, building.getName(), building.getId() );
     }
   }
 
@@ -190,7 +190,7 @@ namespace ghost
   {
     clear( first );
     clear( second );
-    first.swapPosition( second );
+    first.swapValue( second );
     add( first );
     add( second );
   }  
@@ -201,7 +201,7 @@ namespace ghost
 
     if( b.isOnGrid() )
     {
-      pair<int, int> coordinates = lin2mat( b.getPosition() );
+      pair<int, int> coordinates = lin2mat( b.getValue() );
 
       int top = coordinates.first;
       int right = coordinates.second + b.getLength() - 1;
@@ -212,7 +212,7 @@ namespace ghost
       {
   	if( other->getId() != b.getId() && other->isOnGrid() )
   	{
-  	  pair<int, int> xyOther = lin2mat( other->getPosition() );
+  	  pair<int, int> xyOther = lin2mat( other->getValue() );
   	  int otherTop = xyOther.first;
   	  int otherRight = xyOther.second + other->getLength() - 1;
   	  int otherBottom = xyOther.first + other->getHeight() - 1;
@@ -267,7 +267,7 @@ namespace ghost
 
     if( b.isOnGrid() )
     {
-      pair<int, int> coordinates = lin2mat( b.getPosition() );
+      pair<int, int> coordinates = lin2mat( b.getValue() );
 
       int top = coordinates.first;
       int right = coordinates.second + b.getLength() - 1;
@@ -277,7 +277,7 @@ namespace ghost
       {
 	if( other->getId() != b.getId() && other->isOnGrid() )
 	{
-	  pair<int, int> xyOther = lin2mat( other->getPosition() );
+	  pair<int, int> xyOther = lin2mat( other->getValue() );
 	  int otherRight = xyOther.second + other->getLength() - 1;
 	  int otherBottom = xyOther.first + other->getHeight() - 1;
 	  int otherLeft = xyOther.second;
@@ -297,7 +297,7 @@ namespace ghost
 
     if( b.isOnGrid() )
     {
-      pair<int, int> coordinates = lin2mat( b.getPosition() );
+      pair<int, int> coordinates = lin2mat( b.getValue() );
 
       int top = coordinates.first;
       int right = coordinates.second + b.getLength() - 1;
@@ -307,7 +307,7 @@ namespace ghost
       {
 	if( other->getId() != b.getId() && other->isOnGrid() )
 	{
-	  pair<int, int> xyOther = lin2mat( other->getPosition() );
+	  pair<int, int> xyOther = lin2mat( other->getValue() );
 	  int otherTop = xyOther.first;
 	  int otherBottom = xyOther.first + other->getHeight() - 1;
 	  int otherLeft = xyOther.second;
@@ -327,7 +327,7 @@ namespace ghost
 
     if( b.isOnGrid() )
     {
-      pair<int, int> coordinates = lin2mat( b.getPosition() );
+      pair<int, int> coordinates = lin2mat( b.getValue() );
 
       int right = coordinates.second + b.getLength() - 1;
       int bottom = coordinates.first + b.getHeight() - 1;
@@ -337,7 +337,7 @@ namespace ghost
       {
 	if( other->getId() != b.getId() && other->isOnGrid() )
 	{
-	  pair<int, int> xyOther = lin2mat( other->getPosition() );
+	  pair<int, int> xyOther = lin2mat( other->getValue() );
 	  int otherTop = xyOther.first;
 	  int otherRight = xyOther.second + other->getLength() - 1;
 	  int otherLeft = xyOther.second;
@@ -357,7 +357,7 @@ namespace ghost
 
     if( b.isOnGrid() )
     {
-      pair<int, int> coordinates = lin2mat( b.getPosition() );
+      pair<int, int> coordinates = lin2mat( b.getValue() );
 
       int top = coordinates.first;
       int bottom = coordinates.first + b.getHeight() - 1;
@@ -367,7 +367,7 @@ namespace ghost
       {
 	if( other->getId() != b.getId() && other->isOnGrid() )
 	{
-	  pair<int, int> xyOther = lin2mat( other->getPosition() );
+	  pair<int, int> xyOther = lin2mat( other->getValue() );
 	  int otherTop = xyOther.first;
 	  int otherRight = xyOther.second + other->getLength() - 1;
 	  int otherBottom = xyOther.first + other->getHeight() - 1;

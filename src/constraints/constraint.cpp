@@ -37,7 +37,7 @@ namespace ghost
   std::vector<double> Constraint::simulateCost( Building& oldBuilding, const std::vector<int>& newPosition, int sizeGrid, std::vector< std::vector<double> >& vecVarSimCosts, std::shared_ptr<Objective> &objective )
   {
     std::vector<double> simCosts( sizeGrid, -1. );
-    int backup = oldBuilding.getPosition();
+    int backup = oldBuilding.getValue();
     int previousPos;
     
     if( objective->getName().compare("fake") != 0 )
@@ -52,7 +52,7 @@ namespace ghost
       else
       { 
 	grid.clear( oldBuilding );
-	oldBuilding.setPos( pos );
+	oldBuilding.setValue( pos );
 	grid.add( oldBuilding );
       }
 
@@ -63,7 +63,7 @@ namespace ghost
     }
 
     grid.clear( oldBuilding );
-    oldBuilding.setPos( backup );
+    oldBuilding.setValue( backup );
     grid.add( oldBuilding );
     
     return simCosts;
@@ -77,17 +77,17 @@ namespace ghost
 
   double Constraint::simulateCost( Building& oldBuilding, const int newPosition, std::vector<double>& varSimCost )
   {
-    int backup = oldBuilding.getPosition();
+    int backup = oldBuilding.getValue();
     grid.clear( oldBuilding );
 
-    oldBuilding.setPos( newPosition );
+    oldBuilding.setValue( newPosition );
     grid.add( oldBuilding );
 
     double simCost = cost( varSimCost );
 
     grid.clear( oldBuilding );
 
-    oldBuilding.setPos( backup );
+    oldBuilding.setValue( backup );
     grid.add( oldBuilding );
 
     return simCost;
@@ -188,7 +188,7 @@ namespace ghost
   std::vector<double> Overlap::simulateCost( Building& oldBuilding, const std::vector<int>& newPosition, int sizeGrid, std::vector< std::vector<double> >& vecVarSimCosts )
   {
     std::vector<double> simCosts( sizeGrid, -1. );
-    int backup = oldBuilding.getPosition();
+    int backup = oldBuilding.getValue();
     int previousPos;
     int diff;
 
@@ -211,7 +211,7 @@ namespace ghost
       else
       { 
 	grid.clear( oldBuilding );
-	oldBuilding.setPos( pos );
+	oldBuilding.setValue( pos );
 	grid.add( oldBuilding );
 	
 	simCosts[pos + 1] = cost( vecVarSimCosts[pos + 1] );
@@ -221,7 +221,7 @@ namespace ghost
     }
 
     grid.clear( oldBuilding );
-    oldBuilding.setPos( backup );
+    oldBuilding.setValue( backup );
     grid.add( oldBuilding );
     
     return simCosts;
@@ -258,7 +258,7 @@ namespace ghost
   std::vector<double> Buildable::simulateCost( Building& oldBuilding, const std::vector<int>& newPosition, int sizeGrid, std::vector< std::vector<double> >& vecVarSimCosts )
   {
     std::vector<double> simCosts( sizeGrid, -1. );
-    int backup = oldBuilding.getPosition();
+    int backup = oldBuilding.getValue();
     int previousPos;
     int diff;
 
@@ -281,7 +281,7 @@ namespace ghost
       else
       { 
 	grid.clear( oldBuilding );
-	oldBuilding.setPos( pos );
+	oldBuilding.setValue( pos );
 	grid.add( oldBuilding );
 	
 	simCosts[pos + 1] = cost( vecVarSimCosts[pos + 1] );
@@ -291,7 +291,7 @@ namespace ghost
     }
 
     grid.clear( oldBuilding );
-    oldBuilding.setPos( backup );
+    oldBuilding.setValue( backup );
     grid.add( oldBuilding );
     
     return simCosts;

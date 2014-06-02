@@ -35,7 +35,7 @@ namespace ghost
 
   int Objective::heuristicValue( const std::vector< double > &vecGlobalCosts, 
 				 double &bestEstimatedCost,
-				 int &bestPosition,
+				 int &bestValue,
 				 const Grid &grid ) const
   {
     int best = 0;
@@ -49,7 +49,7 @@ namespace ghost
 	       && ( i == 0 || heuristicValueHelper.at( i ) < bestHelp ) ) )
       {
 	bestEstimatedCost = vecGlobalCosts[i];
-	bestPosition = i - 1;
+	bestValue = i - 1;
 	if( heuristicValueHelper.at( i ) < bestHelp )
 	  bestHelp = heuristicValueHelper.at( i );
 	best = i;
@@ -73,7 +73,7 @@ namespace ghost
   {
     if( b.isOnGrid() )
     {
-      int pos = b.getPosition();
+      int pos = b.getValue();
       heuristicValueHelper.at( pos ) = grid.distanceToTarget( pos );
     }
   }
@@ -99,7 +99,7 @@ namespace ghost
   void NoneObj::setHelper( const Building &b, const std::vector< std::shared_ptr<Building> > &vecBuildings, const Grid &grid )
   {
     if( b.isOnGrid() )
-      heuristicValueHelper.at( b.getPosition() ) = 0;
+      heuristicValueHelper.at( b.getValue() ) = 0;
   }
 
   /**********/
@@ -136,7 +136,7 @@ namespace ghost
   void GapObj::setHelper( const Building &b, const std::vector< std::shared_ptr<Building> > &vecBuildings, const Grid &grid )
   {
     if( b.isOnGrid() )
-      heuristicValueHelper.at( b.getPosition() ) = gapSize( b, vecBuildings, grid );
+      heuristicValueHelper.at( b.getValue() ) = gapSize( b, vecBuildings, grid );
   }
 
   int GapObj::gapSize( const Building &b, const std::vector< std::shared_ptr<Building> > &vecBuildings, const Grid &grid ) const
