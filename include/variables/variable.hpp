@@ -36,7 +36,7 @@ namespace ghost
   class Variable
   {
   public:
-    Variable( string, int = -1 );
+    Variable( string, string, int = -1 );
     
     virtual bool operator<( const Variable& other ) const = 0;
     
@@ -45,12 +45,14 @@ namespace ghost
     inline int		getValue()			const	{ return value; }
     inline int		getId()				const	{ return id; }
     inline string	getName()			const	{ return name; }
+    inline string	getFullName()			const	{ return fullName; }
     inline void		swapValue( Variable &other )		{ std::swap(this->value, other.value); }
 
     friend ostream& operator<<( ostream&, const Variable& );
     
   protected:
     string	name;
+    string	fullName;
     int		id;
     int		value;
     

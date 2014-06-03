@@ -39,8 +39,9 @@ namespace ghost
 		     Race race,
 		     int treedepth,
 		     string name,
+		     string fullName,
 		     int position)
-    : Variable( name, position ),
+    : Variable( name, fullName, position ),
       length(x),
       height(y),
       gapTop(top), 
@@ -57,6 +58,7 @@ namespace ghost
       << "Type: " <<  typeid(b).name() << endl
       << "Race: " <<  b.getRace() << endl
       << "Name: " << b.name << endl
+      << "Full name: " << b.fullName << endl
       << "Id num: " << b.id << endl
       << "Tree depth: " << b.treedepth << endl
       << "Position: " <<  b.value << endl

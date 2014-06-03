@@ -34,8 +34,9 @@ namespace ghost
 {
   int Variable::numberVariables = 0;
   
-  Variable::Variable( string name, int value )
+  Variable::Variable( string name, string fullName, int value )
     : name(name),
+      fullName(fullName),
       id(Variable::numberVariables++),
       value(value)
   { }
@@ -45,6 +46,7 @@ namespace ghost
     return os
       << "Type: " <<  typeid(b).name() << std::endl
       << "Name: " << b.name << std::endl
+      << "Full name: " << b.fullName << std::endl
       << "Id num: " << b.id << std::endl
       << "Value: " <<  b.value << std::endl
       << "-------" << std::endl;
