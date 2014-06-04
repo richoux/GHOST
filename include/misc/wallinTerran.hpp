@@ -30,7 +30,7 @@
 #include <memory>
 
 #include "../variables/building.hpp"
-#include "../variables/terranBuildings.hpp"
+#include "../variables/wallinTerranBuildings.hpp"
 #include "../constraints/constraint.hpp"
 #include "../domains/grid.hpp"
 

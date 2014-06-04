@@ -34,7 +34,7 @@
 #include "../include/constraints/constraint.hpp"
 #include "../include/domains/grid.hpp"
 #include "../include/misc/tools.hpp"
-#include "../include/misc/terran.hpp"
+#include "../include/misc/wallinTerran.hpp"
 #include "../include/solver.hpp"
 
 using namespace ghost;
