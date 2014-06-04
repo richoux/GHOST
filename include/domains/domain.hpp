@@ -39,13 +39,15 @@ namespace ghost
   class Domain
   {
   public:
-    Domain( int );
-    Domain( int, const vector< int >& );
+    Domain( int, int );
+    Domain( int, int, const vector< int >& );
         
 
     virtual int		randomValue( const Variable& ) const;
     virtual vector<int> possibleValues( const Variable& ) const;
-
+    virtual void	resetDomain( const Variables& );
+    virtual void	resetAllDomains();
+    
     inline int getSize() const { return size; }
 
     friend ostream& operator<<( ostream&, const Domain& );

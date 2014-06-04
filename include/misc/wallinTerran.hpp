@@ -32,7 +32,7 @@
 #include "../variables/building.hpp"
 #include "../variables/wallinTerranBuildings.hpp"
 #include "../constraints/constraint.hpp"
-#include "../domains/grid.hpp"
+#include "../domains/wallinGrid.hpp"
 
 using namespace std;
 
@@ -155,7 +155,7 @@ namespace ghost
     return vec;
   }
 
-  vector< shared_ptr<Constraint> > makeTerranConstraints( const vector<shared_ptr<Building> >& vec, const Grid& grid )
+  vector< shared_ptr<Constraint> > makeTerranConstraints( const vector<shared_ptr<Building> >& vec, const WallinGrid& grid )
   {
     overlap	 = make_shared<Overlap>( vec, grid );
     buildable	 = make_shared<Buildable>( vec, grid );

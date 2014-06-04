@@ -32,7 +32,7 @@
 
 #include "../include/variables/building.hpp"
 #include "../include/constraints/constraint.hpp"
-#include "../include/domains/grid.hpp"
+#include "../include/domains/wallinGrid.hpp"
 #include "../include/misc/tools.hpp"
 #include "../include/misc/wallinTerran.hpp"
 #include "../include/solver.hpp"
@@ -77,7 +77,7 @@ int main(int argc, char **argv)
     std::make_pair(11, 15) 
   };
   
-  Grid grid( 16, 12, unbuildables, 11, 7, 6, 15 );
+  WallinGrid grid( 16, 12, unbuildables, 11, 7, 6, 15 );
 
   // Please write the name of the objective here!
   std::string objective = "g";
@@ -91,7 +91,7 @@ int main(int argc, char **argv)
 #ifndef NDEBUG
   std::cout << std::boolalpha << "Building movable: " << std::is_nothrow_move_constructible<Building>::value << std::endl;
   std::cout << std::boolalpha << "Barracks movable: " << std::is_nothrow_move_constructible<Barracks>::value << std::endl;
-  std::cout << std::boolalpha << "Grid movable: " << std::is_nothrow_move_constructible<Grid>::value << std::endl;
+  std::cout << std::boolalpha << "Grid movable: " << std::is_nothrow_move_constructible<WallinGrid>::value << std::endl;
   std::cout << std::boolalpha << "Solver movable: " << std::is_nothrow_move_constructible<Solver>::value << std::endl;
   std::cout << std::boolalpha << "Random movable: " << std::is_nothrow_move_constructible<Random>::value << std::endl;
   std::cout << std::boolalpha << "Constraint movable: " << std::is_nothrow_move_constructible<Constraint>::value << std::endl;

@@ -24,13 +24,30 @@
  */
 
 
+#include <numeric>
+
 #include "../../include/domain/domain.hpp"
 
 namespace ghost
 {
-  Domain::Domain( int size ) : size(size) { }
-  Domain::Domain( int size, const vector< int > &initialDomain )
-    : Domain(size), initialDomain(initialDomain) { }
+  Domain::Domain( int size, int numberVariables )
+    : size(size),
+      initialDomain(vector<int>( size )),
+      domains(vector< vector<int> >( numberVariables ))
+  {
+    std::iota( begin(initialDomain), end(initialDomain), -1 );
+    for( int i = 0; i < numberVariables; ++i )
+      std::copy( begin(initialDomain), end(initialDomain), domains[i] );
+  }
+
+  Domain::Domain( int size, int numberVariables, const vector< int > &initialDomain )
+    : size(size),
+      initialDomain(initialDomain),
+      domains(vector< vector<int> >( numberVariables ))
+  {
+    for( int i = 0; i < numberVariables; ++i )
+      std::copy( begin(initialDomain), end(initialDomain), domains[i] );
+  }
   
   
   int Domain::randomValue( const Variable &variable ) const
@@ -41,7 +58,18 @@ namespace ghost
   
   vector<int> Domain::possibleValues( const Variable &variable ) const
   {
-    return domains[ variable->getId() ];
+    return domains[ variable.getId() ];
+  }
+
+  void Domain::resetDomain( const Variable &variable )
+  {
+    domains[ variable.getId() ] = initialDomain;
+  }
+
+  void Domain::resetAllDomains()
+  {
+    for( auto& d : domains )
+      d = initialDomain;
   }
   
   ostream& operator<<( ostream&, const Domain &domain )

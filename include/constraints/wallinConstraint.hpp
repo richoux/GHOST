@@ -34,7 +34,7 @@
 
 #include "constraint.hpp"
 #include "../variables/building.hpp"
-#include "../domains/grid.hpp"
+#include "../domains/wallinGrid.hpp"
 #include "../objectives/objective.hpp"
 
 namespace ghost
@@ -42,14 +42,14 @@ namespace ghost
   class WallinConstraint : public Constraint
   {
   public:
-    WallinConstraint( const std::vector< std::shared_ptr<Building> >&, const Grid& );
+    WallinConstraint( const std::vector< std::shared_ptr<Building> >&, const WallinGrid& );
 
     virtual double cost( std::vector<double>& ) const = 0;
     virtual std::vector<double> simulateCost( Building&, const std::vector<int>&, int, std::vector< std::vector<double> >&, std::shared_ptr<Objective>& );
     virtual std::vector<double> simulateCost( Building&, const std::vector<int>&, int, std::vector< std::vector<double> >& );
     virtual double simulateCost( Building&, const int, std::vector<double>& );
 
-    inline void update( const Grid& g ) { grid = g; }
+    inline void update( const WallinGrid& g ) { grid = g; }
 
     friend std::ostream& operator<<( std::ostream&, const Constraint& );
     
@@ -61,7 +61,7 @@ namespace ghost
   class Overlap : public WallinConstraint
   {
   public:
-    Overlap( const std::vector< std::shared_ptr<Building> >&, const Grid& );
+    Overlap( const std::vector< std::shared_ptr<Building> >&, const WallinGrid& );
     double cost( std::vector<double>& ) const;
     std::vector<double> simulateCost( Building&, const std::vector<int>&, int, std::vector< std::vector<double> >& );
   };
@@ -70,7 +70,7 @@ namespace ghost
   class Buildable : public WallinConstraint
   {
   public:
-    Buildable( const std::vector< std::shared_ptr<Building> >&, const Grid& );
+    Buildable( const std::vector< std::shared_ptr<Building> >&, const WallinGrid& );
     double cost( std::vector<double>& ) const;
     std::vector<double> simulateCost( Building&, const std::vector<int>&, int, std::vector< std::vector<double> >& );
   };
@@ -79,7 +79,7 @@ namespace ghost
   class NoGaps : public WallinConstraint
   {
   public:
-    NoGaps( const std::vector< std::shared_ptr<Building> >&, const Grid& );
+    NoGaps( const std::vector< std::shared_ptr<Building> >&, const WallinGrid& );
     double cost( std::vector<double>& ) const;
   };
 
@@ -87,7 +87,7 @@ namespace ghost
   class StartingTargetTiles : public WallinConstraint
   {
   public:
-    StartingTargetTiles( const std::vector< std::shared_ptr<Building> >&, const Grid& );
+    StartingTargetTiles( const std::vector< std::shared_ptr<Building> >&, const WallinGrid& );
     double cost( std::vector<double>& ) const;
   private:
     std::map<int, std::shared_ptr<Building> > mapBuildings;

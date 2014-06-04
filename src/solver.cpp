@@ -32,25 +32,25 @@ constexpr int OPT_TIME	= 150;
 namespace ghost
 {
   Solver::Solver( const vector< shared_ptr<Constraint> >& vecConstraints, 
-		  const vector<shared_ptr<Building> >& vecBuildings, 
-		  const Grid& grid,
+		  const vector<shared_ptr<Variable> >& vecVariables, 
+		  const Domain& domain,
 		  const string &obj )
-    : Solver(vecConstraints, vecBuildings, grid, 0, obj){  }
+    : Solver(vecConstraints, vecVariables, domain, 0, obj){  }
 
   Solver::Solver( const vector< shared_ptr<Constraint> >& vecConstraints, 
-		  const vector<shared_ptr<Building> >& vecBuildings, 
-		  const Grid& grid,
+		  const vector<shared_ptr<Variable> >& vecVariables, 
+		  const Domain& domain,
 		  const int loops,
 		  const string &obj )
     : vecConstraints(vecConstraints), 
-      vecBuildings(vecBuildings), 
-      variableCost( vecBuildings.size() ),
-      grid(grid),
+      vecVariables(vecVariables), 
+      variableCost( vecVariables.size() ),
+      domain(domain),
       loops(loops),
-      tabuList( vecBuildings.size() ),
+      tabuList( vecVariables.size() ),
       factory(FactoryObj()),
       objective(factory.makeObjective( obj )),
-      bestSolution(vecBuildings.size())
+      bestSolution(vecVariables.size())
   { 
     reset();
   }
@@ -63,44 +63,44 @@ namespace ghost
     string shortName;
     //bool supplyIncluded = false;
 
-    clearAllInGrid( vecBuildings, grid );
+    clearAllInDomain( vecVariables, domain );
 
-    for( auto b : vecBuildings )
+    for( auto b : vecVariables )
     {
-      // 1 chance over 3 to be placed on the grid
+      // 1 chance over 3 to be placed on the domain
       if( randomVar.getRandNum(3) == 0)
       {
 	shortName = b->getName();
 		  
-	xPos = randomVar.getRandNum( grid.getNberRows() - b->getLength() );
-	yPos = randomVar.getRandNum( grid.getNberCols() - b->getHeight() );
-	b->setValue( grid.mat2lin( xPos, yPos ) );
+	xPos = randomVar.getRandNum( domain.getNberRows() - b->getLength() );
+	yPos = randomVar.getRandNum( domain.getNberCols() - b->getHeight() );
+	b->setValue( domain.mat2lin( xPos, yPos ) );
 	
-	grid.add( *b );
+	domain.add( *b );
       }
       else
 	b->setValue( -1 );
     }
 
-    updateConstraints( vecConstraints, grid );
+    updateConstraints( vecConstraints, domain );
   }
 
-  void Solver::move( shared_ptr<Building>& building, int newPosition )
+  void Solver::move( shared_ptr<Variable>& building, int newPosition )
   {
-    grid.clear( *building );
+    domain.clear( *building );
     building->setValue( newPosition );
-    grid.add( *building );
-    updateConstraints( vecConstraints, grid );
+    domain.add( *building );
+    updateConstraints( vecConstraints, domain );
   }
 
-  set< shared_ptr<Building> > Solver::getNecessaryBuildings() const
+  set< shared_ptr<Variable> > Solver::getNecessaryVariables() const
   {
     // find all buildings accessible from the starting building and remove all others
-    int nberCurrent = *( grid.buildingsAt( grid.getStartingTile() ).begin() );
-    shared_ptr<Building> current = vecBuildings[ nberCurrent ];
-    set< shared_ptr<Building> > toVisit = grid.getBuildingsAround( *current, vecBuildings );
-    set< shared_ptr<Building> > visited;
-    set< shared_ptr<Building> > neighbors;
+    int nberCurrent = *( domain.buildingsAt( domain.getStartingTile() ).begin() );
+    shared_ptr<Variable> current = vecVariables[ nberCurrent ];
+    set< shared_ptr<Variable> > toVisit = domain.getVariablesAround( *current, vecVariables );
+    set< shared_ptr<Variable> > visited;
+    set< shared_ptr<Variable> > neighbors;
     
     visited.insert( current );
     
@@ -109,7 +109,7 @@ namespace ghost
       auto first = *( toVisit.begin() );
       current = first;
       toVisit.erase( first );
-      neighbors = grid.getBuildingsAround( *current, vecBuildings );
+      neighbors = domain.getVariablesAround( *current, vecVariables );
 
       visited.insert( current );
       
@@ -139,11 +139,11 @@ namespace ghost
     chrono::time_point<chrono::system_clock> soverlap, sbuildable, snogaps, sstt; 
 #endif
 
-    int sizeGrid = grid.getNberRows() * grid.getNberCols() + 1; // + 1 for the "position -1" outside the grid
+    int sizeDomain = domain.getNberRows() * domain.getNberCols() + 1; // + 1 for the "position -1" outside the domain
     vector< vector< double > >  vecConstraintsCosts( vecConstraints.size() );
-    vector< double >		vecGlobalCosts( sizeGrid );
-    vector< vector< double > >  vecVarSimCosts( sizeGrid );
-    objective->initHelper( sizeGrid );
+    vector< double >		vecGlobalCosts( sizeDomain );
+    vector< vector< double > >  vecVarSimCosts( sizeDomain );
+    objective->initHelper( sizeDomain );
 
     bestCost = numeric_limits<int>::max();
     double beforePostProc = bestCost;
@@ -154,15 +154,15 @@ namespace ghost
     double bestEstimatedCost;
     int    bestPosition;
 
-    vector<int> worstBuildings;
+    vector<int> worstVariables;
     double worstVariableCost;
-    int worstBuildingId;
+    int worstVariableId;
     int sizeWall;
 
-    shared_ptr<Building> oldBuilding;
+    shared_ptr<Variable> oldVariable;
     vector<int> possiblePositions;
-    vector<double> varSimCost( vecBuildings.size() );
-    vector<double> bestSimCost( vecBuildings.size() );
+    vector<double> varSimCost( vecVariables.size() );
+    vector<double> bestSimCost( vecVariables.size() );
 
     int tour = 0;
 
@@ -175,8 +175,8 @@ namespace ghost
       sizeWall  = numeric_limits<int>::max();
       std::fill( varSimCost.begin(), varSimCost.end(), 0. );
       std::fill( bestSimCost.begin(), bestSimCost.end(), 0. );
-      std::fill( vecConstraintsCosts.begin(), vecConstraintsCosts.end(), vector<double>( vecBuildings.size(), 0. ) );
-      std::fill( vecVarSimCosts.begin(), vecVarSimCosts.end(), vector<double>( vecBuildings.size(), 0. ) );
+      std::fill( vecConstraintsCosts.begin(), vecConstraintsCosts.end(), vector<double>( vecVariables.size(), 0. ) );
+      std::fill( vecVarSimCosts.begin(), vecVarSimCosts.end(), vector<double>( vecVariables.size(), 0. ) );
       std::fill( variableCost.begin(), variableCost.end(), 0. );
       std::fill( tabuList.begin(), tabuList.end(), 0 );
 
@@ -215,7 +215,7 @@ namespace ghost
 	}
 
 	// Here, we look at neighbor configurations with the lowest cost.
-	worstBuildings.clear();
+	worstVariables.clear();
 	worstVariableCost = 0;
 	for( int i = 0; i < variableCost.size(); ++i )
 	{
@@ -224,21 +224,21 @@ namespace ghost
 	    if( worstVariableCost < variableCost[i] )
 	    {
 	      worstVariableCost = variableCost[i];
-	      worstBuildings.clear();
-	      worstBuildings.push_back( i );
+	      worstVariables.clear();
+	      worstVariables.push_back( i );
 	    }
 	    else 
 	      if( worstVariableCost == variableCost[i] )
-		worstBuildings.push_back( i );	  
+		worstVariables.push_back( i );	  
 	  }
 	}
       
 	// can apply some heuristics here, according to the objective function
-	worstBuildingId = objective->heuristicVariable( worstBuildings, vecBuildings, grid );
-	oldBuilding = vecBuildings[ worstBuildingId ];
+	worstVariableId = objective->heuristicVariable( worstVariables, vecVariables, domain );
+	oldVariable = vecVariables[ worstVariableId ];
       
-	// get possible positions for oldBuilding.
-	possiblePositions = grid.possiblePos( *oldBuilding );
+	// get possible positions for oldVariable.
+	possiblePositions = domain.possibleValues( *oldVariable );
 
 	// time simulateCost
 	startSimCost = chrono::system_clock::now();
@@ -248,24 +248,24 @@ namespace ghost
 
 #ifndef NDEBUG
 	soverlap = chrono::system_clock::now();
-	vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldBuilding, possiblePositions, sizeGrid, vecVarSimCosts, objective );
+	vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possiblePositions, sizeDomain, vecVarSimCosts, objective );
 	toverlap += chrono::system_clock::now() - soverlap;
 
 	sbuildable = chrono::system_clock::now();
-	vecConstraintsCosts[1] = vecConstraints[1]->simulateCost( *oldBuilding, possiblePositions, sizeGrid, vecVarSimCosts );
+	vecConstraintsCosts[1] = vecConstraints[1]->simulateCost( *oldVariable, possiblePositions, sizeDomain, vecVarSimCosts );
 	tbuildable += chrono::system_clock::now() - sbuildable;
 
 	snogaps = chrono::system_clock::now();
-	vecConstraintsCosts[2] = vecConstraints[2]->simulateCost( *oldBuilding, possiblePositions, sizeGrid, vecVarSimCosts );
+	vecConstraintsCosts[2] = vecConstraints[2]->simulateCost( *oldVariable, possiblePositions, sizeDomain, vecVarSimCosts );
 	tnogaps += chrono::system_clock::now() - snogaps;
 
 	sstt = chrono::system_clock::now();
-	vecConstraintsCosts[3] = vecConstraints[3]->simulateCost( *oldBuilding, possiblePositions, sizeGrid, vecVarSimCosts );
+	vecConstraintsCosts[3] = vecConstraints[3]->simulateCost( *oldVariable, possiblePositions, sizeDomain, vecVarSimCosts );
 	tstt += chrono::system_clock::now() - sstt;
 #else
-	vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldBuilding, possiblePositions, sizeGrid, vecVarSimCosts, objective );
+	vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possiblePositions, sizeDomain, vecVarSimCosts, objective );
 	for( int i = 1; i < vecConstraints.size(); ++i )
-	  vecConstraintsCosts[i] = vecConstraints[i]->simulateCost( *oldBuilding, possiblePositions, sizeGrid, vecVarSimCosts );
+	  vecConstraintsCosts[i] = vecConstraints[i]->simulateCost( *oldVariable, possiblePositions, sizeDomain, vecVarSimCosts );
 #endif
 
 	fill( vecGlobalCosts.begin(), vecGlobalCosts.end(), 0. );
@@ -285,7 +285,7 @@ namespace ghost
 		    numeric_limits<int>::max() );
 
 	// look for the first smallest cost, according to objective heuristic
-	int b = objective->heuristicValue( vecGlobalCosts, bestEstimatedCost, bestPosition, grid);
+	int b = objective->heuristicValue( vecGlobalCosts, bestEstimatedCost, bestPosition, domain);
 	bestSimCost = vecVarSimCosts[ b ];
 
 	timeSimCost += chrono::system_clock::now() - startSimCost;
@@ -300,10 +300,10 @@ namespace ghost
 	    bestGlobalCost = globalCost;
 
 	  variableCost = bestSimCost;
-	  move( oldBuilding, bestPosition );
+	  move( oldVariable, bestPosition );
 	}
 	else // local minima
-	  tabuList[ worstBuildingId ] = TABU;
+	  tabuList[ worstVariableId ] = TABU;
 
 	elapsedTimeTour = chrono::system_clock::now() - startTour;
       } while( globalCost != 0. && elapsedTimeTour.count() < timeout );
@@ -313,25 +313,25 @@ namespace ghost
       {
 	bool change;
 	double cost;
-	NoGaps ng( vecBuildings, grid );
+	NoGaps ng( vecVariables, domain );
 
-	// remove all unreachable buildings from the starting building out of the grid
-	set< shared_ptr<Building> > visited = getNecessaryBuildings();
-	for( auto b : vecBuildings )
+	// remove all unreachable buildings from the starting building out of the domain
+	set< shared_ptr<Variable> > visited = getNecessaryVariables();
+	for( auto b : vecVariables )
 	  if( visited.find( b ) == visited.end() )
 	  {
-	    grid.clear( *b );
+	    domain.clear( *b );
 	    b->setValue( -1 );
 	  }
 
 	// clean wall from unnecessary buildings.
 	do
 	{
-	  for( auto b : vecBuildings )
-	    if( ! grid.isStartingOrTargetTile( b->getId() ) )
+	  for( auto b : vecVariables )
+	    if( ! domain.isStartingOrTargetTile( b->getId() ) )
 	    {
 	      change = false;
-	      if( b->isOnGrid() )
+	      if( b->isOnDomain() )
 	      {
 		cost = 0.;
 		fill( varSimCost.begin(), varSimCost.end(), 0. );
@@ -340,24 +340,24 @@ namespace ghost
 	      
 		if( cost == 0. )
 		{
-		  grid.clear( *b );
+		  domain.clear( *b );
 		  b->setValue( -1 );
-		  ng.update( grid );
+		  ng.update( domain );
 		  change = true;
 		}	  
 	      }
 	    }
 	} while( change );
 
-	double objectiveCost = objective->cost( vecBuildings, grid );
-	int currentSizeWall = countBuildings( vecBuildings );
+	double objectiveCost = objective->cost( vecVariables, domain );
+	int currentSizeWall = countVariables( vecVariables );
 
 	if( objectiveCost < bestCost || ( objectiveCost == bestCost && currentSizeWall < sizeWall ) )
 	{
 	  sizeWall = currentSizeWall;
 	  bestCost = objectiveCost;
-	  for( int i = 0; i < vecBuildings.size(); ++i )
-	    bestSolution[i] = vecBuildings[i]->getValue();
+	  for( int i = 0; i < vecVariables.size(); ++i )
+	    bestSolution[i] = vecVariables[i]->getValue();
 	}
       }
       reset();
@@ -366,12 +366,12 @@ namespace ghost
     while( ( ( objective->getName().compare("none") != 0 || loops == 0 )  && ( elapsedTime.count() < OPT_TIME ) )//|| ( elapsedTime.count() >= OPT_TIME && bestGlobalCost != 0 && elapsedTime.count() < 10 * OPT_TIME ) ) 
 	   || ( objective->getName().compare("none") == 0 && elapsedTime.count() < timeout * loops ) );
 
-    clearAllInGrid( vecBuildings, grid );
+    clearAllInDomain( vecVariables, domain );
 
-    for( int i = 0; i < vecBuildings.size(); ++i )
-      vecBuildings[i]->setValue( bestSolution[i] );
+    for( int i = 0; i < vecVariables.size(); ++i )
+      vecVariables[i]->setValue( bestSolution[i] );
     
-    addAllInGrid( vecBuildings, grid );
+    addAllInDomain( vecVariables, domain );
 
     // For gap objective, try now to decrease the number of gaps.
     if( ( objective->getName().compare("gap") == 0 || objective->getName().compare("techtree") == 0 ) && bestGlobalCost == 0 )
@@ -379,16 +379,16 @@ namespace ghost
       //objective.reset( new GapObj("gap") );
       std::fill( tabuList.begin(), tabuList.end(), 0 );
         
-      for( auto v : vecBuildings )
+      for( auto v : vecVariables )
 	buildingSameSize.insert( make_pair( v->getSurface(), v ) );
 
       vector<int> goodVar;
-      shared_ptr<Building> toSwap;
+      shared_ptr<Variable> toSwap;
       bool mustSwap;
 
       chrono::time_point<chrono::system_clock> startPostprocess = chrono::system_clock::now(); 
     
-      bestCost = objective->cost( vecBuildings, grid );
+      bestCost = objective->cost( vecVariables, domain );
       double currentCost = bestCost;
       beforePostProc = bestCost;
 
@@ -404,28 +404,28 @@ namespace ghost
 	    --tabuList[i];
 	}
 
-	for( int i = 0; i < vecBuildings.size(); ++i )
+	for( int i = 0; i < vecVariables.size(); ++i )
 	{
 	  if( tabuList[i] == 0 )
 	    goodVar.push_back( i );
 	}
 
 	if( goodVar.empty() )
-	  for( int i = 0; i < vecBuildings.size(); ++i )
+	  for( int i = 0; i < vecVariables.size(); ++i )
 	    goodVar.push_back( i );	
 
-	int index = objective->heuristicVariable( goodVar, vecBuildings, grid );
-	oldBuilding = vecBuildings[ index ];
-	auto surface = buildingSameSize.equal_range( oldBuilding->getSurface() );
+	int index = objective->heuristicVariable( goodVar, vecVariables, domain );
+	oldVariable = vecVariables[ index ];
+	auto surface = buildingSameSize.equal_range( oldVariable->getSurface() );
 	
 	for( auto it = surface.first; it != surface.second; ++it )
 	{
 	  mustSwap = false;
-	  if( it->second->getId() != oldBuilding->getId() )
+	  if( it->second->getId() != oldVariable->getId() )
 	  {
-	    grid.swap( *it->second, *oldBuilding );
+	    domain.swap( *it->second, *oldVariable );
 	    
-	    currentCost = objective->cost( vecBuildings, grid );
+	    currentCost = objective->cost( vecVariables, domain );
 	    if( currentCost < bestCost )
 	    {
 	      bestCost = currentCost;
@@ -433,18 +433,18 @@ namespace ghost
 	      mustSwap = true;
 	    }
 
-	    grid.swap( *it->second, *oldBuilding );
+	    domain.swap( *it->second, *oldVariable );
 	  }
 	  
 	  if( mustSwap )
-	    grid.swap( *toSwap, *oldBuilding );
+	    domain.swap( *toSwap, *oldVariable );
 	}
 
 	tabuList[ index ] = 2;//std::max(2, static_cast<int>( ceil(TABU / 2) ) );
       }
     }
  
-    cout << "Grids:" << grid << endl;
+    cout << "Domains:" << domain << endl;
 
     if( objective->getName().compare("none") == 0 )
       cout << "SATISFACTION run: try to find a sound wall only!" << endl;
@@ -459,13 +459,13 @@ namespace ghost
     {
       if( bestGlobalCost == 0 )
       {
-	BuildingObj bObj("building");
+	VariableObj bObj("building");
 	GapObj gObj("gap");
 	TechTreeObj tObj("techtree");
 	
-	cout << "Opt Cost if the objective was building: " << bObj.cost( vecBuildings, grid ) << endl
-	     << "Opt Cost if the objective was gap: \t" << gObj.cost( vecBuildings, grid ) << endl
-	     << "Opt Cost if the objective was techtree: " << tObj.cost( vecBuildings, grid ) << endl;
+	cout << "Opt Cost if the objective was building: " << bObj.cost( vecVariables, domain ) << endl
+	     << "Opt Cost if the objective was gap: \t" << gObj.cost( vecVariables, domain ) << endl
+	     << "Opt Cost if the objective was techtree: " << tObj.cost( vecVariables, domain ) << endl;
       }
     }
     else
@@ -484,7 +484,7 @@ namespace ghost
 	 << "NoGaps: " << tnogaps.count() << endl
 	 << "STT: " << tstt.count() << endl;
 
-    updateConstraints( vecConstraints, grid );
+    updateConstraints( vecConstraints, domain );
 
     // print cost for each constraint
     for( auto c : vecConstraints )

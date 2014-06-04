@@ -39,9 +39,9 @@
 #include <cassert>
 #include <typeinfo>
 
-#include "variables/building.hpp"
+#include "variables/variable.hpp"
 #include "constraints/constraint.hpp"
-#include "domains/grid.hpp"
+#include "domains/domain.hpp"
 #include "misc/tools.hpp"
 #include "misc/random.hpp"
 #include "objectives/objective.hpp"
@@ -54,13 +54,13 @@ namespace ghost
   {
   public:
     Solver( const vector< shared_ptr<Constraint> >&, 
-    	    const vector<shared_ptr<Building> >&, 
-    	    const Grid&,
+    	    const vector<shared_ptr<Variable> >&, 
+    	    const Domain&,
     	    const string& = "" );
 
     Solver( const vector< shared_ptr<Constraint> >&, 
-	    const vector<shared_ptr<Building> >&, 
-	    const Grid&,
+	    const vector<shared_ptr<Variable> >&, 
+	    const Domain&,
 	    const int loops,
 	    const string& = "" );
 
@@ -74,13 +74,13 @@ namespace ghost
     
   private:
     void reset();
-    void move( shared_ptr<Building>&, int );
-    set< shared_ptr<Building> > getNecessaryBuildings() const;
+    void move( shared_ptr<Variable>&, int );
+    set< shared_ptr<Variable> > getNecessaryVariables() const;
 
     vector< shared_ptr<Constraint> >	vecConstraints;
-    vector< shared_ptr<Building> >	vecBuildings;
+    vector< shared_ptr<Variable> >	vecVariables;
     vector<double>			variableCost;
-    Grid				grid;
+    Domain				domain;
     int					loops;
     vector<int>				tabuList;
     Random				randomVar;
@@ -88,6 +88,6 @@ namespace ghost
     shared_ptr<Objective>		objective;
     double				bestCost;
     vector< int >			bestSolution;
-    multimap<int, shared_ptr<Building>> buildingSameSize;
+    multimap<int, shared_ptr<Variable>> buildingSameSize;
   };
 }
