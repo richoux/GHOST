@@ -37,16 +37,18 @@ namespace ghost
   {
   public:
     Variable( string, string, int = -1 );
+
     
-    virtual bool operator<( const Variable& other ) const = 0;
+    virtual void shiftValue()			= 0;
     
+    virtual bool operator<( const Variable& other )	const	{ return id < other.id; }
+    virtual void swapValue( Variable &other )			{ std::swap(this->value, other.value); }
+
     inline void		setValue( int v )			{ value = v; }
-    inline void		shiftValue()				{ ++value; }
     inline int		getValue()			const	{ return value; }
     inline int		getId()				const	{ return id; }
     inline string	getName()			const	{ return name; }
     inline string	getFullName()			const	{ return fullName; }
-    inline void		swapValue( Variable &other )		{ std::swap(this->value, other.value); }
 
     friend ostream& operator<<( ostream&, const Variable& );
     
