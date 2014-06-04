@@ -41,14 +41,14 @@ namespace ghost
       value(value)
   { }
 
-  std::ostream& operator<<( std::ostream& os, const Variable& b )
+  std::ostream& operator<<( std::ostream& os, const Variable& v )
   {
     return os
-      << "Type: " <<  typeid(b).name() << std::endl
-      << "Name: " << b.name << std::endl
-      << "Full name: " << b.fullName << std::endl
-      << "Id num: " << b.id << std::endl
-      << "Value: " <<  b.value << std::endl
+      << "Variable type: " <<  typeid(v).name() << std::endl
+      << "Name: " << v.name << std::endl
+      << "Full name: " << v.fullName << std::endl
+      << "Id num: " << v.id << std::endl
+      << "Value: " <<  v.value << std::endl
       << "-------" << std::endl;
   }
 

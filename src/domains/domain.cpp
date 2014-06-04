@@ -25,6 +25,7 @@
 
 
 #include <numeric>
+#include <typeinfo>
 
 #include "../../include/domain/domain.hpp"
 
@@ -74,7 +75,7 @@ namespace ghost
   
   ostream& operator<<( ostream&, const Domain &domain )
   {
-    os << "Domain" << endl
+    os << "Domain type: " <<  typeid(domain).name() << endl
        << "Size: " <<  domain.size << endl;
     for( int i = 0; i < domains.size; ++i )
     {

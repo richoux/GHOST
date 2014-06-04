@@ -45,7 +45,7 @@ namespace ghost
 
     virtual int		randomValue( const Variable& ) const;
     virtual vector<int> possibleValues( const Variable& ) const;
-    virtual void	resetDomain( const Variables& );
+    virtual void	resetDomain( const Variable& );
     virtual void	resetAllDomains();
     
     inline int getSize() const { return size; }

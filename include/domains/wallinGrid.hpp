@@ -48,7 +48,6 @@ namespace ghost
     WallinGrid( int, int, int, int, int, int, int ) ;
     WallinGrid( int,
 		int,
-		int,
 		const vector< pair<int, int> >&,
 		const vector< shared_ptr<Building> >&,
 		int,

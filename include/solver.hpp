@@ -55,12 +55,12 @@ namespace ghost
   public:
     Solver( const vector< shared_ptr<Constraint> >&, 
     	    const vector<shared_ptr<Variable> >&, 
-    	    const Domain&,
+    	    const shared_ptr<Domain>&,
     	    const string& = "" );
 
     Solver( const vector< shared_ptr<Constraint> >&, 
 	    const vector<shared_ptr<Variable> >&, 
-	    const Domain&,
+	    const shared_ptr<Domain>&,
 	    const int loops,
 	    const string& = "" );
 
@@ -80,14 +80,14 @@ namespace ghost
     vector< shared_ptr<Constraint> >	vecConstraints;
     vector< shared_ptr<Variable> >	vecVariables;
     vector<double>			variableCost;
-    Domain				domain;
+    shared_ptr<Domain>			domain;
     int					loops;
     vector<int>				tabuList;
     Random				randomVar;
     FactoryObj				factory;
     shared_ptr<Objective>		objective;
     double				bestCost;
-    vector< int >			bestSolution;
+    vector<int>				bestSolution;
     multimap<int, shared_ptr<Variable>> buildingSameSize;
   };
 }

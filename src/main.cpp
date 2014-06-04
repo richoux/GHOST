@@ -31,73 +31,77 @@
 #include <type_traits>
 
 #include "../include/variables/building.hpp"
-#include "../include/constraints/constraint.hpp"
+#include "../include/constraints/wallinConstraint.hpp"
 #include "../include/domains/wallinGrid.hpp"
 #include "../include/misc/tools.hpp"
 #include "../include/misc/wallinTerran.hpp"
 #include "../include/solver.hpp"
 
 using namespace ghost;
+using namespace std;
 
 int main(int argc, char **argv)
 {
-  std::vector< std::pair<int, int> > unbuildables 
+  vector< pair<int, int> > unbuildables 
   { 
-    std::make_pair(7, 12), 
-    std::make_pair(7, 13), 
-    std::make_pair(7, 14), 
-    std::make_pair(7, 15), 
-    std::make_pair(8, 10), 
-    std::make_pair(8, 11), 
-    std::make_pair(8, 12), 
-    std::make_pair(8, 13), 
-    std::make_pair(8, 14), 
-    std::make_pair(8, 15), 
-    std::make_pair(9, 10), 
-    std::make_pair(9, 11), 
-    std::make_pair(9, 12), 
-    std::make_pair(9, 13), 
-    std::make_pair(9, 14), 
-    std::make_pair(9, 15), 
-    std::make_pair(10, 8), 
-    std::make_pair(10, 9), 
-    std::make_pair(10, 10), 
-    std::make_pair(10, 11), 
-    std::make_pair(10, 12), 
-    std::make_pair(10, 13), 
-    std::make_pair(10, 14), 
-    std::make_pair(10, 15), 
-    std::make_pair(11, 8), 
-    std::make_pair(11, 9), 
-    std::make_pair(11, 10), 
-    std::make_pair(11, 11), 
-    std::make_pair(11, 12), 
-    std::make_pair(11, 13), 
-    std::make_pair(11, 14), 
-    std::make_pair(11, 15) 
+    make_pair(7, 12), 
+    make_pair(7, 13), 
+    make_pair(7, 14), 
+    make_pair(7, 15), 
+    make_pair(8, 10), 
+    make_pair(8, 11), 
+    make_pair(8, 12), 
+    make_pair(8, 13), 
+    make_pair(8, 14), 
+    make_pair(8, 15), 
+    make_pair(9, 10), 
+    make_pair(9, 11), 
+    make_pair(9, 12), 
+    make_pair(9, 13), 
+    make_pair(9, 14), 
+    make_pair(9, 15), 
+    make_pair(10, 8), 
+    make_pair(10, 9), 
+    make_pair(10, 10), 
+    make_pair(10, 11), 
+    make_pair(10, 12), 
+    make_pair(10, 13), 
+    make_pair(10, 14), 
+    make_pair(10, 15), 
+    make_pair(11, 8), 
+    make_pair(11, 9), 
+    make_pair(11, 10), 
+    make_pair(11, 11), 
+    make_pair(11, 12), 
+    make_pair(11, 13), 
+    make_pair(11, 14), 
+    make_pair(11, 15) 
   };
   
-  WallinGrid grid( 16, 12, unbuildables, 11, 7, 6, 15 );
-
   // Please write the name of the objective here!
-  std::string objective = "g";
+  string objective = "g";
 
-  //std::vector<std::shared_ptr<Building> > vec			= makeTerranBuildings( objective );
-  std::vector<std::shared_ptr<Building> > vec			= makeTerranBuildings();
-  std::vector< std::shared_ptr<Constraint> > vecConstraints	= makeTerranConstraints( vec, grid );
+  // Define variables
+  vector<shared_ptr<Variable> >	vec = makeTerranBuildings();
+
+  // Define domain
+  shared_ptr<Domain> grid = make_shared<WallinGrid>( 16, 12, unbuildables, vec, 11, 7, 6, 15 );
+
+  // Define constraints
+  vector< shared_ptr<Constraint> > vecConstraints = makeTerranConstraints( vec, grid );
 
   Solver solver( vecConstraints, vec, grid, objective );
 
 #ifndef NDEBUG
-  std::cout << std::boolalpha << "Building movable: " << std::is_nothrow_move_constructible<Building>::value << std::endl;
-  std::cout << std::boolalpha << "Barracks movable: " << std::is_nothrow_move_constructible<Barracks>::value << std::endl;
-  std::cout << std::boolalpha << "Grid movable: " << std::is_nothrow_move_constructible<WallinGrid>::value << std::endl;
-  std::cout << std::boolalpha << "Solver movable: " << std::is_nothrow_move_constructible<Solver>::value << std::endl;
-  std::cout << std::boolalpha << "Random movable: " << std::is_nothrow_move_constructible<Random>::value << std::endl;
-  std::cout << std::boolalpha << "Constraint movable: " << std::is_nothrow_move_constructible<Constraint>::value << std::endl;
-  std::cout << std::boolalpha << "Overlap movable: " << std::is_nothrow_move_constructible<Overlap>::value << std::endl;
-  std::cout << std::boolalpha << "Objective movable: " << std::is_nothrow_move_constructible<Objective>::value << std::endl;
-  std::cout << std::boolalpha << "GapObj movable: " << std::is_nothrow_move_constructible<GapObj>::value << std::endl;
+  cout << boolalpha << "Building movable: " << is_nothrow_move_constructible<Building>::value << endl;
+  cout << boolalpha << "Barracks movable: " << is_nothrow_move_constructible<Barracks>::value << endl;
+  cout << boolalpha << "Grid movable: " << is_nothrow_move_constructible<WallinGrid>::value << endl;
+  cout << boolalpha << "Solver movable: " << is_nothrow_move_constructible<Solver>::value << endl;
+  cout << boolalpha << "Random movable: " << is_nothrow_move_constructible<Random>::value << endl;
+  cout << boolalpha << "Constraint movable: " << is_nothrow_move_constructible<Constraint>::value << endl;
+  cout << boolalpha << "Overlap movable: " << is_nothrow_move_constructible<Overlap>::value << endl;
+  cout << boolalpha << "Objective movable: " << is_nothrow_move_constructible<Objective>::value << endl;
+  cout << boolalpha << "GapObj movable: " << is_nothrow_move_constructible<GapObj>::value << endl;
 #endif
 
   solver.solve( 20 );    

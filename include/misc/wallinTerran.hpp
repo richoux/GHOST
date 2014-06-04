@@ -31,7 +31,7 @@
 
 #include "../variables/building.hpp"
 #include "../variables/wallinTerranBuildings.hpp"
-#include "../constraints/constraint.hpp"
+#include "../constraints/wallinConstraint.hpp"
 #include "../domains/wallinGrid.hpp"
 
 using namespace std;
@@ -82,10 +82,10 @@ namespace ghost
   shared_ptr<Building> s1;
   shared_ptr<Building> s2;
 
-  shared_ptr<Constraint> overlap;
-  shared_ptr<Constraint> buildable;
-  shared_ptr<Constraint> noGaps;
-  shared_ptr<Constraint> specialTiles;
+  shared_ptr<WallinConstraint> overlap;
+  shared_ptr<WallinConstraint> buildable;
+  shared_ptr<WallinConstraint> noGaps;
+  shared_ptr<WallinConstraint> specialTiles;
 
   // vector<shared_ptr<Building> > makeTerranBuildings( std::string obj )
   // {

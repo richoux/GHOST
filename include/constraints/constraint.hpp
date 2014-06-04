@@ -29,29 +29,29 @@
 #include <vector>
 #include <iostream>
 #include <memory>
-#include <typeinfo>
-#include <map>
 
 #include "../variables/variable.hpp"
-#include "../domains/grid.hpp"
+#include "../domains/domain.hpp"
 #include "../objectives/objective.hpp"
+
+using namespace std;
 
 namespace ghost
 {
   class Constraint
   {
   public:
-    Constraint( const std::vector< std::shared_ptr<Variable> >&, const Grid& );
+    Constraint( const vector< shared_ptr<Variable> >&, const shared_ptr<Domain>& );
 
-    virtual double cost( std::vector<double>& ) const = 0;
-    virtual std::vector<double> simulateCost( Building&, const std::vector<int>&, int, std::vector< std::vector<double> >&, std::shared_ptr<Objective>& ) = 0;
+    virtual double cost( vector<double>& ) const = 0;
+    virtual vector<double> simulateCost( Building&, const vector<int>&, vector< vector<double> >&, shared_ptr<Objective>& ) = 0;
     
-    inline void update( const Grid& g ) { grid = g; }
+    virtual void update( const shared_ptr<Domain> &d );
 
-    friend std::ostream& operator<<( std::ostream&, const Constraint& );
+    friend ostream& operator<<( ostream&, const Constraint& );
     
   protected:
-    std::vector< std::shared_ptr<Variable> > variables;
-    Grid grid;
+    vector< shared_ptr<Variable> > variables;
+    shared_ptr<Domain> domain;
   };  
 }

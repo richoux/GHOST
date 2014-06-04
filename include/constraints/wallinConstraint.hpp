@@ -29,7 +29,6 @@
 #include <vector>
 #include <iostream>
 #include <memory>
-#include <typeinfo>
 #include <map>
 
 #include "constraint.hpp"
@@ -37,22 +36,18 @@
 #include "../domains/wallinGrid.hpp"
 #include "../objectives/objective.hpp"
 
+using namespace std;
+
 namespace ghost
 {
   class WallinConstraint : public Constraint
   {
   public:
-    WallinConstraint( const std::vector< std::shared_ptr<Building> >&, const WallinGrid& );
+    WallinConstraint( const vector< shared_ptr<Building> >&, const shared_ptr<WallinGrid>& );
 
-    virtual double cost( std::vector<double>& ) const = 0;
-    virtual std::vector<double> simulateCost( Building&, const std::vector<int>&, int, std::vector< std::vector<double> >&, std::shared_ptr<Objective>& );
-    virtual std::vector<double> simulateCost( Building&, const std::vector<int>&, int, std::vector< std::vector<double> >& );
-    virtual double simulateCost( Building&, const int, std::vector<double>& );
+    vector<double> simulateCost( Building&, const vector<int>&, vector< vector<double> >&, shared_ptr<Objective>& );
+    virtual vector<double> simulateCost( Building&, const vector<int>&, int, vector< vector<double> >& );
 
-    inline void update( const WallinGrid& g ) { grid = g; }
-
-    friend std::ostream& operator<<( std::ostream&, const Constraint& );
-    
   protected:
     bool isWall() const;
   };  
@@ -61,35 +56,35 @@ namespace ghost
   class Overlap : public WallinConstraint
   {
   public:
-    Overlap( const std::vector< std::shared_ptr<Building> >&, const WallinGrid& );
-    double cost( std::vector<double>& ) const;
-    std::vector<double> simulateCost( Building&, const std::vector<int>&, int, std::vector< std::vector<double> >& );
+    Overlap( const vector< shared_ptr<Building> >&, const shared_ptr<WallinGrid>& );
+    double cost( vector<double>& ) const;
+    vector<double> simulateCost( Building&, const vector<int>&, int, vector< vector<double> >& );
   };
 
   //Buildable
   class Buildable : public WallinConstraint
   {
   public:
-    Buildable( const std::vector< std::shared_ptr<Building> >&, const WallinGrid& );
-    double cost( std::vector<double>& ) const;
-    std::vector<double> simulateCost( Building&, const std::vector<int>&, int, std::vector< std::vector<double> >& );
+    Buildable( const vector< shared_ptr<Building> >&, const shared_ptr<WallinGrid>& );
+    double cost( vector<double>& ) const;
+    vector<double> simulateCost( Building&, const vector<int>&, int, vector< vector<double> >& );
   };
 
   //NoGaps
   class NoGaps : public WallinConstraint
   {
   public:
-    NoGaps( const std::vector< std::shared_ptr<Building> >&, const WallinGrid& );
-    double cost( std::vector<double>& ) const;
+    NoGaps( const vector< shared_ptr<Building> >&, const shared_ptr<WallinGrid>& );
+    double cost( vector<double>& ) const;
   };
 
   //StartingTargetTiles
   class StartingTargetTiles : public WallinConstraint
   {
   public:
-    StartingTargetTiles( const std::vector< std::shared_ptr<Building> >&, const WallinGrid& );
-    double cost( std::vector<double>& ) const;
+    StartingTargetTiles( const vector< shared_ptr<Building> >&, const shared_ptr<WallinGrid>& );
+    double cost( vector<double>& ) const;
   private:
-    std::map<int, std::shared_ptr<Building> > mapBuildings;
+    map<int, shared_ptr<Building> > mapBuildings;
   };
 }

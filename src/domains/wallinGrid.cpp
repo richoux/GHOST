@@ -54,14 +54,13 @@ namespace ghost
 
   WallinGrid::WallinGrid( int col,
 			  int row,
-			  int nbVar,
 			  const vector< pair<int, int> >& unbuildables,
 			  const vector< shared_ptr<Building> >& variables,
 			  int sRow,
 			  int sCol,
 			  int tRow,
 			  int tCol ) 
-    : WallinGrid( col, row, nbVar, sRow, sCol, tRow, tCol )
+    : WallinGrid( col, row, variables.size(), sRow, sCol, tRow, tCol )
   {
     for( const auto &u : unbuildables )
       matrixType_[u.first][u.second].assign(3, '#');

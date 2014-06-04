@@ -28,9 +28,9 @@
 
 namespace ghost
 {
-  void updateConstraints( const std::vector< std::shared_ptr<Constraint> > &vecConstraints, const Grid &grid )
+  void updateConstraints( const std::vector< std::shared_ptr<Constraint> > &vecConstraints, const shared_ptr<Domain> &domain )
   {
-    std::for_each( vecConstraints.begin(), vecConstraints.end(), [&]( const std::shared_ptr<Constraint> &c ){ c->update( grid ); });
+    std::for_each( vecConstraints.begin(), vecConstraints.end(), [&]( const std::shared_ptr<Constraint> &c ){ c->update( domain ); });
   }
 
   void printConstraints( const std::vector< std::shared_ptr<Constraint> > &vecConstraints )
@@ -38,14 +38,14 @@ namespace ghost
     std::for_each( vecConstraints.begin(), vecConstraints.end(), []( const std::shared_ptr<Constraint> &c ){ std::cout << *c << std::endl; });
   }
 
-  void addAllInGrid( const std::vector<std::shared_ptr<Building> > &vec, Grid &grid )
+  void addAllInGrid( const std::vector<std::shared_ptr<Building> > &vec, shared_ptr<Domain> &domain )
   {
-    std::for_each( vec.begin(), vec.end(), [&]( const std::shared_ptr<Building> &b ){ grid.add(*b); });
+    std::for_each( vec.begin(), vec.end(), [&]( const std::shared_ptr<Building> &b ){ domain->add(*b); });
   }
 
-  void clearAllInGrid( const std::vector<std::shared_ptr<Building> > &vec, Grid &grid )
+  void clearAllInGrid( const std::vector<std::shared_ptr<Building> > &vec, shared_ptr<Domain> &domain )
   {
-    std::for_each( vec.begin(), vec.end(), [&]( const std::shared_ptr<Building> &b ){ grid.clear(*b); });
+    std::for_each( vec.begin(), vec.end(), [&]( const std::shared_ptr<Building> &b ){ domain->clear(*b); });
   }
 
   int countBuildings( const std::vector< std::shared_ptr<Building> > &vec )

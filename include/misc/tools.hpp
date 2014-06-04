@@ -32,13 +32,14 @@
 
 #include "../variables/building.hpp"
 #include "../constraints/constraint.hpp"
-#include "../domains/grid.hpp"
+#include "../domains/domain.hpp"
+#include "../domains/wallinGrid.hpp"
 
 namespace ghost
 {
-  void updateConstraints( const std::vector< std::shared_ptr<Constraint> >&, const Grid& );
+  void updateConstraints( const std::vector< std::shared_ptr<Constraint> >&, const shared_ptr<Domain>& );
   void printConstraints( const std::vector< std::shared_ptr<Constraint> >& );
-  void addAllInGrid( const std::vector< std::shared_ptr<Building> >&, Grid& );
-  void clearAllInGrid( const std::vector< std::shared_ptr<Building> >&, Grid& );
+  void addAllInGrid( const std::vector< std::shared_ptr<Building> >&, shared_ptr<Domain>& );
+  void clearAllInGrid( const std::vector< std::shared_ptr<Building> >&, shared_ptr<Domain>& );
   int  countBuildings( const std::vector< std::shared_ptr<Building> >& );
 }

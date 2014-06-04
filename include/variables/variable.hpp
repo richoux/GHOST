@@ -38,10 +38,8 @@ namespace ghost
   public:
     Variable( string, string, int = -1 );
 
-    
-    virtual void shiftValue()			= 0;
-    
     virtual bool operator<( const Variable& other )	const	{ return id < other.id; }
+    virtual void shiftValue()					{ ++value; }
     virtual void swapValue( Variable &other )			{ std::swap(this->value, other.value); }
 
     inline void		setValue( int v )			{ value = v; }
