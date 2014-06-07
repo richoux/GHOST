@@ -41,10 +41,8 @@ namespace ghost
   class Constraint
   {
   public:
-    Constraint( const vector< shared_ptr<Variable> >&, const shared_ptr<Domain>& );
-
     virtual double cost( vector<double>& ) const = 0;
-    virtual vector<double> simulateCost( Building&, const vector<int>&, vector< vector<double> >&, shared_ptr<Objective>& ) = 0;
+    virtual vector<double> simulateCost( Variable&, const vector<int>&, vector< vector<double> >&, shared_ptr<Objective>& ) = 0;
     
     virtual void update( const shared_ptr<Domain> &d );
 

@@ -28,7 +28,11 @@
 
 namespace ghost
 {
-  std::vector<double> WallinConstraint::simulateCost( Building& oldBuilding, const std::vector<int>& newPosition, std::vector< std::vector<double> >& vecVarSimCosts, std::shared_ptr<Objective> &objective )
+  WallinConstraint( const vector< shared_ptr<Variable> > &variables, const shared_ptr<Domain> &domain )
+    : { }
+  
+  
+  std::vector<double> WallinConstraint::simulateCost( Variable& oldBuilding, const std::vector<int>& newPosition, std::vector< std::vector<double> >& vecVarSimCosts, std::shared_ptr<Objective> &objective )
   {
     std::vector<double> simCosts( domain->getSize(), -1. );
     int backup = oldBuilding.getValue();
@@ -63,7 +67,7 @@ namespace ghost
     return simCosts;
   }
 
-  std::vector<double> WallinConstraint::simulateCost( Building& oldBuilding, const std::vector<int>& newPosition, std::vector< std::vector<double> >& vecVarSimCosts )
+  std::vector<double> WallinConstraint::simulateCost( Variable& oldBuilding, const std::vector<int>& newPosition, std::vector< std::vector<double> >& vecVarSimCosts )
   {
     shared_ptr<Objective> fake = make_shared<NoneObj>("fake");
     return simulateCost( oldBuilding, newPosition, vecVarSimCosts, fake );
@@ -86,10 +90,10 @@ namespace ghost
     int nberTarget = *( targetBuildings.begin() );
 
     int nberCurrent = *( startingBuildings.begin() );
-    shared_ptr<Building> current = variables[ nberCurrent ];
-    set< shared_ptr<Building> > toVisit = domain->getBuildingsAround( *current, variables );
-    set< shared_ptr<Building> > visited;
-    set< shared_ptr<Building> > neighbors;
+    shared_ptr<Variable> current = variables[ nberCurrent ];
+    set< shared_ptr<Variable> > toVisit = domain->getBuildingsAround( *current, variables );
+    set< shared_ptr<Variable> > visited;
+    set< shared_ptr<Variable> > neighbors;
     
     visited.insert( current );
 
@@ -121,7 +125,7 @@ namespace ghost
   /***********/
   /* Overlap */
   /***********/
-  Overlap::Overlap(const std::vector< std::shared_ptr<Building> >& variables, const shared_ptr<WallinGrid>& domain) 
+  Overlap::Overlap(const std::vector< std::shared_ptr<Variable> >& variables, const shared_ptr<Domain>& domain) 
     : WallinConstraint(variables, domain)
   { }
 
@@ -148,7 +152,7 @@ namespace ghost
     return conflicts;    
   }
 
-  std::vector<double> Overlap::simulateCost( Building& oldBuilding, const std::vector<int>& newPosition, std::vector< std::vector<double> >& vecVarSimCosts )
+  std::vector<double> Overlap::simulateCost( Variable& oldBuilding, const std::vector<int>& newPosition, std::vector< std::vector<double> >& vecVarSimCosts )
   {
     std::vector<double> simCosts( domain->getSize(), -1. );
     int backup = oldBuilding.getValue();
@@ -193,7 +197,7 @@ namespace ghost
   /*************/
   /* Buildable */
   /*************/
-  Buildable::Buildable(const std::vector< std::shared_ptr<Building> >& variables, const shared_ptr<WallinGrid>& domain) 
+  Buildable::Buildable(const std::vector< std::shared_ptr<Variable> >& variables, const shared_ptr<Domain>& domain) 
     : WallinConstraint(variables, domain)
   { }
 
@@ -218,7 +222,7 @@ namespace ghost
     return conflicts;    
   }
 
-  std::vector<double> Buildable::simulateCost( Building& oldBuilding, const std::vector<int>& newPosition, std::vector< std::vector<double> >& vecVarSimCosts )
+  std::vector<double> Buildable::simulateCost( Variable& oldBuilding, const std::vector<int>& newPosition, std::vector< std::vector<double> >& vecVarSimCosts )
   {
     std::vector<double> simCosts( domain->getSize(), -1. );
     int backup = oldBuilding.getValue();
@@ -263,7 +267,7 @@ namespace ghost
   /**********/
   /* NoGaps */
   /**********/
-  NoGaps::NoGaps(const std::vector< std::shared_ptr<Building> >& variables, const shared_ptr<WallinGrid>& domain) 
+  NoGaps::NoGaps(const std::vector< std::shared_ptr<Variable> >& variables, const shared_ptr<Domain>& domain) 
     : WallinConstraint(variables, domain)
   { }
 
@@ -317,7 +321,7 @@ namespace ghost
   /***********************/
   /* StartingTargetTiles */
   /***********************/
-  StartingTargetTiles::StartingTargetTiles(const std::vector< std::shared_ptr<Building> >& variables, const shared_ptr<WallinGrid>& domain) 
+  StartingTargetTiles::StartingTargetTiles(const std::vector< std::shared_ptr<Variable> >& variables, const shared_ptr<Domain>& domain) 
     : WallinConstraint(variables, domain)
   {
     for( auto b : variables )
@@ -334,7 +338,7 @@ namespace ghost
     std::set<int> startingBuildings = domain->buildingsAt( domain->getStartingTile() );
     std::set<int> targetBuildings = domain->buildingsAt( domain->getTargetTile() );
 
-    std::shared_ptr<Building> b;
+    std::shared_ptr<Variable> b;
     int neighbors;
 
     // if same building on both the starting and target tile

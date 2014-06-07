@@ -30,17 +30,10 @@
 
 namespace ghost
 {
-  Constraint::Constraint(const std::vector< std::shared_ptr<Variable> > &variables, const shared_ptr<Domain> &domain ) 
-  : variables(variables),
-    domain(domain)
-  { }
-
   void Constraint::update( const shared_ptr<Domain> &d ) { domain = d; }
 
   std::ostream& operator<<( std::ostream& os, const Constraint& c )
   {
     return os << "Constraint type: " <<  typeid(c).name() << std::endl;
-    // std::vector<double> fake(c.variables.size(), 0.);
-    // return os << "Cost: " << c.cost( fake ) << std::endl;
   }
 }

@@ -49,7 +49,7 @@ namespace ghost
     WallinGrid( int,
 		int,
 		const vector< pair<int, int> >&,
-		const vector< shared_ptr<Building> >&,
+		const vector< shared_ptr<Variable> >&,
 		int,
 		int,
 		int,

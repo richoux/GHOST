@@ -29,9 +29,12 @@
 #include <vector>
 #include <memory>
 
+#include "../variables/variable.hpp"
 #include "../variables/building.hpp"
 #include "../variables/wallinTerranBuildings.hpp"
+#include "../constraints/constraint.hpp"
 #include "../constraints/wallinConstraint.hpp"
+#include "../domains/domain.hpp"
 #include "../domains/wallinGrid.hpp"
 
 using namespace std;
@@ -125,7 +128,7 @@ namespace ghost
   //   }
   // }
 
-  vector<shared_ptr<Building> > makeTerranBuildings()
+  vector<shared_ptr<Variable> > makeTerranBuildings()
   {
     a1 = make_shared<Academy>( );
     a2 = make_shared<Academy>( );
@@ -151,11 +154,11 @@ namespace ghost
     s2 = make_shared<SupplyDepot>( );
     
     // vector< shared_ptr<Building> > vec {a1, a2, r1, r2, b1, b2, u1, u2, c1, c2, e1, e2, f1, f2, t1, t2, i1, i2, p1, p2, s1, s2};
-    vector< shared_ptr<Building> > vec {a1, a2, b1, b2, u1, u2, f1, f2, s1, s2};
+    vector< shared_ptr<Variable> > vec {a1, a2, b1, b2, u1, u2, f1, f2, s1, s2};
     return vec;
   }
 
-  vector< shared_ptr<Constraint> > makeTerranConstraints( const vector<shared_ptr<Building> >& vec, const WallinGrid& grid )
+  vector< shared_ptr<Constraint> > makeTerranConstraints( const vector<shared_ptr<Variable> >& vec, const shared_ptr<Domain>& grid )
   {
     overlap	 = make_shared<Overlap>( vec, grid );
     buildable	 = make_shared<Buildable>( vec, grid );

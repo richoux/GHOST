@@ -55,7 +55,7 @@ namespace ghost
   WallinGrid::WallinGrid( int col,
 			  int row,
 			  const vector< pair<int, int> >& unbuildables,
-			  const vector< shared_ptr<Building> >& variables,
+			  const vector< shared_ptr<Variable> >& variables,
 			  int sRow,
 			  int sCol,
 			  int tRow,

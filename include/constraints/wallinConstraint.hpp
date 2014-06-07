@@ -32,8 +32,8 @@
 #include <map>
 
 #include "constraint.hpp"
-#include "../variables/building.hpp"
-#include "../domains/wallinGrid.hpp"
+#include "../variables/variable.hpp"
+#include "../domains/domain.hpp"
 #include "../objectives/objective.hpp"
 
 using namespace std;
@@ -43,10 +43,10 @@ namespace ghost
   class WallinConstraint : public Constraint
   {
   public:
-    WallinConstraint( const vector< shared_ptr<Building> >&, const shared_ptr<WallinGrid>& );
+    WallinConstraint( const vector< shared_ptr<Variable> >&, const shared_ptr<Domain>& );
 
-    vector<double> simulateCost( Building&, const vector<int>&, vector< vector<double> >&, shared_ptr<Objective>& );
-    virtual vector<double> simulateCost( Building&, const vector<int>&, int, vector< vector<double> >& );
+    vector<double> simulateCost( Variable&, const vector<int>&, vector< vector<double> >&, shared_ptr<Objective>& );
+    virtual vector<double> simulateCost( Variable&, const vector<int>&, int, vector< vector<double> >& );
 
   protected:
     bool isWall() const;
@@ -56,25 +56,25 @@ namespace ghost
   class Overlap : public WallinConstraint
   {
   public:
-    Overlap( const vector< shared_ptr<Building> >&, const shared_ptr<WallinGrid>& );
+    Overlap( const vector< shared_ptr<Variable> >&, const shared_ptr<Domain>& );
     double cost( vector<double>& ) const;
-    vector<double> simulateCost( Building&, const vector<int>&, int, vector< vector<double> >& );
+    vector<double> simulateCost( Variable&, const vector<int>&, int, vector< vector<double> >& );
   };
 
   //Buildable
   class Buildable : public WallinConstraint
   {
   public:
-    Buildable( const vector< shared_ptr<Building> >&, const shared_ptr<WallinGrid>& );
+    Buildable( const vector< shared_ptr<Variable> >&, const shared_ptr<Domain>& );
     double cost( vector<double>& ) const;
-    vector<double> simulateCost( Building&, const vector<int>&, int, vector< vector<double> >& );
+    vector<double> simulateCost( Variable&, const vector<int>&, int, vector< vector<double> >& );
   };
 
   //NoGaps
   class NoGaps : public WallinConstraint
   {
   public:
-    NoGaps( const vector< shared_ptr<Building> >&, const shared_ptr<WallinGrid>& );
+    NoGaps( const vector< shared_ptr<Variable> >&, const shared_ptr<Domain>& );
     double cost( vector<double>& ) const;
   };
 
@@ -82,9 +82,9 @@ namespace ghost
   class StartingTargetTiles : public WallinConstraint
   {
   public:
-    StartingTargetTiles( const vector< shared_ptr<Building> >&, const shared_ptr<WallinGrid>& );
+    StartingTargetTiles( const vector< shared_ptr<Variable> >&, const shared_ptr<Domain>& );
     double cost( vector<double>& ) const;
   private:
-    map<int, shared_ptr<Building> > mapBuildings;
+    map<int, shared_ptr<Variable> > mapBuildings;
   };
 }
