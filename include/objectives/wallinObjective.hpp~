@@ -24,48 +24,19 @@
  */
 
 
+#pragma once
+
+#include <set>
+#include <vector>
+#include <memory>
 #include <algorithm>
 #include <limits>
 
-#include "../../include/objectives/objective.hpp"
+#include "../misc/random.hpp"
+
+using namespace std;
 
 namespace ghost
 {
-  /*************/
-  /* Objective */
-  /*************/
-  int Objective::heuristicValue( const std::vector< double > &vecGlobalCosts, 
-				 double &bestEstimatedCost,
-				 int &bestValue ) const
-  {
-    int best = 0;
-    double bestHelp = numeric_limits<int>::max();
 
-    for( int i = 0; i < vecGlobalCosts.size(); ++i )
-    {
-      if(      vecGlobalCosts[i] < bestEstimatedCost
-	  || ( vecGlobalCosts[i] == bestEstimatedCost
-	       && vecGlobalCosts[i] < numeric_limits<int>::max()
-	       && ( i == 0 || heuristicValueHelper.at( i ) < bestHelp ) ) )
-      {
-	bestEstimatedCost = vecGlobalCosts[i];
-	bestValue = i - 1;
-	if( heuristicValueHelper.at( i ) < bestHelp )
-	  bestHelp = heuristicValueHelper.at( i );
-	best = i;
-      }
-    }
-
-    return best;
-  }
-
-  void Objective::initHelper( int size )
-  {
-    heuristicValueHelper = std::vector<double>( size, numeric_limits<int>::max() );
-  }
-
-  void Objective::resetHelper()
-  {
-    std::fill( heuristicValueHelper.begin(), heuristicValueHelper.end(), numeric_limits<int>::max() );
-  }
 }

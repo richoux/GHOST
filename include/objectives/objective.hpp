@@ -26,74 +26,55 @@
 
 #pragma once
 
-#include <set>
 #include <vector>
-#include <memory>
-#include <algorithm>
-#include <limits>
 
-#include "../variables/building.hpp"
-#include "../domains/wallinGrid.hpp"
 #include "../misc/random.hpp"
+
+using namespace std;
 
 namespace ghost
 {
+  template <typename TypeVariable, typename TypeDomain>
   class Objective
   {
   public:
-    Objective( std::string );
-    virtual double cost( const std::vector< std::shared_ptr<Building> > &vecBuildings, const WallinGrid& ) const = 0;
-    virtual int heuristicVariable( const std::vector< int > &vecVariables, const std::vector< std::shared_ptr<Building> > &vecBuildings, const WallinGrid& ) = 0;
-    virtual void setHelper( const Building&, const std::vector< std::shared_ptr<Building> >&, const WallinGrid& );
-    void initHelper( int );
-    void resetHelper();
-    int heuristicValue( const std::vector< double > &vecPositions, double&, int&, const WallinGrid& ) const;
-    inline  std::string getName() { return name; }
+    Objective<TypeVariable, TypeDomain>( const string &name ) : name(name) { }
+
+    
+    inline double cost( const vector< TypeVariable > &vecBuildings,
+			const TypeDomain &domain ) const
+      { return v_cost(vecBuildings, domain); }
+    
+    inline int heuristicVariable( const vector< int > &vecVariables,
+				  const vector< TypeVariable > &vecBuildings,
+				  const TypeDomain &domain )
+      { return v_heuristicVariable(vecVariables, vecBuildings, domain); }
+    
+    inline void setHelper( const TypeVariable &variable,
+			   const vector< TypeVariable > &vecBuildings,
+			   const TypeDomain &domain )
+      { v_setHelper(variable, vecBuildings, domain); }
+
+    inline string getName() { return name; }
+
+    int		heuristicValue( const vector< double >&, double&, int& ) const;
+    void	initHelper( int );
+    void	resetHelper();
+
   protected:
+    virtual double	v_cost( const vector< TypeVariable > &vecBuildings,
+				const TypeDomain& ) const = 0;
+
+    virtual int		v_heuristicVariable( const vector< int > &vecVariables,
+					     const vector< TypeVariable > &vecBuildings,
+					     const TypeDomain& ) = 0;
+
+    virtual void	v_setHelper( const TypeVariable &b,
+				     const vector< TypeVariable > &vecBuildings,
+				     const TypeDomain &domain ) = 0;
+
     Random randomVar;
-    std::string name;
-    std::vector<double> heuristicValueHelper; 
-  };
-
-  class NoneObj : public Objective
-  {
-  public:
-    NoneObj( std::string );
-    double cost( const std::vector< std::shared_ptr<Building> > &vecBuildings, const WallinGrid& ) const;
-    int heuristicVariable( const std::vector< int > &vecVariables, const std::vector< std::shared_ptr<Building> > &vecBuildings, const WallinGrid& );
-    void setHelper( const Building&, const std::vector< std::shared_ptr<Building> >&, const WallinGrid& );
-  };
-
-  class GapObj : public Objective
-  {
-  public:
-    GapObj( std::string );
-    double cost( const std::vector< std::shared_ptr<Building> > &vecBuildings, const WallinGrid& ) const;
-    int heuristicVariable( const std::vector< int > &vecVariables, const std::vector< std::shared_ptr<Building> > &vecBuildings, const WallinGrid& );
-    void setHelper( const Building&, const std::vector< std::shared_ptr<Building> >&, const WallinGrid& );
-  private:
-    int gapSize( const Building&, const std::vector< std::shared_ptr<Building> >&, const WallinGrid& ) const;
-  };
-
-  class BuildingObj : public Objective
-  {
-  public:
-    BuildingObj( std::string );
-    double cost( const std::vector< std::shared_ptr<Building> > &vecBuildings, const WallinGrid& ) const;
-    int heuristicVariable( const std::vector< int > &vecVariables, const std::vector< std::shared_ptr<Building> > &vecBuildings, const WallinGrid& );
-  };
-
-  class TechTreeObj : public Objective
-  {
-  public:
-    TechTreeObj( std::string );
-    double cost( const std::vector< std::shared_ptr<Building> > &vecBuildings, const WallinGrid& ) const;
-    int heuristicVariable( const std::vector< int > &vecVariables, const std::vector< std::shared_ptr<Building> > &vecBuildings, const WallinGrid& );
-  };
-
-  class FactoryObj
-  {
-  public:
-    std::shared_ptr<Objective> makeObjective( const std::string& ) const;
+    string name;
+    vector<double> heuristicValueHelper; 
   };
 }
