@@ -93,4 +93,56 @@ namespace ghost
   protected:
     bool isWall() const;
   };  
+
+
+  /***********/
+  /* Overlap */
+  /***********/  
+  class Overlap : public WallinConstraint
+  {
+  public:
+    Overlap( const vector< Building >&, const WallinGrid& );
+    
+    double cost( vector<double>& ) const;
+    vector<double> simulateCost( Building&, const vector<int>&, vector< vector<double> >& );
+  };
+
+  
+  /*************/
+  /* Buildable */
+  /*************/  
+  class Buildable : public WallinConstraint
+  {
+  public:
+    Buildable( const vector< Building >&, const WallinGrid& );
+    
+    double cost( vector<double>& ) const;
+    vector<double> simulateCost( Building&, const vector<int>&, vector< vector<double> >& );
+  };
+
+  
+  /**********/
+  /* NoGaps */
+  /**********/  
+  class NoGaps : public WallinConstraint
+  {
+  public:
+    NoGaps( const vector< Building >&, const WallinGrid& );
+    
+    double cost( vector<double>& ) const;
+  };
+
+  
+  /***********************/
+  /* StartingTargetTiles */
+  /***********************/  
+  class StartingTargetTiles : public WallinConstraint
+  {
+  public:
+    StartingTargetTiles( const vector< Building >&, const WallinGrid& );
+
+    double cost( vector<double>& ) const;
+  private:
+    map<int, Building> mapBuildings;
+  };
 }

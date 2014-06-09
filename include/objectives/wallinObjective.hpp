@@ -36,6 +36,9 @@ using namespace std;
 
 namespace ghost
 {
+  /***********/
+  /* NoneObj */
+  /***********/
   class NoneObj : public Objective<Building, WallinGrid>
   {
   public:
@@ -45,6 +48,9 @@ namespace ghost
     void setHelper( const Building&, const vector< Building >&, const WallinGrid& );
   };
 
+  /**********/
+  /* GapObj */
+  /**********/
   class GapObj : public Objective<Building, WallinGrid>
   {
   public:
@@ -56,6 +62,9 @@ namespace ghost
     int gapSize( const Building&, const vector< Building >&, const WallinGrid& ) const;
   };
 
+  /***************/
+  /* BuildingObj */
+  /***************/
   class BuildingObj : public Objective<Building, WallinGrid>
   {
   public:
@@ -65,6 +74,9 @@ namespace ghost
     void setHelper( const Building&, const vector< Building >&, const WallinGrid& );
   };
 
+  /***************/
+  /* TreeTechObj */
+  /***************/
   class TechTreeObj : public Objective<Building, WallinGrid>
   {
   public:
