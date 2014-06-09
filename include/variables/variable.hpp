@@ -38,9 +38,9 @@ namespace ghost
   public:
     Variable( string, string, int = -1 );
 
-    virtual bool operator<( const Variable& other )	const	{ return id < other.id; }
-    virtual void shiftValue()					{ ++value; }
-    virtual void swapValue( Variable &other )			{ std::swap(this->value, other.value); }
+    inline bool		operator<( const Variable& other )	const	{ return v_operatorInf( other ); }
+    inline void		shiftValue()					{ v_shiftValue(); }
+    inline void		swapValue( Variable &other )			{ v_swapValue( other ); }
 
     inline void		setValue( int v )			{ value = v; }
     inline int		getValue()			const	{ return value; }
@@ -51,6 +51,10 @@ namespace ghost
     friend ostream& operator<<( ostream&, const Variable& );
     
   protected:
+    virtual bool v_operatorInf( const Variable& other )	const;
+    virtual void v_shiftValue();
+    virtual void v_swapValue( Variable &other );
+
     string	name;
     string	fullName;
     int		id;

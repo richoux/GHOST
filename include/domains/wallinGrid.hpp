@@ -31,7 +31,7 @@
 #include <set>
 #include <string>
 #include <iostream>
-#include <memory>
+// #include <memory>
 
 #include "../variables/building.hpp"
 #include "../misc/random.hpp"
@@ -42,14 +42,14 @@ namespace ghost
 {
   using mapFail = map<pair<int, int>, string>;
 
-  class WallinGrid : public Domain
+  class WallinGrid : public Domain<Building>
   {
   public:
     WallinGrid( int, int, int, int, int, int, int ) ;
     WallinGrid( int,
 		int,
 		const vector< pair<int, int> >&,
-		const vector< shared_ptr<Variable> >&,
+		const vector< Building >&,
 		int,
 		int,
 		int,
@@ -61,11 +61,11 @@ namespace ghost
     void		clear( const Building& );
     void		swap( Building&, Building& );	  
     
-    set< shared_ptr<Building> > getBuildingsAround( const Building &, const vector< shared_ptr<Building> >& )	const;
-    set< shared_ptr<Building> > getBuildingsAbove( const Building &, const vector< shared_ptr<Building> >& )	const;
-    set< shared_ptr<Building> > getBuildingsOnRight( const Building &, const vector< shared_ptr<Building> >& )	const;
-    set< shared_ptr<Building> > getBuildingsBelow( const Building &, const vector< shared_ptr<Building> >& )	const;
-    set< shared_ptr<Building> > getBuildingsOnLeft( const Building &, const vector< shared_ptr<Building> >& )	const;
+    set< Building > getBuildingsAround( const Building &, const vector< Building >& )	const;
+    set< Building > getBuildingsAbove( const Building &, const vector< Building >& )	const;
+    set< Building > getBuildingsOnRight( const Building &, const vector< Building >& )	const;
+    set< Building > getBuildingsBelow( const Building &, const vector< Building >& )	const;
+    set< Building > getBuildingsOnLeft( const Building &, const vector< Building >& )	const;
 
     inline int		 distanceTo( int source, int target )	const { return distanceTo( source, lin2mat( target ) ); }
     inline int		 distanceToTarget( int source )		const { return distanceTo( source, targetTile ); }
@@ -91,7 +91,7 @@ namespace ghost
     inline int		  mat2lin( pair<int, int> p ) const {return p.first * mCol_ + p.second;}
 
     bool	isStartingOrTargetTile( int ) const;
-    int		countAround( const Building &, const vector< shared_ptr<Building> >& ) const;  
+    int		countAround( const Building &, const vector< Building >& ) const;  
     vector<int>	possiblePos( const Building& ) const;
     
     friend ostream& operator<<( ostream&, const WallinGrid& );

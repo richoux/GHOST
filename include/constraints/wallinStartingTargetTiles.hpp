@@ -24,35 +24,27 @@
  */
 
 
-#include <typeinfo>
+#include <vector>
+#include <map>
 
-#include "../../include/variables/variable.hpp"
+#include "wallinConstraint.hpp"
+#include "../variables/building.hpp"
+#include "../domains/wallinGrid.hpp"
+#include "../objectives/objective.hpp"
 
 using namespace std;
 
 namespace ghost
 {
-  int Variable::numberVariables = 0;
-  
-  Variable::Variable( string name, string fullName, int value )
-    : name(name),
-      fullName(fullName),
-      id(Variable::numberVariables++),
-      value(value)
-  { }
-
-  std::ostream& operator<<( std::ostream& os, const Variable& v )
+  class StartingTargetTiles : public WallinConstraint
   {
-    return os
-      << "Variable type: " <<  typeid(v).name() << std::endl
-      << "Name: " << v.name << std::endl
-      << "Full name: " << v.fullName << std::endl
-      << "Id num: " << v.id << std::endl
-      << "Value: " <<  v.value << std::endl
-      << "-------" << std::endl;
-  }
-
-  virtual bool Variable::v_operatorInf( const Variable& other )	const	{ return id < other.id; }
-  virtual void Variable::v_shiftValue()					{ ++value; }
-  virtual void Variable::v_swapValue( Variable &other )			{ std::swap(this->value, other.value); }
+  public:
+    StartingTargetTiles( const vector< Building >&, const WallinGrid& );
+    
+    
+    double cost( vector<double>& ) const;
+    
+  private:
+    map<int, Building> mapBuildings;
+  };
 }

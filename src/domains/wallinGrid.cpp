@@ -55,7 +55,7 @@ namespace ghost
   WallinGrid::WallinGrid( int col,
 			  int row,
 			  const vector< pair<int, int> >& unbuildables,
-			  const vector< shared_ptr<Variable> >& variables,
+			  const vector< Building >& variables,
 			  int sRow,
 			  int sCol,
 			  int tRow,
@@ -66,7 +66,7 @@ namespace ghost
       matrixType_[u.first][u.second].assign(3, '#');
 
     for( const auto &v : variables )
-      domains[ v->getId() ] = possiblePos( v );
+      domains[ v.getId() ] = possiblePos( v );
   }
 
   void WallinGrid::add( const Building& building )
@@ -217,9 +217,9 @@ namespace ghost
     add( second );
   }  
 
-  set< shared_ptr<Building> > WallinGrid::getBuildingsAround ( const Building& b, const vector< shared_ptr<Building> >& variables ) const
+  set< Building > WallinGrid::getBuildingsAround ( const Building& b, const vector< Building >& variables ) const
   {
-    set< shared_ptr<Building> > myNeighbors;
+    set< Building > myNeighbors;
 
     if( b.isOnWallinGrid() )
     {
@@ -232,12 +232,12 @@ namespace ghost
 
       for(auto other : variables )
       {
-  	if( other->getId() != b.getId() && other->isOnWallinGrid() )
+  	if( other.getId() != b.getId() && other.isOnWallinGrid() )
   	{
-  	  pair<int, int> xyOther = lin2mat( other->getValue() );
+  	  pair<int, int> xyOther = lin2mat( other.getValue() );
   	  int otherTop = xyOther.first;
-  	  int otherRight = xyOther.second + other->getLength() - 1;
-  	  int otherBottom = xyOther.first + other->getHeight() - 1;
+  	  int otherRight = xyOther.second + other.getLength() - 1;
+  	  int otherBottom = xyOther.first + other.getHeight() - 1;
   	  int otherLeft = xyOther.second;
 
   	  if(  ( top == otherBottom + 1 && ( otherRight >= left && otherLeft <= right ) )
@@ -254,9 +254,9 @@ namespace ghost
     return myNeighbors;
   }
 
-  set< shared_ptr<Building> > WallinGrid::getBuildingsAbove ( const Building& b, const vector< shared_ptr<Building> >& variables ) const
+  set< Building > WallinGrid::getBuildingsAbove ( const Building& b, const vector< Building >& variables ) const
   {
-    set< shared_ptr<Building> > myNeighbors;
+    set< Building > myNeighbors;
 
     if( b.isOnWallinGrid() )
     {
@@ -268,11 +268,11 @@ namespace ghost
 
       for(auto other : variables )
       {
-	if( other->getId() != b.getId() && other->isOnWallinGrid() )
+	if( other.getId() != b.getId() && other.isOnWallinGrid() )
 	{
-	  pair<int, int> xyOther = lin2mat( other->getValue() );
-	  int otherRight = xyOther.second + other->getLength() - 1;
-	  int otherBottom = xyOther.first + other->getHeight() - 1;
+	  pair<int, int> xyOther = lin2mat( other.getValue() );
+	  int otherRight = xyOther.second + other.getLength() - 1;
+	  int otherBottom = xyOther.first + other.getHeight() - 1;
 	  int otherLeft = xyOther.second;
 
 	  if( top == otherBottom + 1 && otherRight >= left && otherLeft <= right )
@@ -284,9 +284,9 @@ namespace ghost
     return myNeighbors;
   }
 
-  set< shared_ptr<Building> > WallinGrid::getBuildingsOnRight ( const Building& b, const vector< shared_ptr<Building> >& variables ) const
+  set< Building > WallinGrid::getBuildingsOnRight ( const Building& b, const vector< Building >& variables ) const
   {
-    set< shared_ptr<Building> > myNeighbors;
+    set< Building > myNeighbors;
 
     if( b.isOnWallinGrid() )
     {
@@ -298,11 +298,11 @@ namespace ghost
 
       for(auto other : variables )
       {
-	if( other->getId() != b.getId() && other->isOnWallinGrid() )
+	if( other.getId() != b.getId() && other.isOnWallinGrid() )
 	{
-	  pair<int, int> xyOther = lin2mat( other->getValue() );
+	  pair<int, int> xyOther = lin2mat( other.getValue() );
 	  int otherTop = xyOther.first;
-	  int otherBottom = xyOther.first + other->getHeight() - 1;
+	  int otherBottom = xyOther.first + other.getHeight() - 1;
 	  int otherLeft = xyOther.second;
 
 	  if( right == otherLeft - 1 && otherBottom >= top - 1 && otherTop <= bottom + 1 )
@@ -314,9 +314,9 @@ namespace ghost
     return myNeighbors;
   }
 
-  set< shared_ptr<Building> > WallinGrid::getBuildingsBelow ( const Building& b, const vector< shared_ptr<Building> >& variables ) const
+  set< Building > WallinGrid::getBuildingsBelow ( const Building& b, const vector< Building >& variables ) const
   {
-    set< shared_ptr<Building> > myNeighbors;
+    set< Building > myNeighbors;
 
     if( b.isOnWallinGrid() )
     {
@@ -328,11 +328,11 @@ namespace ghost
 
       for(auto other : variables )
       {
-	if( other->getId() != b.getId() && other->isOnWallinGrid() )
+	if( other.getId() != b.getId() && other.isOnWallinGrid() )
 	{
-	  pair<int, int> xyOther = lin2mat( other->getValue() );
+	  pair<int, int> xyOther = lin2mat( other.getValue() );
 	  int otherTop = xyOther.first;
-	  int otherRight = xyOther.second + other->getLength() - 1;
+	  int otherRight = xyOther.second + other.getLength() - 1;
 	  int otherLeft = xyOther.second;
 
 	  if( bottom == otherTop - 1 && otherRight >= left && otherLeft <= right )
@@ -344,9 +344,9 @@ namespace ghost
     return myNeighbors;
   }
 
-  set< shared_ptr<Building> > WallinGrid::getBuildingsOnLeft ( const Building& b, const vector< shared_ptr<Building> >& variables ) const
+  set< Building > WallinGrid::getBuildingsOnLeft ( const Building& b, const vector< Building >& variables ) const
   {
-    set< shared_ptr<Building> > myNeighbors;
+    set< Building > myNeighbors;
 
     if( b.isOnWallinGrid() )
     {
@@ -358,12 +358,12 @@ namespace ghost
 
       for(auto other : variables )
       {
-	if( other->getId() != b.getId() && other->isOnWallinGrid() )
+	if( other.getId() != b.getId() && other.isOnWallinGrid() )
 	{
-	  pair<int, int> xyOther = lin2mat( other->getValue() );
+	  pair<int, int> xyOther = lin2mat( other.getValue() );
 	  int otherTop = xyOther.first;
-	  int otherRight = xyOther.second + other->getLength() - 1;
-	  int otherBottom = xyOther.first + other->getHeight() - 1;
+	  int otherRight = xyOther.second + other.getLength() - 1;
+	  int otherBottom = xyOther.first + other.getHeight() - 1;
 
 	  if( left == otherRight + 1 && otherBottom >= top - 1 && otherTop <= bottom + 1 )
 	    myNeighbors.insert( other );
@@ -395,7 +395,7 @@ namespace ghost
       || targetBuildings.find( id ) != targetBuildings.end();
   }
 
-  int WallinGrid::countAround( const Building& b, const vector< shared_ptr<Building> >& variables ) const
+  int WallinGrid::countAround( const Building& b, const vector< Building >& variables ) const
   {
     if( b.isOnWallinGrid() )
       return getBuildingsAround( b, variables ).size();

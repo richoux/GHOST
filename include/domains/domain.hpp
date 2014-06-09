@@ -28,14 +28,16 @@
 
 #include <vector>
 #include <iostream>
+#include <typeinfo>
 
-#include "../variables/variable.hpp"
+// #include "../variables/variable.hpp"
 #include "../misc/random.hpp"
 
 using namespace std;
 
 namespace ghost
 {
+  template <typename TypeVariable>
   class Domain
   {
   public:
@@ -43,16 +45,47 @@ namespace ghost
     Domain( int, int, const vector< int >& );
         
 
-    virtual int		randomValue( const Variable& ) const;
-    virtual vector<int> possibleValues( const Variable& ) const;
-    virtual void	resetDomain( const Variable& );
-    virtual void	resetAllDomains();
+    inline int		randomValue( const TypeVariable& var )		const	{ return v_randomValue(var); }
+    inline vector<int>	possibleValues( const TypeVariable& var )	const	{ return v_possibleValues(var); }
+    inline void		resetDomain( const TypeVariable& var );			{ v_resetDomain(var); }
+    inline void		resetAllDomains()					{ v_resetAllDomains(); }
     
     inline int getSize() const { return size; }
 
-    friend ostream& operator<<( ostream&, const Domain& );
+    friend ostream& operator<<( ostream& os, const Domain<TypeVariable>& domain )
+      {
+	os << "Domain type: " <<  typeid(domain).name() << endl
+	   << "Size: " <<  domain.size << endl;
+	for( int i = 0; i < domains.size; ++i )
+	{
+	  os << "Domain[" << i << "]: ";
+	  for( auto& e : domains[i] )
+	    os << e << " ";
+	  os << endl;
+	}
+	os << endl;
+	return os;
+      }
 
   protected:
+    virtual int v_randomValue( const TypeVariable& variable ) const
+      {
+	vector<int> possibilities = domains[ variable.getId() ];
+	return possibilities[ random.getRandNum( possibilities.size() ) ];
+      }
+
+    virtual vector<int> v_possibleValues( const TypeVariable& variable ) const
+      {
+	return domains[ variable.getId() ];
+      }
+
+    virtual void v_resetDomain( const TypeVariable& variable )
+      {
+	domains[ variable.getId() ] = initialDomain;
+      }
+
+    virtual void v_resetAllDomains();
+    
     int size;
     vector< vector< int > > domains;
     vector< int > initialDomain;

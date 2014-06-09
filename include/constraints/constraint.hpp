@@ -29,27 +29,33 @@
 #include <vector>
 #include <iostream>
 #include <memory>
+#include <typeinfo>
 
-#include "../variables/variable.hpp"
-#include "../domains/domain.hpp"
 #include "../objectives/objective.hpp"
 
 using namespace std;
 
 namespace ghost
 {
+  template <typename TypeVariable, typename TypeDomain>
   class Constraint
   {
   public:
-    virtual double cost( vector<double>& ) const = 0;
-    virtual vector<double> simulateCost( Variable&, const vector<int>&, vector< vector<double> >&, shared_ptr<Objective>& ) = 0;
-    
-    virtual void update( const shared_ptr<Domain> &d );
+    Constraint( vector< TypeVariable > variables, TypeDomain domain )
+      : variables(variables), domain(domain) { }
 
-    friend ostream& operator<<( ostream&, const Constraint& );
+    virtual double cost( vector<double>& ) const = 0;
+    virtual vector<double> simulateCost( TypeVariable&, const vector<int>&, vector< vector<double> >&, shared_ptr<Objective>& ) = 0;
+    
+    virtual void update( const TypeDomain &d ) { domain = d; }
+
+    friend ostream& operator<<( ostream& os, const Constraint<TypeVariable, TypeDomain>& c )
+      {
+	return os << "Constraint type: " <<  typeid(c).name() << std::endl;
+      }
     
   protected:
-    vector< shared_ptr<Variable> > variables;
-    shared_ptr<Domain> domain;
+    vector< TypeVariable > variables;
+    TypeDomain domain;
   };  
 }

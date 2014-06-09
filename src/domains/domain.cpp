@@ -51,23 +51,23 @@ namespace ghost
   }
   
   
-  int Domain::randomValue( const Variable &variable ) const
-  {
-    vector<int> possibilities = domains[ variable->getId() ];
-    return possibilities[ random.getRandNum( possibilities.size() ) ];
-  }
+  // int Domain::v_randomValue( const Variable &variable ) const
+  // {
+  //   vector<int> possibilities = domains[ variable.getId() ];
+  //   return possibilities[ random.getRandNum( possibilities.size() ) ];
+  // }
   
-  vector<int> Domain::possibleValues( const Variable &variable ) const
-  {
-    return domains[ variable.getId() ];
-  }
+  // vector<int> Domain::v_possibleValues( const Variable &variable ) const
+  // {
+  //   return domains[ variable.getId() ];
+  // }
 
-  void Domain::resetDomain( const Variable &variable )
-  {
-    domains[ variable.getId() ] = initialDomain;
-  }
+  // void Domain::v_resetDomain( const Variable &variable )
+  // {
+  //   domains[ variable.getId() ] = initialDomain;
+  // }
 
-  void Domain::resetAllDomains()
+  void Domain::v_resetAllDomains()
   {
     for( auto& d : domains )
       d = initialDomain;

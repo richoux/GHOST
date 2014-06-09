@@ -24,16 +24,15 @@
  */
 
 
-#include <typeinfo>
+// #include <typeinfo>
 
-#include "../../include/constraints/constraint.hpp"
+// #include "../../include/constraints/constraint.hpp"
 
-namespace ghost
-{
-  void Constraint::update( const shared_ptr<Domain> &d ) { domain = d; }
+// namespace ghost
+// {
 
-  std::ostream& operator<<( std::ostream& os, const Constraint& c )
-  {
-    return os << "Constraint type: " <<  typeid(c).name() << std::endl;
-  }
-}
+//   std::ostream& operator<<( std::ostream& os, const Constraint& c )
+//   {
+//     return os << "Constraint type: " <<  typeid(c).name() << std::endl;
+//   }
+// }

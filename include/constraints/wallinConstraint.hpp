@@ -32,59 +32,65 @@
 #include <map>
 
 #include "constraint.hpp"
-#include "../variables/variable.hpp"
-#include "../domains/domain.hpp"
+#include "../variables/building.hpp"
+#include "../domains/wallinGrid.hpp"
 #include "../objectives/objective.hpp"
 
 using namespace std;
 
 namespace ghost
 {
-  class WallinConstraint : public Constraint
+  class WallinConstraint : public Constraint<Building, WallinGrid>
   {
   public:
-    WallinConstraint( const vector< shared_ptr<Variable> >&, const shared_ptr<Domain>& );
+    WallinConstraint( const vector< Building >&, const WallinGrid& );
 
-    vector<double> simulateCost( Variable&, const vector<int>&, vector< vector<double> >&, shared_ptr<Objective>& );
-    virtual vector<double> simulateCost( Variable&, const vector<int>&, int, vector< vector<double> >& );
+    vector<double> simulateCost( Building &oldBuilding,
+				 const vector<int> &newPosition,
+				 vector< vector<double> > &vecVarSimCosts,
+				 shared_ptr<Objective> &objective )
+      {
+	std::vector<double> simCosts( domain->getSize(), -1. );
+	int backup = oldBuilding.getValue();
+	int previousPos;
+    
+	if( objective )
+	  objective->resetHelper();
+
+	for( auto pos : newPosition )
+	{
+	  if( pos >= 1 && pos == previousPos + 1 )
+	  {
+	    domain.quickShift( oldBuilding );
+	  }
+	  else
+	  { 
+	    domain.clear( oldBuilding );
+	    oldBuilding.setValue( pos );
+	    domain.add( oldBuilding );
+	  }
+
+	  simCosts[pos+1] = cost( vecVarSimCosts[pos+1] );
+	  if( objective )
+	    objective->setHelper( oldBuilding, variables, domain );
+	  previousPos = pos;
+	}
+
+	domain.clear( oldBuilding );
+	oldBuilding.setValue( backup );
+	domain.add( oldBuilding );
+    
+	return simCosts;
+      }
+
+    virtual vector<double> simulateCost( Building &oldBuilding,
+					 const vector<int> &newPosition,
+					 vector< vector<double> > &vecVarSimCosts )
+      {
+	return simulateCost( oldBuilding, newPosition, vecVarSimCosts, NULL );
+      }
 
   protected:
     bool isWall() const;
   };  
-
-  //Overlap
-  class Overlap : public WallinConstraint
-  {
-  public:
-    Overlap( const vector< shared_ptr<Variable> >&, const shared_ptr<Domain>& );
-    double cost( vector<double>& ) const;
-    vector<double> simulateCost( Variable&, const vector<int>&, int, vector< vector<double> >& );
-  };
-
-  //Buildable
-  class Buildable : public WallinConstraint
-  {
-  public:
-    Buildable( const vector< shared_ptr<Variable> >&, const shared_ptr<Domain>& );
-    double cost( vector<double>& ) const;
-    vector<double> simulateCost( Variable&, const vector<int>&, int, vector< vector<double> >& );
-  };
-
-  //NoGaps
-  class NoGaps : public WallinConstraint
-  {
-  public:
-    NoGaps( const vector< shared_ptr<Variable> >&, const shared_ptr<Domain>& );
-    double cost( vector<double>& ) const;
-  };
-
-  //StartingTargetTiles
-  class StartingTargetTiles : public WallinConstraint
-  {
-  public:
-    StartingTargetTiles( const vector< shared_ptr<Variable> >&, const shared_ptr<Domain>& );
-    double cost( vector<double>& ) const;
-  private:
-    map<int, shared_ptr<Variable> > mapBuildings;
-  };
 }
