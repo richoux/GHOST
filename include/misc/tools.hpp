@@ -37,9 +37,13 @@
 
 namespace ghost
 {
-  void updateConstraints( const std::vector< std::shared_ptr<Constraint> >&, const shared_ptr<Domain>& );
+  template <typename TypeDomain>
+  void updateConstraints( const std::vector< std::shared_ptr<Constraint> > &vecConstraints, const TypeDomain &domain )
+  {
+    std::for_each( vecConstraints.begin(), vecConstraints.end(), [&]( const std::shared_ptr<Constraint> &c ){ c->update( domain ); });
+  }
+  
   void printConstraints( const std::vector< std::shared_ptr<Constraint> >& );
   void addAllInGrid( const std::vector< std::shared_ptr<Building> >&, shared_ptr<Domain>& );
   void clearAllInGrid( const std::vector< std::shared_ptr<Building> >&, shared_ptr<Domain>& );
-  int  countBuildings( const std::vector< std::shared_ptr<Building> >& );
 }

@@ -47,9 +47,4 @@ namespace ghost
   {
     std::for_each( vec.begin(), vec.end(), [&]( const std::shared_ptr<Building> &b ){ domain->clear(*b); });
   }
-
-  int countBuildings( const std::vector< std::shared_ptr<Building> > &vec )
-  {
-    return std::count_if( vec.begin(), vec.end(), []( const std::shared_ptr<Building> &b ){ return b->isOnGrid(); });
-  }
 }

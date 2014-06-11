@@ -26,86 +26,38 @@
 
 #pragma once
 
+#include <string>
+
 #include "building.hpp"
 
 using namespace std;
 
 namespace ghost
 {
-  class Academy : public Building
+  Building factoryTerranBuilding( const string &name, int pos = -1 )
   {
-  public:
-    Academy() : Building(3, 2, 0, 3, 7, 8, Terran, 2, "A", "Terran_Academy") { }
-    Academy(int pos) : Building(3, 2, 0, 3, 7, 8, Terran, 2, "A", "Terran_Academy", pos) { }
-  };
-
-  class Armory : public Building
-  {
-  public:
-    Armory() : Building(3, 2, 0, 0, 9, 0, Terran, 3, "R", "Terran_Armory") { }
-    Armory(int pos) : Building(3, 2, 0, 0, 9, 0, Terran, 3, "R", "Terran_Armory", pos) { }
-  };
-
-  class Barracks : public Building
-  {
-  public:
-    Barracks() : Building(4, 3, 8, 7, 15, 16, Terran, 1, "B", "Terran_Barracks") { }
-    Barracks(int pos) : Building(4, 3, 8, 7, 15, 16, Terran, 1, "B", "Terran_Barracks", pos) { }
-  };
-
-  class Bunker : public Building
-  {
-  public:
-    Bunker() : Building(3, 2, 8, 15, 15, 16, Terran, 2, "U", "Terran_Bunker") { }
-    Bunker(int pos) : Building(3, 2, 8, 15, 15, 16, Terran, 2, "U", "Terran_Bunker", pos) { }
-  };
-
-  class CommandCenter : public Building
-  {
-  public:
-    CommandCenter() : Building(4, 3, 7, 5, 6, 6, Terran, 0, "C", "Terran_Command_Center") { }
-    CommandCenter(int pos) : Building(4, 3, 7, 5, 6, 6, Terran, 0, "C", "Terran_Command_Center", pos) { }
-  };
-
-  class EngineeringBay : public Building
-  {
-  public:
-    EngineeringBay() : Building(4, 3, 16, 15, 19, 16, Terran, 1, "E", "Terran_Engineering_Bay") { }
-    EngineeringBay(int pos) : Building(4, 3, 16, 15, 19, 16, Terran, 1, "E", "Terran_Engineering_Bay", pos) { }
-  };
-
-  class Factory : public Building
-  {
-  public:
-    Factory() : Building(4, 3, 8, 7, 7, 8, Terran, 2, "F", "Terran_Factory") { }
-    Factory(int pos) : Building(4, 3, 8, 7, 7, 8, Terran, 2, "F", "Terran_Factory", pos) { }
-  };
-
-  class MissileTurret : public Building
-  {
-  public:
-    MissileTurret() : Building(2, 2, 0, 15, 15, 16, Terran, 2, "T", "Terran_Missile_Turret") { }
-    MissileTurret(int pos) : Building(2, 2, 0, 15, 15, 16, Terran, 2, "T", "Terran_Missile_Turret", pos) { }
-  };
-
-  class ScienceFacility : public Building
-  {
-  public:
-    ScienceFacility() : Building(4, 3, 10, 15, 9, 16, Terran, 4, "I", "Terran_Science_Facility") { }
-    ScienceFacility(int pos) : Building(4, 3, 10, 15, 9, 16, Terran, 4, "I", "Terran_Science_Facility", pos) { }
-  };
-
-  class Starport : public Building
-  {
-  public:
-    Starport() : Building(4, 3, 8, 15, 9, 16, Terran, 3, "P", "Terran_Starport") { }
-    Starport(int pos) : Building(4, 3, 8, 15, 9, 16, Terran, 3, "P", "Terran_Starport", pos) { }
-  };
-
-  class SupplyDepot : public Building
-  {
-  public:
-    SupplyDepot() : Building(3, 2, 10, 9, 5, 10, Terran, 0, "S", "Terran_Supply_Depot") { }
-    SupplyDepot(int pos) : Building(3, 2, 10, 9, 5, 10, Terran, 0, "S", "Terran_Supply_Depot", pos) { }
-  };
+    if( name.compare("a") || name.compare("A") || name.compare("Academy") )
+      return Building(3, 2, 0, 3, 7, 8, Terran, 2, "A", "Terran_Academy", pos);
+    if( name.compare("r") || name.compare("R") || name.compare("Armory") )
+      return Building(3, 2, 0, 0, 9, 0, Terran, 3, "R", "Terran_Armory", pos);
+    if( name.compare("b") || name.compare("B") || name.compare("Barracks") )
+      return Building(4, 3, 8, 7, 15, 16, Terran, 1, "B", "Terran_Barracks", pos);
+    if( name.compare("u") || name.compare("U") || name.compare("Bunker") )
+      return Building(3, 2, 8, 15, 15, 16, Terran, 2, "U", "Terran_Bunker", pos);
+    if( name.compare("c") || name.compare("C") || name.compare("Command Center") )
+      return Building(4, 3, 7, 5, 6, 6, Terran, 0, "C", "Terran_Command_Center", pos);
+    if( name.compare("e") || name.compare("E") || name.compare("Engineering Bay") )
+      return Building(4, 3, 16, 15, 19, 16, Terran, 1, "E", "Terran_Engineering_Bay", pos);
+    if( name.compare("f") || name.compare("F") || name.compare("Factory") )
+      return Building(4, 3, 8, 7, 7, 8, Terran, 2, "F", "Terran_Factory", pos);
+    if( name.compare("t") || name.compare("T") || name.compare("Missile Turret") )
+      return Building(2, 2, 0, 15, 15, 16, Terran, 2, "T", "Terran_Missile_Turret", pos);
+    if( name.compare("i") || name.compare("I") || name.compare("Science Facility") )
+      return Building(4, 3, 10, 15, 9, 16, Terran, 4, "I", "Terran_Science_Facility", pos);
+    if( name.compare("p") || name.compare("P") || name.compare("Starport") )
+      return Building(4, 3, 8, 15, 9, 16, Terran, 3, "P", "Terran_Starport", pos);
+    if( name.compare("s") || name.compare("S") || name.compare("Supply Depot") )
+      return Building(3, 2, 10, 9, 5, 10, Terran, 0, "S", "Terran_Supply_Depot", pos);
+    return;
+  }
 }

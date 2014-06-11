@@ -34,14 +34,10 @@ namespace ghost
   class Random
   {
   public:
-    Random();
-    Random(const Random&) = default;
-    // Random(Random&&) noexcept = default;
-    Random& operator=(const Random&) = default;
-    // Random& operator=(Random&&) noexcept = default;
-    ~Random() = default;
+    Random() : rng( rd() ) { }
 
     inline int getRandNum( int limit ) { return ( numbers(rng) % limit ); } 
+
   private:
     std::random_device			rd;
     std::mt19937			rng;

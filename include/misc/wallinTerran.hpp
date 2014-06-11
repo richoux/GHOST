@@ -37,131 +37,65 @@ using namespace std;
 
 namespace ghost
 {
-  // vector<Building > makeTerranBuildings( std::string obj )
-  // {
-  //   a1 = make_shared<Academy>( );
-  //   a2 = make_shared<Academy>( );
-  //   b1 = make_shared<Barracks>( );
-  //   b2 = make_shared<Barracks>( );
-  //   u1 = make_shared<Bunker>( );
-  //   u2 = make_shared<Bunker>( );
-  //   f1 = make_shared<Factory>( );
-  //   f2 = make_shared<Factory>( );
-  //   s1 = make_shared<SupplyDepot>( );
-  //   s2 = make_shared<SupplyDepot>( );
-
-  //   if( obj.compare("treetech") == 0 || obj.compare("t") == 0 || obj.compare("T") == 0)
-  //   {
-  //     r1 = make_shared<Armory>( );
-  //     r2 = make_shared<Armory>( );
-  //     c1 = make_shared<CommandCenter>( );
-  //     c2 = make_shared<CommandCenter>( );
-  //     e1 = make_shared<EngineeringBay>( );
-  //     e2 = make_shared<EngineeringBay>( );
-  //     t1 = make_shared<MissileTurret>( );
-  //     t2 = make_shared<MissileTurret>( );
-  //     i1 = make_shared<ScienceFacility>( );
-  //     i2 = make_shared<ScienceFacility>( );
-  //     p1 = make_shared<Starport>( );
-  //     p2 = make_shared<Starport>( );
-
-  //     vector< Building > vec {a1, a2, r1, r2, b1, b2, u1, u2, c1, c2, e1, e2, f1, f2, t1, t2, i1, i2, p1, p2, s1, s2};
-  //     return vec;
-  //   }
-  //   else
-  //   {
-  //     vector< Building > vec {a1, a2, b1, b2, u1, u2, f1, f2, s1, s2};
-  //     return vec;
-  //   }
-  // }
-
   vector< Building > makeTerranBuildings()
   {
     // Academy
-    Building a1;
-    Building a2;
+    Building a1 = factoryTerranBuilding("Academy");
+    Building a2 = factoryTerranBuilding("Academy");
 
     // Armory
-    Building r1;
-    Building r2;
+    Building r1 = factoryTerranBuilding("Armory");
+    Building r2 = factoryTerranBuilding("Armory");
 
     // Barracks
-    Building b1;
-    Building b2;
+    Building b1 = factoryTerranBuilding("Barracks");
+    Building b2 = factoryTerranBuilding("Barracks");
 
     // Bunker
-    Building u1;
-    Building u2;
+    Building u1 = factoryTerranBuilding("Bunker");
+    Building u2 = factoryTerranBuilding("Bunker");
 
     // Command Center
-    Building c1;
-    Building c2;
+    Building c1 = factoryTerranBuilding("Command Center");
+    Building c2 = factoryTerranBuilding("Command Center");
 
     // Engineering Bay
-    Building e1;
-    Building e2;
+    Building e1 = factoryTerranBuilding("Engineering Bay");
+    Building e2 = factoryTerranBuilding("Engineering Bay");
 
     // Factory
-    Building f1;
-    Building f2;
+    Building f1 = factoryTerranBuilding("Factory");
+    Building f2 = factoryTerranBuilding("Factory");
 
     // Missile Turret
-    Building t1;
-    Building t2;
+    Building t1 = factoryTerranBuilding("Missile Turret");
+    Building t2 = factoryTerranBuilding("Missile Turret");
   
     // Science Facility
-    Building i1;
-    Building i2;
+    Building i1 = factoryTerranBuilding("Science Facility");
+    Building i2 = factoryTerranBuilding("Science Facility");
 
     // Starport
-    Building p1;
-    Building p2;  
+    Building p1 = factoryTerranBuilding("Starport");
+    Building p2 = factoryTerranBuilding("Starport");
 
     // Supply Depot
-    Building s1;
-    Building s2;
+    Building s1 = factoryTerranBuilding("Supply Depot");
+    Building s2 = factoryTerranBuilding("Supply Depot");
 
-    // a1 = make_shared<Academy>( );
-    // a2 = make_shared<Academy>( );
-    // // r1 = make_shared<Armory>( );
-    // // r2 = make_shared<Armory>( );
-    // b1 = make_shared<Barracks>( );
-    // b2 = make_shared<Barracks>( );
-    // u1 = make_shared<Bunker>( );
-    // u2 = make_shared<Bunker>( );
-    // // c1 = make_shared<CommandCenter>( );
-    // // c2 = make_shared<CommandCenter>( );
-    // // e1 = make_shared<EngineeringBay>( );
-    // // e2 = make_shared<EngineeringBay>( );
-    // f1 = make_shared<Factory>( );
-    // f2 = make_shared<Factory>( );
-    // // t1 = make_shared<MissileTurret>( );
-    // // t2 = make_shared<MissileTurret>( );
-    // // i1 = make_shared<ScienceFacility>( );
-    // // i2 = make_shared<ScienceFacility>( );
-    // // p1 = make_shared<Starport>( );
-    // // p2 = make_shared<Starport>( );
-    // s1 = make_shared<SupplyDepot>( );
-    // s2 = make_shared<SupplyDepot>( );
-    
     // vector< Building > vec {a1, a2, r1, r2, b1, b2, u1, u2, c1, c2, e1, e2, f1, f2, t1, t2, i1, i2, p1, p2, s1, s2};
     vector< Building > vec {a1, a2, b1, b2, u1, u2, f1, f2, s1, s2};
     return vec;
   }
 
-  vector< Constraint > makeTerranConstraints( const vector< Building > &vec, const WallinGrid &grid )
+  vector< shared_ptr<WallinConstraint> > makeTerranConstraints( const vector< Building > &vec, const WallinGrid &grid )
   {
-    WallinConstraint overlap( vec, grid );
-    WallinConstraint buildable( vec, grid );
-    WallinConstraint noGaps( vec, grid );
-    WallinConstraint specialTiles( vec, grid );
+    shared_ptr<WallinConstraint> overlap	= make_shared<Overlap>( vec, grid );
+    shared_ptr<WallinConstraint> buildable	= make_shared<Buildable>( vec, grid );
+    shared_ptr<WallinConstraint> noGaps		= make_shared<NoGaps>( vec, grid );
+    shared_ptr<WallinConstraint> specialTiles	= make_shared<StartingTargetTiles>( vec, grid );
 
-    // overlap	 = make_shared<Overlap>( vec, grid );
-    // buildable	 = make_shared<Buildable>( vec, grid );
-    // noGaps	 = make_shared<NoGaps>( vec, grid );
-    // specialTiles = make_shared<StartingTargetTiles>( vec, grid );
-    
-    vector< Constraint > vecConstraints {overlap, buildable, noGaps, specialTiles};
+    vector< shared_ptr<WallinConstraint> > vecConstraints {overlap, buildable, noGaps, specialTiles};
     return vecConstraints;
   }
 }
