@@ -31,30 +31,6 @@ constexpr int OPT_TIME	= 150;
 
 namespace ghost
 {
-  Solver::Solver( const vector< shared_ptr<Constraint> > &vecConstraints, 
-		  const vector<shared_ptr<Variable> > &vecVariables, 
-		  const shared_ptr<Domain> &domain,
-		  const string &obj )
-    : Solver(vecConstraints, vecVariables, domain, 0, obj){  }
-
-  Solver::Solver( const vector< shared_ptr<Constraint> > &vecConstraints, 
-		  const vector<shared_ptr<Variable> > &vecVariables, 
-		  const shared_ptr<Domain> &domain,
-		  const int loops,
-		  const string &obj )
-    : vecConstraints(vecConstraints), 
-      vecVariables(vecVariables), 
-      variableCost( vecVariables.size() ),
-      domain(domain),
-      loops(loops),
-      tabuList( vecVariables.size() ),
-      factory(FactoryObj()),
-      objective(factory.makeObjective( obj )),
-      bestSolution(vecVariables.size())
-  { 
-    reset();
-  }
-
   void Solver::reset()
   {
     int xPos;
@@ -83,42 +59,6 @@ namespace ghost
     }
 
     updateConstraints( vecConstraints, domain );
-  }
-
-  void Solver::move( shared_ptr<Variable>& building, int newPosition )
-  {
-    domain->clear( *building );
-    building->setValue( newPosition );
-    domain->add( *building );
-    updateConstraints( vecConstraints, domain );
-  }
-
-  set< shared_ptr<Variable> > Solver::getNecessaryVariables() const
-  {
-    // find all buildings accessible from the starting building and remove all others
-    int nberCurrent = *( domain->buildingsAt( domain->getStartingTile() ).begin() );
-    shared_ptr<Variable> current = vecVariables[ nberCurrent ];
-    set< shared_ptr<Variable> > toVisit = domain->getVariablesAround( *current, vecVariables );
-    set< shared_ptr<Variable> > visited;
-    set< shared_ptr<Variable> > neighbors;
-    
-    visited.insert( current );
-    
-    while( !toVisit.empty() )
-    {
-      auto first = *( toVisit.begin() );
-      current = first;
-      toVisit.erase( first );
-      neighbors = domain->getVariablesAround( *current, vecVariables );
-
-      visited.insert( current );
-      
-      for( auto n : neighbors )
-	if( visited.find( n ) == visited.end() )
-	  toVisit.insert( n );
-    }
-
-    return visited;
   }
 
   double Solver::solve( double timeout )

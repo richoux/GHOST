@@ -50,44 +50,87 @@ using namespace std;
 
 namespace ghost
 {
+  template <typename TypeVariable, typename TypeDomain, typename TypeConstraint>
   class Solver
   {
   public:
-    Solver( const vector< shared_ptr<Constraint> >&, 
-    	    const vector<shared_ptr<Variable> >&, 
-    	    const shared_ptr<Domain>&,
-    	    const string& = "" );
+    Solver( const vector< shared_ptr<TypeConstraint> > &vecConstraints, 
+	    const vector< TypeVariable > &vecVariables, 
+	    const TypeDomain &domain,
+	    const string &obj )
+      : Solver(vecConstraints, vecVariables, domain, 0, obj){  }
 
-    Solver( const vector< shared_ptr<Constraint> >&, 
-	    const vector<shared_ptr<Variable> >&, 
-	    const shared_ptr<Domain>&,
+    Solver( const vector< shared_ptr<TypeConstraint> > &vecConstraints, 
+	    const vector< TypeVariable > &vecVariables, 
+	    const TypeDomain &domain,
 	    const int loops,
-	    const string& = "" );
+	    const string &obj )
+      : vecConstraints(vecConstraints), 
+	vecVariables(vecVariables), 
+	variableCost( vecVariables.size() ),
+	domain(domain),
+	loops(loops),
+	tabuList( vecVariables.size() ),
+	factory(FactoryObj()),
+	objective(factory.makeObjective( obj )),
+	bestSolution(vecVariables.size())
+      { 
+	reset();
+      }
 
-    Solver(const Solver&) = default;
-    Solver(Solver&&) = default;
-    Solver& operator=(const Solver&) = default;
-    Solver& operator=(Solver&&) = default;
-    ~Solver() = default;
-
+    
     double solve( double );
     
   private:
     void reset();
-    void move( shared_ptr<Variable>&, int );
-    set< shared_ptr<Variable> > getNecessaryVariables() const;
 
-    vector< shared_ptr<Constraint> >	vecConstraints;
-    vector< shared_ptr<Variable> >	vecVariables;
-    vector<double>			variableCost;
-    shared_ptr<Domain>			domain;
-    int					loops;
-    vector<int>				tabuList;
-    Random				randomVar;
-    FactoryObj				factory;
-    shared_ptr<Objective>		objective;
-    double				bestCost;
-    vector<int>				bestSolution;
-    multimap<int, shared_ptr<Variable>> buildingSameSize;
+    void move( TypeVariable& building, int newPosition )
+      {
+	domain.clear( building );
+	building.setValue( newPosition );
+	domain.add( building );
+	updateConstraints( vecConstraints, domain );
+      }
+
+    set< TypeVariable > getNecessaryVariables() const
+      {
+	// find all buildings accessible from the starting building and remove all others
+	int nberCurrent = *( domain->buildingsAt( domain->getStartingTile() ).begin() );
+	TypeVariable current = vecVariables[ nberCurrent ];
+	set< TypeVariable > toVisit = domain->getVariablesAround( *current, vecVariables );
+	set< TypeVariable > visited;
+	set< TypeVariable > neighbors;
+    
+	visited.insert( current );
+    
+	while( !toVisit.empty() )
+	{
+	  auto first = *( toVisit.begin() );
+	  current = first;
+	  toVisit.erase( first );
+	  neighbors = domain.getVariablesAround( *current, vecVariables );
+
+	  visited.insert( current );
+      
+	  for( auto n : neighbors )
+	    if( visited.find( n ) == visited.end() )
+	      toVisit.insert( n );
+	}
+
+	return visited;
+      }
+
+    vector< shared_ptr<TypeConstraint> >	vecConstraints;
+    vector< TypeVariable >			vecVariables;
+    vector<double>				variableCost;
+    TypeDomain					domain;
+    int						loops;
+    vector<int>					tabuList;
+    Random					randomVar;
+    FactoryObj					factory;
+    shared_ptr<Objective>			objective;
+    double					bestCost;
+    vector<int>					bestSolution;
+    multimap<int, TypeVariable>			buildingSameSize;
   };
 }
