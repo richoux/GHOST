@@ -45,7 +45,10 @@ namespace ghost
       : variables(variables), domain(domain) { }
 
     virtual double cost( vector<double>& ) const = 0;
-    virtual vector<double> simulateCost( TypeVariable&, const vector<int>&, vector< vector<double> >&, shared_ptr<Objective>& ) = 0;
+    virtual vector<double> simulateCost( TypeVariable&,
+					 const vector<int>&,
+					 vector< vector<double> >&,
+					 shared_ptr< Objective< TypeVariable, TypeDomain > >& ) = 0;
     
     virtual void update( const TypeDomain &d ) { domain = d; }
 

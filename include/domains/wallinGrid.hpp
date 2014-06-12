@@ -33,6 +33,7 @@
 #include <iostream>
 // #include <memory>
 
+#include "domain.hpp"
 #include "../variables/building.hpp"
 #include "../misc/random.hpp"
 
@@ -55,8 +56,6 @@ namespace ghost
 		int,
 		int ) ;
 
-    void		v_add( const Building& );
-    void		v_clear( const Building& );
     pair<int, int>	shift( Building& );
     void		quickShift( Building& );
     void		swap( Building&, Building& );	  
@@ -97,6 +96,8 @@ namespace ghost
     friend ostream& operator<<( ostream&, const WallinGrid& );
 
   private:
+    void v_add( const Building& );
+    void v_clear( const Building& );
     void add(int, int, string, int);
     void clear(int, int, string, int);
     

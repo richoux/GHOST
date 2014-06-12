@@ -45,9 +45,9 @@ namespace ghost
     Domain( int, int, const vector< int >& );
         
 
-    inline int		randomValue( const TypeVariable& var )		const	{ return v_randomValue(var); }
+    inline int		randomValue( const TypeVariable& var )			{ return v_randomValue(var); }
     inline vector<int>	possibleValues( const TypeVariable& var )	const	{ return v_possibleValues(var); }
-    inline void		resetDomain( const TypeVariable& var );			{ v_resetDomain(var); }
+    inline void		resetDomain( const TypeVariable& var )			{ v_resetDomain(var); }
     inline void		add( const TypeVariable& var )				{ v_add(var); }
     inline void		clear( const TypeVariable& var )			{ v_clear(var); }
     inline void		resetAllDomains()					{ v_resetAllDomains(); }
@@ -58,19 +58,19 @@ namespace ghost
       {
 	os << "Domain type: " <<  typeid(domain).name() << endl
 	   << "Size: " <<  domain.size << endl;
-	for( int i = 0; i < domains.size; ++i )
-	{
-	  os << "Domain[" << i << "]: ";
-	  for( auto& e : domains[i] )
-	    os << e << " ";
-	  os << endl;
-	}
-	os << endl;
+	// for( int i = 0; i < domains.size; ++i )
+	// {
+	//   os << "Domain[" << i << "]: ";
+	//   for( auto& e : domains[i] )
+	//     os << e << " ";
+	//   os << endl;
+	// }
+	// os << endl;
 	return os;
       }
 
   protected:
-    virtual int v_randomValue( const TypeVariable& variable ) const
+    virtual int v_randomValue( const TypeVariable& variable )
       {
 	vector<int> possibilities = domains[ variable.getId() ];
 	return possibilities[ random.getRandNum( possibilities.size() ) ];

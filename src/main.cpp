@@ -82,15 +82,15 @@ int main(int argc, char **argv)
   string objective = "g";
 
   // Define variables
-  vector<shared_ptr<Variable> >	vec = makeTerranBuildings();
+  vector< Building > vec = makeTerranBuildings();
 
   // Define domain
-  shared_ptr<Domain> grid = make_shared<WallinGrid>( 16, 12, unbuildables, vec, 11, 7, 6, 15 );
+  WallinGrid grid = WallinGrid( 16, 12, unbuildables, vec, 11, 7, 6, 15 );
 
   // Define constraints
-  vector< shared_ptr<Constraint> > vecConstraints = makeTerranConstraints( vec, grid );
+  vector< shared_ptr<WallinConstraint> > vecConstraints = makeTerranConstraints( vec, grid );
 
-  Solver solver( vecConstraints, vec, grid, objective );
+  Solver solver<Building, WallinGrid, WallinConstraint>( vecConstraints, vec, grid, objective );
 
 #ifndef NDEBUG
   cout << boolalpha << "Building movable: " << is_nothrow_move_constructible<Building>::value << endl;

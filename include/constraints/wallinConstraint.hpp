@@ -48,9 +48,9 @@ namespace ghost
     vector<double> simulateCost( Building &oldBuilding,
 				 const vector<int> &newPosition,
 				 vector< vector<double> > &vecVarSimCosts,
-				 shared_ptr<Objective> &objective )
+				 shared_ptr< Objective< Building, WallinGrid > > &objective )
       {
-	std::vector<double> simCosts( domain->getSize(), -1. );
+	std::vector<double> simCosts( domain.getSize(), -1. );
 	int backup = oldBuilding.getValue();
 	int previousPos;
     
