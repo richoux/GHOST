@@ -55,10 +55,10 @@ namespace ghost
 		int,
 		int ) ;
 
-    void		add( const Building& );
+    void		v_add( const Building& );
+    void		v_clear( const Building& );
     pair<int, int>	shift( Building& );
     void		quickShift( Building& );
-    void		clear( const Building& );
     void		swap( Building&, Building& );	  
     
     set< Building > getBuildingsAround( const Building &, const vector< Building >& )	const;

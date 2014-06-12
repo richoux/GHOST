@@ -36,28 +36,45 @@ using namespace std;
 
 namespace ghost
 {
+  /*******************/
+  /* WallinObjective */
+  /*******************/
+  class WallinObjective : public Objective<Building, WallinGrid>
+  {
+  public:
+    WallinObjective( string );
+    void v_setHelper( const Building &b, const vector< Building > &vecVariables, const WallinGrid &grid );
+    void v_postprocessSatisfaction( const vector< TypeVariable > &vecVariables,
+				    const TypeDomain &domain,
+				    double &bestCost,
+				    vector<int> &bestSolution ) const;
+  protected:
+    static int sizeWall;
+  };
+  
   /***********/
   /* NoneObj */
   /***********/
-  class NoneObj : public Objective<Building, WallinGrid>
+  class NoneObj : public WallinObjective
   {
   public:
     NoneObj( string );
-    double cost( const vector< Building > &vecBuildings, const WallinGrid& ) const;
-    int heuristicVariable( const vector< int > &vecVariables, const vector< Building > &vecBuildings, const WallinGrid& );
-    void setHelper( const Building&, const vector< Building >&, const WallinGrid& );
+    double v_cost( const vector< Building > &vecVariables, const WallinGrid& ) const;
+    int v_heuristicVariable( const vector< int > &vecId, const vector< Building > &vecVariables, const WallinGrid& );
+    void v_setHelper( const Building&, const vector< Building >&, const WallinGrid& );
+    void v_postprocessOptimization( const vector< Building > &vecVariables, const WallinGrid &domain, double &bestCost ) const;
   };
 
   /**********/
   /* GapObj */
   /**********/
-  class GapObj : public Objective<Building, WallinGrid>
+  class GapObj : public WallinObjective
   {
   public:
     GapObj( string );
-    double cost( const vector< Building > &vecBuildings, const WallinGrid& ) const;
-    int heuristicVariable( const vector< int > &vecVariables, const vector< Building > &vecBuildings, const WallinGrid& );
-    void setHelper( const Building&, const vector< Building >&, const WallinGrid& );
+    double v_cost( const vector< Building > &vecVariables, const WallinGrid& ) const;
+    int v_heuristicVariable( const vector< int > &vecId, const vector< Building > &vecVariables, const WallinGrid& );
+    void v_setHelper( const Building&, const vector< Building >&, const WallinGrid& );
   private:
     int gapSize( const Building&, const vector< Building >&, const WallinGrid& ) const;
   };
@@ -65,25 +82,24 @@ namespace ghost
   /***************/
   /* BuildingObj */
   /***************/
-  class BuildingObj : public Objective<Building, WallinGrid>
+  class BuildingObj : public WallinObjective
   {
   public:
     BuildingObj( string );
-    double cost( const vector< Building > &vecBuildings, const WallinGrid& ) const;
-    int heuristicVariable( const vector< int > &vecVariables, const vector< Building > &vecBuildings, const WallinGrid& );
-    void setHelper( const Building&, const vector< Building >&, const WallinGrid& );
+    double v_cost( const vector< Building > &vecVariables, const WallinGrid& ) const;
+    int v_heuristicVariable( const vector< int > &vecId, const vector< Building > &vecVariables, const WallinGrid& );
+    void v_postprocessOptimization( const vector< Building > &vecVariables, const WallinGrid &domain, double &bestCost ) const;
   };
 
   /***************/
   /* TreeTechObj */
   /***************/
-  class TechTreeObj : public Objective<Building, WallinGrid>
+  class TechTreeObj : public WallinObjective
   {
   public:
     TechTreeObj( string );
-    double cost( const vector< Building > &vecBuildings, const WallinGrid& ) const;
-    int heuristicVariable( const vector< int > &vecVariables, const vector< Building > &vecBuildings, const WallinGrid& );
-    void setHelper( const Building&, const vector< Building >&, const WallinGrid& );
+    double v_cost( const vector< Building > &vecVariables, const WallinGrid& ) const;
+    int v_heuristicVariable( const vector< int > &vecId, const vector< Building > &vecVariables, const WallinGrid& );
   };
 
   class FactoryObj

@@ -24,6 +24,15 @@
  */
 
 
+#include <cmath>
+#include <chrono>
+#include <ctime>
+#include <limits>
+#include <algorithm>
+#include <functional>
+#include <cassert>
+#include <typeinfo>
+
 #include "../include/solver.hpp"
 
 constexpr int TABU	= 5;
@@ -36,9 +45,6 @@ namespace ghost
     int xPos;
     int yPos;
 
-    string shortName;
-    //bool supplyIncluded = false;
-
     clearAllInGrid( vecVariables, domain );
 
     for( auto b : vecVariables )
@@ -46,16 +52,11 @@ namespace ghost
       // 1 chance over 3 to be placed on the domain
       if( randomVar.getRandNum(3) == 0)
       {
-	shortName = b->getName();
-		  
-	xPos = randomVar.getRandNum( domain->getNberRows() - b->getLength() );
-	yPos = randomVar.getRandNum( domain->getNberCols() - b->getHeight() );
-	b->setValue( domain->mat2lin( xPos, yPos ) );
-	
-	domain->add( *b );
+	b.setValue( domain.randomValue( b ) );
+	domain->add( b );
       }
       else
-	b->setValue( -1 );
+	b.setValue( -1 );
     }
 
     updateConstraints( vecConstraints, domain );
@@ -65,7 +66,6 @@ namespace ghost
   {
     chrono::duration<double,milli> elapsedTime;
     chrono::duration<double,milli> elapsedTimeTour;
-    chrono::duration<double,milli> postprocessGap(0);
     chrono::time_point<chrono::system_clock> start;
     chrono::time_point<chrono::system_clock> startTour;
     start = chrono::system_clock::now();
@@ -97,7 +97,6 @@ namespace ghost
     vector<int> worstVariables;
     double worstVariableCost;
     int worstVariableId;
-    int sizeWall;
 
     shared_ptr<Variable> oldVariable;
     vector<int> possiblePositions;
@@ -112,7 +111,6 @@ namespace ghost
       ++tour;
       globalCost = numeric_limits<int>::max();
       bestEstimatedCost = numeric_limits<int>::max();
-      sizeWall  = numeric_limits<int>::max();
       std::fill( varSimCost.begin(), varSimCost.end(), 0. );
       std::fill( bestSimCost.begin(), bestSimCost.end(), 0. );
       std::fill( vecConstraintsCosts.begin(), vecConstraintsCosts.end(), vector<double>( vecVariables.size(), 0. ) );
@@ -250,56 +248,8 @@ namespace ghost
 
       // remove useless buildings
       if( globalCost == 0 )
-      {
-	bool change;
-	double cost;
-	NoGaps ng( vecVariables, domain );
+	objective->postprocessSatisfaction( vecVariables, domain, bestCost, bestSolution );
 
-	// remove all unreachable buildings from the starting building out of the domain
-	set< shared_ptr<Variable> > visited = getNecessaryVariables();
-	for( auto b : vecVariables )
-	  if( visited.find( b ) == visited.end() )
-	  {
-	    domain->clear( *b );
-	    b->setValue( -1 );
-	  }
-
-	// clean wall from unnecessary buildings.
-	do
-	{
-	  for( auto b : vecVariables )
-	    if( ! domain->isStartingOrTargetTile( b->getId() ) )
-	    {
-	      change = false;
-	      if( b->isOnGrid() )
-	      {
-		cost = 0.;
-		fill( varSimCost.begin(), varSimCost.end(), 0. );
-	      
-		cost = ng.simulateCost( *b, -1, varSimCost );
-	      
-		if( cost == 0. )
-		{
-		  domain->clear( *b );
-		  b->setValue( -1 );
-		  ng.update( domain );
-		  change = true;
-		}	  
-	      }
-	    }
-	} while( change );
-
-	double objectiveCost = objective->cost( vecVariables, domain );
-	int currentSizeWall = countVariables( vecVariables );
-
-	if( objectiveCost < bestCost || ( objectiveCost == bestCost && currentSizeWall < sizeWall ) )
-	{
-	  sizeWall = currentSizeWall;
-	  bestCost = objectiveCost;
-	  for( int i = 0; i < vecVariables.size(); ++i )
-	    bestSolution[i] = vecVariables[i]->getValue();
-	}
-      }
       reset();
       elapsedTime = chrono::system_clock::now() - start;
     }
@@ -313,76 +263,79 @@ namespace ghost
     
     addAllInGrid( vecVariables, domain );
 
-    // For gap objective, try now to decrease the number of gaps.
-    if( ( objective->getName().compare("gap") == 0 || objective->getName().compare("techtree") == 0 ) && bestGlobalCost == 0 )
-    {
-      //objective.reset( new GapObj("gap") );
-      std::fill( tabuList.begin(), tabuList.end(), 0 );
-        
-      for( auto v : vecVariables )
-	buildingSameSize.insert( make_pair( v->getSurface(), v ) );
-
-      vector<int> goodVar;
-      shared_ptr<Variable> toSwap;
-      bool mustSwap;
-
-      chrono::time_point<chrono::system_clock> startPostprocess = chrono::system_clock::now(); 
+    if( bestGlobalCost == 0 )
+      objective->postprocessOptimization( vecVariables, domain, bestCost );
     
-      bestCost = objective->cost( vecVariables, domain );
-      double currentCost = bestCost;
-      beforePostProc = bestCost;
+    // // For gap objective, try now to decrease the number of gaps.
+    // if( ( objective->getName().compare("gap") == 0 || objective->getName().compare("techtree") == 0 ) && bestGlobalCost == 0 )
+    // {
+    //   //objective.reset( new GapObj("gap") );
+    //   std::fill( tabuList.begin(), tabuList.end(), 0 );
+        
+    //   for( auto v : vecVariables )
+    // 	buildingSameSize.insert( make_pair( v->getSurface(), v ) );
 
-      while( (postprocessGap = chrono::system_clock::now() - startPostprocess).count() < static_cast<int>( ceil(OPT_TIME / 100) ) && bestCost > 0 )
-      {
-	goodVar.clear();
+    //   vector<int> goodVar;
+    //   shared_ptr<Variable> toSwap;
+    //   bool mustSwap;
 
-	for( int i = 0; i < tabuList.size(); ++i )
-	{
-	  if( tabuList[i] <= 1 )
-	    tabuList[i] = 0;
-	  else
-	    --tabuList[i];
-	}
+    //   chrono::time_point<chrono::system_clock> startPostprocess = chrono::system_clock::now(); 
+    
+    //   bestCost = objective->cost( vecVariables, domain );
+    //   double currentCost = bestCost;
+    //   beforePostProc = bestCost;
 
-	for( int i = 0; i < vecVariables.size(); ++i )
-	{
-	  if( tabuList[i] == 0 )
-	    goodVar.push_back( i );
-	}
+    //   while( (postprocessGap = chrono::system_clock::now() - startPostprocess).count() < static_cast<int>( ceil(OPT_TIME / 100) ) && bestCost > 0 )
+    //   {
+    // 	goodVar.clear();
 
-	if( goodVar.empty() )
-	  for( int i = 0; i < vecVariables.size(); ++i )
-	    goodVar.push_back( i );	
+    // 	for( int i = 0; i < tabuList.size(); ++i )
+    // 	{
+    // 	  if( tabuList[i] <= 1 )
+    // 	    tabuList[i] = 0;
+    // 	  else
+    // 	    --tabuList[i];
+    // 	}
 
-	int index = objective->heuristicVariable( goodVar, vecVariables, domain );
-	oldVariable = vecVariables[ index ];
-	auto surface = buildingSameSize.equal_range( oldVariable->getSurface() );
+    // 	for( int i = 0; i < vecVariables.size(); ++i )
+    // 	{
+    // 	  if( tabuList[i] == 0 )
+    // 	    goodVar.push_back( i );
+    // 	}
+
+    // 	if( goodVar.empty() )
+    // 	  for( int i = 0; i < vecVariables.size(); ++i )
+    // 	    goodVar.push_back( i );	
+
+    // 	int index = objective->heuristicVariable( goodVar, vecVariables, domain );
+    // 	oldVariable = vecVariables[ index ];
+    // 	auto surface = buildingSameSize.equal_range( oldVariable->getSurface() );
 	
-	for( auto it = surface.first; it != surface.second; ++it )
-	{
-	  mustSwap = false;
-	  if( it->second->getId() != oldVariable->getId() )
-	  {
-	    domain->swap( *it->second, *oldVariable );
+    // 	for( auto it = surface.first; it != surface.second; ++it )
+    // 	{
+    // 	  mustSwap = false;
+    // 	  if( it->second->getId() != oldVariable->getId() )
+    // 	  {
+    // 	    domain->swap( *it->second, *oldVariable );
 	    
-	    currentCost = objective->cost( vecVariables, domain );
-	    if( currentCost < bestCost )
-	    {
-	      bestCost = currentCost;
-	      toSwap = it->second;
-	      mustSwap = true;
-	    }
+    // 	    currentCost = objective->cost( vecVariables, domain );
+    // 	    if( currentCost < bestCost )
+    // 	    {
+    // 	      bestCost = currentCost;
+    // 	      toSwap = it->second;
+    // 	      mustSwap = true;
+    // 	    }
 
-	    domain->swap( *it->second, *oldVariable );
-	  }
+    // 	    domain->swap( *it->second, *oldVariable );
+    // 	  }
 	  
-	  if( mustSwap )
-	    domain->swap( *toSwap, *oldVariable );
-	}
+    // 	  if( mustSwap )
+    // 	    domain->swap( *toSwap, *oldVariable );
+    // 	}
 
-	tabuList[ index ] = 2;//std::max(2, static_cast<int>( ceil(TABU / 2) ) );
-      }
-    }
+    // 	tabuList[ index ] = 2;//std::max(2, static_cast<int>( ceil(TABU / 2) ) );
+    //   }
+    // }
  
     cout << "Domains:" << domain << endl;
 
@@ -414,8 +367,8 @@ namespace ghost
 	   << "Opt Cost BEFORE post-processing: " << beforePostProc << endl;
     }
 
-    if( objective->getName().compare("gap") == 0 || objective->getName().compare("techtree") == 0 )
-      cout << "Post-processing time: " << postprocessGap.count() << endl; 
+    // if( objective->getName().compare("gap") == 0 || objective->getName().compare("techtree") == 0 )
+    //   cout << "Post-processing time: " << postprocessGap.count() << endl; 
 
 #ifndef NDEBUG
     cout << endl << "Elapsed time to simulate cost: " << timeSimCost.count() << endl

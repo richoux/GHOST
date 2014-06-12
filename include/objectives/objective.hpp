@@ -55,6 +55,14 @@ namespace ghost
 			   const TypeDomain &domain )
       { v_setHelper(variable, vecBuildings, domain); }
 
+    inline void postprocessSatisfaction( const vector< TypeVariable > &vecBuildings,
+					 const TypeDomain &domain )
+      { v_postprocessSatisfaction(vecBuildings, domain); }
+
+    inline void postprocessOptimization( const vector< TypeVariable > &vecBuildings,
+					 const TypeDomain &domain )
+      { v_postprocessOptimization(vecBuildings, domain); }
+
     inline string getName() { return name; }
 
     int		heuristicValue( const vector< double >&, double&, int& ) const;
@@ -72,6 +80,15 @@ namespace ghost
     virtual void	v_setHelper( const TypeVariable &b,
 				     const vector< TypeVariable > &vecBuildings,
 				     const TypeDomain &domain ) = 0;
+
+    virtual void v_postprocessSatisfaction( const vector< TypeVariable > &vecBuildings,
+					    const TypeDomain &domain,
+					    double &bestCost,
+					    vector<int> &bestSolution ) const { }
+
+    virtual void v_postprocessOptimization( const vector< TypeVariable > &vecBuildings,
+					    const TypeDomain &domain,
+					    double &bestCost ) const { }
 
     Random randomVar;
     string name;

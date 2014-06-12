@@ -39,7 +39,6 @@ namespace ghost
     Building(int, int, int, int, int, int, Race, int, string, string, int = -1);
 
     
-    inline bool isOnGrid()	const	{ return value != -1; }
     inline int getLength()	const	{ return length; }
     inline int getHeight()	const	{ return height; }
     inline int getSurface()	const	{ return height * length; }

@@ -48,6 +48,8 @@ namespace ghost
     inline int		randomValue( const TypeVariable& var )		const	{ return v_randomValue(var); }
     inline vector<int>	possibleValues( const TypeVariable& var )	const	{ return v_possibleValues(var); }
     inline void		resetDomain( const TypeVariable& var );			{ v_resetDomain(var); }
+    inline void		add( const TypeVariable& var )				{ v_add(var); }
+    inline void		clear( const TypeVariable& var )			{ v_clear(var); }
     inline void		resetAllDomains()					{ v_resetAllDomains(); }
     
     inline int getSize() const { return size; }
@@ -84,8 +86,11 @@ namespace ghost
 	domains[ variable.getId() ] = initialDomain;
       }
 
+    virtual void v_add( const TypeVariable& variable ) { }
+    virtual void v_clear( const TypeVariable& variable ) { }
+
     virtual void v_resetAllDomains();
-    
+
     int size;
     vector< vector< int > > domains;
     vector< int > initialDomain;

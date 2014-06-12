@@ -28,9 +28,9 @@
 
 namespace ghost
 {
-  void updateConstraints( const std::vector< std::shared_ptr<Constraint> > &vecConstraints, const shared_ptr<Domain> &domain )
+  int countSelectedVariables( const std::vector< Variable > &vec )
   {
-    std::for_each( vecConstraints.begin(), vecConstraints.end(), [&]( const std::shared_ptr<Constraint> &c ){ c->update( domain ); });
+    return std::count_if( vec.begin(), vec.end(), []( const Variable &b ){ return b->isSelected(); });
   }
 
   void printConstraints( const std::vector< std::shared_ptr<Constraint> > &vecConstraints )
@@ -38,13 +38,13 @@ namespace ghost
     std::for_each( vecConstraints.begin(), vecConstraints.end(), []( const std::shared_ptr<Constraint> &c ){ std::cout << *c << std::endl; });
   }
 
-  void addAllInGrid( const std::vector<std::shared_ptr<Building> > &vec, shared_ptr<Domain> &domain )
+  void addAllInGrid( const std::vector< Variable > &vec, Domain &domain )
   {
-    std::for_each( vec.begin(), vec.end(), [&]( const std::shared_ptr<Building> &b ){ domain->add(*b); });
+    std::for_each( vec.begin(), vec.end(), [&]( const Variable &b ){ domain.add(b); });
   }
 
-  void clearAllInGrid( const std::vector<std::shared_ptr<Building> > &vec, shared_ptr<Domain> &domain )
+  void clearAllInGrid( const std::vector< Variable > &vec, Domain &domain )
   {
-    std::for_each( vec.begin(), vec.end(), [&]( const std::shared_ptr<Building> &b ){ domain->clear(*b); });
+    std::for_each( vec.begin(), vec.end(), [&]( const Variable &b ){ domain.clear(b); });
   }
 }

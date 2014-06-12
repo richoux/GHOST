@@ -27,17 +27,8 @@
 #pragma once
 
 #include <vector>
-#include <map>
 #include <set>
 #include <memory>
-#include <cmath>
-#include <chrono>
-#include <ctime>
-#include <limits>
-#include <algorithm>
-#include <functional>
-#include <cassert>
-#include <typeinfo>
 
 #include "variables/variable.hpp"
 #include "constraints/constraint.hpp"
@@ -84,7 +75,7 @@ namespace ghost
   private:
     void reset();
 
-    void move( TypeVariable& building, int newPosition )
+    inline void move( TypeVariable& building, int newPosition )
       {
 	domain.clear( building );
 	building.setValue( newPosition );
@@ -92,33 +83,33 @@ namespace ghost
 	updateConstraints( vecConstraints, domain );
       }
 
-    set< TypeVariable > getNecessaryVariables() const
-      {
-	// find all buildings accessible from the starting building and remove all others
-	int nberCurrent = *( domain->buildingsAt( domain->getStartingTile() ).begin() );
-	TypeVariable current = vecVariables[ nberCurrent ];
-	set< TypeVariable > toVisit = domain->getVariablesAround( *current, vecVariables );
-	set< TypeVariable > visited;
-	set< TypeVariable > neighbors;
+    // set< TypeVariable > getNecessaryVariables() const
+    //   {
+    // 	// find all buildings accessible from the starting building and remove all others
+    // 	int nberCurrent = *( domain->buildingsAt( domain->getStartingTile() ).begin() );
+    // 	TypeVariable current = vecVariables[ nberCurrent ];
+    // 	set< TypeVariable > toVisit = domain->getVariablesAround( *current, vecVariables );
+    // 	set< TypeVariable > visited;
+    // 	set< TypeVariable > neighbors;
     
-	visited.insert( current );
+    // 	visited.insert( current );
     
-	while( !toVisit.empty() )
-	{
-	  auto first = *( toVisit.begin() );
-	  current = first;
-	  toVisit.erase( first );
-	  neighbors = domain.getVariablesAround( *current, vecVariables );
+    // 	while( !toVisit.empty() )
+    // 	{
+    // 	  auto first = *( toVisit.begin() );
+    // 	  current = first;
+    // 	  toVisit.erase( first );
+    // 	  neighbors = domain.getVariablesAround( *current, vecVariables );
 
-	  visited.insert( current );
+    // 	  visited.insert( current );
       
-	  for( auto n : neighbors )
-	    if( visited.find( n ) == visited.end() )
-	      toVisit.insert( n );
-	}
+    // 	  for( auto n : neighbors )
+    // 	    if( visited.find( n ) == visited.end() )
+    // 	      toVisit.insert( n );
+    // 	}
 
-	return visited;
-      }
+    // 	return visited;
+    //   }
 
     vector< shared_ptr<TypeConstraint> >	vecConstraints;
     vector< TypeVariable >			vecVariables;
@@ -131,6 +122,5 @@ namespace ghost
     shared_ptr<Objective>			objective;
     double					bestCost;
     vector<int>					bestSolution;
-    multimap<int, TypeVariable>			buildingSameSize;
   };
 }

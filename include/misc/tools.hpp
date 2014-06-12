@@ -30,10 +30,9 @@
 #include <vector>
 #include <memory>
 
-#include "../variables/building.hpp"
+#include "../variables/variable.hpp"
 #include "../constraints/constraint.hpp"
 #include "../domains/domain.hpp"
-#include "../domains/wallinGrid.hpp"
 
 namespace ghost
 {
@@ -43,7 +42,8 @@ namespace ghost
     std::for_each( vecConstraints.begin(), vecConstraints.end(), [&]( const std::shared_ptr<Constraint> &c ){ c->update( domain ); });
   }
   
+  int  countSelectedVariables( const std::vector< Variable >& );
   void printConstraints( const std::vector< std::shared_ptr<Constraint> >& );
-  void addAllInGrid( const std::vector< std::shared_ptr<Building> >&, shared_ptr<Domain>& );
-  void clearAllInGrid( const std::vector< std::shared_ptr<Building> >&, shared_ptr<Domain>& );
+  void addAllInGrid( const std::vector< Variable >&, Domain& );
+  void clearAllInGrid( const std::vector< Variable >&, Domain& );
 }

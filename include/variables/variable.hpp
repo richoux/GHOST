@@ -47,6 +47,7 @@ namespace ghost
     inline int		getId()				const	{ return id; }
     inline string	getName()			const	{ return name; }
     inline string	getFullName()			const	{ return fullName; }
+    inline bool		isSelected()			const	{ return value != -1; }
 
     friend ostream& operator<<( ostream&, const Variable& );
     

@@ -69,7 +69,7 @@ namespace ghost
       domains[ v.getId() ] = possiblePos( v );
   }
 
-  void WallinGrid::add( const Building& building )
+  void WallinGrid::v_add( const Building& building )
   {
     if( building.isOnWallinGrid() )
     {
@@ -100,6 +100,46 @@ namespace ghost
     }
   }
   
+  void WallinGrid::v_clear( const Building& building )
+  {
+    if( building.isOnWallinGrid() )
+    {
+      pair<int, int> pos = lin2mat( building.getValue() );
+      int row = pos.first;
+      int col = pos.second;
+      
+      for( int x = row; x < row + building.getHeight(); ++x )
+	for( int y = col; y < col + building.getLength(); ++y )
+	  clear(x, y, building.getName(), building.getId() );
+    }
+  }
+
+  // Not sure; fix later
+  void WallinGrid::clear( int row, int col, string b_short, int b_id )
+  {
+    auto it = matrixType_[row][col].find( b_short );
+    if( it != string::npos )
+    {
+      matrixType_[row][col].replace( it,
+				     b_short.length(),
+				     "" );
+      matrixId_[row][col].erase( b_id );
+      
+      pair<int, int> key(row, col);
+      mapFail::iterator it = failures_.find( key );
+      
+      if( it != failures_.end() )
+      {
+	if( matrixType_[row][col].size() < 2 
+	    || matrixType_[row][col].compare("###") == 0 
+	    || ( matrixType_[row][col].size() == 2 && matrixType_[row][col].find("@") != string::npos ) )
+	  failures_.erase( it );
+	else
+	  failures_.at( key ) = matrixType_[row][col];
+      }
+    }
+  }
+
   pair<int, int> WallinGrid::shift( Building& building )
   {
     int overlaps = 0;
@@ -168,53 +208,13 @@ namespace ghost
     }
   }
 
-  void WallinGrid::clear( const Building& building )
-  {
-    if( building.isOnWallinGrid() )
-    {
-      pair<int, int> pos = lin2mat( building.getValue() );
-      int row = pos.first;
-      int col = pos.second;
-      
-      for( int x = row; x < row + building.getHeight(); ++x )
-	for( int y = col; y < col + building.getLength(); ++y )
-	  clear(x, y, building.getName(), building.getId() );
-    }
-  }
-
-  // Not sure; fix later
-  void WallinGrid::clear( int row, int col, string b_short, int b_id )
-  {
-    auto it = matrixType_[row][col].find( b_short );
-    if( it != string::npos )
-    {
-      matrixType_[row][col].replace( it,
-				     b_short.length(),
-				     "" );
-      matrixId_[row][col].erase( b_id );
-      
-      pair<int, int> key(row, col);
-      mapFail::iterator it = failures_.find( key );
-      
-      if( it != failures_.end() )
-      {
-	if( matrixType_[row][col].size() < 2 
-	    || matrixType_[row][col].compare("###") == 0 
-	    || ( matrixType_[row][col].size() == 2 && matrixType_[row][col].find("@") != string::npos ) )
-	  failures_.erase( it );
-	else
-	  failures_.at( key ) = matrixType_[row][col];
-      }
-    }
-  }
-
   void WallinGrid::swap( Building &first, Building &second )
   {
-    clear( first );
-    clear( second );
+    v_clear( first );
+    v_clear( second );
     first.swapValue( second );
-    add( first );
-    add( second );
+    v_add( first );
+    v_add( second );
   }  
 
   set< Building > WallinGrid::getBuildingsAround ( const Building& b, const vector< Building >& variables ) const
