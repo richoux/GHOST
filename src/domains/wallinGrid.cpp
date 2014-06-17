@@ -66,10 +66,7 @@ namespace ghost
       matrixType_[u.first][u.second].assign(3, '#');
 
     for( const auto &v : variables )
-    {
-      cout << v.getId() << endl;
       domains[ v.getId() ] = possiblePos( v );
-    }
   }
 
   void WallinGrid::v_add( const Building& building )
