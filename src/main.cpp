@@ -95,13 +95,12 @@ int main(int argc, char **argv)
 
 #ifndef NDEBUG
   cout << boolalpha << "Building movable: " << is_nothrow_move_constructible<Building>::value << endl;
-  cout << boolalpha << "Barracks movable: " << is_nothrow_move_constructible<Barracks>::value << endl;
   cout << boolalpha << "Grid movable: " << is_nothrow_move_constructible<WallinGrid>::value << endl;
-  cout << boolalpha << "Solver movable: " << is_nothrow_move_constructible<Solver>::value << endl;
+  cout << boolalpha << "Solver movable: " << is_nothrow_move_constructible<Solver<Building, WallinGrid, WallinConstraint> >::value << endl;
   cout << boolalpha << "Random movable: " << is_nothrow_move_constructible<Random>::value << endl;
-  cout << boolalpha << "Constraint movable: " << is_nothrow_move_constructible<Constraint>::value << endl;
+  cout << boolalpha << "Constraint movable: " << is_nothrow_move_constructible<WallinConstraint>::value << endl;
   cout << boolalpha << "Overlap movable: " << is_nothrow_move_constructible<Overlap>::value << endl;
-  cout << boolalpha << "Objective movable: " << is_nothrow_move_constructible<Objective>::value << endl;
+  cout << boolalpha << "Objective movable: " << is_nothrow_move_constructible<WallinObjective>::value << endl;
   cout << boolalpha << "GapObj movable: " << is_nothrow_move_constructible<GapObj>::value << endl;
 #endif
 

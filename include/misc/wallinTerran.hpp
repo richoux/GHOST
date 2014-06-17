@@ -44,8 +44,8 @@ namespace ghost
     Building a2 = factoryTerranBuilding("Academy");
 
     // Armory
-    Building r1 = factoryTerranBuilding("Armory");
-    Building r2 = factoryTerranBuilding("Armory");
+    // Building r1 = factoryTerranBuilding("Armory");
+    // Building r2 = factoryTerranBuilding("Armory");
 
     // Barracks
     Building b1 = factoryTerranBuilding("Barracks");
@@ -56,28 +56,28 @@ namespace ghost
     Building u2 = factoryTerranBuilding("Bunker");
 
     // Command Center
-    Building c1 = factoryTerranBuilding("Command Center");
-    Building c2 = factoryTerranBuilding("Command Center");
+    // Building c1 = factoryTerranBuilding("Command Center");
+    // Building c2 = factoryTerranBuilding("Command Center");
 
     // Engineering Bay
-    Building e1 = factoryTerranBuilding("Engineering Bay");
-    Building e2 = factoryTerranBuilding("Engineering Bay");
+    // Building e1 = factoryTerranBuilding("Engineering Bay");
+    // Building e2 = factoryTerranBuilding("Engineering Bay");
 
     // Factory
     Building f1 = factoryTerranBuilding("Factory");
     Building f2 = factoryTerranBuilding("Factory");
 
     // Missile Turret
-    Building t1 = factoryTerranBuilding("Missile Turret");
-    Building t2 = factoryTerranBuilding("Missile Turret");
+    // Building t1 = factoryTerranBuilding("Missile Turret");
+    // Building t2 = factoryTerranBuilding("Missile Turret");
   
     // Science Facility
-    Building i1 = factoryTerranBuilding("Science Facility");
-    Building i2 = factoryTerranBuilding("Science Facility");
+    // Building i1 = factoryTerranBuilding("Science Facility");
+    // Building i2 = factoryTerranBuilding("Science Facility");
 
     // Starport
-    Building p1 = factoryTerranBuilding("Starport");
-    Building p2 = factoryTerranBuilding("Starport");
+    // Building p1 = factoryTerranBuilding("Starport");
+    // Building p2 = factoryTerranBuilding("Starport");
 
     // Supply Depot
     Building s1 = factoryTerranBuilding("Supply Depot");

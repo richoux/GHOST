@@ -36,8 +36,12 @@ namespace ghost
   class Variable
   {
   public:
+    Variable() { }
     Variable( string, string, int = -1 );
-
+    Variable(const Variable&);
+    Variable& operator=(Variable);
+    void swap(Variable&);
+    
     inline bool		operator<( const Variable& other )	const	{ return v_operatorInf( other ); }
     inline void		shiftValue()					{ v_shiftValue(); }
     inline void		swapValue( Variable &other )			{ v_swapValue( other ); }

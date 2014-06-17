@@ -53,7 +53,41 @@ namespace ghost
       race(race),
       treedepth(treedepth)
   { }
-  
+
+  Building::Building( const Building &other )
+    : Variable(other),
+      length(other.length),
+      height(other.height),
+      gapTop(other.gapTop), 
+      gapRight(other.gapRight), 
+      gapBottom(other.gapBottom), 
+      gapLeft(other.gapLeft),
+      race(other.race),
+      treedepth(other.treedepth)
+  { }
+
+  Building& Building::operator=( Building other )
+  {
+    this->swap( other );
+    return *this;
+  }
+
+  void Building::swap( Building &other )
+  {
+    std::swap(this->name, other.name);
+    std::swap(this->fullName, other.fullName);
+    std::swap(this->id, other.id);
+    std::swap(this->value, other.value);
+    std::swap(this->length, other.length);
+    std::swap(this->height, other.height);
+    std::swap(this->gapTop, other.gapTop);
+    std::swap(this->gapRight, other.gapRight);
+    std::swap(this->gapBottom, other.gapBottom);
+    std::swap(this->gapLeft, other.gapLeft);
+    std::swap(this->race, other.race);
+    std::swap(this->treedepth, other.treedepth);
+  }
+
   ostream& operator<<( ostream& os, const Building& b )
   {
     return os

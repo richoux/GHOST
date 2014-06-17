@@ -41,6 +41,27 @@ namespace ghost
       value(value)
   { }
 
+  Variable::Variable( const Variable &other )
+    : name(other.name),
+      fullName(other.fullName),
+      id(other.id),
+      value(other.value)
+  { }
+
+  Variable& Variable::operator=( Variable other )
+  {
+    this->swap( other );
+    return *this;
+  }
+
+  void Variable::swap( Variable &other )
+  {
+    std::swap(this->name, other.name);
+    std::swap(this->fullName, other.fullName);
+    std::swap(this->id, other.id);
+    std::swap(this->value, other.value);
+  }
+  
   std::ostream& operator<<( std::ostream& os, const Variable& v )
   {
     return os
@@ -52,7 +73,7 @@ namespace ghost
       << "-------" << std::endl;
   }
 
-  virtual bool Variable::v_operatorInf( const Variable& other )	const	{ return id < other.id; }
-  virtual void Variable::v_shiftValue()					{ ++value; }
-  virtual void Variable::v_swapValue( Variable &other )			{ std::swap(this->value, other.value); }
+  bool Variable::v_operatorInf( const Variable& other )	const	{ return id < other.id; }
+  void Variable::v_shiftValue()					{ ++value; }
+  void Variable::v_swapValue( Variable &other )			{ std::swap(this->value, other.value); }
 }

@@ -136,7 +136,7 @@ namespace ghost
     }
   }
 
-  void WallinObjective::v_postprocessOptimization( const vector< Building > &vecVariables, WallinGrid &domain, double &bestCost ) const
+  void WallinObjective::v_postprocessOptimization( const vector< Building > &vecVariables, WallinGrid &domain, double &bestCost ) 
   {
     vector<int> tabuList( vecVariables.size() );
     std::fill( tabuList.begin(), tabuList.end(), 0 );
@@ -148,13 +148,13 @@ namespace ghost
 
     Building oldVariable;
     vector<int> goodVar;
-    shared_ptr<Variable> toSwap;
+    Building toSwap;
     bool mustSwap;
 
     chrono::time_point<chrono::system_clock> startPostprocess = chrono::system_clock::now(); 
     chrono::duration<double,milli> postprocessGap(0);
     
-    bestCost = this->cost( vecVariables, domain );
+    bestCost = v_cost( vecVariables, domain );
     double currentCost = bestCost;
 
     while( (postprocessGap = chrono::system_clock::now() - startPostprocess).count() < static_cast<int>( ceil(OPT_TIME / 100) ) && bestCost > 0 )
@@ -179,7 +179,7 @@ namespace ghost
 	for( int i = 0; i < vecVariables.size(); ++i )
 	  goodVar.push_back( i );	
 
-      int index = this->heuristicVariable( goodVar, vecVariables, domain );
+      int index = v_heuristicVariable( goodVar, vecVariables, domain );
       oldVariable = vecVariables[ index ];
       auto surface = buildingSameSize.equal_range( oldVariable.getSurface() );
 	
@@ -190,7 +190,7 @@ namespace ghost
 	{
 	  domain.swap( it->second, oldVariable );
 	    
-	  currentCost = this->cost( vecVariables, domain );
+	  currentCost = v_cost( vecVariables, domain );
 	  if( currentCost < bestCost )
 	  {
 	    bestCost = currentCost;
@@ -233,7 +233,7 @@ namespace ghost
       heuristicValueHelper.at( b.getValue() ) = 0;
   }
 
-  void NoneObj::v_postprocessOptimization( const vector< Building > &vecVariables, const WallinGrid &domain, double &bestCost ) const { }
+  void NoneObj::v_postprocessOptimization( const vector< Building > &vecVariables, const WallinGrid &domain, double &bestCost ) { }
   
   /**********/
   /* GapObj */
@@ -261,7 +261,7 @@ namespace ghost
     auto worst =  max_element(vecId.begin(),
 			      vecId.end(),
 			      [&](int v1, int v2)
-			      {return gapSize( *vecVariables[v1], vecVariables, grid ) < gapSize( *vecVariables[v2], vecVariables, grid );} );
+			      {return gapSize( vecVariables[v1], vecVariables, grid ) < gapSize( vecVariables[v2], vecVariables, grid );} );
 
     return *(worst);
   }
@@ -351,7 +351,7 @@ namespace ghost
     return varOnGrid[ randomVar.getRandNum( size ) ];    
   }
 
-  void BuildingObj::v_postprocessOptimization( const vector< Building > &vecVariables, const WallinGrid &domain, double &bestCost ) const { }
+  void BuildingObj::v_postprocessOptimization( const vector< Building > &vecVariables, const WallinGrid &domain, double &bestCost ) { }
 
   /***************/
   /* TechTreeObj */
@@ -401,7 +401,7 @@ namespace ghost
     auto it = copy_if( vecId.begin(),
 		       vecId.end(),
 		       varMinTech.begin(),
-		       [&](int b){return vecVariables[b].getTreedepth() == min;} );
+		       [&](int b){return vecVariables[b].getTreedepth() == *min;} );
     
     int size = distance( varMinTech.begin(), it );
 

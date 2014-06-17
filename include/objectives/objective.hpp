@@ -120,14 +120,14 @@ namespace ghost
 				     const vector< TypeVariable > &vecBuildings,
 				     const TypeDomain &domain ) = 0;
 
-    virtual void v_postprocessSatisfaction( vector< TypeVariable > &vecBuildings,
-					    TypeDomain &domain,
-					    double &bestCost,
-					    vector<int> &bestSolution ) const { }
+    virtual void	v_postprocessSatisfaction( vector< TypeVariable > &vecBuildings,
+						   TypeDomain &domain,
+						   double &bestCost,
+						   vector<int> &bestSolution ) const { }
 
-    virtual void v_postprocessOptimization( const vector< TypeVariable > &vecBuildings,
-					    TypeDomain &domain,
-					    double &bestCost ) const { }
+    virtual void	v_postprocessOptimization( const vector< TypeVariable > &vecBuildings,
+						   TypeDomain &domain,
+						   double &bestCost ) { }
 
     Random randomVar;
     string name;

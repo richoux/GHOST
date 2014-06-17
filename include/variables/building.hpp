@@ -38,6 +38,9 @@ namespace ghost
   public:
     Building();
     Building(int, int, int, int, int, int, Race, int, string, string, int = -1);
+    Building(const Building&);
+    Building& operator=(Building);
+    void swap(Building&);
 
     
     inline int getLength()	const	{ return length; }

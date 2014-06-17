@@ -62,7 +62,10 @@ namespace ghost
 	initialDomain(initialDomain)
       {
 	for( int i = 0; i < numberVariables; ++i )
-	  std::copy( begin(initialDomain), end(initialDomain), domains[i] );
+	{
+	  domains[i] = vector<int>( size );	  
+	  std::copy( begin(initialDomain), end(initialDomain), domains[i].begin() );
+	}
       }
         
 
