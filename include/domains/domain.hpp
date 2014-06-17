@@ -29,6 +29,8 @@
 #include <vector>
 #include <iostream>
 #include <typeinfo>
+#include <algorithm>
+#include <numeric>
 
 // #include "../variables/variable.hpp"
 #include "../misc/random.hpp"
@@ -41,8 +43,27 @@ namespace ghost
   class Domain
   {
   public:
-    Domain( int, int );
-    Domain( int, int, const vector< int >& );
+    Domain( int size, int numberVariables )
+      : size(size),
+	domains(vector< vector<int> >( numberVariables )),
+	initialDomain(vector<int>( size ))
+      {
+	std::iota( begin(initialDomain), end(initialDomain), -1 );
+	for( int i = 0; i < numberVariables; ++i )
+	{
+	  domains[i] = vector<int>( size );
+	  std::iota( begin(domains[i]), end(domains[i]), -1 );
+	}
+      }
+
+    Domain( int size, int numberVariables, const vector< int > &initialDomain )
+      : size(size),
+	domains(vector< vector<int> >( numberVariables )),
+	initialDomain(initialDomain)
+      {
+	for( int i = 0; i < numberVariables; ++i )
+	  std::copy( begin(initialDomain), end(initialDomain), domains[i] );
+      }
         
 
     inline int		randomValue( const TypeVariable& var )			{ return v_randomValue(var); }
@@ -89,7 +110,11 @@ namespace ghost
     virtual void v_add( const TypeVariable& variable ) { }
     virtual void v_clear( const TypeVariable& variable ) { }
 
-    virtual void v_resetAllDomains();
+    virtual void v_resetAllDomains()
+      {
+	for( auto& d : domains )
+	  d = initialDomain;
+      }
 
     int size;
     vector< vector< int > > domains;

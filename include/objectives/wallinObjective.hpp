@@ -29,8 +29,9 @@
 #include <vector>
 #include <memory>
 
-#include "../variable/building.hpp"
-#include "../domain/wallinGrid.hpp"
+#include "objective.hpp"
+#include "../variables/building.hpp"
+#include "../domains/wallinGrid.hpp"
 
 using namespace std;
 
@@ -42,10 +43,10 @@ namespace ghost
   class WallinObjective : public Objective<Building, WallinGrid>
   {
   public:
-    WallinObjective( string );
+    WallinObjective( const string & );
     void v_setHelper( const Building &b, const vector< Building > &vecVariables, const WallinGrid &grid );
-    void v_postprocessSatisfaction( const vector< TypeVariable > &vecVariables,
-				    const TypeDomain &domain,
+    void v_postprocessSatisfaction( const vector< Building > &vecVariables,
+				    const WallinGrid &domain,
 				    double &bestCost,
 				    vector<int> &bestSolution ) const;
   protected:
@@ -58,7 +59,7 @@ namespace ghost
   class NoneObj : public WallinObjective
   {
   public:
-    NoneObj( string );
+    NoneObj();
     double v_cost( const vector< Building > &vecVariables, const WallinGrid& ) const;
     int v_heuristicVariable( const vector< int > &vecId, const vector< Building > &vecVariables, const WallinGrid& );
     void v_setHelper( const Building&, const vector< Building >&, const WallinGrid& );
@@ -71,7 +72,7 @@ namespace ghost
   class GapObj : public WallinObjective
   {
   public:
-    GapObj( string );
+    GapObj();
     double v_cost( const vector< Building > &vecVariables, const WallinGrid& ) const;
     int v_heuristicVariable( const vector< int > &vecId, const vector< Building > &vecVariables, const WallinGrid& );
     void v_setHelper( const Building&, const vector< Building >&, const WallinGrid& );
@@ -85,7 +86,7 @@ namespace ghost
   class BuildingObj : public WallinObjective
   {
   public:
-    BuildingObj( string );
+    BuildingObj();
     double v_cost( const vector< Building > &vecVariables, const WallinGrid& ) const;
     int v_heuristicVariable( const vector< int > &vecId, const vector< Building > &vecVariables, const WallinGrid& );
     void v_postprocessOptimization( const vector< Building > &vecVariables, const WallinGrid &domain, double &bestCost ) const;
@@ -97,14 +98,8 @@ namespace ghost
   class TechTreeObj : public WallinObjective
   {
   public:
-    TechTreeObj( string );
+    TechTreeObj();
     double v_cost( const vector< Building > &vecVariables, const WallinGrid& ) const;
     int v_heuristicVariable( const vector< int > &vecId, const vector< Building > &vecVariables, const WallinGrid& );
-  };
-
-  class FactoryObj
-  {
-  public:
-    shared_ptr<Objective> makeObjective( const string& ) const;
   };
 }

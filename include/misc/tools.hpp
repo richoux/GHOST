@@ -36,14 +36,32 @@
 
 namespace ghost
 {
-  template <typename TypeDomain>
-  void updateConstraints( const std::vector< std::shared_ptr<Constraint> > &vecConstraints, const TypeDomain &domain )
-  {
-    std::for_each( vecConstraints.begin(), vecConstraints.end(), [&]( const std::shared_ptr<Constraint> &c ){ c->update( domain ); });
-  }
+  // template <typename TypeVariable, typename TypeDomain>
+  // void updateConstraints( const std::vector< std::shared_ptr<Constraint<TypeVariable, TypeDomain> > > &vecConstraints, const TypeDomain &domain )
+  // {
+  //   std::for_each( vecConstraints.begin(), vecConstraints.end(), [&]( const std::shared_ptr<Constraint<TypeVariable, TypeDomain> > &c ){ c->update( domain ); });
+  // }
   
-  int  countSelectedVariables( const std::vector< Variable >& );
-  void printConstraints( const std::vector< std::shared_ptr<Constraint> >& );
-  void addAllInGrid( const std::vector< Variable >&, Domain& );
-  void clearAllInGrid( const std::vector< Variable >&, Domain& );
+  template <typename TypeVariable, typename TypeDomain>
+  void printConstraints( const std::vector< std::shared_ptr<Constraint<TypeVariable, TypeDomain> > >&vecConstraints )
+  {
+    std::for_each( vecConstraints.begin(), vecConstraints.end(), []( const std::shared_ptr<Constraint<TypeVariable, TypeDomain> > &c ){ std::cout << *c << std::endl; });
+  }
+
+  // template <typename TypeVariable, typename TypeDomain>
+  // void addAllInGrid( const std::vector< TypeVariable > &vec, TypeDomain &domain )
+  // {
+  //   std::for_each( vec.begin(), vec.end(), [&]( const TypeVariable &b ){ domain.add(b); });
+  // }
+
+  // template <typename TypeVariable, typename TypeDomain>
+  // void clearAllInGrid( const std::vector< TypeVariable > &vec, TypeDomain &domain )
+  // {
+  //   std::for_each( vec.begin(), vec.end(), [&]( const TypeVariable &b ){ domain.clear(b); });
+  // }
+
+  int countSelectedVariables( const std::vector< Variable > &vec )
+  {
+    return std::count_if( vec.begin(), vec.end(), []( const Variable &b ){ return b.isSelected(); });
+  }
 }

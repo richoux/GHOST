@@ -48,16 +48,16 @@ namespace ghost
     vector<double> simulateCost( Building &oldBuilding,
 				 const vector<int> &newPosition,
 				 vector< vector<double> > &vecVarSimCosts,
-				 shared_ptr< Objective< Building, WallinGrid > > &objective )
+				 shared_ptr< Objective< Building, WallinGrid > > objective )
       {
 	std::vector<double> simCosts( domain.getSize(), -1. );
 	int backup = oldBuilding.getValue();
-	int previousPos;
+	int previousPos = 0;
     
 	if( objective )
 	  objective->resetHelper();
 
-	for( auto pos : newPosition )
+	for( auto &pos : newPosition )
 	{
 	  if( pos >= 1 && pos == previousPos + 1 )
 	  {
@@ -87,7 +87,7 @@ namespace ghost
 					 const vector<int> &newPosition,
 					 vector< vector<double> > &vecVarSimCosts )
       {
-	return simulateCost( oldBuilding, newPosition, vecVarSimCosts, NULL );
+	return simulateCost( oldBuilding, newPosition, vecVarSimCosts, nullptr );
       }
 
   protected:

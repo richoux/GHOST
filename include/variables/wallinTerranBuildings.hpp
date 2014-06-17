@@ -58,6 +58,6 @@ namespace ghost
       return Building(4, 3, 8, 15, 9, 16, Terran, 3, "P", "Terran_Starport", pos);
     if( name.compare("s") || name.compare("S") || name.compare("Supply Depot") )
       return Building(3, 2, 10, 9, 5, 10, Terran, 0, "S", "Terran_Supply_Depot", pos);
-    return;
+    return Building();
   }
 }

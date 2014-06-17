@@ -71,7 +71,7 @@ namespace ghost
 
   void WallinGrid::v_add( const Building& building )
   {
-    if( building.isOnWallinGrid() )
+    if( building.isSelected() )
     {
       pair<int, int> pos = lin2mat( building.getValue() );
       int row = pos.first;
@@ -102,7 +102,7 @@ namespace ghost
   
   void WallinGrid::v_clear( const Building& building )
   {
-    if( building.isOnWallinGrid() )
+    if( building.isSelected() )
     {
       pair<int, int> pos = lin2mat( building.getValue() );
       int row = pos.first;
@@ -145,7 +145,7 @@ namespace ghost
     int overlaps = 0;
     int unbuildables = 0;
     
-    if( building.isOnWallinGrid() )
+    if( building.isSelected() )
     {
       pair<int, int> pos = lin2mat( building.getValue() );
       int row = pos.first;
@@ -189,7 +189,7 @@ namespace ghost
 
   void WallinGrid::quickShift( Building& building )
   {
-    if( building.isOnWallinGrid() )
+    if( building.isSelected() )
     {
       pair<int, int> pos = lin2mat( building.getValue() );
       int row = pos.first;
@@ -221,7 +221,7 @@ namespace ghost
   {
     set< Building > myNeighbors;
 
-    if( b.isOnWallinGrid() )
+    if( b.isSelected() )
     {
       pair<int, int> coordinates = lin2mat( b.getValue() );
 
@@ -230,9 +230,9 @@ namespace ghost
       int bottom = coordinates.first + b.getHeight() - 1;
       int left = coordinates.second;
 
-      for(auto other : variables )
+      for(auto &other : variables )
       {
-  	if( other.getId() != b.getId() && other.isOnWallinGrid() )
+  	if( other.getId() != b.getId() && other.isSelected() )
   	{
   	  pair<int, int> xyOther = lin2mat( other.getValue() );
   	  int otherTop = xyOther.first;
@@ -258,7 +258,7 @@ namespace ghost
   {
     set< Building > myNeighbors;
 
-    if( b.isOnWallinGrid() )
+    if( b.isSelected() )
     {
       pair<int, int> coordinates = lin2mat( b.getValue() );
 
@@ -266,9 +266,9 @@ namespace ghost
       int right = coordinates.second + b.getLength() - 1;
       int left = coordinates.second;
 
-      for(auto other : variables )
+      for(auto &other : variables )
       {
-	if( other.getId() != b.getId() && other.isOnWallinGrid() )
+	if( other.getId() != b.getId() && other.isSelected() )
 	{
 	  pair<int, int> xyOther = lin2mat( other.getValue() );
 	  int otherRight = xyOther.second + other.getLength() - 1;
@@ -288,7 +288,7 @@ namespace ghost
   {
     set< Building > myNeighbors;
 
-    if( b.isOnWallinGrid() )
+    if( b.isSelected() )
     {
       pair<int, int> coordinates = lin2mat( b.getValue() );
 
@@ -296,9 +296,9 @@ namespace ghost
       int right = coordinates.second + b.getLength() - 1;
       int bottom = coordinates.first + b.getHeight() - 1;
 
-      for(auto other : variables )
+      for(auto &other : variables )
       {
-	if( other.getId() != b.getId() && other.isOnWallinGrid() )
+	if( other.getId() != b.getId() && other.isSelected() )
 	{
 	  pair<int, int> xyOther = lin2mat( other.getValue() );
 	  int otherTop = xyOther.first;
@@ -318,7 +318,7 @@ namespace ghost
   {
     set< Building > myNeighbors;
 
-    if( b.isOnWallinGrid() )
+    if( b.isSelected() )
     {
       pair<int, int> coordinates = lin2mat( b.getValue() );
 
@@ -326,9 +326,9 @@ namespace ghost
       int bottom = coordinates.first + b.getHeight() - 1;
       int left = coordinates.second;
 
-      for(auto other : variables )
+      for(auto &other : variables )
       {
-	if( other.getId() != b.getId() && other.isOnWallinGrid() )
+	if( other.getId() != b.getId() && other.isSelected() )
 	{
 	  pair<int, int> xyOther = lin2mat( other.getValue() );
 	  int otherTop = xyOther.first;
@@ -348,7 +348,7 @@ namespace ghost
   {
     set< Building > myNeighbors;
 
-    if( b.isOnWallinGrid() )
+    if( b.isSelected() )
     {
       pair<int, int> coordinates = lin2mat( b.getValue() );
 
@@ -356,9 +356,9 @@ namespace ghost
       int bottom = coordinates.first + b.getHeight() - 1;
       int left = coordinates.second;
 
-      for(auto other : variables )
+      for(auto &other : variables )
       {
-	if( other.getId() != b.getId() && other.isOnWallinGrid() )
+	if( other.getId() != b.getId() && other.isSelected() )
 	{
 	  pair<int, int> xyOther = lin2mat( other.getValue() );
 	  int otherTop = xyOther.first;
@@ -382,7 +382,7 @@ namespace ghost
 
   void WallinGrid::unbuildable( vector< pair<int, int> > unbuildables )
   {
-    for( auto u : unbuildables )
+    for( auto &u : unbuildables )
       this->unbuildable( u.first, u.second );    
   }
 
@@ -397,7 +397,7 @@ namespace ghost
 
   int WallinGrid::countAround( const Building& b, const vector< Building >& variables ) const
   {
-    if( b.isOnWallinGrid() )
+    if( b.isSelected() )
       return getBuildingsAround( b, variables ).size();
     else
       return 0;
@@ -431,16 +431,16 @@ namespace ghost
     for( int i=0; i<g.matrixType_[0].size(); ++i )
       bar += "------";
 
-    for( auto vec : g.matrixId_ )
+    for( auto &vec : g.matrixId_ )
     {
       os << bar << endl << "| ";
-      for( auto setId : vec )
+      for( auto &setId : vec )
       {
 	if( setId.empty() )
 	  os << setw(3) << "    | ";
 	else
 	{
-	  for( auto id : setId )
+	  for( auto &id : setId )
 	    os << setw(3) << to_string( id ) << " | ";
 	}
       }
@@ -449,10 +449,10 @@ namespace ghost
     os << bar << endl << endl;
 
     os << "Matrix Type:" << endl;
-    for( auto vec : g.matrixType_ )
+    for( auto &vec : g.matrixType_ )
     {
       os << bar << endl << "| ";
-      for(auto str : vec )
+      for(auto &str : vec )
 	os << setw(3) << (str.empty() ? " " : str) << " | ";
 
       os << endl;
@@ -460,7 +460,7 @@ namespace ghost
     os << bar << endl;
     
     os << "Failures:" << endl;
-    for( auto m : g.failures_ )
+    for( auto &m : g.failures_ )
       os << "(" << m.first.first << "," << m.first.second << "):" << m.second << endl;
 
     return os;

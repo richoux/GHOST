@@ -26,6 +26,8 @@
 
 #pragma once
 
+#include <algorithm>
+#include <limits>
 #include <vector>
 
 #include "../misc/random.hpp"
@@ -38,7 +40,7 @@ namespace ghost
   class Objective
   {
   public:
-    Objective<TypeVariable, TypeDomain>( const string &name ) : name(name) { }
+    Objective( const string &name ) : name(name) { }
 
     
     inline double cost( const vector< TypeVariable > &vecBuildings,
@@ -56,18 +58,52 @@ namespace ghost
       { v_setHelper(variable, vecBuildings, domain); }
 
     inline void postprocessSatisfaction( const vector< TypeVariable > &vecBuildings,
-					 const TypeDomain &domain )
-      { v_postprocessSatisfaction(vecBuildings, domain); }
+					 const TypeDomain &domain,
+					 double &bestCost,
+					 vector<int> &bestSolution)
+      { v_postprocessSatisfaction(vecBuildings, domain, bestCost, bestSolution); }
 
     inline void postprocessOptimization( const vector< TypeVariable > &vecBuildings,
-					 const TypeDomain &domain )
-      { v_postprocessOptimization(vecBuildings, domain); }
+					 const TypeDomain &domain,
+					 double &bestCost )
+      { v_postprocessOptimization(vecBuildings, domain, bestCost); }
 
     inline string getName() { return name; }
 
-    int		heuristicValue( const vector< double >&, double&, int& ) const;
-    void	initHelper( int );
-    void	resetHelper();
+    int heuristicValue( const std::vector< double > &vecGlobalCosts, 
+			double &bestEstimatedCost,
+			int &bestValue ) const
+      {
+	int best = 0;
+	double bestHelp = numeric_limits<int>::max();
+
+	for( int i = 0; i < vecGlobalCosts.size(); ++i )
+	{
+	  if(      vecGlobalCosts[i] < bestEstimatedCost
+		   || ( vecGlobalCosts[i] == bestEstimatedCost
+			&& vecGlobalCosts[i] < numeric_limits<int>::max()
+			&& ( i == 0 || heuristicValueHelper.at( i ) < bestHelp ) ) )
+	  {
+	    bestEstimatedCost = vecGlobalCosts[i];
+	    bestValue = i - 1;
+	    if( heuristicValueHelper.at( i ) < bestHelp )
+	      bestHelp = heuristicValueHelper.at( i );
+	    best = i;
+	  }
+	}
+
+	return best;
+      }
+
+    inline void initHelper( int size )
+      {
+	heuristicValueHelper = std::vector<double>( size, numeric_limits<int>::max() );
+      }
+
+    inline void resetHelper()
+      {
+	std::fill( heuristicValueHelper.begin(), heuristicValueHelper.end(), numeric_limits<int>::max() );
+      }
 
   protected:
     virtual double	v_cost( const vector< TypeVariable > &vecBuildings,

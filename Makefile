@@ -5,7 +5,7 @@ EXEC=ghost
 CXX=g++
 IDIR=include include/constraints include/domains include/misc include/objectives include/variables
 IDIRFLAG=$(foreach idir, $(IDIR), -I$(idir))
-CXXFLAGS=-std=c++0x -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare $(IDIRFLAG)
+CXXFLAGS=-std=c++0x -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(IDIRFLAG)
 
 # Linker
 LINKER=g++ -o

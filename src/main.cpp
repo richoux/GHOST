@@ -31,8 +31,9 @@
 #include <type_traits>
 
 #include "../include/variables/building.hpp"
-#include "../include/constraints/wallinConstraint.hpp"
 #include "../include/domains/wallinGrid.hpp"
+#include "../include/constraints/wallinConstraint.hpp"
+#include "../include/objectives/wallinObjective.hpp"
 #include "../include/misc/tools.hpp"
 #include "../include/misc/wallinTerran.hpp"
 #include "../include/solver.hpp"
@@ -78,19 +79,19 @@ int main(int argc, char **argv)
     make_pair(11, 15) 
   };
   
-  // Please write the name of the objective here!
-  string objective = "g";
-
   // Define variables
   vector< Building > vec = makeTerranBuildings();
 
   // Define domain
-  WallinGrid grid = WallinGrid( 16, 12, unbuildables, vec, 11, 7, 6, 15 );
+  WallinGrid grid( 16, 12, unbuildables, vec, 11, 7, 6, 15 );
 
   // Define constraints
   vector< shared_ptr<WallinConstraint> > vecConstraints = makeTerranConstraints( vec, grid );
 
-  Solver solver<Building, WallinGrid, WallinConstraint>( vecConstraints, vec, grid, objective );
+  // Define objective
+  shared_ptr<WallinObjective> objective = make_shared<GapObj>();
+  
+  Solver<Building, WallinGrid, WallinConstraint> solver(vec, grid, vecConstraints, objective );
 
 #ifndef NDEBUG
   cout << boolalpha << "Building movable: " << is_nothrow_move_constructible<Building>::value << endl;

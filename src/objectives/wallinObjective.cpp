@@ -24,8 +24,6 @@
  */
 
 
-#pragma once
-
 #include <vector>
 #include <map>
 #include <memory>
@@ -35,9 +33,9 @@
 #include <chrono>
 #include <ctime>
 
-#include "../../include/objective/wallinObjective.hpp"
-#include "../../include/variable/building.hpp"
-#include "../../include/constraint/wallinConstraint.hpp"
+#include "../../include/objectives/wallinObjective.hpp"
+#include "../../include/variables/building.hpp"
+#include "../../include/constraints/wallinConstraint.hpp"
 
 using namespace std;
 
@@ -48,7 +46,7 @@ namespace ghost
   /*******************/
   /* WallinObjective */
   /*******************/
-  WallinObjective::WallinObjective( string name ) : Objective<Building, WallinGrid>( name ) { }
+  WallinObjective::WallinObjective( const string &name ) : Objective<Building, WallinGrid>( name ) { }
 
   void WallinObjective::v_setHelper( const Building &b, const vector< Building > &vecVariables, const WallinGrid &grid )
   {
@@ -71,7 +69,7 @@ namespace ghost
     // find all buildings accessible from the starting building and remove all others
     int nberCurrent = *( domain.buildingsAt( domain.getStartingTile() ).begin() );
     Building current = vecVariables[ nberCurrent ];
-    set< Building > toVisit = domain.getVariablesAround( current, vecVariables );
+    set< Building > toVisit = domain.getBuildingsAround( current, vecVariables );
     set< Building > visited;
     set< Building > neighbors;
     
@@ -82,17 +80,17 @@ namespace ghost
       auto first = *( toVisit.begin() );
       current = first;
       toVisit.erase( first );
-      neighbors = domain.getVariablesAround( current, vecVariables );
+      neighbors = domain.getBuildingsAround( current, vecVariables );
       
       visited.insert( current );
       
-      for( auto n : neighbors )
+      for( auto &n : neighbors )
 	if( visited.find( n ) == visited.end() )
 	  toVisit.insert( n );
     }
     
     // remove all unreachable buildings from the starting building out of the domain
-    for( auto b : vecVariables )
+    for( auto &b : vecVariables )
       if( visited.find( b ) == visited.end() )
       {
 	domain.clear( b );
@@ -104,7 +102,7 @@ namespace ghost
     // clean wall from unnecessary buildings.
     do
     {
-      for( auto b : vecVariables )
+      for( auto &b : vecVariables )
 	if( ! domain.isStartingOrTargetTile( b.getId() ) )
 	{
 	  change = false;
@@ -145,7 +143,7 @@ namespace ghost
 
     multimap<int, Building> buildingSameSize;
     
-    for( auto v : vecVariables )
+    for( auto &v : vecVariables )
       buildingSameSize.insert( make_pair( v.getSurface(), v ) );
 
     vector<int> goodVar;
@@ -185,7 +183,7 @@ namespace ghost
       oldVariable = vecVariables[ index ];
       auto surface = buildingSameSize.equal_range( oldVariable.getSurface() );
 	
-      for( auto it = surface.first; it != surface.second; ++it )
+      for( auto &it = surface.first; it != surface.second; ++it )
       {
 	mustSwap = false;
 	if( it->second.getId() != oldVariable.getId() )
@@ -214,7 +212,7 @@ namespace ghost
   /***********/
   /* NoneObj */
   /***********/
-  NoneObj::NoneObj( string name ) : WallinObjective( name ) { }
+  NoneObj::NoneObj() : WallinObjective( "wallinNone" ) { }
 
   double NoneObj::v_cost( const vector< Building > &vecVariables, const WallinGrid &grid ) const
   {
@@ -240,7 +238,7 @@ namespace ghost
   /**********/
   /* GapObj */
   /**********/
-  GapObj::GapObj( string name ) : WallinObjective( name ) { }
+  GapObj::GapObj() : WallinObjective( "wallinGap" ) { }
 
   double GapObj::v_cost( const vector< Building > &vecVariables, const WallinGrid &grid ) const
   {
@@ -283,7 +281,7 @@ namespace ghost
     set< Building > neighbors = grid.getBuildingsAbove( b, vecVariables );
 
     // cout << "ABOVE " << b->getId() << endl;
-    // for( auto n : neighbors )
+    // for( auto &n : neighbors )
     //   cout << n->getId() << " ";
     // cout << endl;
 
@@ -293,7 +291,7 @@ namespace ghost
     
     neighbors = grid.getBuildingsOnRight( b, vecVariables );
     // cout << "RIGHT " << b->getId() << endl;
-    // for( auto n : neighbors )
+    // for( auto &n : neighbors )
     //   cout << n->getId() << " ";
     // cout << endl;
     gaps += count_if( neighbors.begin(), 
@@ -302,7 +300,7 @@ namespace ghost
     
     neighbors = grid.getBuildingsBelow( b, vecVariables );
     // cout << "BELOW " << b->getId()  << endl;
-    // for( auto n : neighbors )
+    // for( auto &n : neighbors )
     //   cout << n->getId() << " ";
     // cout << endl;
     gaps += count_if( neighbors.begin(), 
@@ -311,7 +309,7 @@ namespace ghost
     
     neighbors = grid.getBuildingsOnLeft( b, vecVariables );
     // cout << "LEFT " << b->getId()  << endl;
-    // for( auto n : neighbors )
+    // for( auto &n : neighbors )
     //   cout << n->getId() << " ";
     // cout << endl;
     gaps += count_if( neighbors.begin(), 
@@ -324,7 +322,7 @@ namespace ghost
   /***************/
   /* BuildingObj */
   /***************/
-  BuildingObj::BuildingObj( string name ) : WallinObjective( name ) { }
+  BuildingObj::BuildingObj() : WallinObjective( "wallinBuilding" ) { }
 
   double BuildingObj::v_cost( const vector< Building > &vecVariables, const WallinGrid &grid ) const
   {
@@ -358,7 +356,7 @@ namespace ghost
   /***************/
   /* TechTreeObj */
   /***************/
-  TechTreeObj::TechTreeObj( string name ) : WallinObjective( name ) { }
+  TechTreeObj::TechTreeObj() : WallinObjective( "wallinTechtree" ) { }
 
   double TechTreeObj::v_cost( const vector< Building > &vecVariables, const WallinGrid &grid ) const
   {
@@ -414,22 +412,5 @@ namespace ghost
     }
     
     return varMinTech[ randomVar.getRandNum( size ) ];    
-  }
-
-  /**************/
-  /* FactoryObj */
-  /**************/
-  shared_ptr<Objective> FactoryObj::makeObjective( const string &obj ) const
-  {
-    if( obj.compare("gap") == 0 || obj.compare("g") == 0 || obj.compare("G") == 0 )
-      return make_shared<GapObj>("gap");
-    
-    if( obj.compare("building") == 0 || obj.compare("b") == 0 || obj.compare("B") == 0 )
-      return make_shared<BuildingObj>("building");
-    
-    if( obj.compare("techtree") == 0 || obj.compare("t") == 0 || obj.compare("T") == 0 )
-      return make_shared<TechTreeObj>("techtree");
-    
-    return make_shared<NoneObj>("none");
   }
 }

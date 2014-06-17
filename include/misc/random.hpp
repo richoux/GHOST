@@ -35,7 +35,10 @@ namespace ghost
   {
   public:
     Random() : rng( rd() ) { }
+    Random( const Random &other ) : Random() { }
 
+    Random operator=( const Random &other ) { return Random(); }
+    
     inline int getRandNum( int limit ) { return ( numbers(rng) % limit ); } 
 
   private:

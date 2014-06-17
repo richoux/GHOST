@@ -46,6 +46,10 @@ namespace ghost
   class WallinGrid : public Domain<Building>
   {
   public:
+    // To counter method hiding
+    using Domain<Building>::add;
+    using Domain<Building>::clear;
+
     WallinGrid( int, int, int, int, int, int, int ) ;
     WallinGrid( int,
 		int,

@@ -36,6 +36,7 @@ namespace ghost
   class Building : public Variable
   {
   public:
+    Building();
     Building(int, int, int, int, int, int, Race, int, string, string, int = -1);
 
     

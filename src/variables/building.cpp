@@ -30,6 +30,8 @@
 
 namespace ghost
 {
+  Building::Building() { }
+  
   Building::Building(int x, 
 		     int y, 
 		     int top, 

@@ -41,14 +41,14 @@ namespace ghost
   class Constraint
   {
   public:
-    Constraint( vector< TypeVariable > variables, TypeDomain domain )
+    Constraint( const vector< TypeVariable > &variables, const TypeDomain &domain )
       : variables(variables), domain(domain) { }
 
     virtual double cost( vector<double>& ) const = 0;
     virtual vector<double> simulateCost( TypeVariable&,
 					 const vector<int>&,
 					 vector< vector<double> >&,
-					 shared_ptr< Objective< TypeVariable, TypeDomain > >& ) = 0;
+					 shared_ptr< Objective< TypeVariable, TypeDomain > > ) = 0;
     
     virtual void update( const TypeDomain &d ) { domain = d; }
 
