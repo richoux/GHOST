@@ -34,6 +34,9 @@
 
 using namespace std;
 
+constexpr int OPT_TIME	= 150;
+
+
 namespace ghost
 {
   template <typename TypeVariable, typename TypeDomain>
@@ -49,7 +52,7 @@ namespace ghost
     
     inline int heuristicVariable( const vector< int > &vecVariables,
 				  const vector< TypeVariable > &vecBuildings,
-				  const TypeDomain &domain )
+				  TypeDomain &domain )
       { return v_heuristicVariable(vecVariables, vecBuildings, domain); }
     
     inline void setHelper( const TypeVariable &variable,
@@ -57,14 +60,14 @@ namespace ghost
 			   const TypeDomain &domain )
       { v_setHelper(variable, vecBuildings, domain); }
 
-    inline void postprocessSatisfaction( const vector< TypeVariable > &vecBuildings,
-					 const TypeDomain &domain,
+    inline void postprocessSatisfaction( vector< TypeVariable > &vecBuildings,
+					 TypeDomain &domain,
 					 double &bestCost,
 					 vector<int> &bestSolution)
       { v_postprocessSatisfaction(vecBuildings, domain, bestCost, bestSolution); }
 
     inline void postprocessOptimization( const vector< TypeVariable > &vecBuildings,
-					 const TypeDomain &domain,
+					 TypeDomain &domain,
 					 double &bestCost )
       { v_postprocessOptimization(vecBuildings, domain, bestCost); }
 
@@ -111,19 +114,19 @@ namespace ghost
 
     virtual int		v_heuristicVariable( const vector< int > &vecVariables,
 					     const vector< TypeVariable > &vecBuildings,
-					     const TypeDomain& ) = 0;
+					     TypeDomain& ) = 0;
 
     virtual void	v_setHelper( const TypeVariable &b,
 				     const vector< TypeVariable > &vecBuildings,
 				     const TypeDomain &domain ) = 0;
 
-    virtual void v_postprocessSatisfaction( const vector< TypeVariable > &vecBuildings,
-					    const TypeDomain &domain,
+    virtual void v_postprocessSatisfaction( vector< TypeVariable > &vecBuildings,
+					    TypeDomain &domain,
 					    double &bestCost,
 					    vector<int> &bestSolution ) const { }
 
     virtual void v_postprocessOptimization( const vector< TypeVariable > &vecBuildings,
-					    const TypeDomain &domain,
+					    TypeDomain &domain,
 					    double &bestCost ) const { }
 
     Random randomVar;

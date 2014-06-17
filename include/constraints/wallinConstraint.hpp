@@ -130,6 +130,7 @@ namespace ghost
     NoGaps( const vector< Building >&, const WallinGrid& );
     
     double cost( vector<double>& ) const;
+    double simulateCost( Building&, const int, vector<double>& );
   };
 
   

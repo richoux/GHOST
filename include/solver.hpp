@@ -48,7 +48,6 @@
 using namespace std;
 
 constexpr int TABU	= 5;
-constexpr int OPT_TIME	= 150;
 
 
 namespace ghost

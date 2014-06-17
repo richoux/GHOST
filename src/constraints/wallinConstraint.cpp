@@ -275,7 +275,25 @@ namespace ghost
     return conflicts;    
   }
 
+  double NoGaps::simulateCost( Building &oldBuilding, const int newPosition, vector<double> &varSimCost )
+  {
+    int backup = oldBuilding.getValue();
+    domain.clear( oldBuilding );
 
+    oldBuilding.setValue( newPosition );
+    domain.add( oldBuilding );
+
+    double simCost = cost( varSimCost );
+
+    domain.clear( oldBuilding );
+
+    oldBuilding.setValue( backup );
+    domain.add( oldBuilding );
+
+    return simCost;
+  }
+
+  
   /***********************/
   /* StartingTargetTiles */
   /***********************/  
