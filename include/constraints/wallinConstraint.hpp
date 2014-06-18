@@ -52,6 +52,7 @@ namespace ghost
     {
       std::vector<double> simCosts( domain.getSize(), -1. );
       int backup = oldBuilding.getValue();
+      int index = oldBuilding.getId();
       int previousPos = 0;
     
       if( objective )
@@ -70,6 +71,8 @@ namespace ghost
 	  domain.add( oldBuilding );
 	}
 
+	variables[ index ].setValue( pos );
+	
 	simCosts[pos+1] = cost( vecVarSimCosts[pos+1] );
 	if( objective )
 	  objective->setHelper( oldBuilding, variables, domain );
@@ -80,7 +83,9 @@ namespace ghost
       domain.clear( oldBuilding );
       oldBuilding.setValue( backup );
       domain.add( oldBuilding );
-    
+
+      variables[ index ].setValue( backup );
+
       return simCosts;
     }
 

@@ -81,19 +81,40 @@ namespace ghost
 	int best = 0;
 	double bestHelp = numeric_limits<int>::max();
 
+	vector<int> draw;
+	
 	for( int i = 0; i < vecGlobalCosts.size(); ++i )
 	{
-	  if(      vecGlobalCosts[i] < bestEstimatedCost
-		   || ( vecGlobalCosts[i] == bestEstimatedCost
-			&& vecGlobalCosts[i] < numeric_limits<int>::max()
-			&& ( i == 0 || heuristicValueHelper.at( i ) < bestHelp ) ) )
+	  if( vecGlobalCosts[i] == bestEstimatedCost
+	      && vecGlobalCosts[i] < numeric_limits<int>::max()
+	      && heuristicValueHelper.at( i ) == bestHelp )
 	  {
-	    bestEstimatedCost = vecGlobalCosts[i];
-	    bestValue = i - 1;
-	    if( heuristicValueHelper.at( i ) < bestHelp )
-	      bestHelp = heuristicValueHelper.at( i );
-	    best = i;
+	    draw.push_back(i);
 	  }
+	  else
+	    if( vecGlobalCosts[i] < bestEstimatedCost
+		|| ( vecGlobalCosts[i] == bestEstimatedCost
+		     && vecGlobalCosts[i] < numeric_limits<int>::max()
+		     && heuristicValueHelper.at( i ) < bestHelp ) )
+	    {
+	      draw.clear();
+	      bestEstimatedCost = vecGlobalCosts[i];
+	      bestValue = i - 1;
+	      if( heuristicValueHelper.at( i ) < bestHelp )
+		bestHelp = heuristicValueHelper.at( i );
+	      best = i;
+	    }
+	}
+
+	if( draw.size() > 1 )
+	{
+	  int i = draw[ const_cast<Objective*>(this)->randomVar.getRandNum( draw.size() ) ];
+	  
+	  bestEstimatedCost = vecGlobalCosts[i];
+	  bestValue = i - 1;
+	  if( heuristicValueHelper.at( i ) < bestHelp )
+	    bestHelp = heuristicValueHelper.at( i );
+	  best = i;
 	}
 
 	return best;

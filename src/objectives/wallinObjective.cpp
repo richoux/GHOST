@@ -258,12 +258,27 @@ namespace ghost
 
   int GapObj::v_heuristicVariable( const vector< int > &vecId, const vector< Building > &vecVariables, WallinGrid &grid )
   {
+    vector<int> worstVec;
+    
     auto worst =  max_element(vecId.begin(),
 			      vecId.end(),
 			      [&](int v1, int v2)
 			      {return gapSize( vecVariables[v1], vecVariables, grid ) < gapSize( vecVariables[v2], vecVariables, grid );} );
-
-    return *(worst);
+    
+    int worstGap = gapSize( vecVariables[*worst], vecVariables, grid );
+    
+    for( const auto v : vecId )
+      if( gapSize( vecVariables[v], vecVariables, grid ) == worstGap )
+	worstVec.push_back(v);
+    
+    int index;
+    
+    if( worstVec.size() > 1 )
+      index = worstVec[ randomVar.getRandNum( worstVec.size() ) ];
+    else
+      index = *(worst);
+    
+    return index; 
   }
 
   void GapObj::v_setHelper( const Building &b, const vector< Building > &vecVariables, const WallinGrid &grid )

@@ -136,12 +136,9 @@ namespace ghost
 
 	do // solving loop 
 	{
-	  std::fill( vecVarSimCosts.begin(), vecVarSimCosts.end(), vector<double>( vecVariables.size(), 0. ) );
 	  ++iterations;
 	  elapsedTime = chrono::system_clock::now() - start;
 	  cout << "Elapsed time: " << elapsedTime.count() << endl;
-
-	  fill( variableCost.begin(), variableCost.end(), 0. );
 
 	  for( auto &c : vecConstraints )
 	  {
@@ -151,7 +148,6 @@ namespace ghost
 	    for( int i = 0; i < varSimCost.size(); ++i )
 	    {
 	      cout << " " << varSimCost[i];
-	      variableCost[i] += varSimCost[i];
 	    }
 	    
 	    cout << " ]" << endl;

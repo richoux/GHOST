@@ -86,6 +86,28 @@ namespace ghost
   Overlap::Overlap(const vector< Building > &variables, const WallinGrid &domain) 
     : WallinConstraint(variables, domain) { }
 
+  // double Overlap::cost( vector<double> &varCost ) const
+  // {
+  //   // version 1: 1 failure = 1 cost
+  //   // return double( domain.failures().size() );
+
+  //   // version 2: 1 conflict = 1 cost (may have several conflicts into one failure)
+  //   double conflicts = 0.;
+
+  //   for( auto &failures : domain.failures() )
+  //   {
+  //     int nbConflict = failures.second.size() - 1;
+  //     if( nbConflict > 0 && failures.second.find( "###" ) == string::npos )
+  //     {
+  // 	conflicts += nbConflict;
+  // 	set<int> setBuildings = domain.buildingsAt( failures.first );
+  // 	for( auto &id : setBuildings )
+  // 	  varCost[ id ] += nbConflict;
+  //     }
+  //   }
+
+  //   return conflicts;    
+  // }
   double Overlap::cost( vector<double> &varCost ) const
   {
     // version 1: 1 failure = 1 cost
@@ -99,10 +121,10 @@ namespace ghost
       int nbConflict = failures.second.size() - 1;
       if( nbConflict > 0 && failures.second.find( "###" ) == string::npos )
       {
-	conflicts += nbConflict;
-	set<int> setBuildings = domain.buildingsAt( failures.first );
-	for( auto &id : setBuildings )
-	  varCost[ id ] += nbConflict;
+  	conflicts += (nbConflict * 2);
+  	set<int> setBuildings = domain.buildingsAt( failures.first );
+  	for( auto &id : setBuildings )
+  	  varCost[ id ] += (nbConflict * 2);
       }
     }
 
@@ -113,6 +135,7 @@ namespace ghost
   {
     vector<double> simCosts( domain.getSize(), -1. );
     int backup = oldBuilding.getValue();
+    int index = oldBuilding.getId();
     int previousPos = 0;
     int diff;
 
@@ -137,6 +160,8 @@ namespace ghost
 	domain.clear( oldBuilding );
 	oldBuilding.setValue( pos );
 	domain.add( oldBuilding );
+
+	variables[index].setValue( pos );
 	
 	simCosts[pos + 1] = cost( vecVarSimCosts[pos + 1] );
       }
@@ -147,6 +172,8 @@ namespace ghost
     domain.clear( oldBuilding );
     oldBuilding.setValue( backup );
     domain.add( oldBuilding );
+
+    variables[index].setValue( backup );
     
     return simCosts;
   }
@@ -158,6 +185,26 @@ namespace ghost
   Buildable::Buildable(const vector< Building > &variables, const WallinGrid &domain) 
     : WallinConstraint(variables, domain) { }
 
+  // double Buildable::cost( vector<double> &varCost ) const
+  // {
+  //   // count number of buildings misplaced on unbuildable tiles (denoted by ###)
+  //   double conflicts = 0.;
+  //   int nbConflict;
+
+  //   for( auto &failures : domain.failures() )
+  //   {
+  //     if( failures.second.find( "###" ) != string::npos )
+  //     {
+  // 	nbConflict = failures.second.size() - 3;
+  // 	conflicts += nbConflict;
+  // 	set<int> setBuildings = domain.buildingsAt( failures.first );
+  // 	for( auto &id : setBuildings )
+  // 	  varCost[ id ] += nbConflict;
+  //     }
+  //   }
+
+  //   return conflicts;    
+  // }
   double Buildable::cost( vector<double> &varCost ) const
   {
     // count number of buildings misplaced on unbuildable tiles (denoted by ###)
@@ -168,11 +215,11 @@ namespace ghost
     {
       if( failures.second.find( "###" ) != string::npos )
       {
-	nbConflict = failures.second.size() - 3;
-	conflicts += nbConflict;
-	set<int> setBuildings = domain.buildingsAt( failures.first );
-	for( auto &id : setBuildings )
-	  varCost[ id ] += nbConflict;
+  	nbConflict = failures.second.size() - 3;
+  	conflicts += (nbConflict * 2);
+  	set<int> setBuildings = domain.buildingsAt( failures.first );
+  	for( auto &id : setBuildings )
+  	  varCost[ id ] += (nbConflict * 2);
       }
     }
 
@@ -183,6 +230,7 @@ namespace ghost
   {
     vector<double> simCosts( domain.getSize(), -1. );
     int backup = oldBuilding.getValue();
+    int index = oldBuilding.getId();
     int previousPos = 0;
     int diff;
 
@@ -207,6 +255,8 @@ namespace ghost
 	domain.clear( oldBuilding );
 	oldBuilding.setValue( pos );
 	domain.add( oldBuilding );
+
+	variables[ index ].setValue( pos );
 	
 	simCosts[pos + 1] = cost( vecVarSimCosts[pos + 1] );
       }
@@ -217,6 +267,8 @@ namespace ghost
     domain.clear( oldBuilding );
     oldBuilding.setValue( backup );
     domain.add( oldBuilding );
+
+    variables[ index ].setValue( backup );
     
     return simCosts;
   }
@@ -228,6 +280,52 @@ namespace ghost
   NoGaps::NoGaps(const vector< Building > &variables, const WallinGrid &domain) 
     : WallinConstraint(variables, domain) { }
 
+  // double NoGaps::cost( vector<double> &varCost ) const
+  // {
+  //   // cost = |buildings with one neighbor| - 1 + |buildings with no neighbors|
+  //   double conflicts = 0.;
+
+  //   if( !isWall() )
+  //   {
+  //     int nberNeighbors;
+  //     std::vector<int> oneNeighborBuildings;
+
+  //     for( const auto &building : variables )
+  //     {
+  // 	if( building.isSelected() )
+  // 	{
+  // 	  // if we don't have a wall, penalise all buildings on the grid.
+  // 	  ++conflicts;
+  // 	  ++varCost[ building.getId() ];
+	  
+  // 	  nberNeighbors = domain.countAround( building, variables );
+
+  // 	  if( nberNeighbors == 0 || nberNeighbors > 2 ) // to change with Protoss and pylons
+  // 	  {
+  // 	    ++conflicts;
+  // 	    ++varCost[ building.getId() ];
+  // 	  }
+  // 	  else
+  // 	  {
+  // 	    if( nberNeighbors == 1 )
+  // 	      oneNeighborBuildings.push_back( building.getId() );
+  // 	  }
+  // 	}
+  //     }
+
+  //     if( oneNeighborBuildings.size() > 2 ) // for latter: pylons can be alone, or have 1 neighbor only
+  //     {
+  // 	for( const auto &b : oneNeighborBuildings )
+  // 	  if( ! domain.isStartingOrTargetTile( b ) )
+  // 	  {
+  // 	    ++conflicts;
+  // 	    ++varCost[ b ];
+  // 	  }
+  //     }
+  //   }
+    
+  //   return conflicts;    
+  // }
   double NoGaps::cost( vector<double> &varCost ) const
   {
     // cost = |buildings with one neighbor| - 1 + |buildings with no neighbors|
@@ -239,29 +337,29 @@ namespace ghost
 
       for( auto &building : variables )
       {
-	if( building.isSelected() )
-	{
-	  // if we don't have a wall, penalise all buildings on the domain.
-	  ++conflicts;
-	  ++varCost[ building.getId() ];
+  	if( building.isSelected() )
+  	{
+  	  // if we don't have a wall, penalise all buildings on the domain.
+  	  ++conflicts;
+  	  ++varCost[ building.getId() ];
 	  
-	  if( !domain.isStartingOrTargetTile( building.getId() ) )
-	  {
-	    nberNeighbors = domain.countAround( building, variables );
+  	  if( !domain.isStartingOrTargetTile( building.getId() ) )
+  	  {
+  	    nberNeighbors = domain.countAround( building, variables );
 	    
-	    if( nberNeighbors == 0 || nberNeighbors > 2 ) // to change with Protoss and pylons
-	    {
-	      conflicts += 2;
-	      varCost[ building.getId() ] += 2;
-	    }
-	  }
-	}
-	// to penalyse buildings not on the grid
-	else
-	{
-	  conflicts += 2;
-	  varCost[ building.getId() ] += 2;
-	}
+  	    if( nberNeighbors == 0 || nberNeighbors > 2 ) // to change with Protoss and pylons
+  	    {
+  	      conflicts += 2;
+  	      varCost[ building.getId() ] += 2;
+  	    }
+  	  }
+  	}
+  	// to penalyse buildings not on the grid
+  	else
+  	{
+  	  conflicts += 2;
+  	  varCost[ building.getId() ] += 2;
+  	}
       }
     }
     
@@ -271,11 +369,15 @@ namespace ghost
   double NoGaps::simulateCost( Building &oldBuilding, const int newPosition, vector<double> &varSimCost )
   {
     int backup = oldBuilding.getValue();
+    int index = oldBuilding.getId();
+
     domain.clear( oldBuilding );
 
     oldBuilding.setValue( newPosition );
     domain.add( oldBuilding );
 
+    variables[ index ].setValue( newPosition );
+    
     double simCost = cost( varSimCost );
 
     domain.clear( oldBuilding );
@@ -283,6 +385,8 @@ namespace ghost
     oldBuilding.setValue( backup );
     domain.add( oldBuilding );
 
+    variables[ index ].setValue( backup );
+    
     return simCost;
   }
 
@@ -297,6 +401,76 @@ namespace ghost
       mapBuildings[b.getId()] = b;
   }
 
+  // double StartingTargetTiles::cost( vector<double> &varCost ) const
+  // {
+  //   // no building on one of these two tiles: cost of the tile = 6
+  //   // a building with no or with 2 or more neighbors: cost of the tile = 3
+  //   // two or more buildings on one of these tile: increasing penalties.
+  //   double conflicts = 0.;
+
+  //   set<int> startingBuildings = domain.buildingsAt( domain.getStartingTile() );
+  //   set<int> targetBuildings = domain.buildingsAt( domain.getTargetTile() );
+
+  //   Building b;
+  //   int neighbors;
+
+  //   // if same building on both the starting and target tile
+  //   if( startingBuildings.size() == 1 && targetBuildings.size() == 1 && *startingBuildings.begin() == *targetBuildings.begin() )
+  //     return 0.;
+
+  //   if( startingBuildings.empty() )
+  //   {
+  //     // penalize buildings not placed on the domain
+  //     for( const auto &v : variables )
+  // 	if( !v.isSelected() )
+  // 	{
+  // 	  varCost[ v.getId() ] += 2;
+  // 	  conflicts += 2;
+  // 	}
+  //   }
+  //   else
+  //   {
+  //     for( int bId : startingBuildings )
+  //     {
+  // 	b = mapBuildings.at(bId);
+  // 	neighbors = domain.countAround( b, variables );
+
+  // 	if( neighbors != 1 )
+  // 	{
+  // 	  conflicts += 2;
+  // 	  varCost[ bId ] += 2;
+  // 	}
+  //     }
+  //   }
+
+  //   if( targetBuildings.empty() )
+  //   {      
+  //     // penalize buildings not placed on the domain
+  //     for( auto &v : variables )
+  // 	if( !v.isSelected() )
+  // 	{
+  // 	  varCost[ v.getId() ] += 2;
+  // 	  conflicts += 2;
+  // 	}
+  //   }
+  //   else
+  //   {
+  //     for( int bId : targetBuildings )
+  //     {
+  // 	b = mapBuildings.at(bId);
+  // 	neighbors = domain.countAround( b, variables );
+
+  // 	if( neighbors != 1 )
+  // 	{
+  // 	  conflicts += 2;
+  // 	  varCost[ bId ] += 2;
+  // 	}
+
+  //     }
+  //   }
+      
+  //   return conflicts;    
+  // }
   double StartingTargetTiles::cost( vector<double> &varCost ) const
   {
     // no building on one of these two tiles: cost of the tile = 6
@@ -320,21 +494,21 @@ namespace ghost
     {
       // penalize buildings not placed on the domain
       for( auto &v : variables )
-	if( !v.isSelected() )
-	{
-	  varCost[ v.getId() ] += 2;
-	  conflicts += 2;
-	}
+  	if( !v.isSelected() )
+  	{
+  	  varCost[ v.getId() ] += 5;
+  	  conflicts += 5;
+  	}
     }
     else
     {
       for( int bId : startingBuildings )
       {
-	b = mapBuildings.at(bId);
-	neighbors = domain.countAround( b, variables );
+  	b = mapBuildings.at(bId);
+  	neighbors = domain.countAround( b, variables );
 
-	if( neighbors != 1 )
-	  penalty = true;
+  	if( neighbors != 1 )
+  	  penalty = true;
       }
     }
 
@@ -342,33 +516,33 @@ namespace ghost
     {      
       // penalize buildings not placed on the domain
       for( auto &v : variables )
-	if( !v.isSelected() )
-	{
-	  varCost[ v.getId() ] += 2;
-	  conflicts += 2;
-	}
+  	if( !v.isSelected() )
+  	{
+  	  varCost[ v.getId() ] += 5;
+  	  conflicts += 5;
+  	}
     }
     else
     {
       for( int bId : targetBuildings )
       {
-	b = mapBuildings.at(bId);
-	neighbors = domain.countAround( b, variables );
+  	b = mapBuildings.at(bId);
+  	neighbors = domain.countAround( b, variables );
 
-	if( neighbors != 1 )
-	  penalty = true;
+  	if( neighbors != 1 )
+  	  penalty = true;
       }
     }
 
     if( penalty )
     {
       for( auto &v : variables )
-	if( v.isSelected()
-	    && ( !domain.isStartingOrTargetTile( v.getId() ) || !domain.isNeightborOfSTTBuildings( v, variables ) ) )
-	{
-	  varCost[ v.getId() ] += 2;
-	  conflicts += 2;
-	}
+  	if( v.isSelected()
+  	    && ( !domain.isStartingOrTargetTile( v.getId() ) || !domain.isNeightborOfSTTBuildings( v, variables ) ) )
+  	{
+  	  varCost[ v.getId() ] += 2;
+  	  conflicts += 2;
+  	}
     }
       
     return conflicts;    
