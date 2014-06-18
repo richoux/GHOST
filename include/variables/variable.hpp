@@ -40,7 +40,6 @@ namespace ghost
     Variable( string, string, int = -1 );
     Variable(const Variable&);
     Variable& operator=(Variable);
-    void swap(Variable&);
     
     inline bool		operator<( const Variable& other )	const	{ return v_operatorInf( other ); }
     inline void		shiftValue()					{ v_shiftValue(); }
@@ -59,6 +58,8 @@ namespace ghost
     virtual bool v_operatorInf( const Variable& other )	const;
     virtual void v_shiftValue();
     virtual void v_swapValue( Variable &other );
+
+    void swap(Variable&);
 
     string	name;
     string	fullName;

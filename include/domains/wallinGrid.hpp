@@ -94,6 +94,7 @@ namespace ghost
     inline int		  mat2lin( pair<int, int> p ) const {return p.first * mCol_ + p.second;}
 
     bool	isStartingOrTargetTile( int ) const;
+    bool	isNeightborOfSTTBuildings( const Building &, vector< Building > ) const;
     int		countAround( const Building &, const vector< Building >& ) const;  
     vector<int>	possiblePos( const Building& ) const;
     

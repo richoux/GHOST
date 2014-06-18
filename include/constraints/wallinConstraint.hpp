@@ -45,50 +45,51 @@ namespace ghost
   public:
     WallinConstraint( const vector< Building >&, const WallinGrid& );
 
-    vector<double> simulateCost( Building &oldBuilding,
+    virtual vector<double> simulateCost( Building &oldBuilding,
 				 const vector<int> &newPosition,
 				 vector< vector<double> > &vecVarSimCosts,
 				 shared_ptr< Objective< Building, WallinGrid > > objective )
-      {
-	std::vector<double> simCosts( domain.getSize(), -1. );
-	int backup = oldBuilding.getValue();
-	int previousPos = 0;
+    {
+      std::vector<double> simCosts( domain.getSize(), -1. );
+      int backup = oldBuilding.getValue();
+      int previousPos = 0;
     
-	if( objective )
-	  objective->resetHelper();
+      if( objective )
+	objective->resetHelper();
 
-	for( auto &pos : newPosition )
+      for( auto &pos : newPosition )
+      {
+	if( pos >= 1 && pos == previousPos + 1 )
 	{
-	  if( pos >= 1 && pos == previousPos + 1 )
-	  {
-	    domain.quickShift( oldBuilding );
-	  }
-	  else
-	  { 
-	    domain.clear( oldBuilding );
-	    oldBuilding.setValue( pos );
-	    domain.add( oldBuilding );
-	  }
-
-	  simCosts[pos+1] = cost( vecVarSimCosts[pos+1] );
-	  if( objective )
-	    objective->setHelper( oldBuilding, variables, domain );
-	  previousPos = pos;
+	  domain.quickShift( oldBuilding );
+	}
+	else
+	{ 
+	  domain.clear( oldBuilding );
+	  oldBuilding.setValue( pos );
+	  domain.add( oldBuilding );
 	}
 
-	domain.clear( oldBuilding );
-	oldBuilding.setValue( backup );
-	domain.add( oldBuilding );
-    
-	return simCosts;
+	simCosts[pos+1] = cost( vecVarSimCosts[pos+1] );
+	if( objective )
+	  objective->setHelper( oldBuilding, variables, domain );
+
+	previousPos = pos;
       }
+
+      domain.clear( oldBuilding );
+      oldBuilding.setValue( backup );
+      domain.add( oldBuilding );
+    
+      return simCosts;
+    }
 
     virtual vector<double> simulateCost( Building &oldBuilding,
 					 const vector<int> &newPosition,
 					 vector< vector<double> > &vecVarSimCosts )
-      {
-	return simulateCost( oldBuilding, newPosition, vecVarSimCosts, nullptr );
-      }
+    {
+      return simulateCost( oldBuilding, newPosition, vecVarSimCosts, nullptr );
+    }
 
   protected:
     bool isWall() const;

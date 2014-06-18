@@ -40,7 +40,6 @@ namespace ghost
     Building(int, int, int, int, int, int, Race, int, string, string, int = -1);
     Building(const Building&);
     Building& operator=(Building);
-    void swap(Building&);
 
     
     inline int getLength()	const	{ return length; }
@@ -67,7 +66,10 @@ namespace ghost
     
     friend ostream& operator<<( ostream&, const Building& );
 
-  protected:
+  private:
+    void swap(Building&);
+
+    
     int length;
     int height;
 

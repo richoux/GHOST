@@ -31,10 +31,11 @@
 #include <vector>
 
 #include "../misc/random.hpp"
+#include "../misc/constants.hpp"
 
 using namespace std;
 
-constexpr int OPT_TIME	= 150;
+
 
 
 namespace ghost

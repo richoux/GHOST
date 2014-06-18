@@ -113,7 +113,7 @@ namespace ghost
   {
     vector<double> simCosts( domain.getSize(), -1. );
     int backup = oldBuilding.getValue();
-    int previousPos = -1;
+    int previousPos = 0;
     int diff;
 
     for( auto &pos : newPosition )
@@ -183,7 +183,7 @@ namespace ghost
   {
     vector<double> simCosts( domain.getSize(), -1. );
     int backup = oldBuilding.getValue();
-    int previousPos = -1;
+    int previousPos = 0;
     int diff;
 
     for( auto &pos : newPosition )
@@ -232,11 +232,10 @@ namespace ghost
   {
     // cost = |buildings with one neighbor| - 1 + |buildings with no neighbors|
     double conflicts = 0.;
-
+    
     if( !isWall() )
     {
       int nberNeighbors;
-      vector<int> oneNeighborBuildings;
 
       for( auto &building : variables )
       {
@@ -246,29 +245,23 @@ namespace ghost
 	  ++conflicts;
 	  ++varCost[ building.getId() ];
 	  
-	  nberNeighbors = domain.countAround( building, variables );
-
-	  if( nberNeighbors == 0 || nberNeighbors > 2 ) // to change with Protoss and pylons
+	  if( !domain.isStartingOrTargetTile( building.getId() ) )
 	  {
-	    ++conflicts;
-	    ++varCost[ building.getId() ];
-	  }
-	  else
-	  {
-	    if( nberNeighbors == 1 )
-	      oneNeighborBuildings.push_back( building.getId() );
+	    nberNeighbors = domain.countAround( building, variables );
+	    
+	    if( nberNeighbors == 0 || nberNeighbors > 2 ) // to change with Protoss and pylons
+	    {
+	      conflicts += 2;
+	      varCost[ building.getId() ] += 2;
+	    }
 	  }
 	}
-      }
-
-      if( oneNeighborBuildings.size() > 2 ) // for latter: pylons can be alone, or have 1 neighbor only
-      {
-	for( auto &b : oneNeighborBuildings )
-	  if( ! domain.isStartingOrTargetTile( b ) )
-	  {
-	    ++conflicts;
-	    ++varCost[ b ];
-	  }
+	// to penalyse buildings not on the grid
+	else
+	{
+	  conflicts += 2;
+	  varCost[ building.getId() ] += 2;
+	}
       }
     }
     
@@ -321,6 +314,8 @@ namespace ghost
     if( startingBuildings.size() == 1 && targetBuildings.size() == 1 && *startingBuildings.begin() == *targetBuildings.begin() )
       return 0.;
 
+    bool penalty = false;
+    
     if( startingBuildings.empty() )
     {
       // penalize buildings not placed on the domain
@@ -333,19 +328,13 @@ namespace ghost
     }
     else
     {
-      //int penalty = 0;
       for( int bId : startingBuildings )
       {
 	b = mapBuildings.at(bId);
 	neighbors = domain.countAround( b, variables );
 
 	if( neighbors != 1 )
-	{
-	  conflicts += 2;
-	  varCost[ bId ] += 2;
-	}
-
-	//conflicts += penalty++;
+	  penalty = true;
       }
     }
 
@@ -361,23 +350,27 @@ namespace ghost
     }
     else
     {
-      //int penalty = 0;
       for( int bId : targetBuildings )
       {
 	b = mapBuildings.at(bId);
 	neighbors = domain.countAround( b, variables );
 
 	if( neighbors != 1 )
-	{
-	  conflicts += 2;
-	  varCost[ bId ] += 2;
-	}
-
-	//conflicts += penalty++;	
+	  penalty = true;
       }
-      
     }
 
+    if( penalty )
+    {
+      for( auto &v : variables )
+	if( v.isSelected()
+	    && ( !domain.isStartingOrTargetTile( v.getId() ) || !domain.isNeightborOfSTTBuildings( v, variables ) ) )
+	{
+	  varCost[ v.getId() ] += 2;
+	  conflicts += 2;
+	}
+    }
+      
     return conflicts;    
   }
 }

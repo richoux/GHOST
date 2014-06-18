@@ -117,7 +117,7 @@ namespace ghost
 	    {
 	      domain.clear( b );
 	      b.setValue( -1 );
-	      ng.update( domain );
+	      ng.update( vecVariables, domain );
 	      change = true;
 	    }	  
 	  }

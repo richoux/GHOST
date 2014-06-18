@@ -26,43 +26,5 @@
 
 #pragma once
 
-#include <vector>
-#include <iostream>
-#include <memory>
-#include <typeinfo>
-
-#include "../objectives/objective.hpp"
-
-using namespace std;
-
-namespace ghost
-{
-  template <typename TypeVariable, typename TypeDomain>
-  class Constraint
-  {
-  public:
-    Constraint( const vector< TypeVariable > &variables, const TypeDomain &domain )
-      : variables(variables), domain(domain) { }
-
-    virtual double cost( vector<double>& ) const = 0;
-    virtual vector<double> simulateCost( TypeVariable&,
-					 const vector<int>&,
-					 vector< vector<double> >&,
-					 shared_ptr< Objective< TypeVariable, TypeDomain > > ) = 0;
-    
-    virtual void update( const vector<TypeVariable> &v, const TypeDomain &d )
-    {
-      variables = v;
-      domain = d;
-    }
-
-    friend ostream& operator<<( ostream& os, const Constraint<TypeVariable, TypeDomain>& c )
-      {
-	return os << "Constraint type: " <<  typeid(c).name() << std::endl;
-      }
-    
-  protected:
-    vector< TypeVariable > variables;
-    TypeDomain domain;
-  };  
-}
+constexpr int TABU = 5;
+constexpr int OPT_TIME	= 150;

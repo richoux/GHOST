@@ -140,7 +140,7 @@ namespace ghost
     }
   }
 
-  pair<int, int> WallinGrid::shift( Building& building )
+  pair<int, int> WallinGrid::shift( Building &building )
   {
     int overlaps = 0;
     int unbuildables = 0;
@@ -187,7 +187,7 @@ namespace ghost
     return make_pair( overlaps, unbuildables );
   }
 
-  void WallinGrid::quickShift( Building& building )
+  void WallinGrid::quickShift( Building &building )
   {
     if( building.isSelected() )
     {
@@ -395,6 +395,22 @@ namespace ghost
       || targetBuildings.find( id ) != targetBuildings.end();
   }
 
+  bool WallinGrid::isNeightborOfSTTBuildings( const Building &building, vector< Building > others  ) const
+  {
+    auto startingBuildings = buildingsAt( getStartingTile() );
+    auto targetBuildings = buildingsAt( getTargetTile() );
+
+    remove_if( begin(others), end(others), [&](Building b)
+	       {
+		 return ( find( begin(startingBuildings), end(startingBuildings), b.getId() ) == end(startingBuildings) )
+		   &&
+		   ( find( begin(targetBuildings), end(targetBuildings), b.getId() ) == end(targetBuildings) );
+	       }
+	       );
+
+    return getBuildingsAround( building, others ).size() != 0;
+  }
+  
   int WallinGrid::countAround( const Building& b, const vector< Building >& variables ) const
   {
     if( b.isSelected() )
