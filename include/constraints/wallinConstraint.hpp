@@ -33,26 +33,26 @@
 
 #include "constraint.hpp"
 #include "../variables/building.hpp"
-#include "../domains/wallinGrid.hpp"
+#include "../domains/wallinDomain.hpp"
 #include "../objectives/objective.hpp"
 
 using namespace std;
 
 namespace ghost
 {
-  class WallinConstraint : public Constraint<Building, WallinGrid>
+  class WallinConstraint : public Constraint<Building, WallinDomain>
   {
   public:
-    WallinConstraint( const vector< Building >&, const WallinGrid& );
+    WallinConstraint( const vector< Building >*, const WallinDomain* );
 
     virtual vector<double> simulateCost( Building &oldBuilding,
 				 const vector<int> &newPosition,
 				 vector< vector<double> > &vecVarSimCosts,
-				 shared_ptr< Objective< Building, WallinGrid > > objective )
+				 shared_ptr< Objective< Building, WallinDomain > > objective )
     {
-      std::vector<double> simCosts( domain.getSize(), -1. );
+      std::vector<double> simCosts( domain->getSize(), -1. );
       int backup = oldBuilding.getValue();
-      int index = oldBuilding.getId();
+      // int index = oldBuilding.getId();
       int previousPos = 0;
     
       if( objective )
@@ -62,16 +62,16 @@ namespace ghost
       {
 	if( pos >= 1 && pos == previousPos + 1 )
 	{
-	  domain.quickShift( oldBuilding );
+	  domain->quickShift( oldBuilding );
 	}
 	else
 	{ 
-	  domain.clear( oldBuilding );
+	  domain->clear( oldBuilding );
 	  oldBuilding.setValue( pos );
-	  domain.add( oldBuilding );
+	  domain->add( oldBuilding );
 	}
 
-	variables[ index ].setValue( pos );
+	//variables->at( index ).setValue( pos );
 	
 	simCosts[pos+1] = cost( vecVarSimCosts[pos+1] );
 	if( objective )
@@ -80,11 +80,11 @@ namespace ghost
 	previousPos = pos;
       }
 
-      domain.clear( oldBuilding );
+      domain->clear( oldBuilding );
       oldBuilding.setValue( backup );
-      domain.add( oldBuilding );
+      domain->add( oldBuilding );
 
-      variables[ index ].setValue( backup );
+      //variables->at( index ).setValue( backup );
 
       return simCosts;
     }
@@ -107,7 +107,7 @@ namespace ghost
   class Overlap : public WallinConstraint
   {
   public:
-    Overlap( const vector< Building >&, const WallinGrid& );
+    Overlap( const vector< Building >*, const WallinDomain* );
     
     double cost( vector<double>& ) const;
     vector<double> simulateCost( Building&, const vector<int>&, vector< vector<double> >& );
@@ -120,7 +120,7 @@ namespace ghost
   class Buildable : public WallinConstraint
   {
   public:
-    Buildable( const vector< Building >&, const WallinGrid& );
+    Buildable( const vector< Building >*, const WallinDomain* );
     
     double cost( vector<double>& ) const;
     vector<double> simulateCost( Building&, const vector<int>&, vector< vector<double> >& );
@@ -133,7 +133,7 @@ namespace ghost
   class NoGaps : public WallinConstraint
   {
   public:
-    NoGaps( const vector< Building >&, const WallinGrid& );
+    NoGaps( const vector< Building >*, const WallinDomain* );
     
     double cost( vector<double>& ) const;
     double simulateCost( Building&, const int, vector<double>& );
@@ -146,10 +146,10 @@ namespace ghost
   class StartingTargetTiles : public WallinConstraint
   {
   public:
-    StartingTargetTiles( const vector< Building >&, const WallinGrid& );
+    StartingTargetTiles( const vector< Building >*, const WallinDomain* );
 
     double cost( vector<double>& ) const;
   private:
-    map<int, Building> mapBuildings;
+    map<int, Building*> mapBuildings;
   };
 }

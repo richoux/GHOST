@@ -31,7 +31,7 @@
 
 #include "../variables/wallinTerranBuildings.hpp"
 #include "../constraints/wallinConstraint.hpp"
-#include "../domains/wallinGrid.hpp"
+#include "../domains/wallinDomain.hpp"
 
 using namespace std;
 
@@ -88,12 +88,12 @@ namespace ghost
     return vec;
   }
 
-  vector< shared_ptr<WallinConstraint> > makeTerranConstraints( const vector< Building > &vec, const WallinGrid &grid )
+  vector< shared_ptr<WallinConstraint> > makeTerranConstraints( const vector< Building > *vec, const WallinDomain *domain )
   {
-    shared_ptr<WallinConstraint> overlap	= make_shared<Overlap>( vec, grid );
-    shared_ptr<WallinConstraint> buildable	= make_shared<Buildable>( vec, grid );
-    shared_ptr<WallinConstraint> noGaps		= make_shared<NoGaps>( vec, grid );
-    shared_ptr<WallinConstraint> specialTiles	= make_shared<StartingTargetTiles>( vec, grid );
+    shared_ptr<WallinConstraint> overlap	= make_shared<Overlap>( vec, domain );
+    shared_ptr<WallinConstraint> buildable	= make_shared<Buildable>( vec, domain );
+    shared_ptr<WallinConstraint> noGaps		= make_shared<NoGaps>( vec, domain );
+    shared_ptr<WallinConstraint> specialTiles	= make_shared<StartingTargetTiles>( vec, domain );
 
     vector< shared_ptr<WallinConstraint> > vecConstraints {overlap, buildable, noGaps, specialTiles};
     return vecConstraints;

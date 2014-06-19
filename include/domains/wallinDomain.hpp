@@ -43,18 +43,18 @@ namespace ghost
 {
   using mapFail = map<pair<int, int>, string>;
 
-  class WallinGrid : public Domain<Building>
+  class WallinDomain : public Domain<Building>
   {
   public:
     // To counter method hiding
     using Domain<Building>::add;
     using Domain<Building>::clear;
 
-    WallinGrid( int, int, int, int, int, int, int ) ;
-    WallinGrid( int,
+    WallinDomain( int, int, int, int, int, int, int ) ;
+    WallinDomain( int,
 		int,
 		const vector< pair<int, int> >&,
-		const vector< Building >&,
+		const vector< Building >*,
 		int,
 		int,
 		int,
@@ -64,11 +64,11 @@ namespace ghost
     void		quickShift( Building& );
     void		swap( Building&, Building& );	  
     
-    set< Building > getBuildingsAround( const Building &, const vector< Building >& )	const;
-    set< Building > getBuildingsAbove( const Building &, const vector< Building >& )	const;
-    set< Building > getBuildingsOnRight( const Building &, const vector< Building >& )	const;
-    set< Building > getBuildingsBelow( const Building &, const vector< Building >& )	const;
-    set< Building > getBuildingsOnLeft( const Building &, const vector< Building >& )	const;
+    set< Building > getBuildingsAround( const Building &, const vector< Building >* )	const;
+    set< Building > getBuildingsAbove( const Building &, const vector< Building >* )	const;
+    set< Building > getBuildingsOnRight( const Building &, const vector< Building >* )	const;
+    set< Building > getBuildingsBelow( const Building &, const vector< Building >* )	const;
+    set< Building > getBuildingsOnLeft( const Building &, const vector< Building >* )	const;
 
     inline int		 distanceTo( int source, int target )	const { return distanceTo( source, lin2mat( target ) ); }
     inline int		 distanceToTarget( int source )		const { return distanceTo( source, targetTile ); }
@@ -95,10 +95,10 @@ namespace ghost
 
     bool	isStartingOrTargetTile( int ) const;
     bool	isNeightborOfSTTBuildings( const Building &, vector< Building > ) const;
-    int		countAround( const Building &, const vector< Building >& ) const;  
+    int		countAround( const Building &, const vector< Building >* ) const;  
     vector<int>	possiblePos( const Building& ) const;
     
-    friend ostream& operator<<( ostream&, const WallinGrid& );
+    friend ostream& operator<<( ostream&, const WallinDomain& );
 
   private:
     void v_add( const Building& );

@@ -29,11 +29,11 @@
 // #include <sstream>
 // #include <cstdlib>
 
-#include "../../include/domains/wallinGrid.hpp"
+#include "../../include/domains/wallinDomain.hpp"
 
 namespace ghost
 {
-  WallinGrid::WallinGrid( int col,
+  WallinDomain::WallinDomain( int col,
 			  int row,
 			  int nbVar,
 			  int sRow,
@@ -52,24 +52,24 @@ namespace ghost
     matrixType_[tRow][tCol] += "@t";
   }
 
-  WallinGrid::WallinGrid( int col,
+  WallinDomain::WallinDomain( int col,
 			  int row,
-			  const vector< pair<int, int> >& unbuildables,
-			  const vector< Building >& variables,
+			  const vector< pair<int, int> > &unbuildables,
+			  const vector< Building > *variables,
 			  int sRow,
 			  int sCol,
 			  int tRow,
 			  int tCol ) 
-    : WallinGrid( col, row, variables.size(), sRow, sCol, tRow, tCol )
+    : WallinDomain( col, row, variables->size(), sRow, sCol, tRow, tCol )
   {
     for( const auto &u : unbuildables )
       matrixType_[u.first][u.second].assign(3, '#');
 
-    for( const auto &v : variables )
+    for( const auto &v : *variables )
       domains[ v.getId() ] = possiblePos( v );
   }
 
-  void WallinGrid::v_add( const Building& building )
+  void WallinDomain::v_add( const Building& building )
   {
     if( building.isSelected() )
     {
@@ -83,7 +83,7 @@ namespace ghost
     }
   }
 
-  void WallinGrid::add( int row, int col, string b_short, int b_id )
+  void WallinDomain::add( int row, int col, string b_short, int b_id )
   {
     bool fail = ! ( matrixType_[row][col].empty() 
 		    || ( matrixType_[row][col].find("@") != string::npos && matrixType_[row][col].size() <= 3) );
@@ -100,7 +100,7 @@ namespace ghost
     }
   }
   
-  void WallinGrid::v_clear( const Building& building )
+  void WallinDomain::v_clear( const Building& building )
   {
     if( building.isSelected() )
     {
@@ -115,7 +115,7 @@ namespace ghost
   }
 
   // Not sure; fix later
-  void WallinGrid::clear( int row, int col, string b_short, int b_id )
+  void WallinDomain::clear( int row, int col, string b_short, int b_id )
   {
     auto it = matrixType_[row][col].find( b_short );
     if( it != string::npos )
@@ -140,7 +140,7 @@ namespace ghost
     }
   }
 
-  pair<int, int> WallinGrid::shift( Building &building )
+  pair<int, int> WallinDomain::shift( Building &building )
   {
     int overlaps = 0;
     int unbuildables = 0;
@@ -187,7 +187,7 @@ namespace ghost
     return make_pair( overlaps, unbuildables );
   }
 
-  void WallinGrid::quickShift( Building &building )
+  void WallinDomain::quickShift( Building &building )
   {
     if( building.isSelected() )
     {
@@ -208,7 +208,7 @@ namespace ghost
     }
   }
 
-  void WallinGrid::swap( Building &first, Building &second )
+  void WallinDomain::swap( Building &first, Building &second )
   {
     v_clear( first );
     v_clear( second );
@@ -217,7 +217,7 @@ namespace ghost
     v_add( second );
   }  
 
-  set< Building > WallinGrid::getBuildingsAround ( const Building& b, const vector< Building >& variables ) const
+  set< Building > WallinDomain::getBuildingsAround ( const Building &b, const vector< Building > *variables ) const
   {
     set< Building > myNeighbors;
 
@@ -230,7 +230,7 @@ namespace ghost
       int bottom = coordinates.first + b.getHeight() - 1;
       int left = coordinates.second;
 
-      for(auto &other : variables )
+      for(auto &other : *variables )
       {
   	if( other.getId() != b.getId() && other.isSelected() )
   	{
@@ -254,7 +254,7 @@ namespace ghost
     return myNeighbors;
   }
 
-  set< Building > WallinGrid::getBuildingsAbove ( const Building& b, const vector< Building >& variables ) const
+  set< Building > WallinDomain::getBuildingsAbove ( const Building &b, const vector< Building > *variables ) const
   {
     set< Building > myNeighbors;
 
@@ -266,7 +266,7 @@ namespace ghost
       int right = coordinates.second + b.getLength() - 1;
       int left = coordinates.second;
 
-      for(auto &other : variables )
+      for(auto &other : *variables )
       {
 	if( other.getId() != b.getId() && other.isSelected() )
 	{
@@ -284,7 +284,7 @@ namespace ghost
     return myNeighbors;
   }
 
-  set< Building > WallinGrid::getBuildingsOnRight ( const Building& b, const vector< Building >& variables ) const
+  set< Building > WallinDomain::getBuildingsOnRight ( const Building &b, const vector< Building > *variables ) const
   {
     set< Building > myNeighbors;
 
@@ -296,7 +296,7 @@ namespace ghost
       int right = coordinates.second + b.getLength() - 1;
       int bottom = coordinates.first + b.getHeight() - 1;
 
-      for(auto &other : variables )
+      for(auto &other : *variables )
       {
 	if( other.getId() != b.getId() && other.isSelected() )
 	{
@@ -314,7 +314,7 @@ namespace ghost
     return myNeighbors;
   }
 
-  set< Building > WallinGrid::getBuildingsBelow ( const Building& b, const vector< Building >& variables ) const
+  set< Building > WallinDomain::getBuildingsBelow ( const Building &b, const vector< Building > *variables ) const
   {
     set< Building > myNeighbors;
 
@@ -326,7 +326,7 @@ namespace ghost
       int bottom = coordinates.first + b.getHeight() - 1;
       int left = coordinates.second;
 
-      for(auto &other : variables )
+      for(auto &other : *variables )
       {
 	if( other.getId() != b.getId() && other.isSelected() )
 	{
@@ -344,7 +344,7 @@ namespace ghost
     return myNeighbors;
   }
 
-  set< Building > WallinGrid::getBuildingsOnLeft ( const Building& b, const vector< Building >& variables ) const
+  set< Building > WallinDomain::getBuildingsOnLeft ( const Building &b, const vector< Building > *variables ) const
   {
     set< Building > myNeighbors;
 
@@ -356,7 +356,7 @@ namespace ghost
       int bottom = coordinates.first + b.getHeight() - 1;
       int left = coordinates.second;
 
-      for(auto &other : variables )
+      for(auto &other : *variables )
       {
 	if( other.getId() != b.getId() && other.isSelected() )
 	{
@@ -374,19 +374,19 @@ namespace ghost
     return myNeighbors;
   }
 
-  int WallinGrid::distanceTo( int source, pair<int, int> target ) const
+  int WallinDomain::distanceTo( int source, pair<int, int> target ) const
   {
     pair<int, int> sourcePair = lin2mat( source );
     return abs( target.first - sourcePair.first ) + abs( target.second - sourcePair.second );
   }
 
-  void WallinGrid::unbuildable( vector< pair<int, int> > unbuildables )
+  void WallinDomain::unbuildable( vector< pair<int, int> > unbuildables )
   {
     for( auto &u : unbuildables )
       this->unbuildable( u.first, u.second );    
   }
 
-  bool WallinGrid::isStartingOrTargetTile( int id ) const
+  bool WallinDomain::isStartingOrTargetTile( int id ) const
   {
     auto startingBuildings = buildingsAt( getStartingTile() );
     auto targetBuildings = buildingsAt( getTargetTile() );
@@ -395,7 +395,7 @@ namespace ghost
       || targetBuildings.find( id ) != targetBuildings.end();
   }
 
-  bool WallinGrid::isNeightborOfSTTBuildings( const Building &building, vector< Building > others  ) const
+  bool WallinDomain::isNeightborOfSTTBuildings( const Building &building, vector< Building > others  ) const
   {
     auto startingBuildings = buildingsAt( getStartingTile() );
     auto targetBuildings = buildingsAt( getTargetTile() );
@@ -408,10 +408,10 @@ namespace ghost
 	       }
 	       );
 
-    return getBuildingsAround( building, others ).size() != 0;
+    return getBuildingsAround( building, &others ).size() != 0;
   }
   
-  int WallinGrid::countAround( const Building& b, const vector< Building >& variables ) const
+  int WallinDomain::countAround( const Building &b, const vector< Building > *variables ) const
   {
     if( b.isSelected() )
       return getBuildingsAround( b, variables ).size();
@@ -419,7 +419,7 @@ namespace ghost
       return 0;
   }
 
-  vector<int> WallinGrid::possiblePos( const Building& b ) const
+  vector<int> WallinDomain::possiblePos( const Building& b ) const
   {
     vector<int> possiblePositions;
 
@@ -437,7 +437,7 @@ namespace ghost
     return possiblePositions;
   }
 
-  ostream& operator<<( ostream& os, const WallinGrid& g )
+  ostream& operator<<( ostream& os, const WallinDomain& g )
   {
     os << "#rows: " <<  g.nRow_ << endl
        << "#columns: " <<  g.mCol_ << endl

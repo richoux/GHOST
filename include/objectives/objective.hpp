@@ -35,9 +35,6 @@
 
 using namespace std;
 
-
-
-
 namespace ghost
 {
   template <typename TypeVariable, typename TypeDomain>
@@ -47,30 +44,30 @@ namespace ghost
     Objective( const string &name ) : name(name) { }
 
     
-    inline double cost( const vector< TypeVariable > &vecBuildings,
-			const TypeDomain &domain ) const
-      { return v_cost(vecBuildings, domain); }
+    inline double cost( const vector< TypeVariable > *vecVariables,
+			const TypeDomain *domain ) const
+      { return v_cost(vecVariables, domain); }
     
-    inline int heuristicVariable( const vector< int > &vecVariables,
-				  const vector< TypeVariable > &vecBuildings,
-				  TypeDomain &domain )
-      { return v_heuristicVariable(vecVariables, vecBuildings, domain); }
+    inline int heuristicVariable( const vector< int > &vecVarId,
+				  const vector< TypeVariable > *vecVariables,
+				  TypeDomain *domain )
+      { return v_heuristicVariable(vecVarId, vecVariables, domain); }
     
     inline void setHelper( const TypeVariable &variable,
-			   const vector< TypeVariable > &vecBuildings,
-			   const TypeDomain &domain )
-      { v_setHelper(variable, vecBuildings, domain); }
+			   const vector< TypeVariable > *vecVariables,
+			   const TypeDomain *domain )
+      { v_setHelper(variable, vecVariables, domain); }
 
-    inline void postprocessSatisfaction( vector< TypeVariable > &vecBuildings,
-					 TypeDomain &domain,
+    inline void postprocessSatisfaction( vector< TypeVariable > *vecVariables,
+					 TypeDomain *domain,
 					 double &bestCost,
 					 vector<int> &bestSolution)
-      { v_postprocessSatisfaction(vecBuildings, domain, bestCost, bestSolution); }
+      { v_postprocessSatisfaction(vecVariables, domain, bestCost, bestSolution); }
 
-    inline void postprocessOptimization( const vector< TypeVariable > &vecBuildings,
-					 TypeDomain &domain,
+    inline void postprocessOptimization( const vector< TypeVariable > *vecVariables,
+					 TypeDomain *domain,
 					 double &bestCost )
-      { v_postprocessOptimization(vecBuildings, domain, bestCost); }
+      { v_postprocessOptimization(vecVariables, domain, bestCost); }
 
     inline string getName() { return name; }
 
@@ -131,24 +128,24 @@ namespace ghost
       }
 
   protected:
-    virtual double	v_cost( const vector< TypeVariable > &vecBuildings,
-				const TypeDomain& ) const = 0;
+    virtual double	v_cost( const vector< TypeVariable > *vecVariables,
+				const TypeDomain *domain ) const = 0;
 
-    virtual int		v_heuristicVariable( const vector< int > &vecVariables,
-					     const vector< TypeVariable > &vecBuildings,
-					     TypeDomain& ) = 0;
+    virtual int		v_heuristicVariable( const vector< int > &vecVarId,
+					     const vector< TypeVariable > *vecVariables,
+					     TypeDomain *domain ) = 0;
 
     virtual void	v_setHelper( const TypeVariable &b,
-				     const vector< TypeVariable > &vecBuildings,
-				     const TypeDomain &domain ) = 0;
+				     const vector< TypeVariable > *vecVariables,
+				     const TypeDomain *domain ) = 0;
 
-    virtual void	v_postprocessSatisfaction( vector< TypeVariable > &vecBuildings,
-						   TypeDomain &domain,
+    virtual void	v_postprocessSatisfaction( vector< TypeVariable > *vecVariables,
+						   TypeDomain *domain,
 						   double &bestCost,
 						   vector<int> &bestSolution ) const { }
 
-    virtual void	v_postprocessOptimization( const vector< TypeVariable > &vecBuildings,
-						   TypeDomain &domain,
+    virtual void	v_postprocessOptimization( const vector< TypeVariable > *vecVariables,
+						   TypeDomain *domain,
 						   double &bestCost ) { }
 
     Random randomVar;

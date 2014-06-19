@@ -54,14 +54,14 @@ namespace ghost
   class Solver
   {
   public:
-    Solver( const vector< TypeVariable > &vecVariables, 
-	    const TypeDomain &domain,
+    Solver( vector< TypeVariable > *vecVariables, 
+	    TypeDomain *domain,
 	    const vector< shared_ptr<TypeConstraint> > &vecConstraints,
 	    const shared_ptr< Objective<TypeVariable, TypeDomain> > &obj )
       : Solver(vecVariables, domain, vecConstraints, obj, 0){  }
 
-    Solver( const vector< TypeVariable > &vecVariables, 
-	    const TypeDomain &domain,
+    Solver( vector< TypeVariable > *vecVariables, 
+	    TypeDomain *domain,
 	    const vector< shared_ptr<TypeConstraint> > &vecConstraints,
 	    const shared_ptr< Objective<TypeVariable, TypeDomain> > &obj,
 	    const int loops )
@@ -69,10 +69,10 @@ namespace ghost
 	domain(domain),
 	vecConstraints(vecConstraints),
 	objective(obj),
-	variableCost(vecVariables.size()),
+	variableCost(vecVariables->size()),
 	loops(loops),
-	tabuList(vecVariables.size()),
-	bestSolution(vecVariables.size())
+	tabuList(vecVariables->size()),
+	bestSolution(vecVariables->size())
       { 
 	reset();
       }
@@ -95,7 +95,7 @@ namespace ghost
       chrono::time_point<chrono::system_clock> soverlap, sbuildable, snogaps, sstt; 
 #endif
 
-      int sizeDomain = domain.getSize();
+      int sizeDomain = domain->getSize();
       vector< vector< double > >	vecConstraintsCosts( vecConstraints.size() );
       vector< double >		vecGlobalCosts( sizeDomain );
       vector< vector< double > >	vecVarSimCosts( sizeDomain );
@@ -115,8 +115,8 @@ namespace ghost
 
       TypeVariable *oldVariable;
       vector<int> possiblePositions;
-      vector<double> varSimCost( vecVariables.size() );
-      vector<double> bestSimCost( vecVariables.size() );
+      vector<double> varSimCost( vecVariables->size() );
+      vector<double> bestSimCost( vecVariables->size() );
 
       int tour = 0;
       int iterations = 0;
@@ -129,29 +129,29 @@ namespace ghost
 	bestEstimatedCost = numeric_limits<int>::max();
 	std::fill( varSimCost.begin(), varSimCost.end(), 0. );
 	std::fill( bestSimCost.begin(), bestSimCost.end(), 0. );
-	std::fill( vecConstraintsCosts.begin(), vecConstraintsCosts.end(), vector<double>( vecVariables.size(), 0. ) );
-	std::fill( vecVarSimCosts.begin(), vecVarSimCosts.end(), vector<double>( vecVariables.size(), 0. ) );
+	std::fill( vecConstraintsCosts.begin(), vecConstraintsCosts.end(), vector<double>( vecVariables->size(), 0. ) );
+	std::fill( vecVarSimCosts.begin(), vecVarSimCosts.end(), vector<double>( vecVariables->size(), 0. ) );
 	std::fill( variableCost.begin(), variableCost.end(), 0. );
 	std::fill( tabuList.begin(), tabuList.end(), 0 );
 
 	do // solving loop 
 	{
 	  ++iterations;
-	  elapsedTime = chrono::system_clock::now() - start;
-	  cout << "Elapsed time: " << elapsedTime.count() << endl;
+	  // elapsedTime = chrono::system_clock::now() - start;
+	  // cout << "Elapsed time: " << elapsedTime.count() << endl;
 
-	  for( auto &c : vecConstraints )
-	  {
-	    fill( varSimCost.begin(), varSimCost.end(), 0. );
-	    cout << "Cost of " << typeid(*c).name() << ": " << c->cost( varSimCost ) << " [";
+	  // for( auto &c : vecConstraints )
+	  // {
+	  //   fill( varSimCost.begin(), varSimCost.end(), 0. );
+	  //   cout << "Cost of " << typeid(*c).name() << ": " << c->cost( varSimCost ) << " [";
 	    
-	    for( int i = 0; i < varSimCost.size(); ++i )
-	    {
-	      cout << " " << varSimCost[i];
-	    }
+	  //   for( int i = 0; i < varSimCost.size(); ++i )
+	  //   {
+	  //     cout << " " << varSimCost[i];
+	  //   }
 	    
-	    cout << " ]" << endl;
-	  }
+	  //   cout << " ]" << endl;
+	  // }
 	  
 	  if( globalCost == numeric_limits<int>::max() )
 	  {
@@ -189,10 +189,10 @@ namespace ghost
 	  worstVariables.clear();
 	  worstVariableCost = 0;
 
-	  cout << "Variables cost [ ";
-	    for( auto &v : variableCost )
-	      cout << " " << v;
-	  cout << " ]" << endl;
+	  // cout << "Variables cost [ ";
+	  //   for( auto &v : variableCost )
+	  //     cout << " " << v;
+	  // cout << " ]" << endl;
 
 	  for( int i = 0; i < variableCost.size(); ++i )
 	  {
@@ -210,18 +210,18 @@ namespace ghost
 	    }
 	  }
 
-	  cout << "Worst variables: ";
-	  for( auto &w : worstVariables )
-	    cout << w << " ";
-	  cout << endl;
+	  // cout << "Worst variables: ";
+	  // for( auto &w : worstVariables )
+	  //   cout << w << " ";
+	  // cout << endl;
 	  
 	  
 	  // can apply some heuristics here, according to the objective function
 	  worstVariableId = objective->heuristicVariable( worstVariables, vecVariables, domain );
-	  oldVariable = &vecVariables.at( worstVariableId );
+	  oldVariable = &vecVariables->at( worstVariableId );
       
 	  // get possible positions for oldVariable.
-	  possiblePositions = domain.possibleValues( *oldVariable );
+	  possiblePositions = domain->possibleValues( *oldVariable );
 
 	  // time simulateCost
 	  startSimCost = chrono::system_clock::now();
@@ -280,11 +280,11 @@ namespace ghost
 	  int b = objective->heuristicValue( vecGlobalCosts, bestEstimatedCost, bestPosition );
 	  bestSimCost = vecVarSimCosts[ b ];
 
-	  cout << "Best position: " << bestPosition << endl
-	       << "Best Sim Cost [ ";
-	  for( auto &v : bestSimCost )
-	    cout << " " << v;
-	  cout << " ]" << endl;
+	  // cout << "Best position: " << bestPosition << endl
+	  //      << "Best Sim Cost [ ";
+	  // for( auto &v : bestSimCost )
+	  //   cout << " " << v;
+	  // cout << " ]" << endl;
 
 	  timeSimCost += chrono::system_clock::now() - startSimCost;
 
@@ -298,12 +298,12 @@ namespace ghost
 	      bestGlobalCost = globalCost;
 
 	    variableCost = bestSimCost;
-	    cout << "Move "
-		 << oldVariable->getName() << "." << oldVariable->getId()
-		 << " from " << oldVariable->getValue()
-		 << " to " << bestPosition << endl;
+	    // cout << "Move "
+	    // 	 << oldVariable->getName() << "." << oldVariable->getId()
+	    // 	 << " from " << oldVariable->getValue()
+	    // 	 << " to " << bestPosition << endl;
 	    move( oldVariable, bestPosition );
-	    cout << domain << endl;
+	    // cout << *domain << endl;
 	  }
 	  else // local minima
 	    tabuList[ worstVariableId ] = TABU;
@@ -321,16 +321,16 @@ namespace ghost
       while( ( ( objective != nullptr || loops == 0 )  && ( elapsedTime.count() < OPT_TIME ) )//|| ( elapsedTime.count() >= OPT_TIME && bestGlobalCost != 0 && elapsedTime.count() < 10 * OPT_TIME ) ) 
 	     || ( objective == nullptr && elapsedTime.count() < timeout * loops ) );
 
-      // clearAllInGrid< decltype(*vecVariables.begin()), decltype(domain) >( vecVariables, domain );
-      for( auto &b : vecVariables )
-	domain.clear( b );
+      // clearAllInGrid< decltype(*vecVariables->begin()), decltype(domain) >( vecVariables, domain );
+      for( auto &b : *vecVariables )
+	domain->clear( b );
 
-      for( int i = 0; i < vecVariables.size(); ++i )
-	vecVariables[i].setValue( bestSolution[i] );
+      for( int i = 0; i < vecVariables->size(); ++i )
+	vecVariables->at(i).setValue( bestSolution[i] );
     
-      // addAllInGrid< decltype(*vecVariables.begin()), decltype(domain) >( vecVariables, domain );
-      for( auto &b : vecVariables )
-	domain.add( b );
+      // addAllInGrid< decltype(*vecVariables->begin()), decltype(domain) >( vecVariables, domain );
+      for( auto &b : *vecVariables )
+	domain->add( b );
 
       if( bestGlobalCost == 0 )
 	objective->postprocessOptimization( vecVariables, domain, bestCost );
@@ -366,14 +366,14 @@ namespace ghost
       // 	    --tabuList[i];
       // 	}
 
-      // 	for( int i = 0; i < vecVariables.size(); ++i )
+      // 	for( int i = 0; i < vecVariables->size(); ++i )
       // 	{
       // 	  if( tabuList[i] == 0 )
       // 	    goodVar.push_back( i );
       // 	}
 
       // 	if( goodVar.empty() )
-      // 	  for( int i = 0; i < vecVariables.size(); ++i )
+      // 	  for( int i = 0; i < vecVariables->size(); ++i )
       // 	    goodVar.push_back( i );	
 
       // 	int index = objective->heuristicVariable( goodVar, vecVariables, domain );
@@ -385,7 +385,7 @@ namespace ghost
       // 	  mustSwap = false;
       // 	  if( it->second->getId() != oldVariable->getId() )
       // 	  {
-      // 	    domain.swap( *it->second, oldVariable );
+      // 	    domain->swap( *it->second, oldVariable );
 	    
       // 	    currentCost = objective->cost( vecVariables, domain );
       // 	    if( currentCost < bestCost )
@@ -395,18 +395,18 @@ namespace ghost
       // 	      mustSwap = true;
       // 	    }
 
-      // 	    domain.swap( *it->second, oldVariable );
+      // 	    domain->swap( *it->second, oldVariable );
       // 	  }
 	  
       // 	  if( mustSwap )
-      // 	    domain.swap( *toSwap, oldVariable );
+      // 	    domain->swap( *toSwap, oldVariable );
       // 	}
 
       // 	tabuList[ index ] = 2;//std::max(2, static_cast<int>( ceil(TABU / 2) ) );
       //   }
       // }
  
-      cout << "Domains:" << domain << endl;
+      cout << "Domains:" << *domain << endl;
 
       if( objective == nullptr )
 	cout << "SATISFACTION run: try to find a sound wall only!" << endl;
@@ -448,8 +448,8 @@ namespace ghost
 	   << "STT: " << tstt.count() << endl;
 
       // updateConstraints( vecConstraints, domain );
-      for( auto &c : vecConstraints )
-	c->update( vecVariables, domain );
+      // for( auto &c : vecConstraints )
+      // 	c->update( vecVariables, domain );
 
       // print cost for each constraint
       for( auto &c : vecConstraints )
@@ -464,7 +464,7 @@ namespace ghost
       }      
 
       cout << endl << "Buildings:" << endl;
-      for(const auto &v : vecVariables)
+      for(const auto &v : *vecVariables)
 	cout << v << endl;
       
       cout << endl;
@@ -480,45 +480,45 @@ namespace ghost
     void reset()
     {
       // clearAllInGrid< TypeVariable, TypeDomain >( vecVariables, domain );
-      for( auto &v : vecVariables )
-	domain.clear( v );
+      for( auto &v : *vecVariables )
+	domain->clear( v );
 	
-      for( auto &v : vecVariables )
+      for( auto &v : *vecVariables )
       {
 	// 1 chance over 3 to be placed on the domain
 	if( randomVar.getRandNum(3) == 0)
 	{
-	  v.setValue( domain.randomValue( v ) );
-	  domain.add( v );
+	  v.setValue( domain->randomValue( v ) );
+	  domain->add( v );
 	}
 	else
 	  v.setValue( -1 );
       }
 
-      cout << "RESET!" << endl
-	   << domain << endl;
+      // cout << "RESET!" << endl
+      // 	   << *domain << endl;
       
       // updateConstraints< TypeVariable, TypeDomain >( vecConstraints, domain );
-      for( auto &c : vecConstraints )
-	c->update( vecVariables, domain );
+      // for( auto &c : vecConstraints )
+      // 	c->update( vecVariables, domain );
     }
     
     inline void move( TypeVariable *building, int newPosition )
     {
-      domain.clear( *building );
+      domain->clear( *building );
       building->setValue( newPosition );
-      domain.add( *building );
+      domain->add( *building );
       // updateConstraints( vecConstraints, domain );
-      for( auto& c : vecConstraints )
-	c->update( vecVariables, domain );
+      // for( auto& c : vecConstraints )
+      // 	c->update( vecVariables, domain );
     }
 
     // set< TypeVariable > getNecessaryVariables() const
     //   {
     // 	// find all buildings accessible from the starting building and remove all others
-    // 	int nberCurrent = *( domain.buildingsAt( domain.getStartingTile() ).begin() );
+    // 	int nberCurrent = *( domain->buildingsAt( domain->getStartingTile() ).begin() );
     // 	TypeVariable current = vecVariables[ nberCurrent ];
-    // 	set< TypeVariable > toVisit = domain.getVariablesAround( *current, vecVariables );
+    // 	set< TypeVariable > toVisit = domain->getVariablesAround( *current, vecVariables );
     // 	set< TypeVariable > visited;
     // 	set< TypeVariable > neighbors;
     
@@ -529,7 +529,7 @@ namespace ghost
     // 	  auto first = *( toVisit.begin() );
     // 	  current = first;
     // 	  toVisit.erase( first );
-    // 	  neighbors = domain.getVariablesAround( *current, vecVariables );
+    // 	  neighbors = domain->getVariablesAround( *current, vecVariables );
 
     // 	  visited.insert( current );
       
@@ -542,8 +542,8 @@ namespace ghost
     //   }
 
 
-    vector< TypeVariable >				vecVariables;
-    TypeDomain						domain;
+    vector< TypeVariable >				*vecVariables;
+    TypeDomain						*domain;
     vector< shared_ptr<TypeConstraint> >		vecConstraints;
     shared_ptr< Objective<TypeVariable, TypeDomain> >	objective;
 

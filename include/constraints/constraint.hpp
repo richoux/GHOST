@@ -41,8 +41,8 @@ namespace ghost
   class Constraint
   {
   public:
-    Constraint( const vector< TypeVariable > &variables, const TypeDomain &domain )
-      : variables(variables), domain(domain) { }
+    Constraint( const vector< TypeVariable > *variables, const TypeDomain *domain )
+      : variables( const_cast< vector< TypeVariable >* >(variables) ), domain( const_cast<TypeDomain*>(domain) ) { }
 
     virtual double cost( vector<double>& ) const = 0;
     virtual vector<double> simulateCost( TypeVariable&,
@@ -50,11 +50,11 @@ namespace ghost
 					 vector< vector<double> >&,
 					 shared_ptr< Objective< TypeVariable, TypeDomain > > ) = 0;
     
-    virtual void update( const vector<TypeVariable> &v, const TypeDomain &d )
-    {
-      variables = v;
-      domain = d;
-    }
+    // virtual void update( const vector<TypeVariable> &v, const TypeDomain &d )
+    // {
+    //   variables = v;
+    //   domain = d;
+    // }
 
     friend ostream& operator<<( ostream& os, const Constraint<TypeVariable, TypeDomain>& c )
       {
@@ -62,7 +62,7 @@ namespace ghost
       }
     
   protected:
-    vector< TypeVariable > variables;
-    TypeDomain domain;
+    vector< TypeVariable > *variables;
+    TypeDomain *domain;
   };  
 }

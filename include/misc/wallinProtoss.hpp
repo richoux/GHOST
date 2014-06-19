@@ -31,7 +31,7 @@
 
 #include "../variables/building.hpp"
 #include "../constraints/constraint.hpp"
-#include "../domains/wallinGrid.hpp"
+#include "../domains/wallinDomain.hpp"
 
 using namespace std;
 
@@ -74,13 +74,13 @@ namespace ghost
     return vec;
   }
 
-  vector::set< Constraint* > makeProtossConstraints( const std::vector<std::shared_ptr<Building> >& vec, const WallinGrid& grid )
+  vector::set< Constraint* > makeProtossConstraints( const std::vector<std::shared_ptr<Building> >& vec, const WallinDomain& domain )
   {
-    overlap	 = make_shared<Overlap>( vec, grid );
-    buildable	 = make_shared<Buildable>( vec, grid );
-    noGaps	 = make_shared<NoGaps>( vec, grid );
-    specialTiles = make_shared<StartingTargetTiles>( vec, grid );
-    pylons	 = make_shared<Pylons>( vec, grid );
+    overlap	 = make_shared<Overlap>( vec, domain );
+    buildable	 = make_shared<Buildable>( vec, domain );
+    noGaps	 = make_shared<NoGaps>( vec, domain );
+    specialTiles = make_shared<StartingTargetTiles>( vec, domain );
+    pylons	 = make_shared<Pylons>( vec, domain );
     
     vector< shared_ptr<Constraint> > vecConstraints {overlap, buildable, noGaps, specialTiles, pylons};
     return vecConstraints;

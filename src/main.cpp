@@ -31,7 +31,7 @@
 #include <type_traits>
 
 #include "../include/variables/building.hpp"
-#include "../include/domains/wallinGrid.hpp"
+#include "../include/domains/wallinDomain.hpp"
 #include "../include/constraints/wallinConstraint.hpp"
 #include "../include/objectives/wallinObjective.hpp"
 #include "../include/misc/tools.hpp"
@@ -83,20 +83,20 @@ int main(int argc, char **argv)
   vector< Building > vec = makeTerranBuildings();
 
   // Define domain
-  WallinGrid grid( 16, 12, unbuildables, vec, 11, 7, 6, 15 );
+  WallinDomain domain( 16, 12, unbuildables, &vec, 11, 7, 6, 15 );
 
   // Define constraints
-  vector< shared_ptr<WallinConstraint> > vecConstraints = makeTerranConstraints( vec, grid );
+  vector< shared_ptr<WallinConstraint> > vecConstraints = makeTerranConstraints( &vec, &domain );
 
   // Define objective
   shared_ptr<WallinObjective> objective = make_shared<GapObj>();
   
-  Solver<Building, WallinGrid, WallinConstraint> solver(vec, grid, vecConstraints, objective );
+  Solver<Building, WallinDomain, WallinConstraint> solver(&vec, &domain, vecConstraints, objective );
 
 #ifndef NDEBUG
   cout << boolalpha << "Building movable: " << is_nothrow_move_constructible<Building>::value << endl;
-  cout << boolalpha << "Grid movable: " << is_nothrow_move_constructible<WallinGrid>::value << endl;
-  cout << boolalpha << "Solver movable: " << is_nothrow_move_constructible<Solver<Building, WallinGrid, WallinConstraint> >::value << endl;
+  cout << boolalpha << "Domain movable: " << is_nothrow_move_constructible<WallinDomain>::value << endl;
+  cout << boolalpha << "Solver movable: " << is_nothrow_move_constructible<Solver<Building, WallinDomain, WallinConstraint> >::value << endl;
   cout << boolalpha << "Random movable: " << is_nothrow_move_constructible<Random>::value << endl;
   cout << boolalpha << "Constraint movable: " << is_nothrow_move_constructible<WallinConstraint>::value << endl;
   cout << boolalpha << "Overlap movable: " << is_nothrow_move_constructible<Overlap>::value << endl;
