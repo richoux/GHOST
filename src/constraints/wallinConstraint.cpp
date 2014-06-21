@@ -372,29 +372,24 @@ namespace ghost
   //   return conflicts;    
   // }
 
-  // double NoGaps::simulateCost( Building &oldBuilding, const int newPosition, vector<double> &varSimCost )
-  // {
-  //   int backup = oldBuilding.getValue();
-  //   // int index = oldBuilding.getId();
+  double NoGaps::simulateCost( Building &oldBuilding, const int newPosition, vector<double> &varSimCost )
+  {
+    int backup = oldBuilding.getValue();
 
-  //   domain->clear( oldBuilding );
+    domain->clear( oldBuilding );
 
-  //   oldBuilding.setValue( newPosition );
-  //   domain->add( oldBuilding );
+    oldBuilding.setValue( newPosition );
+    domain->add( oldBuilding );
 
-  //   // variables[ index ].setValue( newPosition );
-    
-  //   double simCost = cost( varSimCost );
+    double simCost = cost( varSimCost );
 
-  //   domain->clear( oldBuilding );
+    domain->clear( oldBuilding );
 
-  //   oldBuilding.setValue( backup );
-  //   domain->add( oldBuilding );
+    oldBuilding.setValue( backup );
+    domain->add( oldBuilding );
 
-  //   // variables[ index ].setValue( backup );
-    
-  //   return simCost;
-  // }
+    return simCost;
+  }
 
   
   /***********************/

@@ -32,6 +32,7 @@
 #include <cmath>
 #include <chrono>
 #include <ctime>
+#include <numeric>
 
 #include "../../include/objectives/wallinObjective.hpp"
 #include "../../include/variables/building.hpp"
@@ -57,11 +58,13 @@ namespace ghost
     }
   }
 
-  void WallinObjective::v_postprocessSatisfaction( vector< Building > *vecVariables,
+  double WallinObjective::v_postprocessSatisfaction( vector< Building > *vecVariables,
 						   WallinDomain *domain,
 						   double &bestCost,
 						   vector<int> &bestSolution ) const 
   {
+    chrono::time_point<chrono::system_clock> startPostprocess = chrono::system_clock::now(); 
+
     bool change;
     double cost;
     NoGaps ng( vecVariables, domain );
@@ -117,7 +120,6 @@ namespace ghost
 	    {
 	      domain->clear( b );
 	      b.setValue( -1 );
-	      // ng.update( vecVariables, domain );
 	      change = true;
 	    }	  
 	  }
@@ -134,10 +136,15 @@ namespace ghost
       for( int i = 0; i < vecVariables->size(); ++i )
 	bestSolution[i] = vecVariables->at(i).getValue();
     }
+
+    return (chrono::system_clock::now() - startPostprocess).count();
   }
 
-  void WallinObjective::v_postprocessOptimization( const vector< Building > *vecVariables, WallinDomain *domain, double &bestCost ) 
+  double WallinObjective::v_postprocessOptimization( vector< Building > *vecVariables, WallinDomain *domain, double &bestCost ) 
   {
+    chrono::time_point<chrono::system_clock> startPostprocess = chrono::system_clock::now(); 
+    chrono::duration<double,milli> postprocesstimer(0);
+
     vector<int> tabuList( vecVariables->size() );
     std::fill( tabuList.begin(), tabuList.end(), 0 );
 
@@ -146,18 +153,15 @@ namespace ghost
     for( auto &v : *vecVariables )
       buildingSameSize.insert( make_pair( v.getSurface(), v ) );
 
-    Building oldVariable;
+    Building *oldVariable;
     vector<int> goodVar;
-    Building toSwap;
+    Building *toSwap;
     bool mustSwap;
-
-    chrono::time_point<chrono::system_clock> startPostprocess = chrono::system_clock::now(); 
-    chrono::duration<double,milli> postprocessGap(0);
     
     bestCost = v_cost( vecVariables, domain );
     double currentCost = bestCost;
 
-    while( (postprocessGap = chrono::system_clock::now() - startPostprocess).count() < static_cast<int>( ceil(OPT_TIME / 100) ) && bestCost > 0 )
+    while( (postprocesstimer = chrono::system_clock::now() - startPostprocess).count() < static_cast<int>( ceil(OPT_TIME / 100) ) && bestCost > 0 )
     {
       goodVar.clear();
 
@@ -180,33 +184,35 @@ namespace ghost
 	  goodVar.push_back( i );	
 
       int index = v_heuristicVariable( goodVar, vecVariables, domain );
-      oldVariable = vecVariables->at( index );
-      auto surface = buildingSameSize.equal_range( oldVariable.getSurface() );
+      oldVariable = &vecVariables->at( index );
+      auto surface = buildingSameSize.equal_range( oldVariable->getSurface() );
 	
       for( auto &it = surface.first; it != surface.second; ++it )
       {
 	mustSwap = false;
-	if( it->second.getId() != oldVariable.getId() )
+	if( it->second.getId() != oldVariable->getId() )
 	{
-	  domain->swap( it->second, oldVariable );
+	  domain->swap( it->second, *oldVariable );
 	    
 	  currentCost = v_cost( vecVariables, domain );
 	  if( currentCost < bestCost )
 	  {
 	    bestCost = currentCost;
-	    toSwap = it->second;
+	    toSwap = &it->second;
 	    mustSwap = true;
 	  }
 
-	  domain->swap( it->second, oldVariable );
+	  domain->swap( it->second, *oldVariable );
 	}
 	  
 	if( mustSwap )
-	  domain->swap( toSwap, oldVariable );
+	  domain->swap( *toSwap, *oldVariable );
       }
 
       tabuList[ index ] = 2;//std::max(2, static_cast<int>( ceil(TABU / 2) ) );
     }
+
+    return postprocesstimer.count();
   }
 
   /***********/
@@ -233,7 +239,7 @@ namespace ghost
       heuristicValueHelper.at( b.getValue() ) = 0;
   }
 
-  void NoneObj::v_postprocessOptimization( const vector< Building > *vecVariables, const WallinDomain *domain, double &bestCost ) { }
+  double NoneObj::v_postprocessOptimization( vector< Building > *vecVariables, WallinDomain *domain, double &bestCost ) { return 0.; }
   
   /**********/
   /* GapObj */
@@ -366,7 +372,7 @@ namespace ghost
     return varOnDomain[ randomVar.getRandNum( size ) ];    
   }
 
-  void BuildingObj::v_postprocessOptimization( const vector< Building > *vecVariables, const WallinDomain *domain, double &bestCost ) { }
+  double BuildingObj::v_postprocessOptimization( vector< Building > *vecVariables, WallinDomain *domain, double &bestCost ) { return 0.; }
 
   /***************/
   /* TechTreeObj */

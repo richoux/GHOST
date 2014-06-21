@@ -46,9 +46,9 @@ namespace ghost
     WallinConstraint( const vector< Building >*, const WallinDomain* );
 
     virtual vector<double> simulateCost( Building &oldBuilding,
-				 const vector<int> &newPosition,
-				 vector< vector<double> > &vecVarSimCosts,
-				 shared_ptr< Objective< Building, WallinDomain > > objective )
+					 const vector<int> &newPosition,
+					 vector< vector<double> > &vecVarSimCosts,
+					 shared_ptr< Objective< Building, WallinDomain > > objective )
     {
       std::vector<double> simCosts( domain->getSize(), -1. );
       int backup = oldBuilding.getValue();

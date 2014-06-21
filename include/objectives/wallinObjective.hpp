@@ -46,14 +46,14 @@ namespace ghost
     WallinObjective( const string & );
     virtual void v_setHelper( const Building &b, const vector< Building > *vecVariables, const WallinDomain *domain );
 
-    virtual void v_postprocessSatisfaction( vector< Building > *vecVariables,
-				    WallinDomain *domain,
-				    double &bestCost,
-				    vector<int> &bestSolution ) const;
-
-    virtual void v_postprocessOptimization( const vector< Building > *vecBuildings,
-				    WallinDomain *domain,
-				    double &bestCost );
+    virtual double v_postprocessSatisfaction( vector< Building > *vecVariables,
+					      WallinDomain *domain,
+					      double &bestCost,
+					      vector<int> &bestSolution ) const;
+    
+    virtual double v_postprocessOptimization( vector< Building > *vecBuildings,
+					      WallinDomain *domain,
+					      double &bestCost );
 
   protected:
     static int sizeWall;
@@ -69,7 +69,7 @@ namespace ghost
     double v_cost( const vector< Building > *vecVariables, const WallinDomain *domain ) const;
     int v_heuristicVariable( const vector< int > &vecId, const vector< Building > *vecVariables, WallinDomain *domain );
     void v_setHelper( const Building &b, const vector< Building > *vecVariables, const WallinDomain *domain );
-    void v_postprocessOptimization( const vector< Building > *vecVariables, const WallinDomain *domain, double &bestCost );
+    double v_postprocessOptimization( vector< Building > *vecVariables, WallinDomain *domain, double &bestCost );
   };
 
   /**********/
@@ -95,7 +95,7 @@ namespace ghost
     BuildingObj();
     double v_cost( const vector< Building > *vecVariables, const WallinDomain *domain ) const;
     int v_heuristicVariable( const vector< int > &vecId, const vector< Building > *vecVariables, WallinDomain *domain );
-    void v_postprocessOptimization( const vector< Building > *vecVariables, const WallinDomain *domain, double &bestCost );
+    double v_postprocessOptimization( vector< Building > *vecVariables, WallinDomain *domain, double &bestCost );
   };
 
   /***************/

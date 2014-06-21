@@ -50,12 +50,6 @@ namespace ghost
 					 vector< vector<double> >&,
 					 shared_ptr< Objective< TypeVariable, TypeDomain > > ) = 0;
     
-    // virtual void update( const vector<TypeVariable> &v, const TypeDomain &d )
-    // {
-    //   variables = v;
-    //   domain = d;
-    // }
-
     friend ostream& operator<<( ostream& os, const Constraint<TypeVariable, TypeDomain>& c )
       {
 	return os << "Constraint type: " <<  typeid(c).name() << std::endl;
