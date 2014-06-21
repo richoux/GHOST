@@ -47,26 +47,26 @@ namespace ghost
       : size(size),
 	domains(vector< vector<int> >( numberVariables )),
 	initialDomain(vector<int>( size ))
+    {
+      std::iota( begin(initialDomain), end(initialDomain), -1 );
+      for( int i = 0; i < numberVariables; ++i )
       {
-	std::iota( begin(initialDomain), end(initialDomain), -1 );
-	for( int i = 0; i < numberVariables; ++i )
-	{
-	  domains[i] = vector<int>( size );
-	  std::iota( begin(domains[i]), end(domains[i]), -1 );
-	}
+	domains[i] = vector<int>( size );
+	std::iota( begin(domains[i]), end(domains[i]), -1 );
       }
+    }
 
     Domain( int size, int numberVariables, const vector< int > &initialDomain )
       : size(size),
 	domains(vector< vector<int> >( numberVariables )),
 	initialDomain(initialDomain)
+    {
+      for( int i = 0; i < numberVariables; ++i )
       {
-	for( int i = 0; i < numberVariables; ++i )
-	{
-	  domains[i] = vector<int>( size );	  
-	  std::copy( begin(initialDomain), end(initialDomain), domains[i].begin() );
-	}
+	domains[i] = vector<int>( size );	  
+	std::copy( begin(initialDomain), end(initialDomain), domains[i].begin() );
       }
+    }
         
 
     inline int		randomValue( const TypeVariable& var )			{ return v_randomValue(var); }
@@ -79,45 +79,45 @@ namespace ghost
     inline int getSize() const { return size; }
 
     friend ostream& operator<<( ostream& os, const Domain<TypeVariable>& domain )
-      {
-	os << "Domain type: " <<  typeid(domain).name() << endl
-	   << "Size: " <<  domain.size << endl;
-	// for( int i = 0; i < domains.size; ++i )
-	// {
-	//   os << "Domain[" << i << "]: ";
-	//   for( auto& e : domains[i] )
-	//     os << e << " ";
-	//   os << endl;
-	// }
-	// os << endl;
-	return os;
-      }
+    {
+      os << "Domain type: " <<  typeid(domain).name() << endl
+	 << "Size: " <<  domain.size << endl;
+      // for( int i = 0; i < domains.size; ++i )
+      // {
+      //   os << "Domain[" << i << "]: ";
+      //   for( auto& e : domains[i] )
+      //     os << e << " ";
+      //   os << endl;
+      // }
+      // os << endl;
+      return os;
+    }
 
   protected:
     virtual int v_randomValue( const TypeVariable& variable )
-      {
-	vector<int> possibilities = domains[ variable.getId() ];
-	return possibilities[ random.getRandNum( possibilities.size() ) ];
-      }
+    {
+      vector<int> possibilities = domains[ variable.getId() ];
+      return possibilities[ random.getRandNum( possibilities.size() ) ];
+    }
 
     virtual vector<int> v_possibleValues( const TypeVariable& variable ) const
-      {
-	return domains[ variable.getId() ];
-      }
+    {
+      return domains[ variable.getId() ];
+    }
 
     virtual void v_resetDomain( const TypeVariable& variable )
-      {
-	domains[ variable.getId() ] = initialDomain;
-      }
+    {
+      domains[ variable.getId() ] = initialDomain;
+    }
 
     virtual void v_add( const TypeVariable& variable ) { }
     virtual void v_clear( const TypeVariable& variable ) { }
 
     virtual void v_resetAllDomains()
-      {
-	for( auto& d : domains )
-	  d = initialDomain;
-      }
+    {
+      for( auto& d : domains )
+	d = initialDomain;
+    }
 
     int size;
     vector< vector< int > > domains;

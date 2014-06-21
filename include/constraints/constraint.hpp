@@ -51,9 +51,9 @@ namespace ghost
 					 shared_ptr< Objective< TypeVariable, TypeDomain > > ) = 0;
     
     friend ostream& operator<<( ostream& os, const Constraint<TypeVariable, TypeDomain>& c )
-      {
-	return os << "Constraint type: " <<  typeid(c).name() << std::endl;
-      }
+    {
+      return os << "Constraint type: " <<  typeid(c).name() << std::endl;
+    }
     
   protected:
     vector< TypeVariable > *variables;

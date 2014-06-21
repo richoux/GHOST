@@ -52,13 +52,13 @@ namespace ghost
 
     WallinDomain( int, int, int, int, int, int, int ) ;
     WallinDomain( int,
-		int,
-		const vector< pair<int, int> >&,
-		const vector< Building >*,
-		int,
-		int,
-		int,
-		int ) ;
+		  int,
+		  const vector< pair<int, int> >&,
+		  const vector< Building >*,
+		  int,
+		  int,
+		  int,
+		  int ) ;
 
     pair<int, int>	shift( Building& );
     void		quickShift( Building& );

@@ -52,15 +52,15 @@ namespace ghost
     inline int getGapLeft()	const	{ return gapLeft; }
 
     inline string getRace()	const	
-      { 
-	switch( race ) 
-	{
-	case Terran: return "Terran";
-	case Protoss: return "Protoss";
-	case Zerg: return "Zerg";
-	default: return "Unknown";
-	}
+    { 
+      switch( race ) 
+      {
+      case Terran: return "Terran";
+      case Protoss: return "Protoss";
+      case Zerg: return "Zerg";
+      default: return "Unknown";
       }
+    }
     
     inline int getTreedepth()	const	{ return treedepth; }
     

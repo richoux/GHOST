@@ -73,9 +73,9 @@ namespace ghost
 	loops(loops),
 	tabuList(vecVariables->size()),
 	bestSolution(vecVariables->size())
-      { 
-	reset();
-      }
+    { 
+      reset();
+    }
 
     
     double solve( double timeout )
@@ -331,7 +331,7 @@ namespace ghost
       // }
 
       if( timerPostProcessOpt != 0 )
-         cout << "Post-processing time: " << timerPostProcessOpt << endl; 
+	cout << "Post-processing time: " << timerPostProcessOpt << endl; 
 
 #ifndef NDEBUG
       cout << endl << "Elapsed time to simulate cost: " << timeSimCost.count() << endl

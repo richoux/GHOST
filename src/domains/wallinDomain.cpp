@@ -34,12 +34,12 @@
 namespace ghost
 {
   WallinDomain::WallinDomain( int col,
-			  int row,
-			  int nbVar,
-			  int sRow,
-			  int sCol,
-			  int tRow,
-			  int tCol ) 
+			      int row,
+			      int nbVar,
+			      int sRow,
+			      int sCol,
+			      int tRow,
+			      int tCol ) 
     : Domain(col*row+1, nbVar),
       mCol_(col),
       nRow_(row),
@@ -53,13 +53,13 @@ namespace ghost
   }
 
   WallinDomain::WallinDomain( int col,
-			  int row,
-			  const vector< pair<int, int> > &unbuildables,
-			  const vector< Building > *variables,
-			  int sRow,
-			  int sCol,
-			  int tRow,
-			  int tCol ) 
+			      int row,
+			      const vector< pair<int, int> > &unbuildables,
+			      const vector< Building > *variables,
+			      int sRow,
+			      int sCol,
+			      int tRow,
+			      int tCol ) 
     : WallinDomain( col, row, variables->size(), sRow, sCol, tRow, tCol )
   {
     for( const auto &u : unbuildables )

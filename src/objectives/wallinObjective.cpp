@@ -59,9 +59,9 @@ namespace ghost
   }
 
   double WallinObjective::v_postprocessSatisfaction( vector< Building > *vecVariables,
-						   WallinDomain *domain,
-						   double &bestCost,
-						   vector<int> &bestSolution ) const 
+						     WallinDomain *domain,
+						     double &bestCost,
+						     vector<int> &bestSolution ) const 
   {
     chrono::time_point<chrono::system_clock> startPostprocess = chrono::system_clock::now(); 
 
