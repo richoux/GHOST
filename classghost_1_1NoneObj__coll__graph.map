@@ -1,5 +1,5 @@
 <map id="ghost::NoneObj" name="ghost::NoneObj">
 <area shape="rect" id="node2" href="$classghost_1_1WallinObjective.html" title="{ghost::WallinObjective\n|# sizeWall\l|+ WallinObjective()\l+ v_setHelper()\l+ v_postprocessSatisfaction()\l+ v_postprocessOptimization()\l}" alt="" coords="4,614,203,735"/>
 <area shape="rect" id="node3" href="$classghost_1_1Objective.html" title="{ghost::Objective\&lt; Building,\l WallinDomain \&gt;\n|# name\l# heuristicValueHelper\l|+ Objective()\l+ cost()\l+ heuristicVariable()\l+ heuristicValue()\l+ setHelper()\l+ postprocessSatisfaction()\l+ postprocessOptimization()\l+ getName()\l+ initHelper()\l+ resetHelper()\l+ updateHelper()\l# v_cost()\l# v_heuristicVariable()\l# v_setHelper()\l# v_postprocessSatisfaction()\l# v_postprocessOptimization()\l# v_heuristicValue()\l}" alt="" coords="5,221,203,563"/>
-<area shape="rect" id="node4" href="$classghost_1_1Random.html" title="{ghost::Random\n|&#45; rd\l&#45; rng\l&#45; numbers\l|+ Random()\l+ Random()\l+ operator=()\l+ getRandNum()\l}" alt="" coords="45,6,163,157"/>
+<area shape="rect" id="node4" href="$classghost_1_1Random.html" title="Random is the class coding pseudo&#45;random generators used in GHOST. " alt="" coords="45,6,163,157"/>
 </map>
