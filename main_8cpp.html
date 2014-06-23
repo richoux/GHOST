@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>GHOST: GHOST</title>
+<title>GHOST: src/main.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -36,10 +36,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
-      <li><a href="files.html"><span>Files</span></a></li>
+      <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -58,7 +58,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
-</div><!-- top -->
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
+    </ul>
+  </div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -73,24 +78,70 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
 <div class="header">
+  <div class="summary">
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">GHOST </div>  </div>
+<div class="title">main.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>GHOST documentation </p>
-<dl class="section author"><dt>Author</dt><dd>Florian Richoux</dd></dl>
-<p>General meta-Heuristic Optimization Solving Tool</p>
-<h1>Introduction </h1>
-<p>GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library designed for StarCraft: Brood war. GHOST implements a meta-heuristic solver aiming to solve any kind of combinatorial and optimization RTS-related problems represented by a CSP. It is an generalization of the project Wall-in (see <a href="https://github.com/richoux/Wall-in">github.com/richoux/Wall-in</a>).</p>
-<p>The source code is available at <a href="https://github.com/richoux/GHOST">github.com/richoux/GHOST</a>, and the documentation pages at <a href="http://richoux.github.io/GHOST">richoux.github.io/GHOST</a>.</p>
-<h2>Scientific papers: </h2>
-<ul>
-<li>Florian Richoux, Jean-François Baffier and Alberto Uriarte, GHOST: A Combinatorial Optimization Solver for RTS-related Problems (to appear).</li>
-<li>Florian Richoux, Alberto Uriarte and Santiago Ontañón, Walling in Strategy Games via Constraint Optimization (to appear in AIIDE 2014 proceedings).</li>
-<li>Santiago Ontañón, Gabriel Synnaeve, Alberto Uriarte, Florian Richoux, David Churchill and Mike Preuss, <a href="http://pagesperso.lina.univ-nantes.fr/~richoux-f/publications/tciaig13.pdf">A Survey of Real-Time Strategy Game AI Research and Competition in StarCraft</a>, Transactions on Computational Intelligence and AI in Games, IEEE, 2013. </li>
-</ul>
-</div></div><!-- contents -->
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br/>
+<code>#include &lt;vector&gt;</code><br/>
+<code>#include &lt;memory&gt;</code><br/>
+<code>#include &lt;algorithm&gt;</code><br/>
+<code>#include &lt;type_traits&gt;</code><br/>
+<code>#include &quot;../include/variables/building.hpp&quot;</code><br/>
+<code>#include &quot;../include/domains/wallinDomain.hpp&quot;</code><br/>
+<code>#include &quot;../include/constraints/wallinConstraint.hpp&quot;</code><br/>
+<code>#include &quot;../include/objectives/wallinObjective.hpp&quot;</code><br/>
+<code>#include &quot;../include/misc/wallinTerran.hpp&quot;</code><br/>
+<code>#include &quot;<a class="el" href="solver_8hpp_source.html">../include/solver.hpp</a>&quot;</code><br/>
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for main.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="main_8cpp__incl.png" border="0" usemap="#src_2main_8cpp" alt=""/></div>
+<map name="src_2main_8cpp" id="src_2main_8cpp">
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
+<tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a3c04138a5bfe5d72780bb7e82a18e627"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>argv</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated on Mon Jun 23 2014 14:30:40 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">

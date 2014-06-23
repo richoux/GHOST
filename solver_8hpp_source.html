@@ -37,6 +37,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -60,6 +61,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -67,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -86,7 +88,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">solver.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<a href="solver_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library </span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * designed for StarCraft: Brood war. </span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * GHOST is a meta-heuristic solver aiming to solve any kind of combinatorial </span></div>
@@ -135,19 +137,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">namespace </span>ghost</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="namespaceghost.html">   50</a></span>&#160;<span class="keyword">namespace </span>ghost</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TypeVariable, <span class="keyword">typename</span> TypeDomain, <span class="keyword">typename</span> TypeConstra<span class="keywordtype">int</span>&gt;</div>
 <div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html">   53</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classghost_1_1Solver.html">Solver</a></div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  {</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="classghost_1_1Solver.html">Solver</a>( vector&lt; TypeVariable &gt; *vecVariables, </div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a2b600f86be53c864a02c9ae56ebb9104">   56</a></span>&#160;    <a class="code" href="classghost_1_1Solver.html#a2b600f86be53c864a02c9ae56ebb9104">Solver</a>( vector&lt; TypeVariable &gt; *vecVariables, </div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        TypeDomain *domain,</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keyword">const</span> vector&lt; shared_ptr&lt;TypeConstraint&gt; &gt; &amp;vecConstraints,</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keyword">const</span> shared_ptr&lt; Objective&lt;TypeVariable, TypeDomain&gt; &gt; &amp;obj )</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      : <a class="code" href="classghost_1_1Solver.html">Solver</a>(vecVariables, domain, vecConstraints, obj, 0){  }</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="classghost_1_1Solver.html">Solver</a>( vector&lt; TypeVariable &gt; *vecVariables, </div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a512335329b22a91700bdfa7870f053e9">   62</a></span>&#160;    <a class="code" href="classghost_1_1Solver.html#a512335329b22a91700bdfa7870f053e9">Solver</a>( vector&lt; TypeVariable &gt; *vecVariables, </div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        TypeDomain *domain,</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keyword">const</span> vector&lt; shared_ptr&lt;TypeConstraint&gt; &gt; &amp;vecConstraints,</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">const</span> shared_ptr&lt; Objective&lt;TypeVariable, TypeDomain&gt; &gt; &amp;obj,</div>
@@ -165,7 +167,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    }</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">double</span> solve( <span class="keywordtype">double</span> timeout )</div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13">   80</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13">solve</a>( <span class="keywordtype">double</span> timeout )</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    {</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      chrono::duration&lt;double,milli&gt; elapsedTime(0);</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      chrono::duration&lt;double,milli&gt; elapsedTimeTour(0);</div>
@@ -498,10 +500,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;  };</div>
 <div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;}</div>
 <div class="ttc" id="classghost_1_1Solver_html"><div class="ttname"><a href="classghost_1_1Solver.html">ghost::Solver</a></div><div class="ttdef"><b>Definition:</b> solver.hpp:53</div></div>
+<div class="ttc" id="classghost_1_1Solver_html_a2b600f86be53c864a02c9ae56ebb9104"><div class="ttname"><a href="classghost_1_1Solver.html#a2b600f86be53c864a02c9ae56ebb9104">ghost::Solver::Solver</a></div><div class="ttdeci">Solver(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj)</div><div class="ttdef"><b>Definition:</b> solver.hpp:56</div></div>
+<div class="ttc" id="classghost_1_1Solver_html_a512335329b22a91700bdfa7870f053e9"><div class="ttname"><a href="classghost_1_1Solver.html#a512335329b22a91700bdfa7870f053e9">ghost::Solver::Solver</a></div><div class="ttdeci">Solver(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj, const int loops)</div><div class="ttdef"><b>Definition:</b> solver.hpp:62</div></div>
+<div class="ttc" id="classghost_1_1Solver_html_a30dd2769fb30ac42d231d2c305dcdf13"><div class="ttname"><a href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13">ghost::Solver::solve</a></div><div class="ttdeci">double solve(double timeout)</div><div class="ttdef"><b>Definition:</b> solver.hpp:80</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 23 2014 13:31:54 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 14:30:40 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -37,6 +37,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -61,6 +62,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -68,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -79,7 +81,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>ghost</b></li><li class="navelem"><a class="el" href="classghost_1_1Solver.html">Solver</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespaceghost.html">ghost</a></li><li class="navelem"><a class="el" href="classghost_1_1Solver.html">Solver</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -90,26 +92,162 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">ghost::Solver&lt; TypeVariable, TypeDomain, TypeConstraint &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="solver_8hpp_source.html">solver.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Collaboration diagram for ghost::Solver&lt; TypeVariable, TypeDomain, TypeConstraint &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="classghost_1_1Solver__coll__graph.png" border="0" usemap="#ghost_1_1Solver_3_01TypeVariable_00_01TypeDomain_00_01TypeConstraint_01_4_coll__map" alt="Collaboration graph"/></div>
+<map name="ghost_1_1Solver_3_01TypeVariable_00_01TypeDomain_00_01TypeConstraint_01_4_coll__map" id="ghost_1_1Solver_3_01TypeVariable_00_01TypeDomain_00_01TypeConstraint_01_4_coll__map">
+</map>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2b600f86be53c864a02c9ae56ebb9104"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2b600f86be53c864a02c9ae56ebb9104"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Solver</b> (vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj)</td></tr>
+<tr class="memitem:a2b600f86be53c864a02c9ae56ebb9104"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a2b600f86be53c864a02c9ae56ebb9104">Solver</a> (vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj)</td></tr>
 <tr class="separator:a2b600f86be53c864a02c9ae56ebb9104"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a512335329b22a91700bdfa7870f053e9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a512335329b22a91700bdfa7870f053e9"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Solver</b> (vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj, const int loops)</td></tr>
+<tr class="memitem:a512335329b22a91700bdfa7870f053e9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a512335329b22a91700bdfa7870f053e9">Solver</a> (vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj, const int loops)</td></tr>
 <tr class="separator:a512335329b22a91700bdfa7870f053e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30dd2769fb30ac42d231d2c305dcdf13"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a30dd2769fb30ac42d231d2c305dcdf13"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>solve</b> (double timeout)</td></tr>
+<tr class="memitem:a30dd2769fb30ac42d231d2c305dcdf13"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13">solve</a> (double timeout)</td></tr>
 <tr class="separator:a30dd2769fb30ac42d231d2c305dcdf13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a2b600f86be53c864a02c9ae56ebb9104"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstraint &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::<a class="el" href="classghost_1_1Solver.html">Solver</a> </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; TypeVariable &gt; *&#160;</td>
+          <td class="paramname"><em>vecVariables</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TypeDomain *&#160;</td>
+          <td class="paramname"><em>domain</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>vecConstraints</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>obj</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a512335329b22a91700bdfa7870f053e9"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstraint &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::<a class="el" href="classghost_1_1Solver.html">Solver</a> </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; TypeVariable &gt; *&#160;</td>
+          <td class="paramname"><em>vecVariables</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TypeDomain *&#160;</td>
+          <td class="paramname"><em>domain</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>vecConstraints</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>loops</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a30dd2769fb30ac42d231d2c305dcdf13"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstraint &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::solve </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>timeout</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/<a class="el" href="solver_8hpp_source.html">solver.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 23 2014 13:31:54 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 14:30:40 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
