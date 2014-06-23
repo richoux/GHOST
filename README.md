@@ -5,7 +5,7 @@ GHOST (General meta-Heuristic Optimization Solving Tool) is a C++11 library desi
 
 Please visit [richoux.github.io/GHOST](http://richoux.github.io/GHOST) for:
 
-  - A short introduction of CSP (Constraint Satisfaction Problems) and COP (Constraint Optimization Problems)
+  - A short introduction to CSP (Constraint Satisfaction Problems) and COP (Constraint Optimization Problems)
   - How to use GHOST
   - How to define and solve your own CSP problem with GHOST
   - The full GHOST doxygen documentation.
