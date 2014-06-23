@@ -1,18 +1,24 @@
 /**
 @brief GHOST documentation
 @author Florian Richoux
-@file
 */
 /**
 @mainpage GHOST
 General meta-Heuristic Optimization Solving Tool
 
 Introduction
-------------
-todo
-
-TODO
 ====
-todo
+
+GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library designed for StarCraft: Brood war.  GHOST implements a meta-heuristic solver aiming to solve any kind of combinatorial and optimization RTS-related problems represented by a CSP.  It is an extension of the project Wall-in (see [github.com/richoux/Wall-in](https://github.com/richoux/Wall-in)).
+
+The source code is available at [github.com/richoux/GHOST](https://github.com/richoux/GHOST), and the documentation pages at [richoux.github.io/GHOST](http://richoux.github.io/GHOST).
+
+Scientific papers:
+----
+
+  - Florian Richoux, Jean-François Baffier and Alberto Uriarte, GHOST: A Combinatorial Optimization Solver for RTS-related Problems (to appear).
+  - Florian Richoux, Alberto Uriarte and Santiago Ontañón, Walling in Strategy Games via Constraint Optimization (to appear in AIIDE 2014 proceedings). 
+  - Santiago Ontañón, Gabriel Synnaeve, Alberto Uriarte, Florian Richoux, David Churchill and Mike Preuss, [A Survey of Real-Time Strategy Game AI Research and Competition in StarCraft](http://pagesperso.lina.univ-nantes.fr/~richoux-f/publications/tciaig13.pdf), Transactions on Computational Intelligence and AI in Games, IEEE, 2013.
+
 
 */
