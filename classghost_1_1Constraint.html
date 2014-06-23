@@ -112,10 +112,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:af2b5d5f541f64e548bc6c93bba1ba2b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The unique <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP. ">Constraint</a> constructor.  <a href="#af2b5d5f541f64e548bc6c93bba1ba2b8">More...</a><br/></td></tr>
 <tr class="separator:af2b5d5f541f64e548bc6c93bba1ba2b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6977b1200c8377089e4e7ac7a91e7589"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a6977b1200c8377089e4e7ac7a91e7589">cost</a> (vector&lt; double &gt; &amp;varCost) const =0</td></tr>
-<tr class="memdesc:a6977b1200c8377089e4e7ac7a91e7589"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pure virtual function to compute the current cost of the constraint.  <a href="#a6977b1200c8377089e4e7ac7a91e7589">More...</a><br/></td></tr>
+<tr class="memdesc:a6977b1200c8377089e4e7ac7a91e7589"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure virtual function to compute the current cost of the constraint.  <a href="#a6977b1200c8377089e4e7ac7a91e7589">More...</a><br/></td></tr>
 <tr class="separator:a6977b1200c8377089e4e7ac7a91e7589"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a8510d0285e587b2f640d60f83fe8d6"><td class="memItemLeft" align="right" valign="top">virtual vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a8a8510d0285e587b2f640d60f83fe8d6">simulateCost</a> (TypeVariable &amp;currentVar, const vector&lt; int &gt; &amp;possibleValues, vector&lt; vector&lt; double &gt; &gt; &amp;vecVarSimCosts)=0</td></tr>
-<tr class="memdesc:a8a8510d0285e587b2f640d60f83fe8d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pure virtual function to simulate the cost of the constraint on all possible values of the given variable.  <a href="#a8a8510d0285e587b2f640d60f83fe8d6">More...</a><br/></td></tr>
+<tr class="memdesc:a8a8510d0285e587b2f640d60f83fe8d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure virtual function to simulate the cost of the constraint on all possible values of the given variable.  <a href="#a8a8510d0285e587b2f640d60f83fe8d6">More...</a><br/></td></tr>
 <tr class="separator:a8a8510d0285e587b2f640d60f83fe8d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
@@ -139,7 +139,7 @@ class ghost::Constraint&lt; TypeVariable, TypeDomain &gt;</h3>
 
 <p><a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP. ">Constraint</a> is the class encoding constraints of your CSP. </p>
 <p>In GHOST, many different constraint objects can be instanciate.</p>
-<p>The <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP. ">Constraint</a> class is a template class, waiting for both the type of variable and the type of domain. Thus, you must instanciate a constraint by specifying the class of your variable objects and the clss of your domain object, like for instance Constraint&lt;Variable, Domain&gt; or <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP. ">Constraint</a>&lt;MyCustomVariable, MyCustomDomain&gt;, if MyCustomVariable inherits from the <a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP. ">ghost::Variable</a> class and MyCustomDomain inherits from the <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP. ">ghost::Domain</a> class.</p>
+<p>The <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP. ">Constraint</a> class is a template class, waiting for both the type of variable and the type of domain. Thus, you must instanciate a constraint by specifying the class of your variable objects and the class of your domain object, like for instance Constraint&lt;Variable, Domain&gt; or <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP. ">Constraint</a>&lt;MyCustomVariable, MyCustomDomain&gt;, if MyCustomVariable inherits from the <a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP. ">ghost::Variable</a> class and MyCustomDomain inherits from the <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP. ">ghost::Domain</a> class.</p>
 <p>You cannot directly use this class <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP. ">Constraint</a> to encode your CSP constraints, since this is an abstract class (see the list of pure virtual functions below). Thus, you must write your own constraint class inheriting from <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP. ">ghost::Constraint</a>.</p>
 <p>Pure virtual <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP. ">Constraint</a> functions:</p>
 <ul>
@@ -185,8 +185,8 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 <p>The unique <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP. ">Constraint</a> constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">variables</td><td>A constant pointer toward a vector of variable objects. </td></tr>
-    <tr><td class="paramname">domain</td><td>A constant pointer toward a domain object. </td></tr>
+    <tr><td class="paramname">variables</td><td>A constant pointer toward the vector of variable objects of the CSP. </td></tr>
+    <tr><td class="paramname">domain</td><td>A constant pointer toward the domain object of the CSP. </td></tr>
   </table>
   </dd>
 </dl>
@@ -218,7 +218,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>A pure virtual function to compute the current cost of the constraint. </p>
+<p>Pure virtual function to compute the current cost of the constraint. </p>
 <p>In cost, the parameter varCost is not given to be used by the function, but to store into varCost the projected cost of each variable. This must be computed INSIDE the cost function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -227,7 +227,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A double representing the cost of the constraint on the current configuration. </dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Constraint.html#a8a8510d0285e587b2f640d60f83fe8d6" title="A pure virtual function to simulate the cost of the constraint on all possible values of the given va...">simulateCost</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Constraint.html#a8a8510d0285e587b2f640d60f83fe8d6" title="Pure virtual function to simulate the cost of the constraint on all possible values of the given vari...">simulateCost</a> </dd></dl>
 
 <p>Implemented in <a class="el" href="classghost_1_1WallinConstraint.html#a26fde30aa60cc596b8f8550905ac030f">ghost::WallinConstraint</a>.</p>
 
@@ -273,7 +273,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>A pure virtual function to simulate the cost of the constraint on all possible values of the given variable. </p>
+<p>Pure virtual function to simulate the cost of the constraint on all possible values of the given variable. </p>
 <p>In cost, the parameter vecVarSimCosts is not given to be used by the function, but to store into vecVarSimCosts the projected cost of currentVar on all possible values. This must be computed INSIDE the simulateCost function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -284,7 +284,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The vector of the cost of the constraint for each possible value of currentVar. </dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Constraint.html#a6977b1200c8377089e4e7ac7a91e7589" title="A pure virtual function to compute the current cost of the constraint. ">cost</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Constraint.html#a6977b1200c8377089e4e7ac7a91e7589" title="Pure virtual function to compute the current cost of the constraint. ">cost</a> </dd></dl>
 
 <p>Implemented in <a class="el" href="classghost_1_1WallinConstraint.html#ac6df6c03a6f0b026e78e1ce7f20c25b5">ghost::WallinConstraint</a>.</p>
 
@@ -384,7 +384,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 23 2014 16:13:32 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 17:25:45 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -1,3 +1,3 @@
 <map id="ghost::NullObjective&lt; TypeVariable, TypeDomain &gt;" name="ghost::NullObjective&lt; TypeVariable, TypeDomain &gt;">
-<area shape="rect" id="node2" href="$classghost_1_1Objective.html" title="{ghost::Objective\&lt; TypeVariable,\l TypeDomain \&gt;\n|# randomVar\l# name\l# heuristicValueHelper\l|+ Objective()\l+ cost()\l+ heuristicVariable()\l+ heuristicValue()\l+ setHelper()\l+ postprocessSatisfaction()\l+ postprocessOptimization()\l+ getName()\l+ initHelper()\l+ resetHelper()\l+ updateHelper()\l# v_cost()\l# v_heuristicVariable()\l# v_setHelper()\l# v_postprocessSatisfaction()\l# v_postprocessOptimization()\l# v_heuristicValue()\l}" alt="" coords="5,6,213,362"/>
+<area shape="rect" id="node2" href="$classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP. " alt="" coords="5,6,213,362"/>
 </map>

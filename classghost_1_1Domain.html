@@ -302,9 +302,9 @@ template&lt;typename TypeVariable&gt; </div>
 <p>Inline function to add something into the domain. </p>
 <p>The implementation by default does nothing. This function has been declared because it could be useful for some custom domain classes to add a value from the given variable into a custom data structure. This function is called into the solver three times:</p>
 <ul>
-<li>during a move, ie, when the solver assigned a new value to a selected variable.</li>
-<li>during a reset.</li>
-<li>just between the end of the optimization run and the beginning of the optimization post-processing.</li>
+<li>during a move (<a class="el" href="classghost_1_1Solver.html#af1176494b45226e87edefa0b39babf62">Solver::move</a>), ie, when the solver assigns a new value to a given variable.</li>
+<li>during a reset (<a class="el" href="classghost_1_1Solver.html#a43db35b71a3e494ce208622cc45cbeb0">Solver::reset</a>).</li>
+<li>just between the end of the optimization run and the beginning of the optimization post-processing, in <a class="el" href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13">Solver::solve</a>.</li>
 </ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -342,9 +342,9 @@ template&lt;typename TypeVariable&gt; </div>
 <p>Inline function to clear (or remove) something into the domain. </p>
 <p>The implementation by default does nothing. This function has been declared because it could be useful for some custom domain classes to clear/remove a value from the given variable into a custom data structure. This function is called into the solver three times:</p>
 <ul>
-<li>during a move, ie, when the solver assigned a new value to a selected variable.</li>
-<li>during a reset.</li>
-<li>just between the end of the optimization run and the beginning of the optimization post-processing.</li>
+<li>during a move (<a class="el" href="classghost_1_1Solver.html#af1176494b45226e87edefa0b39babf62">Solver::move</a>), ie, when the solver assigns a new value to a given variable.</li>
+<li>during a reset (<a class="el" href="classghost_1_1Solver.html#a43db35b71a3e494ce208622cc45cbeb0">Solver::reset</a>).</li>
+<li>just between the end of the optimization run and the beginning of the optimization post-processing, in <a class="el" href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13">Solver::solve</a>.</li>
 </ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -656,7 +656,7 @@ template&lt;typename TypeVariable&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 23 2014 16:13:32 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 17:25:45 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

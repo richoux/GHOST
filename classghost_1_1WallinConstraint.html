@@ -116,10 +116,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a943d4dcca2afb3cd72cb1049a7f197ff"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1WallinConstraint.html#a943d4dcca2afb3cd72cb1049a7f197ff">WallinConstraint</a> (const vector&lt; <a class="el" href="classghost_1_1Building.html">Building</a> &gt; *, const <a class="el" href="classghost_1_1WallinDomain.html">WallinDomain</a> *)</td></tr>
 <tr class="separator:a943d4dcca2afb3cd72cb1049a7f197ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26fde30aa60cc596b8f8550905ac030f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1WallinConstraint.html#a26fde30aa60cc596b8f8550905ac030f">cost</a> (vector&lt; double &gt; &amp;varCost) const </td></tr>
-<tr class="memdesc:a26fde30aa60cc596b8f8550905ac030f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pure virtual function to compute the current cost of the constraint.  <a href="#a26fde30aa60cc596b8f8550905ac030f">More...</a><br/></td></tr>
+<tr class="memdesc:a26fde30aa60cc596b8f8550905ac030f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure virtual function to compute the current cost of the constraint.  <a href="#a26fde30aa60cc596b8f8550905ac030f">More...</a><br/></td></tr>
 <tr class="separator:a26fde30aa60cc596b8f8550905ac030f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6df6c03a6f0b026e78e1ce7f20c25b5"><td class="memItemLeft" align="right" valign="top">vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1WallinConstraint.html#ac6df6c03a6f0b026e78e1ce7f20c25b5">simulateCost</a> (<a class="el" href="classghost_1_1Building.html">Building</a> &amp;oldBuilding, const vector&lt; int &gt; &amp;newPosition, vector&lt; vector&lt; double &gt; &gt; &amp;vecVarSimCosts)</td></tr>
-<tr class="memdesc:ac6df6c03a6f0b026e78e1ce7f20c25b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pure virtual function to simulate the cost of the constraint on all possible values of the given variable.  <a href="#ac6df6c03a6f0b026e78e1ce7f20c25b5">More...</a><br/></td></tr>
+<tr class="memdesc:ac6df6c03a6f0b026e78e1ce7f20c25b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure virtual function to simulate the cost of the constraint on all possible values of the given variable.  <a href="#ac6df6c03a6f0b026e78e1ce7f20c25b5">More...</a><br/></td></tr>
 <tr class="separator:ac6df6c03a6f0b026e78e1ce7f20c25b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef93d84e063f20ffeb3ff584fe6fabad"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1WallinConstraint.html#aef93d84e063f20ffeb3ff584fe6fabad">v_cost</a> (vector&lt; double &gt; &amp;) const =0</td></tr>
 <tr class="separator:aef93d84e063f20ffeb3ff584fe6fabad"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -195,7 +195,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>A pure virtual function to compute the current cost of the constraint. </p>
+<p>Pure virtual function to compute the current cost of the constraint. </p>
 <p>In cost, the parameter varCost is not given to be used by the function, but to store into varCost the projected cost of each variable. This must be computed INSIDE the cost function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -204,7 +204,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A double representing the cost of the constraint on the current configuration. </dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1WallinConstraint.html#ac6df6c03a6f0b026e78e1ce7f20c25b5" title="A pure virtual function to simulate the cost of the constraint on all possible values of the given va...">simulateCost</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1WallinConstraint.html#ac6df6c03a6f0b026e78e1ce7f20c25b5" title="Pure virtual function to simulate the cost of the constraint on all possible values of the given vari...">simulateCost</a> </dd></dl>
 
 <p>Implements <a class="el" href="classghost_1_1Constraint.html#a6977b1200c8377089e4e7ac7a91e7589">ghost::Constraint&lt; Building, WallinDomain &gt;</a>.</p>
 
@@ -271,7 +271,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>A pure virtual function to simulate the cost of the constraint on all possible values of the given variable. </p>
+<p>Pure virtual function to simulate the cost of the constraint on all possible values of the given variable. </p>
 <p>In cost, the parameter vecVarSimCosts is not given to be used by the function, but to store into vecVarSimCosts the projected cost of currentVar on all possible values. This must be computed INSIDE the simulateCost function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -282,7 +282,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The vector of the cost of the constraint for each possible value of currentVar. </dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1WallinConstraint.html#a26fde30aa60cc596b8f8550905ac030f" title="A pure virtual function to compute the current cost of the constraint. ">cost</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1WallinConstraint.html#a26fde30aa60cc596b8f8550905ac030f" title="Pure virtual function to compute the current cost of the constraint. ">cost</a> </dd></dl>
 
 <p>Implements <a class="el" href="classghost_1_1Constraint.html#a8a8510d0285e587b2f640d60f83fe8d6">ghost::Constraint&lt; Building, WallinDomain &gt;</a>.</p>
 
@@ -363,7 +363,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 23 2014 16:13:32 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 17:25:45 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
