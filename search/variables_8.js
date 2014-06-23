@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['opt_5ftime',['OPT_TIME',['../constants_8hpp.html#a79359be8afbc0e5b920333641467bf03',1,'constants.hpp']]],
-  ['overlap',['overlap',['../namespaceghost.html#a7a91cd37137a7eae220126fcbb8ff96b',1,'ghost']]]
+  ['mapbuildings',['mapBuildings',['../classghost_1_1StartingTargetTiles.html#a08e51275da85bfaa8a108976cbd133e2',1,'ghost::StartingTargetTiles']]],
+  ['matrixid_5f',['matrixId_',['../classghost_1_1WallinDomain.html#ac119954ee820416a87abf75fcf46c095',1,'ghost::WallinDomain']]],
+  ['matrixtype_5f',['matrixType_',['../classghost_1_1WallinDomain.html#a896291f065d8af3e1232eb8938ed0eb7',1,'ghost::WallinDomain']]],
+  ['mcol_5f',['mCol_',['../classghost_1_1WallinDomain.html#ad7989e0a59285a96bff061aa27d5bbd4',1,'ghost::WallinDomain']]]
 ];

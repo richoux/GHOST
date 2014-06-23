@@ -88,6 +88,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="classghost_1_1NullObjective-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">ghost::NullObjective&lt; TypeVariable, TypeDomain &gt; Class Template Reference</div>  </div>
@@ -100,14 +101,14 @@ Inheritance diagram for ghost::NullObjective&lt; TypeVariable, TypeDomain &gt;:<
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1NullObjective__inherit__graph.png" border="0" usemap="#ghost_1_1NullObjective_3_01TypeVariable_00_01TypeDomain_01_4_inherit__map" alt="Inheritance graph"/></div>
 <map name="ghost_1_1NullObjective_3_01TypeVariable_00_01TypeDomain_01_4_inherit__map" id="ghost_1_1NullObjective_3_01TypeVariable_00_01TypeDomain_01_4_inherit__map">
-</map>
+<area shape="rect" id="node2" href="classghost_1_1Objective.html" title="{ghost::Objective\&lt; TypeVariable,\l TypeDomain \&gt;\n|# randomVar\l# name\l# heuristicValueHelper\l|+ Objective()\l+ heuristicVariable()\l+ heuristicValue()\l+ setHelper()\l+ postprocessSatisfaction()\l+ postprocessOptimization()\l+ getName()\l+ initHelper()\l+ resetHelper()\l+ updateHelper()\l# cost()\l# v_cost()\l# v_heuristicVariable()\l# v_setHelper()\l# v_postprocessSatisfaction()\l# v_postprocessOptimization()\l# v_heuristicValue()\l}" alt="" coords="5,6,213,362"/></map>
 </div>
 <div class="dynheader">
 Collaboration diagram for ghost::NullObjective&lt; TypeVariable, TypeDomain &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1NullObjective__coll__graph.png" border="0" usemap="#ghost_1_1NullObjective_3_01TypeVariable_00_01TypeDomain_01_4_coll__map" alt="Collaboration graph"/></div>
 <map name="ghost_1_1NullObjective_3_01TypeVariable_00_01TypeDomain_01_4_coll__map" id="ghost_1_1NullObjective_3_01TypeVariable_00_01TypeDomain_01_4_coll__map">
-</map>
+<area shape="rect" id="node2" href="classghost_1_1Objective.html" title="{ghost::Objective\&lt; TypeVariable,\l TypeDomain \&gt;\n|# name\l# heuristicValueHelper\l|+ Objective()\l+ heuristicVariable()\l+ heuristicValue()\l+ setHelper()\l+ postprocessSatisfaction()\l+ postprocessOptimization()\l+ getName()\l+ initHelper()\l+ resetHelper()\l+ updateHelper()\l# cost()\l# v_cost()\l# v_heuristicVariable()\l# v_setHelper()\l# v_postprocessSatisfaction()\l# v_postprocessOptimization()\l# v_heuristicValue()\l}" alt="" coords="5,221,213,563"/><area shape="rect" id="node3" href="classghost_1_1Random.html" title="{ghost::Random\n|&#45; rd\l&#45; rng\l&#45; numbers\l|+ Random()\l+ Random()\l+ operator=()\l+ getRandNum()\l}" alt="" coords="50,6,168,157"/></map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -135,6 +136,15 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a76ca30dd5fc977963058f0c3abfe100a inherit pub_methods_classghost_1_1Objective"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64fc70c85bd54570aba173c13bdfeb4f inherit pub_methods_classghost_1_1Objective"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a64fc70c85bd54570aba173c13bdfeb4f">updateHelper</a> (TypeVariable &amp;oldBuilding, const vector&lt; int &gt; &amp;possibleValues, const vector&lt; TypeVariable &gt; *variables, TypeDomain *domain)</td></tr>
 <tr class="separator:a64fc70c85bd54570aba173c13bdfeb4f inherit pub_methods_classghost_1_1Objective"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a309e1913d38d728b41a61c1ce40f3dca"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1NullObjective.html#a309e1913d38d728b41a61c1ce40f3dca">v_cost</a> (const vector&lt; TypeVariable &gt; *vecVariables, const TypeDomain *domain) const </td></tr>
+<tr class="separator:a309e1913d38d728b41a61c1ce40f3dca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef7e24c71f2522034764402704e3b16f"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1NullObjective.html#aef7e24c71f2522034764402704e3b16f">v_heuristicVariable</a> (const vector&lt; int &gt; &amp;vecId, const vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain)</td></tr>
+<tr class="separator:aef7e24c71f2522034764402704e3b16f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f4b22306c25132590e3c10a6dc34d15"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1NullObjective.html#a5f4b22306c25132590e3c10a6dc34d15">v_setHelper</a> (const TypeVariable &amp;b, const vector&lt; TypeVariable &gt; *vecVariables, const TypeDomain *domain)</td></tr>
+<tr class="separator:a5f4b22306c25132590e3c10a6dc34d15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -181,13 +191,140 @@ template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 
 </div>
 </div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a309e1913d38d728b41a61c1ce40f3dca"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual double <a class="el" href="classghost_1_1NullObjective.html">ghost::NullObjective</a>&lt; TypeVariable, TypeDomain &gt;::v_cost </td>
+          <td>(</td>
+          <td class="paramtype">const vector&lt; TypeVariable &gt; *&#160;</td>
+          <td class="paramname"><em>vecVariables</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const TypeDomain *&#160;</td>
+          <td class="paramname"><em>domain</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classghost_1_1Objective.html#affb6d6730adfbfe6a1f990e00d2a5eb2">ghost::Objective&lt; TypeVariable, TypeDomain &gt;</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aef7e24c71f2522034764402704e3b16f"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int <a class="el" href="classghost_1_1NullObjective.html">ghost::NullObjective</a>&lt; TypeVariable, TypeDomain &gt;::v_heuristicVariable </td>
+          <td>(</td>
+          <td class="paramtype">const vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>vecId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const vector&lt; TypeVariable &gt; *&#160;</td>
+          <td class="paramname"><em>vecVariables</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TypeDomain *&#160;</td>
+          <td class="paramname"><em>domain</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classghost_1_1Objective.html#ae4a49d23569c367182f934c25a6c6103">ghost::Objective&lt; TypeVariable, TypeDomain &gt;</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5f4b22306c25132590e3c10a6dc34d15"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void <a class="el" href="classghost_1_1NullObjective.html">ghost::NullObjective</a>&lt; TypeVariable, TypeDomain &gt;::v_setHelper </td>
+          <td>(</td>
+          <td class="paramtype">const TypeVariable &amp;&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const vector&lt; TypeVariable &gt; *&#160;</td>
+          <td class="paramname"><em>vecVariables</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const TypeDomain *&#160;</td>
+          <td class="paramname"><em>domain</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classghost_1_1Objective.html#a4f755d097572b67b9bee6409c58594db">ghost::Objective&lt; TypeVariable, TypeDomain &gt;</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/objectives/<a class="el" href="objective_8hpp_source.html">objective.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 23 2014 14:32:43 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 14:40:20 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -1,0 +1,11 @@
+<map id="include/misc/wallinProtoss.hpp" name="include/misc/wallinProtoss.hpp">
+<area shape="rect" id="node4" href="$building_8hpp.html" title="../variables/building.hpp" alt="" coords="631,155,789,181"/>
+<area shape="rect" id="node10" href="$constraint_8hpp.html" title="../constraints/constraint.hpp" alt="" coords="388,80,572,107"/>
+<area shape="rect" id="node17" href="$wallinDomain_8hpp.html" title="../domains/wallinDomain.hpp" alt="" coords="1011,80,1201,107"/>
+<area shape="rect" id="node5" href="$variable_8hpp.html" title="variable.hpp" alt="" coords="451,229,543,256"/>
+<area shape="rect" id="node9" href="$races_8hpp.html" title="../misc/races.hpp" alt="" coords="619,229,741,256"/>
+<area shape="rect" id="node11" href="$objective_8hpp.html" title="../objectives/objective.hpp" alt="" coords="329,155,503,181"/>
+<area shape="rect" id="node13" href="$random_8hpp.html" title="../misc/random.hpp" alt="" coords="1145,229,1279,256"/>
+<area shape="rect" id="node16" href="$constants_8hpp.html" title="../misc/constants.hpp" alt="" coords="227,229,375,256"/>
+<area shape="rect" id="node21" href="$domain_8hpp.html" title="domain.hpp" alt="" coords="918,155,1007,181"/>
+</map>

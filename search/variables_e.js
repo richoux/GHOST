@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['y1',['y1',['../namespaceghost.html#af02ccfe4153013ca001f67b21cb8ba43',1,'ghost']]],
-  ['y2',['y2',['../namespaceghost.html#ab6fc6f6a8069edbc2ae66e3f4c95e988',1,'ghost']]],
-  ['y3',['y3',['../namespaceghost.html#a48fd5802a1f5deeffa729a4be630b172',1,'ghost']]],
-  ['y4',['y4',['../namespaceghost.html#a959bf3d4c6eabc2dda3faeed7e7ea7a9',1,'ghost']]]
+  ['tabu',['TABU',['../constants_8hpp.html#a7a7e5cf396d6f148730009e697a7e6c4',1,'constants.hpp']]],
+  ['tabulist',['tabuList',['../classghost_1_1Solver.html#aa5c12894a6fbd524fb33906c8f3fbcae',1,'ghost::Solver']]],
+  ['targettile',['targetTile',['../classghost_1_1WallinDomain.html#a3a2cc8acb828fadffbe92fbe8f57cc9f',1,'ghost::WallinDomain']]],
+  ['treedepth',['treedepth',['../classghost_1_1Building.html#a9cce7581682e78208edde8ed462afe14',1,'ghost::Building']]]
 ];

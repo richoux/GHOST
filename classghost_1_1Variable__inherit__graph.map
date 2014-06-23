@@ -1,0 +1,3 @@
+<map id="ghost::Variable" name="ghost::Variable">
+<area shape="rect" id="node2" href="$classghost_1_1Building.html" title="{ghost::Building\n|&#45; length\l&#45; height\l&#45; gapTop\l&#45; gapRight\l&#45; gapBottom\l&#45; gapLeft\l&#45; race\l&#45; treedepth\l|+ Building()\l+ Building()\l+ Building()\l+ operator=()\l+ getLength()\l+ getHeight()\l+ getSurface()\l+ getGapTop()\l+ getGapRight()\l+ getGapBottom()\l+ getGapLeft()\l+ isSelected()\l+ getRace()\l+ getTreedepth()\l&#45; swap()\l}" alt="" coords="5,366,131,751"/>
+</map>

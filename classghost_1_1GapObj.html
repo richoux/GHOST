@@ -88,6 +88,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="classghost_1_1GapObj-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">ghost::GapObj Class Reference</div>  </div>
@@ -100,14 +101,14 @@ Inheritance diagram for ghost::GapObj:</div>
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1GapObj__inherit__graph.png" border="0" usemap="#ghost_1_1GapObj_inherit__map" alt="Inheritance graph"/></div>
 <map name="ghost_1_1GapObj_inherit__map" id="ghost_1_1GapObj_inherit__map">
-</map>
+<area shape="rect" id="node2" href="classghost_1_1WallinObjective.html" title="{ghost::WallinObjective\n|# sizeWall\l|+ WallinObjective()\l+ v_setHelper()\l+ v_postprocessSatisfaction()\l+ v_postprocessOptimization()\l}" alt="" coords="4,411,203,533"/><area shape="rect" id="node3" href="classghost_1_1Objective.html" title="{ghost::Objective\&lt; Building,\l WallinDomain \&gt;\n|# randomVar\l# name\l# heuristicValueHelper\l|+ Objective()\l+ heuristicVariable()\l+ heuristicValue()\l+ setHelper()\l+ postprocessSatisfaction()\l+ postprocessOptimization()\l+ getName()\l+ initHelper()\l+ resetHelper()\l+ updateHelper()\l# cost()\l# v_cost()\l# v_heuristicVariable()\l# v_setHelper()\l# v_postprocessSatisfaction()\l# v_postprocessOptimization()\l# v_heuristicValue()\l}" alt="" coords="5,6,203,362"/></map>
 </div>
 <div class="dynheader">
 Collaboration diagram for ghost::GapObj:</div>
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1GapObj__coll__graph.png" border="0" usemap="#ghost_1_1GapObj_coll__map" alt="Collaboration graph"/></div>
 <map name="ghost_1_1GapObj_coll__map" id="ghost_1_1GapObj_coll__map">
-</map>
+<area shape="rect" id="node2" href="classghost_1_1WallinObjective.html" title="{ghost::WallinObjective\n|# sizeWall\l|+ WallinObjective()\l+ v_setHelper()\l+ v_postprocessSatisfaction()\l+ v_postprocessOptimization()\l}" alt="" coords="4,614,203,735"/><area shape="rect" id="node3" href="classghost_1_1Objective.html" title="{ghost::Objective\&lt; Building,\l WallinDomain \&gt;\n|# name\l# heuristicValueHelper\l|+ Objective()\l+ heuristicVariable()\l+ heuristicValue()\l+ setHelper()\l+ postprocessSatisfaction()\l+ postprocessOptimization()\l+ getName()\l+ initHelper()\l+ resetHelper()\l+ updateHelper()\l# cost()\l# v_cost()\l# v_heuristicVariable()\l# v_setHelper()\l# v_postprocessSatisfaction()\l# v_postprocessOptimization()\l# v_heuristicValue()\l}" alt="" coords="5,221,203,563"/><area shape="rect" id="node4" href="classghost_1_1Random.html" title="{ghost::Random\n|&#45; rd\l&#45; rng\l&#45; numbers\l|+ Random()\l+ Random()\l+ operator=()\l+ getRandNum()\l}" alt="" coords="45,6,163,157"/></map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -149,6 +150,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a64fc70c85bd54570aba173c13bdfeb4f inherit pub_methods_classghost_1_1Objective"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a64fc70c85bd54570aba173c13bdfeb4f">updateHelper</a> (<a class="el" href="classghost_1_1Building.html">Building</a> &amp;oldBuilding, const vector&lt; int &gt; &amp;possibleValues, const vector&lt; <a class="el" href="classghost_1_1Building.html">Building</a> &gt; *variables, <a class="el" href="classghost_1_1WallinDomain.html">WallinDomain</a> *domain)</td></tr>
 <tr class="separator:a64fc70c85bd54570aba173c13bdfeb4f inherit pub_methods_classghost_1_1Objective"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:abafdce010b63555042086d198f08f05d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1GapObj.html#abafdce010b63555042086d198f08f05d">gapSize</a> (const <a class="el" href="classghost_1_1Building.html">Building</a> &amp;b, const vector&lt; <a class="el" href="classghost_1_1Building.html">Building</a> &gt; *vecVariables, const <a class="el" href="classghost_1_1WallinDomain.html">WallinDomain</a> *domain) const </td></tr>
+<tr class="separator:abafdce010b63555042086d198f08f05d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_methods_classghost_1_1Objective"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classghost_1_1Objective')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classghost_1_1Objective.html">ghost::Objective&lt; Building, WallinDomain &gt;</a></td></tr>
@@ -184,6 +190,46 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="abafdce010b63555042086d198f08f05d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ghost::GapObj::gapSize </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classghost_1_1Building.html">Building</a> &amp;&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const vector&lt; <a class="el" href="classghost_1_1Building.html">Building</a> &gt; *&#160;</td>
+          <td class="paramname"><em>vecVariables</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classghost_1_1WallinDomain.html">WallinDomain</a> *&#160;</td>
+          <td class="paramname"><em>domain</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a0aff22c12b3a097df5a2314da5f41a04"></a>
 <div class="memitem">
 <div class="memproto">
@@ -311,7 +357,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 23 2014 14:32:43 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 14:40:20 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

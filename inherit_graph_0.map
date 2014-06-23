@@ -1,0 +1,8 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classghost_1_1Constraint.html" title="ghost::Constraint\&lt;\l Building, WallinDomain \&gt;" alt="" coords="5,74,179,115"/>
+<area shape="rect" id="node2" href="$classghost_1_1WallinConstraint.html" title="ghost::WallinConstraint" alt="" coords="227,81,386,108"/>
+<area shape="rect" id="node3" href="$classghost_1_1Buildable.html" title="ghost::Buildable" alt="" coords="464,5,579,32"/>
+<area shape="rect" id="node4" href="$classghost_1_1NoGaps.html" title="ghost::NoGaps" alt="" coords="466,56,577,83"/>
+<area shape="rect" id="node5" href="$classghost_1_1Overlap.html" title="ghost::Overlap" alt="" coords="468,107,575,133"/>
+<area shape="rect" id="node6" href="$classghost_1_1StartingTargetTiles.html" title="ghost::StartingTargetTiles" alt="" coords="435,157,607,184"/>
+</map>

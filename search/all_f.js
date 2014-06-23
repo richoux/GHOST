@@ -15,6 +15,7 @@ var searchData=
   ['specialtiles',['specialTiles',['../namespaceghost.html#a41140633099e7f2158ce39ca3a469abb',1,'ghost']]],
   ['startingtargettiles',['StartingTargetTiles',['../classghost_1_1StartingTargetTiles.html',1,'ghost']]],
   ['startingtargettiles',['StartingTargetTiles',['../classghost_1_1StartingTargetTiles.html#a6c2b6cf28fb668cfe7909396679d2587',1,'ghost::StartingTargetTiles']]],
-  ['swap',['swap',['../classghost_1_1WallinDomain.html#a197909e511e4fd49d9710ccf121af486',1,'ghost::WallinDomain::swap()'],['../classghost_1_1Variable.html#a01b3dfd2e865fed19b5edf0ced7d74bc',1,'ghost::Variable::swap()']]],
+  ['startingtile',['startingTile',['../classghost_1_1WallinDomain.html#aca537784fa6aa04effeb402d936530ce',1,'ghost::WallinDomain']]],
+  ['swap',['swap',['../classghost_1_1WallinDomain.html#a197909e511e4fd49d9710ccf121af486',1,'ghost::WallinDomain::swap()'],['../classghost_1_1Building.html#a3bd95117c9a9b063190962f1fd972ff7',1,'ghost::Building::swap()'],['../classghost_1_1Variable.html#a01b3dfd2e865fed19b5edf0ced7d74bc',1,'ghost::Variable::swap()']]],
   ['swapvalue',['swapValue',['../classghost_1_1Variable.html#a8186ea296b868d44656be01e94b9aa80',1,'ghost::Variable']]]
 ];

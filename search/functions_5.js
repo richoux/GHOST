@@ -1,6 +1,7 @@
 var searchData=
 [
   ['gapobj',['GapObj',['../classghost_1_1GapObj.html#a9b1139edad4eb82edab5e135e1257f72',1,'ghost::GapObj']]],
+  ['gapsize',['gapSize',['../classghost_1_1GapObj.html#abafdce010b63555042086d198f08f05d',1,'ghost::GapObj']]],
   ['getbuildingsabove',['getBuildingsAbove',['../classghost_1_1WallinDomain.html#acde7d4ffbc355dc8831c412b449fae93',1,'ghost::WallinDomain']]],
   ['getbuildingsaround',['getBuildingsAround',['../classghost_1_1WallinDomain.html#a3e3381fcb60d5a2a89f5d145af447c31',1,'ghost::WallinDomain']]],
   ['getbuildingsbelow',['getBuildingsBelow',['../classghost_1_1WallinDomain.html#a2ed68f6e028dc9872d75d93de6bb5905',1,'ghost::WallinDomain']]],

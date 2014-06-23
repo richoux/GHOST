@@ -1,0 +1,4 @@
+<map id="ghost::StartingTargetTiles" name="ghost::StartingTargetTiles">
+<area shape="rect" id="node2" href="$classghost_1_1WallinConstraint.html" title="{ghost::WallinConstraint\n||+ WallinConstraint()\l+ cost()\l+ simulateCost()\l+ v_cost()\l+ v_simulateCost()\l# isWall()\l}" alt="" coords="13,190,171,341"/>
+<area shape="rect" id="node3" href="$classghost_1_1Constraint.html" title="{ghost::Constraint\&lt;\l Building, WallinDomain \&gt;\n|# variables\l# domain\l|+ Constraint()\l+ cost()\l+ simulateCost()\l}" alt="" coords="5,5,179,141"/>
+</map>
