@@ -5,7 +5,7 @@ var searchData=
   ['setvalue',['setValue',['../classghost_1_1Variable.html#a6fe0abafde2231f18074ecab6d7325cd',1,'ghost::Variable']]],
   ['shift',['shift',['../classghost_1_1WallinDomain.html#a00889726b2f7ae7f87070e35c07c1d37',1,'ghost::WallinDomain']]],
   ['shiftvalue',['shiftValue',['../classghost_1_1Variable.html#a8afe14b1858476bf4ef59a41a2947f93',1,'ghost::Variable']]],
-  ['simulatecost',['simulateCost',['../classghost_1_1Constraint.html#ad87bd74e38652d72e18d034545d9ee00',1,'ghost::Constraint::simulateCost()'],['../classghost_1_1WallinConstraint.html#ac6df6c03a6f0b026e78e1ce7f20c25b5',1,'ghost::WallinConstraint::simulateCost()']]],
+  ['simulatecost',['simulateCost',['../classghost_1_1Constraint.html#a8a8510d0285e587b2f640d60f83fe8d6',1,'ghost::Constraint::simulateCost()'],['../classghost_1_1WallinConstraint.html#ac6df6c03a6f0b026e78e1ce7f20c25b5',1,'ghost::WallinConstraint::simulateCost()']]],
   ['size',['size',['../classghost_1_1Domain.html#a13e282f60c6c7cddf5b5716b45ad161c',1,'ghost::Domain']]],
   ['sizewall',['sizeWall',['../classghost_1_1WallinObjective.html#aef1d7697ca6b29eccb4f3c62f42316ed',1,'ghost::WallinObjective']]],
   ['solve',['solve',['../classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13',1,'ghost::Solver']]],

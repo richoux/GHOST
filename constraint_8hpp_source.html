@@ -127,39 +127,43 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
 <div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="namespaceghost.html">   38</a></span>&#160;<span class="keyword">namespace </span>ghost</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TypeVariable, <span class="keyword">typename</span> TypeDomain&gt;</div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html">   41</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classghost_1_1Constraint.html">Constraint</a></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html#af2b5d5f541f64e548bc6c93bba1ba2b8">   44</a></span>&#160;    <a class="code" href="classghost_1_1Constraint.html#af2b5d5f541f64e548bc6c93bba1ba2b8">Constraint</a>( <span class="keyword">const</span> vector&lt; TypeVariable &gt; *variables, <span class="keyword">const</span> TypeDomain *domain )</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      : variables( const_cast&lt; vector&lt; TypeVariable &gt;* &gt;(variables) ), domain( const_cast&lt;TypeDomain*&gt;(domain) ) { }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">double</span> cost( vector&lt;double&gt;&amp; ) <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">virtual</span> vector&lt;double&gt; simulateCost( TypeVariable&amp;,</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                     <span class="keyword">const</span> vector&lt;int&gt;&amp;,</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                     vector&lt; vector&lt;double&gt; &gt;&amp; ) = 0;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    </div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html#a5fb3db9a0881ff7aae65d680386277f0">   54</a></span>&#160;    <span class="keyword">friend</span> ostream&amp; operator&lt;&lt;( ostream&amp; os, const Constraint&lt;TypeVariable, TypeDomain&gt;&amp; <a class="code" href="namespaceghost.html#a1e04a626798fce7a46db973e9693354e">c</a> )</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <span class="keywordflow">return</span> os &lt;&lt; <span class="stringliteral">&quot;Constraint type: &quot;</span> &lt;&lt;  <span class="keyword">typeid</span>(<a class="code" href="namespaceghost.html#a1e04a626798fce7a46db973e9693354e">c</a>).name() &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    }</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html#a827e487bd77c8dbc4701d1dfae39678a">   60</a></span>&#160;    vector&lt; TypeVariable &gt; *<a class="code" href="classghost_1_1Constraint.html#a827e487bd77c8dbc4701d1dfae39678a">variables</a>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html#a0ea15d113ab23ddb6ad74be72f7ac90d">   61</a></span>&#160;    TypeDomain *<a class="code" href="classghost_1_1Constraint.html#a0ea15d113ab23ddb6ad74be72f7ac90d">domain</a>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  };  </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TypeVariable, <span class="keyword">typename</span> TypeDomain&gt;</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html">   65</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classghost_1_1Constraint.html">Constraint</a></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html#af2b5d5f541f64e548bc6c93bba1ba2b8">   73</a></span>&#160;    <a class="code" href="classghost_1_1Constraint.html#af2b5d5f541f64e548bc6c93bba1ba2b8">Constraint</a>( <span class="keyword">const</span> vector&lt; TypeVariable &gt; *variables, <span class="keyword">const</span> TypeDomain *domain )</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      : variables( const_cast&lt; vector&lt; TypeVariable &gt;* &gt;(variables) ), domain( const_cast&lt;TypeDomain*&gt;(domain) ) { }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">double</span> cost( vector&lt;double&gt; &amp;varCost ) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keyword">virtual</span> vector&lt;double&gt; simulateCost( TypeVariable &amp;currentVar,</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                     <span class="keyword">const</span> vector&lt;int&gt; &amp;possibleValues,</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                     vector&lt; vector&lt;double&gt; &gt; &amp;vecVarSimCosts ) = 0;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    </div>
+<div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html#a5fb3db9a0881ff7aae65d680386277f0">  107</a></span>&#160;    <span class="keyword">friend</span> ostream&amp; operator&lt;&lt;( ostream&amp; os, const Constraint&lt;TypeVariable, TypeDomain&gt;&amp; <a class="code" href="namespaceghost.html#a1e04a626798fce7a46db973e9693354e">c</a> )</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    {</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      <span class="keywordflow">return</span> os &lt;&lt; <span class="stringliteral">&quot;Constraint type: &quot;</span> &lt;&lt;  <span class="keyword">typeid</span>(<a class="code" href="namespaceghost.html#a1e04a626798fce7a46db973e9693354e">c</a>).name() &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    }</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html#a827e487bd77c8dbc4701d1dfae39678a">  113</a></span>&#160;    vector&lt; TypeVariable &gt; *<a class="code" href="classghost_1_1Constraint.html#a827e487bd77c8dbc4701d1dfae39678a">variables</a>;  </div>
+<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html#a0ea15d113ab23ddb6ad74be72f7ac90d">  114</a></span>&#160;    TypeDomain *<a class="code" href="classghost_1_1Constraint.html#a0ea15d113ab23ddb6ad74be72f7ac90d">domain</a>;         </div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  };  </div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}</div>
 <div class="ttc" id="namespaceghost_html_a1e04a626798fce7a46db973e9693354e"><div class="ttname"><a href="namespaceghost.html#a1e04a626798fce7a46db973e9693354e">ghost::c</a></div><div class="ttdeci">std::shared_ptr&lt; Building &gt; c</div><div class="ttdef"><b>Definition:</b> wallinProtoss.hpp:41</div></div>
-<div class="ttc" id="classghost_1_1Constraint_html_a827e487bd77c8dbc4701d1dfae39678a"><div class="ttname"><a href="classghost_1_1Constraint.html#a827e487bd77c8dbc4701d1dfae39678a">ghost::Constraint::variables</a></div><div class="ttdeci">vector&lt; TypeVariable &gt; * variables</div><div class="ttdef"><b>Definition:</b> constraint.hpp:60</div></div>
-<div class="ttc" id="classghost_1_1Constraint_html"><div class="ttname"><a href="classghost_1_1Constraint.html">ghost::Constraint</a></div><div class="ttdef"><b>Definition:</b> constraint.hpp:41</div></div>
-<div class="ttc" id="classghost_1_1Constraint_html_a0ea15d113ab23ddb6ad74be72f7ac90d"><div class="ttname"><a href="classghost_1_1Constraint.html#a0ea15d113ab23ddb6ad74be72f7ac90d">ghost::Constraint::domain</a></div><div class="ttdeci">TypeDomain * domain</div><div class="ttdef"><b>Definition:</b> constraint.hpp:61</div></div>
-<div class="ttc" id="classghost_1_1Constraint_html_af2b5d5f541f64e548bc6c93bba1ba2b8"><div class="ttname"><a href="classghost_1_1Constraint.html#af2b5d5f541f64e548bc6c93bba1ba2b8">ghost::Constraint::Constraint</a></div><div class="ttdeci">Constraint(const vector&lt; TypeVariable &gt; *variables, const TypeDomain *domain)</div><div class="ttdef"><b>Definition:</b> constraint.hpp:44</div></div>
+<div class="ttc" id="classghost_1_1Constraint_html_a827e487bd77c8dbc4701d1dfae39678a"><div class="ttname"><a href="classghost_1_1Constraint.html#a827e487bd77c8dbc4701d1dfae39678a">ghost::Constraint::variables</a></div><div class="ttdeci">vector&lt; TypeVariable &gt; * variables</div><div class="ttdoc">A pointer to the vector of variable objects of the CSP. </div><div class="ttdef"><b>Definition:</b> constraint.hpp:113</div></div>
+<div class="ttc" id="classghost_1_1Constraint_html"><div class="ttname"><a href="classghost_1_1Constraint.html">ghost::Constraint</a></div><div class="ttdoc">Constraint is the class encoding constraints of your CSP. </div><div class="ttdef"><b>Definition:</b> constraint.hpp:65</div></div>
+<div class="ttc" id="classghost_1_1Constraint_html_a0ea15d113ab23ddb6ad74be72f7ac90d"><div class="ttname"><a href="classghost_1_1Constraint.html#a0ea15d113ab23ddb6ad74be72f7ac90d">ghost::Constraint::domain</a></div><div class="ttdeci">TypeDomain * domain</div><div class="ttdoc">A pointer to the domain object of the CSP. </div><div class="ttdef"><b>Definition:</b> constraint.hpp:114</div></div>
+<div class="ttc" id="classghost_1_1Constraint_html_af2b5d5f541f64e548bc6c93bba1ba2b8"><div class="ttname"><a href="classghost_1_1Constraint.html#af2b5d5f541f64e548bc6c93bba1ba2b8">ghost::Constraint::Constraint</a></div><div class="ttdeci">Constraint(const vector&lt; TypeVariable &gt; *variables, const TypeDomain *domain)</div><div class="ttdoc">The unique Constraint constructor. </div><div class="ttdef"><b>Definition:</b> constraint.hpp:73</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 23 2014 15:32:23 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 16:13:31 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

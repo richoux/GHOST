@@ -116,8 +116,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a943d4dcca2afb3cd72cb1049a7f197ff"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1WallinConstraint.html#a943d4dcca2afb3cd72cb1049a7f197ff">WallinConstraint</a> (const vector&lt; <a class="el" href="classghost_1_1Building.html">Building</a> &gt; *, const <a class="el" href="classghost_1_1WallinDomain.html">WallinDomain</a> *)</td></tr>
 <tr class="separator:a943d4dcca2afb3cd72cb1049a7f197ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26fde30aa60cc596b8f8550905ac030f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1WallinConstraint.html#a26fde30aa60cc596b8f8550905ac030f">cost</a> (vector&lt; double &gt; &amp;varCost) const </td></tr>
+<tr class="memdesc:a26fde30aa60cc596b8f8550905ac030f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pure virtual function to compute the current cost of the constraint.  <a href="#a26fde30aa60cc596b8f8550905ac030f">More...</a><br/></td></tr>
 <tr class="separator:a26fde30aa60cc596b8f8550905ac030f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6df6c03a6f0b026e78e1ce7f20c25b5"><td class="memItemLeft" align="right" valign="top">vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1WallinConstraint.html#ac6df6c03a6f0b026e78e1ce7f20c25b5">simulateCost</a> (<a class="el" href="classghost_1_1Building.html">Building</a> &amp;oldBuilding, const vector&lt; int &gt; &amp;newPosition, vector&lt; vector&lt; double &gt; &gt; &amp;vecVarSimCosts)</td></tr>
+<tr class="memdesc:ac6df6c03a6f0b026e78e1ce7f20c25b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pure virtual function to simulate the cost of the constraint on all possible values of the given variable.  <a href="#ac6df6c03a6f0b026e78e1ce7f20c25b5">More...</a><br/></td></tr>
 <tr class="separator:ac6df6c03a6f0b026e78e1ce7f20c25b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef93d84e063f20ffeb3ff584fe6fabad"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1WallinConstraint.html#aef93d84e063f20ffeb3ff584fe6fabad">v_cost</a> (vector&lt; double &gt; &amp;) const =0</td></tr>
 <tr class="separator:aef93d84e063f20ffeb3ff584fe6fabad"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,6 +127,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a94c5757e9bd0ccfc947eaf23ae7a33ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classghost_1_1Constraint"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classghost_1_1Constraint')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classghost_1_1Constraint.html">ghost::Constraint&lt; Building, WallinDomain &gt;</a></td></tr>
 <tr class="memitem:af2b5d5f541f64e548bc6c93bba1ba2b8 inherit pub_methods_classghost_1_1Constraint"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#af2b5d5f541f64e548bc6c93bba1ba2b8">Constraint</a> (const vector&lt; <a class="el" href="classghost_1_1Building.html">Building</a> &gt; *<a class="el" href="classghost_1_1Constraint.html#a827e487bd77c8dbc4701d1dfae39678a">variables</a>, const <a class="el" href="classghost_1_1WallinDomain.html">WallinDomain</a> *<a class="el" href="classghost_1_1Constraint.html#a0ea15d113ab23ddb6ad74be72f7ac90d">domain</a>)</td></tr>
+<tr class="memdesc:af2b5d5f541f64e548bc6c93bba1ba2b8 inherit pub_methods_classghost_1_1Constraint"><td class="mdescLeft">&#160;</td><td class="mdescRight">The unique Constraint constructor.  <a href="#af2b5d5f541f64e548bc6c93bba1ba2b8">More...</a><br/></td></tr>
 <tr class="separator:af2b5d5f541f64e548bc6c93bba1ba2b8 inherit pub_methods_classghost_1_1Constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
@@ -136,8 +139,10 @@ Protected Member Functions</h2></td></tr>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_attribs_classghost_1_1Constraint"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classghost_1_1Constraint')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classghost_1_1Constraint.html">ghost::Constraint&lt; Building, WallinDomain &gt;</a></td></tr>
 <tr class="memitem:a827e487bd77c8dbc4701d1dfae39678a inherit pro_attribs_classghost_1_1Constraint"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="classghost_1_1Building.html">Building</a> &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a827e487bd77c8dbc4701d1dfae39678a">variables</a></td></tr>
+<tr class="memdesc:a827e487bd77c8dbc4701d1dfae39678a inherit pro_attribs_classghost_1_1Constraint"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to the vector of variable objects of the CSP.  <a href="#a827e487bd77c8dbc4701d1dfae39678a">More...</a><br/></td></tr>
 <tr class="separator:a827e487bd77c8dbc4701d1dfae39678a inherit pro_attribs_classghost_1_1Constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ea15d113ab23ddb6ad74be72f7ac90d inherit pro_attribs_classghost_1_1Constraint"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classghost_1_1WallinDomain.html">WallinDomain</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a0ea15d113ab23ddb6ad74be72f7ac90d">domain</a></td></tr>
+<tr class="memdesc:a0ea15d113ab23ddb6ad74be72f7ac90d inherit pro_attribs_classghost_1_1Constraint"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to the domain object of the CSP.  <a href="#a0ea15d113ab23ddb6ad74be72f7ac90d">More...</a><br/></td></tr>
 <tr class="separator:a0ea15d113ab23ddb6ad74be72f7ac90d inherit pro_attribs_classghost_1_1Constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -190,7 +195,18 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="classghost_1_1Constraint.html#aca39776092083d848e4315e2be2ba0fa">ghost::Constraint&lt; Building, WallinDomain &gt;</a>.</p>
+<p>A pure virtual function to compute the current cost of the constraint. </p>
+<p>In cost, the parameter varCost is not given to be used by the function, but to store into varCost the projected cost of each variable. This must be computed INSIDE the cost function.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">varCost</td><td>A reference to a vector of double in order to store the projected cost of each variable. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A double representing the cost of the constraint on the current configuration. </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1WallinConstraint.html#ac6df6c03a6f0b026e78e1ce7f20c25b5" title="A pure virtual function to simulate the cost of the constraint on all possible values of the given va...">simulateCost</a> </dd></dl>
+
+<p>Implements <a class="el" href="classghost_1_1Constraint.html#a6977b1200c8377089e4e7ac7a91e7589">ghost::Constraint&lt; Building, WallinDomain &gt;</a>.</p>
 
 </div>
 </div>
@@ -228,13 +244,13 @@ Additional Inherited Members</h2></td></tr>
           <td class="memname">vector&lt;double&gt; ghost::WallinConstraint::simulateCost </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classghost_1_1Building.html">Building</a> &amp;&#160;</td>
-          <td class="paramname"><em>oldBuilding</em>, </td>
+          <td class="paramname"><em>currentVar</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>newPosition</em>, </td>
+          <td class="paramname"><em>possibleValues</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -255,7 +271,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="classghost_1_1Constraint.html#ad87bd74e38652d72e18d034545d9ee00">ghost::Constraint&lt; Building, WallinDomain &gt;</a>.</p>
+<p>A pure virtual function to simulate the cost of the constraint on all possible values of the given variable. </p>
+<p>In cost, the parameter vecVarSimCosts is not given to be used by the function, but to store into vecVarSimCosts the projected cost of currentVar on all possible values. This must be computed INSIDE the simulateCost function.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">currentVar</td><td>A reference to the variable we want to change the current value. </td></tr>
+    <tr><td class="paramname">possibleValues</td><td>A reference to a constant vector of the possible values for currentVar. </td></tr>
+    <tr><td class="paramname">vecVarSimCosts</td><td>A reference to the vector of vector of double in order to store the projected cost of currentVar on all possible values. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The vector of the cost of the constraint for each possible value of currentVar. </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1WallinConstraint.html#a26fde30aa60cc596b8f8550905ac030f" title="A pure virtual function to compute the current cost of the constraint. ">cost</a> </dd></dl>
+
+<p>Implements <a class="el" href="classghost_1_1Constraint.html#a8a8510d0285e587b2f640d60f83fe8d6">ghost::Constraint&lt; Building, WallinDomain &gt;</a>.</p>
 
 </div>
 </div>
@@ -334,7 +363,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 23 2014 15:32:24 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 16:13:32 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
