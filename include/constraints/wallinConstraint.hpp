@@ -45,18 +45,23 @@ namespace ghost
   public:
     WallinConstraint( const vector< Building >*, const WallinDomain* );
 
-    virtual vector<double> simulateCost( Building &oldBuilding,
-					 const vector<int> &newPosition,
-					 vector< vector<double> > &vecVarSimCosts,
-					 shared_ptr< Objective< Building, WallinDomain > > objective )
+    double cost( vector<double> &varCost ) const { return v_cost( varCost ); }
+
+    vector<double> simulateCost( Building &oldBuilding,
+				 const vector<int> &newPosition,
+				 vector< vector<double> > &vecVarSimCosts )
+    { return v_simulateCost( oldBuilding, newPosition, vecVarSimCosts ); }
+
+
+    virtual double v_cost( vector<double>& ) const = 0;
+
+    virtual vector<double> v_simulateCost( Building &oldBuilding,
+					   const vector<int> &newPosition,
+					   vector< vector<double> > &vecVarSimCosts )
     {
       std::vector<double> simCosts( domain->getSize(), -1. );
       int backup = oldBuilding.getValue();
-      // int index = oldBuilding.getId();
       int previousPos = 0;
-    
-      if( objective )
-	objective->resetHelper();
 
       for( auto &pos : newPosition )
       {
@@ -71,12 +76,7 @@ namespace ghost
 	  domain->add( oldBuilding );
 	}
 
-	//variables->at( index ).setValue( pos );
-	
 	simCosts[pos+1] = cost( vecVarSimCosts[pos+1] );
-	if( objective )
-	  objective->setHelper( oldBuilding, variables, domain );
-
 	previousPos = pos;
       }
 
@@ -84,16 +84,7 @@ namespace ghost
       oldBuilding.setValue( backup );
       domain->add( oldBuilding );
 
-      //variables->at( index ).setValue( backup );
-
       return simCosts;
-    }
-
-    virtual vector<double> simulateCost( Building &oldBuilding,
-					 const vector<int> &newPosition,
-					 vector< vector<double> > &vecVarSimCosts )
-    {
-      return simulateCost( oldBuilding, newPosition, vecVarSimCosts, nullptr );
     }
 
   protected:
@@ -109,8 +100,8 @@ namespace ghost
   public:
     Overlap( const vector< Building >*, const WallinDomain* );
     
-    double cost( vector<double>& ) const;
-    vector<double> simulateCost( Building&, const vector<int>&, vector< vector<double> >& );
+    double v_cost( vector<double>& ) const;
+    vector<double> v_simulateCost( Building&, const vector<int>&, vector< vector<double> >& );
   };
 
   
@@ -122,8 +113,8 @@ namespace ghost
   public:
     Buildable( const vector< Building >*, const WallinDomain* );
     
-    double cost( vector<double>& ) const;
-    vector<double> simulateCost( Building&, const vector<int>&, vector< vector<double> >& );
+    double v_cost( vector<double>& ) const;
+    vector<double> v_simulateCost( Building&, const vector<int>&, vector< vector<double> >& );
   };
 
   
@@ -135,8 +126,8 @@ namespace ghost
   public:
     NoGaps( const vector< Building >*, const WallinDomain* );
     
-    double cost( vector<double>& ) const;
-    double simulateCost( Building&, const int, vector<double>& );
+    double v_cost( vector<double>& ) const;
+    double postprocess_simulateCost( Building&, const int, vector<double>& );
   };
 
   
@@ -148,7 +139,7 @@ namespace ghost
   public:
     StartingTargetTiles( const vector< Building >*, const WallinDomain* );
 
-    double cost( vector<double>& ) const;
+    double v_cost( vector<double>& ) const;
   private:
     map<int, Building*> mapBuildings;
   };

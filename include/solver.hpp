@@ -41,7 +41,6 @@
 #include "variables/variable.hpp"
 #include "constraints/constraint.hpp"
 #include "domains/domain.hpp"
-#include "misc/tools.hpp"
 #include "misc/random.hpp"
 #include "misc/constants.hpp"
 #include "objectives/objective.hpp"
@@ -100,8 +99,16 @@ namespace ghost
       
       int sizeDomain = domain->getSize();
       vector< vector< double > >	vecConstraintsCosts( vecConstraints.size() );
-      vector< double >		vecGlobalCosts( sizeDomain );
+      vector< double >			vecGlobalCosts( sizeDomain );
       vector< vector< double > >	vecVarSimCosts( sizeDomain );
+
+      bool objOriginalNull = false;
+      if( objective == nullptr )
+      {
+	objective = make_shared< NullObjective<TypeVariable, TypeDomain> >();
+	objOriginalNull = true;
+      }
+      
       objective->initHelper( sizeDomain );
 
       bestCost = numeric_limits<int>::max();
@@ -208,7 +215,7 @@ namespace ghost
 
 #ifndef NDEBUG
 	  soverlap = chrono::system_clock::now();
-	  vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possiblePositions, vecVarSimCosts, objective );
+	  vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possiblePositions, vecVarSimCosts );
 	  toverlap += chrono::system_clock::now() - soverlap;
 
 	  sbuildable = chrono::system_clock::now();
@@ -223,9 +230,7 @@ namespace ghost
 	  vecConstraintsCosts[3] = vecConstraints[3]->simulateCost( *oldVariable, possiblePositions, vecVarSimCosts );
 	  tstt += chrono::system_clock::now() - sstt;
 #else
-	  // TODO: get rid of the next line
-	  vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possiblePositions, vecVarSimCosts, objective );
-	  for( int i = 1; i < vecConstraints.size(); ++i )
+	  for( int i = 0; i < vecConstraints.size(); ++i )
 	    vecConstraintsCosts[i] = vecConstraints[i]->simulateCost( *oldVariable, possiblePositions, vecVarSimCosts );
 #endif
 
@@ -246,6 +251,7 @@ namespace ghost
 		      numeric_limits<int>::max() );
 
 	  // look for the first smallest cost, according to objective heuristic
+	  objective->updateHelper( *oldVariable, possiblePositions, vecVariables, domain );
 	  int b = objective->heuristicValue( vecGlobalCosts, bestEstimatedCost, bestPosition );
 	  bestSimCost = vecVarSimCosts[ b ];
 
@@ -271,7 +277,8 @@ namespace ghost
 	    tabuList[ worstVariableId ] = TABU;
 
 	  elapsedTimeTour = chrono::system_clock::now() - startTour;
-	} while( globalCost != 0. && elapsedTimeTour.count() < timeout );
+	  elapsedTime = chrono::system_clock::now() - start;
+	} while( globalCost != 0. && elapsedTimeTour.count() < timeout && elapsedTime.count() < OPT_TIME );
 
 	// remove useless buildings
 	if( globalCost == 0 )
@@ -280,17 +287,15 @@ namespace ghost
 	reset();
 	elapsedTime = chrono::system_clock::now() - start;
       }
-      while( ( ( objective != nullptr || loops == 0 )  && ( elapsedTime.count() < OPT_TIME ) )//|| ( elapsedTime.count() >= OPT_TIME && bestGlobalCost != 0 && elapsedTime.count() < 10 * OPT_TIME ) ) 
-	     || ( objective == nullptr && elapsedTime.count() < timeout * loops ) );
+      while( ( ( !objOriginalNull || loops == 0 )  && ( elapsedTime.count() < OPT_TIME ) )
+	     || ( objOriginalNull && elapsedTime.count() < timeout * loops ) );
 
-      // clearAllInGrid< decltype(*vecVariables->begin()), decltype(domain) >( vecVariables, domain );
       for( auto &b : *vecVariables )
 	domain->clear( b );
 
       for( int i = 0; i < vecVariables->size(); ++i )
 	vecVariables->at(i).setValue( bestSolution[i] );
     
-      // addAllInGrid< decltype(*vecVariables->begin()), decltype(domain) >( vecVariables, domain );
       for( auto &b : *vecVariables )
 	domain->add( b );
 
@@ -301,7 +306,7 @@ namespace ghost
     
       cout << "Domains:" << *domain << endl;
 
-      if( objective == nullptr )
+      if( objOriginalNull )
 	cout << "SATISFACTION run: try to find a sound wall only!" << endl;
       else
 	cout << "OPTIMIZATION run with objective " << objective->getName() << endl;
@@ -311,25 +316,25 @@ namespace ghost
 	   << "Number of tours: " << tour << endl
 	   << "Number of iterations: " << iterations << endl;
 
-      // if( objective == nullptr )
-      // {
-      //   if( bestGlobalCost == 0 )
-      //   {
-      //     BuildingObj bObj();
-      //     GapObj gObj();
-      //     TechTreeObj tObj();
-	
-      //     cout << "Opt Cost if the objective was building: " << bObj.cost( vecVariables, domain ) << endl
-      // 	 << "Opt Cost if the objective was gap: \t" << gObj.cost( vecVariables, domain ) << endl
-      // 	 << "Opt Cost if the objective was techtree: " << tObj.cost( vecVariables, domain ) << endl;
-      //   }
-      // }
-      // else
-      // {
-      cout << "Optimization cost: " << bestCost << endl
-	   << "Opt Cost BEFORE post-processing: " << beforePostProc << endl;
-      // }
-
+      if( objOriginalNull )
+      {
+        if( bestGlobalCost == 0 )
+        {
+          shared_ptr<WallinObjective> bObj = make_shared<BuildingObj>();
+          shared_ptr<WallinObjective> gObj = make_shared<GapObj>();
+          shared_ptr<WallinObjective> tObj = make_shared<TechTreeObj>();
+	  
+          cout << "Opt Cost if the objective was building: " << bObj->cost( vecVariables, domain ) << endl
+	       << "Opt Cost if the objective was gap: \t" << gObj->cost( vecVariables, domain ) << endl
+	       << "Opt Cost if the objective was techtree: " << tObj->cost( vecVariables, domain ) << endl;
+        }
+      }
+      else
+      {
+	cout << "Optimization cost: " << bestCost << endl
+	     << "Opt Cost BEFORE post-processing: " << beforePostProc << endl;
+      }
+      
       if( timerPostProcessOpt != 0 )
 	cout << "Post-processing time: " << timerPostProcessOpt << endl; 
 
@@ -359,7 +364,7 @@ namespace ghost
       cout << endl;
 #endif
 
-      if( objective == nullptr )
+      if( objOriginalNull )
 	return bestGlobalCost;
       else
 	return bestCost;

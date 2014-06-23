@@ -28,6 +28,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <typeinfo>
 
 using namespace std;
 
@@ -37,13 +38,31 @@ namespace ghost
   {
   public:
     Variable() { }
-    Variable( string, string, int = -1 );
-    Variable(const Variable&);
-    Variable& operator=(Variable);
+
+    Variable( string name, string fullName, int value = -1 )
+      : name(name),
+	fullName(fullName),
+	id(Variable::numberVariables++),
+	value(value)
+    { }
     
-    inline bool		operator<( const Variable& other )	const	{ return v_operatorInf( other ); }
-    inline void		shiftValue()					{ v_shiftValue(); }
-    inline void		swapValue( Variable &other )			{ v_swapValue( other ); }
+    Variable( const Variable &other )
+      : name(other.name),
+	fullName(other.fullName),
+	id(other.id),
+	value(other.value)
+    { }
+    
+    Variable& operator=( Variable other )
+    {
+      this->swap( other );
+      return *this;
+    }
+
+    
+    inline bool		operator<( const Variable& other )	const	{ return id < other.id; }
+    inline void		shiftValue()					{ ++value; }
+    inline void		swapValue( Variable &other )			{ std::swap(this->value, other.value); }
 
     inline void		setValue( int v )			{ value = v; }
     inline int		getValue()			const	{ return value; }
@@ -52,15 +71,26 @@ namespace ghost
     inline string	getFullName()			const	{ return fullName; }
     inline bool		isSelected()			const	{ return value != -1; }
 
-    friend ostream& operator<<( ostream&, const Variable& );
+    friend std::ostream& operator<<( std::ostream& os, const Variable& v )
+    {
+      return os
+	<< "Variable type: " <<  typeid(v).name() << std::endl
+	<< "Name: " << v.name << std::endl
+	<< "Full name: " << v.fullName << std::endl
+	<< "Id num: " << v.id << std::endl
+	<< "Value: " <<  v.value << std::endl
+	<< "-------" << std::endl;
+    }
     
   protected:
-    virtual bool v_operatorInf( const Variable& other )	const;
-    virtual void v_shiftValue();
-    virtual void v_swapValue( Variable &other );
-
-    void swap(Variable&);
-
+    void swap( Variable &other )
+    {
+      std::swap(this->name, other.name);
+      std::swap(this->fullName, other.fullName);
+      std::swap(this->id, other.id);
+      std::swap(this->value, other.value);
+    }
+  
     string	name;
     string	fullName;
     int		id;

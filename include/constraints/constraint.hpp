@@ -45,10 +45,11 @@ namespace ghost
       : variables( const_cast< vector< TypeVariable >* >(variables) ), domain( const_cast<TypeDomain*>(domain) ) { }
 
     virtual double cost( vector<double>& ) const = 0;
+
     virtual vector<double> simulateCost( TypeVariable&,
 					 const vector<int>&,
-					 vector< vector<double> >&,
-					 shared_ptr< Objective< TypeVariable, TypeDomain > > ) = 0;
+					 vector< vector<double> >& ) = 0;
+
     
     friend ostream& operator<<( ostream& os, const Constraint<TypeVariable, TypeDomain>& c )
     {

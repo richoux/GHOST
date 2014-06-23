@@ -23,57 +23,6 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-
-#include <typeinfo>
-
 #include "../../include/variables/variable.hpp"
 
-using namespace std;
-
-namespace ghost
-{
-  int Variable::numberVariables = 0;
-  
-  Variable::Variable( string name, string fullName, int value )
-    : name(name),
-      fullName(fullName),
-      id(Variable::numberVariables++),
-      value(value)
-  { }
-
-  Variable::Variable( const Variable &other )
-    : name(other.name),
-      fullName(other.fullName),
-      id(other.id),
-      value(other.value)
-  { }
-
-  Variable& Variable::operator=( Variable other )
-  {
-    this->swap( other );
-    return *this;
-  }
-
-  void Variable::swap( Variable &other )
-  {
-    std::swap(this->name, other.name);
-    std::swap(this->fullName, other.fullName);
-    std::swap(this->id, other.id);
-    std::swap(this->value, other.value);
-  }
-  
-  std::ostream& operator<<( std::ostream& os, const Variable& v )
-  {
-    return os
-      << "Variable type: " <<  typeid(v).name() << std::endl
-      << "Name: " << v.name << std::endl
-      << "Full name: " << v.fullName << std::endl
-      << "Id num: " << v.id << std::endl
-      << "Value: " <<  v.value << std::endl
-      << "-------" << std::endl;
-  }
-
-  bool Variable::v_operatorInf( const Variable& other )	const	{ return id < other.id; }
-  void Variable::v_shiftValue()					{ ++value; }
-  void Variable::v_swapValue( Variable &other )			{ std::swap(this->value, other.value); }
-}
+int ghost::Variable::numberVariables = 0;

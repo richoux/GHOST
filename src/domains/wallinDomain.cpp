@@ -26,8 +26,6 @@
 
 #include <iomanip>
 #include <algorithm>
-// #include <sstream>
-// #include <cstdlib>
 
 #include "../../include/domains/wallinDomain.hpp"
 
@@ -69,7 +67,7 @@ namespace ghost
       domains[ v.getId() ] = possiblePos( v );
   }
 
-  void WallinDomain::v_add( const Building& building )
+  void WallinDomain::add( const Building& building )
   {
     if( building.isSelected() )
     {
@@ -100,7 +98,7 @@ namespace ghost
     }
   }
   
-  void WallinDomain::v_clear( const Building& building )
+  void WallinDomain::clear( const Building& building )
   {
     if( building.isSelected() )
     {
@@ -114,7 +112,6 @@ namespace ghost
     }
   }
 
-  // Not sure; fix later
   void WallinDomain::clear( int row, int col, string b_short, int b_id )
   {
     auto it = matrixType_[row][col].find( b_short );
@@ -210,11 +207,11 @@ namespace ghost
 
   void WallinDomain::swap( Building &first, Building &second )
   {
-    v_clear( first );
-    v_clear( second );
+    clear( first );
+    clear( second );
     first.swapValue( second );
-    v_add( first );
-    v_add( second );
+    add( first );
+    add( second );
   }  
 
   set< Building > WallinDomain::getBuildingsAround ( const Building &b, const vector< Building > *variables ) const

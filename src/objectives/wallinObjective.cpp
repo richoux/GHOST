@@ -114,7 +114,7 @@ namespace ghost
 	    cost = 0.;
 	    fill( varSimCost.begin(), varSimCost.end(), 0. );
 	      
-	    cost = ng.simulateCost( b, -1, varSimCost );
+	    cost = ng.postprocess_simulateCost( b, -1, varSimCost );
 	      
 	    if( cost == 0. )
 	    {
@@ -225,7 +225,6 @@ namespace ghost
     return count_if( vecVariables->begin(), 
 		     vecVariables->end(), 
 		     []( const Building &b ){ return b.isSelected(); });
-    //return 0.;
   }
 
   int NoneObj::v_heuristicVariable( const vector< int > &vecId, const vector< Building > *vecVariables, WallinDomain *domain )
@@ -301,38 +300,21 @@ namespace ghost
     int gaps = 0;
     set< Building > neighbors = domain->getBuildingsAbove( b, vecVariables );
 
-    // cout << "ABOVE " << b->getId() << endl;
-    // for( auto &n : neighbors )
-    //   cout << n->getId() << " ";
-    // cout << endl;
-
     gaps += count_if( neighbors.begin(), 
 		      neighbors.end(), 
 		      [&](const Building &n){return b.getGapTop() + n.getGapBottom() >= 16;});
     
     neighbors = domain->getBuildingsOnRight( b, vecVariables );
-    // cout << "RIGHT " << b->getId() << endl;
-    // for( auto &n : neighbors )
-    //   cout << n->getId() << " ";
-    // cout << endl;
     gaps += count_if( neighbors.begin(), 
 		      neighbors.end(), 
 		      [&](const Building &n){return b.getGapRight() + n.getGapLeft() >= 16;});
     
     neighbors = domain->getBuildingsBelow( b, vecVariables );
-    // cout << "BELOW " << b->getId()  << endl;
-    // for( auto &n : neighbors )
-    //   cout << n->getId() << " ";
-    // cout << endl;
     gaps += count_if( neighbors.begin(), 
 		      neighbors.end(), 
 		      [&](const Building &n){return b.getGapBottom() + n.getGapTop() >= 16;});
     
     neighbors = domain->getBuildingsOnLeft( b, vecVariables );
-    // cout << "LEFT " << b->getId()  << endl;
-    // for( auto &n : neighbors )
-    //   cout << n->getId() << " ";
-    // cout << endl;
     gaps += count_if( neighbors.begin(), 
 		      neighbors.end(), 
 		      [&](const Building &n){return b.getGapLeft() + n.getGapRight() >= 16;});
@@ -399,19 +381,6 @@ namespace ghost
 
   int TechTreeObj::v_heuristicVariable( const vector< int > &vecId, const vector< Building > *vecVariables, WallinDomain *domain )
   {
-    // auto min =  min_element( vecVariables.begin(), 
-    // 				  vecVariables.end(), 
-    // 				  [](const Building &b1, const Building &b2)
-    // 				  {return b1.getTreedepth() < b2.getTreedepth();} );
-
-    // int minValue = min->getTreedepth();
-    // vector< int > varMinTech( vecId.size() );
-
-    // auto it = copy_if( vecId.begin(),
-    // 			    vecId.end(),
-    // 			    varMinTech.begin(),
-    // 			    [&](int b){return vecVariables[b].getTreedepth() == minValue;} );
-
     auto min =  min_element( vecId.begin(), 
 			     vecId.end(), 
 			     [&](int b1, int b2)

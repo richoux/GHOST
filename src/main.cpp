@@ -34,7 +34,6 @@
 #include "../include/domains/wallinDomain.hpp"
 #include "../include/constraints/wallinConstraint.hpp"
 #include "../include/objectives/wallinObjective.hpp"
-#include "../include/misc/tools.hpp"
 #include "../include/misc/wallinTerran.hpp"
 #include "../include/solver.hpp"
 

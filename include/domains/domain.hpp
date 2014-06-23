@@ -32,7 +32,6 @@
 #include <algorithm>
 #include <numeric>
 
-// #include "../variables/variable.hpp"
 #include "../misc/random.hpp"
 
 using namespace std;
@@ -69,56 +68,41 @@ namespace ghost
     }
         
 
-    inline int		randomValue( const TypeVariable& var )			{ return v_randomValue(var); }
-    inline vector<int>	possibleValues( const TypeVariable& var )	const	{ return v_possibleValues(var); }
-    inline void		resetDomain( const TypeVariable& var )			{ v_resetDomain(var); }
-    inline void		add( const TypeVariable& var )				{ v_add(var); }
-    inline void		clear( const TypeVariable& var )			{ v_clear(var); }
-    inline void		resetAllDomains()					{ v_resetAllDomains(); }
-    
-    inline int getSize() const { return size; }
-
-    friend ostream& operator<<( ostream& os, const Domain<TypeVariable>& domain )
-    {
-      os << "Domain type: " <<  typeid(domain).name() << endl
-	 << "Size: " <<  domain.size << endl;
-      // for( int i = 0; i < domains.size; ++i )
-      // {
-      //   os << "Domain[" << i << "]: ";
-      //   for( auto& e : domains[i] )
-      //     os << e << " ";
-      //   os << endl;
-      // }
-      // os << endl;
-      return os;
-    }
-
-  protected:
-    virtual int v_randomValue( const TypeVariable& variable )
+    inline int randomValue( const TypeVariable& variable )
     {
       vector<int> possibilities = domains[ variable.getId() ];
       return possibilities[ random.getRandNum( possibilities.size() ) ];
     }
-
-    virtual vector<int> v_possibleValues( const TypeVariable& variable ) const
+      
+    inline vector<int> possibleValues( const TypeVariable& variable ) const
     {
       return domains[ variable.getId() ];
     }
-
-    virtual void v_resetDomain( const TypeVariable& variable )
+      
+    inline void	resetDomain( const TypeVariable& variable )
     {
       domains[ variable.getId() ] = initialDomain;
     }
-
-    virtual void v_add( const TypeVariable& variable ) { }
-    virtual void v_clear( const TypeVariable& variable ) { }
-
-    virtual void v_resetAllDomains()
+      
+    inline void	resetAllDomains()
     {
       for( auto& d : domains )
 	d = initialDomain;
     }
 
+    inline int getSize() const { return size; }
+
+    inline void add( const TypeVariable& variable ) { }      
+    inline void	clear( const TypeVariable& variable ) { }
+
+    friend ostream& operator<<( ostream& os, const Domain<TypeVariable>& domain )
+    {
+      os << "Domain type: " <<  typeid(domain).name() << endl
+	 << "Size: " <<  domain.size << endl;
+      return os;
+    }
+
+  protected:
     int size;
     vector< vector< int > > domains;
     vector< int > initialDomain;

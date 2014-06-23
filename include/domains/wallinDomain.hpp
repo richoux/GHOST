@@ -31,7 +31,6 @@
 #include <set>
 #include <string>
 #include <iostream>
-// #include <memory>
 
 #include "domain.hpp"
 #include "../variables/building.hpp"
@@ -63,6 +62,8 @@ namespace ghost
     pair<int, int>	shift( Building& );
     void		quickShift( Building& );
     void		swap( Building&, Building& );	  
+    void		add( const Building& );
+    void		clear( const Building& );
     
     set< Building > getBuildingsAround( const Building &, const vector< Building >* )	const;
     set< Building > getBuildingsAbove( const Building &, const vector< Building >* )	const;
@@ -101,8 +102,6 @@ namespace ghost
     friend ostream& operator<<( ostream&, const WallinDomain& );
 
   private:
-    void v_add( const Building& );
-    void v_clear( const Building& );
     void add(int, int, string, int);
     void clear(int, int, string, int);
     

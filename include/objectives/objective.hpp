@@ -44,15 +44,16 @@ namespace ghost
     Objective( const string &name ) : name(name) { }
 
     
-    inline double cost( const vector< TypeVariable > *vecVariables,
-			const TypeDomain *domain ) const
-    { return v_cost(vecVariables, domain); }
-    
     inline int heuristicVariable( const vector< int > &vecVarId,
 				  const vector< TypeVariable > *vecVariables,
 				  TypeDomain *domain )
     { return v_heuristicVariable(vecVarId, vecVariables, domain); }
     
+    inline int heuristicValue( const std::vector< double > &vecGlobalCosts, 
+				double &bestEstimatedCost,
+				int &bestValue ) const
+    { return v_heuristicValue( vecGlobalCosts, bestEstimatedCost, bestValue ); }
+
     inline void setHelper( const TypeVariable &variable,
 			   const vector< TypeVariable > *vecVariables,
 			   const TypeDomain *domain )
@@ -71,9 +72,66 @@ namespace ghost
 
     inline string getName() { return name; }
 
-    int heuristicValue( const std::vector< double > &vecGlobalCosts, 
-			double &bestEstimatedCost,
-			int &bestValue ) const
+    inline void initHelper( int size )
+    {
+      heuristicValueHelper = std::vector<double>( size, numeric_limits<int>::max() );
+    }
+
+    inline void resetHelper()
+    {
+      std::fill( heuristicValueHelper.begin(), heuristicValueHelper.end(), numeric_limits<int>::max() );
+    }
+
+    void updateHelper( TypeVariable &oldBuilding,
+		       const vector<int> &possibleValues,
+		       const vector< TypeVariable > *variables,
+		       TypeDomain *domain )
+    {
+      resetHelper();
+      int backup = oldBuilding.getValue();
+      
+      for( auto val : possibleValues )
+      {
+	domain->clear( oldBuilding );
+	oldBuilding.setValue( val );
+	domain->add( oldBuilding );
+	
+	setHelper( oldBuilding, variables, domain );
+      }
+
+	domain->clear( oldBuilding );
+	oldBuilding.setValue( backup );
+	domain->add( oldBuilding );      
+    }
+
+  protected:
+    inline double	cost( const vector< TypeVariable > *vecVariables,
+			      const TypeDomain *domain ) const
+    { return v_cost(vecVariables, domain); }
+    
+    virtual double	v_cost( const vector< TypeVariable > *vecVariables,
+				const TypeDomain *domain ) const = 0;
+
+    virtual int		v_heuristicVariable( const vector< int > &vecVarId,
+					     const vector< TypeVariable > *vecVariables,
+					     TypeDomain *domain ) = 0;
+
+    virtual void	v_setHelper( const TypeVariable &b,
+				     const vector< TypeVariable > *vecVariables,
+				     const TypeDomain *domain ) = 0;
+
+    virtual double	v_postprocessSatisfaction( vector< TypeVariable > *vecVariables,
+						   TypeDomain *domain,
+						   double &bestCost,
+						   vector<int> &bestSolution ) const { return 0.; }
+
+    virtual double	v_postprocessOptimization( vector< TypeVariable > *vecVariables,
+						   TypeDomain *domain,
+						   double &bestCost ) { return 0.; }
+
+    virtual int		v_heuristicValue( const std::vector< double > &vecGlobalCosts, 
+					  double &bestEstimatedCost,
+					  int &bestValue ) const
     {
       int best = 0;
       double bestHelp = numeric_limits<int>::max();
@@ -117,39 +175,38 @@ namespace ghost
       return best;
     }
 
-    inline void initHelper( int size )
-    {
-      heuristicValueHelper = std::vector<double>( size, numeric_limits<int>::max() );
-    }
-
-    inline void resetHelper()
-    {
-      std::fill( heuristicValueHelper.begin(), heuristicValueHelper.end(), numeric_limits<int>::max() );
-    }
-
-  protected:
-    virtual double	v_cost( const vector< TypeVariable > *vecVariables,
-				const TypeDomain *domain ) const = 0;
-
-    virtual int		v_heuristicVariable( const vector< int > &vecVarId,
-					     const vector< TypeVariable > *vecVariables,
-					     TypeDomain *domain ) = 0;
-
-    virtual void	v_setHelper( const TypeVariable &b,
-				     const vector< TypeVariable > *vecVariables,
-				     const TypeDomain *domain ) = 0;
-
-    virtual double	v_postprocessSatisfaction( vector< TypeVariable > *vecVariables,
-						   TypeDomain *domain,
-						   double &bestCost,
-						   vector<int> &bestSolution ) const { return 0.; }
-
-    virtual double	v_postprocessOptimization( vector< TypeVariable > *vecVariables,
-						   TypeDomain *domain,
-						   double &bestCost ) { return 0.; }
 
     Random randomVar;
     string name;
-    vector<double> heuristicValueHelper; 
+    vector<double> heuristicValueHelper;
+  };
+
+  template <typename TypeVariable, typename TypeDomain>
+  class NullObjective : public Objective<TypeVariable, TypeDomain>
+  {
+    using Objective<TypeVariable, TypeDomain>::randomVar;
+    using Objective<TypeVariable, TypeDomain>::heuristicValueHelper;
+    
+  public:
+    NullObjective() : Objective<TypeVariable, TypeDomain>("nullObjective") { }
+
+  private:
+    virtual double v_cost( const vector< TypeVariable > *vecVariables,
+			   const TypeDomain *domain ) const
+    { return 0.; }
+    
+    virtual int	v_heuristicVariable( const vector< int > &vecId,
+				     const vector< TypeVariable > *vecVariables,
+				     TypeDomain *domain )
+    {
+      return vecId[ randomVar.getRandNum( vecId.size() ) ];
+    }
+    
+    virtual void v_setHelper( const TypeVariable &b,
+			      const vector< TypeVariable > *vecVariables,
+			      const TypeDomain *domain )
+    {
+      heuristicValueHelper.at( b.getValue() ) = 0;
+    }
   };
 }

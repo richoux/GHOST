@@ -86,7 +86,7 @@ namespace ghost
   Overlap::Overlap(const vector< Building > *variables, const WallinDomain *domain) 
     : WallinConstraint(variables, domain) { }
 
-  double Overlap::cost( vector<double> &varCost ) const
+  double Overlap::v_cost( vector<double> &varCost ) const
   {
     // version 1: 1 failure = 1 cost
     // return double( domain->failures().size() );
@@ -110,7 +110,7 @@ namespace ghost
   }
 
   // v2, less efficient with the gap objective
-  // double Overlap::cost( vector<double> &varCost ) const
+  // double Overlap::v_cost( vector<double> &varCost ) const
   // {
   //   // version 1: 1 failure = 1 cost
   //   // return double( domain->failures().size() );
@@ -133,11 +133,10 @@ namespace ghost
   //   return conflicts;    
   // }
 
-  vector<double> Overlap::simulateCost( Building &oldBuilding, const vector<int> &newPosition, vector< vector<double> > &vecVarSimCosts )
+  vector<double> Overlap::v_simulateCost( Building &oldBuilding, const vector<int> &newPosition, vector< vector<double> > &vecVarSimCosts )
   {
     vector<double> simCosts( domain->getSize(), -1. );
     int backup = oldBuilding.getValue();
-    // int index = oldBuilding.getId();
     int previousPos = 0;
     int diff;
 
@@ -163,9 +162,7 @@ namespace ghost
 	oldBuilding.setValue( pos );
 	domain->add( oldBuilding );
 
-	//variables[index].setValue( pos );
-	
-	simCosts[pos + 1] = cost( vecVarSimCosts[pos + 1] );
+	simCosts[pos + 1] = v_cost( vecVarSimCosts[pos + 1] );
       }
 
       previousPos = pos;
@@ -174,8 +171,6 @@ namespace ghost
     domain->clear( oldBuilding );
     oldBuilding.setValue( backup );
     domain->add( oldBuilding );
-
-    //variables[index].setValue( backup );
     
     return simCosts;
   }
@@ -187,7 +182,7 @@ namespace ghost
   Buildable::Buildable(const vector< Building > *variables, const WallinDomain *domain) 
     : WallinConstraint(variables, domain) { }
 
-  double Buildable::cost( vector<double> &varCost ) const
+  double Buildable::v_cost( vector<double> &varCost ) const
   {
     // count number of buildings misplaced on unbuildable tiles (denoted by ###)
     double conflicts = 0.;
@@ -209,7 +204,7 @@ namespace ghost
   }
 
   // v2, less efficient with the gap objective
-  // double Buildable::cost( vector<double> &varCost ) const
+  // double Buildable::v_cost( vector<double> &varCost ) const
   // {
   //   // count number of buildings misplaced on unbuildable tiles (denoted by ###)
   //   double conflicts = 0.;
@@ -230,11 +225,10 @@ namespace ghost
   //   return conflicts;    
   // }
 
-  vector<double> Buildable::simulateCost( Building &oldBuilding, const vector<int> &newPosition, vector< vector<double> > &vecVarSimCosts )
+  vector<double> Buildable::v_simulateCost( Building &oldBuilding, const vector<int> &newPosition, vector< vector<double> > &vecVarSimCosts )
   {
     vector<double> simCosts( domain->getSize(), -1. );
     int backup = oldBuilding.getValue();
-    // int index = oldBuilding.getId();
     int previousPos = 0;
     int diff;
 
@@ -260,9 +254,7 @@ namespace ghost
 	oldBuilding.setValue( pos );
 	domain->add( oldBuilding );
 
-	// variables[ index ].setValue( pos );
-	
-	simCosts[pos + 1] = cost( vecVarSimCosts[pos + 1] );
+	simCosts[pos + 1] = v_cost( vecVarSimCosts[pos + 1] );
       }
 
       previousPos = pos;
@@ -272,8 +264,6 @@ namespace ghost
     oldBuilding.setValue( backup );
     domain->add( oldBuilding );
 
-    // variables[ index ].setValue( backup );
-    
     return simCosts;
   }
 
@@ -284,7 +274,7 @@ namespace ghost
   NoGaps::NoGaps(const vector< Building > *variables, const WallinDomain *domain) 
     : WallinConstraint(variables, domain) { }
 
-  double NoGaps::cost( vector<double> &varCost ) const
+  double NoGaps::v_cost( vector<double> &varCost ) const
   {
     // cost = |buildings with one neighbor| - 1 + |buildings with no neighbors|
     double conflicts = 0.;
@@ -332,7 +322,7 @@ namespace ghost
   }
 
   // v2, less efficient with the gap objective
-  // double NoGaps::cost( vector<double> &varCost ) const
+  // double NoGaps::v_cost( vector<double> &varCost ) const
   // {
   //   // cost = |buildings with one neighbor| - 1 + |buildings with no neighbors|
   //   double conflicts = 0.;
@@ -372,7 +362,7 @@ namespace ghost
   //   return conflicts;    
   // }
 
-  double NoGaps::simulateCost( Building &oldBuilding, const int newPosition, vector<double> &varSimCost )
+  double NoGaps::postprocess_simulateCost( Building &oldBuilding, const int newPosition, vector<double> &varSimCost )
   {
     int backup = oldBuilding.getValue();
 
@@ -381,7 +371,7 @@ namespace ghost
     oldBuilding.setValue( newPosition );
     domain->add( oldBuilding );
 
-    double simCost = cost( varSimCost );
+    double simCost = v_cost( varSimCost );
 
     domain->clear( oldBuilding );
 
@@ -402,7 +392,7 @@ namespace ghost
       mapBuildings[b.getId()] = const_cast<Building*>(&b);
   }
 
-  double StartingTargetTiles::cost( vector<double> &varCost ) const
+  double StartingTargetTiles::v_cost( vector<double> &varCost ) const
   {
     // no building on one of these two tiles: cost of the tile = 6
     // a building with no or with 2 or more neighbors: cost of the tile = 3
@@ -474,7 +464,7 @@ namespace ghost
   }
 
   // v2, less efficient with the gap objective
-  // double StartingTargetTiles::cost( vector<double> &varCost ) const
+  // double StartingTargetTiles::v_cost( vector<double> &varCost ) const
   // {
   //   // no building on one of these two tiles: cost of the tile = 6
   //   // a building with no or with 2 or more neighbors: cost of the tile = 3
