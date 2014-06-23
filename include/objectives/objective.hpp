@@ -37,101 +37,225 @@ using namespace std;
 
 namespace ghost
 {
+  //! Objective is the class encoding objective functions of your CSP.
+  /*! 
+   * In GHOST, many different objective objects can be instanciate.
+   *
+   * The Objective class is a template class, waiting for both the
+   * type of variable and the type of domain. Thus, you must
+   * instanciate a constraint by specifying the class of your variable
+   * objects and the class of your domain object, like for instance
+   * Objective<Variable, Domain> or Objective<MyCustomVariable,
+   * MyCustomDomain>, if MyCustomVariable inherits from the
+   * ghost::Variable class and MyCustomDomain inherits from the
+   * ghost::Domain class.
+   *
+   * You cannot directly use this class Objective to encode your
+   * objective functions, since this is an abstract class (see the
+   * list of pure virtual functions below). Thus, you must write your
+   * own objective class inheriting from ghost::Objective.
+   *
+   * In this class, each virtual function follows the Non-Virtual Interface
+   * Idiom (see http://www.gotw.ca/publications/mill18.htm). The list
+   * of all Objective pure virtual functions is below:
+   * - v_cost 
+   * - v_heuristicVariable
+   * - v_setHelper
+   *
+   * \sa Variable, Domain
+   */
   template <typename TypeVariable, typename TypeDomain>
   class Objective
   {
   public:
+    //! The unique Objective constructor
+    /*!
+     * \param name A string to give the Objective object a specific name.
+     */
     Objective( const string &name ) : name(name) { }
 
-    
+    //! Inline function following the NVI idiom. Calling v_cost.
+    //! \sa v_cost
+    inline double cost( const vector< TypeVariable > *vecVariables,
+			const TypeDomain *domain ) const
+    { return v_cost(vecVariables, domain); }
+
+    //! Inline function following the NVI idiom. Calling v_heuristicVariable.
+    //! \sa v_heuristicVariable
     inline int heuristicVariable( const vector< int > &vecVarId,
 				  const vector< TypeVariable > *vecVariables,
 				  TypeDomain *domain )
     { return v_heuristicVariable(vecVarId, vecVariables, domain); }
     
+    //! Inline function following the NVI idiom. Calling v_heuristicValue.
+    //! \sa v_heuristicValue
     inline int heuristicValue( const std::vector< double > &vecGlobalCosts, 
 				double &bestEstimatedCost,
 				int &bestValue ) const
     { return v_heuristicValue( vecGlobalCosts, bestEstimatedCost, bestValue ); }
 
+    //! Inline function following the NVI idiom. Calling v_setHelper.
+    //! \sa v_setHelper
     inline void setHelper( const TypeVariable &variable,
 			   const vector< TypeVariable > *vecVariables,
 			   const TypeDomain *domain )
     { v_setHelper(variable, vecVariables, domain); }
 
+    //! Inline function following the NVI idiom. Calling v_postprocessSatisfaction.
+    //! \sa v_postprocessSatisfaction
     inline double postprocessSatisfaction( vector< TypeVariable > *vecVariables,
 					   TypeDomain *domain,
 					   double &bestCost,
 					   vector<int> &bestSolution)
     { return v_postprocessSatisfaction(vecVariables, domain, bestCost, bestSolution); }
 
+    //! Inline function following the NVI idiom. Calling v_postprocessOptimization.
+    //! \sa v_postprocessOptimization
     inline double postprocessOptimization( vector< TypeVariable > *vecVariables,
 					   TypeDomain *domain,
 					   double &bestCost )
     { return v_postprocessOptimization(vecVariables, domain, bestCost); }
 
+    //! Inline accessor to get the name of the objective object.
     inline string getName() { return name; }
 
+    //! Inline function to initialize heuristicValueHelper to a vector of MAX_INT values.  
+    //! \sa heuristicValueHelper
     inline void initHelper( int size )
     {
       heuristicValueHelper = std::vector<double>( size, numeric_limits<int>::max() );
     }
 
+    //! Inline function to reset heuristicValueHelper with MAX_INT values.  
+    //! \sa heuristicValueHelper
     inline void resetHelper()
     {
       std::fill( heuristicValueHelper.begin(), heuristicValueHelper.end(), numeric_limits<int>::max() );
     }
 
-    void updateHelper( TypeVariable &oldBuilding,
+    //! updateHelper is used to update heuristicValueHelper.
+    /*! 
+     * The function updateHelper is called by Solver::solve before
+     * each call of heuristicValue.
+     *
+     * \param currentVar A reference to a variable object.
+     * \param possibleValues A constant reference to the vector of all possible values of currentVar.
+     * \param variables A constant pointer to the vector of variable objects of the CSP.
+     * \param domain A pointer to the domain object of the CSP.
+     * \sa heuristicValueHelper
+    */
+    void updateHelper( TypeVariable &currentVar,
 		       const vector<int> &possibleValues,
 		       const vector< TypeVariable > *variables,
 		       TypeDomain *domain )
     {
       resetHelper();
-      int backup = oldBuilding.getValue();
+      int backup = currentVar.getValue();
       
       for( auto val : possibleValues )
       {
-	domain->clear( oldBuilding );
-	oldBuilding.setValue( val );
-	domain->add( oldBuilding );
+	domain->clear( currentVar );
+	currentVar.setValue( val );
+	domain->add( currentVar );
 	
-	setHelper( oldBuilding, variables, domain );
+	setHelper( currentVar, variables, domain );
       }
 
-	domain->clear( oldBuilding );
-	oldBuilding.setValue( backup );
-	domain->add( oldBuilding );      
+	domain->clear( currentVar );
+	currentVar.setValue( backup );
+	domain->add( currentVar );      
     }
 
   protected:
-    inline double	cost( const vector< TypeVariable > *vecVariables,
-			      const TypeDomain *domain ) const
-    { return v_cost(vecVariables, domain); }
-    
-    virtual double	v_cost( const vector< TypeVariable > *vecVariables,
-				const TypeDomain *domain ) const = 0;
+    //! Pure virtual function to compute the value of the objective function on the current configuration.
+    /*! 
+     * \param vecVariables A constant pointer to the vector of variable objects of the CSP.
+     * \param domain A constant pointer to the domain object of the CSP.
+     * \return The value of the objective function on the current configuration.
+     * \sa cost
+     */
+    virtual double v_cost( const vector< TypeVariable > *vecVariables,
+			   const TypeDomain *domain ) const = 0;
 
-    virtual int		v_heuristicVariable( const vector< int > &vecVarId,
-					     const vector< TypeVariable > *vecVariables,
-					     TypeDomain *domain ) = 0;
-
-    virtual void	v_setHelper( const TypeVariable &b,
+    //! Pure virtual function to apply the variable heuristic used by the solver.
+    /*! 
+     * \param vecVarId A constant reference to the vector of variable ID objects of the CSP.
+     * \param vecVariables A constant pointer to the vector of variable objects of the CSP.
+     * \param domain A constant pointer to the domain object of the CSP.
+     * \return The ID of the selected variable according to the heuristic.
+     * \sa heuristicVariable
+     */
+    virtual int	v_heuristicVariable( const vector< int > &vecVarId,
 				     const vector< TypeVariable > *vecVariables,
-				     const TypeDomain *domain ) = 0;
+				     TypeDomain *domain ) = 0;
 
-    virtual double	v_postprocessSatisfaction( vector< TypeVariable > *vecVariables,
-						   TypeDomain *domain,
-						   double &bestCost,
-						   vector<int> &bestSolution ) const { return 0.; }
+    //! Pure virtual function to set heuristicValueHelper[currentVar.getValue()].
+    /*! 
+     * \param currentVar A constant reference to a variable object.
+     * \param vecVariables A constant pointer to the vector of variable objects of the CSP.
+     * \param domain A constant pointer to the domain object of the CSP.
+     * \sa setHelper, heuristicValueHelper
+     */
+    virtual void v_setHelper( const TypeVariable &currentVar,
+			      const vector< TypeVariable > *vecVariables,
+			      const TypeDomain *domain ) = 0;
 
-    virtual double	v_postprocessOptimization( vector< TypeVariable > *vecVariables,
-						   TypeDomain *domain,
-						   double &bestCost ) { return 0.; }
+    //! Virtual function to perform satisfaction post-processing.
+    /*! 
+     * This function is called by the solver after a satisfaction run,
+     * if the solver was able to find a solution, to apply
+     * human-knowledge in order to "clean-up" the proposed solution.
+     *
+     * This implementation by default does nothing.
+     * 
+     * \param vecVariables A constant pointer to the vector of variable objects of the CSP.
+     * \param domain A constant pointer to the domain object of the CSP.
+     * \param bestCost A reference the double representing the best global cost found by the solver so far.
+     * \param solution A reference to the vector of variable values of the solution found by the solver.
+     * \return The function runtime in milliseconds.
+     * \sa postprocessSatisfaction
+     */
+    virtual double v_postprocessSatisfaction( vector< TypeVariable > *vecVariables,
+					      TypeDomain *domain,
+					      double &bestCost,
+					      vector<int> &solution ) const { return 0.; }
 
-    virtual int		v_heuristicValue( const std::vector< double > &vecGlobalCosts, 
-					  double &bestEstimatedCost,
-					  int &bestValue ) const
+    //! Virtual function to perform optimization post-processing.
+    /*! 
+     * This function is called by the solver after all optimization
+     * runs to apply human-knowledge optimization, allowing to improve
+     * the optimization cost.
+     *
+     * This implementation by default does nothing.
+     * 
+     * \param vecVariables A constant pointer to the vector of variable objects of the CSP.
+     * \param domain A constant pointer to the domain object of the CSP.
+     * \param bestCost A reference the double representing the best optimization cost found by the solver so far.
+     * \return The function runtime in milliseconds.
+     * \sa postprocessOptimization
+     */
+    virtual double v_postprocessOptimization( vector< TypeVariable > *vecVariables,
+					      TypeDomain *domain,
+					      double &bestCost ) { return 0.; }
+
+    //! Virtual function to apply the value heuristic used by the solver.
+    /*! 
+     * This default implementation outputs the value leading to the
+     * lowest global cost. It uses heuristicValueHelper as a
+     * tiebreaker, if two or more values lead to configurations with
+     * the same lowest global cost. If two or more values cannot be
+     * tiebreak by heuristicValueHelper, one of them is randomly
+     * selected.
+     *
+     * \param 
+     * \param 
+     * \param 
+     * \return The selected value according to the heuristic.
+     * \sa heuristicValue, heuristicValueHelper, Random
+     */
+    virtual int	v_heuristicValue( const std::vector< double > &vecGlobalCosts, 
+				  double &bestEstimatedCost,
+				  int &bestValue ) const
     {
       int best = 0;
       double bestHelp = numeric_limits<int>::max();
@@ -176,11 +300,12 @@ namespace ghost
     }
 
 
-    Random randomVar;
-    string name;
-    vector<double> heuristicValueHelper;
+    Random randomVar;				//!< The random generator used by the function heuristicValue.
+    string name;				//!< A string for the name of the objective object.
+    vector<double> heuristicValueHelper;	//!< The vector of double values implementing the value heuristic for each possible value of a given variable.
   };
 
+  //! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 
   template <typename TypeVariable, typename TypeDomain>
   class NullObjective : public Objective<TypeVariable, TypeDomain>
   {

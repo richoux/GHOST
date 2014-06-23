@@ -34,43 +34,101 @@ using namespace std;
 
 namespace ghost
 {
+  //! Variable is the class encoding the variables of your CSP.
+  /*! 
+   * In GHOST, all variable objects must be instanciate from the same
+   * concrete class. Be careful to model your CSP in order to use one
+   * kind of variable only.
+   *
+   * To encode your CSP variables, you can either directly use this
+   * class Variable (there are no pure virtual functions here),
+   * or inherit from it to make your own variable class.
+   */
   class Variable
   {
   public:
+    //! Empty Variable constructor by default, doing nothing.
     Variable() { }
 
+    //! The regular Variable constructor
+    /*!
+     * When this constructor is called, the class variable
+     * numberVariables is automatically incremented.
+     * 
+     * \param name A string to give a shorten name to the variable (for instance, "B").
+     * \param fullName A string to give a full name to the variable (for instance, "Barracks").
+     * \param value The initial value of the variable, -1 by default.
+     * \sa numberVariables
+     */
     Variable( string name, string fullName, int value = -1 )
       : name(name),
 	fullName(fullName),
 	id(Variable::numberVariables++),
 	value(value)
     { }
-    
+
+    //! Variable's copy constructor, designed to NOT increment numberVariables
+    /*!
+     * \param other A reference to a Variable object.
+     * \sa numberVariables
+     */
     Variable( const Variable &other )
       : name(other.name),
 	fullName(other.fullName),
 	id(other.id),
 	value(other.value)
     { }
-    
+
+    //! Variable's copy assignment operator, designed to NOT increment numberVariables
+    /*!
+     * The copy-and-swap idiom is applyed here.
+     * 
+     * \param other A Variable object.
+     * \sa numberVariables
+     */
     Variable& operator=( Variable other )
     {
       this->swap( other );
       return *this;
     }
 
-    
+    //! Inline function to compare (less-than operator) two Variable objects.
+    //! In this class, operator< is implemented to compare two Variable objects regarding their id.
     inline bool		operator<( const Variable& other )	const	{ return id < other.id; }
+
+    //! Inline function to shift the object value.
+    //! In this class, shiftValue is implemented to increment the value (++value).
     inline void		shiftValue()					{ ++value; }
+
+    //! Inline function to swap the value of two objects.
+    /*! 
+     * In this class, swapValue calls std::swap between this->value and other.value.
+     *
+     * \param other A reference to a Variable object.
+     */
     inline void		swapValue( Variable &other )			{ std::swap(this->value, other.value); }
 
+    //! Inline mutator to set the object's value.
+    /*! 
+     * In this class, setValue is a mere value = v
+     *
+     * \param v An integer representing the new value to set.
+     */
     inline void		setValue( int v )			{ value = v; }
-    inline int		getValue()			const	{ return value; }
-    inline int		getId()				const	{ return id; }
-    inline string	getName()			const	{ return name; }
-    inline string	getFullName()			const	{ return fullName; }
-    inline bool		isSelected()			const	{ return value != -1; }
 
+    //! Inline accessor to get the object's value.
+    inline int		getValue()			const	{ return value; }
+
+    //! Inline accessor to get the object's id.
+    inline int		getId()				const	{ return id; }
+
+    //! Inline accessor to get the object's name.
+    inline string	getName()			const	{ return name; }
+
+    //! Inline accessor to get the object's full name.
+    inline string	getFullName()			const	{ return fullName; }
+
+    //! friend override of operator<<
     friend std::ostream& operator<<( std::ostream& os, const Variable& v )
     {
       return os
@@ -83,7 +141,11 @@ namespace ghost
     }
     
   protected:
-    void swap( Variable &other )
+    //! Inline function used for the copy-and-swap idiom.
+    /*!
+     * \param other A reference to a Variable object.
+     */
+    inline void swap( Variable &other )
     {
       std::swap(this->name, other.name);
       std::swap(this->fullName, other.fullName);
@@ -91,12 +153,12 @@ namespace ghost
       std::swap(this->value, other.value);
     }
   
-    string	name;
-    string	fullName;
-    int		id;
-    int		value;
+    string	name;		//!< A string to give a shorten name to the variable (for instance, "B").
+    string	fullName;	//!< A string to give a full name to the variable (for instance, "Barracks").
+    int		id;		//!< An integer to stamp the object. Its value must be unique among all Variable objects.
+    int		value;		//!< The value of the variable. Must be an integer (it can take negative values).
     
   private:
-    static int numberVariables;
+    static int numberVariables; //!< A static integer to make sure the object's id is unique. Incremented by calling the regular constructor.
   };
 }

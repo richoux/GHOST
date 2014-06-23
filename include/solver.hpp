@@ -49,16 +49,60 @@ using namespace std;
 
 namespace ghost
 {
+  //! Solver is the class coding the solver itself.
+  /*! 
+   * You just need to instanciate one Solver object.
+   *
+   * The Solver class is a template class, waiting for both the type
+   * of variable, the type of domain and the type of constraint. Thus,
+   * you must instanciate a solver by specifying the class of your
+   * variable objects, the class of your domain object and the class
+   * of your constraint objects, like for instance Solver<Variable,
+   * Domain, Constraint> or Solver<MyCustomVariable, MyCustomDomain,
+   * MyCustomConstraint>, if MyCustomVariable inherits from the
+   * ghost::Variable class, MyCustomDomain inherits from the
+   * ghost::Domain class and MyCustomConstraint inherits from the
+   * ghost::Constraint class.
+   *
+   * Solver's constructor also need a shared pointer of an Objective
+   * object (nullptr by default). The reason why Objective is not a
+   * template parameter of Solver but a pointer is to allow a dynamic
+   * modification of the objective function.
+   *
+   * \sa Variable, Domain, Constraint, Objective
+   */
   template <typename TypeVariable, typename TypeDomain, typename TypeConstraint>
   class Solver
   {
   public:
+    //! Solver's regular constructor
+    /*!
+     * The solver is calling Solver(vecVariables, domain, vecConstraints, obj, 0)
+     *
+     * \param vecVariables A pointer to the vector of variable objects of the CSP.
+     * \param domain A pointer to the domain object of the CSP.
+     * \param vecConstraints A constant reference to the vector of shared pointers of Constraint
+     * \param obj A reference to the shared pointer of an Objective object. Default value is nullptr.
+     */
     Solver( vector< TypeVariable > *vecVariables, 
 	    TypeDomain *domain,
 	    const vector< shared_ptr<TypeConstraint> > &vecConstraints,
-	    const shared_ptr< Objective<TypeVariable, TypeDomain> > &obj )
+	    const shared_ptr< Objective<TypeVariable, TypeDomain> > &obj = nullptr )
       : Solver(vecVariables, domain, vecConstraints, obj, 0){  }
 
+    //! Solver's constructor mostly used for tests.
+    /*!
+     * Like the regular constructor, but take also a loops parameter
+     * to repeat loops times to satisfaction loop inside
+     * Solver::solve. This is mostly used for tests and runtime
+     * performance measures.
+     *
+     * \param vecVariables A pointer to the vector of variable objects of the CSP.
+     * \param domain A pointer to the domain object of the CSP.
+     * \param vecConstraints A constant reference to the vector of shared pointers of Constraint
+     * \param obj A reference to the shared pointer of an Objective object. Default value is nullptr.
+     * \param loops The number of times we want to repeat the satisaction loop inside Solver::solve. 
+     */
     Solver( vector< TypeVariable > *vecVariables, 
 	    TypeDomain *domain,
 	    const vector< shared_ptr<TypeConstraint> > &vecConstraints,
@@ -76,7 +120,14 @@ namespace ghost
       reset();
     }
 
-    
+    //! Solver's main function, to solve the given CSP.
+    /*!
+     * \param timeout The satisfaction run timeout in milliseconds
+     * \return The satisfaction or optimization cost of the best
+     * solution, respectively is the Solver object has been
+     * instanciate with a null Objective (pure satisfaction run) or an
+     * non-null Objective (optimization run).
+     */
     double solve( double timeout )
     {
       chrono::duration<double,milli> elapsedTime(0);
@@ -371,6 +422,9 @@ namespace ghost
     }
     
   private:
+    //! Solver's function to perform a reset, ie, to restart the
+    //! search process from a fresh and randomly generated
+    //! configuration.
     void reset()
     {
       for( auto &v : *vecVariables )
@@ -388,7 +442,9 @@ namespace ghost
 	  v.setValue( -1 );
       }
     }
-    
+
+    //! Solver's function to make a local move, ie, to assign a given
+    //! value to a given variable
     inline void move( TypeVariable *building, int newPosition )
     {
       domain->clear( *building );
@@ -396,16 +452,16 @@ namespace ghost
       domain->add( *building );
     }
 
-    vector< TypeVariable >				*vecVariables;
-    TypeDomain						*domain;
-    vector< shared_ptr<TypeConstraint> >		vecConstraints;
-    shared_ptr< Objective<TypeVariable, TypeDomain> >	objective;
+    vector< TypeVariable >				*vecVariables;	//!< A pointer to the vector of variable objects of the CSP.
+    TypeDomain						*domain;	//!< A pointer to the domain object of the CSP.
+    vector< shared_ptr<TypeConstraint> >		vecConstraints; //!< The vector of (shared pointers of) constraints of the CSP.
+    shared_ptr< Objective<TypeVariable, TypeDomain> >	objective;	//!< The shared pointer of the objective function.
 
-    vector<double>				variableCost;
-    int						loops;
-    vector<int>					tabuList;
-    Random					randomVar;
-    double					bestCost;
-    vector<int>					bestSolution;
+    vector<double>				variableCost;		//!< The vector of projected costs on each varaible.
+    int						loops;			//!< The number of times we reiterate the satisfaction loop inside Solver::solve 
+    vector<int>					tabuList;		//!< The tabu list, frozing each used variable for TABU iterations 
+    Random					randomVar;		//!< The random generator used by the solver.
+    double					bestCost;		//!< The (satisfaction or optimization) cost of the best solution.
+    vector<int>					bestSolution;		//!< The best solution found by the solver.
   };
 }

@@ -59,7 +59,7 @@ namespace ghost
 					   const vector<int> &newPosition,
 					   vector< vector<double> > &vecVarSimCosts )
     {
-      std::vector<double> simCosts( domain->getSize(), -1. );
+      vector<double> simCosts( domain->getSize(), -1. );
       int backup = oldBuilding.getValue();
       int previousPos = 0;
 

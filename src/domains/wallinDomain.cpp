@@ -38,7 +38,7 @@ namespace ghost
 			      int sCol,
 			      int tRow,
 			      int tCol ) 
-    : Domain(col*row+1, nbVar),
+    : Domain(col*row+1, nbVar, -1),
       mCol_(col),
       nRow_(row),
       matrixType_(vector< vector<string> >(nRow_, vector<string>(mCol_, "") ) ),

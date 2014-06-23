@@ -37,27 +37,80 @@ using namespace std;
 
 namespace ghost
 {
+  //! Constraint is the class encoding constraints of your CSP.
+  /*! 
+   * In GHOST, many different constraint objects can be instanciate.
+   *
+   * The Constraint class is a template class, waiting for both the
+   * type of variable and the type of domain. Thus, you must
+   * instanciate a constraint by specifying the class of your variable
+   * objects and the class of your domain object, like for instance
+   * Constraint<Variable, Domain> or Constraint<MyCustomVariable,
+   * MyCustomDomain>, if MyCustomVariable inherits from the
+   * ghost::Variable class and MyCustomDomain inherits from the
+   * ghost::Domain class.
+   *
+   * You cannot directly use this class Constraint to encode your CSP
+   * constraints, since this is an abstract class (see the list of
+   * pure virtual functions below). Thus, you must write your own
+   * constraint class inheriting from ghost::Constraint.
+   *
+   * Pure virtual Constraint functions:
+   * - cost
+   * - simulateCost
+   *
+   * \sa Variable, Domain
+   */
   template <typename TypeVariable, typename TypeDomain>
   class Constraint
   {
   public:
+    //! The unique Constraint constructor
+    /*!
+     * \param variables A constant pointer toward the vector of variable objects of the CSP.
+     * \param domain A constant pointer toward the domain object of the CSP.
+     */
     Constraint( const vector< TypeVariable > *variables, const TypeDomain *domain )
       : variables( const_cast< vector< TypeVariable >* >(variables) ), domain( const_cast<TypeDomain*>(domain) ) { }
 
-    virtual double cost( vector<double>& ) const = 0;
+    //! Pure virtual function to compute the current cost of the constraint. 
+    /*!
+     * In cost, the parameter varCost is not given to be used by the
+     * function, but to store into varCost the projected cost of each
+     * variable. This must be computed INSIDE the cost function.
+     *
+     * \param varCost A reference to a vector of double in order to store the projected cost of each variable.
+     * \return A double representing the cost of the constraint on the current configuration.
+     * \sa simulateCost
+     */    
+    virtual double cost( vector<double> &varCost ) const = 0;
 
-    virtual vector<double> simulateCost( TypeVariable&,
-					 const vector<int>&,
-					 vector< vector<double> >& ) = 0;
+    //! Pure virtual function to simulate the cost of the constraint on all possible values of the given variable. 
+    /*!
+     * In cost, the parameter vecVarSimCosts is not given to be used
+     * by the function, but to store into vecVarSimCosts the projected
+     * cost of currentVar on all possible values. This must be
+     * computed INSIDE the simulateCost function.
+     *
+     * \param currentVar A reference to the variable we want to change the current value.
+     * \param possibleValues A reference to a constant vector of the possible values for currentVar.
+     * \param vecVarSimCosts A reference to the vector of vector of double in order to store the projected cost of currentVar on all possible values. 
+     * \return The vector of the cost of the constraint for each possible value of currentVar.
+     * \sa cost
+     */    
+    virtual vector<double> simulateCost( TypeVariable &currentVar,
+					 const vector<int> &possibleValues,
+					 vector< vector<double> > &vecVarSimCosts ) = 0;
 
     
+    //! friend override of operator<<
     friend ostream& operator<<( ostream& os, const Constraint<TypeVariable, TypeDomain>& c )
     {
       return os << "Constraint type: " <<  typeid(c).name() << std::endl;
     }
     
   protected:
-    vector< TypeVariable > *variables;
-    TypeDomain *domain;
+    vector< TypeVariable > *variables;	//!< A pointer to the vector of variable objects of the CSP.
+    TypeDomain *domain;			//!< A pointer to the domain object of the CSP.
   };  
 }

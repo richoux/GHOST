@@ -26,5 +26,10 @@
 
 #pragma once
 
+/*!
+ * \file constant.hpp
+ * This file constains all constant used in GHOST
+ */
+
 constexpr int TABU = 5;
 constexpr int OPT_TIME	= 150;
