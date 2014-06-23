@@ -1,0 +1,14 @@
+digraph "ghost::WallinConstraint"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{ghost::WallinConstraint\n||+ WallinConstraint()\l+ cost()\l+ simulateCost()\l+ v_cost()\l+ v_simulateCost()\l# isWall()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{ghost::Constraint\<\l Building, WallinDomain \>\n|# variables\l|+ Constraint()\l+ cost()\l+ simulateCost()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classghost_1_1Constraint.html"];
+  Node3 -> Node2 [color="grey25",fontsize="10",style="solid",label=" #domain" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node3 [label="{ghost::WallinDomain\n||+ WallinDomain()\l+ WallinDomain()\l+ shift()\l+ quickShift()\l+ swap()\l+ add()\l+ clear()\l+ getBuildingsAround()\l+ getBuildingsAbove()\l+ getBuildingsOnRight()\land 23 more...\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classghost_1_1WallinDomain.html"];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node4 [label="{ghost::Domain\< Building \>\n|# size\l# domains\l# initialDomain\l|+ Domain()\l+ Domain()\l+ randomValue()\l+ possibleValues()\l+ resetDomain()\l+ resetAllDomains()\l+ getSize()\l+ add()\l+ clear()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classghost_1_1Domain.html"];
+  Node5 -> Node4 [color="grey25",fontsize="10",style="solid",label=" #random" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node5 [label="{ghost::Random\n||+ Random()\l+ Random()\l+ operator=()\l+ getRandNum()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classghost_1_1Random.html"];
+}

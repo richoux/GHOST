@@ -1,0 +1,6 @@
+digraph "ghost::Variable"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{ghost::Variable\n|# name\l# fullName\l# id\l# value\l|+ Variable()\l+ Variable()\l+ Variable()\l+ operator=()\l+ operator\<()\l+ shiftValue()\l+ swapValue()\l+ setValue()\l+ getValue()\l+ getId()\l+ getName()\l+ getFullName()\l# swap()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+}

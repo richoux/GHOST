@@ -69,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -128,16 +128,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;cassert&gt;</span></div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &lt;typeinfo&gt;</span></div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &quot;variables/variable.hpp&quot;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#include &quot;constraints/constraint.hpp&quot;</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#include &quot;domains/domain.hpp&quot;</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#include &quot;misc/random.hpp&quot;</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#include &quot;misc/constants.hpp&quot;</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#include &quot;objectives/objective.hpp&quot;</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="variable_8hpp.html">variables/variable.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="constraint_8hpp.html">constraints/constraint.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="domain_8hpp.html">domains/domain.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="random_8hpp.html">misc/random.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="constants_8hpp.html">misc/constants.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="objective_8hpp.html">objectives/objective.hpp</a>&quot;</span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="namespaceghost.html">   50</a></span>&#160;<span class="keyword">namespace </span>ghost</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">namespace </span>ghost</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TypeVariable, <span class="keyword">typename</span> TypeDomain, <span class="keyword">typename</span> TypeConstra<span class="keywordtype">int</span>&gt;</div>
 <div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html">   53</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classghost_1_1Solver.html">Solver</a></div>
@@ -146,13 +146,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a2b600f86be53c864a02c9ae56ebb9104">   56</a></span>&#160;    <a class="code" href="classghost_1_1Solver.html#a2b600f86be53c864a02c9ae56ebb9104">Solver</a>( vector&lt; TypeVariable &gt; *vecVariables, </div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        TypeDomain *domain,</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keyword">const</span> vector&lt; shared_ptr&lt;TypeConstraint&gt; &gt; &amp;vecConstraints,</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keyword">const</span> shared_ptr&lt; Objective&lt;TypeVariable, TypeDomain&gt; &gt; &amp;obj )</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keyword">const</span> shared_ptr&lt; <a class="code" href="classghost_1_1Objective.html">Objective&lt;TypeVariable, TypeDomain&gt;</a> &gt; &amp;obj )</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      : <a class="code" href="classghost_1_1Solver.html">Solver</a>(vecVariables, domain, vecConstraints, obj, 0){  }</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
 <div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a512335329b22a91700bdfa7870f053e9">   62</a></span>&#160;    <a class="code" href="classghost_1_1Solver.html#a512335329b22a91700bdfa7870f053e9">Solver</a>( vector&lt; TypeVariable &gt; *vecVariables, </div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        TypeDomain *domain,</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keyword">const</span> vector&lt; shared_ptr&lt;TypeConstraint&gt; &gt; &amp;vecConstraints,</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">const</span> shared_ptr&lt; Objective&lt;TypeVariable, TypeDomain&gt; &gt; &amp;obj,</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">const</span> shared_ptr&lt; <a class="code" href="classghost_1_1Objective.html">Objective&lt;TypeVariable, TypeDomain&gt;</a> &gt; &amp;obj,</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">int</span> loops )</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      : vecVariables(vecVariables), </div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    domain(domain),</div>
@@ -242,8 +242,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;      {</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        currentCost = 0.;</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="keywordflow">for</span>( <span class="keyword">auto</span> &amp;c : vecConstraints )</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;          currentCost += c-&gt;cost( variableCost );</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="keywordflow">for</span>( <span class="keyword">auto</span> &amp;<a class="code" href="namespaceghost.html#a1e04a626798fce7a46db973e9693354e">c</a> : vecConstraints )</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;          currentCost += <a class="code" href="namespaceghost.html#a1e04a626798fce7a46db973e9693354e">c</a>-&gt;cost( variableCost );</div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="keywordflow">if</span>( currentCost &lt; globalCost )</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;          globalCost = currentCost;</div>
@@ -364,11 +364,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        move( oldVariable, bestPosition );</div>
 <div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;      }</div>
 <div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;      <span class="keywordflow">else</span> <span class="comment">// local minima</span></div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        tabuList[ worstVariableId ] = TABU;</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        tabuList[ worstVariableId ] = <a class="code" href="constants_8hpp.html#a7a7e5cf396d6f148730009e697a7e6c4">TABU</a>;</div>
 <div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;</div>
 <div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;      elapsedTimeTour = chrono::system_clock::now() - startTour;</div>
 <div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;      elapsedTime = chrono::system_clock::now() - start;</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    } <span class="keywordflow">while</span>( globalCost != 0. &amp;&amp; elapsedTimeTour.count() &lt; timeout &amp;&amp; elapsedTime.count() &lt; OPT_TIME );</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    } <span class="keywordflow">while</span>( globalCost != 0. &amp;&amp; elapsedTimeTour.count() &lt; timeout &amp;&amp; elapsedTime.count() &lt; <a class="code" href="constants_8hpp.html#a79359be8afbc0e5b920333641467bf03">OPT_TIME</a> );</div>
 <div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;</div>
 <div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    <span class="comment">// remove useless buildings</span></div>
 <div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    <span class="keywordflow">if</span>( globalCost == 0 )</div>
@@ -377,7 +377,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    reset();</div>
 <div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    elapsedTime = chrono::system_clock::now() - start;</div>
 <div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;      }</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;      <span class="keywordflow">while</span>( ( ( !objOriginalNull || loops == 0 )  &amp;&amp; ( elapsedTime.count() &lt; OPT_TIME ) )</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;      <span class="keywordflow">while</span>( ( ( !objOriginalNull || loops == 0 )  &amp;&amp; ( elapsedTime.count() &lt; <a class="code" href="constants_8hpp.html#a79359be8afbc0e5b920333641467bf03">OPT_TIME</a> ) )</div>
 <div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;         || ( objOriginalNull &amp;&amp; elapsedTime.count() &lt; timeout * loops ) );</div>
 <div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;</div>
 <div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;      <span class="keywordflow">for</span>( <span class="keyword">auto</span> &amp;b : *vecVariables )</div>
@@ -436,10 +436,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;       &lt;&lt; <span class="stringliteral">&quot;STT: &quot;</span> &lt;&lt; tstt.count() &lt;&lt; endl;</div>
 <div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;</div>
 <div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;      <span class="comment">// print cost for each constraint</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;      <span class="keywordflow">for</span>( <span class="keyword">auto</span> &amp;c : vecConstraints )</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;      <span class="keywordflow">for</span>( <span class="keyword">auto</span> &amp;<a class="code" href="namespaceghost.html#a1e04a626798fce7a46db973e9693354e">c</a> : vecConstraints )</div>
 <div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;      {</div>
 <div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;    fill( varSimCost.begin(), varSimCost.end(), 0. );</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Cost of &quot;</span> &lt;&lt; <span class="keyword">typeid</span>(*c).name() &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; c-&gt;cost( varSimCost ) &lt;&lt; <span class="stringliteral">&quot; [&quot;</span>;</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Cost of &quot;</span> &lt;&lt; <span class="keyword">typeid</span>(*c).name() &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; <a class="code" href="namespaceghost.html#a1e04a626798fce7a46db973e9693354e">c</a>-&gt;cost( varSimCost ) &lt;&lt; <span class="stringliteral">&quot; [&quot;</span>;</div>
 <div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;</div>
 <div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    <span class="keywordflow">for</span>( <span class="keyword">auto</span> &amp;v : varSimCost )</div>
 <div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;      cout &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; v;</div>
@@ -499,14 +499,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;    vector&lt;int&gt;                 bestSolution;</div>
 <div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;  };</div>
 <div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;}</div>
+<div class="ttc" id="classghost_1_1Objective_html"><div class="ttname"><a href="classghost_1_1Objective.html">ghost::Objective</a></div><div class="ttdef"><b>Definition:</b> objective.hpp:41</div></div>
 <div class="ttc" id="classghost_1_1Solver_html"><div class="ttname"><a href="classghost_1_1Solver.html">ghost::Solver</a></div><div class="ttdef"><b>Definition:</b> solver.hpp:53</div></div>
+<div class="ttc" id="namespaceghost_html_a1e04a626798fce7a46db973e9693354e"><div class="ttname"><a href="namespaceghost.html#a1e04a626798fce7a46db973e9693354e">ghost::c</a></div><div class="ttdeci">std::shared_ptr&lt; Building &gt; c</div><div class="ttdef"><b>Definition:</b> wallinProtoss.hpp:41</div></div>
+<div class="ttc" id="constraint_8hpp_html"><div class="ttname"><a href="constraint_8hpp.html">constraint.hpp</a></div></div>
+<div class="ttc" id="domain_8hpp_html"><div class="ttname"><a href="domain_8hpp.html">domain.hpp</a></div></div>
+<div class="ttc" id="objective_8hpp_html"><div class="ttname"><a href="objective_8hpp.html">objective.hpp</a></div></div>
 <div class="ttc" id="classghost_1_1Solver_html_a2b600f86be53c864a02c9ae56ebb9104"><div class="ttname"><a href="classghost_1_1Solver.html#a2b600f86be53c864a02c9ae56ebb9104">ghost::Solver::Solver</a></div><div class="ttdeci">Solver(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj)</div><div class="ttdef"><b>Definition:</b> solver.hpp:56</div></div>
 <div class="ttc" id="classghost_1_1Solver_html_a512335329b22a91700bdfa7870f053e9"><div class="ttname"><a href="classghost_1_1Solver.html#a512335329b22a91700bdfa7870f053e9">ghost::Solver::Solver</a></div><div class="ttdeci">Solver(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj, const int loops)</div><div class="ttdef"><b>Definition:</b> solver.hpp:62</div></div>
+<div class="ttc" id="random_8hpp_html"><div class="ttname"><a href="random_8hpp.html">random.hpp</a></div></div>
+<div class="ttc" id="constants_8hpp_html"><div class="ttname"><a href="constants_8hpp.html">constants.hpp</a></div></div>
+<div class="ttc" id="constants_8hpp_html_a79359be8afbc0e5b920333641467bf03"><div class="ttname"><a href="constants_8hpp.html#a79359be8afbc0e5b920333641467bf03">OPT_TIME</a></div><div class="ttdeci">constexpr int OPT_TIME</div><div class="ttdef"><b>Definition:</b> constants.hpp:30</div></div>
 <div class="ttc" id="classghost_1_1Solver_html_a30dd2769fb30ac42d231d2c305dcdf13"><div class="ttname"><a href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13">ghost::Solver::solve</a></div><div class="ttdeci">double solve(double timeout)</div><div class="ttdef"><b>Definition:</b> solver.hpp:80</div></div>
+<div class="ttc" id="variable_8hpp_html"><div class="ttname"><a href="variable_8hpp.html">variable.hpp</a></div></div>
+<div class="ttc" id="constants_8hpp_html_a7a7e5cf396d6f148730009e697a7e6c4"><div class="ttname"><a href="constants_8hpp.html#a7a7e5cf396d6f148730009e697a7e6c4">TABU</a></div><div class="ttdeci">constexpr int TABU</div><div class="ttdef"><b>Definition:</b> constants.hpp:29</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 23 2014 14:30:40 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 14:32:43 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
