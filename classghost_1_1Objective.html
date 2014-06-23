@@ -116,6 +116,8 @@ Collaboration diagram for ghost::Objective&lt; TypeVariable, TypeDomain &gt;:</d
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a40decf80e2a1f37e2cc4634f41acc7ca"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a40decf80e2a1f37e2cc4634f41acc7ca">Objective</a> (const string &amp;<a class="el" href="classghost_1_1Objective.html#ae9533a52b3600c826df6e20c65db1e7a">name</a>)</td></tr>
 <tr class="separator:a40decf80e2a1f37e2cc4634f41acc7ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2947c19e26ffd2a23c3a7f1b99c8bc79"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a2947c19e26ffd2a23c3a7f1b99c8bc79">cost</a> (const vector&lt; TypeVariable &gt; *vecVariables, const TypeDomain *domain) const </td></tr>
+<tr class="separator:a2947c19e26ffd2a23c3a7f1b99c8bc79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af68c07a226162ea7f9ee01a0b00d3ae4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#af68c07a226162ea7f9ee01a0b00d3ae4">heuristicVariable</a> (const vector&lt; int &gt; &amp;vecVarId, const vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain)</td></tr>
 <tr class="separator:af68c07a226162ea7f9ee01a0b00d3ae4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9d6c8e05cca99cd797d302b3755b6b5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#ac9d6c8e05cca99cd797d302b3755b6b5">heuristicValue</a> (const std::vector&lt; double &gt; &amp;vecGlobalCosts, double &amp;bestEstimatedCost, int &amp;bestValue) const </td></tr>
@@ -137,8 +139,6 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a2947c19e26ffd2a23c3a7f1b99c8bc79"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a2947c19e26ffd2a23c3a7f1b99c8bc79">cost</a> (const vector&lt; TypeVariable &gt; *vecVariables, const TypeDomain *domain) const </td></tr>
-<tr class="separator:a2947c19e26ffd2a23c3a7f1b99c8bc79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affb6d6730adfbfe6a1f990e00d2a5eb2"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#affb6d6730adfbfe6a1f990e00d2a5eb2">v_cost</a> (const vector&lt; TypeVariable &gt; *vecVariables, const TypeDomain *domain) const =0</td></tr>
 <tr class="separator:affb6d6730adfbfe6a1f990e00d2a5eb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4a49d23569c367182f934c25a6c6103"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#ae4a49d23569c367182f934c25a6c6103">v_heuristicVariable</a> (const vector&lt; int &gt; &amp;vecVarId, const vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain)=0</td></tr>
@@ -218,7 +218,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -900,7 +900,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 23 2014 14:40:20 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 15:32:24 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
