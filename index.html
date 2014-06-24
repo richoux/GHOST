@@ -111,18 +111,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 <p>Ok, now what? Well, to describe our problem, we have to build a formula from our CSP. This is a bit like playing to Lego: you combine blocks to build bigger blocks, then you combien your bigger blocks to create an object.</p>
 <p>Here, your blocks are your variables. You can combine them with a constraint symbol to build a bigger block, ie, a constraint. For instance, we can build the constraint (x=z), or the constraint (z&ne;y), etc.</p>
-<p>Then, we can build a formula by combining constraints. Combining means here we have a conjuction, ie a "and"-operator linking two constraints. A formula with the CSP describe above could be for instance </p>
-<pre class="fragment">            (z=y) AND (y&amp;ne;x) AND (x&lt;z) 
-</pre><h2>A first example of a CSP formula </h2>
+<p>Then, we can build a formula by combining constraints. Combining means here we have a conjuction, ie a "and"-operator linking two constraints. A formula with the CSP describe above could be for instance</p>
+<p>(z=y) AND (y&ne;x) AND (x&lt;z)</p>
+<h2>A first example of a CSP formula </h2>
 <p>Concider the following CSP:</p>
 <ul>
 <li>V = {a, b, c, d}.</li>
 <li>D = {0, 1, 2}.</li>
 <li>C = { =, &ne;, &lt; }.</li>
 </ul>
-<p>and suppose our problem is modeled by the formula </p>
-<pre class="fragment">                (a=b) AND (b&amp;ne;d) AND (d&lt;c) AND (b&lt;c)
-</pre><p>A solution of our problem is a good evaluation of each variable to a value of the domain D. In other words, if we find a way to give a value from D to each variable of V such that all constraints are true (we also say, are satisfyed), then we have a solution to our problem.</p>
+<p>and suppose our problem is modeled by the formula</p>
+<p>(a=b) AND (b&ne;d) AND (d&lt;c) AND (b&lt;c)</p>
+<p>A solution of our problem is a good evaluation of each variable to a value of the domain D. In other words, if we find a way to give a value from D to each variable of V such that all constraints are true (we also say, are satisfyed), then we have a solution to our problem.</p>
 <p>For instance, the evaluation a=1, b=1, c=2 and d=1 is not a solution of the formula, because the second constraint (b&ne;d) is not satisfyed (indeed (1&ne;1) is false).</p>
 <p>However, the evaluation a=1, b=1, c=2 and d=0 satisfies all constraints of the formula, and is then a solution to our problem.</p>
 <h2>A concrete problem modeled by a CSP formula </h2>
@@ -145,7 +145,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 24 2014 18:48:06 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 24 2014 18:51:28 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
