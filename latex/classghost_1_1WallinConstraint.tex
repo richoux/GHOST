@@ -1,0 +1,157 @@
+\hypertarget{classghost_1_1WallinConstraint}{\section{ghost\-:\-:Wallin\-Constraint Class Reference}
+\label{classghost_1_1WallinConstraint}\index{ghost\-::\-Wallin\-Constraint@{ghost\-::\-Wallin\-Constraint}}
+}
+
+
+{\ttfamily \#include $<$wallin\-Constraint.\-hpp$>$}
+
+
+
+Inheritance diagram for ghost\-:\-:Wallin\-Constraint\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classghost_1_1WallinConstraint__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for ghost\-:\-:Wallin\-Constraint\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classghost_1_1WallinConstraint__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classghost_1_1WallinConstraint_a943d4dcca2afb3cd72cb1049a7f197ff}{Wallin\-Constraint} (const vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$, const \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$)
+\item 
+double \hyperlink{classghost_1_1WallinConstraint_a26fde30aa60cc596b8f8550905ac030f}{cost} (vector$<$ double $>$ \&var\-Cost) const 
+\begin{DoxyCompactList}\small\item\em Pure virtual function to compute the current cost of the constraint. \end{DoxyCompactList}\item 
+vector$<$ double $>$ \hyperlink{classghost_1_1WallinConstraint_ac6df6c03a6f0b026e78e1ce7f20c25b5}{simulate\-Cost} (\hyperlink{classghost_1_1Building}{Building} \&old\-Building, const vector$<$ int $>$ \&new\-Position, vector$<$ vector$<$ double $>$ $>$ \&vec\-Var\-Sim\-Costs)
+\begin{DoxyCompactList}\small\item\em Pure virtual function to simulate the cost of the constraint on all possible values of the given variable. \end{DoxyCompactList}\item 
+virtual double \hyperlink{classghost_1_1WallinConstraint_aef93d84e063f20ffeb3ff584fe6fabad}{v\-\_\-cost} (vector$<$ double $>$ \&) const =0
+\item 
+virtual vector$<$ double $>$ \hyperlink{classghost_1_1WallinConstraint_a94c5757e9bd0ccfc947eaf23ae7a33ed}{v\-\_\-simulate\-Cost} (\hyperlink{classghost_1_1Building}{Building} \&old\-Building, const vector$<$ int $>$ \&new\-Position, vector$<$ vector$<$ double $>$ $>$ \&vec\-Var\-Sim\-Costs)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classghost_1_1WallinConstraint_a80602ec8462dad6adfcd7bfa7668e83d}{is\-Wall} () const 
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classghost_1_1WallinConstraint_a943d4dcca2afb3cd72cb1049a7f197ff}{\index{ghost\-::\-Wallin\-Constraint@{ghost\-::\-Wallin\-Constraint}!Wallin\-Constraint@{Wallin\-Constraint}}
+\index{Wallin\-Constraint@{Wallin\-Constraint}!ghost::WallinConstraint@{ghost\-::\-Wallin\-Constraint}}
+\subsubsection[{Wallin\-Constraint}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Wallin\-Constraint\-::\-Wallin\-Constraint (
+\begin{DoxyParamCaption}
+\item[{const vector$<$ {\bf Building} $>$ $\ast$}]{variables, }
+\item[{const {\bf Wallin\-Domain} $\ast$}]{domain}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1WallinConstraint_a943d4dcca2afb3cd72cb1049a7f197ff}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classghost_1_1WallinConstraint_a26fde30aa60cc596b8f8550905ac030f}{\index{ghost\-::\-Wallin\-Constraint@{ghost\-::\-Wallin\-Constraint}!cost@{cost}}
+\index{cost@{cost}!ghost::WallinConstraint@{ghost\-::\-Wallin\-Constraint}}
+\subsubsection[{cost}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Wallin\-Constraint\-::cost (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$ \&}]{var\-Cost}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classghost_1_1WallinConstraint_a26fde30aa60cc596b8f8550905ac030f}
+
+
+Pure virtual function to compute the current cost of the constraint. 
+
+In cost, the parameter var\-Cost is not given to be used by the function, but to store into var\-Cost the projected cost of each variable. This must be computed I\-N\-S\-I\-D\-E the cost function.
+
+
+\begin{DoxyParams}{Parameters}
+{\em var\-Cost} & A reference to a vector of double in order to store the projected cost of each variable. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A double representing the cost of the constraint on the current configuration. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classghost_1_1WallinConstraint_ac6df6c03a6f0b026e78e1ce7f20c25b5}{simulate\-Cost} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{classghost_1_1Constraint_a6977b1200c8377089e4e7ac7a91e7589}{ghost\-::\-Constraint$<$ Building, Wallin\-Domain $>$}.
+
+\hypertarget{classghost_1_1WallinConstraint_a80602ec8462dad6adfcd7bfa7668e83d}{\index{ghost\-::\-Wallin\-Constraint@{ghost\-::\-Wallin\-Constraint}!is\-Wall@{is\-Wall}}
+\index{is\-Wall@{is\-Wall}!ghost::WallinConstraint@{ghost\-::\-Wallin\-Constraint}}
+\subsubsection[{is\-Wall}]{\setlength{\rightskip}{0pt plus 5cm}bool ghost\-::\-Wallin\-Constraint\-::is\-Wall (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{classghost_1_1WallinConstraint_a80602ec8462dad6adfcd7bfa7668e83d}
+\hypertarget{classghost_1_1WallinConstraint_ac6df6c03a6f0b026e78e1ce7f20c25b5}{\index{ghost\-::\-Wallin\-Constraint@{ghost\-::\-Wallin\-Constraint}!simulate\-Cost@{simulate\-Cost}}
+\index{simulate\-Cost@{simulate\-Cost}!ghost::WallinConstraint@{ghost\-::\-Wallin\-Constraint}}
+\subsubsection[{simulate\-Cost}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$double$>$ ghost\-::\-Wallin\-Constraint\-::simulate\-Cost (
+\begin{DoxyParamCaption}
+\item[{{\bf Building} \&}]{current\-Var, }
+\item[{const vector$<$ int $>$ \&}]{possible\-Values, }
+\item[{vector$<$ vector$<$ double $>$ $>$ \&}]{vec\-Var\-Sim\-Costs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classghost_1_1WallinConstraint_ac6df6c03a6f0b026e78e1ce7f20c25b5}
+
+
+Pure virtual function to simulate the cost of the constraint on all possible values of the given variable. 
+
+In cost, the parameter vec\-Var\-Sim\-Costs is not given to be used by the function, but to store into vec\-Var\-Sim\-Costs the projected cost of current\-Var on all possible values. This must be computed I\-N\-S\-I\-D\-E the simulate\-Cost function.
+
+
+\begin{DoxyParams}{Parameters}
+{\em current\-Var} & A reference to the variable we want to change the current value. \\
+\hline
+{\em possible\-Values} & A reference to a constant vector of the possible values for current\-Var. \\
+\hline
+{\em vec\-Var\-Sim\-Costs} & A reference to the vector of vector of double in order to store the projected cost of current\-Var on all possible values. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The vector of the cost of the constraint for each possible value of current\-Var. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classghost_1_1WallinConstraint_a26fde30aa60cc596b8f8550905ac030f}{cost} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{classghost_1_1Constraint_a8a8510d0285e587b2f640d60f83fe8d6}{ghost\-::\-Constraint$<$ Building, Wallin\-Domain $>$}.
+
+\hypertarget{classghost_1_1WallinConstraint_aef93d84e063f20ffeb3ff584fe6fabad}{\index{ghost\-::\-Wallin\-Constraint@{ghost\-::\-Wallin\-Constraint}!v\-\_\-cost@{v\-\_\-cost}}
+\index{v\-\_\-cost@{v\-\_\-cost}!ghost::WallinConstraint@{ghost\-::\-Wallin\-Constraint}}
+\subsubsection[{v\-\_\-cost}]{\setlength{\rightskip}{0pt plus 5cm}virtual double ghost\-::\-Wallin\-Constraint\-::v\-\_\-cost (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$ \&}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classghost_1_1WallinConstraint_aef93d84e063f20ffeb3ff584fe6fabad}
+
+
+Implemented in \hyperlink{classghost_1_1StartingTargetTiles_aa9474c7fb81691a2059d2e5614702544}{ghost\-::\-Starting\-Target\-Tiles}, \hyperlink{classghost_1_1NoGaps_a3fa23de6946e443f009ecb5054a96572}{ghost\-::\-No\-Gaps}, \hyperlink{classghost_1_1Buildable_a584162de15bdeb91c7f9a0d0a0fa3c87}{ghost\-::\-Buildable}, and \hyperlink{classghost_1_1Overlap_a7a926991f06c785126e5d7995953e493}{ghost\-::\-Overlap}.
+
+\hypertarget{classghost_1_1WallinConstraint_a94c5757e9bd0ccfc947eaf23ae7a33ed}{\index{ghost\-::\-Wallin\-Constraint@{ghost\-::\-Wallin\-Constraint}!v\-\_\-simulate\-Cost@{v\-\_\-simulate\-Cost}}
+\index{v\-\_\-simulate\-Cost@{v\-\_\-simulate\-Cost}!ghost::WallinConstraint@{ghost\-::\-Wallin\-Constraint}}
+\subsubsection[{v\-\_\-simulate\-Cost}]{\setlength{\rightskip}{0pt plus 5cm}virtual vector$<$double$>$ ghost\-::\-Wallin\-Constraint\-::v\-\_\-simulate\-Cost (
+\begin{DoxyParamCaption}
+\item[{{\bf Building} \&}]{old\-Building, }
+\item[{const vector$<$ int $>$ \&}]{new\-Position, }
+\item[{vector$<$ vector$<$ double $>$ $>$ \&}]{vec\-Var\-Sim\-Costs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classghost_1_1WallinConstraint_a94c5757e9bd0ccfc947eaf23ae7a33ed}
+
+
+Reimplemented in \hyperlink{classghost_1_1Buildable_a29a10e97f82795bab71a11be3750b6f3}{ghost\-::\-Buildable}, and \hyperlink{classghost_1_1Overlap_a7e8a90ef1adf8e9478e78b84ce5abd70}{ghost\-::\-Overlap}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+include/constraints/\hyperlink{wallinConstraint_8hpp}{wallin\-Constraint.\-hpp}\item 
+src/constraints/\hyperlink{wallinConstraint_8cpp}{wallin\-Constraint.\-cpp}\end{DoxyCompactItemize}

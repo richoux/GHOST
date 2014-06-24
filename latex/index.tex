@@ -18,7 +18,84 @@ The source code is available at \href{https://github.com/richoux/GHOST}{\tt gith
 
 \section*{A short C\-S\-P/\-C\-O\-P tutorial }
 
-T\-O\-D\-O
+\subsection*{Intuition behind C\-S\-P and C\-O\-P }
+
+Constraint Satisfaction Problems (C\-S\-P) and Constraint Optimization Problems (C\-O\-P) are two close formalisms intensively used in Artificial Intelligence to solve combinatorial and optimization problems. They allow you to easily express what your problem is, and offer you a uniform way to solve all problems you can describe by a C\-S\-P or a C\-O\-P.
+
+The difference between a C\-S\-P and a C\-O\-P is simple\-:
+
+
+\begin{DoxyItemize}
+\item A C\-S\-P models a satisfaction problem, that is to say, a problem where all solutions are equivalent, so you just want to find one of them. Example\-: find a solution of a Sudoku grid. Several solutions may exist, but finding one is sufficient, and no solutions seem better than another one.
+\item A C\-O\-P models an optimization problem, where some solutions are better than others. Example\-: you may have several paths from your home to your workplace, but some of them are shorter.
+\end{DoxyItemize}
+
+Let start by defining a C\-S\-P. To model your problem by a C\-S\-P, you need to define three things\-:
+
+
+\begin{DoxyItemize}
+\item V, the set of variables of your C\-S\-P.
+\item D, the domain of your C\-S\-P, that is to say, the set of values your variable can take.
+\item C, the set of constraint symbols of your C\-S\-P.
+\end{DoxyItemize}
+
+Let's take a simple example\-:
+
+
+\begin{DoxyItemize}
+\item V = \{x, y, z\}. The variables of our C\-S\-P would be {\itshape x}, {\itshape y} and {\itshape z}.
+\item D = \{0, 1, 2\}. Our variable x, y and z can take a value from D, ie, be either equals to {\itshape 0}, {\itshape 1} or {\itshape 2}. We can have for instance x = 1, y = 1 and z = 0.
+\item C = \{ =, {$\ne$}, $<$ \}. We have three types of constraint symbols here\-: {\itshape equal}, {\itshape different} and {\itshape less than}.
+\end{DoxyItemize}
+
+Ok, now what? Well, to describe our problem, we have to build a formula from our C\-S\-P. This is a bit like playing to Lego\-: you combine blocks to build bigger blocks, then you combien your bigger blocks to create an object.
+
+Here, your blocks are your variables. You can combine them with a constraint symbol to build a bigger block, ie, a constraint. For instance, we can build the constraint (x=z), or the constraint (z{$\ne$}y), etc.
+
+Then, we can build a formula by combining constraints. Combining means here we have a conjuction, ie a \char`\"{}and\char`\"{}-\/operator linking two constraints. A formula with the C\-S\-P describe above could be for instance \begin{DoxyVerb}            (z=y) AND (y&ne;x) AND (x<z) 
+\end{DoxyVerb}
+
+
+\subsection*{A first example of a C\-S\-P formula }
+
+Concider the following C\-S\-P\-:
+
+
+\begin{DoxyItemize}
+\item V = \{a, b, c, d\}.
+\item D = \{0, 1, 2\}.
+\item C = \{ =, {$\ne$}, $<$ \}.
+\end{DoxyItemize}
+
+and suppose our problem is modeled by the formula \begin{DoxyVerb}                (a=b) AND (b&ne;d) AND (d<c) AND (b<c)
+\end{DoxyVerb}
+
+
+A solution of our problem is a good evaluation of each variable to a value of the domain D. In other words, if we find a way to give a value from D to each variable of V such that all constraints are true (we also say, are satisfyed), then we have a solution to our problem.
+
+For instance, the evaluation a=1, b=1, c=2 and d=1 is not a solution of the formula, because the second constraint (b{$\ne$}d) is not satisfyed (indeed (1{$\ne$}1) is false).
+
+However, the evaluation a=1, b=1, c=2 and d=0 satisfies all constraints of the formula, and is then a solution to our problem.
+
+\subsection*{A concrete problem modeled by a C\-S\-P formula }
+
+Ok, now how to model a problem through a C\-S\-P formula? This is not always trivial and require some experience. Let see how to model two famous graph problems with the C\-S\-P formalism.
+
+I assume the reader know what a graph is; otherwise here is the main idea\-: it is a set of vertices where some of them are linked by an edge. See the picture below, an example of graph with four vertices (named A, B, C and D). Graphs are simple mathematical objects but expresive enough to model complex problems, like finding the shortest path between two cities (your G\-P\-S use graphs!).
+
+
+
+Let consider the 3-\/\-C\-O\-L\-O\-R problem\-: Given a graph, is it possible to colorize each vertex with one of the three available colors (say, red, blue and green) such that there is no couple of vertices linked by an edge sharing the same color?
+
+Before continuing, think about\-:
+
+
+\begin{DoxyItemize}
+\item How could you define a C\-S\-P modelling the 3-\/\-C\-O\-L\-O\-R problem?
+\item If I give you the graph above, how could you built a C\-S\-P formula to solve the 3-\/\-C\-O\-L\-O\-R problem for this graph?
+\end{DoxyItemize}
+
+T\-O C\-O\-N\-T\-I\-N\-U\-E
 
 \section*{How to use G\-H\-O\-S\-T? }
 

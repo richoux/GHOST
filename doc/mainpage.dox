@@ -22,7 +22,6 @@ Scientific papers:
   - Santiago Ontañón, Gabriel Synnaeve, Alberto Uriarte, Florian Richoux, David Churchill and Mike Preuss, [A Survey of Real-Time Strategy Game AI Research and Competition in StarCraft](http://pagesperso.lina.univ-nantes.fr/~richoux-f/publications/tciaig13.pdf), Transactions on Computational Intelligence and AI in Games, IEEE, 2013.
 
 
-
   
 A short CSP/COP tutorial
 ====
@@ -52,9 +51,9 @@ Let start by defining a CSP. To model your problem by a CSP, you need to define 
 
 Let's take a simple example:
 
-  - V = {x, y, z}. The variables of our CSP would be x, y and z.
-  - D = {0, 1, 2}. Our variable x, y and z can take a value from D, ie, be either equals to 0, 1 or 2. We can have for instance x = 1, y = 1 and z = 0.
-  - C = { =, &ne; }. We have two types of constraint symbols here: equal and different.
+  - V = {x, y, z}. The variables of our CSP would be _x_, _y_ and _z_.
+  - D = {0, 1, 2}. Our variable x, y and z can take a value from D, ie, be either equals to _0_, _1_ or _2_. We can have for instance x = 1, y = 1 and z = 0.
+  - C = { =, &ne;, < }. We have three types of constraint symbols here: _equal_, _different_ and _less than_.
 
 Ok, now what? Well, to describe our problem, we have to build a
 formula from our CSP. This is a bit like playing to Lego: you combine
@@ -69,13 +68,64 @@ instance, we can build the constraint (x=z), or the constraint
 Then, we can build a formula by combining constraints. Combining means
 here we have a conjuction, ie a "and"-operator linking two
 constraints. A formula with the CSP describe above could be for
-instance (z=y) AND (y&ne;x) AND (x=z). 
+instance
+
+				(z=y) AND (y&ne;x) AND (x<z) 
+
 
 
 A first example of a CSP formula
 ----
 
+Concider the following CSP:
 
+  - V = {a, b, c, d}.
+  - D = {0, 1, 2}.
+  - C = { =, &ne;, < }.
+
+and suppose our problem is modeled by the formula
+
+    	    		(a=b) AND (b&ne;d) AND (d<c) AND (b<c)
+
+A solution of our problem is a good evaluation of each variable to a value
+of the domain D. In other words, if we find a way to give a value from
+D to each variable of V such that all constraints are true (we also
+say, are satisfyed), then we have a solution to our problem.
+
+For instance, the evaluation a=1, b=1, c=2 and d=1 is not a solution
+of the formula, because the second constraint (b&ne;d) is not
+satisfyed (indeed (1&ne;1) is false).
+
+However, the evaluation a=1, b=1, c=2 and d=0 satisfies all
+constraints of the formula, and is then a solution to our problem.
+
+A concrete problem modeled by a CSP formula
+----
+
+Ok, now how to model a problem through a CSP formula? This is not
+always trivial and require some experience. Let see how to model two
+famous graph problems with the CSP formalism.
+
+I assume the reader know what a graph is; otherwise here is the main
+idea: it is a set of vertices where some of them are linked by an
+edge. See the picture below, an example of graph with four vertices
+(named A, B, C and D). Graphs are simple mathematical objects but
+expresive enough to model complex problems, like finding the shortest
+path between two cities (your GPS use graphs!).
+
+![Figure 1: An example of a graph](./graph_template.png)
+
+Let consider the 3-COLOR problem: Given a graph, is it possible to
+colorize each vertex with one of the three available colors (say, red,
+blue and green) such that there is no couple of vertices linked by an
+edge sharing the same color?
+
+Before continuing, think about:
+
+  - How could you define a CSP modelling the 3-COLOR problem?
+  - If I give you the graph above, how could you built a CSP formula to solve the 3-COLOR problem for this graph?
+
+TO CONTINUE
 
 How to use GHOST?
 ====

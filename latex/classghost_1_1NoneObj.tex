@@ -1,0 +1,184 @@
+\hypertarget{classghost_1_1NoneObj}{\section{ghost\-:\-:None\-Obj Class Reference}
+\label{classghost_1_1NoneObj}\index{ghost\-::\-None\-Obj@{ghost\-::\-None\-Obj}}
+}
+
+
+{\ttfamily \#include $<$wallin\-Objective.\-hpp$>$}
+
+
+
+Inheritance diagram for ghost\-:\-:None\-Obj\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classghost_1_1NoneObj__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for ghost\-:\-:None\-Obj\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classghost_1_1NoneObj__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classghost_1_1NoneObj_a854ee882e283a68bb431758712440c7c}{None\-Obj} ()
+\item 
+double \hyperlink{classghost_1_1NoneObj_a73a9b27b282120a3b0469253efc2e639}{v\-\_\-cost} (const vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$vec\-Variables, const \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$domain) const 
+\begin{DoxyCompactList}\small\item\em Pure virtual function to compute the value of the objective function on the current configuration. \end{DoxyCompactList}\item 
+int \hyperlink{classghost_1_1NoneObj_aa09ad00592be7ce8380d423cd05de28e}{v\-\_\-heuristic\-Variable} (const vector$<$ int $>$ \&vec\-Id, const vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$vec\-Variables, \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$domain)
+\begin{DoxyCompactList}\small\item\em Pure virtual function to apply the variable heuristic used by the solver. \end{DoxyCompactList}\item 
+void \hyperlink{classghost_1_1NoneObj_a12cfdb56540821d557b932b22e7a2091}{v\-\_\-set\-Helper} (const \hyperlink{classghost_1_1Building}{Building} \&b, const vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$vec\-Variables, const \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$domain)
+\begin{DoxyCompactList}\small\item\em Pure virtual function to set heuristic\-Value\-Helper\mbox{[}current\-Var.\-get\-Value()\mbox{]}. \end{DoxyCompactList}\item 
+double \hyperlink{classghost_1_1NoneObj_aafc43cad67f5ccd5e3c913a576896669}{v\-\_\-postprocess\-Optimization} (vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$vec\-Variables, \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$domain, double \&best\-Cost)
+\begin{DoxyCompactList}\small\item\em Virtual function to perform optimization post-\/processing. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classghost_1_1NoneObj_a854ee882e283a68bb431758712440c7c}{\index{ghost\-::\-None\-Obj@{ghost\-::\-None\-Obj}!None\-Obj@{None\-Obj}}
+\index{None\-Obj@{None\-Obj}!ghost::NoneObj@{ghost\-::\-None\-Obj}}
+\subsubsection[{None\-Obj}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-None\-Obj\-::\-None\-Obj (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1NoneObj_a854ee882e283a68bb431758712440c7c}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classghost_1_1NoneObj_a73a9b27b282120a3b0469253efc2e639}{\index{ghost\-::\-None\-Obj@{ghost\-::\-None\-Obj}!v\-\_\-cost@{v\-\_\-cost}}
+\index{v\-\_\-cost@{v\-\_\-cost}!ghost::NoneObj@{ghost\-::\-None\-Obj}}
+\subsubsection[{v\-\_\-cost}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-None\-Obj\-::v\-\_\-cost (
+\begin{DoxyParamCaption}
+\item[{const vector$<$ {\bf Building} $>$ $\ast$}]{vec\-Variables, }
+\item[{const {\bf Wallin\-Domain} $\ast$}]{domain}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classghost_1_1NoneObj_a73a9b27b282120a3b0469253efc2e639}
+
+
+Pure virtual function to compute the value of the objective function on the current configuration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vec\-Variables} & A constant pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
+\hline
+{\em domain} & A constant pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value of the objective function on the current configuration. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classghost_1_1Objective_a2947c19e26ffd2a23c3a7f1b99c8bc79}{cost} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{classghost_1_1Objective_affb6d6730adfbfe6a1f990e00d2a5eb2}{ghost\-::\-Objective$<$ Building, Wallin\-Domain $>$}.
+
+\hypertarget{classghost_1_1NoneObj_aa09ad00592be7ce8380d423cd05de28e}{\index{ghost\-::\-None\-Obj@{ghost\-::\-None\-Obj}!v\-\_\-heuristic\-Variable@{v\-\_\-heuristic\-Variable}}
+\index{v\-\_\-heuristic\-Variable@{v\-\_\-heuristic\-Variable}!ghost::NoneObj@{ghost\-::\-None\-Obj}}
+\subsubsection[{v\-\_\-heuristic\-Variable}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-None\-Obj\-::v\-\_\-heuristic\-Variable (
+\begin{DoxyParamCaption}
+\item[{const vector$<$ int $>$ \&}]{vec\-Var\-Id, }
+\item[{const vector$<$ {\bf Building} $>$ $\ast$}]{vec\-Variables, }
+\item[{{\bf Wallin\-Domain} $\ast$}]{domain}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classghost_1_1NoneObj_aa09ad00592be7ce8380d423cd05de28e}
+
+
+Pure virtual function to apply the variable heuristic used by the solver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vec\-Var\-Id} & A constant reference to the vector of variable I\-D objects of the C\-S\-P/\-C\-O\-P. \\
+\hline
+{\em vec\-Variables} & A constant pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
+\hline
+{\em domain} & A constant pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The I\-D of the selected variable according to the heuristic. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classghost_1_1Objective_af68c07a226162ea7f9ee01a0b00d3ae4}{heuristic\-Variable} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{classghost_1_1Objective_ae4a49d23569c367182f934c25a6c6103}{ghost\-::\-Objective$<$ Building, Wallin\-Domain $>$}.
+
+\hypertarget{classghost_1_1NoneObj_aafc43cad67f5ccd5e3c913a576896669}{\index{ghost\-::\-None\-Obj@{ghost\-::\-None\-Obj}!v\-\_\-postprocess\-Optimization@{v\-\_\-postprocess\-Optimization}}
+\index{v\-\_\-postprocess\-Optimization@{v\-\_\-postprocess\-Optimization}!ghost::NoneObj@{ghost\-::\-None\-Obj}}
+\subsubsection[{v\-\_\-postprocess\-Optimization}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-None\-Obj\-::v\-\_\-postprocess\-Optimization (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf Building} $>$ $\ast$}]{vec\-Variables, }
+\item[{{\bf Wallin\-Domain} $\ast$}]{domain, }
+\item[{double \&}]{best\-Cost}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classghost_1_1NoneObj_aafc43cad67f5ccd5e3c913a576896669}
+
+
+Virtual function to perform optimization post-\/processing. 
+
+This function is called by the solver after all optimization runs to apply human-\/knowledge optimization, allowing to improve the optimization cost.
+
+This implementation by default does nothing.
+
+
+\begin{DoxyParams}{Parameters}
+{\em vec\-Variables} & A constant pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
+\hline
+{\em domain} & A constant pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
+\hline
+{\em best\-Cost} & A reference the double representing the best optimization cost found by the solver so far. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The function runtime in milliseconds. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classghost_1_1Objective_a78ac0f829786f02fe69b2afe6f2636bc}{postprocess\-Optimization} 
+\end{DoxySeeAlso}
+
+
+Reimplemented from \hyperlink{classghost_1_1WallinObjective_aa30f157bc7a09fdfe2a671960e4e60df}{ghost\-::\-Wallin\-Objective}.
+
+\hypertarget{classghost_1_1NoneObj_a12cfdb56540821d557b932b22e7a2091}{\index{ghost\-::\-None\-Obj@{ghost\-::\-None\-Obj}!v\-\_\-set\-Helper@{v\-\_\-set\-Helper}}
+\index{v\-\_\-set\-Helper@{v\-\_\-set\-Helper}!ghost::NoneObj@{ghost\-::\-None\-Obj}}
+\subsubsection[{v\-\_\-set\-Helper}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-None\-Obj\-::v\-\_\-set\-Helper (
+\begin{DoxyParamCaption}
+\item[{const {\bf Building} \&}]{current\-Var, }
+\item[{const vector$<$ {\bf Building} $>$ $\ast$}]{vec\-Variables, }
+\item[{const {\bf Wallin\-Domain} $\ast$}]{domain}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classghost_1_1NoneObj_a12cfdb56540821d557b932b22e7a2091}
+
+
+Pure virtual function to set heuristic\-Value\-Helper\mbox{[}current\-Var.\-get\-Value()\mbox{]}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em current\-Var} & A constant reference to a variable object. \\
+\hline
+{\em vec\-Variables} & A constant pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
+\hline
+{\em domain} & A constant pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classghost_1_1Objective_ab589c264cf391bab9005562f66a39797}{set\-Helper}, \hyperlink{classghost_1_1Objective_a9bfe64f13de15bba7f2fa3a662c02e27}{heuristic\-Value\-Helper} 
+\end{DoxySeeAlso}
+
+
+Reimplemented from \hyperlink{classghost_1_1WallinObjective_abc0f66adeebca9f9787a4ae348219fb8}{ghost\-::\-Wallin\-Objective}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+include/objectives/\hyperlink{wallinObjective_8hpp}{wallin\-Objective.\-hpp}\item 
+src/objectives/\hyperlink{wallinObjective_8cpp}{wallin\-Objective.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,304 @@
+\hypertarget{classghost_1_1Domain}{\section{ghost\-:\-:Domain$<$ Type\-Variable $>$ Class Template Reference}
+\label{classghost_1_1Domain}\index{ghost\-::\-Domain$<$ Type\-Variable $>$@{ghost\-::\-Domain$<$ Type\-Variable $>$}}
+}
+
+
+\hyperlink{classghost_1_1Domain}{Domain} is the class encoding the domain of your C\-S\-P/\-C\-O\-P.  
+
+
+
+
+{\ttfamily \#include $<$domain.\-hpp$>$}
+
+
+
+Collaboration diagram for ghost\-:\-:Domain$<$ Type\-Variable $>$\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=234pt]{classghost_1_1Domain__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classghost_1_1Domain_a8bf75e526b2ee95ccb32701175e3a43b}{Domain} (int \hyperlink{classghost_1_1Domain_a13e282f60c6c7cddf5b5716b45ad161c}{size}, int number\-Variables, int start=0)
+\begin{DoxyCompactList}\small\item\em First \hyperlink{classghost_1_1Domain}{Domain} constructor. \end{DoxyCompactList}\item 
+\hyperlink{classghost_1_1Domain_a26d7b928aa7a0bc44a47f2f407402ed7}{Domain} (int \hyperlink{classghost_1_1Domain_a13e282f60c6c7cddf5b5716b45ad161c}{size}, int number\-Variables, const vector$<$ int $>$ \&\hyperlink{classghost_1_1Domain_a8890ca1323c293a4a1e2aa1830eff043}{initial\-Domain})
+\begin{DoxyCompactList}\small\item\em Second and last \hyperlink{classghost_1_1Domain}{Domain} constructor. \end{DoxyCompactList}\item 
+int \hyperlink{classghost_1_1Domain_abd3f0bd85c98e66c025e0ff3532af8dd}{random\-Value} (const Type\-Variable \&variable)
+\begin{DoxyCompactList}\small\item\em Inline function to get a random value among the possible values of a given variable. \end{DoxyCompactList}\item 
+vector$<$ int $>$ \hyperlink{classghost_1_1Domain_abeb28b48f75473162d0aecab6da070d3}{possible\-Values} (const Type\-Variable \&variable) const 
+\begin{DoxyCompactList}\small\item\em Inline function to get the vector of the possible values of a given variable. \end{DoxyCompactList}\item 
+void \hyperlink{classghost_1_1Domain_a2165237b435a5cb4dfd8584680fcfe05}{reset\-Domain} (const Type\-Variable \&variable)
+\item 
+void \hyperlink{classghost_1_1Domain_aa014a06ba46e4e057ed182d328a72e97}{reset\-All\-Domains} ()
+\item 
+int \hyperlink{classghost_1_1Domain_af6950190ced9110a04bde5321337d14d}{get\-Size} () const 
+\begin{DoxyCompactList}\small\item\em Inline accessor to get the size of the domain. \end{DoxyCompactList}\item 
+void \hyperlink{classghost_1_1Domain_aa9386317ee6ca064d1e2018acefaf8bb}{add} (const Type\-Variable \&variable)
+\begin{DoxyCompactList}\small\item\em Inline function to add something into the domain. \end{DoxyCompactList}\item 
+void \hyperlink{classghost_1_1Domain_ad3b39f88a7becd7c8c347c04963e3414}{clear} (const Type\-Variable \&variable)
+\begin{DoxyCompactList}\small\item\em Inline function to clear (or remove) something into the domain. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classghost_1_1Domain_a13e282f60c6c7cddf5b5716b45ad161c}{size}
+\begin{DoxyCompactList}\small\item\em An integer to specify the size of the domain. \end{DoxyCompactList}\item 
+vector$<$ vector$<$ int $>$ $>$ \hyperlink{classghost_1_1Domain_a6940f37aa773c6c94cff18cfe1e6a7f7}{domains}
+\begin{DoxyCompactList}\small\item\em The vector of vector of integers, containing the domain of each variables. Thus, domains\mbox{[}i\mbox{]} is the domain of the variable i. \end{DoxyCompactList}\item 
+vector$<$ int $>$ \hyperlink{classghost_1_1Domain_a8890ca1323c293a4a1e2aa1830eff043}{initial\-Domain}
+\begin{DoxyCompactList}\small\item\em The initial domain, created or given according to the constructor which has been called. \end{DoxyCompactList}\item 
+\hyperlink{classghost_1_1Random}{Random} \hyperlink{classghost_1_1Domain_ab6a7a58f8a147f5b2b475e106627fad2}{random}
+\begin{DoxyCompactList}\small\item\em The random generator used by the function random\-Value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+ostream \& \hyperlink{classghost_1_1Domain_a73846a35a1024305520654677c9beb02}{operator$<$$<$} (ostream \&os, const \hyperlink{classghost_1_1Domain}{Domain}$<$ Type\-Variable $>$ \&domain)
+\begin{DoxyCompactList}\small\item\em friend override of operator$<$$<$ \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Type\-Variable$>$class ghost\-::\-Domain$<$ Type\-Variable $>$}
+
+\hyperlink{classghost_1_1Domain}{Domain} is the class encoding the domain of your C\-S\-P/\-C\-O\-P. 
+
+In G\-H\-O\-S\-T, only one domain object should be instanciate. At least, the solver is only taking one domain object in parameter.
+
+The \hyperlink{classghost_1_1Domain}{Domain} class is a template class, waiting for the type of variable. Thus, you must instanciate a domain by specifying the class of your variable objects, like for instance Domain$<$\-Variable$>$ or Domain$<$\-My\-Custom\-Variable$>$, if My\-Custom\-Variable inherits from the \hyperlink{classghost_1_1Variable}{ghost\-::\-Variable} class.
+
+Since in G\-H\-O\-S\-T, variables can only take integer values, a domain object would contain the possible integer values for each variable of the C\-S\-P/\-C\-O\-P.
+
+To encode your C\-S\-P/\-C\-O\-P domain, you can either directly use this class \hyperlink{classghost_1_1Domain}{Domain} (there are no pure virtual functions here), or inherit from it to make your own domain class.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classghost_1_1Variable}{Variable} 
+\end{DoxySeeAlso}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classghost_1_1Domain_a8bf75e526b2ee95ccb32701175e3a43b}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!Domain@{Domain}}
+\index{Domain@{Domain}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{Domain}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::{\bf Domain} (
+\begin{DoxyParamCaption}
+\item[{int}]{size, }
+\item[{int}]{number\-Variables, }
+\item[{int}]{start = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Domain_a8bf75e526b2ee95ccb32701175e3a43b}
+
+
+First \hyperlink{classghost_1_1Domain}{Domain} constructor. 
+
+In this constructor, the domain of each variable is built to be equals to the range \mbox{[}start, start + size\mbox{[}
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & An integer to specify the size of the domain. \\
+\hline
+{\em number\-Variables} & An integer to specify the number of variables in the C\-S\-P/\-C\-O\-P. \\
+\hline
+{\em start} & The starting value of the domain. If not given, the default value is 0. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classghost_1_1Domain_a26d7b928aa7a0bc44a47f2f407402ed7}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!Domain@{Domain}}
+\index{Domain@{Domain}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{Domain}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::{\bf Domain} (
+\begin{DoxyParamCaption}
+\item[{int}]{size, }
+\item[{int}]{number\-Variables, }
+\item[{const vector$<$ int $>$ \&}]{initial\-Domain}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Domain_a26d7b928aa7a0bc44a47f2f407402ed7}
+
+
+Second and last \hyperlink{classghost_1_1Domain}{Domain} constructor. 
+
+In this constructor, the domain of each variable is given as a parameter.
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & An integer to specify the size of the domain. \\
+\hline
+{\em number\-Variables} & An integer to specify the number of variables in the C\-S\-P/\-C\-O\-P. \\
+\hline
+{\em initial\-Domain} & A constant reference to an vector of integer, representing the inital domain for each variable. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classghost_1_1Domain_aa9386317ee6ca064d1e2018acefaf8bb}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!add@{add}}
+\index{add@{add}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{add}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ void {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::add (
+\begin{DoxyParamCaption}
+\item[{const Type\-Variable \&}]{variable}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Domain_aa9386317ee6ca064d1e2018acefaf8bb}
+
+
+Inline function to add something into the domain. 
+
+The implementation by default does nothing. This function has been declared because it could be useful for some custom domain classes to add a value from the given variable into a custom data structure. This function is called into the solver three times\-:
+\begin{DoxyItemize}
+\item during a move (\hyperlink{classghost_1_1Solver_af1176494b45226e87edefa0b39babf62}{Solver\-::move}), ie, when the solver assigns a new value to a given variable.
+\item during a reset (\hyperlink{classghost_1_1Solver_a43db35b71a3e494ce208622cc45cbeb0}{Solver\-::reset}).
+\item just between the end of the optimization run and the beginning of the optimization post-\/processing, in \hyperlink{classghost_1_1Solver_a30dd2769fb30ac42d231d2c305dcdf13}{Solver\-::solve}.
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em variable} & A constant reference to a variable. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classghost_1_1Domain_ad3b39f88a7becd7c8c347c04963e3414}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!clear@{clear}}
+\index{clear@{clear}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ void {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::clear (
+\begin{DoxyParamCaption}
+\item[{const Type\-Variable \&}]{variable}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Domain_ad3b39f88a7becd7c8c347c04963e3414}
+
+
+Inline function to clear (or remove) something into the domain. 
+
+The implementation by default does nothing. This function has been declared because it could be useful for some custom domain classes to clear/remove a value from the given variable into a custom data structure. This function is called into the solver three times\-:
+\begin{DoxyItemize}
+\item during a move (\hyperlink{classghost_1_1Solver_af1176494b45226e87edefa0b39babf62}{Solver\-::move}), ie, when the solver assigns a new value to a given variable.
+\item during a reset (\hyperlink{classghost_1_1Solver_a43db35b71a3e494ce208622cc45cbeb0}{Solver\-::reset}).
+\item just between the end of the optimization run and the beginning of the optimization post-\/processing, in \hyperlink{classghost_1_1Solver_a30dd2769fb30ac42d231d2c305dcdf13}{Solver\-::solve}.
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em variable} & A constant reference to a variable. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classghost_1_1Domain_af6950190ced9110a04bde5321337d14d}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!get\-Size@{get\-Size}}
+\index{get\-Size@{get\-Size}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{get\-Size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ int {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::get\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Domain_af6950190ced9110a04bde5321337d14d}
+
+
+Inline accessor to get the size of the domain. 
+
+\hypertarget{classghost_1_1Domain_abeb28b48f75473162d0aecab6da070d3}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!possible\-Values@{possible\-Values}}
+\index{possible\-Values@{possible\-Values}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{possible\-Values}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ vector$<$int$>$ {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::possible\-Values (
+\begin{DoxyParamCaption}
+\item[{const Type\-Variable \&}]{variable}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Domain_abeb28b48f75473162d0aecab6da070d3}
+
+
+Inline function to get the vector of the possible values of a given variable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em variable} & A constant reference to a variable. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The vector of integers of all possible values of variable. 
+\end{DoxyReturn}
+\hypertarget{classghost_1_1Domain_abd3f0bd85c98e66c025e0ff3532af8dd}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!random\-Value@{random\-Value}}
+\index{random\-Value@{random\-Value}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{random\-Value}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ int {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::random\-Value (
+\begin{DoxyParamCaption}
+\item[{const Type\-Variable \&}]{variable}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Domain_abd3f0bd85c98e66c025e0ff3532af8dd}
+
+
+Inline function to get a random value among the possible values of a given variable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em variable} & A constant reference to a variable. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A random value among the possible values of variable. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classghost_1_1Random}{Random} 
+\end{DoxySeeAlso}
+\hypertarget{classghost_1_1Domain_aa014a06ba46e4e057ed182d328a72e97}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!reset\-All\-Domains@{reset\-All\-Domains}}
+\index{reset\-All\-Domains@{reset\-All\-Domains}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{reset\-All\-Domains}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ void {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::reset\-All\-Domains (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Domain_aa014a06ba46e4e057ed182d328a72e97}
+Inline function to reset all variable domains to the initial domain.
+
+All variable domains will be reset to the initial domain created or given while the domain object has been instanciated. \hypertarget{classghost_1_1Domain_a2165237b435a5cb4dfd8584680fcfe05}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!reset\-Domain@{reset\-Domain}}
+\index{reset\-Domain@{reset\-Domain}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{reset\-Domain}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ void {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::reset\-Domain (
+\begin{DoxyParamCaption}
+\item[{const Type\-Variable \&}]{variable}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Domain_a2165237b435a5cb4dfd8584680fcfe05}
+Inline function to reset the domain of a given variable to the initial domain.
+
+The domain of the given variable will be reset to the initial domain created or given while the domain object has been instanciated.
+
+
+\begin{DoxyParams}{Parameters}
+{\em variable} & A constant reference to a variable. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classghost_1_1Domain_a73846a35a1024305520654677c9beb02}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ ostream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{ostream \&}]{os, }
+\item[{const {\bf Domain}$<$ Type\-Variable $>$ \&}]{domain}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{classghost_1_1Domain_a73846a35a1024305520654677c9beb02}
+
+
+friend override of operator$<$$<$ 
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classghost_1_1Domain_a6940f37aa773c6c94cff18cfe1e6a7f7}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!domains@{domains}}
+\index{domains@{domains}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{domains}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ vector$<$ vector$<$ int $>$ $>$ {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::domains\hspace{0.3cm}{\ttfamily [protected]}}}\label{classghost_1_1Domain_a6940f37aa773c6c94cff18cfe1e6a7f7}
+
+
+The vector of vector of integers, containing the domain of each variables. Thus, domains\mbox{[}i\mbox{]} is the domain of the variable i. 
+
+\hypertarget{classghost_1_1Domain_a8890ca1323c293a4a1e2aa1830eff043}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!initial\-Domain@{initial\-Domain}}
+\index{initial\-Domain@{initial\-Domain}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{initial\-Domain}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ vector$<$ int $>$ {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::initial\-Domain\hspace{0.3cm}{\ttfamily [protected]}}}\label{classghost_1_1Domain_a8890ca1323c293a4a1e2aa1830eff043}
+
+
+The initial domain, created or given according to the constructor which has been called. 
+
+\hypertarget{classghost_1_1Domain_ab6a7a58f8a147f5b2b475e106627fad2}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!random@{random}}
+\index{random@{random}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{random}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ {\bf Random} {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::random\hspace{0.3cm}{\ttfamily [protected]}}}\label{classghost_1_1Domain_ab6a7a58f8a147f5b2b475e106627fad2}
+
+
+The random generator used by the function random\-Value. 
+
+\hypertarget{classghost_1_1Domain_a13e282f60c6c7cddf5b5716b45ad161c}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!size@{size}}
+\index{size@{size}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ int {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::size\hspace{0.3cm}{\ttfamily [protected]}}}\label{classghost_1_1Domain_a13e282f60c6c7cddf5b5716b45ad161c}
+
+
+An integer to specify the size of the domain. 
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+include/domains/\hyperlink{domain_8hpp}{domain.\-hpp}\end{DoxyCompactItemize}

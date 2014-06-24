@@ -1,0 +1,79 @@
+\hypertarget{classghost_1_1Overlap}{\section{ghost\-:\-:Overlap Class Reference}
+\label{classghost_1_1Overlap}\index{ghost\-::\-Overlap@{ghost\-::\-Overlap}}
+}
+
+
+{\ttfamily \#include $<$wallin\-Constraint.\-hpp$>$}
+
+
+
+Inheritance diagram for ghost\-:\-:Overlap\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=210pt]{classghost_1_1Overlap__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for ghost\-:\-:Overlap\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classghost_1_1Overlap__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classghost_1_1Overlap_a256dfd7655e1937ed0d13368527e9eec}{Overlap} (const vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$, const \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$)
+\item 
+double \hyperlink{classghost_1_1Overlap_a7a926991f06c785126e5d7995953e493}{v\-\_\-cost} (vector$<$ double $>$ \&) const 
+\item 
+vector$<$ double $>$ \hyperlink{classghost_1_1Overlap_a7e8a90ef1adf8e9478e78b84ce5abd70}{v\-\_\-simulate\-Cost} (\hyperlink{classghost_1_1Building}{Building} \&, const vector$<$ int $>$ \&, vector$<$ vector$<$ double $>$ $>$ \&)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classghost_1_1Overlap_a256dfd7655e1937ed0d13368527e9eec}{\index{ghost\-::\-Overlap@{ghost\-::\-Overlap}!Overlap@{Overlap}}
+\index{Overlap@{Overlap}!ghost::Overlap@{ghost\-::\-Overlap}}
+\subsubsection[{Overlap}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Overlap\-::\-Overlap (
+\begin{DoxyParamCaption}
+\item[{const vector$<$ {\bf Building} $>$ $\ast$}]{variables, }
+\item[{const {\bf Wallin\-Domain} $\ast$}]{domain}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1Overlap_a256dfd7655e1937ed0d13368527e9eec}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classghost_1_1Overlap_a7a926991f06c785126e5d7995953e493}{\index{ghost\-::\-Overlap@{ghost\-::\-Overlap}!v\-\_\-cost@{v\-\_\-cost}}
+\index{v\-\_\-cost@{v\-\_\-cost}!ghost::Overlap@{ghost\-::\-Overlap}}
+\subsubsection[{v\-\_\-cost}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Overlap\-::v\-\_\-cost (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$ \&}]{var\-Cost}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classghost_1_1Overlap_a7a926991f06c785126e5d7995953e493}
+
+
+Implements \hyperlink{classghost_1_1WallinConstraint_aef93d84e063f20ffeb3ff584fe6fabad}{ghost\-::\-Wallin\-Constraint}.
+
+\hypertarget{classghost_1_1Overlap_a7e8a90ef1adf8e9478e78b84ce5abd70}{\index{ghost\-::\-Overlap@{ghost\-::\-Overlap}!v\-\_\-simulate\-Cost@{v\-\_\-simulate\-Cost}}
+\index{v\-\_\-simulate\-Cost@{v\-\_\-simulate\-Cost}!ghost::Overlap@{ghost\-::\-Overlap}}
+\subsubsection[{v\-\_\-simulate\-Cost}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ double $>$ ghost\-::\-Overlap\-::v\-\_\-simulate\-Cost (
+\begin{DoxyParamCaption}
+\item[{{\bf Building} \&}]{old\-Building, }
+\item[{const vector$<$ int $>$ \&}]{new\-Position, }
+\item[{vector$<$ vector$<$ double $>$ $>$ \&}]{vec\-Var\-Sim\-Costs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classghost_1_1Overlap_a7e8a90ef1adf8e9478e78b84ce5abd70}
+
+
+Reimplemented from \hyperlink{classghost_1_1WallinConstraint_a94c5757e9bd0ccfc947eaf23ae7a33ed}{ghost\-::\-Wallin\-Constraint}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+include/constraints/\hyperlink{wallinConstraint_8hpp}{wallin\-Constraint.\-hpp}\item 
+src/constraints/\hyperlink{wallinConstraint_8cpp}{wallin\-Constraint.\-cpp}\end{DoxyCompactItemize}

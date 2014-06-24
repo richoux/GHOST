@@ -1,0 +1,158 @@
+\hypertarget{classghost_1_1NullObjective}{\section{ghost\-:\-:Null\-Objective$<$ Type\-Variable, Type\-Domain $>$ Class Template Reference}
+\label{classghost_1_1NullObjective}\index{ghost\-::\-Null\-Objective$<$ Type\-Variable, Type\-Domain $>$@{ghost\-::\-Null\-Objective$<$ Type\-Variable, Type\-Domain $>$}}
+}
+
+
+\hyperlink{classghost_1_1NullObjective}{Null\-Objective} is used when no objective functions have been given to the solver (ie, for pure satisfaction runs).  
+
+
+
+
+{\ttfamily \#include $<$objective.\-hpp$>$}
+
+
+
+Inheritance diagram for ghost\-:\-:Null\-Objective$<$ Type\-Variable, Type\-Domain $>$\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{classghost_1_1NullObjective__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for ghost\-:\-:Null\-Objective$<$ Type\-Variable, Type\-Domain $>$\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classghost_1_1NullObjective__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classghost_1_1NullObjective_acb468a9e5fd85d31c3afc805481919ed}{Null\-Objective} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual double \hyperlink{classghost_1_1NullObjective_a309e1913d38d728b41a61c1ce40f3dca}{v\-\_\-cost} (const vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, const Type\-Domain $\ast$domain) const 
+\begin{DoxyCompactList}\small\item\em Pure virtual function to compute the value of the objective function on the current configuration. \end{DoxyCompactList}\item 
+virtual int \hyperlink{classghost_1_1NullObjective_aef7e24c71f2522034764402704e3b16f}{v\-\_\-heuristic\-Variable} (const vector$<$ int $>$ \&vec\-Id, const vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, Type\-Domain $\ast$domain)
+\begin{DoxyCompactList}\small\item\em Pure virtual function to apply the variable heuristic used by the solver. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classghost_1_1NullObjective_a5f4b22306c25132590e3c10a6dc34d15}{v\-\_\-set\-Helper} (const Type\-Variable \&b, const vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, const Type\-Domain $\ast$domain)
+\begin{DoxyCompactList}\small\item\em Pure virtual function to set heuristic\-Value\-Helper\mbox{[}current\-Var.\-get\-Value()\mbox{]}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Type\-Variable, typename Type\-Domain$>$class ghost\-::\-Null\-Objective$<$ Type\-Variable, Type\-Domain $>$}
+
+\hyperlink{classghost_1_1NullObjective}{Null\-Objective} is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classghost_1_1NullObjective_acb468a9e5fd85d31c3afc805481919ed}{\index{ghost\-::\-Null\-Objective@{ghost\-::\-Null\-Objective}!Null\-Objective@{Null\-Objective}}
+\index{Null\-Objective@{Null\-Objective}!ghost::NullObjective@{ghost\-::\-Null\-Objective}}
+\subsubsection[{Null\-Objective}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain $>$ {\bf ghost\-::\-Null\-Objective}$<$ Type\-Variable, Type\-Domain $>$\-::{\bf Null\-Objective} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1NullObjective_acb468a9e5fd85d31c3afc805481919ed}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classghost_1_1NullObjective_a309e1913d38d728b41a61c1ce40f3dca}{\index{ghost\-::\-Null\-Objective@{ghost\-::\-Null\-Objective}!v\-\_\-cost@{v\-\_\-cost}}
+\index{v\-\_\-cost@{v\-\_\-cost}!ghost::NullObjective@{ghost\-::\-Null\-Objective}}
+\subsubsection[{v\-\_\-cost}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain $>$ virtual double {\bf ghost\-::\-Null\-Objective}$<$ Type\-Variable, Type\-Domain $>$\-::v\-\_\-cost (
+\begin{DoxyParamCaption}
+\item[{const vector$<$ Type\-Variable $>$ $\ast$}]{vec\-Variables, }
+\item[{const Type\-Domain $\ast$}]{domain}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}, {\ttfamily [virtual]}}}\label{classghost_1_1NullObjective_a309e1913d38d728b41a61c1ce40f3dca}
+
+
+Pure virtual function to compute the value of the objective function on the current configuration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vec\-Variables} & A constant pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
+\hline
+{\em domain} & A constant pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value of the objective function on the current configuration. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classghost_1_1Objective_a2947c19e26ffd2a23c3a7f1b99c8bc79}{cost} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{classghost_1_1Objective_affb6d6730adfbfe6a1f990e00d2a5eb2}{ghost\-::\-Objective$<$ Type\-Variable, Type\-Domain $>$}.
+
+\hypertarget{classghost_1_1NullObjective_aef7e24c71f2522034764402704e3b16f}{\index{ghost\-::\-Null\-Objective@{ghost\-::\-Null\-Objective}!v\-\_\-heuristic\-Variable@{v\-\_\-heuristic\-Variable}}
+\index{v\-\_\-heuristic\-Variable@{v\-\_\-heuristic\-Variable}!ghost::NullObjective@{ghost\-::\-Null\-Objective}}
+\subsubsection[{v\-\_\-heuristic\-Variable}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain $>$ virtual int {\bf ghost\-::\-Null\-Objective}$<$ Type\-Variable, Type\-Domain $>$\-::v\-\_\-heuristic\-Variable (
+\begin{DoxyParamCaption}
+\item[{const vector$<$ int $>$ \&}]{vec\-Var\-Id, }
+\item[{const vector$<$ Type\-Variable $>$ $\ast$}]{vec\-Variables, }
+\item[{Type\-Domain $\ast$}]{domain}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}, {\ttfamily [virtual]}}}\label{classghost_1_1NullObjective_aef7e24c71f2522034764402704e3b16f}
+
+
+Pure virtual function to apply the variable heuristic used by the solver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vec\-Var\-Id} & A constant reference to the vector of variable I\-D objects of the C\-S\-P/\-C\-O\-P. \\
+\hline
+{\em vec\-Variables} & A constant pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
+\hline
+{\em domain} & A constant pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The I\-D of the selected variable according to the heuristic. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classghost_1_1Objective_af68c07a226162ea7f9ee01a0b00d3ae4}{heuristic\-Variable} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{classghost_1_1Objective_ae4a49d23569c367182f934c25a6c6103}{ghost\-::\-Objective$<$ Type\-Variable, Type\-Domain $>$}.
+
+\hypertarget{classghost_1_1NullObjective_a5f4b22306c25132590e3c10a6dc34d15}{\index{ghost\-::\-Null\-Objective@{ghost\-::\-Null\-Objective}!v\-\_\-set\-Helper@{v\-\_\-set\-Helper}}
+\index{v\-\_\-set\-Helper@{v\-\_\-set\-Helper}!ghost::NullObjective@{ghost\-::\-Null\-Objective}}
+\subsubsection[{v\-\_\-set\-Helper}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain $>$ virtual void {\bf ghost\-::\-Null\-Objective}$<$ Type\-Variable, Type\-Domain $>$\-::v\-\_\-set\-Helper (
+\begin{DoxyParamCaption}
+\item[{const Type\-Variable \&}]{current\-Var, }
+\item[{const vector$<$ Type\-Variable $>$ $\ast$}]{vec\-Variables, }
+\item[{const Type\-Domain $\ast$}]{domain}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}, {\ttfamily [virtual]}}}\label{classghost_1_1NullObjective_a5f4b22306c25132590e3c10a6dc34d15}
+
+
+Pure virtual function to set heuristic\-Value\-Helper\mbox{[}current\-Var.\-get\-Value()\mbox{]}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em current\-Var} & A constant reference to a variable object. \\
+\hline
+{\em vec\-Variables} & A constant pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
+\hline
+{\em domain} & A constant pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classghost_1_1Objective_ab589c264cf391bab9005562f66a39797}{set\-Helper}, \hyperlink{classghost_1_1Objective_a9bfe64f13de15bba7f2fa3a662c02e27}{heuristic\-Value\-Helper} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{classghost_1_1Objective_a8c4efc1602123b28626a37c53e100a6e}{ghost\-::\-Objective$<$ Type\-Variable, Type\-Domain $>$}.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+include/objectives/\hyperlink{objective_8hpp}{objective.\-hpp}\end{DoxyCompactItemize}

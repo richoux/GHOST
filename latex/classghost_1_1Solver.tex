@@ -27,7 +27,7 @@ Collaboration diagram for ghost\-:\-:Solver$<$ Type\-Variable, Type\-Domain, Typ
 \hyperlink{classghost_1_1Solver_a512335329b22a91700bdfa7870f053e9}{Solver} (vector$<$ Type\-Variable $>$ $\ast$\hyperlink{classghost_1_1Solver_a2d033a454234b2277aabdcc4d89eaba2}{vec\-Variables}, Type\-Domain $\ast$\hyperlink{classghost_1_1Solver_ad9292e9219261ba8058fec05b453c0c9}{domain}, const vector$<$ shared\-\_\-ptr$<$ Type\-Constraint $>$ $>$ \&\hyperlink{classghost_1_1Solver_a170746edcfb777b12978444c2ab3962e}{vec\-Constraints}, const shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Objective}{Objective}$<$ Type\-Variable, Type\-Domain $>$ $>$ \&obj, const int \hyperlink{classghost_1_1Solver_aa6a77e14862a9be467e6c6c76124b526}{loops})
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Solver}{Solver}'s constructor mostly used for tests. \end{DoxyCompactList}\item 
 double \hyperlink{classghost_1_1Solver_a30dd2769fb30ac42d231d2c305dcdf13}{solve} (double timeout)
-\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Solver}{Solver}'s main function, to solve the given C\-S\-P. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Solver}{Solver}'s main function, to solve the given C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -39,12 +39,12 @@ void \hyperlink{classghost_1_1Solver_af1176494b45226e87edefa0b39babf62}{move} (T
 \begin{DoxyCompactItemize}
 \item 
 vector$<$ Type\-Variable $>$ $\ast$ \hyperlink{classghost_1_1Solver_a2d033a454234b2277aabdcc4d89eaba2}{vec\-Variables}
-\begin{DoxyCompactList}\small\item\em A pointer to the vector of variable objects of the C\-S\-P. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em A pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\item 
 Type\-Domain $\ast$ \hyperlink{classghost_1_1Solver_ad9292e9219261ba8058fec05b453c0c9}{domain}
-\begin{DoxyCompactList}\small\item\em A pointer to the domain object of the C\-S\-P. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em A pointer to the domain object of the C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\item 
 vector$<$ shared\-\_\-ptr\\*
 $<$ Type\-Constraint $>$ $>$ \hyperlink{classghost_1_1Solver_a170746edcfb777b12978444c2ab3962e}{vec\-Constraints}
-\begin{DoxyCompactList}\small\item\em The vector of (shared pointers of) constraints of the C\-S\-P. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em The vector of (shared pointers of) constraints of the C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\item 
 shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Objective}{Objective}\\*
 $<$ Type\-Variable, Type\-Domain $>$ $>$ \hyperlink{classghost_1_1Solver_a4fd74bd68d0ea253fd35adad697f964d}{objective}
 \begin{DoxyCompactList}\small\item\em The shared pointer of the objective function. \end{DoxyCompactList}\item 
@@ -97,9 +97,9 @@ The solver is calling Solver(vec\-Variables, domain, vec\-Constraints, obj, 0)
 
 
 \begin{DoxyParams}{Parameters}
-{\em vec\-Variables} & A pointer to the vector of variable objects of the C\-S\-P. \\
+{\em vec\-Variables} & A pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
 \hline
-{\em domain} & A pointer to the domain object of the C\-S\-P. \\
+{\em domain} & A pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
 \hline
 {\em vec\-Constraints} & A constant reference to the vector of shared pointers of \hyperlink{classghost_1_1Constraint}{Constraint} \\
 \hline
@@ -125,9 +125,9 @@ Like the regular constructor, but take also a loops parameter to repeat loops ti
 
 
 \begin{DoxyParams}{Parameters}
-{\em vec\-Variables} & A pointer to the vector of variable objects of the C\-S\-P. \\
+{\em vec\-Variables} & A pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
 \hline
-{\em domain} & A pointer to the domain object of the C\-S\-P. \\
+{\em domain} & A pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
 \hline
 {\em vec\-Constraints} & A constant reference to the vector of shared pointers of \hyperlink{classghost_1_1Constraint}{Constraint} \\
 \hline
@@ -163,7 +163,7 @@ Like the regular constructor, but take also a loops parameter to repeat loops ti
 )\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Solver_a30dd2769fb30ac42d231d2c305dcdf13}
 
 
-\hyperlink{classghost_1_1Solver}{Solver}'s main function, to solve the given C\-S\-P. 
+\hyperlink{classghost_1_1Solver}{Solver}'s main function, to solve the given C\-S\-P/\-C\-O\-P. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -195,7 +195,7 @@ The best solution found by the solver.
 \subsubsection[{domain}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ Type\-Domain$\ast$ {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::domain\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Solver_ad9292e9219261ba8058fec05b453c0c9}
 
 
-A pointer to the domain object of the C\-S\-P. 
+A pointer to the domain object of the C\-S\-P/\-C\-O\-P. 
 
 \hypertarget{classghost_1_1Solver_aa6a77e14862a9be467e6c6c76124b526}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!loops@{loops}}
 \index{loops@{loops}!ghost::Solver@{ghost\-::\-Solver}}
@@ -237,14 +237,14 @@ The vector of projected costs on each varaible.
 \subsubsection[{vec\-Constraints}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ vector$<$ shared\-\_\-ptr$<$Type\-Constraint$>$ $>$ {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::vec\-Constraints\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Solver_a170746edcfb777b12978444c2ab3962e}
 
 
-The vector of (shared pointers of) constraints of the C\-S\-P. 
+The vector of (shared pointers of) constraints of the C\-S\-P/\-C\-O\-P. 
 
 \hypertarget{classghost_1_1Solver_a2d033a454234b2277aabdcc4d89eaba2}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!vec\-Variables@{vec\-Variables}}
 \index{vec\-Variables@{vec\-Variables}!ghost::Solver@{ghost\-::\-Solver}}
 \subsubsection[{vec\-Variables}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ vector$<$ Type\-Variable $>$$\ast$ {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::vec\-Variables\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Solver_a2d033a454234b2277aabdcc4d89eaba2}
 
 
-A pointer to the vector of variable objects of the C\-S\-P. 
+A pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. 
 
 
 

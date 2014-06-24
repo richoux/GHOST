@@ -1,0 +1,245 @@
+\hypertarget{namespaceghost}{\section{ghost Namespace Reference}
+\label{namespaceghost}\index{ghost@{ghost}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classghost_1_1Constraint}{Constraint}
+\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Constraint}{Constraint} is the class encoding constraints of your C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\item 
+class \hyperlink{classghost_1_1WallinConstraint}{Wallin\-Constraint}
+\item 
+class \hyperlink{classghost_1_1Overlap}{Overlap}
+\item 
+class \hyperlink{classghost_1_1Buildable}{Buildable}
+\item 
+class \hyperlink{classghost_1_1NoGaps}{No\-Gaps}
+\item 
+class \hyperlink{classghost_1_1StartingTargetTiles}{Starting\-Target\-Tiles}
+\item 
+class \hyperlink{classghost_1_1Domain}{Domain}
+\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Domain}{Domain} is the class encoding the domain of your C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\item 
+class \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain}
+\item 
+class \hyperlink{classghost_1_1Random}{Random}
+\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Random}{Random} is the class coding pseudo-\/random generators used in G\-H\-O\-S\-T. \end{DoxyCompactList}\item 
+class \hyperlink{classghost_1_1Objective}{Objective}
+\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Objective}{Objective} is the class encoding objective functions of your C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\item 
+class \hyperlink{classghost_1_1NullObjective}{Null\-Objective}
+\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1NullObjective}{Null\-Objective} is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). \end{DoxyCompactList}\item 
+class \hyperlink{classghost_1_1WallinObjective}{Wallin\-Objective}
+\item 
+class \hyperlink{classghost_1_1NoneObj}{None\-Obj}
+\item 
+class \hyperlink{classghost_1_1GapObj}{Gap\-Obj}
+\item 
+class \hyperlink{classghost_1_1BuildingObj}{Building\-Obj}
+\item 
+class \hyperlink{classghost_1_1TechTreeObj}{Tech\-Tree\-Obj}
+\item 
+class \hyperlink{classghost_1_1Solver}{Solver}
+\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Solver}{Solver} is the class coding the solver itself. \end{DoxyCompactList}\item 
+class \hyperlink{classghost_1_1Building}{Building}
+\item 
+class \hyperlink{classghost_1_1Variable}{Variable}
+\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Variable}{Variable} is the class encoding the variables of your C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \hyperlink{namespaceghost_af44c393431f46e255b1c303cd50854b8}{map\-Fail} = map$<$ pair$<$ int, int $>$, string $>$
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{namespaceghost_a8b1db75c40c6980adcf244ddccc0324b}{Race} \{ \hyperlink{namespaceghost_a8b1db75c40c6980adcf244ddccc0324ba83c1a2af1bdced3b37d96f507dea0ea4}{Terran}, 
+\hyperlink{namespaceghost_a8b1db75c40c6980adcf244ddccc0324ba380e68da58f712ae9a02ded67517f6e5}{Protoss}, 
+\hyperlink{namespaceghost_a8b1db75c40c6980adcf244ddccc0324ba95a952d94cc72ad754bcb37b1e16c221}{Zerg}, 
+\hyperlink{namespaceghost_a8b1db75c40c6980adcf244ddccc0324ba900f1a9a96acbc80f0a573a909a21b01}{Unknown}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\-::vector$<$ std\-::shared\-\_\-ptr\\*
+$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $>$ \hyperlink{namespaceghost_af3e32bb59f07ee561580978affe544bd}{make\-Protoss\-Buildings} ()
+\item 
+vector\-::set$<$ \hyperlink{classghost_1_1Constraint}{Constraint} $\ast$ $>$ \hyperlink{namespaceghost_a876b814af945577733c112c82d0423c3}{make\-Protoss\-Constraints} (const std\-::vector$<$ std\-::shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $>$ \&vec, const \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} \&domain)
+\item 
+\hyperlink{classghost_1_1Building}{Building} \hyperlink{namespaceghost_a797dd3167189ccc913156ff624a7ad6a}{factory\-Terran\-Building} (const string \&name, int pos=-\/1)
+\item 
+vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ \hyperlink{namespaceghost_ade7cf14b6b46de3b038be9fb6c8afd82}{make\-Terran\-Buildings} ()
+\item 
+vector$<$ shared\-\_\-ptr\\*
+$<$ \hyperlink{classghost_1_1WallinConstraint}{Wallin\-Constraint} $>$ $>$ \hyperlink{namespaceghost_af7fa3891f5f6563a142a99d3ab6b604b}{make\-Terran\-Constraints} (const vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$vec, const \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$domain)
+\item 
+ostream \& \hyperlink{namespaceghost_a324a8e116f71d2eee57a356671330cc1}{operator$<$$<$} (ostream \&os, const \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} \&g)
+\item 
+ostream \& \hyperlink{namespaceghost_a1e7e02c276d52eda961d841a47211933}{operator$<$$<$} (ostream \&os, const \hyperlink{classghost_1_1Building}{Building} \&b)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+std\-::shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Building}{Building} $>$ \hyperlink{namespaceghost_a1e04a626798fce7a46db973e9693354e}{c}
+\item 
+std\-::shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Building}{Building} $>$ \hyperlink{namespaceghost_a79c82e0d4f18942474a997e6421358f4}{f}
+\item 
+std\-::shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Building}{Building} $>$ \hyperlink{namespaceghost_a69c92ddb4f46d01dc2b21ff8b6c7abdd}{g1}
+\item 
+std\-::shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Building}{Building} $>$ \hyperlink{namespaceghost_a06d6bb1ff9795198ea63e209711cfc9e}{g2}
+\item 
+std\-::shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Building}{Building} $>$ \hyperlink{namespaceghost_ad597936cfadde60ce8c6ed70f14c242c}{p1}
+\item 
+std\-::shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Building}{Building} $>$ \hyperlink{namespaceghost_a47f813abed554f342cbabdd87c34a89e}{p2}
+\item 
+std\-::shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Building}{Building} $>$ \hyperlink{namespaceghost_af02ccfe4153013ca001f67b21cb8ba43}{y1}
+\item 
+std\-::shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Building}{Building} $>$ \hyperlink{namespaceghost_ab6fc6f6a8069edbc2ae66e3f4c95e988}{y2}
+\item 
+std\-::shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Building}{Building} $>$ \hyperlink{namespaceghost_a48fd5802a1f5deeffa729a4be630b172}{y3}
+\item 
+std\-::shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Building}{Building} $>$ \hyperlink{namespaceghost_a959bf3d4c6eabc2dda3faeed7e7ea7a9}{y4}
+\item 
+std\-::shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Building}{Building} $>$ \hyperlink{namespaceghost_a21eab9fd4ae07c7db20e824cc4452a97}{s}
+\item 
+shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Constraint}{Constraint} $>$ \hyperlink{namespaceghost_a7a91cd37137a7eae220126fcbb8ff96b}{overlap}
+\item 
+shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Constraint}{Constraint} $>$ \hyperlink{namespaceghost_aed6c0dcd76842d41ca1a81a6b4301247}{buildable}
+\item 
+shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Constraint}{Constraint} $>$ \hyperlink{namespaceghost_a4b6df9d0b61991e356eb28353a73be30}{no\-Gaps}
+\item 
+shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Constraint}{Constraint} $>$ \hyperlink{namespaceghost_a41140633099e7f2158ce39ca3a469abb}{special\-Tiles}
+\item 
+shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Constraint}{Constraint} $>$ \hyperlink{namespaceghost_a381584b094da85f582a9b24eedf21411}{pylons}
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{namespaceghost_af44c393431f46e255b1c303cd50854b8}{\index{ghost@{ghost}!map\-Fail@{map\-Fail}}
+\index{map\-Fail@{map\-Fail}!ghost@{ghost}}
+\subsubsection[{map\-Fail}]{\setlength{\rightskip}{0pt plus 5cm}using {\bf ghost\-::map\-Fail} = typedef map$<$pair$<$int, int$>$, string$>$}}\label{namespaceghost_af44c393431f46e255b1c303cd50854b8}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{namespaceghost_a8b1db75c40c6980adcf244ddccc0324b}{\index{ghost@{ghost}!Race@{Race}}
+\index{Race@{Race}!ghost@{ghost}}
+\subsubsection[{Race}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf ghost\-::\-Race}}}\label{namespaceghost_a8b1db75c40c6980adcf244ddccc0324b}
+The enumeration type containing all Star\-Craft races, ie, Terran, Protoss, Zerg and Unknown. \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Terran@{Terran}!ghost@{ghost}}\index{ghost@{ghost}!Terran@{Terran}}\item[{\em 
+\hypertarget{namespaceghost_a8b1db75c40c6980adcf244ddccc0324ba83c1a2af1bdced3b37d96f507dea0ea4}{Terran}\label{namespaceghost_a8b1db75c40c6980adcf244ddccc0324ba83c1a2af1bdced3b37d96f507dea0ea4}
+}]\index{Protoss@{Protoss}!ghost@{ghost}}\index{ghost@{ghost}!Protoss@{Protoss}}\item[{\em 
+\hypertarget{namespaceghost_a8b1db75c40c6980adcf244ddccc0324ba380e68da58f712ae9a02ded67517f6e5}{Protoss}\label{namespaceghost_a8b1db75c40c6980adcf244ddccc0324ba380e68da58f712ae9a02ded67517f6e5}
+}]\index{Zerg@{Zerg}!ghost@{ghost}}\index{ghost@{ghost}!Zerg@{Zerg}}\item[{\em 
+\hypertarget{namespaceghost_a8b1db75c40c6980adcf244ddccc0324ba95a952d94cc72ad754bcb37b1e16c221}{Zerg}\label{namespaceghost_a8b1db75c40c6980adcf244ddccc0324ba95a952d94cc72ad754bcb37b1e16c221}
+}]\index{Unknown@{Unknown}!ghost@{ghost}}\index{ghost@{ghost}!Unknown@{Unknown}}\item[{\em 
+\hypertarget{namespaceghost_a8b1db75c40c6980adcf244ddccc0324ba900f1a9a96acbc80f0a573a909a21b01}{Unknown}\label{namespaceghost_a8b1db75c40c6980adcf244ddccc0324ba900f1a9a96acbc80f0a573a909a21b01}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{namespaceghost_a797dd3167189ccc913156ff624a7ad6a}{\index{ghost@{ghost}!factory\-Terran\-Building@{factory\-Terran\-Building}}
+\index{factory\-Terran\-Building@{factory\-Terran\-Building}!ghost@{ghost}}
+\subsubsection[{factory\-Terran\-Building}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Building} ghost\-::factory\-Terran\-Building (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{name, }
+\item[{int}]{pos = {\ttfamily -\/1}}
+\end{DoxyParamCaption}
+)}}\label{namespaceghost_a797dd3167189ccc913156ff624a7ad6a}
+\hypertarget{namespaceghost_af3e32bb59f07ee561580978affe544bd}{\index{ghost@{ghost}!make\-Protoss\-Buildings@{make\-Protoss\-Buildings}}
+\index{make\-Protoss\-Buildings@{make\-Protoss\-Buildings}!ghost@{ghost}}
+\subsubsection[{make\-Protoss\-Buildings}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$std\-::shared\-\_\-ptr$<${\bf Building}$>$ $>$ ghost\-::make\-Protoss\-Buildings (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{namespaceghost_af3e32bb59f07ee561580978affe544bd}
+\hypertarget{namespaceghost_a876b814af945577733c112c82d0423c3}{\index{ghost@{ghost}!make\-Protoss\-Constraints@{make\-Protoss\-Constraints}}
+\index{make\-Protoss\-Constraints@{make\-Protoss\-Constraints}!ghost@{ghost}}
+\subsubsection[{make\-Protoss\-Constraints}]{\setlength{\rightskip}{0pt plus 5cm}vector\-::set$<$ {\bf Constraint}$\ast$ $>$ ghost\-::make\-Protoss\-Constraints (
+\begin{DoxyParamCaption}
+\item[{const std\-::vector$<$ std\-::shared\-\_\-ptr$<$ Building $>$ $>$ \&}]{vec, }
+\item[{const Wallin\-Domain \&}]{domain}
+\end{DoxyParamCaption}
+)}}\label{namespaceghost_a876b814af945577733c112c82d0423c3}
+\hypertarget{namespaceghost_ade7cf14b6b46de3b038be9fb6c8afd82}{\index{ghost@{ghost}!make\-Terran\-Buildings@{make\-Terran\-Buildings}}
+\index{make\-Terran\-Buildings@{make\-Terran\-Buildings}!ghost@{ghost}}
+\subsubsection[{make\-Terran\-Buildings}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ {\bf Building} $>$ ghost\-::make\-Terran\-Buildings (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{namespaceghost_ade7cf14b6b46de3b038be9fb6c8afd82}
+\hypertarget{namespaceghost_af7fa3891f5f6563a142a99d3ab6b604b}{\index{ghost@{ghost}!make\-Terran\-Constraints@{make\-Terran\-Constraints}}
+\index{make\-Terran\-Constraints@{make\-Terran\-Constraints}!ghost@{ghost}}
+\subsubsection[{make\-Terran\-Constraints}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ shared\-\_\-ptr$<${\bf Wallin\-Constraint}$>$ $>$ ghost\-::make\-Terran\-Constraints (
+\begin{DoxyParamCaption}
+\item[{const vector$<$ Building $>$ $\ast$}]{vec, }
+\item[{const Wallin\-Domain $\ast$}]{domain}
+\end{DoxyParamCaption}
+)}}\label{namespaceghost_af7fa3891f5f6563a142a99d3ab6b604b}
+\hypertarget{namespaceghost_a1e7e02c276d52eda961d841a47211933}{\index{ghost@{ghost}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ghost@{ghost}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}ostream\& ghost\-::operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{ostream \&}]{os, }
+\item[{const Building \&}]{b}
+\end{DoxyParamCaption}
+)}}\label{namespaceghost_a1e7e02c276d52eda961d841a47211933}
+\hypertarget{namespaceghost_a324a8e116f71d2eee57a356671330cc1}{\index{ghost@{ghost}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ghost@{ghost}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}ostream\& ghost\-::operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{ostream \&}]{os, }
+\item[{const Wallin\-Domain \&}]{g}
+\end{DoxyParamCaption}
+)}}\label{namespaceghost_a324a8e116f71d2eee57a356671330cc1}
+
+
+\subsection{Variable Documentation}
+\hypertarget{namespaceghost_aed6c0dcd76842d41ca1a81a6b4301247}{\index{ghost@{ghost}!buildable@{buildable}}
+\index{buildable@{buildable}!ghost@{ghost}}
+\subsubsection[{buildable}]{\setlength{\rightskip}{0pt plus 5cm}shared\-\_\-ptr$<${\bf Constraint}$>$ ghost\-::buildable}}\label{namespaceghost_aed6c0dcd76842d41ca1a81a6b4301247}
+\hypertarget{namespaceghost_a1e04a626798fce7a46db973e9693354e}{\index{ghost@{ghost}!c@{c}}
+\index{c@{c}!ghost@{ghost}}
+\subsubsection[{c}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<${\bf Building}$>$ ghost\-::c}}\label{namespaceghost_a1e04a626798fce7a46db973e9693354e}
+\hypertarget{namespaceghost_a79c82e0d4f18942474a997e6421358f4}{\index{ghost@{ghost}!f@{f}}
+\index{f@{f}!ghost@{ghost}}
+\subsubsection[{f}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<${\bf Building}$>$ ghost\-::f}}\label{namespaceghost_a79c82e0d4f18942474a997e6421358f4}
+\hypertarget{namespaceghost_a69c92ddb4f46d01dc2b21ff8b6c7abdd}{\index{ghost@{ghost}!g1@{g1}}
+\index{g1@{g1}!ghost@{ghost}}
+\subsubsection[{g1}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<${\bf Building}$>$ ghost\-::g1}}\label{namespaceghost_a69c92ddb4f46d01dc2b21ff8b6c7abdd}
+\hypertarget{namespaceghost_a06d6bb1ff9795198ea63e209711cfc9e}{\index{ghost@{ghost}!g2@{g2}}
+\index{g2@{g2}!ghost@{ghost}}
+\subsubsection[{g2}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<${\bf Building}$>$ ghost\-::g2}}\label{namespaceghost_a06d6bb1ff9795198ea63e209711cfc9e}
+\hypertarget{namespaceghost_a4b6df9d0b61991e356eb28353a73be30}{\index{ghost@{ghost}!no\-Gaps@{no\-Gaps}}
+\index{no\-Gaps@{no\-Gaps}!ghost@{ghost}}
+\subsubsection[{no\-Gaps}]{\setlength{\rightskip}{0pt plus 5cm}shared\-\_\-ptr$<${\bf Constraint}$>$ ghost\-::no\-Gaps}}\label{namespaceghost_a4b6df9d0b61991e356eb28353a73be30}
+\hypertarget{namespaceghost_a7a91cd37137a7eae220126fcbb8ff96b}{\index{ghost@{ghost}!overlap@{overlap}}
+\index{overlap@{overlap}!ghost@{ghost}}
+\subsubsection[{overlap}]{\setlength{\rightskip}{0pt plus 5cm}shared\-\_\-ptr$<${\bf Constraint}$>$ ghost\-::overlap}}\label{namespaceghost_a7a91cd37137a7eae220126fcbb8ff96b}
+\hypertarget{namespaceghost_ad597936cfadde60ce8c6ed70f14c242c}{\index{ghost@{ghost}!p1@{p1}}
+\index{p1@{p1}!ghost@{ghost}}
+\subsubsection[{p1}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<${\bf Building}$>$ ghost\-::p1}}\label{namespaceghost_ad597936cfadde60ce8c6ed70f14c242c}
+\hypertarget{namespaceghost_a47f813abed554f342cbabdd87c34a89e}{\index{ghost@{ghost}!p2@{p2}}
+\index{p2@{p2}!ghost@{ghost}}
+\subsubsection[{p2}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<${\bf Building}$>$ ghost\-::p2}}\label{namespaceghost_a47f813abed554f342cbabdd87c34a89e}
+\hypertarget{namespaceghost_a381584b094da85f582a9b24eedf21411}{\index{ghost@{ghost}!pylons@{pylons}}
+\index{pylons@{pylons}!ghost@{ghost}}
+\subsubsection[{pylons}]{\setlength{\rightskip}{0pt plus 5cm}shared\-\_\-ptr$<${\bf Constraint}$>$ ghost\-::pylons}}\label{namespaceghost_a381584b094da85f582a9b24eedf21411}
+\hypertarget{namespaceghost_a21eab9fd4ae07c7db20e824cc4452a97}{\index{ghost@{ghost}!s@{s}}
+\index{s@{s}!ghost@{ghost}}
+\subsubsection[{s}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<${\bf Building}$>$ ghost\-::s}}\label{namespaceghost_a21eab9fd4ae07c7db20e824cc4452a97}
+\hypertarget{namespaceghost_a41140633099e7f2158ce39ca3a469abb}{\index{ghost@{ghost}!special\-Tiles@{special\-Tiles}}
+\index{special\-Tiles@{special\-Tiles}!ghost@{ghost}}
+\subsubsection[{special\-Tiles}]{\setlength{\rightskip}{0pt plus 5cm}shared\-\_\-ptr$<${\bf Constraint}$>$ ghost\-::special\-Tiles}}\label{namespaceghost_a41140633099e7f2158ce39ca3a469abb}
+\hypertarget{namespaceghost_af02ccfe4153013ca001f67b21cb8ba43}{\index{ghost@{ghost}!y1@{y1}}
+\index{y1@{y1}!ghost@{ghost}}
+\subsubsection[{y1}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<${\bf Building}$>$ ghost\-::y1}}\label{namespaceghost_af02ccfe4153013ca001f67b21cb8ba43}
+\hypertarget{namespaceghost_ab6fc6f6a8069edbc2ae66e3f4c95e988}{\index{ghost@{ghost}!y2@{y2}}
+\index{y2@{y2}!ghost@{ghost}}
+\subsubsection[{y2}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<${\bf Building}$>$ ghost\-::y2}}\label{namespaceghost_ab6fc6f6a8069edbc2ae66e3f4c95e988}
+\hypertarget{namespaceghost_a48fd5802a1f5deeffa729a4be630b172}{\index{ghost@{ghost}!y3@{y3}}
+\index{y3@{y3}!ghost@{ghost}}
+\subsubsection[{y3}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<${\bf Building}$>$ ghost\-::y3}}\label{namespaceghost_a48fd5802a1f5deeffa729a4be630b172}
+\hypertarget{namespaceghost_a959bf3d4c6eabc2dda3faeed7e7ea7a9}{\index{ghost@{ghost}!y4@{y4}}
+\index{y4@{y4}!ghost@{ghost}}
+\subsubsection[{y4}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<${\bf Building}$>$ ghost\-::y4}}\label{namespaceghost_a959bf3d4c6eabc2dda3faeed7e7ea7a9}

@@ -195,7 +195,7 @@ EXTRA_SEARCH_MAPPINGS  =
 #---------------------------------------------------------------------------
 GENERATE_LATEX         = YES
 LATEX_OUTPUT           = latex
-LATEX_CMD_NAME         = latex
+LATEX_CMD_NAME         = pdflatex
 MAKEINDEX_CMD_NAME     = makeindex
 COMPACT_LATEX          = NO
 PAPER_TYPE             = a4
