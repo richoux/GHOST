@@ -32,9 +32,11 @@ vpath %.cpp $(SRCDIR)
 # $< is the first item in the dependencies list
 
 # Rules
+all: clean
 all: CXXFLAGS += -DNDEBUG
 all: $(BINDIR)/$(EXEC)
 
+debug: clean
 debug: CXXFLAGS += -g
 debug: $(BINDIR)/$(EXEC)
 

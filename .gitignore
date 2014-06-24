@@ -15,5 +15,6 @@ obj/*.o
 # Executables
 bin/ghost
 
-# HTML files
+# Doxygen files
 html/
+latex/

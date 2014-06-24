@@ -2,8 +2,8 @@
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library 
  * designed for StarCraft: Brood war. 
  * GHOST is a meta-heuristic solver aiming to solve any kind of combinatorial 
- * and optimization RTS-related problems represented by a CSP. 
- * It is an extension of the project Wall-in.
+ * and optimization RTS-related problems represented by a CSP/COP. 
+ * It is a generalization of the project Wall-in.
  * Please visit https://github.com/richoux/GHOST for further information.
  * 
  * Copyright (C) 2014 Florian Richoux
@@ -38,7 +38,7 @@ using namespace std;
 
 namespace ghost
 {
-  //! Domain is the class encoding the domain of your CSP.
+  //! Domain is the class encoding the domain of your CSP/COP.
   /*! 
    * In GHOST, only one domain object should be instanciate. At least,
    * the solver is only taking one domain object in parameter.
@@ -51,9 +51,9 @@ namespace ghost
    *
    * Since in GHOST, variables can only take integer values, a domain
    * object would contain the possible integer values for each
-   * variable of the CSP.
+   * variable of the CSP/COP.
    *
-   * To encode your CSP domain, you can either directly use this
+   * To encode your CSP/COP domain, you can either directly use this
    * class Domain (there are no pure virtual functions here),
    * or inherit from it to make your own domain class.
    *
@@ -69,7 +69,7 @@ namespace ghost
      * equals to the range [start, start + size[
      *
      * \param size An integer to specify the size of the domain.
-     * \param numberVariables An integer to specify the number of variables in the CSP.
+     * \param numberVariables An integer to specify the number of variables in the CSP/COP.
      * \param start The starting value of the domain. If not given, the default value is 0.
      */
     Domain( int size, int numberVariables, int start = 0 )
@@ -91,7 +91,7 @@ namespace ghost
      * parameter.
      *
      * \param size An integer to specify the size of the domain.
-     * \param numberVariables An integer to specify the number of variables in the CSP.
+     * \param numberVariables An integer to specify the number of variables in the CSP/COP.
      * \param initialDomain A constant reference to an vector of integer, representing the inital domain for each variable.
      */
     Domain( int size, int numberVariables, const vector< int > &initialDomain )

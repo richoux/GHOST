@@ -2,8 +2,8 @@
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library 
  * designed for StarCraft: Brood war. 
  * GHOST is a meta-heuristic solver aiming to solve any kind of combinatorial 
- * and optimization RTS-related problems represented by a CSP. 
- * It is an extension of the project Wall-in.
+ * and optimization RTS-related problems represented by a CSP/COP. 
+ * It is a generalization of the project Wall-in.
  * Please visit https://github.com/richoux/GHOST for further information.
  * 
  * Copyright (C) 2014 Florian Richoux
@@ -37,7 +37,7 @@ using namespace std;
 
 namespace ghost
 {
-  //! Constraint is the class encoding constraints of your CSP.
+  //! Constraint is the class encoding constraints of your CSP/COP.
   /*! 
    * In GHOST, many different constraint objects can be instanciate.
    *
@@ -50,7 +50,7 @@ namespace ghost
    * ghost::Variable class and MyCustomDomain inherits from the
    * ghost::Domain class.
    *
-   * You cannot directly use this class Constraint to encode your CSP
+   * You cannot directly use this class Constraint to encode your CSP/COP
    * constraints, since this is an abstract class (see the list of
    * pure virtual functions below). Thus, you must write your own
    * constraint class inheriting from ghost::Constraint.
@@ -67,8 +67,8 @@ namespace ghost
   public:
     //! The unique Constraint constructor
     /*!
-     * \param variables A constant pointer toward the vector of variable objects of the CSP.
-     * \param domain A constant pointer toward the domain object of the CSP.
+     * \param variables A constant pointer toward the vector of variable objects of the CSP/COP.
+     * \param domain A constant pointer toward the domain object of the CSP/COP.
      */
     Constraint( const vector< TypeVariable > *variables, const TypeDomain *domain )
       : variables( const_cast< vector< TypeVariable >* >(variables) ), domain( const_cast<TypeDomain*>(domain) ) { }
@@ -110,7 +110,7 @@ namespace ghost
     }
     
   protected:
-    vector< TypeVariable > *variables;	//!< A pointer to the vector of variable objects of the CSP.
-    TypeDomain *domain;			//!< A pointer to the domain object of the CSP.
+    vector< TypeVariable > *variables;	//!< A pointer to the vector of variable objects of the CSP/COP.
+    TypeDomain *domain;			//!< A pointer to the domain object of the CSP/COP.
   };  
 }

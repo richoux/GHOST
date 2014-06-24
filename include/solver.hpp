@@ -2,8 +2,8 @@
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library 
  * designed for StarCraft: Brood war. 
  * GHOST is a meta-heuristic solver aiming to solve any kind of combinatorial 
- * and optimization RTS-related problems represented by a CSP. 
- * It is an extension of the project Wall-in.
+ * and optimization RTS-related problems represented by a CSP/COP. 
+ * It is a generalization of the project Wall-in.
  * Please visit https://github.com/richoux/GHOST for further information.
  * 
  * Copyright (C) 2014 Florian Richoux
@@ -79,8 +79,8 @@ namespace ghost
     /*!
      * The solver is calling Solver(vecVariables, domain, vecConstraints, obj, 0)
      *
-     * \param vecVariables A pointer to the vector of variable objects of the CSP.
-     * \param domain A pointer to the domain object of the CSP.
+     * \param vecVariables A pointer to the vector of variable objects of the CSP/COP.
+     * \param domain A pointer to the domain object of the CSP/COP.
      * \param vecConstraints A constant reference to the vector of shared pointers of Constraint
      * \param obj A reference to the shared pointer of an Objective object. Default value is nullptr.
      */
@@ -97,8 +97,8 @@ namespace ghost
      * Solver::solve. This is mostly used for tests and runtime
      * performance measures.
      *
-     * \param vecVariables A pointer to the vector of variable objects of the CSP.
-     * \param domain A pointer to the domain object of the CSP.
+     * \param vecVariables A pointer to the vector of variable objects of the CSP/COP.
+     * \param domain A pointer to the domain object of the CSP/COP.
      * \param vecConstraints A constant reference to the vector of shared pointers of Constraint
      * \param obj A reference to the shared pointer of an Objective object. Default value is nullptr.
      * \param loops The number of times we want to repeat the satisaction loop inside Solver::solve. 
@@ -120,7 +120,7 @@ namespace ghost
       reset();
     }
 
-    //! Solver's main function, to solve the given CSP.
+    //! Solver's main function, to solve the given CSP/COP.
     /*!
      * \param timeout The satisfaction run timeout in milliseconds
      * \return The satisfaction or optimization cost of the best
@@ -452,9 +452,9 @@ namespace ghost
       domain->add( *building );
     }
 
-    vector< TypeVariable >				*vecVariables;	//!< A pointer to the vector of variable objects of the CSP.
-    TypeDomain						*domain;	//!< A pointer to the domain object of the CSP.
-    vector< shared_ptr<TypeConstraint> >		vecConstraints; //!< The vector of (shared pointers of) constraints of the CSP.
+    vector< TypeVariable >				*vecVariables;	//!< A pointer to the vector of variable objects of the CSP/COP.
+    TypeDomain						*domain;	//!< A pointer to the domain object of the CSP/COP.
+    vector< shared_ptr<TypeConstraint> >		vecConstraints; //!< The vector of (shared pointers of) constraints of the CSP/COP.
     shared_ptr< Objective<TypeVariable, TypeDomain> >	objective;	//!< The shared pointer of the objective function.
 
     vector<double>				variableCost;		//!< The vector of projected costs on each varaible.

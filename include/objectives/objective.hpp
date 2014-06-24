@@ -2,8 +2,8 @@
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library 
  * designed for StarCraft: Brood war. 
  * GHOST is a meta-heuristic solver aiming to solve any kind of combinatorial 
- * and optimization RTS-related problems represented by a CSP. 
- * It is an extension of the project Wall-in.
+ * and optimization RTS-related problems represented by a CSP/COP. 
+ * It is a generalization of the project Wall-in.
  * Please visit https://github.com/richoux/GHOST for further information.
  * 
  * Copyright (C) 2014 Florian Richoux
@@ -37,7 +37,7 @@ using namespace std;
 
 namespace ghost
 {
-  //! Objective is the class encoding objective functions of your CSP.
+  //! Objective is the class encoding objective functions of your CSP/COP.
   /*! 
    * In GHOST, many different objective objects can be instanciate.
    *
@@ -140,8 +140,8 @@ namespace ghost
      *
      * \param currentVar A reference to a variable object.
      * \param possibleValues A constant reference to the vector of all possible values of currentVar.
-     * \param variables A constant pointer to the vector of variable objects of the CSP.
-     * \param domain A pointer to the domain object of the CSP.
+     * \param variables A constant pointer to the vector of variable objects of the CSP/COP.
+     * \param domain A pointer to the domain object of the CSP/COP.
      * \sa heuristicValueHelper
     */
     void updateHelper( TypeVariable &currentVar,
@@ -169,8 +169,8 @@ namespace ghost
   protected:
     //! Pure virtual function to compute the value of the objective function on the current configuration.
     /*! 
-     * \param vecVariables A constant pointer to the vector of variable objects of the CSP.
-     * \param domain A constant pointer to the domain object of the CSP.
+     * \param vecVariables A constant pointer to the vector of variable objects of the CSP/COP.
+     * \param domain A constant pointer to the domain object of the CSP/COP.
      * \return The value of the objective function on the current configuration.
      * \sa cost
      */
@@ -179,9 +179,9 @@ namespace ghost
 
     //! Pure virtual function to apply the variable heuristic used by the solver.
     /*! 
-     * \param vecVarId A constant reference to the vector of variable ID objects of the CSP.
-     * \param vecVariables A constant pointer to the vector of variable objects of the CSP.
-     * \param domain A constant pointer to the domain object of the CSP.
+     * \param vecVarId A constant reference to the vector of variable ID objects of the CSP/COP.
+     * \param vecVariables A constant pointer to the vector of variable objects of the CSP/COP.
+     * \param domain A constant pointer to the domain object of the CSP/COP.
      * \return The ID of the selected variable according to the heuristic.
      * \sa heuristicVariable
      */
@@ -192,8 +192,8 @@ namespace ghost
     //! Pure virtual function to set heuristicValueHelper[currentVar.getValue()].
     /*! 
      * \param currentVar A constant reference to a variable object.
-     * \param vecVariables A constant pointer to the vector of variable objects of the CSP.
-     * \param domain A constant pointer to the domain object of the CSP.
+     * \param vecVariables A constant pointer to the vector of variable objects of the CSP/COP.
+     * \param domain A constant pointer to the domain object of the CSP/COP.
      * \sa setHelper, heuristicValueHelper
      */
     virtual void v_setHelper( const TypeVariable &currentVar,
@@ -208,8 +208,8 @@ namespace ghost
      *
      * This implementation by default does nothing.
      * 
-     * \param vecVariables A constant pointer to the vector of variable objects of the CSP.
-     * \param domain A constant pointer to the domain object of the CSP.
+     * \param vecVariables A constant pointer to the vector of variable objects of the CSP/COP.
+     * \param domain A constant pointer to the domain object of the CSP/COP.
      * \param bestCost A reference the double representing the best global cost found by the solver so far.
      * \param solution A reference to the vector of variable values of the solution found by the solver.
      * \return The function runtime in milliseconds.
@@ -228,8 +228,8 @@ namespace ghost
      *
      * This implementation by default does nothing.
      * 
-     * \param vecVariables A constant pointer to the vector of variable objects of the CSP.
-     * \param domain A constant pointer to the domain object of the CSP.
+     * \param vecVariables A constant pointer to the vector of variable objects of the CSP/COP.
+     * \param domain A constant pointer to the domain object of the CSP/COP.
      * \param bestCost A reference the double representing the best optimization cost found by the solver so far.
      * \return The function runtime in milliseconds.
      * \sa postprocessOptimization

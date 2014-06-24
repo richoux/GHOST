@@ -2,8 +2,8 @@
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library 
  * designed for StarCraft: Brood war. 
  * GHOST is a meta-heuristic solver aiming to solve any kind of combinatorial 
- * and optimization RTS-related problems represented by a CSP. 
- * It is an extension of the project Wall-in.
+ * and optimization RTS-related problems represented by a CSP/COP. 
+ * It is a generalization of the project Wall-in.
  * Please visit https://github.com/richoux/GHOST for further information.
  * 
  * Copyright (C) 2014 Florian Richoux
@@ -34,13 +34,13 @@ using namespace std;
 
 namespace ghost
 {
-  //! Variable is the class encoding the variables of your CSP.
+  //! Variable is the class encoding the variables of your CSP/COP.
   /*! 
    * In GHOST, all variable objects must be instanciate from the same
-   * concrete class. Be careful to model your CSP in order to use one
+   * concrete class. Be careful to model your CSP/COP in order to use one
    * kind of variable only.
    *
-   * To encode your CSP variables, you can either directly use this
+   * To encode your CSP/COP variables, you can either directly use this
    * class Variable (there are no pure virtual functions here),
    * or inherit from it to make your own variable class.
    */
