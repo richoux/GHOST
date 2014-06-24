@@ -5,6 +5,8 @@
 /**
 @mainpage GHOST
 
+[TOC]
+
 Introduction
 ====
 
@@ -25,8 +27,53 @@ Scientific papers:
 A short CSP/COP tutorial
 ====
 
-TODO
+Intuition behind CSP and COP
+----
 
+Constraint Satisfaction Problems (CSP) and Constraint Optimization Problems (COP) are two close formalisms intensively used in Artificial Intelligence to solve combinatorial and optimization problems. They allow you to easily express what your problem is, and offer you a uniform way to solve all problems you can describe by a CSP or a COP.    
+
+The difference between a CSP and a COP is simple:
+
+  - A CSP models a satisfaction problem, that is to say, a problem
+    where all solutions are equivalent, so you just want to find one
+    of them. Example: find a solution of a Sudoku grid. Several
+    solutions may exist, but finding one is sufficient, and no
+    solutions seem better than another one.
+  - A COP models an optimization problem, where some solutions are
+    better than others. Example: you may have several paths from your
+    home to your workplace, but some of them are shorter.
+
+Let start by defining a CSP. To model your problem by a CSP, you need to define three things:
+
+  - V, the set of variables of your CSP.
+  - D, the domain of your CSP, that is to say, the set of values your variable can take.
+  - C, the set of constraint symbols of your CSP.
+
+
+Let's take a simple example:
+
+  - V = {x, y, z}. The variables of our CSP would be x, y and z.
+  - D = {0, 1, 2}. Our variable x, y and z can take a value from D, ie, be either equals to 0, 1 or 2. We can have for instance x = 1, y = 1 and z = 0.
+  - C = { =, &ne; }. We have two types of constraint symbols here: equal and different.
+
+Ok, now what? Well, to describe our problem, we have to build a
+formula from our CSP. This is a bit like playing to Lego: you combine
+blocks to build bigger blocks, then you combien your bigger blocks to
+create an object.
+
+Here, your blocks are your variables. You can combine them with a
+constraint symbol to build a bigger block, ie, a constraint. For
+instance, we can build the constraint (x=z), or the constraint
+(z&ne;y), etc.
+
+Then, we can build a formula by combining constraints. Combining means
+here we have a conjuction, ie a "and"-operator linking two
+constraints. A formula with the CSP describe above could be for
+instance (z=y) AND (y&ne;x) AND (x=z). 
+
+
+A first example of a CSP formula
+----
 
 
 
