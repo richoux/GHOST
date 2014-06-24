@@ -92,8 +92,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library </span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * designed for StarCraft: Brood war. </span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * GHOST is a meta-heuristic solver aiming to solve any kind of combinatorial </span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * and optimization RTS-related problems represented by a CSP. </span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * It is an extension of the project Wall-in.</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * and optimization RTS-related problems represented by a CSP/COP. </span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * It is a generalization of the project Wall-in.</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * Please visit https://github.com/richoux/GHOST for further information.</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * </span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Copyright (C) 2014 Florian Richoux</span></div>
@@ -156,14 +156,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  };  </div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}</div>
 <div class="ttc" id="namespaceghost_html_a1e04a626798fce7a46db973e9693354e"><div class="ttname"><a href="namespaceghost.html#a1e04a626798fce7a46db973e9693354e">ghost::c</a></div><div class="ttdeci">std::shared_ptr&lt; Building &gt; c</div><div class="ttdef"><b>Definition:</b> wallinProtoss.hpp:41</div></div>
-<div class="ttc" id="classghost_1_1Constraint_html_a827e487bd77c8dbc4701d1dfae39678a"><div class="ttname"><a href="classghost_1_1Constraint.html#a827e487bd77c8dbc4701d1dfae39678a">ghost::Constraint::variables</a></div><div class="ttdeci">vector&lt; TypeVariable &gt; * variables</div><div class="ttdoc">A pointer to the vector of variable objects of the CSP. </div><div class="ttdef"><b>Definition:</b> constraint.hpp:113</div></div>
-<div class="ttc" id="classghost_1_1Constraint_html"><div class="ttname"><a href="classghost_1_1Constraint.html">ghost::Constraint</a></div><div class="ttdoc">Constraint is the class encoding constraints of your CSP. </div><div class="ttdef"><b>Definition:</b> constraint.hpp:65</div></div>
-<div class="ttc" id="classghost_1_1Constraint_html_a0ea15d113ab23ddb6ad74be72f7ac90d"><div class="ttname"><a href="classghost_1_1Constraint.html#a0ea15d113ab23ddb6ad74be72f7ac90d">ghost::Constraint::domain</a></div><div class="ttdeci">TypeDomain * domain</div><div class="ttdoc">A pointer to the domain object of the CSP. </div><div class="ttdef"><b>Definition:</b> constraint.hpp:114</div></div>
+<div class="ttc" id="classghost_1_1Constraint_html_a827e487bd77c8dbc4701d1dfae39678a"><div class="ttname"><a href="classghost_1_1Constraint.html#a827e487bd77c8dbc4701d1dfae39678a">ghost::Constraint::variables</a></div><div class="ttdeci">vector&lt; TypeVariable &gt; * variables</div><div class="ttdoc">A pointer to the vector of variable objects of the CSP/COP. </div><div class="ttdef"><b>Definition:</b> constraint.hpp:113</div></div>
+<div class="ttc" id="classghost_1_1Constraint_html"><div class="ttname"><a href="classghost_1_1Constraint.html">ghost::Constraint</a></div><div class="ttdoc">Constraint is the class encoding constraints of your CSP/COP. </div><div class="ttdef"><b>Definition:</b> constraint.hpp:65</div></div>
+<div class="ttc" id="classghost_1_1Constraint_html_a0ea15d113ab23ddb6ad74be72f7ac90d"><div class="ttname"><a href="classghost_1_1Constraint.html#a0ea15d113ab23ddb6ad74be72f7ac90d">ghost::Constraint::domain</a></div><div class="ttdeci">TypeDomain * domain</div><div class="ttdoc">A pointer to the domain object of the CSP/COP. </div><div class="ttdef"><b>Definition:</b> constraint.hpp:114</div></div>
 <div class="ttc" id="classghost_1_1Constraint_html_af2b5d5f541f64e548bc6c93bba1ba2b8"><div class="ttname"><a href="classghost_1_1Constraint.html#af2b5d5f541f64e548bc6c93bba1ba2b8">ghost::Constraint::Constraint</a></div><div class="ttdeci">Constraint(const vector&lt; TypeVariable &gt; *variables, const TypeDomain *domain)</div><div class="ttdoc">The unique Constraint constructor. </div><div class="ttdef"><b>Definition:</b> constraint.hpp:73</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 23 2014 21:12:48 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 24 2014 17:48:56 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

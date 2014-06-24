@@ -96,7 +96,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP. ">Domain</a> is the class encoding the domain of your CSP.  
+<p><a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> is the class encoding the domain of your CSP/COP.  
  <a href="classghost_1_1Domain.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="domain_8hpp_source.html">domain.hpp</a>&gt;</code></p>
@@ -111,10 +111,10 @@ Collaboration diagram for ghost::Domain&lt; TypeVariable &gt;:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a8bf75e526b2ee95ccb32701175e3a43b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a8bf75e526b2ee95ccb32701175e3a43b">Domain</a> (int <a class="el" href="classghost_1_1Domain.html#a13e282f60c6c7cddf5b5716b45ad161c">size</a>, int numberVariables, int start=0)</td></tr>
-<tr class="memdesc:a8bf75e526b2ee95ccb32701175e3a43b"><td class="mdescLeft">&#160;</td><td class="mdescRight">First <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP. ">Domain</a> constructor.  <a href="#a8bf75e526b2ee95ccb32701175e3a43b">More...</a><br/></td></tr>
+<tr class="memdesc:a8bf75e526b2ee95ccb32701175e3a43b"><td class="mdescLeft">&#160;</td><td class="mdescRight">First <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> constructor.  <a href="#a8bf75e526b2ee95ccb32701175e3a43b">More...</a><br/></td></tr>
 <tr class="separator:a8bf75e526b2ee95ccb32701175e3a43b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26d7b928aa7a0bc44a47f2f407402ed7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a26d7b928aa7a0bc44a47f2f407402ed7">Domain</a> (int <a class="el" href="classghost_1_1Domain.html#a13e282f60c6c7cddf5b5716b45ad161c">size</a>, int numberVariables, const vector&lt; int &gt; &amp;<a class="el" href="classghost_1_1Domain.html#a8890ca1323c293a4a1e2aa1830eff043">initialDomain</a>)</td></tr>
-<tr class="memdesc:a26d7b928aa7a0bc44a47f2f407402ed7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Second and last <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP. ">Domain</a> constructor.  <a href="#a26d7b928aa7a0bc44a47f2f407402ed7">More...</a><br/></td></tr>
+<tr class="memdesc:a26d7b928aa7a0bc44a47f2f407402ed7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Second and last <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> constructor.  <a href="#a26d7b928aa7a0bc44a47f2f407402ed7">More...</a><br/></td></tr>
 <tr class="separator:a26d7b928aa7a0bc44a47f2f407402ed7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd3f0bd85c98e66c025e0ff3532af8dd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#abd3f0bd85c98e66c025e0ff3532af8dd">randomValue</a> (const TypeVariable &amp;variable)</td></tr>
 <tr class="memdesc:abd3f0bd85c98e66c025e0ff3532af8dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function to get a random value among the possible values of a given variable.  <a href="#abd3f0bd85c98e66c025e0ff3532af8dd">More...</a><br/></td></tr>
@@ -161,12 +161,12 @@ Friends</h2></td></tr>
 <div class="textblock"><h3>template&lt;typename TypeVariable&gt;<br/>
 class ghost::Domain&lt; TypeVariable &gt;</h3>
 
-<p><a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP. ">Domain</a> is the class encoding the domain of your CSP. </p>
+<p><a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> is the class encoding the domain of your CSP/COP. </p>
 <p>In GHOST, only one domain object should be instanciate. At least, the solver is only taking one domain object in parameter.</p>
-<p>The <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP. ">Domain</a> class is a template class, waiting for the type of variable. Thus, you must instanciate a domain by specifying the class of your variable objects, like for instance Domain&lt;Variable&gt; or Domain&lt;MyCustomVariable&gt;, if MyCustomVariable inherits from the <a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP. ">ghost::Variable</a> class.</p>
-<p>Since in GHOST, variables can only take integer values, a domain object would contain the possible integer values for each variable of the CSP.</p>
-<p>To encode your CSP domain, you can either directly use this class <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP. ">Domain</a> (there are no pure virtual functions here), or inherit from it to make your own domain class.</p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP. ">Variable</a> </dd></dl>
+<p>The <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> class is a template class, waiting for the type of variable. Thus, you must instanciate a domain by specifying the class of your variable objects, like for instance Domain&lt;Variable&gt; or Domain&lt;MyCustomVariable&gt;, if MyCustomVariable inherits from the <a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">ghost::Variable</a> class.</p>
+<p>Since in GHOST, variables can only take integer values, a domain object would contain the possible integer values for each variable of the CSP/COP.</p>
+<p>To encode your CSP/COP domain, you can either directly use this class <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> (there are no pure virtual functions here), or inherit from it to make your own domain class.</p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">Variable</a> </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a8bf75e526b2ee95ccb32701175e3a43b"></a>
 <div class="memitem">
@@ -208,12 +208,12 @@ template&lt;typename TypeVariable&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>First <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP. ">Domain</a> constructor. </p>
+<p>First <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> constructor. </p>
 <p>In this constructor, the domain of each variable is built to be equals to the range [start, start + size[</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">size</td><td>An integer to specify the size of the domain. </td></tr>
-    <tr><td class="paramname">numberVariables</td><td>An integer to specify the number of variables in the CSP. </td></tr>
+    <tr><td class="paramname">numberVariables</td><td>An integer to specify the number of variables in the CSP/COP. </td></tr>
     <tr><td class="paramname">start</td><td>The starting value of the domain. If not given, the default value is 0. </td></tr>
   </table>
   </dd>
@@ -261,12 +261,12 @@ template&lt;typename TypeVariable&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Second and last <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP. ">Domain</a> constructor. </p>
+<p>Second and last <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> constructor. </p>
 <p>In this constructor, the domain of each variable is given as a parameter.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">size</td><td>An integer to specify the size of the domain. </td></tr>
-    <tr><td class="paramname">numberVariables</td><td>An integer to specify the number of variables in the CSP. </td></tr>
+    <tr><td class="paramname">numberVariables</td><td>An integer to specify the number of variables in the CSP/COP. </td></tr>
     <tr><td class="paramname">initialDomain</td><td>A constant reference to an vector of integer, representing the inital domain for each variable. </td></tr>
   </table>
   </dd>
@@ -304,7 +304,7 @@ template&lt;typename TypeVariable&gt; </div>
 <ul>
 <li>during a move (<a class="el" href="classghost_1_1Solver.html#af1176494b45226e87edefa0b39babf62">Solver::move</a>), ie, when the solver assigns a new value to a given variable.</li>
 <li>during a reset (<a class="el" href="classghost_1_1Solver.html#a43db35b71a3e494ce208622cc45cbeb0">Solver::reset</a>).</li>
-<li>just between the end of the optimization run and the beginning of the optimization post-processing, in <a class="el" href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13" title="Solver&#39;s main function, to solve the given CSP. ">Solver::solve</a>.</li>
+<li>just between the end of the optimization run and the beginning of the optimization post-processing, in <a class="el" href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>.</li>
 </ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -344,7 +344,7 @@ template&lt;typename TypeVariable&gt; </div>
 <ul>
 <li>during a move (<a class="el" href="classghost_1_1Solver.html#af1176494b45226e87edefa0b39babf62">Solver::move</a>), ie, when the solver assigns a new value to a given variable.</li>
 <li>during a reset (<a class="el" href="classghost_1_1Solver.html#a43db35b71a3e494ce208622cc45cbeb0">Solver::reset</a>).</li>
-<li>just between the end of the optimization run and the beginning of the optimization post-processing, in <a class="el" href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13" title="Solver&#39;s main function, to solve the given CSP. ">Solver::solve</a>.</li>
+<li>just between the end of the optimization run and the beginning of the optimization post-processing, in <a class="el" href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>.</li>
 </ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -656,7 +656,7 @@ template&lt;typename TypeVariable&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 23 2014 21:12:48 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 24 2014 17:48:57 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

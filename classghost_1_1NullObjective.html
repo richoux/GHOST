@@ -104,14 +104,14 @@ Inheritance diagram for ghost::NullObjective&lt; TypeVariable, TypeDomain &gt;:<
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1NullObjective__inherit__graph.png" border="0" usemap="#ghost_1_1NullObjective_3_01TypeVariable_00_01TypeDomain_01_4_inherit__map" alt="Inheritance graph"/></div>
 <map name="ghost_1_1NullObjective_3_01TypeVariable_00_01TypeDomain_01_4_inherit__map" id="ghost_1_1NullObjective_3_01TypeVariable_00_01TypeDomain_01_4_inherit__map">
-<area shape="rect" id="node2" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP. " alt="" coords="5,6,213,362"/></map>
+<area shape="rect" id="node2" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. " alt="" coords="5,6,213,362"/></map>
 </div>
 <div class="dynheader">
 Collaboration diagram for ghost::NullObjective&lt; TypeVariable, TypeDomain &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1NullObjective__coll__graph.png" border="0" usemap="#ghost_1_1NullObjective_3_01TypeVariable_00_01TypeDomain_01_4_coll__map" alt="Collaboration graph"/></div>
 <map name="ghost_1_1NullObjective_3_01TypeVariable_00_01TypeDomain_01_4_coll__map" id="ghost_1_1NullObjective_3_01TypeVariable_00_01TypeDomain_01_4_coll__map">
-<area shape="rect" id="node2" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP. " alt="" coords="5,221,213,563"/><area shape="rect" id="node3" href="classghost_1_1Random.html" title="Random is the class coding pseudo&#45;random generators used in GHOST. " alt="" coords="50,6,168,157"/></map>
+<area shape="rect" id="node2" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. " alt="" coords="5,221,213,563"/><area shape="rect" id="node3" href="classghost_1_1Random.html" title="Random is the class coding pseudo&#45;random generators used in GHOST. " alt="" coords="50,6,168,157"/></map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -120,7 +120,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:acb468a9e5fd85d31c3afc805481919ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classghost_1_1Objective"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classghost_1_1Objective')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classghost_1_1Objective.html">ghost::Objective&lt; TypeVariable, TypeDomain &gt;</a></td></tr>
 <tr class="memitem:a40decf80e2a1f37e2cc4634f41acc7ca inherit pub_methods_classghost_1_1Objective"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a40decf80e2a1f37e2cc4634f41acc7ca">Objective</a> (const string &amp;<a class="el" href="classghost_1_1Objective.html#ae9533a52b3600c826df6e20c65db1e7a">name</a>)</td></tr>
-<tr class="memdesc:a40decf80e2a1f37e2cc4634f41acc7ca inherit pub_methods_classghost_1_1Objective"><td class="mdescLeft">&#160;</td><td class="mdescRight">The unique <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP. ">Objective</a> constructor.  <a href="#a40decf80e2a1f37e2cc4634f41acc7ca">More...</a><br/></td></tr>
+<tr class="memdesc:a40decf80e2a1f37e2cc4634f41acc7ca inherit pub_methods_classghost_1_1Objective"><td class="mdescLeft">&#160;</td><td class="mdescRight">The unique <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> constructor.  <a href="#a40decf80e2a1f37e2cc4634f41acc7ca">More...</a><br/></td></tr>
 <tr class="separator:a40decf80e2a1f37e2cc4634f41acc7ca inherit pub_methods_classghost_1_1Objective"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2947c19e26ffd2a23c3a7f1b99c8bc79 inherit pub_methods_classghost_1_1Objective"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a2947c19e26ffd2a23c3a7f1b99c8bc79">cost</a> (const vector&lt; TypeVariable &gt; *vecVariables, const TypeDomain *domain) const </td></tr>
 <tr class="separator:a2947c19e26ffd2a23c3a7f1b99c8bc79 inherit pub_methods_classghost_1_1Objective"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -249,8 +249,8 @@ template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 <p>Pure virtual function to compute the value of the objective function on the current configuration. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vecVariables</td><td>A constant pointer to the vector of variable objects of the CSP. </td></tr>
-    <tr><td class="paramname">domain</td><td>A constant pointer to the domain object of the CSP. </td></tr>
+    <tr><td class="paramname">vecVariables</td><td>A constant pointer to the vector of variable objects of the CSP/COP. </td></tr>
+    <tr><td class="paramname">domain</td><td>A constant pointer to the domain object of the CSP/COP. </td></tr>
   </table>
   </dd>
 </dl>
@@ -304,9 +304,9 @@ template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 <p>Pure virtual function to apply the variable heuristic used by the solver. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vecVarId</td><td>A constant reference to the vector of variable ID objects of the CSP. </td></tr>
-    <tr><td class="paramname">vecVariables</td><td>A constant pointer to the vector of variable objects of the CSP. </td></tr>
-    <tr><td class="paramname">domain</td><td>A constant pointer to the domain object of the CSP. </td></tr>
+    <tr><td class="paramname">vecVarId</td><td>A constant reference to the vector of variable ID objects of the CSP/COP. </td></tr>
+    <tr><td class="paramname">vecVariables</td><td>A constant pointer to the vector of variable objects of the CSP/COP. </td></tr>
+    <tr><td class="paramname">domain</td><td>A constant pointer to the domain object of the CSP/COP. </td></tr>
   </table>
   </dd>
 </dl>
@@ -361,8 +361,8 @@ template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">currentVar</td><td>A constant reference to a variable object. </td></tr>
-    <tr><td class="paramname">vecVariables</td><td>A constant pointer to the vector of variable objects of the CSP. </td></tr>
-    <tr><td class="paramname">domain</td><td>A constant pointer to the domain object of the CSP. </td></tr>
+    <tr><td class="paramname">vecVariables</td><td>A constant pointer to the vector of variable objects of the CSP/COP. </td></tr>
+    <tr><td class="paramname">domain</td><td>A constant pointer to the domain object of the CSP/COP. </td></tr>
   </table>
   </dd>
 </dl>
@@ -378,7 +378,7 @@ template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 23 2014 21:12:48 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 24 2014 17:48:57 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

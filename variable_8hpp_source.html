@@ -92,8 +92,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library </span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * designed for StarCraft: Brood war. </span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * GHOST is a meta-heuristic solver aiming to solve any kind of combinatorial </span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * and optimization RTS-related problems represented by a CSP. </span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * It is an extension of the project Wall-in.</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * and optimization RTS-related problems represented by a CSP/COP. </span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * It is a generalization of the project Wall-in.</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * Please visit https://github.com/richoux/GHOST for further information.</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * </span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Copyright (C) 2014 Florian Richoux</span></div>
@@ -204,7 +204,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classghost_1_1Variable_html_a50678691d071f5dcf3a8e60be06e2a71"><div class="ttname"><a href="classghost_1_1Variable.html#a50678691d071f5dcf3a8e60be06e2a71">ghost::Variable::Variable</a></div><div class="ttdeci">Variable()</div><div class="ttdoc">Empty Variable constructor by default, doing nothing. </div><div class="ttdef"><b>Definition:</b> variable.hpp:51</div></div>
 <div class="ttc" id="classghost_1_1Variable_html_a179c5f5625d78740335fe11893811921"><div class="ttname"><a href="classghost_1_1Variable.html#a179c5f5625d78740335fe11893811921">ghost::Variable::getFullName</a></div><div class="ttdeci">string getFullName() const </div><div class="ttdoc">Inline accessor to get the object&#39;s full name. </div><div class="ttdef"><b>Definition:</b> variable.hpp:129</div></div>
 <div class="ttc" id="classghost_1_1Variable_html_ac9fb0513e1d15a047816821e034589ea"><div class="ttname"><a href="classghost_1_1Variable.html#ac9fb0513e1d15a047816821e034589ea">ghost::Variable::Variable</a></div><div class="ttdeci">Variable(const Variable &amp;other)</div><div class="ttdoc">Variable&#39;s copy constructor, designed to NOT increment numberVariables. </div><div class="ttdef"><b>Definition:</b> variable.hpp:75</div></div>
-<div class="ttc" id="classghost_1_1Variable_html"><div class="ttname"><a href="classghost_1_1Variable.html">ghost::Variable</a></div><div class="ttdoc">Variable is the class encoding the variables of your CSP. </div><div class="ttdef"><b>Definition:</b> variable.hpp:47</div></div>
+<div class="ttc" id="classghost_1_1Variable_html"><div class="ttname"><a href="classghost_1_1Variable.html">ghost::Variable</a></div><div class="ttdoc">Variable is the class encoding the variables of your CSP/COP. </div><div class="ttdef"><b>Definition:</b> variable.hpp:47</div></div>
 <div class="ttc" id="classghost_1_1Variable_html_ad6050d933bf7a3ea6403d9928633a719"><div class="ttname"><a href="classghost_1_1Variable.html#ad6050d933bf7a3ea6403d9928633a719">ghost::Variable::Variable</a></div><div class="ttdeci">Variable(string name, string fullName, int value=-1)</div><div class="ttdoc">The regular Variable constructor. </div><div class="ttdef"><b>Definition:</b> variable.hpp:63</div></div>
 <div class="ttc" id="classghost_1_1Variable_html_aeea921ab89e0f175037ce8c81845905c"><div class="ttname"><a href="classghost_1_1Variable.html#aeea921ab89e0f175037ce8c81845905c">ghost::Variable::operator&lt;</a></div><div class="ttdeci">bool operator&lt;(const Variable &amp;other) const </div><div class="ttdef"><b>Definition:</b> variable.hpp:97</div></div>
 <div class="ttc" id="classghost_1_1Variable_html_a4623be8dd7ed2a0cb7033aec42033cb7"><div class="ttname"><a href="classghost_1_1Variable.html#a4623be8dd7ed2a0cb7033aec42033cb7">ghost::Variable::value</a></div><div class="ttdeci">int value</div><div class="ttdoc">The value of the variable. Must be an integer (it can take negative values). </div><div class="ttdef"><b>Definition:</b> variable.hpp:159</div></div>
@@ -224,7 +224,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 23 2014 21:12:48 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 24 2014 17:48:56 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

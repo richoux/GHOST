@@ -96,7 +96,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP. ">Objective</a> is the class encoding objective functions of your CSP.  
+<p><a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> is the class encoding objective functions of your CSP/COP.  
  <a href="classghost_1_1Objective.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="objective_8hpp_source.html">objective.hpp</a>&gt;</code></p>
@@ -118,7 +118,7 @@ Collaboration diagram for ghost::Objective&lt; TypeVariable, TypeDomain &gt;:</d
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a40decf80e2a1f37e2cc4634f41acc7ca"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a40decf80e2a1f37e2cc4634f41acc7ca">Objective</a> (const string &amp;<a class="el" href="classghost_1_1Objective.html#ae9533a52b3600c826df6e20c65db1e7a">name</a>)</td></tr>
-<tr class="memdesc:a40decf80e2a1f37e2cc4634f41acc7ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">The unique <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP. ">Objective</a> constructor.  <a href="#a40decf80e2a1f37e2cc4634f41acc7ca">More...</a><br/></td></tr>
+<tr class="memdesc:a40decf80e2a1f37e2cc4634f41acc7ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">The unique <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> constructor.  <a href="#a40decf80e2a1f37e2cc4634f41acc7ca">More...</a><br/></td></tr>
 <tr class="separator:a40decf80e2a1f37e2cc4634f41acc7ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2947c19e26ffd2a23c3a7f1b99c8bc79"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a2947c19e26ffd2a23c3a7f1b99c8bc79">cost</a> (const vector&lt; TypeVariable &gt; *vecVariables, const TypeDomain *domain) const </td></tr>
 <tr class="separator:a2947c19e26ffd2a23c3a7f1b99c8bc79"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -180,17 +180,17 @@ Protected Attributes</h2></td></tr>
 <div class="textblock"><h3>template&lt;typename TypeVariable, typename TypeDomain&gt;<br/>
 class ghost::Objective&lt; TypeVariable, TypeDomain &gt;</h3>
 
-<p><a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP. ">Objective</a> is the class encoding objective functions of your CSP. </p>
+<p><a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> is the class encoding objective functions of your CSP/COP. </p>
 <p>In GHOST, many different objective objects can be instanciate.</p>
-<p>The <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP. ">Objective</a> class is a template class, waiting for both the type of variable and the type of domain. Thus, you must instanciate a constraint by specifying the class of your variable objects and the class of your domain object, like for instance Objective&lt;Variable, Domain&gt; or <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP. ">Objective</a>&lt;MyCustomVariable, MyCustomDomain&gt;, if MyCustomVariable inherits from the <a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP. ">ghost::Variable</a> class and MyCustomDomain inherits from the <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP. ">ghost::Domain</a> class.</p>
-<p>You cannot directly use this class <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP. ">Objective</a> to encode your objective functions, since this is an abstract class (see the list of pure virtual functions below). Thus, you must write your own objective class inheriting from <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP. ">ghost::Objective</a>.</p>
-<p>In this class, each virtual function follows the Non-Virtual Interface Idiom (see <a href="http://www.gotw.ca/publications/mill18.htm">http://www.gotw.ca/publications/mill18.htm</a>). The list of all <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP. ">Objective</a> pure virtual functions is below:</p>
+<p>The <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> class is a template class, waiting for both the type of variable and the type of domain. Thus, you must instanciate a constraint by specifying the class of your variable objects and the class of your domain object, like for instance Objective&lt;Variable, Domain&gt; or <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a>&lt;MyCustomVariable, MyCustomDomain&gt;, if MyCustomVariable inherits from the <a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">ghost::Variable</a> class and MyCustomDomain inherits from the <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">ghost::Domain</a> class.</p>
+<p>You cannot directly use this class <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> to encode your objective functions, since this is an abstract class (see the list of pure virtual functions below). Thus, you must write your own objective class inheriting from <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">ghost::Objective</a>.</p>
+<p>In this class, each virtual function follows the Non-Virtual Interface Idiom (see <a href="http://www.gotw.ca/publications/mill18.htm">http://www.gotw.ca/publications/mill18.htm</a>). The list of all <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> pure virtual functions is below:</p>
 <ul>
 <li>v_cost</li>
 <li>v_heuristicVariable</li>
 <li>v_setHelper</li>
 </ul>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP. ">Variable</a>, <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP. ">Domain</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">Variable</a>, <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a40decf80e2a1f37e2cc4634f41acc7ca"></a>
 <div class="memitem">
@@ -216,10 +216,10 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>The unique <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP. ">Objective</a> constructor. </p>
+<p>The unique <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">name</td><td>A string to give the <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP. ">Objective</a> object a specific name. </td></tr>
+    <tr><td class="paramname">name</td><td>A string to give the <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> object a specific name. </td></tr>
   </table>
   </dd>
 </dl>
@@ -620,13 +620,13 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 </div><div class="memdoc">
 
 <p>updateHelper is used to update heuristicValueHelper. </p>
-<p>The function updateHelper is called by <a class="el" href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13" title="Solver&#39;s main function, to solve the given CSP. ">Solver::solve</a> before each call of heuristicValue.</p>
+<p>The function updateHelper is called by <a class="el" href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a> before each call of heuristicValue.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">currentVar</td><td>A reference to a variable object. </td></tr>
     <tr><td class="paramname">possibleValues</td><td>A constant reference to the vector of all possible values of currentVar. </td></tr>
-    <tr><td class="paramname">variables</td><td>A constant pointer to the vector of variable objects of the CSP. </td></tr>
-    <tr><td class="paramname">domain</td><td>A pointer to the domain object of the CSP. </td></tr>
+    <tr><td class="paramname">variables</td><td>A constant pointer to the vector of variable objects of the CSP/COP. </td></tr>
+    <tr><td class="paramname">domain</td><td>A pointer to the domain object of the CSP/COP. </td></tr>
   </table>
   </dd>
 </dl>
@@ -671,8 +671,8 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 <p>Pure virtual function to compute the value of the objective function on the current configuration. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vecVariables</td><td>A constant pointer to the vector of variable objects of the CSP. </td></tr>
-    <tr><td class="paramname">domain</td><td>A constant pointer to the domain object of the CSP. </td></tr>
+    <tr><td class="paramname">vecVariables</td><td>A constant pointer to the vector of variable objects of the CSP/COP. </td></tr>
+    <tr><td class="paramname">domain</td><td>A constant pointer to the domain object of the CSP/COP. </td></tr>
   </table>
   </dd>
 </dl>
@@ -779,9 +779,9 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 <p>Pure virtual function to apply the variable heuristic used by the solver. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vecVarId</td><td>A constant reference to the vector of variable ID objects of the CSP. </td></tr>
-    <tr><td class="paramname">vecVariables</td><td>A constant pointer to the vector of variable objects of the CSP. </td></tr>
-    <tr><td class="paramname">domain</td><td>A constant pointer to the domain object of the CSP. </td></tr>
+    <tr><td class="paramname">vecVarId</td><td>A constant reference to the vector of variable ID objects of the CSP/COP. </td></tr>
+    <tr><td class="paramname">vecVariables</td><td>A constant pointer to the vector of variable objects of the CSP/COP. </td></tr>
+    <tr><td class="paramname">domain</td><td>A constant pointer to the domain object of the CSP/COP. </td></tr>
   </table>
   </dd>
 </dl>
@@ -837,8 +837,8 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 <p>This implementation by default does nothing.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vecVariables</td><td>A constant pointer to the vector of variable objects of the CSP. </td></tr>
-    <tr><td class="paramname">domain</td><td>A constant pointer to the domain object of the CSP. </td></tr>
+    <tr><td class="paramname">vecVariables</td><td>A constant pointer to the vector of variable objects of the CSP/COP. </td></tr>
+    <tr><td class="paramname">domain</td><td>A constant pointer to the domain object of the CSP/COP. </td></tr>
     <tr><td class="paramname">bestCost</td><td>A reference the double representing the best optimization cost found by the solver so far. </td></tr>
   </table>
   </dd>
@@ -901,8 +901,8 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 <p>This implementation by default does nothing.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vecVariables</td><td>A constant pointer to the vector of variable objects of the CSP. </td></tr>
-    <tr><td class="paramname">domain</td><td>A constant pointer to the domain object of the CSP. </td></tr>
+    <tr><td class="paramname">vecVariables</td><td>A constant pointer to the vector of variable objects of the CSP/COP. </td></tr>
+    <tr><td class="paramname">domain</td><td>A constant pointer to the domain object of the CSP/COP. </td></tr>
     <tr><td class="paramname">bestCost</td><td>A reference the double representing the best global cost found by the solver so far. </td></tr>
     <tr><td class="paramname">solution</td><td>A reference to the vector of variable values of the solution found by the solver. </td></tr>
   </table>
@@ -959,8 +959,8 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">currentVar</td><td>A constant reference to a variable object. </td></tr>
-    <tr><td class="paramname">vecVariables</td><td>A constant pointer to the vector of variable objects of the CSP. </td></tr>
-    <tr><td class="paramname">domain</td><td>A constant pointer to the domain object of the CSP. </td></tr>
+    <tr><td class="paramname">vecVariables</td><td>A constant pointer to the vector of variable objects of the CSP/COP. </td></tr>
+    <tr><td class="paramname">domain</td><td>A constant pointer to the domain object of the CSP/COP. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1049,7 +1049,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 23 2014 21:12:48 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 24 2014 17:48:57 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
