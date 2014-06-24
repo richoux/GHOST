@@ -52,9 +52,9 @@ Ok, now what? Well, to describe our problem, we have to build a formula from our
 
 Here, your blocks are your variables. You can combine them with a constraint symbol to build a bigger block, ie, a constraint. For instance, we can build the constraint (x=z), or the constraint (z{$\ne$}y), etc.
 
-Then, we can build a formula by combining constraints. Combining means here we have a conjuction, ie a \char`\"{}and\char`\"{}-\/operator linking two constraints. A formula with the C\-S\-P describe above could be for instance \begin{DoxyVerb}            (z=y) AND (y&ne;x) AND (x<z) 
-\end{DoxyVerb}
+Then, we can build a formula by combining constraints. Combining means here we have a conjuction, ie a \char`\"{}and\char`\"{}-\/operator linking two constraints. A formula with the C\-S\-P describe above could be for instance
 
+(z=y) A\-N\-D (y{$\ne$}x) A\-N\-D (x$<$z)
 
 \subsection*{A first example of a C\-S\-P formula }
 
@@ -67,9 +67,9 @@ Concider the following C\-S\-P\-:
 \item C = \{ =, {$\ne$}, $<$ \}.
 \end{DoxyItemize}
 
-and suppose our problem is modeled by the formula \begin{DoxyVerb}                (a=b) AND (b&ne;d) AND (d<c) AND (b<c)
-\end{DoxyVerb}
+and suppose our problem is modeled by the formula
 
+(a=b) A\-N\-D (b{$\ne$}d) A\-N\-D (d$<$c) A\-N\-D (b$<$c)
 
 A solution of our problem is a good evaluation of each variable to a value of the domain D. In other words, if we find a way to give a value from D to each variable of V such that all constraints are true (we also say, are satisfyed), then we have a solution to our problem.
 

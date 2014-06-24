@@ -70,7 +70,7 @@ here we have a conjuction, ie a "and"-operator linking two
 constraints. A formula with the CSP describe above could be for
 instance
 
-				(z=y) AND (y&ne;x) AND (x<z) 
+(z=y) AND (y&ne;x) AND (x<z) 
 
 
 
@@ -85,7 +85,7 @@ Concider the following CSP:
 
 and suppose our problem is modeled by the formula
 
-    	    		(a=b) AND (b&ne;d) AND (d<c) AND (b<c)
+(a=b) AND (b&ne;d) AND (d<c) AND (b<c)
 
 A solution of our problem is a good evaluation of each variable to a value
 of the domain D. In other words, if we find a way to give a value from
