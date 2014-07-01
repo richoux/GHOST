@@ -1,0 +1,79 @@
+/*
+ * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library 
+ * designed for StarCraft: Brood war. 
+ * GHOST is a meta-heuristic solver aiming to solve any kind of combinatorial 
+ * and optimization RTS-related problems represented by a CSP/COP. 
+ * It is a generalization of the project Wall-in.
+ * Please visit https://github.com/richoux/GHOST for further information.
+ * 
+ * Copyright (C) 2014 Florian Richoux
+ *
+ * This file is part of GHOST.
+ * GHOST is free software: you can redistribute it and/or 
+ * modify it under the terms of the GNU General Public License as published 
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * GHOST is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with GHOST. If not, see http://www.gnu.org/licenses/.
+ */
+
+
+#pragma once
+
+#include "variable.hpp"
+#include "../misc/races.hpp"
+
+using namespace std;
+
+namespace ghost
+{
+  class Action : public Variable
+  {
+    Action();
+    Action(int, int, int, int, vector<string>, string, Race, string, string, int = -1);
+    Action(const Action&);
+    Action& operator=(Action);
+
+    inline bool	isSelected()	const	{ return value != -1; }
+
+    inline int getFrameRequired()	const { return frameRequired; }
+    inline int getCostMineral()		const { return costMineral; }
+    inline int getCostGas()		const { return costGas; }
+    inline int getCostSupply()		const { return costSupply; }
+
+    inline vector<string> getDependencies()	const { return dependencies; }
+    inline string	  getCreator()		const { return creator; }
+    
+    inline string getRace()	const	
+    { 
+      switch( race ) 
+      {
+      case Terran: return "Terran";
+      case Protoss: return "Protoss";
+      case Zerg: return "Zerg";
+      default: return "Unknown";
+      }
+    }
+    
+    friend ostream& operator<<( ostream&, const Action& );
+
+  private:
+    void swap(Action&);
+
+    int frameRequired;
+    int costMineral;
+    int costGas;
+    int costSupply;
+
+    vector<string>	dependencies;
+    string		creator; 
+
+    Race race;
+  };
+}
