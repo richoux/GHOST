@@ -82,7 +82,12 @@ namespace ghost
 
   int BuildOrderDomain::computeSize( const vector<Action> *variables )
   {
-    return std::accumulate( begin( *variables ), end( *variables ), 0 );
+    int sum = 0;
+
+    for( const auto &v : *variables )
+      sum += v.getFrameRequired();
+
+    return 2*sum;
   }
 
   // friend ostream& operator<<( ostream &os, const BuildOrderDomain &b )
