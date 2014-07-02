@@ -24,44 +24,68 @@
  */
 
 
+#include <numeric>
+#include <iostream>
+#include <typeinfo>
+
 #include "../../domains/buildorderDomain.hpp"
 
 using namespace std;
 
 namespace ghost
 {
-  BuildOrderDomain::BuildOrderDomain( int, int, const vector<Action>* )
+  BuildOrderDomain::BuildOrderDomain( int numberVariables, const vector<Action> *variables )
+    : Domain( computeSize( variables ), numberVariables, -1 )
   {
-
+    for( const auto &v : *variables )
+      domains[ v.getId() ] = possibleFrames( v );
   }
   
-  BuildOrderDomain::BuildOrderDomain( int, int, const vector<Action>*, int )
-  {
-
-  }
+  BuildOrderDomain::BuildOrderDomain( int numberVariables, const vector<Action> *variables, int sizeSample )
+    : BuildOrderDomain( size, numberVariables, variables )
+  { makeMonteCarloSample( sizeSample ); }
   
-  BuildOrderDomain::BuildOrderDomain( int, int, const vector<Action>*, double )
+  BuildOrderDomain::BuildOrderDomain( int numberVariables, const vector<Action> *variables, double ratioSample )
+    : BuildOrderDomain( size, numberVariables, variables )
+  { makeMonteCarloSample( ratioSample ); }
+
+  vector<int> BuildOrderDomain::possibleFrames( const Action &action ) const
   {
-
-  }
-
-  vector<int>	BuildOrderDomain::possibleFrames( const Action& ) const
-  {
-
+    vector<int> vecFrames( size - action.getFrameRequired() );
+    std::iota( begin( vecFrames ), end( vecFrames ), -1 );
+    return vecFrames;
   }
   
   void BuildOrderDomain::makeMonteCarloSample( int numberSamples )
   {
-
+    while( sample.size() < numberSamples )
+      sample.insert( random.getRandNum( size ) - 1 );
   }
   
   void BuildOrderDomain::makeMonteCarloSample( double ratio )
   {
+    while( sample.size() < ratioSample * size )
+      sample.insert( random.getRandNum( size ) - 1 );    
+  }
 
+  void BuildOrderDomain::makeMonteCarloSample( int numberSamples, int varId )
+  {
+    while( sample.size() < numberSamples )
+      sample.insert( random.getRandNum( domains.at( varId ).size() ) - 1 );    
   }
   
-  friend ostream& operator<<( ostream&, const BuildOrderDomain& )
+  void BuildOrderDomain::makeMonteCarloSample( double ratio, int varId )
   {
-
+    while( sample.size() < ratioSample * size )
+      sample.insert( random.getRandNum( domains.at( varId ).size() ) - 1 );        
   }
+
+  int BuildOrderDomain::computeSize( const vector<Action> *variables )
+  {
+    return std::accumulate( begin( *variables ), end( *variables ), 0 );
+  }
+
+  // friend ostream& operator<<( ostream &os, const BuildOrderDomain &b )
+  // {
+  // }
 }

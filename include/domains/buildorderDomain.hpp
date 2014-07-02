@@ -27,6 +27,7 @@
 #pragma once
 
 #include <vector>
+#include <set>
 
 #include "domain.hpp"
 #include "../variables/action.hpp"
@@ -42,21 +43,20 @@ namespace ghost
     BuildOrderDomain( int, int, const vector<Action>*, int );
     BuildOrderDomain( int, int, const vector<Action>*, double );
 
-    inline vector<int>	getMonteCarloSample() const { return sample; }
+    inline set<int>	getMonteCarloSample() const { return sample; }
     
-    pair<int, int>	shift( Action& );
-    void		quickShift( Action& );
-    void		swap( Action&, Action& );	  
-
     vector<int>	possibleFrames( const Action& ) const;
 
     void makeMonteCarloSample( int numberSamples );
     void makeMonteCarloSample( double ratio );
+    void makeMonteCarloSample( int numberSamples, int varId );
+    void makeMonteCarloSample( double ratio, int varId );
 
-    friend ostream& operator<<( ostream&, const BuildOrderDomain& );
+    // friend ostream& operator<<( ostream&, const BuildOrderDomain& );
 
   private:
-    vector<int>	sample;
-    vector<int> nFirstNumbers;
+    int computeSize( const vector<Action>* );
+    
+    set<int> sample;
   };
 }
