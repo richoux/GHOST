@@ -24,39 +24,44 @@
  */
 
 
-#pragma once
-
-#include <vector>
-
-#include "domain.hpp"
-#include "../variables/action.hpp"
+#include "../../domains/buildorderDomain.hpp"
 
 using namespace std;
 
 namespace ghost
 {
-  class BuildOrderDomain : public Domain<Action>
+  BuildOrderDomain::BuildOrderDomain( int, int, const vector<Action>* )
   {
-  public:
-    BuildOrderDomain( int, int, const vector<Action>* );
-    BuildOrderDomain( int, int, const vector<Action>*, int );
-    BuildOrderDomain( int, int, const vector<Action>*, double );
 
-    inline vector<int>	getMonteCarloSample() const { return sample; }
-    
-    pair<int, int>	shift( Action& );
-    void		quickShift( Action& );
-    void		swap( Action&, Action& );	  
+  }
+  
+  BuildOrderDomain::BuildOrderDomain( int, int, const vector<Action>*, int )
+  {
 
-    vector<int>	possibleFrames( const Action& ) const;
+  }
+  
+  BuildOrderDomain::BuildOrderDomain( int, int, const vector<Action>*, double )
+  {
 
-    void makeMonteCarloSample( int numberSamples );
-    void makeMonteCarloSample( double ratio );
+  }
 
-    friend ostream& operator<<( ostream&, const BuildOrderDomain& );
+  vector<int>	BuildOrderDomain::possibleFrames( const Action& ) const
+  {
 
-  private:
-    vector<int>	sample;
-    vector<int> nFirstNumbers;
-  };
+  }
+  
+  void BuildOrderDomain::makeMonteCarloSample( int numberSamples )
+  {
+
+  }
+  
+  void BuildOrderDomain::makeMonteCarloSample( double ratio )
+  {
+
+  }
+  
+  friend ostream& operator<<( ostream&, const BuildOrderDomain& )
+  {
+
+  }
 }
