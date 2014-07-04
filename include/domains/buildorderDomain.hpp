@@ -39,9 +39,9 @@ namespace ghost
   class BuildOrderDomain : public Domain<Action>
   {
   public:
-    BuildOrderDomain( int, int, const vector<Action>* );
-    BuildOrderDomain( int, int, const vector<Action>*, int );
-    BuildOrderDomain( int, int, const vector<Action>*, double );
+    BuildOrderDomain( int, const vector<Action>* );
+    BuildOrderDomain( int, const vector<Action>*, int );
+    BuildOrderDomain( int, const vector<Action>*, double );
 
     inline set<int>	getMonteCarloSample() const { return sample; }
     

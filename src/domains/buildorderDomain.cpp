@@ -42,11 +42,11 @@ namespace ghost
   }
   
   BuildOrderDomain::BuildOrderDomain( int numberVariables, const vector<Action> *variables, int sizeSample )
-    : BuildOrderDomain( size, numberVariables, variables )
+    : BuildOrderDomain( numberVariables, variables )
   { makeMonteCarloSample( sizeSample ); }
   
   BuildOrderDomain::BuildOrderDomain( int numberVariables, const vector<Action> *variables, double ratioSample )
-    : BuildOrderDomain( size, numberVariables, variables )
+    : BuildOrderDomain( numberVariables, variables )
   { makeMonteCarloSample( ratioSample ); }
 
   vector<int> BuildOrderDomain::possibleFrames( const Action &action ) const
