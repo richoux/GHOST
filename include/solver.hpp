@@ -281,7 +281,8 @@ namespace ghost
 	  vecConstraintsCosts[3] = vecConstraints[3]->simulateCost( *oldVariable, possiblePositions, vecVarSimCosts );
 	  tstt += chrono::system_clock::now() - sstt;
 #else
-	  for( int i = 0; i < vecConstraints.size(); ++i )
+	  vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possiblePositions, vecVarSimCosts, objective );
+	  for( int i = 1; i < vecConstraints.size(); ++i )
 	    vecConstraintsCosts[i] = vecConstraints[i]->simulateCost( *oldVariable, possiblePositions, vecVarSimCosts );
 #endif
 
@@ -302,7 +303,6 @@ namespace ghost
 		      numeric_limits<int>::max() );
 
 	  // look for the first smallest cost, according to objective heuristic
-	  objective->updateHelper( *oldVariable, possiblePositions, vecVariables, domain );
 	  int b = objective->heuristicValue( vecGlobalCosts, bestEstimatedCost, bestPosition );
 	  bestSimCost = vecVarSimCosts[ b ];
 

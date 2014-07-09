@@ -133,39 +133,6 @@ namespace ghost
       std::fill( heuristicValueHelper.begin(), heuristicValueHelper.end(), numeric_limits<int>::max() );
     }
 
-    //! updateHelper is used to update heuristicValueHelper.
-    /*! 
-     * The function updateHelper is called by Solver::solve before
-     * each call of heuristicValue.
-     *
-     * \param currentVar A reference to a variable object.
-     * \param possibleValues A constant reference to the vector of all possible values of currentVar.
-     * \param variables A constant pointer to the vector of variable objects of the CSP/COP.
-     * \param domain A pointer to the domain object of the CSP/COP.
-     * \sa heuristicValueHelper
-    */
-    void updateHelper( TypeVariable &currentVar,
-		       const vector<int> &possibleValues,
-		       const vector< TypeVariable > *variables,
-		       TypeDomain *domain )
-    {
-      resetHelper();
-      int backup = currentVar.getValue();
-      
-      for( auto &val : possibleValues )
-      {
-	domain->clear( currentVar );
-	currentVar.setValue( val );
-	domain->add( currentVar );
-	
-	setHelper( currentVar, variables, domain );
-      }
-
-	domain->clear( currentVar );
-	currentVar.setValue( backup );
-	domain->add( currentVar );      
-    }
-
   protected:
     //! Pure virtual function to compute the value of the objective function on the current configuration.
     /*! 

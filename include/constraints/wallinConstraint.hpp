@@ -47,12 +47,16 @@ namespace ghost
 
     virtual vector<double> v_simulateCost( Building &oldBuilding,
 					   const vector<int> &newPosition,
-					   vector< vector<double> > &vecVarSimCosts )
+					   vector< vector<double> > &vecVarSimCosts,
+					   shared_ptr< Objective< Building, WallinDomain > > objective )
     {
       vector<double> simCosts( domain->getSize(), -1. );
       int backup = oldBuilding.getValue();
       int previousPos = 0;
 
+      if( objective )
+	objective->resetHelper();
+      
       for( auto &pos : newPosition )
       {
 	if( pos >= 1 && pos == previousPos + 1 )
@@ -67,6 +71,10 @@ namespace ghost
 	}
 
 	simCosts[pos+1] = cost( vecVarSimCosts[pos+1] );
+
+	if( objective )
+	  objective->setHelper( oldBuilding, variables, domain );
+
 	previousPos = pos;
       }
 
@@ -91,7 +99,10 @@ namespace ghost
     Overlap( const vector< Building >*, const WallinDomain* );
     
     double v_cost( vector<double>& ) const;
-    vector<double> v_simulateCost( Building&, const vector<int>&, vector< vector<double> >& );
+    vector<double> v_simulateCost( Building&,
+				   const vector<int>&,
+				   vector< vector<double> >&,
+				   shared_ptr< Objective< Building, WallinDomain > > );
   };
 
   
@@ -104,7 +115,10 @@ namespace ghost
     Buildable( const vector< Building >*, const WallinDomain* );
     
     double v_cost( vector<double>& ) const;
-    vector<double> v_simulateCost( Building&, const vector<int>&, vector< vector<double> >& );
+    vector<double> v_simulateCost( Building&,
+				   const vector<int>&,
+				   vector< vector<double> >&,
+				   shared_ptr< Objective< Building, WallinDomain > > );
   };
 
   

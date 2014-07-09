@@ -52,7 +52,10 @@ namespace ghost
   void WallinObjective::v_setHelper( const Building &b, const vector< Building > *vecVariables, const WallinDomain *domain )
   {
     if( b.isSelected() )
-      heuristicValueHelper.at( b.getValue() ) = domain->distanceToTarget( pos );
+    {
+      int pos = b.getValue();
+      heuristicValueHelper.at( pos ) = domain->distanceToTarget( pos );
+    }
   }
 
   double WallinObjective::v_postprocessSatisfaction( vector< Building > *vecVariables,

@@ -133,13 +133,19 @@ namespace ghost
   //   return conflicts;    
   // }
 
-  vector<double> Overlap::v_simulateCost( Building &oldBuilding, const vector<int> &newPosition, vector< vector<double> > &vecVarSimCosts )
+  vector<double> Overlap::v_simulateCost( Building &oldBuilding,
+					  const vector<int> &newPosition,
+					  vector< vector<double> > &vecVarSimCosts,
+					  shared_ptr< Objective< Building, WallinDomain > > objective )
   {
     vector<double> simCosts( domain->getSize(), -1. );
     int backup = oldBuilding.getValue();
     int previousPos = 0;
     int diff;
 
+    if( objective )
+      objective->resetHelper();
+        
     for( auto &pos : newPosition )
     {
       if( pos >= 1 && pos == previousPos + 1 )
@@ -165,6 +171,9 @@ namespace ghost
 	simCosts[pos + 1] = v_cost( vecVarSimCosts[pos + 1] );
       }
 
+      if( objective )
+	objective->setHelper( oldBuilding, variables, domain );
+      
       previousPos = pos;
     }
 
@@ -225,12 +234,18 @@ namespace ghost
   //   return conflicts;    
   // }
 
-  vector<double> Buildable::v_simulateCost( Building &oldBuilding, const vector<int> &newPosition, vector< vector<double> > &vecVarSimCosts )
+  vector<double> Buildable::v_simulateCost( Building &oldBuilding,
+					    const vector<int> &newPosition,
+					    vector< vector<double> > &vecVarSimCosts,
+					    shared_ptr< Objective< Building, WallinDomain > > objective )
   {
     vector<double> simCosts( domain->getSize(), -1. );
     int backup = oldBuilding.getValue();
     int previousPos = 0;
     int diff;
+
+    if( objective )
+      objective->resetHelper();
 
     for( auto &pos : newPosition )
     {
@@ -257,6 +272,9 @@ namespace ghost
 	simCosts[pos + 1] = v_cost( vecVarSimCosts[pos + 1] );
       }
 
+      if( objective )
+	objective->setHelper( oldBuilding, variables, domain );
+            
       previousPos = pos;
     }
 
