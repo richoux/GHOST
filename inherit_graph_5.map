@@ -1,4 +1,8 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. " alt="" coords="6,5,215,46"/>
-<area shape="rect" id="node2" href="$classghost_1_1NullObjective.html" title="NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). " alt="" coords="265,5,469,46"/>
+<area shape="rect" id="node1" href="$classghost_1_1Objective.html" title="ghost::Objective\&lt; Building,\l WallinDomain \&gt;" alt="" coords="5,74,184,115"/>
+<area shape="rect" id="node2" href="$classghost_1_1WallinObjective.html" title="ghost::WallinObjective" alt="" coords="233,81,386,108"/>
+<area shape="rect" id="node3" href="$classghost_1_1BuildingObj.html" title="ghost::BuildingObj" alt="" coords="440,5,568,32"/>
+<area shape="rect" id="node4" href="$classghost_1_1GapObj.html" title="ghost::GapObj" alt="" coords="451,56,557,83"/>
+<area shape="rect" id="node5" href="$classghost_1_1NoneObj.html" title="ghost::NoneObj" alt="" coords="447,107,561,133"/>
+<area shape="rect" id="node6" href="$classghost_1_1TechTreeObj.html" title="ghost::TechTreeObj" alt="" coords="435,157,573,184"/>
 </map>

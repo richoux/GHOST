@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['solver_2ehpp',['solver.hpp',['../solver_8hpp.html',1,'']]]
+  ['races_2ehpp',['races.hpp',['../races_8hpp.html',1,'']]],
+  ['random_2ehpp',['random.hpp',['../random_8hpp.html',1,'']]]
 ];

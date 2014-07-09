@@ -125,7 +125,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="namespaceghost.html">   38</a></span>&#160;<span class="keyword">namespace </span>ghost</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">namespace </span>ghost</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TypeVariable, <span class="keyword">typename</span> TypeDomain&gt;</div>
@@ -136,34 +136,53 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html#af2b5d5f541f64e548bc6c93bba1ba2b8">   73</a></span>&#160;    <a class="code" href="classghost_1_1Constraint.html#af2b5d5f541f64e548bc6c93bba1ba2b8">Constraint</a>( <span class="keyword">const</span> vector&lt; TypeVariable &gt; *variables, <span class="keyword">const</span> TypeDomain *domain )</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      : variables( const_cast&lt; vector&lt; TypeVariable &gt;* &gt;(variables) ), domain( const_cast&lt;TypeDomain*&gt;(domain) ) { }</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">double</span> cost( vector&lt;double&gt; &amp;varCost ) <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keyword">virtual</span> vector&lt;double&gt; simulateCost( TypeVariable &amp;currentVar,</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                     <span class="keyword">const</span> vector&lt;int&gt; &amp;possibleValues,</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                     vector&lt; vector&lt;double&gt; &gt; &amp;vecVarSimCosts ) = 0;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html#a5051092934738b004fe848190a5aa9a5">   79</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">double</span> <a class="code" href="classghost_1_1Constraint.html#a5051092934738b004fe848190a5aa9a5">cost</a>( vector&lt;double&gt; &amp;varCost )<span class="keyword"> const </span>{ <span class="keywordflow">return</span> v_cost( varCost ); }</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html#a173958081ed2cfad938cead81b684455">   83</a></span>&#160;    <span class="keyword">inline</span> vector&lt;double&gt; <a class="code" href="classghost_1_1Constraint.html#a173958081ed2cfad938cead81b684455">simulateCost</a>( TypeVariable &amp;currentVar,</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                    <span class="keyword">const</span> vector&lt;int&gt; &amp;possibleValues,</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                    vector&lt; vector&lt;double&gt; &gt; &amp;vecVarSimCosts,</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                    shared_ptr&lt; <a class="code" href="classghost_1_1Objective.html">Objective&lt; TypeVariable, TypeDomain &gt;</a> &gt; objective )</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    { <span class="keywordflow">return</span> v_simulateCost( currentVar, possibleValues, vecVarSimCosts, objective ); }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html#ae5312daf02d5a4147dd4b519f2355712">   91</a></span>&#160;    <span class="keyword">inline</span> vector&lt;double&gt; <a class="code" href="classghost_1_1Constraint.html#ae5312daf02d5a4147dd4b519f2355712">simulateCost</a>( TypeVariable &amp;currentVar,</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                    <span class="keyword">const</span> vector&lt;int&gt; &amp;possibleValues,</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                    vector&lt; vector&lt;double&gt; &gt; &amp;vecVarSimCosts )</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    { <span class="keywordflow">return</span> v_simulateCost( currentVar, possibleValues, vecVarSimCosts, <span class="keyword">nullptr</span> ); }</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html#a5fb3db9a0881ff7aae65d680386277f0">   97</a></span>&#160;    <span class="keyword">friend</span> ostream&amp; operator&lt;&lt;( ostream&amp; os, const Constraint&lt;TypeVariable, TypeDomain&gt;&amp; <a class="code" href="namespaceghost.html#a1e04a626798fce7a46db973e9693354e">c</a> )</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    {</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      <span class="keywordflow">return</span> os &lt;&lt; <span class="stringliteral">&quot;Constraint type: &quot;</span> &lt;&lt;  <span class="keyword">typeid</span>(<a class="code" href="namespaceghost.html#a1e04a626798fce7a46db973e9693354e">c</a>).name() &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    }</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  <span class="keyword">protected</span>:</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    </div>
-<div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html#a5fb3db9a0881ff7aae65d680386277f0">  107</a></span>&#160;    <span class="keyword">friend</span> ostream&amp; operator&lt;&lt;( ostream&amp; os, const Constraint&lt;TypeVariable, TypeDomain&gt;&amp; <a class="code" href="namespaceghost.html#a1e04a626798fce7a46db973e9693354e">c</a> )</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      <span class="keywordflow">return</span> os &lt;&lt; <span class="stringliteral">&quot;Constraint type: &quot;</span> &lt;&lt;  <span class="keyword">typeid</span>(<a class="code" href="namespaceghost.html#a1e04a626798fce7a46db973e9693354e">c</a>).name() &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    }</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html#a827e487bd77c8dbc4701d1dfae39678a">  113</a></span>&#160;    vector&lt; TypeVariable &gt; *<a class="code" href="classghost_1_1Constraint.html#a827e487bd77c8dbc4701d1dfae39678a">variables</a>;  </div>
-<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html#a0ea15d113ab23ddb6ad74be72f7ac90d">  114</a></span>&#160;    TypeDomain *<a class="code" href="classghost_1_1Constraint.html#a0ea15d113ab23ddb6ad74be72f7ac90d">domain</a>;         </div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  };  </div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">double</span> v_cost( vector&lt;double&gt; &amp;varCost ) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keyword">virtual</span> vector&lt;double&gt; v_simulateCost( TypeVariable &amp;currentVar,</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                       <span class="keyword">const</span> vector&lt;int&gt; &amp;possibleValues,</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                       vector&lt; vector&lt;double&gt; &gt; &amp;vecVarSimCosts,</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                       shared_ptr&lt; <a class="code" href="classghost_1_1Objective.html">Objective&lt; TypeVariable, TypeDomain &gt;</a> &gt; objective ) = 0;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    </div>
+<div class="line"><a name="l00135"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html#a827e487bd77c8dbc4701d1dfae39678a">  135</a></span>&#160;    vector&lt; TypeVariable &gt; *<a class="code" href="classghost_1_1Constraint.html#a827e487bd77c8dbc4701d1dfae39678a">variables</a>;  </div>
+<div class="line"><a name="l00136"></a><span class="lineno"><a class="line" href="classghost_1_1Constraint.html#a0ea15d113ab23ddb6ad74be72f7ac90d">  136</a></span>&#160;    TypeDomain *<a class="code" href="classghost_1_1Constraint.html#a0ea15d113ab23ddb6ad74be72f7ac90d">domain</a>;         </div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;  };  </div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;}</div>
+<div class="ttc" id="classghost_1_1Objective_html"><div class="ttname"><a href="classghost_1_1Objective.html">ghost::Objective</a></div><div class="ttdoc">Objective is the class encoding objective functions of your CSP/COP. </div><div class="ttdef"><b>Definition:</b> objective.hpp:68</div></div>
 <div class="ttc" id="namespaceghost_html_a1e04a626798fce7a46db973e9693354e"><div class="ttname"><a href="namespaceghost.html#a1e04a626798fce7a46db973e9693354e">ghost::c</a></div><div class="ttdeci">std::shared_ptr&lt; Building &gt; c</div><div class="ttdef"><b>Definition:</b> wallinProtoss.hpp:41</div></div>
-<div class="ttc" id="classghost_1_1Constraint_html_a827e487bd77c8dbc4701d1dfae39678a"><div class="ttname"><a href="classghost_1_1Constraint.html#a827e487bd77c8dbc4701d1dfae39678a">ghost::Constraint::variables</a></div><div class="ttdeci">vector&lt; TypeVariable &gt; * variables</div><div class="ttdoc">A pointer to the vector of variable objects of the CSP/COP. </div><div class="ttdef"><b>Definition:</b> constraint.hpp:113</div></div>
+<div class="ttc" id="classghost_1_1Constraint_html_a827e487bd77c8dbc4701d1dfae39678a"><div class="ttname"><a href="classghost_1_1Constraint.html#a827e487bd77c8dbc4701d1dfae39678a">ghost::Constraint::variables</a></div><div class="ttdeci">vector&lt; TypeVariable &gt; * variables</div><div class="ttdoc">A pointer to the vector of variable objects of the CSP/COP. </div><div class="ttdef"><b>Definition:</b> constraint.hpp:135</div></div>
 <div class="ttc" id="classghost_1_1Constraint_html"><div class="ttname"><a href="classghost_1_1Constraint.html">ghost::Constraint</a></div><div class="ttdoc">Constraint is the class encoding constraints of your CSP/COP. </div><div class="ttdef"><b>Definition:</b> constraint.hpp:65</div></div>
-<div class="ttc" id="classghost_1_1Constraint_html_a0ea15d113ab23ddb6ad74be72f7ac90d"><div class="ttname"><a href="classghost_1_1Constraint.html#a0ea15d113ab23ddb6ad74be72f7ac90d">ghost::Constraint::domain</a></div><div class="ttdeci">TypeDomain * domain</div><div class="ttdoc">A pointer to the domain object of the CSP/COP. </div><div class="ttdef"><b>Definition:</b> constraint.hpp:114</div></div>
+<div class="ttc" id="classghost_1_1Constraint_html_ae5312daf02d5a4147dd4b519f2355712"><div class="ttname"><a href="classghost_1_1Constraint.html#ae5312daf02d5a4147dd4b519f2355712">ghost::Constraint::simulateCost</a></div><div class="ttdeci">vector&lt; double &gt; simulateCost(TypeVariable &amp;currentVar, const vector&lt; int &gt; &amp;possibleValues, vector&lt; vector&lt; double &gt; &gt; &amp;vecVarSimCosts)</div><div class="ttdef"><b>Definition:</b> constraint.hpp:91</div></div>
+<div class="ttc" id="classghost_1_1Constraint_html_a0ea15d113ab23ddb6ad74be72f7ac90d"><div class="ttname"><a href="classghost_1_1Constraint.html#a0ea15d113ab23ddb6ad74be72f7ac90d">ghost::Constraint::domain</a></div><div class="ttdeci">TypeDomain * domain</div><div class="ttdoc">A pointer to the domain object of the CSP/COP. </div><div class="ttdef"><b>Definition:</b> constraint.hpp:136</div></div>
+<div class="ttc" id="classghost_1_1Constraint_html_a173958081ed2cfad938cead81b684455"><div class="ttname"><a href="classghost_1_1Constraint.html#a173958081ed2cfad938cead81b684455">ghost::Constraint::simulateCost</a></div><div class="ttdeci">vector&lt; double &gt; simulateCost(TypeVariable &amp;currentVar, const vector&lt; int &gt; &amp;possibleValues, vector&lt; vector&lt; double &gt; &gt; &amp;vecVarSimCosts, shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; objective)</div><div class="ttdef"><b>Definition:</b> constraint.hpp:83</div></div>
 <div class="ttc" id="classghost_1_1Constraint_html_af2b5d5f541f64e548bc6c93bba1ba2b8"><div class="ttname"><a href="classghost_1_1Constraint.html#af2b5d5f541f64e548bc6c93bba1ba2b8">ghost::Constraint::Constraint</a></div><div class="ttdeci">Constraint(const vector&lt; TypeVariable &gt; *variables, const TypeDomain *domain)</div><div class="ttdoc">The unique Constraint constructor. </div><div class="ttdef"><b>Definition:</b> constraint.hpp:73</div></div>
+<div class="ttc" id="classghost_1_1Constraint_html_a5051092934738b004fe848190a5aa9a5"><div class="ttname"><a href="classghost_1_1Constraint.html#a5051092934738b004fe848190a5aa9a5">ghost::Constraint::cost</a></div><div class="ttdeci">double cost(vector&lt; double &gt; &amp;varCost) const </div><div class="ttdef"><b>Definition:</b> constraint.hpp:79</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 1 2014 17:12:53 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 9 2014 23:05:15 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

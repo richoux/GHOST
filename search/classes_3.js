@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['gapobj',['GapObj',['../classghost_1_1GapObj.html',1,'ghost']]]
+  ['domain',['Domain',['../classghost_1_1Domain.html',1,'ghost']]],
+  ['domain_3c_20action_20_3e',['Domain&lt; Action &gt;',['../classghost_1_1Domain.html',1,'ghost']]],
+  ['domain_3c_20building_20_3e',['Domain&lt; Building &gt;',['../classghost_1_1Domain.html',1,'ghost']]]
 ];

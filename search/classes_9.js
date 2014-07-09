@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['variable',['Variable',['../classghost_1_1Variable.html',1,'ghost']]]
+  ['techtreeobj',['TechTreeObj',['../classghost_1_1TechTreeObj.html',1,'ghost']]]
 ];

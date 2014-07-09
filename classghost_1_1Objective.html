@@ -105,7 +105,7 @@ Inheritance diagram for ghost::Objective&lt; TypeVariable, TypeDomain &gt;:</div
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1Objective__inherit__graph.png" border="0" usemap="#ghost_1_1Objective_3_01TypeVariable_00_01TypeDomain_01_4_inherit__map" alt="Inheritance graph"/></div>
 <map name="ghost_1_1Objective_3_01TypeVariable_00_01TypeDomain_01_4_inherit__map" id="ghost_1_1Objective_3_01TypeVariable_00_01TypeDomain_01_4_inherit__map">
-<area shape="rect" id="node2" href="classghost_1_1NullObjective.html" title="NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). " alt="" coords="7,411,211,547"/></map>
+<area shape="rect" id="node2" href="classghost_1_1NullObjective.html" title="NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). " alt="" coords="7,395,211,531"/></map>
 </div>
 <div class="dynheader">
 Collaboration diagram for ghost::Objective&lt; TypeVariable, TypeDomain &gt;:</div>
@@ -139,9 +139,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad4432d190d227f7e67bd505f0b4b80e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76ca30dd5fc977963058f0c3abfe100a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a76ca30dd5fc977963058f0c3abfe100a">resetHelper</a> ()</td></tr>
 <tr class="separator:a76ca30dd5fc977963058f0c3abfe100a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69ca2196f60666e6ebfbd956660bc889"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a69ca2196f60666e6ebfbd956660bc889">updateHelper</a> (TypeVariable &amp;currentVar, const vector&lt; int &gt; &amp;possibleValues, const vector&lt; TypeVariable &gt; *variables, TypeDomain *domain)</td></tr>
-<tr class="memdesc:a69ca2196f60666e6ebfbd956660bc889"><td class="mdescLeft">&#160;</td><td class="mdescRight">updateHelper is used to update heuristicValueHelper.  <a href="#a69ca2196f60666e6ebfbd956660bc889">More...</a><br/></td></tr>
-<tr class="separator:a69ca2196f60666e6ebfbd956660bc889"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -573,67 +570,6 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a69ca2196f60666e6ebfbd956660bc889"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classghost_1_1Objective.html">ghost::Objective</a>&lt; TypeVariable, TypeDomain &gt;::updateHelper </td>
-          <td>(</td>
-          <td class="paramtype">TypeVariable &amp;&#160;</td>
-          <td class="paramname"><em>currentVar</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>possibleValues</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const vector&lt; TypeVariable &gt; *&#160;</td>
-          <td class="paramname"><em>variables</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">TypeDomain *&#160;</td>
-          <td class="paramname"><em>domain</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>updateHelper is used to update heuristicValueHelper. </p>
-<p>The function updateHelper is called by <a class="el" href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a> before each call of heuristicValue.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">currentVar</td><td>A reference to a variable object. </td></tr>
-    <tr><td class="paramname">possibleValues</td><td>A constant reference to the vector of all possible values of currentVar. </td></tr>
-    <tr><td class="paramname">variables</td><td>A constant pointer to the vector of variable objects of the CSP/COP. </td></tr>
-    <tr><td class="paramname">domain</td><td>A pointer to the domain object of the CSP/COP. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27" title="The vector of double values implementing the value heuristic for each possible value of a given varia...">heuristicValueHelper</a> </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="affb6d6730adfbfe6a1f990e00d2a5eb2"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1049,7 +985,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 1 2014 17:12:55 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 9 2014 23:05:16 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

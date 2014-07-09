@@ -1,0 +1,7 @@
+<map id="ghost::BuildOrderConstraint" name="ghost::BuildOrderConstraint">
+<area shape="rect" id="node3" href="$classghost_1_1Buildable.html" title="{ghost::Buildable\n||+ Buildable()\l+ v_cost()\l+ v_simulateCost()\l+ Buildable()\l+ v_cost()\l+ v_simulateCost()\l}" alt="" coords="5,419,139,570"/>
+<area shape="rect" id="node4" href="$classghost_1_1NoGaps.html" title="{ghost::NoGaps\n||+ NoGaps()\l+ v_cost()\l+ postprocess_simulateCost()\l+ NoGaps()\l+ v_cost()\l+ postprocess_simulateCost()\l}" alt="" coords="163,419,360,570"/>
+<area shape="rect" id="node5" href="$classghost_1_1Overlap.html" title="{ghost::Overlap\n||+ Overlap()\l+ v_cost()\l+ v_simulateCost()\l+ Overlap()\l+ v_cost()\l+ v_simulateCost()\l}" alt="" coords="384,419,517,570"/>
+<area shape="rect" id="node6" href="$classghost_1_1StartingTargetTiles.html" title="{ghost::StartingTargetTiles\n|&#45; mapActions\l&#45; mapBuildings\l|+ StartingTargetTiles()\l+ v_cost()\l+ StartingTargetTiles()\l+ v_cost()\l}" alt="" coords="542,427,713,563"/>
+<area shape="rect" id="node2" href="$classghost_1_1Constraint.html" title="{ghost::Constraint\&lt;\l Action, BuildOrderDomain \&gt;\n|# variables\l# domain\l|+ Constraint()\l+ cost()\l+ simulateCost()\l+ simulateCost()\l# v_cost()\l# v_simulateCost()\l}" alt="" coords="261,6,451,186"/>
+</map>

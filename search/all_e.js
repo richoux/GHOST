@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['race',['race',['../classghost_1_1Building.html#a8192def1fb4bdf85ee44cd99dd04f598',1,'ghost::Building::race()'],['../namespaceghost.html#a8b1db75c40c6980adcf244ddccc0324b',1,'ghost::Race()']]],
+  ['race',['race',['../classghost_1_1Action.html#a040eaa1d69dc99221cbdf48d84ce6edb',1,'ghost::Action::race()'],['../classghost_1_1Building.html#a8192def1fb4bdf85ee44cd99dd04f598',1,'ghost::Building::race()'],['../namespaceghost.html#a8b1db75c40c6980adcf244ddccc0324b',1,'ghost::Race()']]],
   ['races_2ehpp',['races.hpp',['../races_8hpp.html',1,'']]],
   ['random',['Random',['../classghost_1_1Random.html',1,'ghost']]],
   ['random',['Random',['../classghost_1_1Random.html#a7c45efd1f7c522a68760104ba6084d89',1,'ghost::Random::Random()'],['../classghost_1_1Random.html#aa57a39ee45a9ba30d7f7ea2c4c17b539',1,'ghost::Random::Random(const Random &amp;other)'],['../classghost_1_1Domain.html#ab6a7a58f8a147f5b2b475e106627fad2',1,'ghost::Domain::random()']]],

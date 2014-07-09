@@ -1,4 +1,6 @@
 <map id="ghost::Buildable" name="ghost::Buildable">
-<area shape="rect" id="node2" href="$classghost_1_1WallinConstraint.html" title="{ghost::WallinConstraint\n||+ WallinConstraint()\l+ cost()\l+ simulateCost()\l+ v_cost()\l+ v_simulateCost()\l# isWall()\l}" alt="" coords="13,190,171,341"/>
-<area shape="rect" id="node3" href="$classghost_1_1Constraint.html" title="{ghost::Constraint\&lt;\l Building, WallinDomain \&gt;\n|# variables\l# domain\l|+ Constraint()\l+ cost()\l+ simulateCost()\l}" alt="" coords="5,5,179,141"/>
+<area shape="rect" id="node2" href="$classghost_1_1WallinConstraint.html" title="{ghost::WallinConstraint\n||+ WallinConstraint()\l+ v_simulateCost()\l# isWall()\l}" alt="" coords="15,249,173,356"/>
+<area shape="rect" id="node3" href="$classghost_1_1Constraint.html" title="{ghost::Constraint\&lt;\l Building, WallinDomain \&gt;\n|# variables\l# domain\l|+ Constraint()\l+ cost()\l+ simulateCost()\l+ simulateCost()\l# v_cost()\l# v_simulateCost()\l}" alt="" coords="5,6,179,186"/>
+<area shape="rect" id="node4" href="$classghost_1_1BuildOrderConstraint.html" title="{ghost::BuildOrderConstraint\n||+ BuildOrderConstraint()\l+ cost()\l+ simulateCost()\l# v_cost()\l# v_simulateCost()\l}" alt="" coords="203,235,385,371"/>
+<area shape="rect" id="node5" href="$classghost_1_1Constraint.html" title="{ghost::Constraint\&lt;\l Action, BuildOrderDomain \&gt;\n|# variables\l# domain\l|+ Constraint()\l+ cost()\l+ simulateCost()\l+ simulateCost()\l# v_cost()\l# v_simulateCost()\l}" alt="" coords="203,6,392,186"/>
 </map>
