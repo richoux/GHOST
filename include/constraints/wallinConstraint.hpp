@@ -45,16 +45,6 @@ namespace ghost
   public:
     WallinConstraint( const vector< Building >*, const WallinDomain* );
 
-    double cost( vector<double> &varCost ) const { return v_cost( varCost ); }
-
-    vector<double> simulateCost( Building &oldBuilding,
-				 const vector<int> &newPosition,
-				 vector< vector<double> > &vecVarSimCosts )
-    { return v_simulateCost( oldBuilding, newPosition, vecVarSimCosts ); }
-
-
-    virtual double v_cost( vector<double>& ) const = 0;
-
     virtual vector<double> v_simulateCost( Building &oldBuilding,
 					   const vector<int> &newPosition,
 					   vector< vector<double> > &vecVarSimCosts )
