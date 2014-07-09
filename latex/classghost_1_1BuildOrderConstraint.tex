@@ -1,0 +1,124 @@
+\hypertarget{classghost_1_1BuildOrderConstraint}{\section{ghost\-:\-:Build\-Order\-Constraint Class Reference}
+\label{classghost_1_1BuildOrderConstraint}\index{ghost\-::\-Build\-Order\-Constraint@{ghost\-::\-Build\-Order\-Constraint}}
+}
+
+
+{\ttfamily \#include $<$buildorder\-Constraint.\-hpp$>$}
+
+
+
+Inheritance diagram for ghost\-:\-:Build\-Order\-Constraint\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classghost_1_1BuildOrderConstraint__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for ghost\-:\-:Build\-Order\-Constraint\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classghost_1_1BuildOrderConstraint__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classghost_1_1BuildOrderConstraint_afb712742e6e2b6e5ee37e37fe9cc898f}{Build\-Order\-Constraint} (const vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$, const \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain} $\ast$)
+\item 
+double \hyperlink{classghost_1_1BuildOrderConstraint_a6700969d5de0d199e57fbe3f0a95ed68}{cost} (vector$<$ double $>$ \&var\-Cost) const 
+\item 
+vector$<$ double $>$ \hyperlink{classghost_1_1BuildOrderConstraint_aba2e25733f9a2903c14978a92a1c3b41}{simulate\-Cost} (\hyperlink{classghost_1_1Action}{Action} \&current\-Action, const vector$<$ int $>$ \&new\-Value, vector$<$ vector$<$ double $>$ $>$ \&vec\-Var\-Sim\-Costs)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual double \hyperlink{classghost_1_1BuildOrderConstraint_afdcfa9e285cc137841f5fb733f2655e9}{v\-\_\-cost} (vector$<$ double $>$ \&) const =0
+\begin{DoxyCompactList}\small\item\em Pure virtual function to compute the current cost of the constraint. \end{DoxyCompactList}\item 
+virtual vector$<$ double $>$ \hyperlink{classghost_1_1BuildOrderConstraint_ad6727d0cf49d366a631fddc5b5ef80cf}{v\-\_\-simulate\-Cost} (\hyperlink{classghost_1_1Action}{Action} \&current\-Action, const vector$<$ int $>$ \&new\-Value, vector$<$ vector$<$ double $>$ $>$ \&vec\-Var\-Sim\-Costs)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classghost_1_1BuildOrderConstraint_afb712742e6e2b6e5ee37e37fe9cc898f}{\index{ghost\-::\-Build\-Order\-Constraint@{ghost\-::\-Build\-Order\-Constraint}!Build\-Order\-Constraint@{Build\-Order\-Constraint}}
+\index{Build\-Order\-Constraint@{Build\-Order\-Constraint}!ghost::BuildOrderConstraint@{ghost\-::\-Build\-Order\-Constraint}}
+\subsubsection[{Build\-Order\-Constraint}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Build\-Order\-Constraint\-::\-Build\-Order\-Constraint (
+\begin{DoxyParamCaption}
+\item[{const vector$<$ {\bf Building} $>$ $\ast$}]{, }
+\item[{const {\bf Build\-Order\-Domain} $\ast$}]{}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1BuildOrderConstraint_afb712742e6e2b6e5ee37e37fe9cc898f}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classghost_1_1BuildOrderConstraint_a6700969d5de0d199e57fbe3f0a95ed68}{\index{ghost\-::\-Build\-Order\-Constraint@{ghost\-::\-Build\-Order\-Constraint}!cost@{cost}}
+\index{cost@{cost}!ghost::BuildOrderConstraint@{ghost\-::\-Build\-Order\-Constraint}}
+\subsubsection[{cost}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Build\-Order\-Constraint\-::cost (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$ \&}]{var\-Cost}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1BuildOrderConstraint_a6700969d5de0d199e57fbe3f0a95ed68}
+\hypertarget{classghost_1_1BuildOrderConstraint_aba2e25733f9a2903c14978a92a1c3b41}{\index{ghost\-::\-Build\-Order\-Constraint@{ghost\-::\-Build\-Order\-Constraint}!simulate\-Cost@{simulate\-Cost}}
+\index{simulate\-Cost@{simulate\-Cost}!ghost::BuildOrderConstraint@{ghost\-::\-Build\-Order\-Constraint}}
+\subsubsection[{simulate\-Cost}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$double$>$ ghost\-::\-Build\-Order\-Constraint\-::simulate\-Cost (
+\begin{DoxyParamCaption}
+\item[{{\bf Action} \&}]{current\-Action, }
+\item[{const vector$<$ int $>$ \&}]{new\-Value, }
+\item[{vector$<$ vector$<$ double $>$ $>$ \&}]{vec\-Var\-Sim\-Costs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1BuildOrderConstraint_aba2e25733f9a2903c14978a92a1c3b41}
+\hypertarget{classghost_1_1BuildOrderConstraint_afdcfa9e285cc137841f5fb733f2655e9}{\index{ghost\-::\-Build\-Order\-Constraint@{ghost\-::\-Build\-Order\-Constraint}!v\-\_\-cost@{v\-\_\-cost}}
+\index{v\-\_\-cost@{v\-\_\-cost}!ghost::BuildOrderConstraint@{ghost\-::\-Build\-Order\-Constraint}}
+\subsubsection[{v\-\_\-cost}]{\setlength{\rightskip}{0pt plus 5cm}virtual double ghost\-::\-Build\-Order\-Constraint\-::v\-\_\-cost (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$ \&}]{var\-Cost}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}}\label{classghost_1_1BuildOrderConstraint_afdcfa9e285cc137841f5fb733f2655e9}
+
+
+Pure virtual function to compute the current cost of the constraint. 
+
+In cost, the parameter var\-Cost is not given to be used by the function, but to store into var\-Cost the projected cost of each variable. This must be computed I\-N\-S\-I\-D\-E the cost function.
+
+
+\begin{DoxyParams}{Parameters}
+{\em var\-Cost} & A reference to a vector of double in order to store the projected cost of each variable. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A double representing the cost of the constraint on the current configuration. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classghost_1_1BuildOrderConstraint_a6700969d5de0d199e57fbe3f0a95ed68}{cost} \hyperlink{classghost_1_1BuildOrderConstraint_ad6727d0cf49d366a631fddc5b5ef80cf}{v\-\_\-simulate\-Cost} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{classghost_1_1Constraint_ac67f7952cdf7212327b7db506225d12c}{ghost\-::\-Constraint$<$ Action, Build\-Order\-Domain $>$}.
+
+
+
+Implemented in \hyperlink{classghost_1_1StartingTargetTiles_aa9474c7fb81691a2059d2e5614702544}{ghost\-::\-Starting\-Target\-Tiles}, \hyperlink{classghost_1_1StartingTargetTiles_aa9474c7fb81691a2059d2e5614702544}{ghost\-::\-Starting\-Target\-Tiles}, \hyperlink{classghost_1_1NoGaps_a3fa23de6946e443f009ecb5054a96572}{ghost\-::\-No\-Gaps}, \hyperlink{classghost_1_1NoGaps_a3fa23de6946e443f009ecb5054a96572}{ghost\-::\-No\-Gaps}, \hyperlink{classghost_1_1Buildable_a584162de15bdeb91c7f9a0d0a0fa3c87}{ghost\-::\-Buildable}, \hyperlink{classghost_1_1Buildable_a584162de15bdeb91c7f9a0d0a0fa3c87}{ghost\-::\-Buildable}, \hyperlink{classghost_1_1Overlap_a7a926991f06c785126e5d7995953e493}{ghost\-::\-Overlap}, and \hyperlink{classghost_1_1Overlap_a7a926991f06c785126e5d7995953e493}{ghost\-::\-Overlap}.
+
+\hypertarget{classghost_1_1BuildOrderConstraint_ad6727d0cf49d366a631fddc5b5ef80cf}{\index{ghost\-::\-Build\-Order\-Constraint@{ghost\-::\-Build\-Order\-Constraint}!v\-\_\-simulate\-Cost@{v\-\_\-simulate\-Cost}}
+\index{v\-\_\-simulate\-Cost@{v\-\_\-simulate\-Cost}!ghost::BuildOrderConstraint@{ghost\-::\-Build\-Order\-Constraint}}
+\subsubsection[{v\-\_\-simulate\-Cost}]{\setlength{\rightskip}{0pt plus 5cm}virtual vector$<$double$>$ ghost\-::\-Build\-Order\-Constraint\-::v\-\_\-simulate\-Cost (
+\begin{DoxyParamCaption}
+\item[{{\bf Action} \&}]{current\-Action, }
+\item[{const vector$<$ int $>$ \&}]{new\-Value, }
+\item[{vector$<$ vector$<$ double $>$ $>$ \&}]{vec\-Var\-Sim\-Costs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classghost_1_1BuildOrderConstraint_ad6727d0cf49d366a631fddc5b5ef80cf}
+
+
+Reimplemented in \hyperlink{classghost_1_1Buildable_a0d33808d13f87e9ff04589bb43d56fa8}{ghost\-::\-Buildable}, and \hyperlink{classghost_1_1Overlap_a2130361801f50c5a35594097982655b7}{ghost\-::\-Overlap}.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+include/constraints/\hyperlink{buildorderConstraint_8hpp}{buildorder\-Constraint.\-hpp}\end{DoxyCompactItemize}
