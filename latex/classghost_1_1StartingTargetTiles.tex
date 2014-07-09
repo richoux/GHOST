@@ -3,20 +3,22 @@
 }
 
 
-{\ttfamily \#include $<$wallin\-Constraint.\-hpp$>$}
+{\ttfamily \#include $<$buildorder\-Constraint.\-hpp$>$}
 
 
 
-Inheritance diagram for ghost\-:\-:Starting\-Target\-Tiles\-:\nopagebreak
+Inheritance diagram for ghost\-:\-:Starting\-Target\-Tiles\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=210pt]{classghost_1_1StartingTargetTiles__inherit__graph}
+\includegraphics[width=350pt]{classghost_1_1StartingTargetTiles__inherit__graph}
 \end{center}
 \end{figure}
 
 
-Collaboration diagram for ghost\-:\-:Starting\-Target\-Tiles\-:\nopagebreak
+Collaboration diagram for ghost\-:\-:Starting\-Target\-Tiles\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -26,12 +28,18 @@ Collaboration diagram for ghost\-:\-:Starting\-Target\-Tiles\-:\nopagebreak
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+\hyperlink{classghost_1_1StartingTargetTiles_a1b4b7834fdd5b1dd7eef0ef5650a1862}{Starting\-Target\-Tiles} (const vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$, const \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain} $\ast$)
+\item 
+double \hyperlink{classghost_1_1StartingTargetTiles_aa9474c7fb81691a2059d2e5614702544}{v\-\_\-cost} (vector$<$ double $>$ \&) const 
+\begin{DoxyCompactList}\small\item\em Pure virtual function to compute the current cost of the constraint. \end{DoxyCompactList}\item 
 \hyperlink{classghost_1_1StartingTargetTiles_a6c2b6cf28fb668cfe7909396679d2587}{Starting\-Target\-Tiles} (const vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$, const \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$)
 \item 
 double \hyperlink{classghost_1_1StartingTargetTiles_aa9474c7fb81691a2059d2e5614702544}{v\-\_\-cost} (vector$<$ double $>$ \&) const 
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Pure virtual function to compute the current cost of the constraint. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
+\item 
+map$<$ int, \hyperlink{classghost_1_1Action}{Action} $\ast$ $>$ \hyperlink{classghost_1_1StartingTargetTiles_a09044317698eebe778e8c5eeb3e58ff2}{map\-Actions}
 \item 
 map$<$ int, \hyperlink{classghost_1_1Building}{Building} $\ast$ $>$ \hyperlink{classghost_1_1StartingTargetTiles_a08e51275da85bfaa8a108976cbd133e2}{map\-Buildings}
 \end{DoxyCompactItemize}
@@ -39,6 +47,14 @@ map$<$ int, \hyperlink{classghost_1_1Building}{Building} $\ast$ $>$ \hyperlink{c
 
 
 \subsection{Constructor \& Destructor Documentation}
+\hypertarget{classghost_1_1StartingTargetTiles_a1b4b7834fdd5b1dd7eef0ef5650a1862}{\index{ghost\-::\-Starting\-Target\-Tiles@{ghost\-::\-Starting\-Target\-Tiles}!Starting\-Target\-Tiles@{Starting\-Target\-Tiles}}
+\index{Starting\-Target\-Tiles@{Starting\-Target\-Tiles}!ghost::StartingTargetTiles@{ghost\-::\-Starting\-Target\-Tiles}}
+\subsubsection[{Starting\-Target\-Tiles}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Starting\-Target\-Tiles\-::\-Starting\-Target\-Tiles (
+\begin{DoxyParamCaption}
+\item[{const vector$<$ {\bf Action} $>$ $\ast$}]{, }
+\item[{const {\bf Build\-Order\-Domain} $\ast$}]{}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1StartingTargetTiles_a1b4b7834fdd5b1dd7eef0ef5650a1862}
 \hypertarget{classghost_1_1StartingTargetTiles_a6c2b6cf28fb668cfe7909396679d2587}{\index{ghost\-::\-Starting\-Target\-Tiles@{ghost\-::\-Starting\-Target\-Tiles}!Starting\-Target\-Tiles@{Starting\-Target\-Tiles}}
 \index{Starting\-Target\-Tiles@{Starting\-Target\-Tiles}!ghost::StartingTargetTiles@{ghost\-::\-Starting\-Target\-Tiles}}
 \subsubsection[{Starting\-Target\-Tiles}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Starting\-Target\-Tiles\-::\-Starting\-Target\-Tiles (
@@ -59,11 +75,59 @@ map$<$ int, \hyperlink{classghost_1_1Building}{Building} $\ast$ $>$ \hyperlink{c
 ) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classghost_1_1StartingTargetTiles_aa9474c7fb81691a2059d2e5614702544}
 
 
-Implements \hyperlink{classghost_1_1WallinConstraint_aef93d84e063f20ffeb3ff584fe6fabad}{ghost\-::\-Wallin\-Constraint}.
+Pure virtual function to compute the current cost of the constraint. 
+
+In cost, the parameter var\-Cost is not given to be used by the function, but to store into var\-Cost the projected cost of each variable. This must be computed I\-N\-S\-I\-D\-E the cost function.
+
+
+\begin{DoxyParams}{Parameters}
+{\em var\-Cost} & A reference to a vector of double in order to store the projected cost of each variable. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A double representing the cost of the constraint on the current configuration. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classghost_1_1BuildOrderConstraint_a6700969d5de0d199e57fbe3f0a95ed68}{cost} \hyperlink{classghost_1_1BuildOrderConstraint_ad6727d0cf49d366a631fddc5b5ef80cf}{v\-\_\-simulate\-Cost} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{classghost_1_1BuildOrderConstraint_afdcfa9e285cc137841f5fb733f2655e9}{ghost\-::\-Build\-Order\-Constraint}.
+
+\hypertarget{classghost_1_1StartingTargetTiles_aa9474c7fb81691a2059d2e5614702544}{\index{ghost\-::\-Starting\-Target\-Tiles@{ghost\-::\-Starting\-Target\-Tiles}!v\-\_\-cost@{v\-\_\-cost}}
+\index{v\-\_\-cost@{v\-\_\-cost}!ghost::StartingTargetTiles@{ghost\-::\-Starting\-Target\-Tiles}}
+\subsubsection[{v\-\_\-cost}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Starting\-Target\-Tiles\-::v\-\_\-cost (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$ \&}]{var\-Cost}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classghost_1_1StartingTargetTiles_aa9474c7fb81691a2059d2e5614702544}
+
+
+Pure virtual function to compute the current cost of the constraint. 
+
+In cost, the parameter var\-Cost is not given to be used by the function, but to store into var\-Cost the projected cost of each variable. This must be computed I\-N\-S\-I\-D\-E the cost function.
+
+
+\begin{DoxyParams}{Parameters}
+{\em var\-Cost} & A reference to a vector of double in order to store the projected cost of each variable. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A double representing the cost of the constraint on the current configuration. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classghost_1_1BuildOrderConstraint_a6700969d5de0d199e57fbe3f0a95ed68}{cost} \hyperlink{classghost_1_1BuildOrderConstraint_ad6727d0cf49d366a631fddc5b5ef80cf}{v\-\_\-simulate\-Cost} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{classghost_1_1BuildOrderConstraint_afdcfa9e285cc137841f5fb733f2655e9}{ghost\-::\-Build\-Order\-Constraint}.
 
 
 
 \subsection{Member Data Documentation}
+\hypertarget{classghost_1_1StartingTargetTiles_a09044317698eebe778e8c5eeb3e58ff2}{\index{ghost\-::\-Starting\-Target\-Tiles@{ghost\-::\-Starting\-Target\-Tiles}!map\-Actions@{map\-Actions}}
+\index{map\-Actions@{map\-Actions}!ghost::StartingTargetTiles@{ghost\-::\-Starting\-Target\-Tiles}}
+\subsubsection[{map\-Actions}]{\setlength{\rightskip}{0pt plus 5cm}map$<$int, {\bf Action}$\ast$$>$ ghost\-::\-Starting\-Target\-Tiles\-::map\-Actions\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1StartingTargetTiles_a09044317698eebe778e8c5eeb3e58ff2}
 \hypertarget{classghost_1_1StartingTargetTiles_a08e51275da85bfaa8a108976cbd133e2}{\index{ghost\-::\-Starting\-Target\-Tiles@{ghost\-::\-Starting\-Target\-Tiles}!map\-Buildings@{map\-Buildings}}
 \index{map\-Buildings@{map\-Buildings}!ghost::StartingTargetTiles@{ghost\-::\-Starting\-Target\-Tiles}}
 \subsubsection[{map\-Buildings}]{\setlength{\rightskip}{0pt plus 5cm}map$<$int, {\bf Building}$\ast$$>$ ghost\-::\-Starting\-Target\-Tiles\-::map\-Buildings\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1StartingTargetTiles_a08e51275da85bfaa8a108976cbd133e2}
@@ -71,5 +135,6 @@ Implements \hyperlink{classghost_1_1WallinConstraint_aef93d84e063f20ffeb3ff584fe
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
+include/constraints/\hyperlink{buildorderConstraint_8hpp}{buildorder\-Constraint.\-hpp}\item 
 include/constraints/\hyperlink{wallinConstraint_8hpp}{wallin\-Constraint.\-hpp}\item 
 src/constraints/\hyperlink{wallinConstraint_8cpp}{wallin\-Constraint.\-cpp}\end{DoxyCompactItemize}

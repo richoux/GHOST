@@ -3,20 +3,22 @@
 }
 
 
-{\ttfamily \#include $<$wallin\-Constraint.\-hpp$>$}
+{\ttfamily \#include $<$buildorder\-Constraint.\-hpp$>$}
 
 
 
-Inheritance diagram for ghost\-:\-:No\-Gaps\-:\nopagebreak
+Inheritance diagram for ghost\-:\-:No\-Gaps\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=228pt]{classghost_1_1NoGaps__inherit__graph}
+\includegraphics[width=350pt]{classghost_1_1NoGaps__inherit__graph}
 \end{center}
 \end{figure}
 
 
-Collaboration diagram for ghost\-:\-:No\-Gaps\-:\nopagebreak
+Collaboration diagram for ghost\-:\-:No\-Gaps\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -26,16 +28,30 @@ Collaboration diagram for ghost\-:\-:No\-Gaps\-:\nopagebreak
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+\hyperlink{classghost_1_1NoGaps_a7c3840344616681499ee350de3a33819}{No\-Gaps} (const vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$, const \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain} $\ast$)
+\item 
+double \hyperlink{classghost_1_1NoGaps_a3fa23de6946e443f009ecb5054a96572}{v\-\_\-cost} (vector$<$ double $>$ \&) const 
+\begin{DoxyCompactList}\small\item\em Pure virtual function to compute the current cost of the constraint. \end{DoxyCompactList}\item 
+double \hyperlink{classghost_1_1NoGaps_a7c2d73c135cf5c628b19b37f81fe0275}{postprocess\-\_\-simulate\-Cost} (\hyperlink{classghost_1_1Action}{Action} \&, const int, vector$<$ double $>$ \&)
+\item 
 \hyperlink{classghost_1_1NoGaps_a3f3cbd41ad60c54f6030dd5203a25610}{No\-Gaps} (const vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$, const \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$)
 \item 
 double \hyperlink{classghost_1_1NoGaps_a3fa23de6946e443f009ecb5054a96572}{v\-\_\-cost} (vector$<$ double $>$ \&) const 
-\item 
+\begin{DoxyCompactList}\small\item\em Pure virtual function to compute the current cost of the constraint. \end{DoxyCompactList}\item 
 double \hyperlink{classghost_1_1NoGaps_a65b1ce5aa567ad8c67b184cec8f320ac}{postprocess\-\_\-simulate\-Cost} (\hyperlink{classghost_1_1Building}{Building} \&, const int, vector$<$ double $>$ \&)
 \end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
 
 \subsection{Constructor \& Destructor Documentation}
+\hypertarget{classghost_1_1NoGaps_a7c3840344616681499ee350de3a33819}{\index{ghost\-::\-No\-Gaps@{ghost\-::\-No\-Gaps}!No\-Gaps@{No\-Gaps}}
+\index{No\-Gaps@{No\-Gaps}!ghost::NoGaps@{ghost\-::\-No\-Gaps}}
+\subsubsection[{No\-Gaps}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-No\-Gaps\-::\-No\-Gaps (
+\begin{DoxyParamCaption}
+\item[{const vector$<$ {\bf Action} $>$ $\ast$}]{, }
+\item[{const {\bf Build\-Order\-Domain} $\ast$}]{}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1NoGaps_a7c3840344616681499ee350de3a33819}
 \hypertarget{classghost_1_1NoGaps_a3f3cbd41ad60c54f6030dd5203a25610}{\index{ghost\-::\-No\-Gaps@{ghost\-::\-No\-Gaps}!No\-Gaps@{No\-Gaps}}
 \index{No\-Gaps@{No\-Gaps}!ghost::NoGaps@{ghost\-::\-No\-Gaps}}
 \subsubsection[{No\-Gaps}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-No\-Gaps\-::\-No\-Gaps (
@@ -47,6 +63,15 @@ double \hyperlink{classghost_1_1NoGaps_a65b1ce5aa567ad8c67b184cec8f320ac}{postpr
 
 
 \subsection{Member Function Documentation}
+\hypertarget{classghost_1_1NoGaps_a7c2d73c135cf5c628b19b37f81fe0275}{\index{ghost\-::\-No\-Gaps@{ghost\-::\-No\-Gaps}!postprocess\-\_\-simulate\-Cost@{postprocess\-\_\-simulate\-Cost}}
+\index{postprocess\-\_\-simulate\-Cost@{postprocess\-\_\-simulate\-Cost}!ghost::NoGaps@{ghost\-::\-No\-Gaps}}
+\subsubsection[{postprocess\-\_\-simulate\-Cost}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-No\-Gaps\-::postprocess\-\_\-simulate\-Cost (
+\begin{DoxyParamCaption}
+\item[{{\bf Action} \&}]{, }
+\item[{const int}]{, }
+\item[{vector$<$ double $>$ \&}]{}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1NoGaps_a7c2d73c135cf5c628b19b37f81fe0275}
 \hypertarget{classghost_1_1NoGaps_a65b1ce5aa567ad8c67b184cec8f320ac}{\index{ghost\-::\-No\-Gaps@{ghost\-::\-No\-Gaps}!postprocess\-\_\-simulate\-Cost@{postprocess\-\_\-simulate\-Cost}}
 \index{postprocess\-\_\-simulate\-Cost@{postprocess\-\_\-simulate\-Cost}!ghost::NoGaps@{ghost\-::\-No\-Gaps}}
 \subsubsection[{postprocess\-\_\-simulate\-Cost}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-No\-Gaps\-::postprocess\-\_\-simulate\-Cost (
@@ -65,11 +90,57 @@ double \hyperlink{classghost_1_1NoGaps_a65b1ce5aa567ad8c67b184cec8f320ac}{postpr
 ) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classghost_1_1NoGaps_a3fa23de6946e443f009ecb5054a96572}
 
 
-Implements \hyperlink{classghost_1_1WallinConstraint_aef93d84e063f20ffeb3ff584fe6fabad}{ghost\-::\-Wallin\-Constraint}.
+Pure virtual function to compute the current cost of the constraint. 
+
+In cost, the parameter var\-Cost is not given to be used by the function, but to store into var\-Cost the projected cost of each variable. This must be computed I\-N\-S\-I\-D\-E the cost function.
+
+
+\begin{DoxyParams}{Parameters}
+{\em var\-Cost} & A reference to a vector of double in order to store the projected cost of each variable. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A double representing the cost of the constraint on the current configuration. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classghost_1_1BuildOrderConstraint_a6700969d5de0d199e57fbe3f0a95ed68}{cost} \hyperlink{classghost_1_1BuildOrderConstraint_ad6727d0cf49d366a631fddc5b5ef80cf}{v\-\_\-simulate\-Cost} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{classghost_1_1BuildOrderConstraint_afdcfa9e285cc137841f5fb733f2655e9}{ghost\-::\-Build\-Order\-Constraint}.
+
+\hypertarget{classghost_1_1NoGaps_a3fa23de6946e443f009ecb5054a96572}{\index{ghost\-::\-No\-Gaps@{ghost\-::\-No\-Gaps}!v\-\_\-cost@{v\-\_\-cost}}
+\index{v\-\_\-cost@{v\-\_\-cost}!ghost::NoGaps@{ghost\-::\-No\-Gaps}}
+\subsubsection[{v\-\_\-cost}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-No\-Gaps\-::v\-\_\-cost (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$ \&}]{var\-Cost}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classghost_1_1NoGaps_a3fa23de6946e443f009ecb5054a96572}
+
+
+Pure virtual function to compute the current cost of the constraint. 
+
+In cost, the parameter var\-Cost is not given to be used by the function, but to store into var\-Cost the projected cost of each variable. This must be computed I\-N\-S\-I\-D\-E the cost function.
+
+
+\begin{DoxyParams}{Parameters}
+{\em var\-Cost} & A reference to a vector of double in order to store the projected cost of each variable. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A double representing the cost of the constraint on the current configuration. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classghost_1_1BuildOrderConstraint_a6700969d5de0d199e57fbe3f0a95ed68}{cost} \hyperlink{classghost_1_1BuildOrderConstraint_ad6727d0cf49d366a631fddc5b5ef80cf}{v\-\_\-simulate\-Cost} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{classghost_1_1BuildOrderConstraint_afdcfa9e285cc137841f5fb733f2655e9}{ghost\-::\-Build\-Order\-Constraint}.
 
 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
+include/constraints/\hyperlink{buildorderConstraint_8hpp}{buildorder\-Constraint.\-hpp}\item 
 include/constraints/\hyperlink{wallinConstraint_8hpp}{wallin\-Constraint.\-hpp}\item 
 src/constraints/\hyperlink{wallinConstraint_8cpp}{wallin\-Constraint.\-cpp}\end{DoxyCompactItemize}
