@@ -83,7 +83,7 @@ namespace ghost
     inline vector<double> simulateCost( TypeVariable &currentVar,
 					const vector<int> &possibleValues,
 					vector< vector<double> > &vecVarSimCosts )
-    { return v_simulteCost( currentVar, possibleValues, vecVarSimCosts ); }
+    { return v_simulateCost( currentVar, possibleValues, vecVarSimCosts ); }
     
     //! friend override of operator<<
     friend ostream& operator<<( ostream& os, const Constraint<TypeVariable, TypeDomain>& c )

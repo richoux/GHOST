@@ -35,6 +35,7 @@ namespace ghost
 {
   class Action : public Variable
   {
+  public:
     Action();
     Action(int, int, int, int, vector<string>, string, Race, string, string, int = -1);
     Action(const Action&);

@@ -28,7 +28,7 @@
 #include <iostream>
 #include <typeinfo>
 
-#include "../../domains/buildorderDomain.hpp"
+#include "../../include/domains/buildorderDomain.hpp"
 
 using namespace std;
 
@@ -64,7 +64,7 @@ namespace ghost
   
   void BuildOrderDomain::makeMonteCarloSample( double ratio )
   {
-    while( sample.size() < ratioSample * size )
+    while( sample.size() < ratio * size )
       sample.insert( random.getRandNum( size ) - 1 );    
   }
 
@@ -76,7 +76,7 @@ namespace ghost
   
   void BuildOrderDomain::makeMonteCarloSample( double ratio, int varId )
   {
-    while( sample.size() < ratioSample * size )
+    while( sample.size() < ratio * size )
       sample.insert( random.getRandNum( domains.at( varId ).size() ) - 1 );        
   }
 
