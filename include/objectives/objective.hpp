@@ -152,7 +152,7 @@ namespace ghost
       resetHelper();
       int backup = currentVar.getValue();
       
-      for( auto val : possibleValues )
+      for( auto &val : possibleValues )
       {
 	domain->clear( currentVar );
 	currentVar.setValue( val );
