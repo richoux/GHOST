@@ -45,6 +45,7 @@ namespace ghost
   public:
     WallinConstraint( const vector< Building >*, const WallinDomain* );
 
+  protected:
     virtual vector<double> v_simulateCost( Building &oldBuilding,
 					   const vector<int> &newPosition,
 					   vector< vector<double> > &vecVarSimCosts,
@@ -85,7 +86,6 @@ namespace ghost
       return simCosts;
     }
 
-  protected:
     bool isWall() const;
   };  
 
