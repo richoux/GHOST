@@ -5,7 +5,7 @@ var searchData=
   ['buildable',['Buildable',['../classghost_1_1Buildable.html',1,'ghost']]],
   ['buildable',['Buildable',['../classghost_1_1Buildable.html#a81873d4e7eb020f66d16c3024b3c52cd',1,'ghost::Buildable::Buildable(const vector&lt; Action &gt; *, const BuildOrderDomain *)'],['../classghost_1_1Buildable.html#afb25530b221922dd29a0a5bd7cdd68c6',1,'ghost::Buildable::Buildable(const vector&lt; Building &gt; *, const WallinDomain *)'],['../namespaceghost.html#aed6c0dcd76842d41ca1a81a6b4301247',1,'ghost::buildable()']]],
   ['building',['Building',['../classghost_1_1Building.html',1,'ghost']]],
-  ['building',['Building',['../classghost_1_1Building.html#a57d16dc6bf4b41cbcf67f2b51a416410',1,'ghost::Building::Building()'],['../classghost_1_1Building.html#a453e89a96f541b6f87360ba18ccffaf0',1,'ghost::Building::Building(int, int, int, int, int, int, Race, int, string, string, int=-1)'],['../classghost_1_1Building.html#a4fec1171ac6ce8c22e44681200d9df3d',1,'ghost::Building::Building(const Building &amp;)']]],
+  ['building',['Building',['../classghost_1_1Building.html#a57d16dc6bf4b41cbcf67f2b51a416410',1,'ghost::Building::Building()'],['../classghost_1_1Building.html#a453e89a96f541b6f87360ba18ccffaf0',1,'ghost::Building::Building(int, int, int, int, int, int, Race, int, string, string, int=-1)'],['../classghost_1_1Building.html#a4fec1171ac6ce8c22e44681200d9df3d',1,'ghost::Building::Building(const Building &amp;)'],['../namespaceghost.html#a7c0deb8266504feb7d025903f2b77693a4b7c211d9226050e5730e3b9a1b0b21a',1,'ghost::building()']]],
   ['building_2ecpp',['building.cpp',['../building_8cpp.html',1,'']]],
   ['building_2ehpp',['building.hpp',['../building_8hpp.html',1,'']]],
   ['buildingobj',['BuildingObj',['../classghost_1_1BuildingObj.html',1,'ghost']]],
@@ -14,7 +14,7 @@ var searchData=
   ['buildorderconstraint',['BuildOrderConstraint',['../classghost_1_1BuildOrderConstraint.html',1,'ghost']]],
   ['buildorderconstraint',['BuildOrderConstraint',['../classghost_1_1BuildOrderConstraint.html#afb712742e6e2b6e5ee37e37fe9cc898f',1,'ghost::BuildOrderConstraint']]],
   ['buildorderconstraint_2ehpp',['buildorderConstraint.hpp',['../buildorderConstraint_8hpp.html',1,'']]],
-  ['buildorderdomain',['BuildOrderDomain',['../classghost_1_1BuildOrderDomain.html#a5cfeef0e729cb67dd15023fb30027cb1',1,'ghost::BuildOrderDomain::BuildOrderDomain(int, const vector&lt; Action &gt; *)'],['../classghost_1_1BuildOrderDomain.html#a0b40a027f1a792d1203b693c0fea68b7',1,'ghost::BuildOrderDomain::BuildOrderDomain(int, const vector&lt; Action &gt; *, int)'],['../classghost_1_1BuildOrderDomain.html#a62000315cb61fed47d700ae148ae7ee8',1,'ghost::BuildOrderDomain::BuildOrderDomain(int, const vector&lt; Action &gt; *, double)']]],
+  ['buildorderdomain',['BuildOrderDomain',['../classghost_1_1BuildOrderDomain.html#a5cfeef0e729cb67dd15023fb30027cb1',1,'ghost::BuildOrderDomain']]],
   ['buildorderdomain',['BuildOrderDomain',['../classghost_1_1BuildOrderDomain.html',1,'ghost']]],
   ['buildorderdomain_2ecpp',['buildorderDomain.cpp',['../buildorderDomain_8cpp.html',1,'']]],
   ['buildorderdomain_2ehpp',['buildorderDomain.hpp',['../buildorderDomain_8hpp.html',1,'']]]

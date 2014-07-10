@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['p1',['p1',['../namespaceghost.html#ad597936cfadde60ce8c6ed70f14c242c',1,'ghost']]],
-  ['p2',['p2',['../namespaceghost.html#a47f813abed554f342cbabdd87c34a89e',1,'ghost']]],
-  ['pylons',['pylons',['../namespaceghost.html#a381584b094da85f582a9b24eedf21411',1,'ghost']]]
+  ['objective',['objective',['../classghost_1_1Solver.html#a4fd74bd68d0ea253fd35adad697f964d',1,'ghost::Solver']]],
+  ['opt_5ftime',['OPT_TIME',['../constants_8hpp.html#a79359be8afbc0e5b920333641467bf03',1,'constants.hpp']]],
+  ['overlap',['overlap',['../namespaceghost.html#a7a91cd37137a7eae220126fcbb8ff96b',1,'ghost']]]
 ];

@@ -210,14 +210,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;      <span class="keywordtype">double</span> globalCost;</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;      <span class="keywordtype">double</span> currentCost;</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;      <span class="keywordtype">double</span> bestEstimatedCost;</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;      <span class="keywordtype">int</span>    bestPosition = 0;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;      <span class="keywordtype">int</span>    bestValue = 0;</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;      vector&lt;int&gt; worstVariables;</div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;      <span class="keywordtype">double</span> worstVariableCost;</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;      <span class="keywordtype">int</span> worstVariableId;</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;      TypeVariable *oldVariable;</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;      vector&lt;int&gt; possiblePositions;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;      vector&lt;int&gt; possibleValues;</div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;      vector&lt;double&gt; varSimCost( vecVariables-&gt;size() );</div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;      vector&lt;double&gt; bestSimCost( vecVariables-&gt;size() );</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;</div>
@@ -297,8 +297,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;      worstVariableId = objective-&gt;heuristicVariable( worstVariables, vecVariables, domain );</div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;      oldVariable = &amp;vecVariables-&gt;at( worstVariableId );</div>
 <div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;      </div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;      <span class="comment">// get possible positions for oldVariable.</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;      possiblePositions = domain-&gt;possibleValues( *oldVariable );</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;      <span class="comment">// get possible values for oldVariable.</span></div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;      possibleValues = domain-&gt;valuesOf( *oldVariable );</div>
 <div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;</div>
 <div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;      <span class="comment">// time simulateCost</span></div>
 <div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;      startSimCost = chrono::system_clock::now();</div>
@@ -308,24 +308,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;</div>
 <div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
 <div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="preprocessor"></span>      soverlap = chrono::system_clock::now();</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;      vecConstraintsCosts[0] = vecConstraints[0]-&gt;simulateCost( *oldVariable, possiblePositions, vecVarSimCosts );</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;      vecConstraintsCosts[0] = vecConstraints[0]-&gt;simulateCost( *oldVariable, possibleValues, vecVarSimCosts );</div>
 <div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;      toverlap += chrono::system_clock::now() - soverlap;</div>
 <div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;</div>
 <div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;      sbuildable = chrono::system_clock::now();</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;      vecConstraintsCosts[1] = vecConstraints[1]-&gt;simulateCost( *oldVariable, possiblePositions, vecVarSimCosts );</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;      vecConstraintsCosts[1] = vecConstraints[1]-&gt;simulateCost( *oldVariable, possibleValues, vecVarSimCosts );</div>
 <div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;      tbuildable += chrono::system_clock::now() - sbuildable;</div>
 <div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;</div>
 <div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;      snogaps = chrono::system_clock::now();</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;      vecConstraintsCosts[2] = vecConstraints[2]-&gt;simulateCost( *oldVariable, possiblePositions, vecVarSimCosts );</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;      vecConstraintsCosts[2] = vecConstraints[2]-&gt;simulateCost( *oldVariable, possibleValues, vecVarSimCosts );</div>
 <div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;      tnogaps += chrono::system_clock::now() - snogaps;</div>
 <div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;</div>
 <div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;      sstt = chrono::system_clock::now();</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;      vecConstraintsCosts[3] = vecConstraints[3]-&gt;simulateCost( *oldVariable, possiblePositions, vecVarSimCosts );</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;      vecConstraintsCosts[3] = vecConstraints[3]-&gt;simulateCost( *oldVariable, possibleValues, vecVarSimCosts );</div>
 <div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;      tstt += chrono::system_clock::now() - sstt;</div>
 <div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;<span class="preprocessor"></span>      vecConstraintsCosts[0] = vecConstraints[0]-&gt;simulateCost( *oldVariable, possiblePositions, vecVarSimCosts, objective );</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;<span class="preprocessor"></span>      vecConstraintsCosts[0] = vecConstraints[0]-&gt;simulateCost( *oldVariable, possibleValues, vecVarSimCosts, objective );</div>
 <div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;      <span class="keywordflow">for</span>( <span class="keywordtype">int</span> i = 1; i &lt; vecConstraints.size(); ++i )</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;        vecConstraintsCosts[i] = vecConstraints[i]-&gt;simulateCost( *oldVariable, possiblePositions, vecVarSimCosts );</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;        vecConstraintsCosts[i] = vecConstraints[i]-&gt;simulateCost( *oldVariable, possibleValues, vecVarSimCosts );</div>
 <div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;      fill( vecGlobalCosts.begin(), vecGlobalCosts.end(), 0. );</div>
@@ -345,7 +345,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;              numeric_limits&lt;int&gt;::max() );</div>
 <div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;</div>
 <div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;      <span class="comment">// look for the first smallest cost, according to objective heuristic</span></div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;      <span class="keywordtype">int</span> b = objective-&gt;heuristicValue( vecGlobalCosts, bestEstimatedCost, bestPosition );</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;      <span class="keywordtype">int</span> b = objective-&gt;heuristicValue( vecGlobalCosts, bestEstimatedCost, bestValue );</div>
 <div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;      bestSimCost = vecVarSimCosts[ b ];</div>
 <div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;</div>
 <div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;      timeSimCost += chrono::system_clock::now() - startSimCost;</div>
@@ -364,7 +364,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        }</div>
 <div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        </div>
 <div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        variableCost = bestSimCost;</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        move( oldVariable, bestPosition );</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        move( oldVariable, bestValue );</div>
 <div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;      }</div>
 <div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;      <span class="keywordflow">else</span> <span class="comment">// local minima</span></div>
 <div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        tabuList[ worstVariableId ] = <a class="code" href="constants_8hpp.html#a7a7e5cf396d6f148730009e697a7e6c4">TABU</a>;</div>
@@ -482,10 +482,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;      }</div>
 <div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;    }</div>
 <div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;</div>
-<div class="line"><a name="l00448"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#af1176494b45226e87edefa0b39babf62">  448</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="classghost_1_1Solver.html#af1176494b45226e87edefa0b39babf62">move</a>( TypeVariable *building, <span class="keywordtype">int</span> newPosition )</div>
+<div class="line"><a name="l00448"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a58d9540a9700be0e953ebdcf0660920f">  448</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="classghost_1_1Solver.html#a58d9540a9700be0e953ebdcf0660920f">move</a>( TypeVariable *<a class="code" href="namespaceghost.html#a7c0deb8266504feb7d025903f2b77693a4b7c211d9226050e5730e3b9a1b0b21a">building</a>, <span class="keywordtype">int</span> newValue )</div>
 <div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;    {</div>
 <div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;      domain-&gt;clear( *building );</div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;      building-&gt;setValue( newPosition );</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;      building-&gt;setValue( newValue );</div>
 <div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;      domain-&gt;add( *building );</div>
 <div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;    }</div>
 <div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;</div>
@@ -516,6 +516,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classghost_1_1Solver_html_a2d033a454234b2277aabdcc4d89eaba2"><div class="ttname"><a href="classghost_1_1Solver.html#a2d033a454234b2277aabdcc4d89eaba2">ghost::Solver::vecVariables</a></div><div class="ttdeci">vector&lt; TypeVariable &gt; * vecVariables</div><div class="ttdoc">A pointer to the vector of variable objects of the CSP/COP. </div><div class="ttdef"><b>Definition:</b> solver.hpp:455</div></div>
 <div class="ttc" id="objective_8hpp_html"><div class="ttname"><a href="objective_8hpp.html">objective.hpp</a></div></div>
 <div class="ttc" id="classghost_1_1Solver_html_a76c1057367112ead0304b436b5f508f1"><div class="ttname"><a href="classghost_1_1Solver.html#a76c1057367112ead0304b436b5f508f1">ghost::Solver::variableCost</a></div><div class="ttdeci">vector&lt; double &gt; variableCost</div><div class="ttdoc">The vector of projected costs on each varaible. </div><div class="ttdef"><b>Definition:</b> solver.hpp:460</div></div>
+<div class="ttc" id="namespaceghost_html_a7c0deb8266504feb7d025903f2b77693a4b7c211d9226050e5730e3b9a1b0b21a"><div class="ttname"><a href="namespaceghost.html#a7c0deb8266504feb7d025903f2b77693a4b7c211d9226050e5730e3b9a1b0b21a">ghost::building</a></div><div class="ttdef"><b>Definition:</b> action.hpp:36</div></div>
 <div class="ttc" id="classghost_1_1Solver_html_aee74bbdf00494dc209d4909bf9fcb544"><div class="ttname"><a href="classghost_1_1Solver.html#aee74bbdf00494dc209d4909bf9fcb544">ghost::Solver::Solver</a></div><div class="ttdeci">Solver(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj=nullptr)</div><div class="ttdoc">Solver&#39;s regular constructor. </div><div class="ttdef"><b>Definition:</b> solver.hpp:87</div></div>
 <div class="ttc" id="classghost_1_1Solver_html_a512335329b22a91700bdfa7870f053e9"><div class="ttname"><a href="classghost_1_1Solver.html#a512335329b22a91700bdfa7870f053e9">ghost::Solver::Solver</a></div><div class="ttdeci">Solver(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj, const int loops)</div><div class="ttdoc">Solver&#39;s constructor mostly used for tests. </div><div class="ttdef"><b>Definition:</b> solver.hpp:106</div></div>
 <div class="ttc" id="classghost_1_1Solver_html_a43db35b71a3e494ce208622cc45cbeb0"><div class="ttname"><a href="classghost_1_1Solver.html#a43db35b71a3e494ce208622cc45cbeb0">ghost::Solver::reset</a></div><div class="ttdeci">void reset()</div><div class="ttdef"><b>Definition:</b> solver.hpp:428</div></div>
@@ -523,8 +524,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="constants_8hpp_html"><div class="ttname"><a href="constants_8hpp.html">constants.hpp</a></div></div>
 <div class="ttc" id="constants_8hpp_html_a79359be8afbc0e5b920333641467bf03"><div class="ttname"><a href="constants_8hpp.html#a79359be8afbc0e5b920333641467bf03">OPT_TIME</a></div><div class="ttdeci">constexpr int OPT_TIME</div><div class="ttdef"><b>Definition:</b> constants.hpp:35</div></div>
 <div class="ttc" id="classghost_1_1Solver_html_a30dd2769fb30ac42d231d2c305dcdf13"><div class="ttname"><a href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13">ghost::Solver::solve</a></div><div class="ttdeci">double solve(double timeout)</div><div class="ttdoc">Solver&#39;s main function, to solve the given CSP/COP. </div><div class="ttdef"><b>Definition:</b> solver.hpp:131</div></div>
+<div class="ttc" id="classghost_1_1Solver_html_a58d9540a9700be0e953ebdcf0660920f"><div class="ttname"><a href="classghost_1_1Solver.html#a58d9540a9700be0e953ebdcf0660920f">ghost::Solver::move</a></div><div class="ttdeci">void move(TypeVariable *building, int newValue)</div><div class="ttdef"><b>Definition:</b> solver.hpp:448</div></div>
 <div class="ttc" id="classghost_1_1Solver_html_ad9292e9219261ba8058fec05b453c0c9"><div class="ttname"><a href="classghost_1_1Solver.html#ad9292e9219261ba8058fec05b453c0c9">ghost::Solver::domain</a></div><div class="ttdeci">TypeDomain * domain</div><div class="ttdoc">A pointer to the domain object of the CSP/COP. </div><div class="ttdef"><b>Definition:</b> solver.hpp:456</div></div>
-<div class="ttc" id="classghost_1_1Solver_html_af1176494b45226e87edefa0b39babf62"><div class="ttname"><a href="classghost_1_1Solver.html#af1176494b45226e87edefa0b39babf62">ghost::Solver::move</a></div><div class="ttdeci">void move(TypeVariable *building, int newPosition)</div><div class="ttdef"><b>Definition:</b> solver.hpp:448</div></div>
 <div class="ttc" id="variable_8hpp_html"><div class="ttname"><a href="variable_8hpp.html">variable.hpp</a></div></div>
 <div class="ttc" id="classghost_1_1Solver_html_acec87a0a0adcc3a8d794a1ff84718201"><div class="ttname"><a href="classghost_1_1Solver.html#acec87a0a0adcc3a8d794a1ff84718201">ghost::Solver::randomVar</a></div><div class="ttdeci">Random randomVar</div><div class="ttdoc">The random generator used by the solver. </div><div class="ttdef"><b>Definition:</b> solver.hpp:463</div></div>
 <div class="ttc" id="classghost_1_1Solver_html_a2fa5cf25d3417e3046aad3c1123320ed"><div class="ttname"><a href="classghost_1_1Solver.html#a2fa5cf25d3417e3046aad3c1123320ed">ghost::Solver::bestCost</a></div><div class="ttdeci">double bestCost</div><div class="ttdoc">The (satisfaction or optimization) cost of the best solution. </div><div class="ttdef"><b>Definition:</b> solver.hpp:464</div></div>
@@ -532,7 +533,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 9 2014 23:05:15 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 10 2014 15:21:08 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

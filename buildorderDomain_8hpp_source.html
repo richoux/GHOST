@@ -130,36 +130,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  {</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="classghost_1_1BuildOrderDomain.html">BuildOrderDomain</a>( <span class="keywordtype">int</span>, <span class="keyword">const</span> vector&lt;Action&gt;* );</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="classghost_1_1BuildOrderDomain.html">BuildOrderDomain</a>( <span class="keywordtype">int</span>, <span class="keyword">const</span> vector&lt;Action&gt;*, <span class="keywordtype">int</span> );</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="classghost_1_1BuildOrderDomain.html">BuildOrderDomain</a>( <span class="keywordtype">int</span>, <span class="keyword">const</span> vector&lt;Action&gt;*, <span class="keywordtype">double</span> );</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="classghost_1_1BuildOrderDomain.html#ac8530ce1ff1cbb61178c9431418bd14b">   46</a></span>&#160;    <span class="keyword">inline</span> set&lt;int&gt; <a class="code" href="classghost_1_1BuildOrderDomain.html#ac8530ce1ff1cbb61178c9431418bd14b">getMonteCarloSample</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> sample; }</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    vector&lt;int&gt; possibleFrames( <span class="keyword">const</span> <a class="code" href="classghost_1_1Action.html">Action</a>&amp; ) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> makeMonteCarloSample( <span class="keywordtype">int</span> numberSamples );</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> makeMonteCarloSample( <span class="keywordtype">double</span> ratio );</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span> makeMonteCarloSample( <span class="keywordtype">int</span> numberSamples, <span class="keywordtype">int</span> varId );</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> makeMonteCarloSample( <span class="keywordtype">double</span> ratio, <span class="keywordtype">int</span> varId );</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">// friend ostream&amp; operator&lt;&lt;( ostream&amp;, const BuildOrderDomain&amp; );</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">int</span> computeSize( <span class="keyword">const</span> vector&lt;Action&gt;* );</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    </div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="classghost_1_1BuildOrderDomain.html#a664c4110082863ead9effd89c508b8e5">   60</a></span>&#160;    set&lt;int&gt; <a class="code" href="classghost_1_1BuildOrderDomain.html#a664c4110082863ead9effd89c508b8e5">sample</a>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  };</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> addAction();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="comment">// friend ostream&amp; operator&lt;&lt;( ostream&amp;, const BuildOrderDomain&amp; );</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  };</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
 <div class="ttc" id="domain_8hpp_html"><div class="ttname"><a href="domain_8hpp.html">domain.hpp</a></div></div>
-<div class="ttc" id="classghost_1_1BuildOrderDomain_html_ac8530ce1ff1cbb61178c9431418bd14b"><div class="ttname"><a href="classghost_1_1BuildOrderDomain.html#ac8530ce1ff1cbb61178c9431418bd14b">ghost::BuildOrderDomain::getMonteCarloSample</a></div><div class="ttdeci">set&lt; int &gt; getMonteCarloSample() const </div><div class="ttdef"><b>Definition:</b> buildorderDomain.hpp:46</div></div>
 <div class="ttc" id="classghost_1_1Domain_html"><div class="ttname"><a href="classghost_1_1Domain.html">ghost::Domain</a></div><div class="ttdoc">Domain is the class encoding the domain of your CSP/COP. </div><div class="ttdef"><b>Definition:</b> domain.hpp:63</div></div>
-<div class="ttc" id="classghost_1_1BuildOrderDomain_html_a664c4110082863ead9effd89c508b8e5"><div class="ttname"><a href="classghost_1_1BuildOrderDomain.html#a664c4110082863ead9effd89c508b8e5">ghost::BuildOrderDomain::sample</a></div><div class="ttdeci">set&lt; int &gt; sample</div><div class="ttdef"><b>Definition:</b> buildorderDomain.hpp:60</div></div>
-<div class="ttc" id="classghost_1_1Action_html"><div class="ttname"><a href="classghost_1_1Action.html">ghost::Action</a></div><div class="ttdef"><b>Definition:</b> action.hpp:36</div></div>
 <div class="ttc" id="classghost_1_1BuildOrderDomain_html"><div class="ttname"><a href="classghost_1_1BuildOrderDomain.html">ghost::BuildOrderDomain</a></div><div class="ttdef"><b>Definition:</b> buildorderDomain.hpp:39</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 9 2014 23:05:15 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 10 2014 15:21:08 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -1,4 +1,4 @@
 <map id="ghost::WallinDomain" name="ghost::WallinDomain">
-<area shape="rect" id="node2" href="$classghost_1_1Domain.html" title="{ghost::Domain\&lt; Building \&gt;\n|# size\l# domains\l# initialDomain\l|+ Domain()\l+ Domain()\l+ randomValue()\l+ possibleValues()\l+ resetDomain()\l+ resetAllDomains()\l+ getSize()\l+ add()\l+ clear()\l}" alt="" coords="5,221,181,445"/>
+<area shape="rect" id="node2" href="$classghost_1_1Domain.html" title="{ghost::Domain\&lt; Building \&gt;\n|# size\l# domains\l# initialDomain\l|+ Domain()\l+ Domain()\l+ randomValue()\l+ valuesOf()\l+ resetDomain()\l+ resetAllDomains()\l+ getSize()\l+ add()\l+ clear()\l}" alt="" coords="5,221,181,445"/>
 <area shape="rect" id="node3" href="$classghost_1_1Random.html" title="Random is the class coding pseudo&#45;random generators used in GHOST. " alt="" coords="34,6,152,157"/>
 </map>

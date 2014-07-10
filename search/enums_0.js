@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['race',['Race',['../namespaceghost.html#a8b1db75c40c6980adcf244ddccc0324b',1,'ghost']]]
+  ['actiontype',['ActionType',['../namespaceghost.html#a7c0deb8266504feb7d025903f2b77693',1,'ghost']]]
 ];

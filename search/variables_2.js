@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['dependencies',['dependencies',['../classghost_1_1Action.html#a0e7e5f84cc8d24bed8d83021602b02c2',1,'ghost::Action']]],
-  ['domain',['domain',['../classghost_1_1Constraint.html#a0ea15d113ab23ddb6ad74be72f7ac90d',1,'ghost::Constraint::domain()'],['../classghost_1_1Solver.html#ad9292e9219261ba8058fec05b453c0c9',1,'ghost::Solver::domain()']]],
-  ['domains',['domains',['../classghost_1_1Domain.html#a6940f37aa773c6c94cff18cfe1e6a7f7',1,'ghost::Domain']]]
+  ['c',['c',['../namespaceghost.html#a1e04a626798fce7a46db973e9693354e',1,'ghost']]],
+  ['costgas',['costGas',['../classghost_1_1Action.html#a19015ea4ddcabea95f610b1a5450b3a0',1,'ghost::Action']]],
+  ['costmineral',['costMineral',['../classghost_1_1Action.html#abc5c6f31a411189a0dbd57a42e20c723',1,'ghost::Action']]],
+  ['costsupply',['costSupply',['../classghost_1_1Action.html#ac804f6d585c2b9df3bc9809539f72db3',1,'ghost::Action']]],
+  ['creator',['creator',['../classghost_1_1Action.html#ab4862cbb4a415783306abbd1a2c57472',1,'ghost::Action']]]
 ];

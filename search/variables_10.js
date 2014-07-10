@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['y1',['y1',['../namespaceghost.html#af02ccfe4153013ca001f67b21cb8ba43',1,'ghost']]],
-  ['y2',['y2',['../namespaceghost.html#ab6fc6f6a8069edbc2ae66e3f4c95e988',1,'ghost']]],
-  ['y3',['y3',['../namespaceghost.html#a48fd5802a1f5deeffa729a4be630b172',1,'ghost']]],
-  ['y4',['y4',['../namespaceghost.html#a959bf3d4c6eabc2dda3faeed7e7ea7a9',1,'ghost']]]
+  ['value',['value',['../classghost_1_1Variable.html#a4623be8dd7ed2a0cb7033aec42033cb7',1,'ghost::Variable']]],
+  ['variablecost',['variableCost',['../classghost_1_1Solver.html#a76c1057367112ead0304b436b5f508f1',1,'ghost::Solver']]],
+  ['variables',['variables',['../classghost_1_1Constraint.html#a827e487bd77c8dbc4701d1dfae39678a',1,'ghost::Constraint']]],
+  ['vecconstraints',['vecConstraints',['../classghost_1_1Solver.html#a170746edcfb777b12978444c2ab3962e',1,'ghost::Solver']]],
+  ['vecvariables',['vecVariables',['../classghost_1_1Solver.html#a2d033a454234b2277aabdcc4d89eaba2',1,'ghost::Solver']]]
 ];

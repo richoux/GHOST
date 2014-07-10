@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['name',['name',['../classghost_1_1Objective.html#ae9533a52b3600c826df6e20c65db1e7a',1,'ghost::Objective::name()'],['../classghost_1_1Variable.html#a05cf4a4cd3a5c033028e0b0f11d1dafd',1,'ghost::Variable::name()']]],
-  ['nogaps',['noGaps',['../namespaceghost.html#a4b6df9d0b61991e356eb28353a73be30',1,'ghost']]],
-  ['nrow_5f',['nRow_',['../classghost_1_1WallinDomain.html#a2b4915025259fff122a44cfe5dca4b9e',1,'ghost::WallinDomain']]],
-  ['numbers',['numbers',['../classghost_1_1Random.html#ac32393912fd8109be3f3f61097cec064',1,'ghost::Random']]],
-  ['numbervariables',['numberVariables',['../classghost_1_1Variable.html#a6c9862568c3f951afc4ef8dc75b874cf',1,'ghost::Variable']]]
+  ['mapactions',['mapActions',['../classghost_1_1StartingTargetTiles.html#a09044317698eebe778e8c5eeb3e58ff2',1,'ghost::StartingTargetTiles']]],
+  ['mapbuildings',['mapBuildings',['../classghost_1_1StartingTargetTiles.html#a08e51275da85bfaa8a108976cbd133e2',1,'ghost::StartingTargetTiles']]],
+  ['matrixid_5f',['matrixId_',['../classghost_1_1WallinDomain.html#ac119954ee820416a87abf75fcf46c095',1,'ghost::WallinDomain']]],
+  ['matrixtype_5f',['matrixType_',['../classghost_1_1WallinDomain.html#a896291f065d8af3e1232eb8938ed0eb7',1,'ghost::WallinDomain']]],
+  ['mcol_5f',['mCol_',['../classghost_1_1WallinDomain.html#ad7989e0a59285a96bff061aa27d5bbd4',1,'ghost::WallinDomain']]]
 ];

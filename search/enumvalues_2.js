@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['unknown',['Unknown',['../namespaceghost.html#a8b1db75c40c6980adcf244ddccc0324ba900f1a9a96acbc80f0a573a909a21b01',1,'ghost']]]
+  ['research',['research',['../namespaceghost.html#a7c0deb8266504feb7d025903f2b77693ac20ee83627132d4ac11451ca40c0e7d0',1,'ghost']]]
 ];

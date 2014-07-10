@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['s',['s',['../namespaceghost.html#a21eab9fd4ae07c7db20e824cc4452a97',1,'ghost']]],
-  ['sample',['sample',['../classghost_1_1BuildOrderDomain.html#a664c4110082863ead9effd89c508b8e5',1,'ghost::BuildOrderDomain']]],
-  ['size',['size',['../classghost_1_1Domain.html#a13e282f60c6c7cddf5b5716b45ad161c',1,'ghost::Domain']]],
-  ['sizewall',['sizeWall',['../classghost_1_1WallinObjective.html#aef1d7697ca6b29eccb4f3c62f42316ed',1,'ghost::WallinObjective']]],
-  ['specialtiles',['specialTiles',['../namespaceghost.html#a41140633099e7f2158ce39ca3a469abb',1,'ghost']]],
-  ['startingtile',['startingTile',['../classghost_1_1WallinDomain.html#aca537784fa6aa04effeb402d936530ce',1,'ghost::WallinDomain']]]
+  ['race',['race',['../classghost_1_1Action.html#a040eaa1d69dc99221cbdf48d84ce6edb',1,'ghost::Action::race()'],['../classghost_1_1Building.html#a8192def1fb4bdf85ee44cd99dd04f598',1,'ghost::Building::race()']]],
+  ['random',['random',['../classghost_1_1Domain.html#ab6a7a58f8a147f5b2b475e106627fad2',1,'ghost::Domain']]],
+  ['randomvar',['randomVar',['../classghost_1_1Objective.html#a442da333edc70f47c33a15987c2a81b8',1,'ghost::Objective::randomVar()'],['../classghost_1_1Solver.html#acec87a0a0adcc3a8d794a1ff84718201',1,'ghost::Solver::randomVar()']]],
+  ['rd',['rd',['../classghost_1_1Random.html#abb2a2b13a77bc4fb48486f7fd8993d05',1,'ghost::Random']]],
+  ['rng',['rng',['../classghost_1_1Random.html#a875f2ce3cba5e8d1bcf951e0f9d83d00',1,'ghost::Random']]]
 ];

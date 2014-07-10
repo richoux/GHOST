@@ -135,44 +135,44 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="classghost_1_1BuildOrderConstraint.html">BuildOrderConstraint</a>( <span class="keyword">const</span> vector&lt; Building &gt;*, <span class="keyword">const</span> <a class="code" href="classghost_1_1BuildOrderDomain.html">BuildOrderDomain</a>* );</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="classghost_1_1BuildOrderConstraint.html#a6700969d5de0d199e57fbe3f0a95ed68">   48</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classghost_1_1BuildOrderConstraint.html#a6700969d5de0d199e57fbe3f0a95ed68">cost</a>( vector&lt;double&gt; &amp;varCost )<span class="keyword"> const </span>{ <span class="keywordflow">return</span> v_cost( varCost ); }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classghost_1_1BuildOrderConstraint.html#aba2e25733f9a2903c14978a92a1c3b41">   50</a></span>&#160;    vector&lt;double&gt; <a class="code" href="classghost_1_1BuildOrderConstraint.html#aba2e25733f9a2903c14978a92a1c3b41">simulateCost</a>( <a class="code" href="classghost_1_1Action.html">Action</a> &amp;currentAction,</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                 <span class="keyword">const</span> vector&lt;int&gt; &amp;newValue,</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                 vector&lt; vector&lt;double&gt; &gt; &amp;vecVarSimCosts )</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    { <span class="keywordflow">return</span> v_simulateCost( currentAction, newValue, vecVarSimCosts ); }</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">double</span> v_cost( vector&lt;double&gt;&amp; ) <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="classghost_1_1BuildOrderConstraint.html#ad6727d0cf49d366a631fddc5b5ef80cf">   58</a></span>&#160;    <span class="keyword">virtual</span> vector&lt;double&gt; <a class="code" href="classghost_1_1BuildOrderConstraint.html#ad6727d0cf49d366a631fddc5b5ef80cf">v_simulateCost</a>( <a class="code" href="classghost_1_1Action.html">Action</a> &amp;currentAction,</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                       <span class="keyword">const</span> vector&lt;int&gt; &amp;newValue,</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                       vector&lt; vector&lt;double&gt; &gt; &amp;vecVarSimCosts )</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      vector&lt;double&gt; simCosts( domain-&gt;getSize(), -1. );</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      <span class="keywordtype">int</span> backup = currentAction.<a class="code" href="classghost_1_1Variable.html#ae6dcadf662fc318265a9741d91a0e56e">getValue</a>();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      <span class="keywordtype">int</span> previousPos = 0;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      <span class="keywordflow">for</span>( <span class="keyword">auto</span> &amp;pos : newValue )</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">if</span>( pos &gt;= 1 &amp;&amp; pos == previousPos + 1 )</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      domain-&gt;quickShift( currentAction );</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    { </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      domain-&gt;clear( currentAction );</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      currentAction.<a class="code" href="classghost_1_1Variable.html#a6fe0abafde2231f18074ecab6d7325cd">setValue</a>( pos );</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      domain-&gt;add( currentAction );</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    simCosts[pos+1] = cost( vecVarSimCosts[pos+1] );</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classghost_1_1BuildOrderConstraint.html#a3ffc8f323b117f17c76cc6df522345ba">   50</a></span>&#160;    <span class="keyword">virtual</span> vector&lt;double&gt; <a class="code" href="classghost_1_1BuildOrderConstraint.html#a3ffc8f323b117f17c76cc6df522345ba">v_simulateCost</a>( <a class="code" href="classghost_1_1Building.html">Building</a> &amp;oldBuilding,</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                       <span class="keyword">const</span> vector&lt;int&gt; &amp;newPosition,</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                       vector&lt; vector&lt;double&gt; &gt; &amp;vecVarSimCosts,</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                       shared_ptr&lt; <a class="code" href="classghost_1_1Objective.html">Objective&lt; Building, WallinDomain &gt;</a> &gt; objective )</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      vector&lt;double&gt; simCosts( domain-&gt;getSize(), -1. );</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <span class="keywordtype">int</span> backup = oldBuilding.<a class="code" href="classghost_1_1Variable.html#ae6dcadf662fc318265a9741d91a0e56e">getValue</a>();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <span class="keywordtype">int</span> previousPos = 0;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      <span class="keywordflow">if</span>( objective )</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    objective-&gt;resetHelper();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <span class="keywordflow">for</span>( <span class="keyword">auto</span> &amp;pos : newPosition )</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">if</span>( pos &gt;= 1 &amp;&amp; pos == previousPos + 1 )</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      domain-&gt;quickShift( oldBuilding );</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    { </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      domain-&gt;clear( oldBuilding );</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      oldBuilding.<a class="code" href="classghost_1_1Variable.html#a6fe0abafde2231f18074ecab6d7325cd">setValue</a>( pos );</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      domain-&gt;add( oldBuilding );</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    }</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    simCosts[pos+1] = cost( vecVarSimCosts[pos+1] );</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">if</span>( objective )</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;      objective-&gt;setHelper( oldBuilding, variables, domain );</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    previousPos = pos;</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      }</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      domain-&gt;clear( currentAction );</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      currentAction.<a class="code" href="classghost_1_1Variable.html#a6fe0abafde2231f18074ecab6d7325cd">setValue</a>( backup );</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      domain-&gt;add( currentAction );</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      domain-&gt;clear( oldBuilding );</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      oldBuilding.<a class="code" href="classghost_1_1Variable.html#a6fe0abafde2231f18074ecab6d7325cd">setValue</a>( backup );</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      domain-&gt;add( oldBuilding );</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      <span class="keywordflow">return</span> simCosts;</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    }</div>
@@ -231,25 +231,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00141"></a><span class="lineno"><a class="line" href="classghost_1_1StartingTargetTiles.html#a09044317698eebe778e8c5eeb3e58ff2">  141</a></span>&#160;    map&lt;int, Action*&gt; <a class="code" href="classghost_1_1StartingTargetTiles.html#a09044317698eebe778e8c5eeb3e58ff2">mapActions</a>;</div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;  };</div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;}</div>
+<div class="ttc" id="classghost_1_1Objective_html"><div class="ttname"><a href="classghost_1_1Objective.html">ghost::Objective&lt; Building, WallinDomain &gt;</a></div></div>
 <div class="ttc" id="classghost_1_1BuildOrderConstraint_html"><div class="ttname"><a href="classghost_1_1BuildOrderConstraint.html">ghost::BuildOrderConstraint</a></div><div class="ttdef"><b>Definition:</b> buildorderConstraint.hpp:43</div></div>
 <div class="ttc" id="constraint_8hpp_html"><div class="ttname"><a href="constraint_8hpp.html">constraint.hpp</a></div></div>
-<div class="ttc" id="classghost_1_1BuildOrderConstraint_html_a6700969d5de0d199e57fbe3f0a95ed68"><div class="ttname"><a href="classghost_1_1BuildOrderConstraint.html#a6700969d5de0d199e57fbe3f0a95ed68">ghost::BuildOrderConstraint::cost</a></div><div class="ttdeci">double cost(vector&lt; double &gt; &amp;varCost) const </div><div class="ttdef"><b>Definition:</b> buildorderConstraint.hpp:48</div></div>
 <div class="ttc" id="classghost_1_1StartingTargetTiles_html"><div class="ttname"><a href="classghost_1_1StartingTargetTiles.html">ghost::StartingTargetTiles</a></div><div class="ttdef"><b>Definition:</b> buildorderConstraint.hpp:134</div></div>
-<div class="ttc" id="classghost_1_1BuildOrderConstraint_html_ad6727d0cf49d366a631fddc5b5ef80cf"><div class="ttname"><a href="classghost_1_1BuildOrderConstraint.html#ad6727d0cf49d366a631fddc5b5ef80cf">ghost::BuildOrderConstraint::v_simulateCost</a></div><div class="ttdeci">virtual vector&lt; double &gt; v_simulateCost(Action &amp;currentAction, const vector&lt; int &gt; &amp;newValue, vector&lt; vector&lt; double &gt; &gt; &amp;vecVarSimCosts)</div><div class="ttdef"><b>Definition:</b> buildorderConstraint.hpp:58</div></div>
 <div class="ttc" id="classghost_1_1NoGaps_html"><div class="ttname"><a href="classghost_1_1NoGaps.html">ghost::NoGaps</a></div><div class="ttdef"><b>Definition:</b> buildorderConstraint.hpp:121</div></div>
 <div class="ttc" id="classghost_1_1StartingTargetTiles_html_a09044317698eebe778e8c5eeb3e58ff2"><div class="ttname"><a href="classghost_1_1StartingTargetTiles.html#a09044317698eebe778e8c5eeb3e58ff2">ghost::StartingTargetTiles::mapActions</a></div><div class="ttdeci">map&lt; int, Action * &gt; mapActions</div><div class="ttdef"><b>Definition:</b> buildorderConstraint.hpp:141</div></div>
 <div class="ttc" id="classghost_1_1Constraint_html"><div class="ttname"><a href="classghost_1_1Constraint.html">ghost::Constraint</a></div><div class="ttdoc">Constraint is the class encoding constraints of your CSP/COP. </div><div class="ttdef"><b>Definition:</b> constraint.hpp:65</div></div>
-<div class="ttc" id="classghost_1_1BuildOrderConstraint_html_aba2e25733f9a2903c14978a92a1c3b41"><div class="ttname"><a href="classghost_1_1BuildOrderConstraint.html#aba2e25733f9a2903c14978a92a1c3b41">ghost::BuildOrderConstraint::simulateCost</a></div><div class="ttdeci">vector&lt; double &gt; simulateCost(Action &amp;currentAction, const vector&lt; int &gt; &amp;newValue, vector&lt; vector&lt; double &gt; &gt; &amp;vecVarSimCosts)</div><div class="ttdef"><b>Definition:</b> buildorderConstraint.hpp:50</div></div>
+<div class="ttc" id="classghost_1_1BuildOrderConstraint_html_a3ffc8f323b117f17c76cc6df522345ba"><div class="ttname"><a href="classghost_1_1BuildOrderConstraint.html#a3ffc8f323b117f17c76cc6df522345ba">ghost::BuildOrderConstraint::v_simulateCost</a></div><div class="ttdeci">virtual vector&lt; double &gt; v_simulateCost(Building &amp;oldBuilding, const vector&lt; int &gt; &amp;newPosition, vector&lt; vector&lt; double &gt; &gt; &amp;vecVarSimCosts, shared_ptr&lt; Objective&lt; Building, WallinDomain &gt; &gt; objective)</div><div class="ttdef"><b>Definition:</b> buildorderConstraint.hpp:50</div></div>
 <div class="ttc" id="classghost_1_1Variable_html_a6fe0abafde2231f18074ecab6d7325cd"><div class="ttname"><a href="classghost_1_1Variable.html#a6fe0abafde2231f18074ecab6d7325cd">ghost::Variable::setValue</a></div><div class="ttdeci">void setValue(int v)</div><div class="ttdoc">Inline mutator to set the object&#39;s value. </div><div class="ttdef"><b>Definition:</b> variable.hpp:117</div></div>
-<div class="ttc" id="classghost_1_1Action_html"><div class="ttname"><a href="classghost_1_1Action.html">ghost::Action</a></div><div class="ttdef"><b>Definition:</b> action.hpp:36</div></div>
+<div class="ttc" id="classghost_1_1Action_html"><div class="ttname"><a href="classghost_1_1Action.html">ghost::Action</a></div><div class="ttdef"><b>Definition:</b> action.hpp:38</div></div>
 <div class="ttc" id="classghost_1_1Variable_html_ae6dcadf662fc318265a9741d91a0e56e"><div class="ttname"><a href="classghost_1_1Variable.html#ae6dcadf662fc318265a9741d91a0e56e">ghost::Variable::getValue</a></div><div class="ttdeci">int getValue() const </div><div class="ttdoc">Inline accessor to get the object&#39;s value. </div><div class="ttdef"><b>Definition:</b> variable.hpp:120</div></div>
 <div class="ttc" id="classghost_1_1BuildOrderDomain_html"><div class="ttname"><a href="classghost_1_1BuildOrderDomain.html">ghost::BuildOrderDomain</a></div><div class="ttdef"><b>Definition:</b> buildorderDomain.hpp:39</div></div>
 <div class="ttc" id="classghost_1_1Buildable_html"><div class="ttname"><a href="classghost_1_1Buildable.html">ghost::Buildable</a></div><div class="ttdef"><b>Definition:</b> buildorderConstraint.hpp:108</div></div>
+<div class="ttc" id="classghost_1_1Building_html"><div class="ttname"><a href="classghost_1_1Building.html">ghost::Building</a></div><div class="ttdef"><b>Definition:</b> building.hpp:36</div></div>
 <div class="ttc" id="classghost_1_1Overlap_html"><div class="ttname"><a href="classghost_1_1Overlap.html">ghost::Overlap</a></div><div class="ttdef"><b>Definition:</b> buildorderConstraint.hpp:95</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 9 2014 23:05:15 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 10 2014 15:21:08 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

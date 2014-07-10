@@ -8,6 +8,7 @@ var searchData=
   ['randomvalue',['randomValue',['../classghost_1_1Domain.html#abd3f0bd85c98e66c025e0ff3532af8dd',1,'ghost::Domain']]],
   ['randomvar',['randomVar',['../classghost_1_1Objective.html#a442da333edc70f47c33a15987c2a81b8',1,'ghost::Objective::randomVar()'],['../classghost_1_1Solver.html#acec87a0a0adcc3a8d794a1ff84718201',1,'ghost::Solver::randomVar()']]],
   ['rd',['rd',['../classghost_1_1Random.html#abb2a2b13a77bc4fb48486f7fd8993d05',1,'ghost::Random']]],
+  ['research',['research',['../namespaceghost.html#a7c0deb8266504feb7d025903f2b77693ac20ee83627132d4ac11451ca40c0e7d0',1,'ghost']]],
   ['reset',['reset',['../classghost_1_1Solver.html#a43db35b71a3e494ce208622cc45cbeb0',1,'ghost::Solver']]],
   ['resetalldomains',['resetAllDomains',['../classghost_1_1Domain.html#aa014a06ba46e4e057ed182d328a72e97',1,'ghost::Domain']]],
   ['resetdomain',['resetDomain',['../classghost_1_1Domain.html#a2165237b435a5cb4dfd8584680fcfe05',1,'ghost::Domain']]],

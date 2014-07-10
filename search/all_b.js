@@ -1,7 +1,7 @@
 var searchData=
 [
   ['objective',['Objective',['../classghost_1_1Objective.html',1,'ghost']]],
-  ['objective',['Objective',['../classghost_1_1Objective.html#a40decf80e2a1f37e2cc4634f41acc7ca',1,'ghost::Objective::Objective()'],['../classghost_1_1Solver.html#a4fd74bd68d0ea253fd35adad697f964d',1,'ghost::Solver::objective()']]],
+  ['objective',['objective',['../classghost_1_1Solver.html#a4fd74bd68d0ea253fd35adad697f964d',1,'ghost::Solver::objective()'],['../classghost_1_1Objective.html#a40decf80e2a1f37e2cc4634f41acc7ca',1,'ghost::Objective::Objective()']]],
   ['objective_2ehpp',['objective.hpp',['../objective_8hpp.html',1,'']]],
   ['objective_3c_20building_2c_20wallindomain_20_3e',['Objective&lt; Building, WallinDomain &gt;',['../classghost_1_1Objective.html',1,'ghost']]],
   ['operator_3c',['operator&lt;',['../classghost_1_1Variable.html#aeea921ab89e0f175037ce8c81845905c',1,'ghost::Variable']]],
