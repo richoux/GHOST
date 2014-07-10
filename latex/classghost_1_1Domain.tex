@@ -12,7 +12,8 @@
 
 
 
-Collaboration diagram for ghost\-:\-:Domain$<$ Type\-Variable $>$\-:\nopagebreak
+Collaboration diagram for ghost\-:\-:Domain$<$ Type\-Variable $>$\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -28,7 +29,7 @@ Collaboration diagram for ghost\-:\-:Domain$<$ Type\-Variable $>$\-:\nopagebreak
 \begin{DoxyCompactList}\small\item\em Second and last \hyperlink{classghost_1_1Domain}{Domain} constructor. \end{DoxyCompactList}\item 
 int \hyperlink{classghost_1_1Domain_abd3f0bd85c98e66c025e0ff3532af8dd}{random\-Value} (const Type\-Variable \&variable)
 \begin{DoxyCompactList}\small\item\em Inline function to get a random value among the possible values of a given variable. \end{DoxyCompactList}\item 
-vector$<$ int $>$ \hyperlink{classghost_1_1Domain_abeb28b48f75473162d0aecab6da070d3}{possible\-Values} (const Type\-Variable \&variable) const 
+vector$<$ int $>$ \hyperlink{classghost_1_1Domain_a5d4e6a323e4c3c14bc1da5ddbd5af55d}{values\-Of} (const Type\-Variable \&variable) const 
 \begin{DoxyCompactList}\small\item\em Inline function to get the vector of the possible values of a given variable. \end{DoxyCompactList}\item 
 void \hyperlink{classghost_1_1Domain_a2165237b435a5cb4dfd8584680fcfe05}{reset\-Domain} (const Type\-Variable \&variable)
 \item 
@@ -141,7 +142,7 @@ Inline function to add something into the domain.
 
 The implementation by default does nothing. This function has been declared because it could be useful for some custom domain classes to add a value from the given variable into a custom data structure. This function is called into the solver three times\-:
 \begin{DoxyItemize}
-\item during a move (\hyperlink{classghost_1_1Solver_af1176494b45226e87edefa0b39babf62}{Solver\-::move}), ie, when the solver assigns a new value to a given variable.
+\item during a move (\hyperlink{classghost_1_1Solver_a58d9540a9700be0e953ebdcf0660920f}{Solver\-::move}), ie, when the solver assigns a new value to a given variable.
 \item during a reset (\hyperlink{classghost_1_1Solver_a43db35b71a3e494ce208622cc45cbeb0}{Solver\-::reset}).
 \item just between the end of the optimization run and the beginning of the optimization post-\/processing, in \hyperlink{classghost_1_1Solver_a30dd2769fb30ac42d231d2c305dcdf13}{Solver\-::solve}.
 \end{DoxyItemize}
@@ -164,7 +165,7 @@ Inline function to clear (or remove) something into the domain.
 
 The implementation by default does nothing. This function has been declared because it could be useful for some custom domain classes to clear/remove a value from the given variable into a custom data structure. This function is called into the solver three times\-:
 \begin{DoxyItemize}
-\item during a move (\hyperlink{classghost_1_1Solver_af1176494b45226e87edefa0b39babf62}{Solver\-::move}), ie, when the solver assigns a new value to a given variable.
+\item during a move (\hyperlink{classghost_1_1Solver_a58d9540a9700be0e953ebdcf0660920f}{Solver\-::move}), ie, when the solver assigns a new value to a given variable.
 \item during a reset (\hyperlink{classghost_1_1Solver_a43db35b71a3e494ce208622cc45cbeb0}{Solver\-::reset}).
 \item just between the end of the optimization run and the beginning of the optimization post-\/processing, in \hyperlink{classghost_1_1Solver_a30dd2769fb30ac42d231d2c305dcdf13}{Solver\-::solve}.
 \end{DoxyItemize}
@@ -185,25 +186,6 @@ The implementation by default does nothing. This function has been declared beca
 
 Inline accessor to get the size of the domain. 
 
-\hypertarget{classghost_1_1Domain_abeb28b48f75473162d0aecab6da070d3}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!possible\-Values@{possible\-Values}}
-\index{possible\-Values@{possible\-Values}!ghost::Domain@{ghost\-::\-Domain}}
-\subsubsection[{possible\-Values}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ vector$<$int$>$ {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::possible\-Values (
-\begin{DoxyParamCaption}
-\item[{const Type\-Variable \&}]{variable}
-\end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Domain_abeb28b48f75473162d0aecab6da070d3}
-
-
-Inline function to get the vector of the possible values of a given variable. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em variable} & A constant reference to a variable. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-The vector of integers of all possible values of variable. 
-\end{DoxyReturn}
 \hypertarget{classghost_1_1Domain_abd3f0bd85c98e66c025e0ff3532af8dd}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!random\-Value@{random\-Value}}
 \index{random\-Value@{random\-Value}!ghost::Domain@{ghost\-::\-Domain}}
 \subsubsection[{random\-Value}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ int {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::random\-Value (
@@ -251,6 +233,25 @@ The domain of the given variable will be reset to the initial domain created or 
 {\em variable} & A constant reference to a variable. \\
 \hline
 \end{DoxyParams}
+\hypertarget{classghost_1_1Domain_a5d4e6a323e4c3c14bc1da5ddbd5af55d}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!values\-Of@{values\-Of}}
+\index{values\-Of@{values\-Of}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{values\-Of}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ vector$<$int$>$ {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::values\-Of (
+\begin{DoxyParamCaption}
+\item[{const Type\-Variable \&}]{variable}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Domain_a5d4e6a323e4c3c14bc1da5ddbd5af55d}
+
+
+Inline function to get the vector of the possible values of a given variable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em variable} & A constant reference to a variable. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The vector of integers of all possible values of variable. 
+\end{DoxyReturn}
 
 
 \subsection{Friends And Related Function Documentation}

@@ -30,7 +30,7 @@ Collaboration diagram for ghost\-:\-:Action\-:
 \item 
 \hyperlink{classghost_1_1Action_a82c7d6aec3d39fd036395fcf563fd2c5}{Action} ()
 \item 
-\hyperlink{classghost_1_1Action_a1b46308adb26e8f70b28f2751deadc8e}{Action} (int, int, int, int, vector$<$ string $>$, string, \hyperlink{namespaceghost_a8b1db75c40c6980adcf244ddccc0324b}{Race}, string, string, int=-\/1)
+\hyperlink{classghost_1_1Action_a689772909dd44aed12c89150b2728a2f}{Action} (int, int, int, int, \hyperlink{namespaceghost_a7c0deb8266504feb7d025903f2b77693}{Action\-Type}, vector$<$ string $>$, string, \hyperlink{namespaceghost_a8b1db75c40c6980adcf244ddccc0324b}{Race}, string, string, int=-\/1)
 \item 
 \hyperlink{classghost_1_1Action_af83e86975dc608cb9ebe7447fa2b368a}{Action} (const \hyperlink{classghost_1_1Action}{Action} \&)
 \item 
@@ -46,11 +46,17 @@ int \hyperlink{classghost_1_1Action_a46881c65b49922ee92afa96ac2c38d17}{get\-Cost
 \item 
 int \hyperlink{classghost_1_1Action_ae1f8a3db9caafbcaa2039600f11eafd7}{get\-Cost\-Supply} () const 
 \item 
+\hyperlink{namespaceghost_a7c0deb8266504feb7d025903f2b77693}{Action\-Type} \hyperlink{classghost_1_1Action_a3d80b97f17c4e29a23a19962d8adfaa6}{get\-Type} () const 
+\item 
+string \hyperlink{classghost_1_1Action_a806f43d37dfd110a1ed88e643db9845d}{get\-Type\-String} () const 
+\item 
 vector$<$ string $>$ \hyperlink{classghost_1_1Action_a8396f1b683a8d6a20c5007aab5e1c02b}{get\-Dependencies} () const 
 \item 
 string \hyperlink{classghost_1_1Action_a7e9e96cdfbc4ed561d782d2af51fb1ab}{get\-Creator} () const 
 \item 
-string \hyperlink{classghost_1_1Action_ae122e7bef9ca4e416bdb881b33b5dbbb}{get\-Race} () const 
+\hyperlink{namespaceghost_a8b1db75c40c6980adcf244ddccc0324b}{Race} \hyperlink{classghost_1_1Action_a67245bd8400e2dc6db7f16b512df145d}{get\-Race} () const 
+\item 
+string \hyperlink{classghost_1_1Action_ab22270eb1800b12ca2d2d6259552d974}{get\-Race\-String} () const 
 \end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
@@ -67,6 +73,8 @@ int \hyperlink{classghost_1_1Action_abc5c6f31a411189a0dbd57a42e20c723}{cost\-Min
 int \hyperlink{classghost_1_1Action_a19015ea4ddcabea95f610b1a5450b3a0}{cost\-Gas}
 \item 
 int \hyperlink{classghost_1_1Action_ac804f6d585c2b9df3bc9809539f72db3}{cost\-Supply}
+\item 
+\hyperlink{namespaceghost_a7c0deb8266504feb7d025903f2b77693}{Action\-Type} \hyperlink{classghost_1_1Action_ab4a95e2a3030b8d81ae5da00f11c6118}{action\-Type}
 \item 
 vector$<$ string $>$ \hyperlink{classghost_1_1Action_a0e7e5f84cc8d24bed8d83021602b02c2}{dependencies}
 \item 
@@ -90,7 +98,7 @@ ostream \& \hyperlink{classghost_1_1Action_a44b75b6ed85320c12cd00afe16e9872d}{op
 {}
 \end{DoxyParamCaption}
 )}}\label{classghost_1_1Action_a82c7d6aec3d39fd036395fcf563fd2c5}
-\hypertarget{classghost_1_1Action_a1b46308adb26e8f70b28f2751deadc8e}{\index{ghost\-::\-Action@{ghost\-::\-Action}!Action@{Action}}
+\hypertarget{classghost_1_1Action_a689772909dd44aed12c89150b2728a2f}{\index{ghost\-::\-Action@{ghost\-::\-Action}!Action@{Action}}
 \index{Action@{Action}!ghost::Action@{ghost\-::\-Action}}
 \subsubsection[{Action}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Action\-::\-Action (
 \begin{DoxyParamCaption}
@@ -98,6 +106,7 @@ ostream \& \hyperlink{classghost_1_1Action_a44b75b6ed85320c12cd00afe16e9872d}{op
 \item[{int}]{mineral, }
 \item[{int}]{gas, }
 \item[{int}]{supply, }
+\item[{{\bf Action\-Type}}]{action\-Type, }
 \item[{vector$<$ string $>$}]{dep, }
 \item[{string}]{creator, }
 \item[{{\bf Race}}]{race, }
@@ -105,7 +114,7 @@ ostream \& \hyperlink{classghost_1_1Action_a44b75b6ed85320c12cd00afe16e9872d}{op
 \item[{string}]{full\-Name, }
 \item[{int}]{value = {\ttfamily -\/1}}
 \end{DoxyParamCaption}
-)}}\label{classghost_1_1Action_a1b46308adb26e8f70b28f2751deadc8e}
+)}}\label{classghost_1_1Action_a689772909dd44aed12c89150b2728a2f}
 \hypertarget{classghost_1_1Action_af83e86975dc608cb9ebe7447fa2b368a}{\index{ghost\-::\-Action@{ghost\-::\-Action}!Action@{Action}}
 \index{Action@{Action}!ghost::Action@{ghost\-::\-Action}}
 \subsubsection[{Action}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Action\-::\-Action (
@@ -158,13 +167,34 @@ ostream \& \hyperlink{classghost_1_1Action_a44b75b6ed85320c12cd00afe16e9872d}{op
 {}
 \end{DoxyParamCaption}
 ) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Action_a4f0d5d2692392c695342c3a6ae3bb516}
-\hypertarget{classghost_1_1Action_ae122e7bef9ca4e416bdb881b33b5dbbb}{\index{ghost\-::\-Action@{ghost\-::\-Action}!get\-Race@{get\-Race}}
+\hypertarget{classghost_1_1Action_a67245bd8400e2dc6db7f16b512df145d}{\index{ghost\-::\-Action@{ghost\-::\-Action}!get\-Race@{get\-Race}}
 \index{get\-Race@{get\-Race}!ghost::Action@{ghost\-::\-Action}}
-\subsubsection[{get\-Race}]{\setlength{\rightskip}{0pt plus 5cm}string ghost\-::\-Action\-::get\-Race (
+\subsubsection[{get\-Race}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Race} ghost\-::\-Action\-::get\-Race (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Action_ae122e7bef9ca4e416bdb881b33b5dbbb}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Action_a67245bd8400e2dc6db7f16b512df145d}
+\hypertarget{classghost_1_1Action_ab22270eb1800b12ca2d2d6259552d974}{\index{ghost\-::\-Action@{ghost\-::\-Action}!get\-Race\-String@{get\-Race\-String}}
+\index{get\-Race\-String@{get\-Race\-String}!ghost::Action@{ghost\-::\-Action}}
+\subsubsection[{get\-Race\-String}]{\setlength{\rightskip}{0pt plus 5cm}string ghost\-::\-Action\-::get\-Race\-String (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Action_ab22270eb1800b12ca2d2d6259552d974}
+\hypertarget{classghost_1_1Action_a3d80b97f17c4e29a23a19962d8adfaa6}{\index{ghost\-::\-Action@{ghost\-::\-Action}!get\-Type@{get\-Type}}
+\index{get\-Type@{get\-Type}!ghost::Action@{ghost\-::\-Action}}
+\subsubsection[{get\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Action\-Type} ghost\-::\-Action\-::get\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Action_a3d80b97f17c4e29a23a19962d8adfaa6}
+\hypertarget{classghost_1_1Action_a806f43d37dfd110a1ed88e643db9845d}{\index{ghost\-::\-Action@{ghost\-::\-Action}!get\-Type\-String@{get\-Type\-String}}
+\index{get\-Type\-String@{get\-Type\-String}!ghost::Action@{ghost\-::\-Action}}
+\subsubsection[{get\-Type\-String}]{\setlength{\rightskip}{0pt plus 5cm}string ghost\-::\-Action\-::get\-Type\-String (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Action_a806f43d37dfd110a1ed88e643db9845d}
 \hypertarget{classghost_1_1Action_a3a9c93b2d9ba2181e74fddceaec84a34}{\index{ghost\-::\-Action@{ghost\-::\-Action}!is\-Selected@{is\-Selected}}
 \index{is\-Selected@{is\-Selected}!ghost::Action@{ghost\-::\-Action}}
 \subsubsection[{is\-Selected}]{\setlength{\rightskip}{0pt plus 5cm}bool ghost\-::\-Action\-::is\-Selected (
@@ -200,6 +230,9 @@ ostream \& \hyperlink{classghost_1_1Action_a44b75b6ed85320c12cd00afe16e9872d}{op
 
 
 \subsection{Member Data Documentation}
+\hypertarget{classghost_1_1Action_ab4a95e2a3030b8d81ae5da00f11c6118}{\index{ghost\-::\-Action@{ghost\-::\-Action}!action\-Type@{action\-Type}}
+\index{action\-Type@{action\-Type}!ghost::Action@{ghost\-::\-Action}}
+\subsubsection[{action\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Action\-Type} ghost\-::\-Action\-::action\-Type\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Action_ab4a95e2a3030b8d81ae5da00f11c6118}
 \hypertarget{classghost_1_1Action_a19015ea4ddcabea95f610b1a5450b3a0}{\index{ghost\-::\-Action@{ghost\-::\-Action}!cost\-Gas@{cost\-Gas}}
 \index{cost\-Gas@{cost\-Gas}!ghost::Action@{ghost\-::\-Action}}
 \subsubsection[{cost\-Gas}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Action\-::cost\-Gas\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Action_a19015ea4ddcabea95f610b1a5450b3a0}

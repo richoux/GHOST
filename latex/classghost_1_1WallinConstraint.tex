@@ -29,12 +29,12 @@ Collaboration diagram for ghost\-:\-:Wallin\-Constraint\-:
 \begin{DoxyCompactItemize}
 \item 
 \hyperlink{classghost_1_1WallinConstraint_a943d4dcca2afb3cd72cb1049a7f197ff}{Wallin\-Constraint} (const vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$, const \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$)
-\item 
-virtual vector$<$ double $>$ \hyperlink{classghost_1_1WallinConstraint_af2d6f103c844a14745b7de6c656f9981}{v\-\_\-simulate\-Cost} (\hyperlink{classghost_1_1Building}{Building} \&old\-Building, const vector$<$ int $>$ \&new\-Position, vector$<$ vector$<$ double $>$ $>$ \&vec\-Var\-Sim\-Costs, shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Objective}{Objective}$<$ \hyperlink{classghost_1_1Building}{Building}, \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $>$ $>$ objective)
-\begin{DoxyCompactList}\small\item\em Pure virtual function to simulate the cost of the constraint on all possible values of the given variable. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{DoxyCompactItemize}
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+virtual vector$<$ double $>$ \hyperlink{classghost_1_1WallinConstraint_af2d6f103c844a14745b7de6c656f9981}{v\-\_\-simulate\-Cost} (\hyperlink{classghost_1_1Building}{Building} \&old\-Building, const vector$<$ int $>$ \&new\-Position, vector$<$ vector$<$ double $>$ $>$ \&vec\-Var\-Sim\-Costs, shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Objective}{Objective}$<$ \hyperlink{classghost_1_1Building}{Building}, \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $>$ $>$ objective)
+\begin{DoxyCompactList}\small\item\em Pure virtual function to simulate the cost of the constraint on all possible values of the given variable. \end{DoxyCompactList}\item 
 bool \hyperlink{classghost_1_1WallinConstraint_a80602ec8462dad6adfcd7bfa7668e83d}{is\-Wall} () const 
 \end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
@@ -68,7 +68,7 @@ bool \hyperlink{classghost_1_1WallinConstraint_a80602ec8462dad6adfcd7bfa7668e83d
 \item[{vector$<$ vector$<$ double $>$ $>$ \&}]{vec\-Var\-Sim\-Costs, }
 \item[{shared\-\_\-ptr$<$ {\bf Objective}$<$ {\bf Building}, {\bf Wallin\-Domain} $>$ $>$}]{objective}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classghost_1_1WallinConstraint_af2d6f103c844a14745b7de6c656f9981}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classghost_1_1WallinConstraint_af2d6f103c844a14745b7de6c656f9981}
 
 
 Pure virtual function to simulate the cost of the constraint on all possible values of the given variable. 
