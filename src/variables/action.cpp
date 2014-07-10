@@ -104,7 +104,7 @@ namespace ghost
       << "Built/Trained/Researched/Upgraded/Morphed from: " <<  a.creator << endl
       << "Dependencies: ";
     
-    for( auto& d : a.dependencies )
+    for( const auto& d : a.dependencies )
       os << d << "  "; 
     
     os << "-------" << endl;

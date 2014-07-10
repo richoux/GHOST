@@ -227,7 +227,7 @@ namespace ghost
       int bottom = coordinates.first + b.getHeight() - 1;
       int left = coordinates.second;
 
-      for(auto &other : *variables )
+      for( const auto &other : *variables )
       {
   	if( other.getId() != b.getId() && other.isSelected() )
   	{
@@ -263,7 +263,7 @@ namespace ghost
       int right = coordinates.second + b.getLength() - 1;
       int left = coordinates.second;
 
-      for(auto &other : *variables )
+      for( const auto &other : *variables )
       {
 	if( other.getId() != b.getId() && other.isSelected() )
 	{
@@ -293,7 +293,7 @@ namespace ghost
       int right = coordinates.second + b.getLength() - 1;
       int bottom = coordinates.first + b.getHeight() - 1;
 
-      for(auto &other : *variables )
+      for( const auto &other : *variables )
       {
 	if( other.getId() != b.getId() && other.isSelected() )
 	{
@@ -323,7 +323,7 @@ namespace ghost
       int bottom = coordinates.first + b.getHeight() - 1;
       int left = coordinates.second;
 
-      for(auto &other : *variables )
+      for( const auto &other : *variables )
       {
 	if( other.getId() != b.getId() && other.isSelected() )
 	{
@@ -353,7 +353,7 @@ namespace ghost
       int bottom = coordinates.first + b.getHeight() - 1;
       int left = coordinates.second;
 
-      for(auto &other : *variables )
+      for( const auto &other : *variables )
       {
 	if( other.getId() != b.getId() && other.isSelected() )
 	{
@@ -379,7 +379,7 @@ namespace ghost
 
   void WallinDomain::unbuildable( vector< pair<int, int> > unbuildables )
   {
-    for( auto &u : unbuildables )
+    for( const auto &u : unbuildables )
       this->unbuildable( u.first, u.second );    
   }
 
@@ -444,16 +444,16 @@ namespace ghost
     for( int i=0; i<g.matrixType_[0].size(); ++i )
       bar += "------";
 
-    for( auto &vec : g.matrixId_ )
+    for( const auto &vec : g.matrixId_ )
     {
       os << bar << endl << "| ";
-      for( auto &setId : vec )
+      for( const auto &setId : vec )
       {
 	if( setId.empty() )
 	  os << setw(3) << "    | ";
 	else
 	{
-	  for( auto &id : setId )
+	  for( const auto &id : setId )
 	    os << setw(3) << to_string( id ) << " | ";
 	}
       }
@@ -462,10 +462,10 @@ namespace ghost
     os << bar << endl << endl;
 
     os << "Matrix Type:" << endl;
-    for( auto &vec : g.matrixType_ )
+    for( const auto &vec : g.matrixType_ )
     {
       os << bar << endl << "| ";
-      for(auto &str : vec )
+      for( const auto &str : vec )
 	os << setw(3) << (str.empty() ? " " : str) << " | ";
 
       os << endl;
@@ -473,7 +473,7 @@ namespace ghost
     os << bar << endl;
     
     os << "Failures:" << endl;
-    for( auto &m : g.failures_ )
+    for( const auto &m : g.failures_ )
       os << "(" << m.first.first << "," << m.first.second << "):" << m.second << endl;
 
     return os;

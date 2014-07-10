@@ -58,7 +58,7 @@ namespace ghost
       if( objective )
 	objective->resetHelper();
       
-      for( auto &pos : newPosition )
+      for( const auto &pos : newPosition )
       {
 	if( pos >= 1 && pos == previousPos + 1 )
 	{

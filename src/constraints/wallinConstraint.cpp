@@ -65,7 +65,7 @@ namespace ghost
       toVisit.erase( first );
       neighbors = domain->getBuildingsAround( current, variables );
       
-      for( auto &n : neighbors )
+      for( const auto &n : neighbors )
       {
 	if( n.getId() == nberTarget )
 	  return true;
@@ -94,14 +94,14 @@ namespace ghost
     // version 2: 1 conflict = 1 cost (may have several conflicts into one failure)
     double conflicts = 0.;
 
-    for( auto &failures : domain->failures() )
+    for( const auto &failures : domain->failures() )
     {
       int nbConflict = failures.second.size() - 1;
       if( nbConflict > 0 && failures.second.find( "###" ) == string::npos )
       {
   	conflicts += nbConflict;
   	set<int> setBuildings = domain->buildingsAt( failures.first );
-  	for( auto &id : setBuildings )
+  	for( const auto &id : setBuildings )
   	  varCost[ id ] += nbConflict;
       }
     }
@@ -118,14 +118,14 @@ namespace ghost
   //   // version 2: 1 conflict = 1 cost (may have several conflicts into one failure)
   //   double conflicts = 0.;
 
-  //   for( auto &failures : domain->failures() )
+  //   for( const auto &failures : domain->failures() )
   //   {
   //     int nbConflict = failures.second.size() - 1;
   //     if( nbConflict > 0 && failures.second.find( "###" ) == string::npos )
   //     {
   // 	conflicts += (nbConflict * 2);
   // 	set<int> setBuildings = domain->buildingsAt( failures.first );
-  // 	for( auto &id : setBuildings )
+  // 	for( const auto &id : setBuildings )
   // 	  varCost[ id ] += (nbConflict * 2);
   //     }
   //   }
@@ -146,7 +146,7 @@ namespace ghost
     if( objective )
       objective->resetHelper();
         
-    for( auto &pos : newPosition )
+    for( const auto &pos : newPosition )
     {
       if( pos >= 1 && pos == previousPos + 1 )
       {
@@ -156,7 +156,7 @@ namespace ghost
 	if( diff != 0 )
 	{
 	  set<int> setBuildings = domain->buildingsAt( pos + 1 );
-	  for( auto &id : setBuildings )
+	  for( const auto &id : setBuildings )
 	    vecVarSimCosts[pos + 1][ id ] += diff;
 	}
 
@@ -197,14 +197,14 @@ namespace ghost
     double conflicts = 0.;
     int nbConflict;
 
-    for( auto &failures : domain->failures() )
+    for( const auto &failures : domain->failures() )
     {
       if( failures.second.find( "###" ) != string::npos )
       {
   	nbConflict = failures.second.size() - 3;
   	conflicts += nbConflict;
   	set<int> setBuildings = domain->buildingsAt( failures.first );
-  	for( auto &id : setBuildings )
+  	for( const auto &id : setBuildings )
   	  varCost[ id ] += nbConflict;
       }
     }
@@ -219,14 +219,14 @@ namespace ghost
   //   double conflicts = 0.;
   //   int nbConflict;
 
-  //   for( auto &failures : domain->failures() )
+  //   for( const auto &failures : domain->failures() )
   //   {
   //     if( failures.second.find( "###" ) != string::npos )
   //     {
   // 	nbConflict = failures.second.size() - 3;
   // 	conflicts += (nbConflict * 2);
   // 	set<int> setBuildings = domain->buildingsAt( failures.first );
-  // 	for( auto &id : setBuildings )
+  // 	for( const auto &id : setBuildings )
   // 	  varCost[ id ] += (nbConflict * 2);
   //     }
   //   }
@@ -247,7 +247,7 @@ namespace ghost
     if( objective )
       objective->resetHelper();
 
-    for( auto &pos : newPosition )
+    for( const auto &pos : newPosition )
     {
       if( pos >= 1 && pos == previousPos + 1 )
       {
@@ -257,7 +257,7 @@ namespace ghost
 	if( diff != 0 )
 	{
 	  set<int> setBuildings = domain->buildingsAt( pos + 1 );
-	  for( auto &id : setBuildings )
+	  for( const auto &id : setBuildings )
 	    vecVarSimCosts[pos + 1][ id ] += diff;
 	}
 
@@ -349,7 +349,7 @@ namespace ghost
   //   {
   //     int nberNeighbors;
 
-  //     for( auto &building : *variables )
+  //     for( const auto &building : *variables )
   //     {
   // 	if( building.isSelected() )
   // 	{
@@ -406,7 +406,7 @@ namespace ghost
   StartingTargetTiles::StartingTargetTiles( const vector< Building > *variables, const WallinDomain *domain ) 
     : WallinConstraint(variables, domain)
   {
-    for( auto &b : *variables )
+    for( const auto &b : *variables )
       mapBuildings[b.getId()] = const_cast<Building*>(&b);
   }
 
@@ -439,7 +439,7 @@ namespace ghost
     }
     else
     {
-      for( int bId : startingBuildings )
+      for( const int &bId : startingBuildings )
       {
   	b = mapBuildings.at(bId);
   	neighbors = domain->countAround( *b, variables );
@@ -455,7 +455,7 @@ namespace ghost
     if( targetBuildings.empty() )
     {      
       // penalize buildings not placed on the domain
-      for( auto &v : *variables )
+      for( const auto &v : *variables )
   	if( !v.isSelected() )
   	{
   	  varCost[ v.getId() ] += 2;
@@ -464,7 +464,7 @@ namespace ghost
     }
     else
     {
-      for( int bId : targetBuildings )
+      for( const int &bId : targetBuildings )
       {
   	b = mapBuildings.at(bId);
   	neighbors = domain->countAround( *b, variables );
@@ -504,7 +504,7 @@ namespace ghost
   //   if( startingBuildings.empty() )
   //   {
   //     // penalize buildings not placed on the domain
-  //     for( auto &v : *variables )
+  //     for( const auto &v : *variables )
   // 	if( !v.isSelected() )
   // 	{
   // 	  varCost[ v.getId() ] += 5;
@@ -513,7 +513,7 @@ namespace ghost
   //   }
   //   else
   //   {
-  //     for( int bId : startingBuildings )
+  //     for( const int &bId : startingBuildings )
   //     {
   // 	b = mapBuildings.at(bId);
   // 	neighbors = domain->countAround( *b, variables );
@@ -526,7 +526,7 @@ namespace ghost
   //   if( targetBuildings.empty() )
   //   {      
   //     // penalize buildings not placed on the domain
-  //     for( auto &v : *variables )
+  //     for( const auto &v : *variables )
   // 	if( !v.isSelected() )
   // 	{
   // 	  varCost[ v.getId() ] += 5;
@@ -535,7 +535,7 @@ namespace ghost
   //   }
   //   else
   //   {
-  //     for( int bId : targetBuildings )
+  //     for( const int &bId : targetBuildings )
   //     {
   // 	b = mapBuildings.at(bId);
   // 	neighbors = domain->countAround( *b, variables );
@@ -547,7 +547,7 @@ namespace ghost
 
   //   if( penalty )
   //   {
-  //     for( auto &v : *variables )
+  //     for( const auto &v : *variables )
   // 	if( v.isSelected()
   // 	    && ( !domain->isStartingOrTargetTile( v.getId() ) || !domain->isNeightborOfSTTBuildings( v, *variables ) ) )
   // 	{

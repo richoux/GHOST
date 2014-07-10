@@ -87,7 +87,7 @@ namespace ghost
       
       visited.insert( current );
       
-      for( auto &n : neighbors )
+      for( const auto &n : neighbors )
 	if( visited.find( n ) == visited.end() )
 	  toVisit.insert( n );
     }
@@ -150,7 +150,7 @@ namespace ghost
 
     multimap<int, Building> buildingSameSize;
     
-    for( auto &v : *vecVariables )
+    for( const auto &v : *vecVariables )
       buildingSameSize.insert( make_pair( v.getSurface(), v ) );
 
     Building *oldVariable;

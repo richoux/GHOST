@@ -203,7 +203,7 @@ namespace ghost
 	  {
 	    currentCost = 0.;
 
-	    for( auto &c : vecConstraints )
+	    for( const auto &c : vecConstraints )
 	      currentCost += c->cost( variableCost );
 
 	    if( currentCost < globalCost )
@@ -289,7 +289,7 @@ namespace ghost
 	  fill( vecGlobalCosts.begin(), vecGlobalCosts.end(), 0. );
 
 	  // sum all numbers in the vector vecConstraintsCosts[i] and put it into vecGlobalCosts[i] 
-	  for( auto &v : vecConstraintsCosts )
+	  for( const auto &v : vecConstraintsCosts )
 	    transform( vecGlobalCosts.begin(), 
 		       vecGlobalCosts.end(), 
 		       v.begin(), 
@@ -341,13 +341,13 @@ namespace ghost
       while( ( ( !objOriginalNull || loops == 0 )  && ( elapsedTime.count() < OPT_TIME ) )
 	     || ( objOriginalNull && elapsedTime.count() < timeout * loops ) );
 
-      for( auto &b : *vecVariables )
+      for( const auto &b : *vecVariables )
 	domain->clear( b );
 
       for( int i = 0; i < vecVariables->size(); ++i )
 	vecVariables->at(i).setValue( bestSolution[i] );
     
-      for( auto &b : *vecVariables )
+      for( const auto &b : *vecVariables )
 	domain->add( b );
 
       beforePostProc = bestCost;
@@ -397,19 +397,19 @@ namespace ghost
 	   << "STT: " << tstt.count() << endl;
 
       // print cost for each constraint
-      for( auto &c : vecConstraints )
+      for( const auto &c : vecConstraints )
       {
 	fill( varSimCost.begin(), varSimCost.end(), 0. );
 	cout << "Cost of " << typeid(*c).name() << ": " << c->cost( varSimCost ) << " [";
 
-	for( auto &v : varSimCost )
+	for( const auto &v : varSimCost )
 	  cout << " " << v;
 
 	cout << " ]" << endl;
       }      
 
       cout << endl << "Buildings:" << endl;
-      for(const auto &v : *vecVariables)
+      for( const auto &v : *vecVariables )
 	cout << v << endl;
       
       cout << endl;
@@ -427,7 +427,7 @@ namespace ghost
     //! configuration.
     void reset()
     {
-      for( auto &v : *vecVariables )
+      for( const auto &v : *vecVariables )
 	domain->clear( v );
 	
       for( auto &v : *vecVariables )
