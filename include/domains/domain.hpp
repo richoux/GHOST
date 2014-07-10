@@ -124,7 +124,7 @@ namespace ghost
      * \param variable A constant reference to a variable.
      * \return The vector of integers of all possible values of variable.
      */
-    inline vector<int> possibleValues( const TypeVariable& variable ) const
+    inline vector<int> valuesOf( const TypeVariable& variable ) const
     {
       return domains[ variable.getId() ];
     }

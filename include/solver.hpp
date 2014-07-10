@@ -175,7 +175,7 @@ namespace ghost
       int worstVariableId;
 
       TypeVariable *oldVariable;
-      vector<int> possiblePositions;
+      vector<int> possibleValues;
       vector<double> varSimCost( vecVariables->size() );
       vector<double> bestSimCost( vecVariables->size() );
 
@@ -256,7 +256,7 @@ namespace ghost
 	  oldVariable = &vecVariables->at( worstVariableId );
       
 	  // get possible positions for oldVariable.
-	  possiblePositions = domain->possibleValues( *oldVariable );
+	  possibleValues = domain->valuesOf( *oldVariable );
 
 	  // time simulateCost
 	  startSimCost = chrono::system_clock::now();
@@ -266,24 +266,24 @@ namespace ghost
 
 #ifndef NDEBUG
 	  soverlap = chrono::system_clock::now();
-	  vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possiblePositions, vecVarSimCosts );
+	  vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
 	  toverlap += chrono::system_clock::now() - soverlap;
 
 	  sbuildable = chrono::system_clock::now();
-	  vecConstraintsCosts[1] = vecConstraints[1]->simulateCost( *oldVariable, possiblePositions, vecVarSimCosts );
+	  vecConstraintsCosts[1] = vecConstraints[1]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
 	  tbuildable += chrono::system_clock::now() - sbuildable;
 
 	  snogaps = chrono::system_clock::now();
-	  vecConstraintsCosts[2] = vecConstraints[2]->simulateCost( *oldVariable, possiblePositions, vecVarSimCosts );
+	  vecConstraintsCosts[2] = vecConstraints[2]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
 	  tnogaps += chrono::system_clock::now() - snogaps;
 
 	  sstt = chrono::system_clock::now();
-	  vecConstraintsCosts[3] = vecConstraints[3]->simulateCost( *oldVariable, possiblePositions, vecVarSimCosts );
+	  vecConstraintsCosts[3] = vecConstraints[3]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
 	  tstt += chrono::system_clock::now() - sstt;
 #else
-	  vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possiblePositions, vecVarSimCosts, objective );
+	  vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts, objective );
 	  for( int i = 1; i < vecConstraints.size(); ++i )
-	    vecConstraintsCosts[i] = vecConstraints[i]->simulateCost( *oldVariable, possiblePositions, vecVarSimCosts );
+	    vecConstraintsCosts[i] = vecConstraints[i]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
 #endif
 
 	  fill( vecGlobalCosts.begin(), vecGlobalCosts.end(), 0. );
