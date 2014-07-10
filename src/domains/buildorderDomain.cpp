@@ -35,60 +35,21 @@ using namespace std;
 namespace ghost
 {
   BuildOrderDomain::BuildOrderDomain( int numberVariables, const vector<Action> *variables )
-    : Domain( computeSize( variables ), numberVariables, -1 )
-  {
-    for( const auto &v : *variables )
-      domains[ v.getId() ] = possibleFrames( v );
-  }
+    : Domain( numberVariables, numberVariables, 0 )
+  { }
   
-  BuildOrderDomain::BuildOrderDomain( int numberVariables, const vector<Action> *variables, int sizeSample )
-    : BuildOrderDomain( numberVariables, variables )
-  { makeMonteCarloSample( sizeSample ); }
-  
-  BuildOrderDomain::BuildOrderDomain( int numberVariables, const vector<Action> *variables, double ratioSample )
-    : BuildOrderDomain( numberVariables, variables )
-  { makeMonteCarloSample( ratioSample ); }
 
-  vector<int> BuildOrderDomain::possibleFrames( const Action &action ) const
+  void BuildOrderDomain::addAction()
   {
-    vector<int> vecFrames( size - action.getFrameRequired() );
-    std::iota( begin( vecFrames ), end( vecFrames ), -1 );
-    return vecFrames;
-  }
-  
-  void BuildOrderDomain::makeMonteCarloSample( int numberSamples )
-  {
-    while( sample.size() < numberSamples )
-      sample.insert( random.getRandNum( size ) - 1 );
-  }
-  
-  void BuildOrderDomain::makeMonteCarloSample( double ratio )
-  {
-    while( sample.size() < ratio * size )
-      sample.insert( random.getRandNum( size ) - 1 );    
+    size++;
+    domains.push_back( initialDomain );
+
+    for( auto &d : domains )
+      d.push_back( size );
+
+    initialDomain.push_back( size );
   }
 
-  void BuildOrderDomain::makeMonteCarloSample( int numberSamples, int varId )
-  {
-    while( sample.size() < numberSamples )
-      sample.insert( random.getRandNum( domains.at( varId ).size() ) - 1 );    
-  }
-  
-  void BuildOrderDomain::makeMonteCarloSample( double ratio, int varId )
-  {
-    while( sample.size() < ratio * size )
-      sample.insert( random.getRandNum( domains.at( varId ).size() ) - 1 );        
-  }
-
-  int BuildOrderDomain::computeSize( const vector<Action> *variables )
-  {
-    int sum = 0;
-
-    for( const auto &v : *variables )
-      sum += v.getFrameRequired();
-
-    return 2*sum;
-  }
 
   // friend ostream& operator<<( ostream &os, const BuildOrderDomain &b )
   // {

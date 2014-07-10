@@ -40,23 +40,10 @@ namespace ghost
   {
   public:
     BuildOrderDomain( int, const vector<Action>* );
-    BuildOrderDomain( int, const vector<Action>*, int );
-    BuildOrderDomain( int, const vector<Action>*, double );
 
-    inline set<int>	getMonteCarloSample() const { return sample; }
+
+    void addAction();
     
-    vector<int>	possibleFrames( const Action& ) const;
-
-    void makeMonteCarloSample( int numberSamples );
-    void makeMonteCarloSample( double ratio );
-    void makeMonteCarloSample( int numberSamples, int varId );
-    void makeMonteCarloSample( double ratio, int varId );
-
     // friend ostream& operator<<( ostream&, const BuildOrderDomain& );
-
-  private:
-    int computeSize( const vector<Action>* );
-    
-    set<int> sample;
   };
 }

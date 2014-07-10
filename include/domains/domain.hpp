@@ -80,8 +80,10 @@ namespace ghost
       std::iota( begin(initialDomain), end(initialDomain), start );
       for( int i = 0; i < numberVariables; ++i )
       {
-	domains[i] = vector<int>( size );
-	std::iota( begin(domains[i]), end(domains[i]), start );
+	// domains[i] = vector<int>( size );
+	// std::iota( begin(domains[i]), end(domains[i]), start );
+
+	domains[i] = initialDomain;
       }
     }
 
