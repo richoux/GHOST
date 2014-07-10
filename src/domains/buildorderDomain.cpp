@@ -35,11 +35,38 @@ using namespace std;
 namespace ghost
 {
   BuildOrderDomain::BuildOrderDomain( int numberVariables, const vector<Action> *variables )
-    : Domain( numberVariables, numberVariables, 0 )
+    : Domain( numberVariables, numberVariables, 0 ), order(*variables)
   { }
   
+  void BuildOrderDomain::add( const Action &action )
+  {
+    auto it = order.insert( begin(order) + action.getValue(), action );    
+    transform( it+1, end(order), it+1, [](Action a){a.setValue(a.getValue()+1);} );    
+  }
+  
+  void BuildOrderDomain::clear( const Action &action )
+  {
+    auto it = order.erase( begin(order) + action.getValue() );
+    transform( it, end(order), it, [](Action a){a.setValue(a.getValue()-1);} );
+  }
 
-  void BuildOrderDomain::addAction()
+  void BuildOrderDomain::moveTo( const int from, const int to )
+  {
+    if( from == to )
+      return;
+    
+    Action action = order.at( from );
+    action.setValue( to );
+    order.erase( begin(order) + from );
+    order.insert( begin(order) + to, action );
+
+    if( from > to )
+      transform( begin(order) + to, begin(order) + from, begin(order) + to, [](Action a){a.setValue(a.getValue()+1);} );
+    else
+      transform( begin(order) + from, begin(order) + to, begin(order) + from, [](Action a){a.setValue(a.getValue()-1);} );      
+  }
+
+  void BuildOrderDomain::addAction( const Action &action, const bool initialized )
   {
     size++;
     domains.push_back( initialDomain );
@@ -48,6 +75,16 @@ namespace ghost
       d.push_back( size );
 
     initialDomain.push_back( size );
+
+    if( initialized )
+    {
+      add( action );
+    }
+    else
+    {
+      action->setValue( size );
+      order.push_back( action );
+    }
   }
 
 

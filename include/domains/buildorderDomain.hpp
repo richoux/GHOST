@@ -27,7 +27,6 @@
 #pragma once
 
 #include <vector>
-#include <set>
 
 #include "domain.hpp"
 #include "../variables/action.hpp"
@@ -41,9 +40,17 @@ namespace ghost
   public:
     BuildOrderDomain( int, const vector<Action>* );
 
+    inline vector<Action*> getOrder() const { return order; }
 
-    void addAction();
+    void add( const Action& );
+    void clear( const Action& );
+
+    void moveTo( const int from, const int to );
+    void addAction( const Action &, const bool );
     
     // friend ostream& operator<<( ostream&, const BuildOrderDomain& );
+
+  private:
+    vector<Action> order;
   };
 }
