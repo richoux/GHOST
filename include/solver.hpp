@@ -168,7 +168,7 @@ namespace ghost
       double globalCost;
       double currentCost;
       double bestEstimatedCost;
-      int    bestPosition = 0;
+      int    bestValue = 0;
 
       vector<int> worstVariables;
       double worstVariableCost;
@@ -255,7 +255,7 @@ namespace ghost
 	  worstVariableId = objective->heuristicVariable( worstVariables, vecVariables, domain );
 	  oldVariable = &vecVariables->at( worstVariableId );
       
-	  // get possible positions for oldVariable.
+	  // get possible values for oldVariable.
 	  possibleValues = domain->valuesOf( *oldVariable );
 
 	  // time simulateCost
@@ -303,7 +303,7 @@ namespace ghost
 		      numeric_limits<int>::max() );
 
 	  // look for the first smallest cost, according to objective heuristic
-	  int b = objective->heuristicValue( vecGlobalCosts, bestEstimatedCost, bestPosition );
+	  int b = objective->heuristicValue( vecGlobalCosts, bestEstimatedCost, bestValue );
 	  bestSimCost = vecVarSimCosts[ b ];
 
 	  timeSimCost += chrono::system_clock::now() - startSimCost;
@@ -322,7 +322,7 @@ namespace ghost
 	    }
 	    
 	    variableCost = bestSimCost;
-	    move( oldVariable, bestPosition );
+	    move( oldVariable, bestValue );
 	  }
 	  else // local minima
 	    tabuList[ worstVariableId ] = TABU;
@@ -445,10 +445,10 @@ namespace ghost
 
     //! Solver's function to make a local move, ie, to assign a given
     //! value to a given variable
-    inline void move( TypeVariable *building, int newPosition )
+    inline void move( TypeVariable *building, int newValue )
     {
       domain->clear( *building );
-      building->setValue( newPosition );
+      building->setValue( newValue );
       domain->add( *building );
     }
 
