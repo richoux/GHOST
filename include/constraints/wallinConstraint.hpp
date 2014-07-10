@@ -97,7 +97,8 @@ namespace ghost
   {
   public:
     Overlap( const vector< Building >*, const WallinDomain* );
-    
+
+  private:
     double v_cost( vector<double>& ) const;
     vector<double> v_simulateCost( Building&,
 				   const vector<int>&,
@@ -113,7 +114,8 @@ namespace ghost
   {
   public:
     Buildable( const vector< Building >*, const WallinDomain* );
-    
+
+  private:
     double v_cost( vector<double>& ) const;
     vector<double> v_simulateCost( Building&,
 				   const vector<int>&,
@@ -129,9 +131,11 @@ namespace ghost
   {
   public:
     NoGaps( const vector< Building >*, const WallinDomain* );
-    
-    double v_cost( vector<double>& ) const;
+
     double postprocess_simulateCost( Building&, const int, vector<double>& );
+    
+  private:
+    double v_cost( vector<double>& ) const;
   };
 
   
@@ -143,8 +147,9 @@ namespace ghost
   public:
     StartingTargetTiles( const vector< Building >*, const WallinDomain* );
 
-    double v_cost( vector<double>& ) const;
   private:
+    double v_cost( vector<double>& ) const;
+
     map<int, Building*> mapBuildings;
   };
 }

@@ -44,6 +44,8 @@ namespace ghost
   {
   public:
     WallinObjective( const string & );
+
+  protected:
     virtual void v_setHelper( const Building &b, const vector< Building > *vecVariables, const WallinDomain *domain );
 
     virtual double v_postprocessSatisfaction( vector< Building > *vecVariables,
@@ -55,7 +57,7 @@ namespace ghost
 					      WallinDomain *domain,
 					      double &bestCost );
 
-  protected:
+    
     static int sizeWall;
   };
   
@@ -66,6 +68,8 @@ namespace ghost
   {
   public:
     NoneObj();
+
+  private:
     double v_cost( const vector< Building > *vecVariables, const WallinDomain *domain ) const;
     int v_heuristicVariable( const vector< int > &vecId, const vector< Building > *vecVariables, WallinDomain *domain );
     void v_setHelper( const Building &b, const vector< Building > *vecVariables, const WallinDomain *domain );
@@ -79,10 +83,11 @@ namespace ghost
   {
   public:
     GapObj();
+
+  private:
     double v_cost( const vector< Building > *vecVariables, const WallinDomain *domain ) const;
     int v_heuristicVariable( const vector< int > &vecId, const vector< Building > *vecVariables, WallinDomain *domain );
     void v_setHelper( const Building &b, const vector< Building > *vecVariables, const WallinDomain *domain );
-  private:
     int gapSize( const Building &b, const vector< Building > *vecVariables, const WallinDomain *domain ) const;
   };
 
@@ -93,6 +98,8 @@ namespace ghost
   {
   public:
     BuildingObj();
+
+  private:
     double v_cost( const vector< Building > *vecVariables, const WallinDomain *domain ) const;
     int v_heuristicVariable( const vector< int > &vecId, const vector< Building > *vecVariables, WallinDomain *domain );
     double v_postprocessOptimization( vector< Building > *vecVariables, WallinDomain *domain, double &bestCost );
@@ -105,6 +112,8 @@ namespace ghost
   {
   public:
     TechTreeObj();
+
+  private:
     double v_cost( const vector< Building > *vecVariables, const WallinDomain *domain ) const;
     int v_heuristicVariable( const vector< int > &vecId, const vector< Building > *vecVariables, WallinDomain *domain );
   };
