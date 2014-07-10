@@ -92,7 +92,7 @@ namespace ghost
   {
     return os
       << "Type: " <<  typeid(b).name() << endl
-      << "Race: " <<  b.getRace() << endl
+      << "Race: " <<  b.getRaceString() << endl
       << "Name: " << b.name << endl
       << "Full name: " << b.fullName << endl
       << "Id num: " << b.id << endl

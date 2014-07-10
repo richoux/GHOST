@@ -35,7 +35,8 @@ namespace ghost
   Action::Action(int frame, 
 		 int mineral, 
 		 int gas, 
-		 int supply, 
+		 int supply,
+		 ActionType actionType,
 		 vector<string> dep, 
 		 string creator, 
 		 Race race,
@@ -46,7 +47,8 @@ namespace ghost
       frameRequired(frame),
       costMineral(mineral),
       costGas(gas), 
-      costSupply(supply), 
+      costSupply(supply),
+      actionType(actionType),
       dependencies(dep), 
       creator(creator),
       race(race)
@@ -58,6 +60,7 @@ namespace ghost
       costMineral(other.costMineral),
       costGas(other.costGas), 
       costSupply(other.costSupply), 
+      actionType(other.actionType), 
       dependencies(other.dependencies), 
       creator(other.creator),
       race(other.race)
@@ -79,6 +82,7 @@ namespace ghost
     std::swap(this->costMineral, other.costMineral);
     std::swap(this->costGas, other.costGas);
     std::swap(this->costSupply, other.costSupply);
+    std::swap(this->actionType, other.actionType);
     std::swap(this->dependencies, other.dependencies);
     std::swap(this->creator, other.creator);
     std::swap(this->race, other.race);
@@ -87,8 +91,9 @@ namespace ghost
   ostream& operator<<( ostream &os, const Action &a )
   {
     os
-      << "Type: " <<  typeid(a).name() << endl
-      << "Race: " <<  a.getRace() << endl
+      << "Type info: " <<  typeid(a).name() << endl
+      << "Type: " <<  a.getTypeString() << endl
+      << "Race: " <<  a.getRaceString() << endl
       << "Name: " << a.name << endl
       << "Full name: " << a.fullName << endl
       << "Id num: " << a.id << endl

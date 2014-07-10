@@ -52,8 +52,9 @@ namespace ghost
     inline int getGapLeft()	const	{ return gapLeft; }
 
     inline bool	isSelected()	const	{ return value != -1; }
-    
-    inline string getRace()	const	
+
+    inline Race getRace()	const	{ return race; }
+    inline string getRaceString()	const	
     { 
       switch( race ) 
       {

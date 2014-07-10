@@ -33,11 +33,13 @@ using namespace std;
 
 namespace ghost
 {
+  enum ActionType{ building, unit, upgrade, research };
+  
   class Action : public Variable
   {
   public:
     Action();
-    Action(int, int, int, int, vector<string>, string, Race, string, string, int = -1);
+    Action(int, int, int, int, ActionType, vector<string>, string, Race, string, string, int = -1);
     Action(const Action&);
     Action& operator=(Action);
 
@@ -48,10 +50,24 @@ namespace ghost
     inline int getCostGas()		const { return costGas; }
     inline int getCostSupply()		const { return costSupply; }
 
+    inline ActionType getType()		const { return actionType; }
+    inline string getTypeString()	const	
+    { 
+      switch( actionType ) 
+      {
+      case building: return "Building";
+      case unit: return "Unit";
+      case upgrade: return "Upgrade";
+      case research: return "Research";
+      default: return "Unknown";
+      }
+    }
+    
     inline vector<string> getDependencies()	const { return dependencies; }
     inline string	  getCreator()		const { return creator; }
-    
-    inline string getRace()	const	
+
+    inline Race getRace()		const { return race; }
+    inline string getRaceString()	const	
     { 
       switch( race ) 
       {
@@ -67,10 +83,11 @@ namespace ghost
   private:
     void swap(Action&);
 
-    int frameRequired;
-    int costMineral;
-    int costGas;
-    int costSupply;
+    int		frameRequired;
+    int		costMineral;
+    int		costGas;
+    int		costSupply;
+    ActionType	actionType;
 
     vector<string>	dependencies;
     string		creator; 
