@@ -40,13 +40,13 @@ namespace ghost
   public:
     BuildOrderDomain( int, const vector<Action>* );
 
-    inline vector<Action*> getOrder() const { return order; }
+    inline vector<Action> getOrder() const { return order; }
 
     void add( const Action& );
     void clear( const Action& );
 
-    void moveTo( const int from, const int to );
-    void addAction( const Action &, const bool );
+    void moveTo( int from, int to );
+    void addAction( Action &, bool );
     
     // friend ostream& operator<<( ostream&, const BuildOrderDomain& );
 

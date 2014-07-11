@@ -40,17 +40,19 @@ namespace ghost
   
   void BuildOrderDomain::add( const Action &action )
   {
-    auto it = order.insert( begin(order) + action.getValue(), action );    
-    transform( it+1, end(order), it+1, [](Action a){a.setValue(a.getValue()+1);} );    
+    auto it = order.insert( begin(order) + action.getValue(), action );
+    for( auto iter = it + 1 ; iter != end(order) ; ++iter )
+      iter->shiftValue();
   }
   
   void BuildOrderDomain::clear( const Action &action )
   {
     auto it = order.erase( begin(order) + action.getValue() );
-    transform( it, end(order), it, [](Action a){a.setValue(a.getValue()-1);} );
+    for( auto iter = it ; iter != end(order) ; ++iter )
+      iter->setValue( iter->getValue() - 1 );
   }
 
-  void BuildOrderDomain::moveTo( const int from, const int to )
+  void BuildOrderDomain::moveTo( int from, int to )
   {
     if( from == to )
       return;
@@ -61,12 +63,15 @@ namespace ghost
     order.insert( begin(order) + to, action );
 
     if( from > to )
-      transform( begin(order) + to, begin(order) + from, begin(order) + to, [](Action a){a.setValue(a.getValue()+1);} );
+      for( auto iter = begin(order) + to ; iter != begin(order) + from ; ++iter )
+	iter->shiftValue();
+
     else
-      transform( begin(order) + from, begin(order) + to, begin(order) + from, [](Action a){a.setValue(a.getValue()-1);} );      
+      for( auto iter = begin(order) + from ; iter != begin(order) + to ; ++iter )
+	iter->setValue( iter->getValue() - 1 );
   }
 
-  void BuildOrderDomain::addAction( const Action &action, const bool initialized )
+  void BuildOrderDomain::addAction( Action &action, bool initialized )
   {
     size++;
     domains.push_back( initialDomain );
@@ -82,7 +87,7 @@ namespace ghost
     }
     else
     {
-      action->setValue( size );
+      action.setValue( size );
       order.push_back( action );
     }
   }
