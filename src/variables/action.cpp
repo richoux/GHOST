@@ -52,7 +52,10 @@ namespace ghost
       dependencies(dep), 
       creator(creator),
       race(race)
-  { }
+  {
+    if( value == -1)
+      value = id;
+  }
 
   Action::Action( const Action &other )
     : Variable(other),

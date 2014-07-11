@@ -29,12 +29,14 @@
 #include <vector>
 #include <iostream>
 #include <memory>
-#include <map>
+#include <algorithm>
+#include <string>
 
 #include "constraint.hpp"
 #include "../variables/action.hpp"
 #include "../domains/buildorderDomain.hpp"
 #include "../objectives/objective.hpp"
+#include "../misc/actionFactory.hpp"
 
 using namespace std;
 
@@ -43,43 +45,35 @@ namespace ghost
   class BuildOrderConstraint : public Constraint<Action, BuildOrderDomain>
   {
   public:
-    BuildOrderConstraint( const vector< Building >*, const BuildOrderDomain* );
+    BuildOrderConstraint( const vector< Action >*, const BuildOrderDomain* );
 
-    double cost( vector<double> &varCost ) const { return v_cost( varCost ); }
 
-    vector<double> simulateCost( Action &currentAction,
-				 const vector<int> &newValue,
-				 vector< vector<double> > &vecVarSimCosts )
-    { return v_simulateCost( currentAction, newValue, vecVarSimCosts ); }
+  private:
+    double		v_cost(		vector<double> &varCost ) const;
 
-  protected:
-    virtual double v_cost( vector<double>& ) const = 0;
-
-    virtual vector<double> v_simulateCost( Action &currentAction,
-					   const vector<int> &newValue,
-					   vector< vector<double> > &vecVarSimCosts )
+    vector<double>	v_simulateCost( Action &currentAction,
+					const vector<int> &newPosition,
+					vector< vector<double> > &vecVarSimCosts,
+					shared_ptr< Objective< Action, BuildOrderDomain > > objective )
     {
       vector<double> simCosts( domain->getSize(), -1. );
       int backup = currentAction.getValue();
-      int previousPos = 0;
-
-      for( auto &pos : newValue )
+      
+      if( objective )
+	objective->resetHelper();
+      
+      for( const auto &pos : newPosition )
       {
-	if( pos >= 1 && pos == previousPos + 1 )
-	{
-	  domain->quickShift( currentAction );
-	}
-	else
-	{ 
-	  domain->clear( currentAction );
-	  currentAction.setValue( pos );
-	  domain->add( currentAction );
-	}
-
+	domain->clear( currentAction );
+	currentAction.setValue( pos );
+	domain->add( currentAction );
+      
 	simCosts[pos+1] = cost( vecVarSimCosts[pos+1] );
-	previousPos = pos;
-      }
 
+	if( objective )
+	  objective->setHelper( currentAction, variables, domain );
+      }
+      
       domain->clear( currentAction );
       currentAction.setValue( backup );
       domain->add( currentAction );
@@ -87,57 +81,4 @@ namespace ghost
       return simCosts;
     }
   };  
-
-
-  /***********/
-  /* Overlap */
-  /***********/  
-  class Overlap : public BuildOrderConstraint
-  {
-  public:
-    Overlap( const vector< Action >*, const BuildOrderDomain* );
-    
-    double v_cost( vector<double>& ) const;
-    vector<double> v_simulateCost( Action&, const vector<int>&, vector< vector<double> >& );
-  };
-
-  
-  /*************/
-  /* Buildable */
-  /*************/  
-  class Buildable : public BuildOrderConstraint
-  {
-  public:
-    Buildable( const vector< Action >*, const BuildOrderDomain* );
-    
-    double v_cost( vector<double>& ) const;
-    vector<double> v_simulateCost( Action&, const vector<int>&, vector< vector<double> >& );
-  };
-
-  
-  /**********/
-  /* NoGaps */
-  /**********/  
-  class NoGaps : public BuildOrderConstraint
-  {
-  public:
-    NoGaps( const vector< Action >*, const BuildOrderDomain* );
-    
-    double v_cost( vector<double>& ) const;
-    double postprocess_simulateCost( Action&, const int, vector<double>& );
-  };
-
-  
-  /***********************/
-  /* StartingTargetTiles */
-  /***********************/  
-  class StartingTargetTiles : public BuildOrderConstraint
-  {
-  public:
-    StartingTargetTiles( const vector< Action >*, const BuildOrderDomain* );
-
-    double v_cost( vector<double>& ) const;
-  private:
-    map<int, Action*> mapActions;
-  };
 }

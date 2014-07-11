@@ -30,6 +30,7 @@
 #include <memory>
 #include <string>
 
+#include "../variables/building.hpp"
 #include "../constraints/wallinConstraint.hpp"
 #include "../domains/wallinDomain.hpp"
 
