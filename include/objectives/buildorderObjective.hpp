@@ -43,35 +43,84 @@ namespace ghost
   class BuildOrderObjective : public Objective<Action, BuildOrderDomain>
   {
   public:
-    BuildOrderObjective( const string & );
+    BuildOrderObjective( const string &name );
+    BuildOrderObjective( const string &name, const vector< pair<string, int> > &input, vector<Action> &variables );
 
   protected:
     virtual void v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain );
 
-    virtual double v_postprocessSatisfaction( vector< Action > *vecVariables,
-					      BuildOrderDomain *domain,
-					      double &bestCost,
-					      vector<int> &bestSolution ) const;
-    
     virtual double v_postprocessOptimization( vector< Action > *vecActions,
 					      BuildOrderDomain *domain,
 					      double &bestCost );
+
+    struct Simulation
+    {
+      Simulation( Action *action,
+		  string additionalAction,
+		  int frame,
+		  int stockMineral,
+		  int stockGas,
+		  double incomeMineralPerMinute,
+		  double incomeGasPerMinute,
+		  int supplyUsed,
+		  int supplyCapacity )
+	: action(action),
+	  additionalAction(additionalAction),
+	  frame(frame),
+	  stockMineral(stockMineral),
+	  stockGas(stockGas),
+	  incomeMineralPerMinute(incomeMineralPerMinute),
+	  incomeGasPerMinute(incomeGasPerMinute),
+	  supplyUsed(supplyUsed),
+	  supplyCapacity(supplyCapacity)
+      { }
+      
+      Action	*action;
+      string	additionalAction;
+      int	frame;
+      int	stockMineral;
+      int	stockGas;
+      double	incomeMineralPerMinute;
+      double	incomeGasPerMinute;
+      int	supplyUsed;
+      int	supplyCapacity;
+    };
+
+    struct Goal
+    {
+      Goal( string fullName, string type, int toHave, int current )
+	: fullName(fullName), type(type), toHave(toHave), current(current)
+      { }
+      
+      string	fullName;
+      string	type;
+      int	toHave;
+      int	current;
+    };
+
+
+    void makeVecVariables( const pair<string, int> &input, vector<Action> &variables, vector<Goal> &goals );
+    void makeVecVariables( const Action &action, vector<Action> &variables, int count );
+
+    
+    vector<Simulation>	simulation;
+    vector<Goal>	goals;
   };
   
   /***********/
   /* NoneObj */
   /***********/
-  class NoneObj : public BuildOrderObjective
-  {
-  public:
-    NoneObj();
+  // class NoneObj : public BuildOrderObjective
+  // {
+  // public:
+  //   NoneObj();
 
-  private:
-    double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const;
-    int v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain );
-    void v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain );
-    double v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost );
-  };
+  // private:
+  //   double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const;
+  //   int v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain );
+  //   void v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain );
+  //   double v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost );
+  // };
 
   /*******************/
   /* MakeSpanMinCost */
