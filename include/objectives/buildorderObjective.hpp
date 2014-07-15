@@ -47,7 +47,9 @@ namespace ghost
     BuildOrderObjective( const string &name, const vector< pair<string, int> > &input, vector<Action> &variables );
 
   protected:
-    virtual void v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain );
+    double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const;
+    int v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain );
+    void v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain );
 
     virtual double v_postprocessOptimization( vector< Action > *vecActions,
 					      BuildOrderDomain *domain,
@@ -60,8 +62,8 @@ namespace ghost
 		  int frame,
 		  int stockMineral,
 		  int stockGas,
-		  double incomeMineralPerMinute,
-		  double incomeGasPerMinute,
+		  int mineralWorkers,
+		  int gasWorker,
 		  int supplyUsed,
 		  int supplyCapacity )
 	: action(action),
@@ -69,8 +71,8 @@ namespace ghost
 	  frame(frame),
 	  stockMineral(stockMineral),
 	  stockGas(stockGas),
-	  incomeMineralPerMinute(incomeMineralPerMinute),
-	  incomeGasPerMinute(incomeGasPerMinute),
+	  mineralWorkers(mineralWorkers),
+	  gasWorkers(gasWorkers),
 	  supplyUsed(supplyUsed),
 	  supplyCapacity(supplyCapacity)
       { }
@@ -80,8 +82,8 @@ namespace ghost
       int	frame;
       int	stockMineral;
       int	stockGas;
-      double	incomeMineralPerMinute;
-      double	incomeGasPerMinute;
+      int	mineralWorkers;
+      int	gasWorkers;
       int	supplyUsed;
       int	supplyCapacity;
     };
@@ -131,9 +133,9 @@ namespace ghost
     MakeSpanMinCost();
 
   private:
-    double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const;
-    int v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain );
-    void v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain );
+    // double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const;
+    // int v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain );
+    // void v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain );
     double v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost );
   };
 
@@ -146,9 +148,9 @@ namespace ghost
     MakeSpanMaxProd();
 
   private:
-    double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const;
-    int v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain );
-    void v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain );
+    // double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const;
+    // int v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain );
+    // void v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain );
     double v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost );
   };
 }

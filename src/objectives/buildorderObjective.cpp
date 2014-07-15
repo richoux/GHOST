@@ -54,13 +54,24 @@ namespace ghost
       makeVecVariables( i, variables, goals );
   }
 
+  double BuildOrderObjective::v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const
+  {
+    
+  }
+
+  int BuildOrderObjective::v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain )
+  {
+    return vecId[ randomVar.getRandNum( vecId.size() ) ];
+  }
+
   void BuildOrderObjective::v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain )
   {
-    // if( b.isSelected() )
-    // {
-    //   int pos = b.getValue();
-    //   heuristicValueHelper.at( pos ) = domain->distanceToTarget( pos );
-    // }
+    int pos = b.getValue();
+
+    // the idea here is to favor larger values: if you have to move a
+    // variable, move it as far as possible, in order to not disturb
+    // too much what has been done so far.
+    heuristicValueHelper.at( pos ) = domain->size() - pos;
   }
 
 
@@ -200,23 +211,6 @@ namespace ghost
   /*******************/
   MakeSpanMinCost::MakeSpanMinCost() : BuildOrderObjective( "MakeSpanMinCost" ) { }
 
-  double MakeSpanMinCost::v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const
-  {
-
-    return 0;
-  }
-  
-  int MakeSpanMinCost::v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain )
-  {
-
-    return 0;
-  }
-  
-  void MakeSpanMinCost::v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain )
-  {
-
-  }
-  
   double MakeSpanMinCost::v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost )
   {
 
@@ -229,23 +223,6 @@ namespace ghost
   /*******************/
   MakeSpanMaxProd::MakeSpanMaxProd() : BuildOrderObjective( "MakeSpanMaxProd" ) { }
 
-  double MakeSpanMaxProd::v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const
-  {
-
-    return 0;
-  }
-  
-  int MakeSpanMaxProd::v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain )
-  {
-
-    return 0;
-  }
-  
-  void MakeSpanMaxProd::v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain )
-  {
-
-  }
-  
   double MakeSpanMaxProd::v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost )
   {
 
