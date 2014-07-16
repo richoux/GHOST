@@ -161,7 +161,9 @@ namespace ghost
     bestCost = v_cost( vecVariables, domain );
     double currentCost = bestCost;
 
-    while( (postprocesstimer = chrono::system_clock::now() - startPostprocess).count() < static_cast<int>( ceil(OPT_TIME / 100) ) && bestCost > 0 )
+    int postprocessTimeLimit = std::max( 1, static_cast<int>( ceil(OPT_TIME / 100) ) );
+
+    while( (postprocesstimer = chrono::system_clock::now() - startPostprocess).count() < postprocessTimeLimit && bestCost > 0 )
     {
       goodVar.clear();
 
