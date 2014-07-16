@@ -45,7 +45,7 @@ namespace ghost
 
     inline bool	isSelected()	const	{ return value != -1; }
 
-    inline int getFrameRequired()	const { return frameRequired; }
+    inline int getSecondsRequired()	const { return secondsRequired; }
     inline int getCostMineral()		const { return costMineral; }
     inline int getCostGas()		const { return costGas; }
     inline int getCostSupply()		const { return costSupply; }
@@ -83,7 +83,7 @@ namespace ghost
   private:
     void swap(Action&);
 
-    int		frameRequired;
+    int		secondsRequired;
     int		costMineral;
     int		costGas;
     int		costSupply;

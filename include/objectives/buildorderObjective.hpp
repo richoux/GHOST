@@ -27,6 +27,7 @@
 #pragma once
 
 #include <vector>
+#include <map>
 #include <memory>
 
 #include "objective.hpp"
@@ -55,37 +56,97 @@ namespace ghost
 					      BuildOrderDomain *domain,
 					      double &bestCost );
 
-    struct Simulation
+    struct Tuple
     {
-      Simulation( Action *action,
-		  string additionalAction,
-		  int frame,
-		  int stockMineral,
-		  int stockGas,
-		  int mineralWorkers,
-		  int gasWorker,
-		  int supplyUsed,
-		  int supplyCapacity )
-	: action(action),
-	  additionalAction(additionalAction),
-	  frame(frame),
+      Tuple( string actor, string goal, int time)
+	: actor(actor), goal(goal), time(time) { }
+      
+      string actor;
+      string goal;
+      int time;
+    };
+    
+    struct State
+    {
+      State()
+	: seconds(0),
+	  stockMineral(0.),
+	  stockGas(0.),
+	  mineralWorkers(0),
+	  gasWorkers(0),
+	  supplyUsed(5),
+	  supplyCapacity(8),
+	  numberBases(1),
+	  numberRefineries(0),
+	  resources(map<string, int>()),
+	  busy(vector< Tuple >{Tuple("Protoss_Nexus", "Protoss_Probe", 20)}),
+	  inMove(vector< Tuple >
+		 {   Tuple("Protoss_Probe", "Mineral", 2),
+		     Tuple("Protoss_Probe", "Mineral", 2),
+		     Tuple("Protoss_Probe", "Mineral", 2),
+		     Tuple("Protoss_Probe", "Mineral", 2) })
+      { }
+      
+      State( int seconds,
+	     double stockMineral,
+	     double stockGas,
+	     int mineralWorkers,
+	     int gasWorker,
+	     int supplyUsed,
+	     int supplyCapacity,
+	     int numberBases,
+	     int numberRefineries,
+	     const map<string, int> &resources,
+	     const vector< Tuple > &busy,
+	     const vector< Tuple > &inMove )
+	: seconds(seconds),
 	  stockMineral(stockMineral),
 	  stockGas(stockGas),
 	  mineralWorkers(mineralWorkers),
 	  gasWorkers(gasWorkers),
 	  supplyUsed(supplyUsed),
-	  supplyCapacity(supplyCapacity)
+	  supplyCapacity(supplyCapacity),
+	  numberBases(numberBases),
+	  numberRefineries(numberRefineries),
+	  resources(resources),
+	  busy(busy),
+	  inMove(inMove)
       { }
+
+      void reset()
+      {
+	seconds = 0;
+	stockMineral = 0.;
+	stockGas = 0.;
+	mineralWorkers = 0;
+	gasWorkers = 0;
+	supplyUsed = 5;
+	supplyCapacity = 8;
+	numberBases = 1;
+	numberRefineries = 0;
+	resources.clear();
+	busy.clear();
+	busy( vector< Tuple >{ Tuple("Protoss_Nexus", "Protoss_Probe", 20) } );
+	inMove.clear();
+	inMove( vector< Tuple >
+		{   Tuple("Protoss_Probe", "Mineral", 2),
+		    Tuple("Protoss_Probe", "Mineral", 2),
+		    Tuple("Protoss_Probe", "Mineral", 2),
+		    Tuple("Protoss_Probe", "Mineral", 2) } );
+      }
       
-      Action	*action;
-      string	additionalAction;
-      int	frame;
-      int	stockMineral;
-      int	stockGas;
+      int	seconds;
+      double	stockMineral;
+      double	stockGas;
       int	mineralWorkers;
       int	gasWorkers;
       int	supplyUsed;
       int	supplyCapacity;
+      int	numberBases;
+      int	numberRefineries;
+      map<string, int> resources;
+      vector< Tuple > busy;
+      vector< Tuple > inMove;      
     };
 
     struct Goal
@@ -105,24 +166,10 @@ namespace ghost
     void makeVecVariables( const Action &action, vector<Action> &variables, int count );
 
     
-    vector<Simulation>	simulation;
+    State		currentState;
     vector<Goal>	goals;
   };
   
-  /***********/
-  /* NoneObj */
-  /***********/
-  // class NoneObj : public BuildOrderObjective
-  // {
-  // public:
-  //   NoneObj();
-
-  // private:
-  //   double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const;
-  //   int v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain );
-  //   void v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain );
-  //   double v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost );
-  // };
 
   /*******************/
   /* MakeSpanMinCost */
@@ -133,9 +180,6 @@ namespace ghost
     MakeSpanMinCost();
 
   private:
-    // double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const;
-    // int v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain );
-    // void v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain );
     double v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost );
   };
 
@@ -148,9 +192,6 @@ namespace ghost
     MakeSpanMaxProd();
 
   private:
-    // double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const;
-    // int v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain );
-    // void v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain );
     double v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost );
   };
 }

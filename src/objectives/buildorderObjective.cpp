@@ -46,9 +46,18 @@ namespace ghost
   /***********************/
   /* BuildOrderObjective */
   /***********************/
-  BuildOrderObjective::BuildOrderObjective( const string &name ) : Objective<Action, BuildOrderDomain>( name ) { }
-  BuildOrderObjective::BuildOrderObjective( const string &name, const vector< pair<string, int> > &input, vector<Action> &variables )
-    : Objective<Action, BuildOrderDomain>( name ), goals(vector<Goal>())
+  BuildOrderObjective::BuildOrderObjective( const string &name )
+    : Objective<Action, BuildOrderDomain>( name ),
+    currentState( State() ),
+    goals( vector<Goal>() )
+  { }
+  
+  BuildOrderObjective::BuildOrderObjective( const string &name,
+					    const vector< pair<string, int> > &input,
+					    vector<Action> &variables )
+    : Objective<Action, BuildOrderDomain>( name ),
+    currentState( State() ),
+    goals(vector<Goal>())
   {
     for( const auto &i : input)
       makeVecVariables( i, variables, goals );
@@ -56,7 +65,67 @@ namespace ghost
 
   double BuildOrderObjective::v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const
   {
+    currentState.reset();
+    int seconds = 0;
+    auto nextAction = vecVariables->begin();
+    string creator = nextAction->getCreator();
     
+    while( nextAction != vecVariables->end() )
+    {
+      ++seconds;
+      
+      // update mineral / gas stocks
+      stockMineral += mineralWorkers * 1.08; // 1.08 mineral per worker per second in average
+      stockGas += gasWorkers * 1.68; // 1.68 gas per worker per second in average
+
+      // update busy list
+      updateBusy( currentState );
+
+      // update inMove list
+      updateInMove( currentState );
+
+      // produce a worker if I can, ie:
+      // 1. if I have at least 50 minerals
+      // 2. if I have at least one available Nexus
+      // 3. if I am not supply blocked.
+      if( stockMineral >= 50 && resources["Protoss_Nexus"] > 0 && supplyUsed < supplyCapacity )
+      {
+	stockMineral -= 50;
+	++supplyUsed;
+	--resources["Protoss_Nexus"];
+	busy.push_back( Tuple("Protoss_Nexus", "Protoss_Probe", 20) );
+      }
+
+      // build a pylon if I must, ie:
+      // 1. if my supply cap cannot manage the next global unit production
+      youMustConstructAdditionalPylons( currentState );
+
+      // can I handle the next action?
+      if( stockMineral >= nextAction->getCostMineral()
+	  &&
+	  stockGas >= nextAction->getCostGas()
+	  &&
+	  supplyUsed + nextAction->getCostSupply() <= supplyCapacity
+	  &&
+	  ( creator.empty() || resources( creator ) > 0 ) )
+      {
+	stockMineral -= nextAction->getCostMineral();
+	stockGas -= nextAction->getCostGas();
+	supplyUsed += nextAction->getCostSupply();
+
+	if( !creator.empty() )
+	  --resources( creator );
+
+	busy.push_back( Tuple( creator, nextAction->getFullName(), nextAction->getSecondsRequired() ) );
+	++nextAction;
+	if( nextAction != vecVariables->end() )
+	  creator = nextAction->getCreator();
+      }
+    }
+
+    seconds += busy.at(0).time;
+    
+    return static_cast<double>( seconds );
   }
 
   int BuildOrderObjective::v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain )

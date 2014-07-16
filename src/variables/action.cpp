@@ -32,7 +32,7 @@ namespace ghost
 {
   Action::Action() { }
   
-  Action::Action(int frame, 
+  Action::Action(int second, 
 		 int mineral, 
 		 int gas, 
 		 int supply,
@@ -44,7 +44,7 @@ namespace ghost
 		 string fullName,
 		 int value)
     : Variable( name, fullName, value ),
-      frameRequired(frame),
+      secondsRequired(second),
       costMineral(mineral),
       costGas(gas), 
       costSupply(supply),
@@ -59,7 +59,7 @@ namespace ghost
 
   Action::Action( const Action &other )
     : Variable(other),
-      frameRequired(other.frameRequired),
+      secondsRequired(other.secondsRequired),
       costMineral(other.costMineral),
       costGas(other.costGas), 
       costSupply(other.costSupply), 
@@ -81,7 +81,7 @@ namespace ghost
     std::swap(this->fullName, other.fullName);
     std::swap(this->id, other.id);
     std::swap(this->value, other.value);
-    std::swap(this->frameRequired, other.frameRequired);
+    std::swap(this->secondsRequired, other.secondsRequired);
     std::swap(this->costMineral, other.costMineral);
     std::swap(this->costGas, other.costGas);
     std::swap(this->costSupply, other.costSupply);
@@ -100,7 +100,7 @@ namespace ghost
       << "Name: " << a.name << endl
       << "Full name: " << a.fullName << endl
       << "Id num: " << a.id << endl
-      << "Frame required: " << a.frameRequired << endl
+      << "Seconds required: " << a.secondsRequired << endl
       << "Cost Mineral: " <<  a.costMineral << endl
       << "Cost Gas: " <<  a.costGas << endl
       << "Cost Supply: " <<  a.costSupply << endl
