@@ -26,46 +26,11 @@
 
 #pragma once
 
-#include <vector>
-#include <memory>
-
 #include "../variables/action.hpp"
-#include "../constraints/buildorderConstraint.hpp"
-#include "../domains/buildorderDomain.hpp"
-
-using namespace std;
 
 namespace ghost
 {
-  Action factoryProtossAction( const string &fullName )
-  {
-    if( fullName.compare("Protoss_Zealot") == 0 )
-      return Action( 40*24, 100, 0, 2, unit, vector<string>{"Protoss_Gateway"}, "Protoss_Gateway", Protoss, "puz", "Protoss_Zealot" );
-    else
-      if( fullName.compare("Protoss_Dragoon") == 0 )
-	return Action( 50*24, 125, 50, 2, unit, vector<string>{"Protoss_Gateway", "Protoss_Cybernetics_Core"}, "Protoss_Gateway", Protoss, "pud", "Protoss_Dragoon" );
-      else
-	if( fullName.compare("Protoss_Gateway") == 0 )
-	  return Action( 60*24, 150, 0, 0, building, vector<string>{"Protoss_Nexus"}, "Protoss_Probe", Protoss, "pbg", "Protoss_Gateway" );
-	else
-	  if( fullName.compare("Protoss_Cybernetics_Core") == 0 )
-	    return Action( 60*24, 200, 0, 0, building, vector<string>{"Protoss_Gateway"}, "Protoss_Probe", Protoss, "pbc", "Protoss_Cybernetics_Core" );
-	  else
-	    if( fullName.compare("Protoss_Forge") == 0 )
-	      return Action( 40*24, 150, 0, 0, building, vector<string>{"Protoss_Nexus"}, "Protoss_Probe", Protoss, "pbf", "Protoss_Forge" );
-	    else
-	      if( fullName.compare("Protoss_Ground_Weapons_1") == 0 )
-		return Action( 266*24, 100, 100, 0, upgrade, vector<string>{"Protoss_Forge"}, "Protoss_Forge", Protoss, "ppgw1", "Protoss_Ground_Weapons_1" );
-	      else
-		return Action();
-  }
+  Action factoryProtossAction( const string &fullName );
 
-  
-  // vector< shared_ptr<BuildOrderConstraint> > makeProtossBuildOrderConstraints( const vector< Action > *vec, const BuildOrderDomain *domain )
-  // {
-  //   shared_ptr<BuildOrderConstraint> dependencies = make_shared<BuildOrderConstraint>( vec, domain );
-
-  //   vector< shared_ptr<BuildOrderConstraint> > vecConstraints { dependencies };
-  //   return vecConstraints;
-  // }
+  // vector< shared_ptr<BuildOrderConstraint> > makeProtossBuildOrderConstraints( const vector< Action > *vec, const BuildOrderDomain *domain );
 }

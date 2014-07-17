@@ -58,41 +58,40 @@ namespace ghost
 
     struct Tuple
     {
-      Tuple( string actor, string goal, int time)
-	: actor(actor), goal(goal), time(time) { }
+      Tuple( string actor, string goal, int time, int waitTime = 0 )
+	: actor(actor), goal(goal), time(time), waitTime(waitTime) { }
       
       string actor;
       string goal;
       int time;
+      int waitTime;
     };
     
     struct State
     {
-      State() {}
-      // State()
-      // 	: seconds(0),
-      // 	  stockMineral(0.),
-      // 	  stockGas(0.),
-      // 	  mineralWorkers(0),
-      // 	  gasWorkers(0),
-      // 	  supplyUsed(5),
-      // 	  supplyCapacity(8),
-      // 	  numberBases(1),
-      // 	  numberRefineries(0),
-      // 	  resources(map<string, int>()),
-      // 	  busy(vector< Tuple >{Tuple("Protoss_Nexus", "Protoss_Probe", 20)}),
-      // 	  inMove(vector< Tuple >
-      // 		 {   Tuple("Protoss_Probe", "Mineral", 2),
-      // 		     Tuple("Protoss_Probe", "Mineral", 2),
-      // 		     Tuple("Protoss_Probe", "Mineral", 2),
-      // 		     Tuple("Protoss_Probe", "Mineral", 2) })
-      // { }
+      State()
+      	: seconds(0),
+      	  stockMineral(0.),
+      	  stockGas(0.),
+      	  mineralWorkers(0),
+      	  gasWorkers(0),
+      	  supplyUsed(5),
+      	  supplyCapacity(8),
+      	  numberBases(1),
+      	  numberRefineries(0),
+      	  resources(map<string, int>()),
+      	  busy{Tuple("Protoss_Nexus", "Protoss_Probe", 20)},
+      	  inMove{ Tuple("Protoss_Probe", "Mineral", 0, 2),
+	      Tuple("Protoss_Probe", "Mineral", 0, 2),
+	      Tuple("Protoss_Probe", "Mineral", 0, 2),
+	      Tuple("Protoss_Probe", "Mineral", 0, 2) }
+      { }
       
       State( int seconds,
 	     double stockMineral,
 	     double stockGas,
 	     int mineralWorkers,
-	     int gasWorker,
+	     int gasWorkers,
 	     int supplyUsed,
 	     int supplyCapacity,
 	     int numberBases,
@@ -114,27 +113,24 @@ namespace ghost
 	  inMove(inMove)
       { }
 
-      // void reset()
-      // {
-      // 	seconds = 0;
-      // 	stockMineral = 0.;
-      // 	stockGas = 0.;
-      // 	mineralWorkers = 0;
-      // 	gasWorkers = 0;
-      // 	supplyUsed = 5;
-      // 	supplyCapacity = 8;
-      // 	numberBases = 1;
-      // 	numberRefineries = 0;
-      // 	resources.clear();
-      // 	busy.clear();
-      // 	busy( vector< Tuple >{ Tuple("Protoss_Nexus", "Protoss_Probe", 20) } );
-      // 	inMove.clear();
-      // 	inMove( vector< Tuple >
-      // 		{   Tuple("Protoss_Probe", "Mineral", 2),
-      // 		    Tuple("Protoss_Probe", "Mineral", 2),
-      // 		    Tuple("Protoss_Probe", "Mineral", 2),
-      // 		    Tuple("Protoss_Probe", "Mineral", 2) } );
-      // }
+      void reset()
+      {
+      	seconds = 0;
+      	stockMineral = 0.;
+      	stockGas = 0.;
+      	mineralWorkers = 0;
+      	gasWorkers = 0;
+      	supplyUsed = 5;
+      	supplyCapacity = 8;
+      	numberBases = 1;
+      	numberRefineries = 0;
+      	resources.clear();
+      	busy.clear();
+      	busy.emplace_back( "Protoss_Nexus", "Protoss_Probe", 20 );
+      	inMove.clear();
+	for( int i = 0 ; i < 4 ; ++i )
+	  inMove.emplace_back( "Protoss_Probe", "Mineral", 0, 2 );
+      }
       
       int	seconds;
       double	stockMineral;
@@ -150,6 +146,17 @@ namespace ghost
       vector< Tuple > inMove;      
     };
 
+    struct BO
+    {
+      BO() { }
+
+      BO( string fullName, int completedTime )
+	: fullName(fullName), completedTime(completedTime) { }
+      
+      string fullName;
+      int completedTime;
+    };
+    
     struct Goal
     {
       Goal() {}
@@ -169,8 +176,15 @@ namespace ghost
     void makeVecVariables( const Action &action, vector<Action> &variables, int count );
 
     
-    State		currentState;
-    vector<Goal>	goals;
+    mutable State		currentState;
+    mutable vector<Goal>	goals;
+    mutable vector<BO>		bo;
+    
+  private:
+    void updateBusy( int seconds ) const;
+    void updateInMove() const;
+    bool makingPylons() const;
+    void youMustConstructAdditionalPylons() const;
   };
   
 

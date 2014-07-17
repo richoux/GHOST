@@ -36,7 +36,7 @@
 #include "../variables/action.hpp"
 #include "../domains/buildorderDomain.hpp"
 #include "../objectives/objective.hpp"
-// #include "../misc/actionFactory.hpp"
+#include "../misc/actionFactory.hpp"
 
 using namespace std;
 

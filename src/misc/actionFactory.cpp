@@ -24,11 +24,26 @@
  */
 
 
-#pragma once
+#include <string>
 
-#include "../variables/action.hpp"
+#include "../../include/misc/actionFactory.hpp"
+#include "../../include/misc/buildorderProtoss.hpp"
+
+using namespace std;
 
 namespace ghost
 {
-  Action factoryAction( const string &fullName );
+  Action factoryAction( const string &fullName )
+  {
+    if( fullName.find("Protoss") != std::string::npos )
+      return factoryProtossAction( fullName );
+    else
+      if( fullName.find("Terran") != std::string::npos )
+	return factoryProtossAction( fullName );
+      else
+	if( fullName.find("Zerg") != std::string::npos )
+	  return factoryProtossAction( fullName );
+	else
+	  return Action();      
+  }
 }
