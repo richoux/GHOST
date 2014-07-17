@@ -37,7 +37,7 @@
 #include "../../include/objectives/buildorderObjective.hpp"
 #include "../../include/variables/action.hpp"
 #include "../../include/constraints/buildorderConstraint.hpp"
-#include "../../include/misc/actionFactory.hpp"
+// #include "../../include/misc/actionFactory.hpp"
 
 using namespace std;
 
@@ -47,17 +47,17 @@ namespace ghost
   /* BuildOrderObjective */
   /***********************/
   BuildOrderObjective::BuildOrderObjective( const string &name )
-    : Objective<Action, BuildOrderDomain>( name ),
-    currentState( State() ),
-    goals( vector<Goal>() )
+    : Objective<Action, BuildOrderDomain>( name )//,
+    // currentState( State() ),
+    // goals( vector<Goal>() )
   { }
   
   BuildOrderObjective::BuildOrderObjective( const string &name,
 					    const vector< pair<string, int> > &input,
 					    vector<Action> &variables )
-    : Objective<Action, BuildOrderDomain>( name ),
-    currentState( State() ),
-    goals(vector<Goal>())
+    : Objective<Action, BuildOrderDomain>( name )//,
+    // currentState( State() ),
+    // goals(vector<Goal>())
   {
     for( const auto &i : input)
       makeVecVariables( i, variables, goals );
@@ -65,65 +65,65 @@ namespace ghost
 
   double BuildOrderObjective::v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const
   {
-    currentState.reset();
+    // currentState.reset();
     int seconds = 0;
-    auto nextAction = vecVariables->begin();
-    string creator = nextAction->getCreator();
+    // auto nextAction = vecVariables->begin();
+    // string creator = nextAction->getCreator();
     
-    while( nextAction != vecVariables->end() )
-    {
-      ++seconds;
+    // while( nextAction != vecVariables->end() )
+    // {
+    //   ++seconds;
       
-      // update mineral / gas stocks
-      stockMineral += mineralWorkers * 1.08; // 1.08 mineral per worker per second in average
-      stockGas += gasWorkers * 1.68; // 1.68 gas per worker per second in average
+    //   // update mineral / gas stocks
+    //   stockMineral += mineralWorkers * 1.08; // 1.08 mineral per worker per second in average
+    //   stockGas += gasWorkers * 1.68; // 1.68 gas per worker per second in average
 
-      // update busy list
-      updateBusy( currentState );
+    //   // update busy list
+    //   updateBusy( currentState );
 
-      // update inMove list
-      updateInMove( currentState );
+    //   // update inMove list
+    //   updateInMove( currentState );
 
-      // produce a worker if I can, ie:
-      // 1. if I have at least 50 minerals
-      // 2. if I have at least one available Nexus
-      // 3. if I am not supply blocked.
-      if( stockMineral >= 50 && resources["Protoss_Nexus"] > 0 && supplyUsed < supplyCapacity )
-      {
-	stockMineral -= 50;
-	++supplyUsed;
-	--resources["Protoss_Nexus"];
-	busy.push_back( Tuple("Protoss_Nexus", "Protoss_Probe", 20) );
-      }
+    //   // produce a worker if I can, ie:
+    //   // 1. if I have at least 50 minerals
+    //   // 2. if I have at least one available Nexus
+    //   // 3. if I am not supply blocked.
+    //   if( stockMineral >= 50 && resources["Protoss_Nexus"] > 0 && supplyUsed < supplyCapacity )
+    //   {
+    // 	stockMineral -= 50;
+    // 	++supplyUsed;
+    // 	--resources["Protoss_Nexus"];
+    // 	busy.push_back( Tuple("Protoss_Nexus", "Protoss_Probe", 20) );
+    //   }
 
-      // build a pylon if I must, ie:
-      // 1. if my supply cap cannot manage the next global unit production
-      youMustConstructAdditionalPylons( currentState );
+    //   // build a pylon if I must, ie:
+    //   // 1. if my supply cap cannot manage the next global unit production
+    //   youMustConstructAdditionalPylons( currentState );
 
-      // can I handle the next action?
-      if( stockMineral >= nextAction->getCostMineral()
-	  &&
-	  stockGas >= nextAction->getCostGas()
-	  &&
-	  supplyUsed + nextAction->getCostSupply() <= supplyCapacity
-	  &&
-	  ( creator.empty() || resources( creator ) > 0 ) )
-      {
-	stockMineral -= nextAction->getCostMineral();
-	stockGas -= nextAction->getCostGas();
-	supplyUsed += nextAction->getCostSupply();
+    //   // can I handle the next action?
+    //   if( stockMineral >= nextAction->getCostMineral()
+    // 	  &&
+    // 	  stockGas >= nextAction->getCostGas()
+    // 	  &&
+    // 	  supplyUsed + nextAction->getCostSupply() <= supplyCapacity
+    // 	  &&
+    // 	  ( creator.empty() || resources( creator ) > 0 ) )
+    //   {
+    // 	stockMineral -= nextAction->getCostMineral();
+    // 	stockGas -= nextAction->getCostGas();
+    // 	supplyUsed += nextAction->getCostSupply();
 
-	if( !creator.empty() )
-	  --resources( creator );
+    // 	if( !creator.empty() )
+    // 	  --resources( creator );
 
-	busy.push_back( Tuple( creator, nextAction->getFullName(), nextAction->getSecondsRequired() ) );
-	++nextAction;
-	if( nextAction != vecVariables->end() )
-	  creator = nextAction->getCreator();
-      }
-    }
+    // 	busy.push_back( Tuple( creator, nextAction->getFullName(), nextAction->getSecondsRequired() ) );
+    // 	++nextAction;
+    // 	if( nextAction != vecVariables->end() )
+    // 	  creator = nextAction->getCreator();
+    //   }
+    // }
 
-    seconds += busy.at(0).time;
+    // seconds += busy.at(0).time;
     
     return static_cast<double>( seconds );
   }
@@ -140,7 +140,7 @@ namespace ghost
     // the idea here is to favor larger values: if you have to move a
     // variable, move it as far as possible, in order to not disturb
     // too much what has been done so far.
-    heuristicValueHelper.at( pos ) = domain->size() - pos;
+    heuristicValueHelper.at( pos ) = domain->getSize() - pos;
   }
 
 
@@ -221,10 +221,10 @@ namespace ghost
 
   void BuildOrderObjective::makeVecVariables( const pair<string, int> &input, vector<Action> &variables, vector<Goal> &goals )
   {
-    Action action = factoryAction( input.first );
-    Goal goal( action.getFullName(), action.getTypeString(), input.second, 0 );
-    goals.push_back( goal );
-    makeVecVariables( action, variables, input.second );
+    // Action action = factoryAction( input.first );
+    // Goal goal( action.getFullName(), action.getTypeString(), input.second, 0 );
+    // goals.push_back( goal );
+    // makeVecVariables( action, variables, input.second );
   }
 
   void BuildOrderObjective::makeVecVariables( const Action &action, vector<Action> &variables, int count )
@@ -233,24 +233,24 @@ namespace ghost
 
     // test if we don't already have this action into variables.
     // make exceptions for HT and DT
-    if( name.compare( "Protoss_High_Templar" ) != 0 && name.compare( "Protoss_Dark_Templar" ) != 0 )
-      for( const auto &v : variables )
-	if( v.getFullName().compare( name ) == 0)
-	  return;
+    // if( name.compare( "Protoss_High_Templar" ) != 0 && name.compare( "Protoss_Dark_Templar" ) != 0 )
+    //   for( const auto &v : variables )
+    // 	if( v.getFullName().compare( name ) == 0)
+    // 	  return;
     
-    if( count > 0 )
-    {
-      variables.push_back( action );
-      for( int i = 1; i < count; ++i )
-	variables.push_back( factoryAction( action.getFullName() ) );
+    // if( count > 0 )
+    // {
+    //   variables.push_back( action );
+    //   for( int i = 1; i < count; ++i )
+    // 	variables.push_back( factoryAction( action.getFullName() ) );
       
-      for( const auto &d : action.getDependencies() )
-	if( d.compare( "Protoss_High_Templar" ) == 0 || d.compare( "Protoss_Dark_Templar" ) == 0 )
-	  makeVecVariables( factoryAction( d ), variables, 2 * count ); // Each (dark) archon needs 2 (dark) templars 
-	else
-	  if( d.compare( "Protoss_Nexus" ) != 0 )
-	    makeVecVariables( factoryAction( d ), variables, 1 );
-    }    
+    //   for( const auto &d : action.getDependencies() )
+    // 	if( d.compare( "Protoss_High_Templar" ) == 0 || d.compare( "Protoss_Dark_Templar" ) == 0 )
+    // 	  makeVecVariables( factoryAction( d ), variables, 2 * count ); // Each (dark) archon needs 2 (dark) templars 
+    // 	else
+    // 	  if( d.compare( "Protoss_Nexus" ) != 0 )
+    // 	    makeVecVariables( factoryAction( d ), variables, 1 );
+    // }    
   }
   
   /***********/

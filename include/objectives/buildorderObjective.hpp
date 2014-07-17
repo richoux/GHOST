@@ -68,24 +68,25 @@ namespace ghost
     
     struct State
     {
-      State()
-	: seconds(0),
-	  stockMineral(0.),
-	  stockGas(0.),
-	  mineralWorkers(0),
-	  gasWorkers(0),
-	  supplyUsed(5),
-	  supplyCapacity(8),
-	  numberBases(1),
-	  numberRefineries(0),
-	  resources(map<string, int>()),
-	  busy(vector< Tuple >{Tuple("Protoss_Nexus", "Protoss_Probe", 20)}),
-	  inMove(vector< Tuple >
-		 {   Tuple("Protoss_Probe", "Mineral", 2),
-		     Tuple("Protoss_Probe", "Mineral", 2),
-		     Tuple("Protoss_Probe", "Mineral", 2),
-		     Tuple("Protoss_Probe", "Mineral", 2) })
-      { }
+      State() {}
+      // State()
+      // 	: seconds(0),
+      // 	  stockMineral(0.),
+      // 	  stockGas(0.),
+      // 	  mineralWorkers(0),
+      // 	  gasWorkers(0),
+      // 	  supplyUsed(5),
+      // 	  supplyCapacity(8),
+      // 	  numberBases(1),
+      // 	  numberRefineries(0),
+      // 	  resources(map<string, int>()),
+      // 	  busy(vector< Tuple >{Tuple("Protoss_Nexus", "Protoss_Probe", 20)}),
+      // 	  inMove(vector< Tuple >
+      // 		 {   Tuple("Protoss_Probe", "Mineral", 2),
+      // 		     Tuple("Protoss_Probe", "Mineral", 2),
+      // 		     Tuple("Protoss_Probe", "Mineral", 2),
+      // 		     Tuple("Protoss_Probe", "Mineral", 2) })
+      // { }
       
       State( int seconds,
 	     double stockMineral,
@@ -113,27 +114,27 @@ namespace ghost
 	  inMove(inMove)
       { }
 
-      void reset()
-      {
-	seconds = 0;
-	stockMineral = 0.;
-	stockGas = 0.;
-	mineralWorkers = 0;
-	gasWorkers = 0;
-	supplyUsed = 5;
-	supplyCapacity = 8;
-	numberBases = 1;
-	numberRefineries = 0;
-	resources.clear();
-	busy.clear();
-	busy( vector< Tuple >{ Tuple("Protoss_Nexus", "Protoss_Probe", 20) } );
-	inMove.clear();
-	inMove( vector< Tuple >
-		{   Tuple("Protoss_Probe", "Mineral", 2),
-		    Tuple("Protoss_Probe", "Mineral", 2),
-		    Tuple("Protoss_Probe", "Mineral", 2),
-		    Tuple("Protoss_Probe", "Mineral", 2) } );
-      }
+      // void reset()
+      // {
+      // 	seconds = 0;
+      // 	stockMineral = 0.;
+      // 	stockGas = 0.;
+      // 	mineralWorkers = 0;
+      // 	gasWorkers = 0;
+      // 	supplyUsed = 5;
+      // 	supplyCapacity = 8;
+      // 	numberBases = 1;
+      // 	numberRefineries = 0;
+      // 	resources.clear();
+      // 	busy.clear();
+      // 	busy( vector< Tuple >{ Tuple("Protoss_Nexus", "Protoss_Probe", 20) } );
+      // 	inMove.clear();
+      // 	inMove( vector< Tuple >
+      // 		{   Tuple("Protoss_Probe", "Mineral", 2),
+      // 		    Tuple("Protoss_Probe", "Mineral", 2),
+      // 		    Tuple("Protoss_Probe", "Mineral", 2),
+      // 		    Tuple("Protoss_Probe", "Mineral", 2) } );
+      // }
       
       int	seconds;
       double	stockMineral;
@@ -151,6 +152,8 @@ namespace ghost
 
     struct Goal
     {
+      Goal() {}
+      
       Goal( string fullName, string type, int toHave, int current )
 	: fullName(fullName), type(type), toHave(toHave), current(current)
       { }

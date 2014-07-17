@@ -189,29 +189,28 @@ namespace ghost
       oldVariable = &vecVariables->at( index );
       auto surface = buildingSameSize.equal_range( oldVariable->getSurface() );
 	
-      for( auto &it = surface.first; it != surface.second; ++it )
+      for( auto &it = surface.first; it != surface.second && bestCost != 0; ++it )
       {
 	mustSwap = false;
 	if( it->second.getId() != oldVariable->getId() )
 	{
-	  domain->swap( it->second, *oldVariable );
-	    
+	  domain->swap( vecVariables->at(it->second.getId()), *oldVariable );
 	  currentCost = v_cost( vecVariables, domain );
 	  if( currentCost < bestCost )
 	  {
 	    bestCost = currentCost;
-	    toSwap = &it->second;
+	    toSwap = &( vecVariables->at( it->second.getId() ) );
 	    mustSwap = true;
 	  }
 
-	  domain->swap( it->second, *oldVariable );
+	  domain->swap( vecVariables->at( it->second.getId() ), *oldVariable );
 	}
 	  
 	if( mustSwap )
 	  domain->swap( *toSwap, *oldVariable );
       }
 
-      tabuList[ index ] = 2;//std::max(2, static_cast<int>( ceil(TABU / 2) ) );
+      tabuList[ index ] = 2;
     }
 
     return postprocesstimer.count();
@@ -321,6 +320,7 @@ namespace ghost
 		      neighbors.end(), 
 		      [&](const Building &n){return b.getGapLeft() + n.getGapRight() >= 16;});
 
+    
     return gaps;
   }
 

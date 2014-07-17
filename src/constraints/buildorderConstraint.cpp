@@ -43,44 +43,44 @@ namespace ghost
   double BuildOrderConstraint::v_cost( vector<double> &varCost ) const
   {
     double conflicts = 0.;
-    auto vecOrder = domain->getOrder();
-    for( auto it = begin(vecOrder) ; it != end(vecOrder) ; ++it )
-    {
-      int value = it->getValue();
-      for( const auto &d : it->getDependencies() )
-      {
-	vector<Action> dependencies( vecOrder.size() );
-	auto iter = copy_if( begin(vecOrder), end(vecOrder), begin(dependencies), [&](Action a){return d.compare(a.getName()) == 0;} );
-	dependencies.resize( std::distance( begin(dependencies), iter ) );
+    // auto vecOrder = domain->getOrder();
+    // for( auto it = begin(vecOrder) ; it != end(vecOrder) ; ++it )
+    // {
+    //   int value = it->getValue();
+    //   for( const auto &d : it->getDependencies() )
+    //   {
+    // 	vector<Action> dependencies( vecOrder.size() );
+    // 	auto iter = copy_if( begin(vecOrder), end(vecOrder), begin(dependencies), [&](Action a){return d.compare(a.getName()) == 0;} );
+    // 	dependencies.resize( std::distance( begin(dependencies), iter ) );
 
-	if( dependencies.empty() )
-	{
-	  Action newAction = factoryAction( d );
+    // 	if( dependencies.empty() )
+    // 	{
+    // 	  Action newAction = factoryAction( d );
 
-	  newAction.setValue( value );
-	  domain->addAction( newAction, true );
+    // 	  newAction.setValue( value );
+    // 	  domain->addAction( newAction, true );
 
-	  for( auto &v : *variables )
-	    if( v.getValue() >= value )
-	      v.shiftValue();
+    // 	  for( auto &v : *variables )
+    // 	    if( v.getValue() >= value )
+    // 	      v.shiftValue();
 	    
-	  variables->push_back( newAction );
-	  varCost.push_back(1);
-	  ++conflicts;
-	}
-	else
-	  if( none_of( begin(dependencies), end(dependencies), [&](Action a){return a.getValue() < value;} ) )
-	  {
-	    varCost.at( it->getId() ) += 3;
-	    conflicts += 3;
-	    for( const auto &dep : dependencies )
-	    {
-	      varCost.at( dep.getId() ) += 2;
-	      conflicts += 2;
-	    }
-	  }
-      }
-    }
+    // 	  variables->push_back( newAction );
+    // 	  varCost.push_back(1);
+    // 	  ++conflicts;
+    // 	}
+    // 	else
+    // 	  if( none_of( begin(dependencies), end(dependencies), [&](Action a){return a.getValue() < value;} ) )
+    // 	  {
+    // 	    varCost.at( it->getId() ) += 3;
+    // 	    conflicts += 3;
+    // 	    for( const auto &dep : dependencies )
+    // 	    {
+    // 	      varCost.at( dep.getId() ) += 2;
+    // 	      conflicts += 2;
+    // 	    }
+    // 	  }
+    //   }
+    // }
 
     return conflicts;
   }
