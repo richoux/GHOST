@@ -307,8 +307,8 @@ namespace ghost
 
   double BuildOrderObjective::v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost ) 
   {
-    chrono::time_point<chrono::system_clock> startPostprocess = chrono::system_clock::now(); 
-    chrono::duration<double,milli> postprocesstimer(0);
+    chrono::time_point<chrono::high_resolution_clock> startPostprocess = chrono::high_resolution_clock::now(); 
+    chrono::duration<double,micro> postprocesstimer(0);
 
     double optiCost = v_cost( vecVariables, domain, true );
 
@@ -317,7 +317,7 @@ namespace ghost
       bestCost = optiCost;
     }
 
-    postprocesstimer = chrono::system_clock::now() - startPostprocess;
+    postprocesstimer = chrono::high_resolution_clock::now() - startPostprocess;
     return postprocesstimer.count();
 
     
@@ -337,7 +337,7 @@ namespace ghost
     // bestCost = v_cost( vecVariables, domain );
     // double currentCost = bestCost;
 
-    // while( (postprocesstimer = chrono::system_clock::now() - startPostprocess).count() < static_cast<int>( ceil(OPT_TIME / 100) ) && bestCost > 0 )
+    // while( (postprocesstimer = chrono::high_resolution_clock::now() - startPostprocess).count() < static_cast<int>( ceil(OPT_TIME / 100) ) && bestCost > 0 )
     // {
     //   goodVar.clear();
 

@@ -128,21 +128,22 @@ namespace ghost
      * instanciate with a null Objective (pure satisfaction run) or an
      * non-null Objective (optimization run).
      */
-    double solve( double timeout )
+    double solve( double timeout_ms )
     {
-      chrono::duration<double,milli> elapsedTime(0);
-      chrono::duration<double,milli> elapsedTimeTour(0);
-      chrono::time_point<chrono::system_clock> start;
-      chrono::time_point<chrono::system_clock> startTour;
-      start = chrono::system_clock::now();
+      double timeout = timeout_ms * 1000; // timeout in microseconds
+      chrono::duration<double,micro> elapsedTime(0);
+      chrono::duration<double,micro> elapsedTimeTour(0);
+      chrono::time_point<chrono::high_resolution_clock> start;
+      chrono::time_point<chrono::high_resolution_clock> startTour;
+      start = chrono::high_resolution_clock::now();
 
       // to time simulateCost and cost functions
-      chrono::duration<double,milli> timeSimCost(0);
-      chrono::time_point<chrono::system_clock> startSimCost; 
+      chrono::duration<double,micro> timeSimCost(0);
+      chrono::time_point<chrono::high_resolution_clock> startSimCost; 
 
 #ifndef NDEBUG
-      chrono::duration<double,milli> toverlap(0), tbuildable(0), tnogaps(0), tstt(0);
-      chrono::time_point<chrono::system_clock> soverlap, sbuildable, snogaps, sstt; 
+      chrono::duration<double,micro> toverlap(0), tbuildable(0), tnogaps(0), tstt(0);
+      chrono::time_point<chrono::high_resolution_clock> soverlap, sbuildable, snogaps, sstt; 
 #endif
 
       // double timerPostProcessSat = 0;
@@ -184,7 +185,7 @@ namespace ghost
 
       do // optimization loop
       {
-	startTour = chrono::system_clock::now();
+	startTour = chrono::high_resolution_clock::now();
 	++tour;
 	globalCost = numeric_limits<int>::max();
 	bestEstimatedCost = numeric_limits<int>::max();
@@ -259,27 +260,27 @@ namespace ghost
 	  possibleValues = domain->valuesOf( *oldVariable );
 
 	  // time simulateCost
-	  startSimCost = chrono::system_clock::now();
+	  startSimCost = chrono::high_resolution_clock::now();
 
 	  // variable simulated costs
 	  fill( bestSimCost.begin(), bestSimCost.end(), 0. );
 
 #ifndef NDEBUG
-	  soverlap = chrono::system_clock::now();
+	  soverlap = chrono::high_resolution_clock::now();
 	  vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
-	  toverlap += chrono::system_clock::now() - soverlap;
+	  toverlap += chrono::high_resolution_clock::now() - soverlap;
 
-	  sbuildable = chrono::system_clock::now();
+	  sbuildable = chrono::high_resolution_clock::now();
 	  vecConstraintsCosts[1] = vecConstraints[1]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
-	  tbuildable += chrono::system_clock::now() - sbuildable;
+	  tbuildable += chrono::high_resolution_clock::now() - sbuildable;
 
-	  snogaps = chrono::system_clock::now();
+	  snogaps = chrono::high_resolution_clock::now();
 	  vecConstraintsCosts[2] = vecConstraints[2]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
-	  tnogaps += chrono::system_clock::now() - snogaps;
+	  tnogaps += chrono::high_resolution_clock::now() - snogaps;
 
-	  sstt = chrono::system_clock::now();
+	  sstt = chrono::high_resolution_clock::now();
 	  vecConstraintsCosts[3] = vecConstraints[3]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
-	  tstt += chrono::system_clock::now() - sstt;
+	  tstt += chrono::high_resolution_clock::now() - sstt;
 #else
 	  vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts, objective );
 	  for( int i = 1; i < vecConstraints.size(); ++i )
@@ -306,7 +307,7 @@ namespace ghost
 	  int b = objective->heuristicValue( vecGlobalCosts, bestEstimatedCost, bestValue );
 	  bestSimCost = vecVarSimCosts[ b ];
 
-	  timeSimCost += chrono::system_clock::now() - startSimCost;
+	  timeSimCost += chrono::high_resolution_clock::now() - startSimCost;
 
 	  currentCost = bestEstimatedCost;
 
@@ -327,8 +328,8 @@ namespace ghost
 	  else // local minima
 	    tabuList[ worstVariableId ] = TABU;
 
-	  elapsedTimeTour = chrono::system_clock::now() - startTour;
-	  elapsedTime = chrono::system_clock::now() - start;
+	  elapsedTimeTour = chrono::high_resolution_clock::now() - startTour;
+	  elapsedTime = chrono::high_resolution_clock::now() - start;
 	} while( globalCost != 0. && elapsedTimeTour.count() < timeout && elapsedTime.count() < OPT_TIME );
 
 	// remove useless buildings
@@ -336,7 +337,7 @@ namespace ghost
 	  objective->postprocessSatisfaction( vecVariables, domain, bestCost, bestSolution );
 
 	reset();
-	elapsedTime = chrono::system_clock::now() - start;
+	elapsedTime = chrono::high_resolution_clock::now() - start;
       }
       while( ( ( !objOriginalNull || loops == 0 )  && ( elapsedTime.count() < OPT_TIME ) )
 	     || ( objOriginalNull && elapsedTime.count() < timeout * loops ) );
@@ -362,7 +363,7 @@ namespace ghost
       else
 	cout << "OPTIMIZATION run with objective " << objective->getName() << endl;
       
-      cout << "Elapsed time: " << elapsedTime.count() << endl
+      cout << "Elapsed time: " << elapsedTime.count() / 1000 << endl
 	   << "Global cost: " << bestGlobalCost << endl
 	   << "Number of tours: " << tour << endl
 	   << "Number of iterations: " << iterations << endl;
@@ -390,11 +391,11 @@ namespace ghost
 	cout << "Post-processing time: " << timerPostProcessOpt << endl; 
 
 #ifndef NDEBUG
-      cout << endl << "Elapsed time to simulate cost: " << timeSimCost.count() << endl
-	   << "Overlap: " << toverlap.count() << endl
-	   << "Buildable: " << tbuildable.count() << endl
-	   << "NoGaps: " << tnogaps.count() << endl
-	   << "STT: " << tstt.count() << endl;
+      cout << endl << "Elapsed time to simulate cost: " << timeSimCost.count() / 1000 << endl
+	   << "Overlap: " << toverlap.count() / 1000 << endl
+	   << "Buildable: " << tbuildable.count() / 1000 << endl
+	   << "NoGaps: " << tnogaps.count() / 1000 << endl
+	   << "STT: " << tstt.count() / 1000 << endl;
 
       // print cost for each constraint
       for( const auto &c : vecConstraints )

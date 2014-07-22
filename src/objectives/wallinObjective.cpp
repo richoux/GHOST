@@ -63,7 +63,7 @@ namespace ghost
 						     double &bestCost,
 						     vector<int> &bestSolution ) const 
   {
-    chrono::time_point<chrono::system_clock> startPostprocess = chrono::system_clock::now(); 
+    chrono::time_point<chrono::high_resolution_clock> startPostprocess = chrono::high_resolution_clock::now(); 
 
     bool change;
     double cost;
@@ -137,13 +137,13 @@ namespace ghost
 	bestSolution[i] = vecVariables->at(i).getValue();
     }
 
-    return (chrono::system_clock::now() - startPostprocess).count();
+    return (chrono::high_resolution_clock::now() - startPostprocess).count();
   }
 
   double WallinObjective::v_postprocessOptimization( vector< Building > *vecVariables, WallinDomain *domain, double &bestCost ) 
   {
-    chrono::time_point<chrono::system_clock> startPostprocess = chrono::system_clock::now(); 
-    chrono::duration<double,milli> postprocesstimer(0);
+    chrono::time_point<chrono::high_resolution_clock> startPostprocess = chrono::high_resolution_clock::now(); 
+    chrono::duration<double,micro> postprocesstimer(0);
 
     vector<int> tabuList( vecVariables->size() );
     std::fill( tabuList.begin(), tabuList.end(), 0 );
@@ -163,7 +163,7 @@ namespace ghost
 
     int postprocessTimeLimit = std::max( 1, static_cast<int>( ceil( static_cast<double>(OPT_TIME) / 100) ) );
 
-    while( (postprocesstimer = chrono::system_clock::now() - startPostprocess).count() < postprocessTimeLimit && bestCost > 0 )
+    while( (postprocesstimer = chrono::high_resolution_clock::now() - startPostprocess).count() < postprocessTimeLimit && bestCost > 0 )
     {
       goodVar.clear();
 

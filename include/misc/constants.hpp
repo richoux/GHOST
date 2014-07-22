@@ -32,4 +32,4 @@
  */
 
 constexpr int TABU = 5;
-constexpr int OPT_TIME	= 150;
+constexpr int OPT_TIME	= 150000; // in microseconds
