@@ -49,6 +49,8 @@ namespace ghost
 
   protected:
     double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const;
+    double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain, bool optimization ) const;
+    
     int v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain );
     void v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain );
 

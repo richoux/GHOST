@@ -66,6 +66,11 @@ namespace ghost
 
   double BuildOrderObjective::v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const
   {
+    return v_cost( vecVariables, domain, false );
+  }
+  
+  double BuildOrderObjective::v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain, bool optimization ) const
+  {
     currentState.reset();
     int seconds = 0;
     auto nextAction = vecVariables->begin();
@@ -118,6 +123,14 @@ namespace ghost
 	  currentState.busy.emplace_back( "Protoss_Nexus", "Protoss_Probe", 20 );
 	}
 
+	// only used by postprocessingOptimization, to see if we can
+	// shorten the makespan by making more production buildings,
+	// like gateways for instance.
+	if( optimization )
+	{
+	  
+	}
+	
 	// build a pylon if I must, ie:
 	// 1. if I am not currently making pylons
 	// 2. if my supply cap cannot manage the next global unit production
@@ -294,9 +307,20 @@ namespace ghost
 
   double BuildOrderObjective::v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost ) 
   {
-    // chrono::time_point<chrono::system_clock> startPostprocess = chrono::system_clock::now(); 
+    chrono::time_point<chrono::system_clock> startPostprocess = chrono::system_clock::now(); 
     chrono::duration<double,milli> postprocesstimer(0);
 
+    double optiCost = v_cost( vecVariables, domain, true );
+
+    if( optiCost < bestCost )
+    {
+      bestCost = optiCost;
+    }
+
+    postprocesstimer = chrono::system_clock::now() - startPostprocess;
+    return postprocesstimer.count();
+
+    
     // vector<int> tabuList( vecVariables->size() );
     // std::fill( tabuList.begin(), tabuList.end(), 0 );
 
@@ -363,8 +387,6 @@ namespace ghost
 
     //   tabuList[ index ] = 2;//std::max(2, static_cast<int>( ceil(TABU / 2) ) );
     // }
-
-    return postprocesstimer.count();
   }
 
   void BuildOrderObjective::makeVecVariables( const pair<string, int> &input, vector<Action> &variables, vector<Goal> &goals )
