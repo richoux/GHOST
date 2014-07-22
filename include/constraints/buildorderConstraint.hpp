@@ -68,7 +68,7 @@ namespace ghost
 	currentAction.setValue( pos );
 	domain->add( currentAction );
       
-	simCosts[pos+1] = cost( vecVarSimCosts[pos+1] );
+	simCosts[pos+1] = v_cost( vecVarSimCosts[pos+1] );
 
 	if( objective )
 	  objective->setHelper( currentAction, variables, domain );

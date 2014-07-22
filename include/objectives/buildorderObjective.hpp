@@ -49,7 +49,6 @@ namespace ghost
 
   protected:
     double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const;
-    double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain, bool optimization ) const;
     
     int v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain );
     void v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain );
@@ -159,30 +158,32 @@ namespace ghost
       int completedTime;
     };
     
-    struct Goal
-    {
-      Goal() {}
+    // struct Goal
+    // {
+    //   Goal() {}
       
-      Goal( string fullName, string type, int toHave, int current )
-	: fullName(fullName), type(type), toHave(toHave), current(current)
-      { }
+    //   Goal( string fullName, string type, int toHave, int current )
+    // 	: fullName(fullName), type(type), toHave(toHave), current(current)
+    //   { }
       
-      string	fullName;
-      string	type;
-      int	toHave;
-      int	current;
-    };
+    //   string	fullName;
+    //   string	type;
+    //   int	toHave;
+    //   int	current;
+    // };
 
 
-    void makeVecVariables( const pair<string, int> &input, vector<Action> &variables, vector<Goal> &goals );
+    void makeVecVariables( const pair<string, int> &input, vector<Action> &variables, map< string, pair<int, int> > &goals );
     void makeVecVariables( const Action &action, vector<Action> &variables, int count );
 
     
     mutable State		currentState;
-    mutable vector<Goal>	goals;
+    // mutable vector<Goal>	goals;
+    mutable map< string, pair<int, int> > goals;
     mutable vector<BO>		bo;
     
   private:
+    double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain, bool optimization ) const;
     void updateBusy( int seconds ) const;
     void updateInMove() const;
     bool makingPylons() const;
@@ -197,6 +198,7 @@ namespace ghost
   {
   public:
     MakeSpanMinCost();
+    MakeSpanMinCost( const vector< pair<string, int> > &input, vector<Action> &variables );
 
   private:
     double v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost );
@@ -209,6 +211,7 @@ namespace ghost
   {
   public:
     MakeSpanMaxProd();
+    MakeSpanMaxProd( const vector< pair<string, int> > &input, vector<Action> &variables );
 
   private:
     double v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost );

@@ -108,6 +108,14 @@ namespace ghost
       }
     }
         
+    //! Inline function following the NVI idiom. Calling v_restart.
+    inline void restart( vector<TypeVariable> *variables ) { v_restart( variables ); }
+
+    //! Inline function following the NVI idiom. Calling v_wipe.
+    inline void wipe( vector<TypeVariable> *variables ) { v_wipe( variables ); }
+
+    //! Inline function following the NVI idiom. Calling v_rebuild.
+    inline void rebuild( vector<TypeVariable> *variables ) { v_rebuild( variables ); }
 
     //! Inline function to get a random value among the possible values of a given variable.
     /*!
@@ -197,6 +205,20 @@ namespace ghost
     }
 
   protected:
+    //! Pure virtual function restarting the
+    //! search process from a fresh and randomly generated
+    //! configuration.
+    virtual void v_restart( vector<TypeVariable> *variables ) = 0;
+
+    //! Empty virtual function called in Sovler::solve before
+    //! postprocessingOptimization. Can be use to flush variables
+    //! in the domain.
+    virtual void v_wipe( vector<TypeVariable> *variables ) { }
+
+    //! Empty virtual function called in Sovler::solve before
+    //! postprocessingOptimization. Can be use to rebuild the domain.
+    virtual void v_rebuild( vector<TypeVariable> *variables ) { }
+
     int size;				//!< An integer to specify the size of the domain.
     vector< vector< int > > domains;	//!< The vector of vector of integers, containing the domain of each variables. Thus, domains[i] is the domain of the variable i.
     vector< int > initialDomain;	//!< The initial domain, created or given according to the constructor which has been called. 

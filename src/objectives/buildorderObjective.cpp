@@ -48,7 +48,8 @@ namespace ghost
   BuildOrderObjective::BuildOrderObjective( const string &name )
     : Objective<Action, BuildOrderDomain>( name ),
     currentState( State() ),
-    goals( vector<Goal>() ),
+    // goals( vector<Goal>() ),
+    goals( map<string, pair<int, int> >() ),
     bo( vector<BO>() )
   { }
   
@@ -57,7 +58,8 @@ namespace ghost
 					    vector<Action> &variables )
     : Objective<Action, BuildOrderDomain>( name ),
     currentState( State() ),
-    goals( vector<Goal>() ),
+    // goals( vector<Goal>() ),
+    goals( map<string, pair<int, int> >() ),
     bo( vector<BO>() )
   {
     for( const auto &i : input)
@@ -189,6 +191,7 @@ namespace ghost
 	if( t.goal.compare("Protoss_Probe") == 0 )
 	  currentState.inMove.emplace_back( "Protoss_Probe", "Mineral", 0, 2 );
 	else
+	{
 	  if( t.goal.compare("Protoss_Nexus") == 0 )
 	  {
 	    ++currentState.resources["Protoss_Nexus"];
@@ -219,9 +222,14 @@ namespace ghost
 			--currentState.mineralWorkers;
 		      }
 		    }
-
+	}
+	
 	if( t.goal.compare("Protoss_Probe") != 0 && t.goal.compare("Protoss_Pylon") != 0 )
+	{
 	  bo.emplace_back( t.goal, seconds );
+	  if( goals.find( t.goal ) != goals.end() )
+	    ++goals.at( t.goal ).second;
+	}
       }
     }
 
@@ -389,24 +397,19 @@ namespace ghost
     // }
   }
 
-  void BuildOrderObjective::makeVecVariables( const pair<string, int> &input, vector<Action> &variables, vector<Goal> &goals )
+  void BuildOrderObjective::makeVecVariables( const pair<string, int> &input, vector<Action> &variables, map< string, pair<int, int> > &goals )
   {
     Action action = factoryAction( input.first );
-    Goal goal( action.getFullName(), action.getTypeString(), input.second, 0 );
-    goals.push_back( goal );
+    // Goal goal( action.getFullName(), action.getTypeString(), input.second, 0 );
+    // goals.push_back( goal );
+    goals.emplace( action.getFullName(), make_pair<int, int>( static_cast<int>( input.second ), 0 ) );
+    
     makeVecVariables( action, variables, input.second );
   }
 
   void BuildOrderObjective::makeVecVariables( const Action &action, vector<Action> &variables, int count )
   {
     string name = action.getFullName();
-
-    // test if we don't already have this action into variables.
-    // make exceptions for HT and DT
-    if( name.compare( "Protoss_High_Templar" ) != 0 && name.compare( "Protoss_Dark_Templar" ) != 0 )
-      for( const auto &v : variables )
-    	if( v.getFullName().compare( name ) == 0)
-    	  return;
     
     if( count > 0 )
     {
@@ -419,15 +422,29 @@ namespace ghost
     	  makeVecVariables( factoryAction( d ), variables, 2 * count ); // Each (dark) archon needs 2 (dark) templars 
     	else
     	  if( d.compare( "Protoss_Nexus" ) != 0 )
-    	    makeVecVariables( factoryAction( d ), variables, 1 );
-    }    
+	  {
+	    bool isAlreadyInVar = false;
+	    for( const auto &v : variables )
+	      if( d.compare( v.getFullName() ) == 0)
+	      {
+		isAlreadyInVar = true;
+		break;
+	      }
+
+	    if( !isAlreadyInVar )
+	      makeVecVariables( factoryAction( d ), variables, 1 );
+	  }
+    }
   }
   
   /*******************/
   /* MakeSpanMinCost */
   /*******************/
   MakeSpanMinCost::MakeSpanMinCost() : BuildOrderObjective( "MakeSpanMinCost" ) { }
+  MakeSpanMinCost::MakeSpanMinCost( const vector< pair<string, int> > &input, vector<Action> &variables )
+    : BuildOrderObjective( "MakeSpanMinCost", input, variables ) { }
 
+  
   double MakeSpanMinCost::v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost )
   {
 
@@ -439,6 +456,8 @@ namespace ghost
   /* MakeSpanMaxProd */
   /*******************/
   MakeSpanMaxProd::MakeSpanMaxProd() : BuildOrderObjective( "MakeSpanMaxProd" ) { }
+  MakeSpanMaxProd::MakeSpanMaxProd( const vector< pair<string, int> > &input, vector<Action> &variables )
+    : BuildOrderObjective( "MakeSpanMaxProd", input, variables ) { }
 
   double MakeSpanMaxProd::v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost )
   {

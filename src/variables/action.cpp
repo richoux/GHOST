@@ -110,7 +110,7 @@ namespace ghost
     for( const auto& d : a.dependencies )
       os << d << "  "; 
     
-    os << "-------" << endl;
+    os << endl << "-------" << endl;
 
     return os;
   }

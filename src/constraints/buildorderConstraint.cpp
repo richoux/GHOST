@@ -43,6 +43,35 @@ namespace ghost
   double BuildOrderConstraint::v_cost( vector<double> &varCost ) const
   {
     double conflicts = 0.;
+    bool depConflict;
+    
+    for( auto it = variables->begin() ; it != variables->end() ; ++it )
+    {
+      depConflict = false;
+      auto dep = it->getDependencies();
+      if( !dep.empty() && !( dep.size() == 1 && dep.at(0).compare("Protoss_Nexus") == 0 ) )
+	for( const auto &d : dep )
+	  if( it != variables->begin()
+	      &&
+	      none_of( variables->begin(), it, [&](Action &a){return d.compare(a.getFullName()) == 0;} ) )
+	  {
+	    depConflict = true;
+	    
+	    for( auto it_dep = variables->begin() ; it_dep != it ; ++it_dep )
+	      if( d.compare( it_dep->getFullName() ) == 0 )
+	      {
+		varCost.at( it_dep->getId() ) += 2;
+		conflicts += 2;
+	      }
+	  }
+	
+      if( depConflict )
+      {
+	varCost.at( it->getId() ) += 3;
+	conflicts += 3;
+      }
+    }
+    
     // auto vecOrder = domain->getOrder();
     // for( auto it = begin(vecOrder) ; it != end(vecOrder) ; ++it )
     // {

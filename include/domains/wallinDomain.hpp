@@ -104,6 +104,10 @@ namespace ghost
   private:
     void add(int, int, string, int);
     void clear(int, int, string, int);
+
+    void v_restart( vector<Building> *variables );
+    void v_wipe( vector<Building> *variables );
+    void v_rebuild( vector<Building> *variables );
     
     int mCol_;
     int nRow_;

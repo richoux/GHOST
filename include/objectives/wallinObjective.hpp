@@ -61,20 +61,20 @@ namespace ghost
     static int sizeWall;
   };
   
-  /***********/
-  /* NoneObj */
-  /***********/
-  class NoneObj : public WallinObjective
-  {
-  public:
-    NoneObj();
+  // /***********/
+  // /* NoneObj */
+  // /***********/
+  // class NoneObj : public WallinObjective
+  // {
+  // public:
+  //   NoneObj();
 
-  private:
-    double v_cost( const vector< Building > *vecVariables, const WallinDomain *domain ) const;
-    int v_heuristicVariable( const vector< int > &vecId, const vector< Building > *vecVariables, WallinDomain *domain );
-    void v_setHelper( const Building &b, const vector< Building > *vecVariables, const WallinDomain *domain );
-    double v_postprocessOptimization( vector< Building > *vecVariables, WallinDomain *domain, double &bestCost );
-  };
+  // private:
+  //   double v_cost( const vector< Building > *vecVariables, const WallinDomain *domain ) const;
+  //   int v_heuristicVariable( const vector< int > &vecId, const vector< Building > *vecVariables, WallinDomain *domain );
+  //   void v_setHelper( const Building &b, const vector< Building > *vecVariables, const WallinDomain *domain );
+  //   double v_postprocessOptimization( vector< Building > *vecVariables, WallinDomain *domain, double &bestCost );
+  // };
 
   /**********/
   /* GapObj */

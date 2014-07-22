@@ -51,6 +51,8 @@ namespace ghost
     // friend ostream& operator<<( ostream&, const BuildOrderDomain& );
 
   private:
+    void v_restart( vector<Action> *variables );
+
     vector<Action> order;
   };
 }

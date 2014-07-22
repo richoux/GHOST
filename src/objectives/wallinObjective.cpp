@@ -216,30 +216,30 @@ namespace ghost
     return postprocesstimer.count();
   }
 
-  /***********/
-  /* NoneObj */
-  /***********/
-  NoneObj::NoneObj() : WallinObjective( "wallinNone" ) { }
+  // /***********/
+  // /* NoneObj */
+  // /***********/
+  // NoneObj::NoneObj() : WallinObjective( "wallinNone" ) { }
 
-  double NoneObj::v_cost( const vector< Building > *vecVariables, const WallinDomain *domain ) const
-  {
-    return count_if( vecVariables->begin(), 
-		     vecVariables->end(), 
-		     []( const Building &b ){ return b.isSelected(); });
-  }
+  // double NoneObj::v_cost( const vector< Building > *vecVariables, const WallinDomain *domain ) const
+  // {
+  //   return count_if( vecVariables->begin(), 
+  // 		     vecVariables->end(), 
+  // 		     []( const Building &b ){ return b.isSelected(); });
+  // }
 
-  int NoneObj::v_heuristicVariable( const vector< int > &vecId, const vector< Building > *vecVariables, WallinDomain *domain )
-  {
-    return vecId[ randomVar.getRandNum( vecId.size() ) ];
-  }
+  // int NoneObj::v_heuristicVariable( const vector< int > &vecId, const vector< Building > *vecVariables, WallinDomain *domain )
+  // {
+  //   return vecId[ randomVar.getRandNum( vecId.size() ) ];
+  // }
 
-  void NoneObj::v_setHelper( const Building &b, const vector< Building > *vecVariables, const WallinDomain *domain )
-  {
-    if( b.isSelected() )
-      heuristicValueHelper.at( b.getValue() ) = 0;
-  }
+  // void NoneObj::v_setHelper( const Building &b, const vector< Building > *vecVariables, const WallinDomain *domain )
+  // {
+  //   if( b.isSelected() )
+  //     heuristicValueHelper.at( b.getValue() ) = 0;
+  // }
 
-  double NoneObj::v_postprocessOptimization( vector< Building > *vecVariables, WallinDomain *domain, double &bestCost ) { return 0.; }
+  // double NoneObj::v_postprocessOptimization( vector< Building > *vecVariables, WallinDomain *domain, double &bestCost ) { return 0.; }
   
   /**********/
   /* GapObj */

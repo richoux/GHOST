@@ -117,7 +117,7 @@ namespace ghost
 	tabuList(vecVariables->size()),
 	bestSolution(vecVariables->size())
     { 
-      reset();
+      domain->restart( vecVariables );
     }
 
     //! Solver's main function, to solve the given CSP/COP.
@@ -141,10 +141,10 @@ namespace ghost
       chrono::duration<double,micro> timeSimCost(0);
       chrono::time_point<chrono::high_resolution_clock> startSimCost; 
 
-#ifndef NDEBUG
-      chrono::duration<double,micro> toverlap(0), tbuildable(0), tnogaps(0), tstt(0);
-      chrono::time_point<chrono::high_resolution_clock> soverlap, sbuildable, snogaps, sstt; 
-#endif
+// #ifndef NDEBUG
+//       chrono::duration<double,micro> toverlap(0), tbuildable(0), tnogaps(0), tstt(0);
+//       chrono::time_point<chrono::high_resolution_clock> soverlap, sbuildable, snogaps, sstt; 
+// #endif
 
       // double timerPostProcessSat = 0;
       double timerPostProcessOpt = 0;
@@ -207,11 +207,13 @@ namespace ghost
 	    for( const auto &c : vecConstraints )
 	      currentCost += c->cost( variableCost );
 
+	    // cout << "currentCost(" << iterations << "): " << currentCost << endl;
+	    
 	    if( currentCost < globalCost )
 	      globalCost = currentCost;
 	    else
 	    {
-	      reset();
+	      domain->restart( vecVariables );
 	      continue;
 	    }
 	  }
@@ -265,27 +267,27 @@ namespace ghost
 	  // variable simulated costs
 	  fill( bestSimCost.begin(), bestSimCost.end(), 0. );
 
-#ifndef NDEBUG
-	  soverlap = chrono::high_resolution_clock::now();
-	  vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
-	  toverlap += chrono::high_resolution_clock::now() - soverlap;
+// #ifndef NDEBUG
+// 	  soverlap = chrono::high_resolution_clock::now();
+// 	  vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
+// 	  toverlap += chrono::high_resolution_clock::now() - soverlap;
 
-	  sbuildable = chrono::high_resolution_clock::now();
-	  vecConstraintsCosts[1] = vecConstraints[1]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
-	  tbuildable += chrono::high_resolution_clock::now() - sbuildable;
+// 	  sbuildable = chrono::high_resolution_clock::now();
+// 	  vecConstraintsCosts[1] = vecConstraints[1]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
+// 	  tbuildable += chrono::high_resolution_clock::now() - sbuildable;
 
-	  snogaps = chrono::high_resolution_clock::now();
-	  vecConstraintsCosts[2] = vecConstraints[2]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
-	  tnogaps += chrono::high_resolution_clock::now() - snogaps;
+// 	  snogaps = chrono::high_resolution_clock::now();
+// 	  vecConstraintsCosts[2] = vecConstraints[2]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
+// 	  tnogaps += chrono::high_resolution_clock::now() - snogaps;
 
-	  sstt = chrono::high_resolution_clock::now();
-	  vecConstraintsCosts[3] = vecConstraints[3]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
-	  tstt += chrono::high_resolution_clock::now() - sstt;
-#else
+// 	  sstt = chrono::high_resolution_clock::now();
+// 	  vecConstraintsCosts[3] = vecConstraints[3]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
+// 	  tstt += chrono::high_resolution_clock::now() - sstt;
+// #else
 	  vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts, objective );
 	  for( int i = 1; i < vecConstraints.size(); ++i )
 	    vecConstraintsCosts[i] = vecConstraints[i]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
-#endif
+// #endif
 
 	  fill( vecGlobalCosts.begin(), vecGlobalCosts.end(), 0. );
 
@@ -311,12 +313,16 @@ namespace ghost
 
 	  currentCost = bestEstimatedCost;
 
+	  // cout << "bestEstimatedCost: " << bestEstimatedCost << endl
+	  //      << "globalCost: " << globalCost << endl;
+
 	  if( bestEstimatedCost < globalCost )
 	  {
 	    globalCost = bestEstimatedCost;
 
 	    if( globalCost < bestGlobalCost )
 	    {
+	      // cout << "Coucou !" << endl;
 	      bestGlobalCost = globalCost;
 	      for( int i = 0; i < vecVariables->size(); ++i )
 		bestSolution[i] = vecVariables->at(i).getValue();
@@ -332,24 +338,33 @@ namespace ghost
 	  elapsedTime = chrono::high_resolution_clock::now() - start;
 	} while( globalCost != 0. && elapsedTimeTour.count() < timeout && elapsedTime.count() < OPT_TIME );
 
+	// cout << "globalCost: " << globalCost << endl
+	//      << "timeout: " << timeout << endl
+	//      << "elapsed time tour: " << elapsedTimeTour.count() << endl
+	//      << "elapsed time: " << elapsedTime.count() << endl;
+	
 	// remove useless buildings
 	if( globalCost == 0 )
 	  objective->postprocessSatisfaction( vecVariables, domain, bestCost, bestSolution );
+	
+	// cout << "bestCost: " << bestCost << endl;
 
-	reset();
+	domain->restart( vecVariables );
 	elapsedTime = chrono::high_resolution_clock::now() - start;
       }
       while( ( ( !objOriginalNull || loops == 0 )  && ( elapsedTime.count() < OPT_TIME ) )
 	     || ( objOriginalNull && elapsedTime.count() < timeout * loops ) );
 
-      for( const auto &b : *vecVariables )
-	domain->clear( b );
+      domain->wipe( vecVariables );
+      // for( const auto &b : *vecVariables )
+      // 	domain->clear( b );
 
       for( int i = 0; i < vecVariables->size(); ++i )
 	vecVariables->at(i).setValue( bestSolution[i] );
-    
-      for( const auto &b : *vecVariables )
-	domain->add( b );
+
+      domain->rebuild( vecVariables );
+      // for( const auto &b : *vecVariables )
+      // 	domain->add( b );
 
       beforePostProc = bestCost;
       
@@ -370,16 +385,16 @@ namespace ghost
 
       if( objOriginalNull )
       {
-        if( bestGlobalCost == 0 )
-        {
-          shared_ptr<WallinObjective> bObj = make_shared<BuildingObj>();
-          shared_ptr<WallinObjective> gObj = make_shared<GapObj>();
-          shared_ptr<WallinObjective> tObj = make_shared<TechTreeObj>();
+        // if( bestGlobalCost == 0 )
+        // {
+        //   shared_ptr<WallinObjective> bObj = make_shared<BuildingObj>();
+        //   shared_ptr<WallinObjective> gObj = make_shared<GapObj>();
+        //   shared_ptr<WallinObjective> tObj = make_shared<TechTreeObj>();
 	  
-          cout << "Opt Cost if the objective was building: " << bObj->cost( vecVariables, domain ) << endl
-	       << "Opt Cost if the objective was gap: \t" << gObj->cost( vecVariables, domain ) << endl
-	       << "Opt Cost if the objective was techtree: " << tObj->cost( vecVariables, domain ) << endl;
-        }
+        //   cout << "Opt Cost if the objective was building: " << bObj->cost( vecVariables, domain ) << endl
+	//        << "Opt Cost if the objective was gap: \t" << gObj->cost( vecVariables, domain ) << endl
+	//        << "Opt Cost if the objective was techtree: " << tObj->cost( vecVariables, domain ) << endl;
+        // }
       }
       else
       {
@@ -390,31 +405,31 @@ namespace ghost
       if( timerPostProcessOpt != 0 )
 	cout << "Post-processing time: " << timerPostProcessOpt << endl; 
 
-#ifndef NDEBUG
-      cout << endl << "Elapsed time to simulate cost: " << timeSimCost.count() / 1000 << endl
-	   << "Overlap: " << toverlap.count() / 1000 << endl
-	   << "Buildable: " << tbuildable.count() / 1000 << endl
-	   << "NoGaps: " << tnogaps.count() / 1000 << endl
-	   << "STT: " << tstt.count() / 1000 << endl;
+// #ifndef NDEBUG
+//       cout << endl << "Elapsed time to simulate cost: " << timeSimCost.count() / 1000 << endl
+// 	   << "Overlap: " << toverlap.count() / 1000 << endl
+// 	   << "Buildable: " << tbuildable.count() / 1000 << endl
+// 	   << "NoGaps: " << tnogaps.count() / 1000 << endl
+// 	   << "STT: " << tstt.count() / 1000 << endl;
 
-      // print cost for each constraint
-      for( const auto &c : vecConstraints )
-      {
-	fill( varSimCost.begin(), varSimCost.end(), 0. );
-	cout << "Cost of " << typeid(*c).name() << ": " << c->cost( varSimCost ) << " [";
+//       // print cost for each constraint
+//       for( const auto &c : vecConstraints )
+//       {
+// 	fill( varSimCost.begin(), varSimCost.end(), 0. );
+// 	cout << "Cost of " << typeid(*c).name() << ": " << c->cost( varSimCost ) << " [";
 
-	for( const auto &v : varSimCost )
-	  cout << " " << v;
+// 	for( const auto &v : varSimCost )
+// 	  cout << " " << v;
 
-	cout << " ]" << endl;
-      }      
+// 	cout << " ]" << endl;
+//       }      
 
-      cout << endl << "Buildings:" << endl;
-      for( const auto &v : *vecVariables )
-	cout << v << endl;
+//       cout << endl << "Buildings:" << endl;
+//       for( const auto &v : *vecVariables )
+// 	cout << v << endl;
       
-      cout << endl;
-#endif
+//       cout << endl;
+// #endif
 
       if( objOriginalNull )
 	return bestGlobalCost;
@@ -423,27 +438,6 @@ namespace ghost
     }
     
   private:
-    //! Solver's function to perform a reset, ie, to restart the
-    //! search process from a fresh and randomly generated
-    //! configuration.
-    void reset()
-    {
-      for( const auto &v : *vecVariables )
-	domain->clear( v );
-	
-      for( auto &v : *vecVariables )
-      {
-	// 1 chance over 3 to be placed on the domain
-	if( randomVar.getRandNum(3) == 0)
-	{
-	  v.setValue( domain->randomValue( v ) );
-	  domain->add( v );
-	}
-	else
-	  v.setValue( -1 );
-      }
-    }
-
     //! Solver's function to make a local move, ie, to assign a given
     //! value to a given variable
     inline void move( TypeVariable *building, int newValue )
@@ -458,7 +452,7 @@ namespace ghost
     vector< shared_ptr<TypeConstraint> >		vecConstraints; //!< The vector of (shared pointers of) constraints of the CSP/COP.
     shared_ptr< Objective<TypeVariable, TypeDomain> >	objective;	//!< The shared pointer of the objective function.
 
-    vector<double>				variableCost;		//!< The vector of projected costs on each varaible.
+    vector<double>				variableCost;		//!< The vector of projected costs on each variable.
     int						loops;			//!< The number of times we reiterate the satisfaction loop inside Solver::solve 
     vector<int>					tabuList;		//!< The tabu list, frozing each used variable for TABU iterations 
     Random					randomVar;		//!< The random generator used by the solver.

@@ -24,8 +24,10 @@
  */
 
 
-#include <numeric>
 #include <iostream>
+#include <numeric>
+#include <algorithm>
+#include <chrono>
 #include <typeinfo>
 
 #include "../../include/domains/buildorderDomain.hpp"
@@ -92,6 +94,15 @@ namespace ghost
     }
   }
 
+  void BuildOrderDomain::v_restart( vector<Action> *variables )
+  {
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::shuffle ( variables->begin(), variables->end(), std::default_random_engine( seed ) );
+
+    int iter = 0;
+    for( auto &v : *variables )
+      v.setValue( iter++ );
+  }
 
   // friend ostream& operator<<( ostream &os, const BuildOrderDomain &b )
   // {

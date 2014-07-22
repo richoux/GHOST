@@ -185,7 +185,11 @@ namespace ghost
     virtual double v_postprocessSatisfaction( vector< TypeVariable > *vecVariables,
 					      TypeDomain *domain,
 					      double &bestCost,
-					      vector<int> &solution ) const { return 0.; }
+					      vector<int> &solution ) const
+    {
+      bestCost = 0.;
+      return 0.;
+    }
 
     //! Virtual function to perform optimization post-processing.
     /*! 
@@ -203,7 +207,11 @@ namespace ghost
      */
     virtual double v_postprocessOptimization( vector< TypeVariable > *vecVariables,
 					      TypeDomain *domain,
-					      double &bestCost ) { return 0.; }
+					      double &bestCost )
+    {
+      bestCost = 0.;
+      return 0.;
+    }
 
     //! Virtual function to apply the value heuristic used by the solver.
     /*! 

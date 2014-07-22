@@ -434,6 +434,36 @@ namespace ghost
     return possiblePositions;
   }
 
+  void WallinDomain::v_restart( vector<Building> *variables )
+  {
+    for( const auto &v : *variables )
+      clear( v );
+    
+    for( auto &v : *variables )
+    {
+      // 1 chance over 3 to be placed on the domain
+      if( random.getRandNum(3) == 0)
+      {
+	v.setValue( randomValue( v ) );
+	add( v );
+      }
+      else
+	v.setValue( -1 );
+    }
+  }
+
+  void WallinDomain::v_wipe( vector<Building> *variables )
+  {
+    for( const auto &v : *variables )
+      clear( v );
+  }
+  
+  void WallinDomain::v_rebuild( vector<Building> *variables )
+  {
+    for( const auto &v : *variables )
+      add( v );
+  }
+  
   ostream& operator<<( ostream& os, const WallinDomain& g )
   {
     os << "#rows: " <<  g.nRow_ << endl
