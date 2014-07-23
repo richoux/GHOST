@@ -9,6 +9,7 @@ var searchData=
   ['gapright',['gapRight',['../classghost_1_1Building.html#a4c6f038b8f927d47d1cbfeb4c21fa29c',1,'ghost::Building']]],
   ['gapsize',['gapSize',['../classghost_1_1GapObj.html#abafdce010b63555042086d198f08f05d',1,'ghost::GapObj']]],
   ['gaptop',['gapTop',['../classghost_1_1Building.html#a6b95d50f1677590d310759c828c8bf48',1,'ghost::Building']]],
+  ['gasworkers',['gasWorkers',['../structghost_1_1BuildOrderObjective_1_1State.html#a17467d1d4d7d6a8f7ccfa96ae90a6bd8',1,'ghost::BuildOrderObjective::State']]],
   ['getbuildingsabove',['getBuildingsAbove',['../classghost_1_1WallinDomain.html#acde7d4ffbc355dc8831c412b449fae93',1,'ghost::WallinDomain']]],
   ['getbuildingsaround',['getBuildingsAround',['../classghost_1_1WallinDomain.html#a3e3381fcb60d5a2a89f5d145af447c31',1,'ghost::WallinDomain']]],
   ['getbuildingsbelow',['getBuildingsBelow',['../classghost_1_1WallinDomain.html#a2ed68f6e028dc9872d75d93de6bb5905',1,'ghost::WallinDomain']]],
@@ -19,7 +20,6 @@ var searchData=
   ['getcostsupply',['getCostSupply',['../classghost_1_1Action.html#ae1f8a3db9caafbcaa2039600f11eafd7',1,'ghost::Action']]],
   ['getcreator',['getCreator',['../classghost_1_1Action.html#a7e9e96cdfbc4ed561d782d2af51fb1ab',1,'ghost::Action']]],
   ['getdependencies',['getDependencies',['../classghost_1_1Action.html#a8396f1b683a8d6a20c5007aab5e1c02b',1,'ghost::Action']]],
-  ['getframerequired',['getFrameRequired',['../classghost_1_1Action.html#a4f0d5d2692392c695342c3a6ae3bb516',1,'ghost::Action']]],
   ['getfullname',['getFullName',['../classghost_1_1Variable.html#a179c5f5625d78740335fe11893811921',1,'ghost::Variable']]],
   ['getgapbottom',['getGapBottom',['../classghost_1_1Building.html#a1841953866459a82a05b42cb2377ba8b',1,'ghost::Building']]],
   ['getgapleft',['getGapLeft',['../classghost_1_1Building.html#ae5f7027727b6d00be6a224413806b8a3',1,'ghost::Building']]],
@@ -34,6 +34,7 @@ var searchData=
   ['getrace',['getRace',['../classghost_1_1Action.html#a67245bd8400e2dc6db7f16b512df145d',1,'ghost::Action::getRace()'],['../classghost_1_1Building.html#a8ed6ee863c01f1c017714a554d64606c',1,'ghost::Building::getRace()']]],
   ['getracestring',['getRaceString',['../classghost_1_1Action.html#ab22270eb1800b12ca2d2d6259552d974',1,'ghost::Action::getRaceString()'],['../classghost_1_1Building.html#ae4954b3cc1da4b93d66c2b75877e56d4',1,'ghost::Building::getRaceString()']]],
   ['getrandnum',['getRandNum',['../classghost_1_1Random.html#a26f7e445a05839bd89ca9c14f8b34fbc',1,'ghost::Random']]],
+  ['getsecondsrequired',['getSecondsRequired',['../classghost_1_1Action.html#a0a434058b17b4235ffd2325c88056751',1,'ghost::Action']]],
   ['getsize',['getSize',['../classghost_1_1Domain.html#af6950190ced9110a04bde5321337d14d',1,'ghost::Domain']]],
   ['getstartingtile',['getStartingTile',['../classghost_1_1WallinDomain.html#a7153bae0bb61766fb5f8d8513c96ed08',1,'ghost::WallinDomain']]],
   ['getsurface',['getSurface',['../classghost_1_1Building.html#ad2239fc3e97e16d32f8c59377c65d235',1,'ghost::Building']]],
@@ -43,5 +44,7 @@ var searchData=
   ['gettypestring',['getTypeString',['../classghost_1_1Action.html#a806f43d37dfd110a1ed88e643db9845d',1,'ghost::Action']]],
   ['getvalue',['getValue',['../classghost_1_1Variable.html#ae6dcadf662fc318265a9741d91a0e56e',1,'ghost::Variable']]],
   ['ghost',['ghost',['../namespaceghost.html',1,'']]],
+  ['goal',['goal',['../structghost_1_1BuildOrderObjective_1_1Tuple.html#ab6d651fc9c2618fb4b6a97df7909c521',1,'ghost::BuildOrderObjective::Tuple']]],
+  ['goals',['goals',['../classghost_1_1BuildOrderObjective.html#a714a7fc416d8925bc7d2b9026e9a212c',1,'ghost::BuildOrderObjective']]],
   ['ghost',['GHOST',['../index.html',1,'']]]
 ];

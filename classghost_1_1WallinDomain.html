@@ -103,14 +103,14 @@ Inheritance diagram for ghost::WallinDomain:</div>
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1WallinDomain__inherit__graph.png" border="0" usemap="#ghost_1_1WallinDomain_inherit__map" alt="Inheritance graph"/></div>
 <map name="ghost_1_1WallinDomain_inherit__map" id="ghost_1_1WallinDomain_inherit__map">
-<area shape="rect" id="node2" href="classghost_1_1Domain.html" title="{ghost::Domain\&lt; Building \&gt;\n|# size\l# domains\l# initialDomain\l# random\l|+ Domain()\l+ Domain()\l+ randomValue()\l+ valuesOf()\l+ resetDomain()\l+ resetAllDomains()\l+ getSize()\l+ add()\l+ clear()\l}" alt="" coords="5,6,181,245"/></map>
+<area shape="rect" id="node2" href="classghost_1_1Domain.html" title="{ghost::Domain\&lt; Building \&gt;\n|# size\l# domains\l# initialDomain\l# random\l|+ Domain()\l+ Domain()\l+ restart()\l+ wipe()\l+ rebuild()\l+ randomValue()\l+ valuesOf()\l+ resetDomain()\l+ resetAllDomains()\l+ getSize()\l+ add()\l+ clear()\l# v_restart()\l# v_wipe()\l# v_rebuild()\l}" alt="" coords="5,6,181,333"/></map>
 </div>
 <div class="dynheader">
 Collaboration diagram for ghost::WallinDomain:</div>
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1WallinDomain__coll__graph.png" border="0" usemap="#ghost_1_1WallinDomain_coll__map" alt="Collaboration graph"/></div>
 <map name="ghost_1_1WallinDomain_coll__map" id="ghost_1_1WallinDomain_coll__map">
-<area shape="rect" id="node2" href="classghost_1_1Domain.html" title="{ghost::Domain\&lt; Building \&gt;\n|# size\l# domains\l# initialDomain\l|+ Domain()\l+ Domain()\l+ randomValue()\l+ valuesOf()\l+ resetDomain()\l+ resetAllDomains()\l+ getSize()\l+ add()\l+ clear()\l}" alt="" coords="5,221,181,445"/><area shape="rect" id="node3" href="classghost_1_1Random.html" title="Random is the class coding pseudo&#45;random generators used in GHOST. " alt="" coords="34,6,152,157"/></map>
+<area shape="rect" id="node2" href="classghost_1_1Domain.html" title="{ghost::Domain\&lt; Building \&gt;\n|# size\l# domains\l# initialDomain\l|+ Domain()\l+ Domain()\l+ restart()\l+ wipe()\l+ rebuild()\l+ randomValue()\l+ valuesOf()\l+ resetDomain()\l+ resetAllDomains()\l+ getSize()\l+ add()\l+ clear()\l# v_restart()\l# v_wipe()\l# v_rebuild()\l}" alt="" coords="5,221,181,533"/><area shape="rect" id="node3" href="classghost_1_1Random.html" title="Random is the class coding pseudo&#45;random generators used in GHOST. " alt="" coords="34,6,152,157"/></map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -188,6 +188,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a26d7b928aa7a0bc44a47f2f407402ed7 inherit pub_methods_classghost_1_1Domain"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a26d7b928aa7a0bc44a47f2f407402ed7">Domain</a> (int <a class="el" href="classghost_1_1Domain.html#a13e282f60c6c7cddf5b5716b45ad161c">size</a>, int numberVariables, const vector&lt; int &gt; &amp;<a class="el" href="classghost_1_1Domain.html#a8890ca1323c293a4a1e2aa1830eff043">initialDomain</a>)</td></tr>
 <tr class="memdesc:a26d7b928aa7a0bc44a47f2f407402ed7 inherit pub_methods_classghost_1_1Domain"><td class="mdescLeft">&#160;</td><td class="mdescRight">Second and last Domain constructor.  <a href="#a26d7b928aa7a0bc44a47f2f407402ed7">More...</a><br/></td></tr>
 <tr class="separator:a26d7b928aa7a0bc44a47f2f407402ed7 inherit pub_methods_classghost_1_1Domain"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a253f06705e99ff88c9da7ed0ad6855aa inherit pub_methods_classghost_1_1Domain"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a253f06705e99ff88c9da7ed0ad6855aa">restart</a> (vector&lt; <a class="el" href="classghost_1_1Building.html">Building</a> &gt; *variables)</td></tr>
+<tr class="memdesc:a253f06705e99ff88c9da7ed0ad6855aa inherit pub_methods_classghost_1_1Domain"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom. Calling v_restart.  <a href="#a253f06705e99ff88c9da7ed0ad6855aa">More...</a><br/></td></tr>
+<tr class="separator:a253f06705e99ff88c9da7ed0ad6855aa inherit pub_methods_classghost_1_1Domain"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac26f73027a2b0abe86e5fef062ea177f inherit pub_methods_classghost_1_1Domain"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#ac26f73027a2b0abe86e5fef062ea177f">wipe</a> (vector&lt; <a class="el" href="classghost_1_1Building.html">Building</a> &gt; *variables)</td></tr>
+<tr class="memdesc:ac26f73027a2b0abe86e5fef062ea177f inherit pub_methods_classghost_1_1Domain"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom. Calling v_wipe.  <a href="#ac26f73027a2b0abe86e5fef062ea177f">More...</a><br/></td></tr>
+<tr class="separator:ac26f73027a2b0abe86e5fef062ea177f inherit pub_methods_classghost_1_1Domain"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a557b4c89eaf8503c27e873a7dcff838d inherit pub_methods_classghost_1_1Domain"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a557b4c89eaf8503c27e873a7dcff838d">rebuild</a> (vector&lt; <a class="el" href="classghost_1_1Building.html">Building</a> &gt; *variables)</td></tr>
+<tr class="memdesc:a557b4c89eaf8503c27e873a7dcff838d inherit pub_methods_classghost_1_1Domain"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom. Calling v_rebuild.  <a href="#a557b4c89eaf8503c27e873a7dcff838d">More...</a><br/></td></tr>
+<tr class="separator:a557b4c89eaf8503c27e873a7dcff838d inherit pub_methods_classghost_1_1Domain"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd3f0bd85c98e66c025e0ff3532af8dd inherit pub_methods_classghost_1_1Domain"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#abd3f0bd85c98e66c025e0ff3532af8dd">randomValue</a> (const <a class="el" href="classghost_1_1Building.html">Building</a> &amp;variable)</td></tr>
 <tr class="memdesc:abd3f0bd85c98e66c025e0ff3532af8dd inherit pub_methods_classghost_1_1Domain"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function to get a random value among the possible values of a given variable.  <a href="#abd3f0bd85c98e66c025e0ff3532af8dd">More...</a><br/></td></tr>
 <tr class="separator:abd3f0bd85c98e66c025e0ff3532af8dd inherit pub_methods_classghost_1_1Domain"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -214,6 +223,12 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a6fcb3370e7a7df62156c556b381c78f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6903c1353bafc1269ad1fa8fcd158ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1WallinDomain.html#ae6903c1353bafc1269ad1fa8fcd158ee">clear</a> (int, int, string, int)</td></tr>
 <tr class="separator:ae6903c1353bafc1269ad1fa8fcd158ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad60a94ecdc1a63cc0ff2a5ab3079c46"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1WallinDomain.html#aad60a94ecdc1a63cc0ff2a5ab3079c46">v_restart</a> (vector&lt; <a class="el" href="classghost_1_1Building.html">Building</a> &gt; *variables)</td></tr>
+<tr class="separator:aad60a94ecdc1a63cc0ff2a5ab3079c46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a816435b0754c2b62b916b59d60677742"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1WallinDomain.html#a816435b0754c2b62b916b59d60677742">v_wipe</a> (vector&lt; <a class="el" href="classghost_1_1Building.html">Building</a> &gt; *variables)</td></tr>
+<tr class="separator:a816435b0754c2b62b916b59d60677742"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af296daeef852ce0d84e01fccac4c0f48"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1WallinDomain.html#af296daeef852ce0d84e01fccac4c0f48">v_rebuild</a> (vector&lt; <a class="el" href="classghost_1_1Building.html">Building</a> &gt; *variables)</td></tr>
+<tr class="separator:af296daeef852ce0d84e01fccac4c0f48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -1205,6 +1220,87 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="af296daeef852ce0d84e01fccac4c0f48"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ghost::WallinDomain::v_rebuild </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; <a class="el" href="classghost_1_1Building.html">Building</a> &gt; *&#160;</td>
+          <td class="paramname"><em>variables</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Empty virtual function called in Sovler::solve before postprocessingOptimization. Can be use to rebuild the domain. </p>
+
+<p>Reimplemented from <a class="el" href="classghost_1_1Domain.html#aef5aef1cb394b5093e9a68c653c54ce5">ghost::Domain&lt; Building &gt;</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aad60a94ecdc1a63cc0ff2a5ab3079c46"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ghost::WallinDomain::v_restart </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; <a class="el" href="classghost_1_1Building.html">Building</a> &gt; *&#160;</td>
+          <td class="paramname"><em>variables</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Pure virtual function restarting the search process from a fresh and randomly generated configuration. </p>
+
+<p>Implements <a class="el" href="classghost_1_1Domain.html#aee3a6ae1de917ffb936c978633ac2663">ghost::Domain&lt; Building &gt;</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a816435b0754c2b62b916b59d60677742"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ghost::WallinDomain::v_wipe </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; <a class="el" href="classghost_1_1Building.html">Building</a> &gt; *&#160;</td>
+          <td class="paramname"><em>variables</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Empty virtual function called in Sovler::solve before postprocessingOptimization. Can be use to flush variables in the domain. </p>
+
+<p>Reimplemented from <a class="el" href="classghost_1_1Domain.html#ad0adb4cc8b6c9d2b9aec3f20e7fde1ef">ghost::Domain&lt; Building &gt;</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
 <a class="anchor" id="a183a5a6c377b42188996fa08efa37a10"></a>
 <div class="memitem">
@@ -1388,7 +1484,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jul 10 2014 15:21:10 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 23 2014 23:44:52 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

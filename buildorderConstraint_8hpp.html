@@ -94,17 +94,26 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><code>#include &lt;vector&gt;</code><br/>
 <code>#include &lt;iostream&gt;</code><br/>
 <code>#include &lt;memory&gt;</code><br/>
-<code>#include &lt;map&gt;</code><br/>
+<code>#include &lt;algorithm&gt;</code><br/>
+<code>#include &lt;string&gt;</code><br/>
 <code>#include &quot;<a class="el" href="constraint_8hpp_source.html">constraint.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="action_8hpp_source.html">../variables/action.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="buildorderDomain_8hpp_source.html">../domains/buildorderDomain.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="objective_8hpp_source.html">../objectives/objective.hpp</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="actionFactory_8hpp_source.html">../misc/actionFactory.hpp</a>&quot;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for buildorderConstraint.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="buildorderConstraint_8hpp__incl.png" border="0" usemap="#include_2constraints_2buildorderConstraint_8hpp" alt=""/></div>
 <map name="include_2constraints_2buildorderConstraint_8hpp" id="include_2constraints_2buildorderConstraint_8hpp">
-<area shape="rect" id="node6" href="constraint_8hpp.html" title="constraint.hpp" alt="" coords="147,96,251,123"/><area shape="rect" id="node8" href="objective_8hpp.html" title="../objectives/objective.hpp" alt="" coords="274,171,448,197"/><area shape="rect" id="node15" href="action_8hpp.html" title="../variables/action.hpp" alt="" coords="921,171,1071,197"/><area shape="rect" id="node18" href="buildorderDomain_8hpp.html" title="../domains/buildorderDomain.hpp" alt="" coords="396,96,609,123"/><area shape="rect" id="node11" href="random_8hpp.html" title="../misc/random.hpp" alt="" coords="481,245,615,272"/><area shape="rect" id="node14" href="constants_8hpp.html" title="../misc/constants.hpp" alt="" coords="257,245,404,272"/><area shape="rect" id="node16" href="variable_8hpp.html" title="variable.hpp" alt="" coords="834,245,925,272"/><area shape="rect" id="node17" href="races_8hpp.html" title="../misc/races.hpp" alt="" coords="1052,245,1175,272"/><area shape="rect" id="node20" href="domain_8hpp.html" title="domain.hpp" alt="" coords="503,171,592,197"/></map>
+<area shape="rect" id="node7" href="constraint_8hpp.html" title="constraint.hpp" alt="" coords="373,96,477,123"/><area shape="rect" id="node9" href="objective_8hpp.html" title="../objectives/objective.hpp" alt="" coords="229,171,403,197"/><area shape="rect" id="node15" href="action_8hpp.html" title="../variables/action.hpp" alt="" coords="812,171,962,197"/><area shape="rect" id="node18" href="buildorderDomain_8hpp.html" title="../domains/buildorderDomain.hpp" alt="" coords="623,96,837,123"/><area shape="rect" id="node21" href="actionFactory_8hpp.html" title="../misc/actionFactory.hpp" alt="" coords="911,96,1082,123"/><area shape="rect" id="node11" href="random_8hpp.html" title="../misc/random.hpp" alt="" coords="355,245,489,272"/><area shape="rect" id="node14" href="constants_8hpp.html" title="../misc/constants.hpp" alt="" coords="183,245,330,272"/><area shape="rect" id="node16" href="variable_8hpp.html" title="variable.hpp" alt="" coords="841,245,933,272"/><area shape="rect" id="node17" href="races_8hpp.html" title="../misc/races.hpp" alt="" coords="1009,245,1131,272"/><area shape="rect" id="node19" href="domain_8hpp.html" title="domain.hpp" alt="" coords="675,171,763,197"/></map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="buildorderConstraint_8hpp__dep__incl.png" border="0" usemap="#include_2constraints_2buildorderConstraint_8hppdep" alt=""/></div>
+<map name="include_2constraints_2buildorderConstraint_8hppdep" id="include_2constraints_2buildorderConstraint_8hppdep">
+<area shape="rect" id="node2" href="buildorderConstraint_8cpp.html" title="src/constraints/buildorder\lConstraint.cpp" alt="" coords="5,97,173,138"/><area shape="rect" id="node3" href="main_8cpp.html" title="src/main.cpp" alt="" coords="198,104,295,131"/></map>
 </div>
 </div>
 <p><a href="buildorderConstraint_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -112,14 +121,6 @@ Include dependency graph for buildorderConstraint.hpp:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1BuildOrderConstraint.html">ghost::BuildOrderConstraint</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Overlap.html">ghost::Overlap</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Buildable.html">ghost::Buildable</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1NoGaps.html">ghost::NoGaps</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1StartingTargetTiles.html">ghost::StartingTargetTiles</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -130,7 +131,7 @@ Namespaces</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jul 10 2014 15:21:08 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 23 2014 23:44:51 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

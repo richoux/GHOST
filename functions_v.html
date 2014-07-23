@@ -96,6 +96,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_u.html#index_u"><span>u</span></a></li>
       <li class="current"><a href="functions_v.html#index_v"><span>v</span></a></li>
       <li><a href="functions_w.html#index_w"><span>w</span></a></li>
+      <li><a href="functions_y.html#index_y"><span>y</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -120,10 +121,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>v_cost()
 : <a class="el" href="classghost_1_1Buildable.html#a584162de15bdeb91c7f9a0d0a0fa3c87">ghost::Buildable</a>
 , <a class="el" href="classghost_1_1BuildingObj.html#a776e66ee83bea375f906aada814f791f">ghost::BuildingObj</a>
+, <a class="el" href="classghost_1_1BuildOrderConstraint.html#ad4c276a47a97b4ce6f6c6389db4e65b5">ghost::BuildOrderConstraint</a>
+, <a class="el" href="classghost_1_1BuildOrderObjective.html#a8374173fe58843718dc7ba1410628e72">ghost::BuildOrderObjective</a>
 , <a class="el" href="classghost_1_1Constraint.html#ac67f7952cdf7212327b7db506225d12c">ghost::Constraint&lt; TypeVariable, TypeDomain &gt;</a>
 , <a class="el" href="classghost_1_1GapObj.html#a0aff22c12b3a097df5a2314da5f41a04">ghost::GapObj</a>
 , <a class="el" href="classghost_1_1NoGaps.html#a3fa23de6946e443f009ecb5054a96572">ghost::NoGaps</a>
-, <a class="el" href="classghost_1_1NoneObj.html#a73a9b27b282120a3b0469253efc2e639">ghost::NoneObj</a>
 , <a class="el" href="classghost_1_1NullObjective.html#a309e1913d38d728b41a61c1ce40f3dca">ghost::NullObjective&lt; TypeVariable, TypeDomain &gt;</a>
 , <a class="el" href="classghost_1_1Objective.html#affb6d6730adfbfe6a1f990e00d2a5eb2">ghost::Objective&lt; TypeVariable, TypeDomain &gt;</a>
 , <a class="el" href="classghost_1_1Overlap.html#a7a926991f06c785126e5d7995953e493">ghost::Overlap</a>
@@ -131,39 +133,56 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classghost_1_1TechTreeObj.html#a08017f78e70b65bc3a46615929f5302f">ghost::TechTreeObj</a>
 </li>
 <li>v_heuristicValue()
-: <a class="el" href="classghost_1_1Objective.html#a03311ba62213580f1664f164e5f5696a">ghost::Objective&lt; TypeVariable, TypeDomain &gt;</a>
+: <a class="el" href="classghost_1_1BuildOrderObjective.html#ac53eb5d747fff00a064b6c45f02a99ee">ghost::BuildOrderObjective</a>
+, <a class="el" href="classghost_1_1Objective.html#a03311ba62213580f1664f164e5f5696a">ghost::Objective&lt; TypeVariable, TypeDomain &gt;</a>
 </li>
 <li>v_heuristicVariable()
 : <a class="el" href="classghost_1_1BuildingObj.html#a472940adf4a07d5062376bc2f4a349d1">ghost::BuildingObj</a>
+, <a class="el" href="classghost_1_1BuildOrderObjective.html#a3704745355d6bf12a3afe2e8d551f38a">ghost::BuildOrderObjective</a>
 , <a class="el" href="classghost_1_1GapObj.html#a6cbd377f5f11676d918fcdf65f384cd3">ghost::GapObj</a>
-, <a class="el" href="classghost_1_1NoneObj.html#aa09ad00592be7ce8380d423cd05de28e">ghost::NoneObj</a>
 , <a class="el" href="classghost_1_1NullObjective.html#aef7e24c71f2522034764402704e3b16f">ghost::NullObjective&lt; TypeVariable, TypeDomain &gt;</a>
 , <a class="el" href="classghost_1_1Objective.html#ae4a49d23569c367182f934c25a6c6103">ghost::Objective&lt; TypeVariable, TypeDomain &gt;</a>
 , <a class="el" href="classghost_1_1TechTreeObj.html#a0048f628a37031a5b4ba18acc2958b63">ghost::TechTreeObj</a>
 </li>
 <li>v_postprocessOptimization()
 : <a class="el" href="classghost_1_1BuildingObj.html#af6b0953277810bbb5a9edf1d38d657ba">ghost::BuildingObj</a>
-, <a class="el" href="classghost_1_1NoneObj.html#aafc43cad67f5ccd5e3c913a576896669">ghost::NoneObj</a>
+, <a class="el" href="classghost_1_1BuildOrderObjective.html#a07306469a8512e33a420d7f8ebab507b">ghost::BuildOrderObjective</a>
+, <a class="el" href="classghost_1_1MakeSpanMaxProd.html#ac687d94f54354cceb9710f5a27e244a6">ghost::MakeSpanMaxProd</a>
+, <a class="el" href="classghost_1_1MakeSpanMinCost.html#a892905457a09d229d0b08ec36d47f20c">ghost::MakeSpanMinCost</a>
 , <a class="el" href="classghost_1_1Objective.html#a25c90555bec03d1d15f83ae145d81f8f">ghost::Objective&lt; TypeVariable, TypeDomain &gt;</a>
 , <a class="el" href="classghost_1_1WallinObjective.html#aa30f157bc7a09fdfe2a671960e4e60df">ghost::WallinObjective</a>
 </li>
 <li>v_postprocessSatisfaction()
-: <a class="el" href="classghost_1_1Objective.html#a4951d988a677086366fd71fa4d7d3d0d">ghost::Objective&lt; TypeVariable, TypeDomain &gt;</a>
-, <a class="el" href="classghost_1_1WallinObjective.html#acc06e32003541f6ed5c147d1353c852f">ghost::WallinObjective</a>
+: <a class="el" href="classghost_1_1BuildOrderObjective.html#ac33af5d279166ee0ec8d088ca9f03596">ghost::BuildOrderObjective</a>
+, <a class="el" href="classghost_1_1Objective.html#a403fdae56c632409f244f4ffe79dd2df">ghost::Objective&lt; TypeVariable, TypeDomain &gt;</a>
+, <a class="el" href="classghost_1_1WallinObjective.html#a84bf06db1526faf60d5b1354230f5d4f">ghost::WallinObjective</a>
+</li>
+<li>v_rebuild()
+: <a class="el" href="classghost_1_1Domain.html#aef5aef1cb394b5093e9a68c653c54ce5">ghost::Domain&lt; TypeVariable &gt;</a>
+, <a class="el" href="classghost_1_1WallinDomain.html#af296daeef852ce0d84e01fccac4c0f48">ghost::WallinDomain</a>
+</li>
+<li>v_restart()
+: <a class="el" href="classghost_1_1BuildOrderDomain.html#a8f96e0ec1cedb76a38ca516ca2cdc88a">ghost::BuildOrderDomain</a>
+, <a class="el" href="classghost_1_1Domain.html#aee3a6ae1de917ffb936c978633ac2663">ghost::Domain&lt; TypeVariable &gt;</a>
+, <a class="el" href="classghost_1_1WallinDomain.html#aad60a94ecdc1a63cc0ff2a5ab3079c46">ghost::WallinDomain</a>
 </li>
 <li>v_setHelper()
-: <a class="el" href="classghost_1_1GapObj.html#afd55a0b02e6336d2a1f17e015488aa45">ghost::GapObj</a>
-, <a class="el" href="classghost_1_1NoneObj.html#a12cfdb56540821d557b932b22e7a2091">ghost::NoneObj</a>
+: <a class="el" href="classghost_1_1BuildOrderObjective.html#ad76dc815275350590eb67db1d22cc02b">ghost::BuildOrderObjective</a>
+, <a class="el" href="classghost_1_1GapObj.html#afd55a0b02e6336d2a1f17e015488aa45">ghost::GapObj</a>
 , <a class="el" href="classghost_1_1NullObjective.html#a5f4b22306c25132590e3c10a6dc34d15">ghost::NullObjective&lt; TypeVariable, TypeDomain &gt;</a>
 , <a class="el" href="classghost_1_1Objective.html#a8c4efc1602123b28626a37c53e100a6e">ghost::Objective&lt; TypeVariable, TypeDomain &gt;</a>
 , <a class="el" href="classghost_1_1WallinObjective.html#abc0f66adeebca9f9787a4ae348219fb8">ghost::WallinObjective</a>
 </li>
 <li>v_simulateCost()
-: <a class="el" href="classghost_1_1Buildable.html#a0d33808d13f87e9ff04589bb43d56fa8">ghost::Buildable</a>
-, <a class="el" href="classghost_1_1BuildOrderConstraint.html#a3ffc8f323b117f17c76cc6df522345ba">ghost::BuildOrderConstraint</a>
+: <a class="el" href="classghost_1_1Buildable.html#a8b2f97c002509cd35846af837405fc1e">ghost::Buildable</a>
+, <a class="el" href="classghost_1_1BuildOrderConstraint.html#a95b9a2bcd858e6dc16fdc384e5c8e310">ghost::BuildOrderConstraint</a>
 , <a class="el" href="classghost_1_1Constraint.html#a8dd05c04dbce51e88a6301e9332fb2f5">ghost::Constraint&lt; TypeVariable, TypeDomain &gt;</a>
 , <a class="el" href="classghost_1_1Overlap.html#a3a347d3067235b29bbb19c2013498edf">ghost::Overlap</a>
 , <a class="el" href="classghost_1_1WallinConstraint.html#af2d6f103c844a14745b7de6c656f9981">ghost::WallinConstraint</a>
+</li>
+<li>v_wipe()
+: <a class="el" href="classghost_1_1Domain.html#ad0adb4cc8b6c9d2b9aec3f20e7fde1ef">ghost::Domain&lt; TypeVariable &gt;</a>
+, <a class="el" href="classghost_1_1WallinDomain.html#a816435b0754c2b62b916b59d60677742">ghost::WallinDomain</a>
 </li>
 <li>value
 : <a class="el" href="classghost_1_1Variable.html#a4623be8dd7ed2a0cb7033aec42033cb7">ghost::Variable</a>
@@ -190,7 +209,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jul 10 2014 15:21:12 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 23 2014 23:44:53 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

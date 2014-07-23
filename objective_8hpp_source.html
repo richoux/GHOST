@@ -133,7 +133,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  {</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#a40decf80e2a1f37e2cc4634f41acc7ca">   75</a></span>&#160;    <a class="code" href="classghost_1_1Objective.html#a40decf80e2a1f37e2cc4634f41acc7ca">Objective</a>( <span class="keyword">const</span> <span class="keywordtype">string</span> &amp;name ) : name(name) { }</div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#ae8f0c0e859244a5acf8e6f9a609b8e12">   75</a></span>&#160;    <a class="code" href="classghost_1_1Objective.html#ae8f0c0e859244a5acf8e6f9a609b8e12">Objective</a>( <span class="keyword">const</span> <span class="keywordtype">string</span> &amp;name, <span class="keywordtype">bool</span> permut = <span class="keyword">false</span> ) : name(name), permutation(permut) { }</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
 <div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#a2947c19e26ffd2a23c3a7f1b99c8bc79">   79</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">double</span> <a class="code" href="classghost_1_1Objective.html#a2947c19e26ffd2a23c3a7f1b99c8bc79">cost</a>( <span class="keyword">const</span> vector&lt; TypeVariable &gt; *vecVariables,</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <span class="keyword">const</span> TypeDomain *domain )<span class="keyword"> const</span></div>
@@ -154,10 +154,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;               <span class="keyword">const</span> TypeDomain *domain )</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    { v_setHelper(variable, vecVariables, domain); }</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#ac4a32cc45835534a3cc16cf05f77ca34">  106</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">double</span> <a class="code" href="classghost_1_1Objective.html#ac4a32cc45835534a3cc16cf05f77ca34">postprocessSatisfaction</a>( vector&lt; TypeVariable &gt; *vecVariables,</div>
+<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#a605effc6d79bd00a22c2c9fca6078cc0">  106</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">double</span> <a class="code" href="classghost_1_1Objective.html#a605effc6d79bd00a22c2c9fca6078cc0">postprocessSatisfaction</a>( vector&lt; TypeVariable &gt; *vecVariables,</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                       TypeDomain *domain,</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                       <span class="keywordtype">double</span> &amp;bestCost,</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                       vector&lt;int&gt; &amp;bestSolution)</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                       vector&lt; TypeVariable &gt; &amp;bestSolution)</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    { <span class="keywordflow">return</span> v_postprocessSatisfaction(vecVariables, domain, bestCost, bestSolution); }</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
 <div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#a78ac0f829786f02fe69b2afe6f2636bc">  114</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">double</span> <a class="code" href="classghost_1_1Objective.html#a78ac0f829786f02fe69b2afe6f2636bc">postprocessOptimization</a>( vector&lt; TypeVariable &gt; *vecVariables,</div>
@@ -177,141 +177,160 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;      std::fill( heuristicValueHelper.begin(), heuristicValueHelper.end(), numeric_limits&lt;int&gt;::max() );</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    }</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;  <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">double</span> v_cost( <span class="keyword">const</span> vector&lt; TypeVariable &gt; *vecVariables,</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;               <span class="keyword">const</span> TypeDomain *domain ) <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> v_heuristicVariable( <span class="keyword">const</span> vector&lt; int &gt; &amp;vecVarId,</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                     <span class="keyword">const</span> vector&lt; TypeVariable &gt; *vecVariables,</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                     TypeDomain *domain ) = 0;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> v_setHelper( <span class="keyword">const</span> TypeVariable &amp;currentVar,</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;                  <span class="keyword">const</span> vector&lt; TypeVariable &gt; *vecVariables,</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                  <span class="keyword">const</span> TypeDomain *domain ) = 0;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
-<div class="line"><a name="l00185"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#a4951d988a677086366fd71fa4d7d3d0d">  185</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classghost_1_1Objective.html#a4951d988a677086366fd71fa4d7d3d0d">v_postprocessSatisfaction</a>( vector&lt; TypeVariable &gt; *vecVariables,</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;                          TypeDomain *domain,</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                          <span class="keywordtype">double</span> &amp;bestCost,</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                          vector&lt;int&gt; &amp;solution )<span class="keyword"> const </span>{ <span class="keywordflow">return</span> 0.; }</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;</div>
-<div class="line"><a name="l00204"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#a25c90555bec03d1d15f83ae145d81f8f">  204</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classghost_1_1Objective.html#a25c90555bec03d1d15f83ae145d81f8f">v_postprocessOptimization</a>( vector&lt; TypeVariable &gt; *vecVariables,</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                          TypeDomain *domain,</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                          <span class="keywordtype">double</span> &amp;bestCost ) { <span class="keywordflow">return</span> 0.; }</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;</div>
-<div class="line"><a name="l00223"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#a03311ba62213580f1664f164e5f5696a">  223</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classghost_1_1Objective.html#a03311ba62213580f1664f164e5f5696a">v_heuristicValue</a>( <span class="keyword">const</span> std::vector&lt; double &gt; &amp;vecGlobalCosts, </div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;                  <span class="keywordtype">double</span> &amp;bestEstimatedCost,</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                  <span class="keywordtype">int</span> &amp;bestValue )<span class="keyword"> const</span></div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;      <span class="keywordtype">int</span> best = 0;</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;      <span class="keywordtype">double</span> bestHelp = numeric_limits&lt;int&gt;::max();</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;      vector&lt;int&gt; draw;</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    </div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;      <span class="keywordflow">for</span>( <span class="keywordtype">int</span> i = 0; i &lt; vecGlobalCosts.size(); ++i )</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;      {</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <span class="keywordflow">if</span>( vecGlobalCosts[i] == bestEstimatedCost</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        &amp;&amp; vecGlobalCosts[i] &lt; numeric_limits&lt;int&gt;::max()</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        &amp;&amp; heuristicValueHelper.at( i ) == bestHelp )</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    {</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;      draw.push_back(i);</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    }</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;      <span class="keywordflow">if</span>( vecGlobalCosts[i] &lt; bestEstimatedCost</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;          || ( vecGlobalCosts[i] == bestEstimatedCost</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;           &amp;&amp; vecGlobalCosts[i] &lt; numeric_limits&lt;int&gt;::max()</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;           &amp;&amp; heuristicValueHelper.at( i ) &lt; bestHelp ) )</div>
+<div class="line"><a name="l00138"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#a558991ad856cff48262e2848c6ab5796">  138</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="classghost_1_1Objective.html#a558991ad856cff48262e2848c6ab5796">isPermutation</a>() { <span class="keywordflow">return</span> permutation; }</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;  <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">double</span> v_cost( <span class="keyword">const</span> vector&lt; TypeVariable &gt; *vecVariables,</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;               <span class="keyword">const</span> TypeDomain *domain ) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> v_heuristicVariable( <span class="keyword">const</span> vector&lt; int &gt; &amp;vecVarId,</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                     <span class="keyword">const</span> vector&lt; TypeVariable &gt; *vecVariables,</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                     TypeDomain *domain ) = 0;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> v_setHelper( <span class="keyword">const</span> TypeVariable &amp;currentVar,</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                  <span class="keyword">const</span> vector&lt; TypeVariable &gt; *vecVariables,</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                  <span class="keyword">const</span> TypeDomain *domain ) = 0;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
+<div class="line"><a name="l00189"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#a403fdae56c632409f244f4ffe79dd2df">  189</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classghost_1_1Objective.html#a403fdae56c632409f244f4ffe79dd2df">v_postprocessSatisfaction</a>( vector&lt; TypeVariable &gt; *vecVariables,</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                          TypeDomain *domain,</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                          <span class="keywordtype">double</span> &amp;bestCost,</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                          vector&lt; TypeVariable &gt; &amp;solution )<span class="keyword"> const</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;      bestCost = 0.;</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;      <span class="keywordflow">return</span> 0.;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    }</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;</div>
+<div class="line"><a name="l00212"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#a25c90555bec03d1d15f83ae145d81f8f">  212</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classghost_1_1Objective.html#a25c90555bec03d1d15f83ae145d81f8f">v_postprocessOptimization</a>( vector&lt; TypeVariable &gt; *vecVariables,</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                          TypeDomain *domain,</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                          <span class="keywordtype">double</span> &amp;bestCost )</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    {</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;      bestCost = 0.;</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;      <span class="keywordflow">return</span> 0.;</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    }</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;</div>
+<div class="line"><a name="l00235"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#a03311ba62213580f1664f164e5f5696a">  235</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classghost_1_1Objective.html#a03311ba62213580f1664f164e5f5696a">v_heuristicValue</a>( <span class="keyword">const</span> std::vector&lt; double &gt; &amp;vecGlobalCosts, </div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                  <span class="keywordtype">double</span> &amp;bestEstimatedCost,</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                  <span class="keywordtype">int</span> &amp;bestValue )<span class="keyword"> const</span></div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;      <span class="keywordtype">int</span> best = 0;</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;      <span class="keywordtype">double</span> bestHelp = numeric_limits&lt;int&gt;::max();</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;      vector&lt;int&gt; draw;</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    </div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;      <span class="keywordflow">for</span>( <span class="keywordtype">int</span> i = 0; i &lt; vecGlobalCosts.size(); ++i )</div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;      {</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        draw.clear();</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        bestEstimatedCost = vecGlobalCosts[i];</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        bestValue = i - 1;</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        <span class="keywordflow">if</span>( heuristicValueHelper.at( i ) &lt; bestHelp )</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;          bestHelp = heuristicValueHelper.at( i );</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        best = i;</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;      }</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;      }</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;      <span class="keywordflow">if</span>( draw.size() &gt; 1 )</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;      {</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    <span class="keywordtype">int</span> i = draw[ <span class="keyword">const_cast&lt;</span><a class="code" href="classghost_1_1Objective.html">Objective</a>*<span class="keyword">&gt;</span>(<span class="keyword">this</span>)-&gt;randomVar.getRandNum( draw.size() ) ];</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;      </div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    bestEstimatedCost = vecGlobalCosts[i];</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    bestValue = i - 1;</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    <span class="keywordflow">if</span>( heuristicValueHelper.at( i ) &lt; bestHelp )</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;      bestHelp = heuristicValueHelper.at( i );</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    best = i;</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;      }</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;      <span class="keywordflow">return</span> best;</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    }</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <span class="keywordflow">if</span>( vecGlobalCosts[i] == bestEstimatedCost</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        &amp;&amp; vecGlobalCosts[i] &lt; numeric_limits&lt;int&gt;::max()</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        &amp;&amp; heuristicValueHelper.at( i ) == bestHelp )</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    {</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;      draw.push_back(i);</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    }</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;      <span class="keywordflow">if</span>( vecGlobalCosts[i] &lt; bestEstimatedCost</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;          || ( vecGlobalCosts[i] == bestEstimatedCost</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;           &amp;&amp; vecGlobalCosts[i] &lt; numeric_limits&lt;int&gt;::max()</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;           &amp;&amp; heuristicValueHelper.at( i ) &lt; bestHelp ) )</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;      {</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        draw.clear();</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        bestEstimatedCost = vecGlobalCosts[i];</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        <span class="comment">// WARNING! This line implies we start our domain by the value -1</span></div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        <span class="comment">// which is not necessary the case. TOFIX</span></div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        bestValue = i - 1;</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        <span class="keywordflow">if</span>( heuristicValueHelper.at( i ) &lt; bestHelp )</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;          bestHelp = heuristicValueHelper.at( i );</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        best = i;</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;      }</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;      }</div>
 <div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;</div>
-<div class="line"><a name="l00270"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#a442da333edc70f47c33a15987c2a81b8">  270</a></span>&#160;    <a class="code" href="classghost_1_1Random.html">Random</a> <a class="code" href="classghost_1_1Objective.html#a442da333edc70f47c33a15987c2a81b8">randomVar</a>;               </div>
-<div class="line"><a name="l00271"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#ae9533a52b3600c826df6e20c65db1e7a">  271</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="classghost_1_1Objective.html#ae9533a52b3600c826df6e20c65db1e7a">name</a>;                </div>
-<div class="line"><a name="l00272"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27">  272</a></span>&#160;    vector&lt;double&gt; <a class="code" href="classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27">heuristicValueHelper</a>;    </div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;  };</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TypeVariable, <span class="keyword">typename</span> TypeDomain&gt;</div>
-<div class="line"><a name="l00277"></a><span class="lineno"><a class="line" href="classghost_1_1NullObjective.html">  277</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classghost_1_1NullObjective.html">NullObjective</a> : <span class="keyword">public</span> <a class="code" href="classghost_1_1Objective.html">Objective</a>&lt;TypeVariable, TypeDomain&gt;</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;  {</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    <span class="keyword">using</span> <a class="code" href="classghost_1_1Objective.html">Objective&lt;TypeVariable, TypeDomain&gt;::randomVar</a>;</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    <span class="keyword">using</span> <a class="code" href="classghost_1_1Objective.html">Objective&lt;TypeVariable, TypeDomain&gt;::heuristicValueHelper</a>;</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    </div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00283"></a><span class="lineno"><a class="line" href="classghost_1_1NullObjective.html#acb468a9e5fd85d31c3afc805481919ed">  283</a></span>&#160;    <a class="code" href="classghost_1_1NullObjective.html#acb468a9e5fd85d31c3afc805481919ed">NullObjective</a>() : <a class="code" href="classghost_1_1Objective.html">Objective</a>&lt;TypeVariable, TypeDomain&gt;(<span class="stringliteral">&quot;nullObjective&quot;</span>) { }</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00286"></a><span class="lineno"><a class="line" href="classghost_1_1NullObjective.html#a309e1913d38d728b41a61c1ce40f3dca">  286</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classghost_1_1NullObjective.html#a309e1913d38d728b41a61c1ce40f3dca">v_cost</a>( <span class="keyword">const</span> vector&lt; TypeVariable &gt; *vecVariables,</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;               <span class="keyword">const</span> TypeDomain *domain )<span class="keyword"> const</span></div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="keyword">    </span>{ <span class="keywordflow">return</span> 0.; }</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    </div>
-<div class="line"><a name="l00290"></a><span class="lineno"><a class="line" href="classghost_1_1NullObjective.html#aef7e24c71f2522034764402704e3b16f">  290</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classghost_1_1NullObjective.html#aef7e24c71f2522034764402704e3b16f">v_heuristicVariable</a>( <span class="keyword">const</span> vector&lt; int &gt; &amp;vecId,</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                     <span class="keyword">const</span> vector&lt; TypeVariable &gt; *vecVariables,</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;                     TypeDomain *domain )</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    {</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;      <span class="keywordflow">return</span> vecId[ randomVar.getRandNum( vecId.size() ) ];</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    }</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    </div>
-<div class="line"><a name="l00297"></a><span class="lineno"><a class="line" href="classghost_1_1NullObjective.html#a5f4b22306c25132590e3c10a6dc34d15">  297</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classghost_1_1NullObjective.html#a5f4b22306c25132590e3c10a6dc34d15">v_setHelper</a>( <span class="keyword">const</span> TypeVariable &amp;b,</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                  <span class="keyword">const</span> vector&lt; TypeVariable &gt; *vecVariables,</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                  <span class="keyword">const</span> TypeDomain *domain )</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    {</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;      heuristicValueHelper.at( b.getValue() ) = 0;</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    }</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;  };</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;}</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;      <span class="keywordflow">if</span>( draw.size() &gt; 1 )</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;      {</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <span class="keywordtype">int</span> i = draw[ <span class="keyword">const_cast&lt;</span><a class="code" href="classghost_1_1Objective.html">Objective</a>*<span class="keyword">&gt;</span>(<span class="keyword">this</span>)-&gt;randomVar.getRandNum( draw.size() ) ];</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;      </div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    bestEstimatedCost = vecGlobalCosts[i];</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    </div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    <span class="comment">// WARNING! This line implies we start our domain by the value -1</span></div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <span class="comment">// which is not necessary the case. TOFIX</span></div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    bestValue = i - 1;</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    <span class="keywordflow">if</span>( heuristicValueHelper.at( i ) &lt; bestHelp )</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;      bestHelp = heuristicValueHelper.at( i );</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    best = i;</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;      }</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;      <span class="keywordflow">return</span> best;</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    }</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;</div>
+<div class="line"><a name="l00288"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#a442da333edc70f47c33a15987c2a81b8">  288</a></span>&#160;    <a class="code" href="classghost_1_1Random.html">Random</a> <a class="code" href="classghost_1_1Objective.html#a442da333edc70f47c33a15987c2a81b8">randomVar</a>;               </div>
+<div class="line"><a name="l00289"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#ae9533a52b3600c826df6e20c65db1e7a">  289</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="classghost_1_1Objective.html#ae9533a52b3600c826df6e20c65db1e7a">name</a>;                </div>
+<div class="line"><a name="l00290"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27">  290</a></span>&#160;    vector&lt;double&gt; <a class="code" href="classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27">heuristicValueHelper</a>;    </div>
+<div class="line"><a name="l00291"></a><span class="lineno"><a class="line" href="classghost_1_1Objective.html#aae8345f4b7981f4b386eb58e447e0286">  291</a></span>&#160;    <span class="keywordtype">bool</span>   <a class="code" href="classghost_1_1Objective.html#aae8345f4b7981f4b386eb58e447e0286">permutation</a>;             </div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;  };</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TypeVariable, <span class="keyword">typename</span> TypeDomain&gt;</div>
+<div class="line"><a name="l00296"></a><span class="lineno"><a class="line" href="classghost_1_1NullObjective.html">  296</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classghost_1_1NullObjective.html">NullObjective</a> : <span class="keyword">public</span> <a class="code" href="classghost_1_1Objective.html">Objective</a>&lt;TypeVariable, TypeDomain&gt;</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;  {</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    <span class="keyword">using</span> <a class="code" href="classghost_1_1Objective.html">Objective&lt;TypeVariable, TypeDomain&gt;::randomVar</a>;</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    <span class="keyword">using</span> <a class="code" href="classghost_1_1Objective.html">Objective&lt;TypeVariable, TypeDomain&gt;::heuristicValueHelper</a>;</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    </div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00302"></a><span class="lineno"><a class="line" href="classghost_1_1NullObjective.html#acb468a9e5fd85d31c3afc805481919ed">  302</a></span>&#160;    <a class="code" href="classghost_1_1NullObjective.html#acb468a9e5fd85d31c3afc805481919ed">NullObjective</a>() : <a class="code" href="classghost_1_1Objective.html">Objective</a>&lt;TypeVariable, TypeDomain&gt;(<span class="stringliteral">&quot;nullObjective&quot;</span>) { }</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00305"></a><span class="lineno"><a class="line" href="classghost_1_1NullObjective.html#a309e1913d38d728b41a61c1ce40f3dca">  305</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classghost_1_1NullObjective.html#a309e1913d38d728b41a61c1ce40f3dca">v_cost</a>( <span class="keyword">const</span> vector&lt; TypeVariable &gt; *vecVariables,</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;               <span class="keyword">const</span> TypeDomain *domain )<span class="keyword"> const</span></div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;<span class="keyword">    </span>{ <span class="keywordflow">return</span> 0.; }</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    </div>
+<div class="line"><a name="l00309"></a><span class="lineno"><a class="line" href="classghost_1_1NullObjective.html#aef7e24c71f2522034764402704e3b16f">  309</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classghost_1_1NullObjective.html#aef7e24c71f2522034764402704e3b16f">v_heuristicVariable</a>( <span class="keyword">const</span> vector&lt; int &gt; &amp;vecId,</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;                     <span class="keyword">const</span> vector&lt; TypeVariable &gt; *vecVariables,</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;                     TypeDomain *domain )</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    {</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;      <span class="keywordflow">return</span> vecId[ randomVar.getRandNum( vecId.size() ) ];</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    }</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    </div>
+<div class="line"><a name="l00316"></a><span class="lineno"><a class="line" href="classghost_1_1NullObjective.html#a5f4b22306c25132590e3c10a6dc34d15">  316</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classghost_1_1NullObjective.html#a5f4b22306c25132590e3c10a6dc34d15">v_setHelper</a>( <span class="keyword">const</span> TypeVariable &amp;b,</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;                  <span class="keyword">const</span> vector&lt; TypeVariable &gt; *vecVariables,</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;                  <span class="keyword">const</span> TypeDomain *domain )</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    {</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;      heuristicValueHelper.at( b.getValue() ) = 0;</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    }</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;  };</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;}</div>
+<div class="ttc" id="classghost_1_1Objective_html_aae8345f4b7981f4b386eb58e447e0286"><div class="ttname"><a href="classghost_1_1Objective.html#aae8345f4b7981f4b386eb58e447e0286">ghost::Objective::permutation</a></div><div class="ttdeci">bool permutation</div><div class="ttdoc">Boolean telling is the problem is a permutation problem or not. </div><div class="ttdef"><b>Definition:</b> objective.hpp:291</div></div>
 <div class="ttc" id="classghost_1_1Objective_html"><div class="ttname"><a href="classghost_1_1Objective.html">ghost::Objective</a></div><div class="ttdoc">Objective is the class encoding objective functions of your CSP/COP. </div><div class="ttdef"><b>Definition:</b> objective.hpp:68</div></div>
-<div class="ttc" id="classghost_1_1NullObjective_html_a5f4b22306c25132590e3c10a6dc34d15"><div class="ttname"><a href="classghost_1_1NullObjective.html#a5f4b22306c25132590e3c10a6dc34d15">ghost::NullObjective::v_setHelper</a></div><div class="ttdeci">virtual void v_setHelper(const TypeVariable &amp;b, const vector&lt; TypeVariable &gt; *vecVariables, const TypeDomain *domain)</div><div class="ttdoc">Pure virtual function to set heuristicValueHelper[currentVar.getValue()]. </div><div class="ttdef"><b>Definition:</b> objective.hpp:297</div></div>
-<div class="ttc" id="classghost_1_1Objective_html_a9bfe64f13de15bba7f2fa3a662c02e27"><div class="ttname"><a href="classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27">ghost::Objective::heuristicValueHelper</a></div><div class="ttdeci">vector&lt; double &gt; heuristicValueHelper</div><div class="ttdoc">The vector of double values implementing the value heuristic for each possible value of a given varia...</div><div class="ttdef"><b>Definition:</b> objective.hpp:272</div></div>
-<div class="ttc" id="classghost_1_1Objective_html_a25c90555bec03d1d15f83ae145d81f8f"><div class="ttname"><a href="classghost_1_1Objective.html#a25c90555bec03d1d15f83ae145d81f8f">ghost::Objective::v_postprocessOptimization</a></div><div class="ttdeci">virtual double v_postprocessOptimization(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, double &amp;bestCost)</div><div class="ttdoc">Virtual function to perform optimization post-processing. </div><div class="ttdef"><b>Definition:</b> objective.hpp:204</div></div>
-<div class="ttc" id="classghost_1_1NullObjective_html_a309e1913d38d728b41a61c1ce40f3dca"><div class="ttname"><a href="classghost_1_1NullObjective.html#a309e1913d38d728b41a61c1ce40f3dca">ghost::NullObjective::v_cost</a></div><div class="ttdeci">virtual double v_cost(const vector&lt; TypeVariable &gt; *vecVariables, const TypeDomain *domain) const </div><div class="ttdoc">Pure virtual function to compute the value of the objective function on the current configuration...</div><div class="ttdef"><b>Definition:</b> objective.hpp:286</div></div>
+<div class="ttc" id="classghost_1_1Objective_html_a403fdae56c632409f244f4ffe79dd2df"><div class="ttname"><a href="classghost_1_1Objective.html#a403fdae56c632409f244f4ffe79dd2df">ghost::Objective::v_postprocessSatisfaction</a></div><div class="ttdeci">virtual double v_postprocessSatisfaction(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, double &amp;bestCost, vector&lt; TypeVariable &gt; &amp;solution) const </div><div class="ttdoc">Virtual function to perform satisfaction post-processing. </div><div class="ttdef"><b>Definition:</b> objective.hpp:189</div></div>
+<div class="ttc" id="classghost_1_1NullObjective_html_a5f4b22306c25132590e3c10a6dc34d15"><div class="ttname"><a href="classghost_1_1NullObjective.html#a5f4b22306c25132590e3c10a6dc34d15">ghost::NullObjective::v_setHelper</a></div><div class="ttdeci">virtual void v_setHelper(const TypeVariable &amp;b, const vector&lt; TypeVariable &gt; *vecVariables, const TypeDomain *domain)</div><div class="ttdoc">Pure virtual function to set heuristicValueHelper[currentVar.getValue()]. </div><div class="ttdef"><b>Definition:</b> objective.hpp:316</div></div>
+<div class="ttc" id="classghost_1_1Objective_html_ae8f0c0e859244a5acf8e6f9a609b8e12"><div class="ttname"><a href="classghost_1_1Objective.html#ae8f0c0e859244a5acf8e6f9a609b8e12">ghost::Objective::Objective</a></div><div class="ttdeci">Objective(const string &amp;name, bool permut=false)</div><div class="ttdoc">The unique Objective constructor. </div><div class="ttdef"><b>Definition:</b> objective.hpp:75</div></div>
+<div class="ttc" id="classghost_1_1Objective_html_a9bfe64f13de15bba7f2fa3a662c02e27"><div class="ttname"><a href="classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27">ghost::Objective::heuristicValueHelper</a></div><div class="ttdeci">vector&lt; double &gt; heuristicValueHelper</div><div class="ttdoc">The vector of double values implementing the value heuristic for each possible value of a given varia...</div><div class="ttdef"><b>Definition:</b> objective.hpp:290</div></div>
+<div class="ttc" id="classghost_1_1Objective_html_a25c90555bec03d1d15f83ae145d81f8f"><div class="ttname"><a href="classghost_1_1Objective.html#a25c90555bec03d1d15f83ae145d81f8f">ghost::Objective::v_postprocessOptimization</a></div><div class="ttdeci">virtual double v_postprocessOptimization(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, double &amp;bestCost)</div><div class="ttdoc">Virtual function to perform optimization post-processing. </div><div class="ttdef"><b>Definition:</b> objective.hpp:212</div></div>
+<div class="ttc" id="classghost_1_1NullObjective_html_a309e1913d38d728b41a61c1ce40f3dca"><div class="ttname"><a href="classghost_1_1NullObjective.html#a309e1913d38d728b41a61c1ce40f3dca">ghost::NullObjective::v_cost</a></div><div class="ttdeci">virtual double v_cost(const vector&lt; TypeVariable &gt; *vecVariables, const TypeDomain *domain) const </div><div class="ttdoc">Pure virtual function to compute the value of the objective function on the current configuration...</div><div class="ttdef"><b>Definition:</b> objective.hpp:305</div></div>
 <div class="ttc" id="classghost_1_1Random_html"><div class="ttname"><a href="classghost_1_1Random.html">ghost::Random</a></div><div class="ttdoc">Random is the class coding pseudo-random generators used in GHOST. </div><div class="ttdef"><b>Definition:</b> random.hpp:41</div></div>
-<div class="ttc" id="classghost_1_1NullObjective_html"><div class="ttname"><a href="classghost_1_1NullObjective.html">ghost::NullObjective</a></div><div class="ttdoc">NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). </div><div class="ttdef"><b>Definition:</b> objective.hpp:277</div></div>
-<div class="ttc" id="classghost_1_1Objective_html_a4951d988a677086366fd71fa4d7d3d0d"><div class="ttname"><a href="classghost_1_1Objective.html#a4951d988a677086366fd71fa4d7d3d0d">ghost::Objective::v_postprocessSatisfaction</a></div><div class="ttdeci">virtual double v_postprocessSatisfaction(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, double &amp;bestCost, vector&lt; int &gt; &amp;solution) const </div><div class="ttdoc">Virtual function to perform satisfaction post-processing. </div><div class="ttdef"><b>Definition:</b> objective.hpp:185</div></div>
-<div class="ttc" id="classghost_1_1Objective_html_a03311ba62213580f1664f164e5f5696a"><div class="ttname"><a href="classghost_1_1Objective.html#a03311ba62213580f1664f164e5f5696a">ghost::Objective::v_heuristicValue</a></div><div class="ttdeci">virtual int v_heuristicValue(const std::vector&lt; double &gt; &amp;vecGlobalCosts, double &amp;bestEstimatedCost, int &amp;bestValue) const </div><div class="ttdoc">Virtual function to apply the value heuristic used by the solver. </div><div class="ttdef"><b>Definition:</b> objective.hpp:223</div></div>
+<div class="ttc" id="classghost_1_1NullObjective_html"><div class="ttname"><a href="classghost_1_1NullObjective.html">ghost::NullObjective</a></div><div class="ttdoc">NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). </div><div class="ttdef"><b>Definition:</b> objective.hpp:296</div></div>
+<div class="ttc" id="classghost_1_1Objective_html_a03311ba62213580f1664f164e5f5696a"><div class="ttname"><a href="classghost_1_1Objective.html#a03311ba62213580f1664f164e5f5696a">ghost::Objective::v_heuristicValue</a></div><div class="ttdeci">virtual int v_heuristicValue(const std::vector&lt; double &gt; &amp;vecGlobalCosts, double &amp;bestEstimatedCost, int &amp;bestValue) const </div><div class="ttdoc">Virtual function to apply the value heuristic used by the solver. </div><div class="ttdef"><b>Definition:</b> objective.hpp:235</div></div>
 <div class="ttc" id="classghost_1_1Objective_html_adfe2130d5a472771544a4033e457c4bb"><div class="ttname"><a href="classghost_1_1Objective.html#adfe2130d5a472771544a4033e457c4bb">ghost::Objective::getName</a></div><div class="ttdeci">string getName()</div><div class="ttdoc">Inline accessor to get the name of the objective object. </div><div class="ttdef"><b>Definition:</b> objective.hpp:120</div></div>
-<div class="ttc" id="classghost_1_1Objective_html_a442da333edc70f47c33a15987c2a81b8"><div class="ttname"><a href="classghost_1_1Objective.html#a442da333edc70f47c33a15987c2a81b8">ghost::Objective::randomVar</a></div><div class="ttdeci">Random randomVar</div><div class="ttdoc">The random generator used by the function heuristicValue. </div><div class="ttdef"><b>Definition:</b> objective.hpp:270</div></div>
+<div class="ttc" id="classghost_1_1Objective_html_a442da333edc70f47c33a15987c2a81b8"><div class="ttname"><a href="classghost_1_1Objective.html#a442da333edc70f47c33a15987c2a81b8">ghost::Objective::randomVar</a></div><div class="ttdeci">Random randomVar</div><div class="ttdoc">The random generator used by the function heuristicValue. </div><div class="ttdef"><b>Definition:</b> objective.hpp:288</div></div>
 <div class="ttc" id="classghost_1_1Objective_html_a78ac0f829786f02fe69b2afe6f2636bc"><div class="ttname"><a href="classghost_1_1Objective.html#a78ac0f829786f02fe69b2afe6f2636bc">ghost::Objective::postprocessOptimization</a></div><div class="ttdeci">double postprocessOptimization(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, double &amp;bestCost)</div><div class="ttdef"><b>Definition:</b> objective.hpp:114</div></div>
 <div class="ttc" id="classghost_1_1Objective_html_ab589c264cf391bab9005562f66a39797"><div class="ttname"><a href="classghost_1_1Objective.html#ab589c264cf391bab9005562f66a39797">ghost::Objective::setHelper</a></div><div class="ttdeci">void setHelper(const TypeVariable &amp;variable, const vector&lt; TypeVariable &gt; *vecVariables, const TypeDomain *domain)</div><div class="ttdef"><b>Definition:</b> objective.hpp:99</div></div>
-<div class="ttc" id="classghost_1_1NullObjective_html_aef7e24c71f2522034764402704e3b16f"><div class="ttname"><a href="classghost_1_1NullObjective.html#aef7e24c71f2522034764402704e3b16f">ghost::NullObjective::v_heuristicVariable</a></div><div class="ttdeci">virtual int v_heuristicVariable(const vector&lt; int &gt; &amp;vecId, const vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain)</div><div class="ttdoc">Pure virtual function to apply the variable heuristic used by the solver. </div><div class="ttdef"><b>Definition:</b> objective.hpp:290</div></div>
+<div class="ttc" id="classghost_1_1NullObjective_html_aef7e24c71f2522034764402704e3b16f"><div class="ttname"><a href="classghost_1_1NullObjective.html#aef7e24c71f2522034764402704e3b16f">ghost::NullObjective::v_heuristicVariable</a></div><div class="ttdeci">virtual int v_heuristicVariable(const vector&lt; int &gt; &amp;vecId, const vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain)</div><div class="ttdoc">Pure virtual function to apply the variable heuristic used by the solver. </div><div class="ttdef"><b>Definition:</b> objective.hpp:309</div></div>
 <div class="ttc" id="classghost_1_1Objective_html_a76ca30dd5fc977963058f0c3abfe100a"><div class="ttname"><a href="classghost_1_1Objective.html#a76ca30dd5fc977963058f0c3abfe100a">ghost::Objective::resetHelper</a></div><div class="ttdeci">void resetHelper()</div><div class="ttdef"><b>Definition:</b> objective.hpp:131</div></div>
-<div class="ttc" id="classghost_1_1Objective_html_ae9533a52b3600c826df6e20c65db1e7a"><div class="ttname"><a href="classghost_1_1Objective.html#ae9533a52b3600c826df6e20c65db1e7a">ghost::Objective::name</a></div><div class="ttdeci">string name</div><div class="ttdoc">A string for the name of the objective object. </div><div class="ttdef"><b>Definition:</b> objective.hpp:271</div></div>
+<div class="ttc" id="classghost_1_1Objective_html_ae9533a52b3600c826df6e20c65db1e7a"><div class="ttname"><a href="classghost_1_1Objective.html#ae9533a52b3600c826df6e20c65db1e7a">ghost::Objective::name</a></div><div class="ttdeci">string name</div><div class="ttdoc">A string for the name of the objective object. </div><div class="ttdef"><b>Definition:</b> objective.hpp:289</div></div>
 <div class="ttc" id="classghost_1_1Objective_html_a2947c19e26ffd2a23c3a7f1b99c8bc79"><div class="ttname"><a href="classghost_1_1Objective.html#a2947c19e26ffd2a23c3a7f1b99c8bc79">ghost::Objective::cost</a></div><div class="ttdeci">double cost(const vector&lt; TypeVariable &gt; *vecVariables, const TypeDomain *domain) const </div><div class="ttdef"><b>Definition:</b> objective.hpp:79</div></div>
 <div class="ttc" id="classghost_1_1Objective_html_af68c07a226162ea7f9ee01a0b00d3ae4"><div class="ttname"><a href="classghost_1_1Objective.html#af68c07a226162ea7f9ee01a0b00d3ae4">ghost::Objective::heuristicVariable</a></div><div class="ttdeci">int heuristicVariable(const vector&lt; int &gt; &amp;vecVarId, const vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain)</div><div class="ttdef"><b>Definition:</b> objective.hpp:85</div></div>
-<div class="ttc" id="classghost_1_1Objective_html_ac4a32cc45835534a3cc16cf05f77ca34"><div class="ttname"><a href="classghost_1_1Objective.html#ac4a32cc45835534a3cc16cf05f77ca34">ghost::Objective::postprocessSatisfaction</a></div><div class="ttdeci">double postprocessSatisfaction(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, double &amp;bestCost, vector&lt; int &gt; &amp;bestSolution)</div><div class="ttdef"><b>Definition:</b> objective.hpp:106</div></div>
+<div class="ttc" id="classghost_1_1Objective_html_a605effc6d79bd00a22c2c9fca6078cc0"><div class="ttname"><a href="classghost_1_1Objective.html#a605effc6d79bd00a22c2c9fca6078cc0">ghost::Objective::postprocessSatisfaction</a></div><div class="ttdeci">double postprocessSatisfaction(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, double &amp;bestCost, vector&lt; TypeVariable &gt; &amp;bestSolution)</div><div class="ttdef"><b>Definition:</b> objective.hpp:106</div></div>
+<div class="ttc" id="classghost_1_1Objective_html_a558991ad856cff48262e2848c6ab5796"><div class="ttname"><a href="classghost_1_1Objective.html#a558991ad856cff48262e2848c6ab5796">ghost::Objective::isPermutation</a></div><div class="ttdeci">bool isPermutation()</div><div class="ttdef"><b>Definition:</b> objective.hpp:138</div></div>
 <div class="ttc" id="classghost_1_1Objective_html_ac9d6c8e05cca99cd797d302b3755b6b5"><div class="ttname"><a href="classghost_1_1Objective.html#ac9d6c8e05cca99cd797d302b3755b6b5">ghost::Objective::heuristicValue</a></div><div class="ttdeci">int heuristicValue(const std::vector&lt; double &gt; &amp;vecGlobalCosts, double &amp;bestEstimatedCost, int &amp;bestValue) const </div><div class="ttdef"><b>Definition:</b> objective.hpp:92</div></div>
-<div class="ttc" id="classghost_1_1NullObjective_html_acb468a9e5fd85d31c3afc805481919ed"><div class="ttname"><a href="classghost_1_1NullObjective.html#acb468a9e5fd85d31c3afc805481919ed">ghost::NullObjective::NullObjective</a></div><div class="ttdeci">NullObjective()</div><div class="ttdef"><b>Definition:</b> objective.hpp:283</div></div>
-<div class="ttc" id="classghost_1_1Objective_html_a40decf80e2a1f37e2cc4634f41acc7ca"><div class="ttname"><a href="classghost_1_1Objective.html#a40decf80e2a1f37e2cc4634f41acc7ca">ghost::Objective::Objective</a></div><div class="ttdeci">Objective(const string &amp;name)</div><div class="ttdoc">The unique Objective constructor. </div><div class="ttdef"><b>Definition:</b> objective.hpp:75</div></div>
+<div class="ttc" id="classghost_1_1NullObjective_html_acb468a9e5fd85d31c3afc805481919ed"><div class="ttname"><a href="classghost_1_1NullObjective.html#acb468a9e5fd85d31c3afc805481919ed">ghost::NullObjective::NullObjective</a></div><div class="ttdeci">NullObjective()</div><div class="ttdef"><b>Definition:</b> objective.hpp:302</div></div>
 <div class="ttc" id="classghost_1_1Objective_html_ad4432d190d227f7e67bd505f0b4b80e9"><div class="ttname"><a href="classghost_1_1Objective.html#ad4432d190d227f7e67bd505f0b4b80e9">ghost::Objective::initHelper</a></div><div class="ttdeci">void initHelper(int size)</div><div class="ttdef"><b>Definition:</b> objective.hpp:124</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jul 10 2014 15:21:08 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 23 2014 23:44:51 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -1,7 +1,8 @@
 var searchData=
 [
   ['c',['c',['../namespaceghost.html#a1e04a626798fce7a46db973e9693354e',1,'ghost']]],
-  ['clear',['clear',['../classghost_1_1Domain.html#ad3b39f88a7becd7c8c347c04963e3414',1,'ghost::Domain::clear()'],['../classghost_1_1WallinDomain.html#a410af68bdfdd6d15e3c4266b049c20cd',1,'ghost::WallinDomain::clear(const Building &amp;)'],['../classghost_1_1WallinDomain.html#ae6903c1353bafc1269ad1fa8fcd158ee',1,'ghost::WallinDomain::clear(int, int, string, int)']]],
+  ['clear',['clear',['../classghost_1_1BuildOrderDomain.html#ab18f42adf6e2eddea3142ae8fdc8c951',1,'ghost::BuildOrderDomain::clear()'],['../classghost_1_1Domain.html#ad3b39f88a7becd7c8c347c04963e3414',1,'ghost::Domain::clear()'],['../classghost_1_1WallinDomain.html#a410af68bdfdd6d15e3c4266b049c20cd',1,'ghost::WallinDomain::clear(const Building &amp;)'],['../classghost_1_1WallinDomain.html#ae6903c1353bafc1269ad1fa8fcd158ee',1,'ghost::WallinDomain::clear(int, int, string, int)']]],
+  ['completedtime',['completedTime',['../structghost_1_1BuildOrderObjective_1_1BO.html#ac61b9122d2757d44ba08984665eda144',1,'ghost::BuildOrderObjective::BO']]],
   ['constants_2ehpp',['constants.hpp',['../constants_8hpp.html',1,'']]],
   ['constraint',['Constraint',['../classghost_1_1Constraint.html',1,'ghost']]],
   ['constraint',['Constraint',['../classghost_1_1Constraint.html#af2b5d5f541f64e548bc6c93bba1ba2b8',1,'ghost::Constraint']]],
@@ -13,5 +14,6 @@ var searchData=
   ['costmineral',['costMineral',['../classghost_1_1Action.html#abc5c6f31a411189a0dbd57a42e20c723',1,'ghost::Action']]],
   ['costsupply',['costSupply',['../classghost_1_1Action.html#ac804f6d585c2b9df3bc9809539f72db3',1,'ghost::Action']]],
   ['countaround',['countAround',['../classghost_1_1WallinDomain.html#ad67a6d2ae03800594475e081af2d5136',1,'ghost::WallinDomain']]],
-  ['creator',['creator',['../classghost_1_1Action.html#ab4862cbb4a415783306abbd1a2c57472',1,'ghost::Action']]]
+  ['creator',['creator',['../classghost_1_1Action.html#ab4862cbb4a415783306abbd1a2c57472',1,'ghost::Action']]],
+  ['currentstate',['currentState',['../classghost_1_1BuildOrderObjective.html#acb4b4b2c9dc0e99ab98e61289c62aff8',1,'ghost::BuildOrderObjective']]]
 ];

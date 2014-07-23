@@ -1,7 +1,7 @@
 <map id="ghost::WallinConstraint" name="ghost::WallinConstraint">
-<area shape="rect" id="node3" href="$classghost_1_1Buildable.html" title="{ghost::Buildable\n||+ Buildable()\l+ v_cost()\l+ v_simulateCost()\l+ Buildable()\l&#45; v_cost()\l&#45; v_simulateCost()\l}" alt="" coords="5,390,139,541"/>
-<area shape="rect" id="node4" href="$classghost_1_1NoGaps.html" title="{ghost::NoGaps\n||+ NoGaps()\l+ v_cost()\l+ postprocess_simulateCost()\l+ NoGaps()\l+ postprocess_simulateCost()\l&#45; v_cost()\l}" alt="" coords="163,390,360,541"/>
-<area shape="rect" id="node5" href="$classghost_1_1Overlap.html" title="{ghost::Overlap\n||+ Overlap()\l+ v_cost()\l+ v_simulateCost()\l+ Overlap()\l&#45; v_cost()\l&#45; v_simulateCost()\l}" alt="" coords="384,390,517,541"/>
-<area shape="rect" id="node6" href="$classghost_1_1StartingTargetTiles.html" title="{ghost::StartingTargetTiles\n|&#45; mapActions\l&#45; mapBuildings\l|+ StartingTargetTiles()\l+ v_cost()\l+ StartingTargetTiles()\l&#45; v_cost()\l}" alt="" coords="542,397,713,533"/>
-<area shape="rect" id="node2" href="$classghost_1_1Constraint.html" title="{ghost::Constraint\&lt;\l Building, WallinDomain \&gt;\n|# variables\l# domain\l|+ Constraint()\l+ cost()\l+ simulateCost()\l+ simulateCost()\l# v_cost()\l# v_simulateCost()\l}" alt="" coords="269,6,443,186"/>
+<area shape="rect" id="node3" href="$classghost_1_1Buildable.html" title="{ghost::Buildable\n||+ Buildable()\l&#45; v_cost()\l&#45; v_simulateCost()\l}" alt="" coords="5,389,133,496"/>
+<area shape="rect" id="node4" href="$classghost_1_1NoGaps.html" title="{ghost::NoGaps\n||+ NoGaps()\l+ postprocess_simulateCost()\l&#45; v_cost()\l}" alt="" coords="159,389,356,496"/>
+<area shape="rect" id="node5" href="$classghost_1_1Overlap.html" title="{ghost::Overlap\n||+ Overlap()\l&#45; v_cost()\l&#45; v_simulateCost()\l}" alt="" coords="381,389,509,496"/>
+<area shape="rect" id="node6" href="$classghost_1_1StartingTargetTiles.html" title="{ghost::StartingTargetTiles\n|&#45; mapBuildings\l|+ StartingTargetTiles()\l&#45; v_cost()\l}" alt="" coords="534,397,705,489"/>
+<area shape="rect" id="node2" href="$classghost_1_1Constraint.html" title="{ghost::Constraint\&lt;\l Building, WallinDomain \&gt;\n|# variables\l# domain\l|+ Constraint()\l+ cost()\l+ simulateCost()\l+ simulateCost()\l# v_cost()\l# v_simulateCost()\l}" alt="" coords="264,6,437,186"/>
 </map>

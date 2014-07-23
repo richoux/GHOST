@@ -88,11 +88,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="classghost_1_1Domain-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">ghost::Domain&lt; TypeVariable &gt; Class Template Reference</div>  </div>
+<div class="title">ghost::Domain&lt; TypeVariable &gt; Class Template Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -116,6 +117,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a26d7b928aa7a0bc44a47f2f407402ed7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a26d7b928aa7a0bc44a47f2f407402ed7">Domain</a> (int <a class="el" href="classghost_1_1Domain.html#a13e282f60c6c7cddf5b5716b45ad161c">size</a>, int numberVariables, const vector&lt; int &gt; &amp;<a class="el" href="classghost_1_1Domain.html#a8890ca1323c293a4a1e2aa1830eff043">initialDomain</a>)</td></tr>
 <tr class="memdesc:a26d7b928aa7a0bc44a47f2f407402ed7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Second and last <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> constructor.  <a href="#a26d7b928aa7a0bc44a47f2f407402ed7">More...</a><br/></td></tr>
 <tr class="separator:a26d7b928aa7a0bc44a47f2f407402ed7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a253f06705e99ff88c9da7ed0ad6855aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a253f06705e99ff88c9da7ed0ad6855aa">restart</a> (vector&lt; TypeVariable &gt; *variables)</td></tr>
+<tr class="memdesc:a253f06705e99ff88c9da7ed0ad6855aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom. Calling v_restart.  <a href="#a253f06705e99ff88c9da7ed0ad6855aa">More...</a><br/></td></tr>
+<tr class="separator:a253f06705e99ff88c9da7ed0ad6855aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac26f73027a2b0abe86e5fef062ea177f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#ac26f73027a2b0abe86e5fef062ea177f">wipe</a> (vector&lt; TypeVariable &gt; *variables)</td></tr>
+<tr class="memdesc:ac26f73027a2b0abe86e5fef062ea177f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom. Calling v_wipe.  <a href="#ac26f73027a2b0abe86e5fef062ea177f">More...</a><br/></td></tr>
+<tr class="separator:ac26f73027a2b0abe86e5fef062ea177f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a557b4c89eaf8503c27e873a7dcff838d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a557b4c89eaf8503c27e873a7dcff838d">rebuild</a> (vector&lt; TypeVariable &gt; *variables)</td></tr>
+<tr class="memdesc:a557b4c89eaf8503c27e873a7dcff838d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom. Calling v_rebuild.  <a href="#a557b4c89eaf8503c27e873a7dcff838d">More...</a><br/></td></tr>
+<tr class="separator:a557b4c89eaf8503c27e873a7dcff838d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd3f0bd85c98e66c025e0ff3532af8dd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#abd3f0bd85c98e66c025e0ff3532af8dd">randomValue</a> (const TypeVariable &amp;variable)</td></tr>
 <tr class="memdesc:abd3f0bd85c98e66c025e0ff3532af8dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function to get a random value among the possible values of a given variable.  <a href="#abd3f0bd85c98e66c025e0ff3532af8dd">More...</a><br/></td></tr>
 <tr class="separator:abd3f0bd85c98e66c025e0ff3532af8dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,6 +145,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad3b39f88a7becd7c8c347c04963e3414"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#ad3b39f88a7becd7c8c347c04963e3414">clear</a> (const TypeVariable &amp;variable)</td></tr>
 <tr class="memdesc:ad3b39f88a7becd7c8c347c04963e3414"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function to clear (or remove) something into the domain.  <a href="#ad3b39f88a7becd7c8c347c04963e3414">More...</a><br/></td></tr>
 <tr class="separator:ad3b39f88a7becd7c8c347c04963e3414"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:aee3a6ae1de917ffb936c978633ac2663"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#aee3a6ae1de917ffb936c978633ac2663">v_restart</a> (vector&lt; TypeVariable &gt; *variables)=0</td></tr>
+<tr class="separator:aee3a6ae1de917ffb936c978633ac2663"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0adb4cc8b6c9d2b9aec3f20e7fde1ef"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#ad0adb4cc8b6c9d2b9aec3f20e7fde1ef">v_wipe</a> (vector&lt; TypeVariable &gt; *variables)</td></tr>
+<tr class="separator:ad0adb4cc8b6c9d2b9aec3f20e7fde1ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef5aef1cb394b5093e9a68c653c54ce5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#aef5aef1cb394b5093e9a68c653c54ce5">v_rebuild</a> (vector&lt; TypeVariable &gt; *variables)</td></tr>
+<tr class="separator:aef5aef1cb394b5093e9a68c653c54ce5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -303,8 +322,8 @@ template&lt;typename TypeVariable&gt; </div>
 <p>The implementation by default does nothing. This function has been declared because it could be useful for some custom domain classes to add a value from the given variable into a custom data structure. This function is called into the solver three times:</p>
 <ul>
 <li>during a move (<a class="el" href="classghost_1_1Solver.html#a58d9540a9700be0e953ebdcf0660920f">Solver::move</a>), ie, when the solver assigns a new value to a given variable.</li>
-<li>during a reset (<a class="el" href="classghost_1_1Solver.html#a43db35b71a3e494ce208622cc45cbeb0">Solver::reset</a>).</li>
-<li>just between the end of the optimization run and the beginning of the optimization post-processing, in <a class="el" href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>.</li>
+<li>during a reset (Solver::reset).</li>
+<li>just between the end of the optimization run and the beginning of the optimization post-processing, in <a class="el" href="classghost_1_1Solver.html#af025b99595aeff4fd9a174bcbd66a991" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>.</li>
 </ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -343,8 +362,8 @@ template&lt;typename TypeVariable&gt; </div>
 <p>The implementation by default does nothing. This function has been declared because it could be useful for some custom domain classes to clear/remove a value from the given variable into a custom data structure. This function is called into the solver three times:</p>
 <ul>
 <li>during a move (<a class="el" href="classghost_1_1Solver.html#a58d9540a9700be0e953ebdcf0660920f">Solver::move</a>), ie, when the solver assigns a new value to a given variable.</li>
-<li>during a reset (<a class="el" href="classghost_1_1Solver.html#a43db35b71a3e494ce208622cc45cbeb0">Solver::reset</a>).</li>
-<li>just between the end of the optimization run and the beginning of the optimization post-processing, in <a class="el" href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>.</li>
+<li>during a reset (Solver::reset).</li>
+<li>just between the end of the optimization run and the beginning of the optimization post-processing, in <a class="el" href="classghost_1_1Solver.html#af025b99595aeff4fd9a174bcbd66a991" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>.</li>
 </ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -418,6 +437,34 @@ template&lt;typename TypeVariable&gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="a557b4c89eaf8503c27e873a7dcff838d"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::rebuild </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; TypeVariable &gt; *&#160;</td>
+          <td class="paramname"><em>variables</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inline function following the NVI idiom. Calling v_rebuild. </p>
+
+</div>
+</div>
 <a class="anchor" id="aa014a06ba46e4e057ed182d328a72e97"></a>
 <div class="memitem">
 <div class="memproto">
@@ -479,6 +526,121 @@ template&lt;typename TypeVariable&gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="a253f06705e99ff88c9da7ed0ad6855aa"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::restart </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; TypeVariable &gt; *&#160;</td>
+          <td class="paramname"><em>variables</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inline function following the NVI idiom. Calling v_restart. </p>
+
+</div>
+</div>
+<a class="anchor" id="aef5aef1cb394b5093e9a68c653c54ce5"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::v_rebuild </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; TypeVariable &gt; *&#160;</td>
+          <td class="paramname"><em>variables</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Empty virtual function called in Sovler::solve before postprocessingOptimization. Can be use to rebuild the domain. </p>
+
+<p>Reimplemented in <a class="el" href="classghost_1_1WallinDomain.html#af296daeef852ce0d84e01fccac4c0f48">ghost::WallinDomain</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aee3a6ae1de917ffb936c978633ac2663"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::v_restart </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; TypeVariable &gt; *&#160;</td>
+          <td class="paramname"><em>variables</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Pure virtual function restarting the search process from a fresh and randomly generated configuration. </p>
+
+<p>Implemented in <a class="el" href="classghost_1_1WallinDomain.html#aad60a94ecdc1a63cc0ff2a5ab3079c46">ghost::WallinDomain</a>, and <a class="el" href="classghost_1_1BuildOrderDomain.html#a8f96e0ec1cedb76a38ca516ca2cdc88a">ghost::BuildOrderDomain</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad0adb4cc8b6c9d2b9aec3f20e7fde1ef"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::v_wipe </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; TypeVariable &gt; *&#160;</td>
+          <td class="paramname"><em>variables</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Empty virtual function called in Sovler::solve before postprocessingOptimization. Can be use to flush variables in the domain. </p>
+
+<p>Reimplemented in <a class="el" href="classghost_1_1WallinDomain.html#a816435b0754c2b62b916b59d60677742">ghost::WallinDomain</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a5d4e6a323e4c3c14bc1da5ddbd5af55d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -511,6 +673,34 @@ template&lt;typename TypeVariable&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The vector of integers of all possible values of variable. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ac26f73027a2b0abe86e5fef062ea177f"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::wipe </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; TypeVariable &gt; *&#160;</td>
+          <td class="paramname"><em>variables</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inline function following the NVI idiom. Calling v_wipe. </p>
 
 </div>
 </div>
@@ -656,7 +846,7 @@ template&lt;typename TypeVariable&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jul 10 2014 15:21:10 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 23 2014 23:44:52 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

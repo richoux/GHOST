@@ -148,7 +148,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      <span class="keywordflow">if</span>( objective )</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    objective-&gt;resetHelper();</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      <span class="keywordflow">for</span>( <span class="keyword">auto</span> &amp;pos : newPosition )</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      <span class="keywordflow">for</span>( <span class="keyword">const</span> <span class="keyword">auto</span> &amp;pos : newPosition )</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      {</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">if</span>( pos &gt;= 1 &amp;&amp; pos == previousPos + 1 )</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    {</div>
@@ -183,14 +183,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <span class="comment">/***********/</span></div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  <span class="comment">/* Overlap */</span></div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="comment">/***********/</span>  </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  <span class="keyword">class </span>Overlap : <span class="keyword">public</span> WallinConstraint</div>
+<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="classghost_1_1Overlap.html">   96</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classghost_1_1Overlap.html">Overlap</a> : <span class="keyword">public</span> <a class="code" href="classghost_1_1WallinConstraint.html">WallinConstraint</a></div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  {</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    Overlap( <span class="keyword">const</span> vector&lt; Building &gt;*, <span class="keyword">const</span> WallinDomain* );</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <a class="code" href="classghost_1_1Overlap.html">Overlap</a>( <span class="keyword">const</span> vector&lt; Building &gt;*, <span class="keyword">const</span> <a class="code" href="classghost_1_1WallinDomain.html">WallinDomain</a>* );</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordtype">double</span> v_cost( vector&lt;double&gt;&amp; ) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    vector&lt;double&gt; v_simulateCost( Building&amp;,</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    vector&lt;double&gt; v_simulateCost( <a class="code" href="classghost_1_1Building.html">Building</a>&amp;,</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                   <span class="keyword">const</span> vector&lt;int&gt;&amp;,</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                   vector&lt; vector&lt;double&gt; &gt;&amp;,</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                   shared_ptr&lt; <a class="code" href="classghost_1_1Objective.html">Objective&lt; Building, WallinDomain &gt;</a> &gt; );</div>
@@ -200,14 +200,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  <span class="comment">/*************/</span></div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  <span class="comment">/* Buildable */</span></div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  <span class="comment">/*************/</span>  </div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  <span class="keyword">class </span>Buildable : <span class="keyword">public</span> WallinConstraint</div>
+<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="classghost_1_1Buildable.html">  113</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classghost_1_1Buildable.html">Buildable</a> : <span class="keyword">public</span> <a class="code" href="classghost_1_1WallinConstraint.html">WallinConstraint</a></div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  {</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    Buildable( <span class="keyword">const</span> vector&lt; Building &gt;*, <span class="keyword">const</span> WallinDomain* );</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <a class="code" href="classghost_1_1Buildable.html">Buildable</a>( <span class="keyword">const</span> vector&lt; Building &gt;*, <span class="keyword">const</span> <a class="code" href="classghost_1_1WallinDomain.html">WallinDomain</a>* );</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordtype">double</span> v_cost( vector&lt;double&gt;&amp; ) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    vector&lt;double&gt; v_simulateCost( Building&amp;,</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    vector&lt;double&gt; v_simulateCost( <a class="code" href="classghost_1_1Building.html">Building</a>&amp;,</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                   <span class="keyword">const</span> vector&lt;int&gt;&amp;,</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                   vector&lt; vector&lt;double&gt; &gt;&amp;,</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                   shared_ptr&lt; <a class="code" href="classghost_1_1Objective.html">Objective&lt; Building, WallinDomain &gt;</a> &gt; );</div>
@@ -217,12 +217,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  <span class="comment">/**********/</span></div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  <span class="comment">/* NoGaps */</span></div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  <span class="comment">/**********/</span>  </div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  <span class="keyword">class </span>NoGaps : <span class="keyword">public</span> WallinConstraint</div>
+<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="classghost_1_1NoGaps.html">  130</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classghost_1_1NoGaps.html">NoGaps</a> : <span class="keyword">public</span> <a class="code" href="classghost_1_1WallinConstraint.html">WallinConstraint</a></div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  {</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    NoGaps( <span class="keyword">const</span> vector&lt; Building &gt;*, <span class="keyword">const</span> WallinDomain* );</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <a class="code" href="classghost_1_1NoGaps.html">NoGaps</a>( <span class="keyword">const</span> vector&lt; Building &gt;*, <span class="keyword">const</span> <a class="code" href="classghost_1_1WallinDomain.html">WallinDomain</a>* );</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordtype">double</span> postprocess_simulateCost( Building&amp;, <span class="keyword">const</span> <span class="keywordtype">int</span>, vector&lt;double&gt;&amp; );</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordtype">double</span> postprocess_simulateCost( <a class="code" href="classghost_1_1Building.html">Building</a>&amp;, <span class="keyword">const</span> <span class="keywordtype">int</span>, vector&lt;double&gt;&amp; );</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    </div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;  <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keywordtype">double</span> v_cost( vector&lt;double&gt;&amp; ) <span class="keyword">const</span>;</div>
@@ -232,10 +232,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;  <span class="comment">/***********************/</span></div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;  <span class="comment">/* StartingTargetTiles */</span></div>
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;  <span class="comment">/***********************/</span>  </div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;  <span class="keyword">class </span>StartingTargetTiles : <span class="keyword">public</span> WallinConstraint</div>
+<div class="line"><a name="l00145"></a><span class="lineno"><a class="line" href="classghost_1_1StartingTargetTiles.html">  145</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classghost_1_1StartingTargetTiles.html">StartingTargetTiles</a> : <span class="keyword">public</span> <a class="code" href="classghost_1_1WallinConstraint.html">WallinConstraint</a></div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;  {</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    StartingTargetTiles( <span class="keyword">const</span> vector&lt; Building &gt;*, <span class="keyword">const</span> WallinDomain* );</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <a class="code" href="classghost_1_1StartingTargetTiles.html">StartingTargetTiles</a>( <span class="keyword">const</span> vector&lt; Building &gt;*, <span class="keyword">const</span> <a class="code" href="classghost_1_1WallinDomain.html">WallinDomain</a>* );</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordtype">double</span> v_cost( vector&lt;double&gt;&amp; ) <span class="keyword">const</span>;</div>
@@ -248,15 +248,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classghost_1_1WallinDomain_html"><div class="ttname"><a href="classghost_1_1WallinDomain.html">ghost::WallinDomain</a></div><div class="ttdef"><b>Definition:</b> wallinDomain.hpp:45</div></div>
 <div class="ttc" id="constraint_8hpp_html"><div class="ttname"><a href="constraint_8hpp.html">constraint.hpp</a></div></div>
 <div class="ttc" id="classghost_1_1WallinConstraint_html_af2d6f103c844a14745b7de6c656f9981"><div class="ttname"><a href="classghost_1_1WallinConstraint.html#af2d6f103c844a14745b7de6c656f9981">ghost::WallinConstraint::v_simulateCost</a></div><div class="ttdeci">virtual vector&lt; double &gt; v_simulateCost(Building &amp;oldBuilding, const vector&lt; int &gt; &amp;newPosition, vector&lt; vector&lt; double &gt; &gt; &amp;vecVarSimCosts, shared_ptr&lt; Objective&lt; Building, WallinDomain &gt; &gt; objective)</div><div class="ttdoc">Pure virtual function to simulate the cost of the constraint on all possible values of the given vari...</div><div class="ttdef"><b>Definition:</b> wallinConstraint.hpp:49</div></div>
+<div class="ttc" id="classghost_1_1StartingTargetTiles_html"><div class="ttname"><a href="classghost_1_1StartingTargetTiles.html">ghost::StartingTargetTiles</a></div><div class="ttdef"><b>Definition:</b> wallinConstraint.hpp:145</div></div>
+<div class="ttc" id="classghost_1_1NoGaps_html"><div class="ttname"><a href="classghost_1_1NoGaps.html">ghost::NoGaps</a></div><div class="ttdef"><b>Definition:</b> wallinConstraint.hpp:130</div></div>
 <div class="ttc" id="classghost_1_1Constraint_html"><div class="ttname"><a href="classghost_1_1Constraint.html">ghost::Constraint</a></div><div class="ttdoc">Constraint is the class encoding constraints of your CSP/COP. </div><div class="ttdef"><b>Definition:</b> constraint.hpp:65</div></div>
-<div class="ttc" id="classghost_1_1Variable_html_a6fe0abafde2231f18074ecab6d7325cd"><div class="ttname"><a href="classghost_1_1Variable.html#a6fe0abafde2231f18074ecab6d7325cd">ghost::Variable::setValue</a></div><div class="ttdeci">void setValue(int v)</div><div class="ttdoc">Inline mutator to set the object&#39;s value. </div><div class="ttdef"><b>Definition:</b> variable.hpp:117</div></div>
-<div class="ttc" id="classghost_1_1Variable_html_ae6dcadf662fc318265a9741d91a0e56e"><div class="ttname"><a href="classghost_1_1Variable.html#ae6dcadf662fc318265a9741d91a0e56e">ghost::Variable::getValue</a></div><div class="ttdeci">int getValue() const </div><div class="ttdoc">Inline accessor to get the object&#39;s value. </div><div class="ttdef"><b>Definition:</b> variable.hpp:120</div></div>
+<div class="ttc" id="classghost_1_1Variable_html_a6fe0abafde2231f18074ecab6d7325cd"><div class="ttname"><a href="classghost_1_1Variable.html#a6fe0abafde2231f18074ecab6d7325cd">ghost::Variable::setValue</a></div><div class="ttdeci">void setValue(int v)</div><div class="ttdoc">Inline mutator to set the object&#39;s value. </div><div class="ttdef"><b>Definition:</b> variable.hpp:121</div></div>
+<div class="ttc" id="classghost_1_1Variable_html_ae6dcadf662fc318265a9741d91a0e56e"><div class="ttname"><a href="classghost_1_1Variable.html#ae6dcadf662fc318265a9741d91a0e56e">ghost::Variable::getValue</a></div><div class="ttdeci">int getValue() const </div><div class="ttdoc">Inline accessor to get the object&#39;s value. </div><div class="ttdef"><b>Definition:</b> variable.hpp:124</div></div>
+<div class="ttc" id="classghost_1_1Buildable_html"><div class="ttname"><a href="classghost_1_1Buildable.html">ghost::Buildable</a></div><div class="ttdef"><b>Definition:</b> wallinConstraint.hpp:113</div></div>
 <div class="ttc" id="classghost_1_1Building_html"><div class="ttname"><a href="classghost_1_1Building.html">ghost::Building</a></div><div class="ttdef"><b>Definition:</b> building.hpp:36</div></div>
+<div class="ttc" id="classghost_1_1Overlap_html"><div class="ttname"><a href="classghost_1_1Overlap.html">ghost::Overlap</a></div><div class="ttdef"><b>Definition:</b> wallinConstraint.hpp:96</div></div>
 <div class="ttc" id="classghost_1_1StartingTargetTiles_html_a08e51275da85bfaa8a108976cbd133e2"><div class="ttname"><a href="classghost_1_1StartingTargetTiles.html#a08e51275da85bfaa8a108976cbd133e2">ghost::StartingTargetTiles::mapBuildings</a></div><div class="ttdeci">map&lt; int, Building * &gt; mapBuildings</div><div class="ttdef"><b>Definition:</b> wallinConstraint.hpp:153</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jul 10 2014 15:21:08 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 23 2014 23:44:51 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

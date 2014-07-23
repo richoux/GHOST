@@ -1,4 +1,4 @@
 <map id="ghost::BuildOrderDomain" name="ghost::BuildOrderDomain">
-<area shape="rect" id="node2" href="$classghost_1_1Domain.html" title="{ghost::Domain\&lt; Action \&gt;\n|# size\l# domains\l# initialDomain\l|+ Domain()\l+ Domain()\l+ randomValue()\l+ valuesOf()\l+ resetDomain()\l+ resetAllDomains()\l+ getSize()\l+ add()\l+ clear()\l}" alt="" coords="5,221,173,445"/>
+<area shape="rect" id="node2" href="$classghost_1_1Domain.html" title="{ghost::Domain\&lt; Action \&gt;\n|# size\l# domains\l# initialDomain\l|+ Domain()\l+ Domain()\l+ restart()\l+ wipe()\l+ rebuild()\l+ randomValue()\l+ valuesOf()\l+ resetDomain()\l+ resetAllDomains()\l+ getSize()\l+ add()\l+ clear()\l# v_restart()\l# v_wipe()\l# v_rebuild()\l}" alt="" coords="5,221,173,533"/>
 <area shape="rect" id="node3" href="$classghost_1_1Random.html" title="Random is the class coding pseudo&#45;random generators used in GHOST. " alt="" coords="30,6,148,157"/>
 </map>

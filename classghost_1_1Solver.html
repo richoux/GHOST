@@ -116,16 +116,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a512335329b22a91700bdfa7870f053e9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a512335329b22a91700bdfa7870f053e9">Solver</a> (vector&lt; TypeVariable &gt; *<a class="el" href="classghost_1_1Solver.html#a2d033a454234b2277aabdcc4d89eaba2">vecVariables</a>, TypeDomain *<a class="el" href="classghost_1_1Solver.html#ad9292e9219261ba8058fec05b453c0c9">domain</a>, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;<a class="el" href="classghost_1_1Solver.html#a170746edcfb777b12978444c2ab3962e">vecConstraints</a>, const shared_ptr&lt; <a class="el" href="classghost_1_1Objective.html">Objective</a>&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj, const int <a class="el" href="classghost_1_1Solver.html#aa6a77e14862a9be467e6c6c76124b526">loops</a>)</td></tr>
 <tr class="memdesc:a512335329b22a91700bdfa7870f053e9"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s constructor mostly used for tests.  <a href="#a512335329b22a91700bdfa7870f053e9">More...</a><br/></td></tr>
 <tr class="separator:a512335329b22a91700bdfa7870f053e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30dd2769fb30ac42d231d2c305dcdf13"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13">solve</a> (double timeout)</td></tr>
-<tr class="memdesc:a30dd2769fb30ac42d231d2c305dcdf13"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s main function, to solve the given CSP/COP.  <a href="#a30dd2769fb30ac42d231d2c305dcdf13">More...</a><br/></td></tr>
-<tr class="separator:a30dd2769fb30ac42d231d2c305dcdf13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af025b99595aeff4fd9a174bcbd66a991"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#af025b99595aeff4fd9a174bcbd66a991">solve</a> (double timeout_ms)</td></tr>
+<tr class="memdesc:af025b99595aeff4fd9a174bcbd66a991"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s main function, to solve the given CSP/COP.  <a href="#af025b99595aeff4fd9a174bcbd66a991">More...</a><br/></td></tr>
+<tr class="separator:af025b99595aeff4fd9a174bcbd66a991"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a43db35b71a3e494ce208622cc45cbeb0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a43db35b71a3e494ce208622cc45cbeb0">reset</a> ()</td></tr>
-<tr class="separator:a43db35b71a3e494ce208622cc45cbeb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58d9540a9700be0e953ebdcf0660920f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a58d9540a9700be0e953ebdcf0660920f">move</a> (TypeVariable *<a class="el" href="namespaceghost.html#a7c0deb8266504feb7d025903f2b77693a4b7c211d9226050e5730e3b9a1b0b21a">building</a>, int newValue)</td></tr>
 <tr class="separator:a58d9540a9700be0e953ebdcf0660920f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3489c7f10952a8a0a2a0895b9b1c8fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#ae3489c7f10952a8a0a2a0895b9b1c8fe">permut</a> (TypeVariable *<a class="el" href="namespaceghost.html#a7c0deb8266504feb7d025903f2b77693a4b7c211d9226050e5730e3b9a1b0b21a">building</a>, int newValue)</td></tr>
+<tr class="separator:ae3489c7f10952a8a0a2a0895b9b1c8fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -144,10 +144,10 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:a4fd74bd68d0ea253fd35adad697f964d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The shared pointer of the objective function.  <a href="#a4fd74bd68d0ea253fd35adad697f964d">More...</a><br/></td></tr>
 <tr class="separator:a4fd74bd68d0ea253fd35adad697f964d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76c1057367112ead0304b436b5f508f1"><td class="memItemLeft" align="right" valign="top">vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a76c1057367112ead0304b436b5f508f1">variableCost</a></td></tr>
-<tr class="memdesc:a76c1057367112ead0304b436b5f508f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The vector of projected costs on each varaible.  <a href="#a76c1057367112ead0304b436b5f508f1">More...</a><br/></td></tr>
+<tr class="memdesc:a76c1057367112ead0304b436b5f508f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The vector of projected costs on each variable.  <a href="#a76c1057367112ead0304b436b5f508f1">More...</a><br/></td></tr>
 <tr class="separator:a76c1057367112ead0304b436b5f508f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6a77e14862a9be467e6c6c76124b526"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#aa6a77e14862a9be467e6c6c76124b526">loops</a></td></tr>
-<tr class="memdesc:aa6a77e14862a9be467e6c6c76124b526"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of times we reiterate the satisfaction loop inside <a class="el" href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>.  <a href="#aa6a77e14862a9be467e6c6c76124b526">More...</a><br/></td></tr>
+<tr class="memdesc:aa6a77e14862a9be467e6c6c76124b526"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of times we reiterate the satisfaction loop inside <a class="el" href="classghost_1_1Solver.html#af025b99595aeff4fd9a174bcbd66a991" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>.  <a href="#aa6a77e14862a9be467e6c6c76124b526">More...</a><br/></td></tr>
 <tr class="separator:aa6a77e14862a9be467e6c6c76124b526"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5c12894a6fbd524fb33906c8f3fbcae"><td class="memItemLeft" align="right" valign="top">vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#aa5c12894a6fbd524fb33906c8f3fbcae">tabuList</a></td></tr>
 <tr class="memdesc:aa5c12894a6fbd524fb33906c8f3fbcae"><td class="mdescLeft">&#160;</td><td class="mdescRight">The tabu list, frozing each used variable for TABU iterations.  <a href="#aa5c12894a6fbd524fb33906c8f3fbcae">More...</a><br/></td></tr>
@@ -158,9 +158,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a2fa5cf25d3417e3046aad3c1123320ed"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a2fa5cf25d3417e3046aad3c1123320ed">bestCost</a></td></tr>
 <tr class="memdesc:a2fa5cf25d3417e3046aad3c1123320ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">The (satisfaction or optimization) cost of the best solution.  <a href="#a2fa5cf25d3417e3046aad3c1123320ed">More...</a><br/></td></tr>
 <tr class="separator:a2fa5cf25d3417e3046aad3c1123320ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea123e5069f4a6d20528b23a4e99d41d"><td class="memItemLeft" align="right" valign="top">vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#aea123e5069f4a6d20528b23a4e99d41d">bestSolution</a></td></tr>
-<tr class="memdesc:aea123e5069f4a6d20528b23a4e99d41d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The best solution found by the solver.  <a href="#aea123e5069f4a6d20528b23a4e99d41d">More...</a><br/></td></tr>
-<tr class="separator:aea123e5069f4a6d20528b23a4e99d41d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa76ec90c418b23b261a0f3da63a9ee4a"><td class="memItemLeft" align="right" valign="top">vector&lt; TypeVariable &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#aa76ec90c418b23b261a0f3da63a9ee4a">bestSolution</a></td></tr>
+<tr class="memdesc:aa76ec90c418b23b261a0f3da63a9ee4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The best solution found by the solver.  <a href="#aa76ec90c418b23b261a0f3da63a9ee4a">More...</a><br/></td></tr>
+<tr class="separator:aa76ec90c418b23b261a0f3da63a9ee4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename TypeVariable, typename TypeDomain, typename TypeConstraint&gt;<br/>
@@ -285,14 +285,14 @@ template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstrain
 </div><div class="memdoc">
 
 <p><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s constructor mostly used for tests. </p>
-<p>Like the regular constructor, but take also a loops parameter to repeat loops times to satisfaction loop inside <a class="el" href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>. This is mostly used for tests and runtime performance measures.</p>
+<p>Like the regular constructor, but take also a loops parameter to repeat loops times to satisfaction loop inside <a class="el" href="classghost_1_1Solver.html#af025b99595aeff4fd9a174bcbd66a991" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>. This is mostly used for tests and runtime performance measures.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">vecVariables</td><td>A pointer to the vector of variable objects of the CSP/COP. </td></tr>
     <tr><td class="paramname">domain</td><td>A pointer to the domain object of the CSP/COP. </td></tr>
     <tr><td class="paramname">vecConstraints</td><td>A constant reference to the vector of shared pointers of <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> </td></tr>
     <tr><td class="paramname">obj</td><td>A reference to the shared pointer of an <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> object. Default value is nullptr. </td></tr>
-    <tr><td class="paramname">loops</td><td>The number of times we want to repeat the satisaction loop inside <a class="el" href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>. </td></tr>
+    <tr><td class="paramname">loops</td><td>The number of times we want to repeat the satisaction loop inside <a class="el" href="classghost_1_1Solver.html#af025b99595aeff4fd9a174bcbd66a991" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -337,7 +337,7 @@ template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstrain
 
 </div>
 </div>
-<a class="anchor" id="a43db35b71a3e494ce208622cc45cbeb0"></a>
+<a class="anchor" id="ae3489c7f10952a8a0a2a0895b9b1c8fe"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -347,10 +347,21 @@ template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstrain
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::reset </td>
+          <td class="memname">void <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::permut </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">TypeVariable *&#160;</td>
+          <td class="paramname"><em>building</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>newValue</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -359,11 +370,11 @@ template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstrain
   </tr>
 </table>
 </div><div class="memdoc">
-<p><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s function to perform a reset, ie, to restart the search process from a fresh and randomly generated configuration. </p>
+<p><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s function to make a permutation move, ie, to assign a given variable to a new position </p>
 
 </div>
 </div>
-<a class="anchor" id="a30dd2769fb30ac42d231d2c305dcdf13"></a>
+<a class="anchor" id="af025b99595aeff4fd9a174bcbd66a991"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -376,7 +387,7 @@ template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstrain
           <td class="memname">double <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::solve </td>
           <td>(</td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>timeout</em></td><td>)</td>
+          <td class="paramname"><em>timeout_ms</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -423,7 +434,7 @@ template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstrain
 
 </div>
 </div>
-<a class="anchor" id="aea123e5069f4a6d20528b23a4e99d41d"></a>
+<a class="anchor" id="aa76ec90c418b23b261a0f3da63a9ee4a"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -433,7 +444,7 @@ template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstrain
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">vector&lt;int&gt; <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::bestSolution</td>
+          <td class="memname">vector&lt; TypeVariable &gt; <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::bestSolution</td>
         </tr>
       </table>
   </td>
@@ -491,7 +502,7 @@ template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstrain
 </table>
 </div><div class="memdoc">
 
-<p>The number of times we reiterate the satisfaction loop inside <a class="el" href="classghost_1_1Solver.html#a30dd2769fb30ac42d231d2c305dcdf13" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>. </p>
+<p>The number of times we reiterate the satisfaction loop inside <a class="el" href="classghost_1_1Solver.html#af025b99595aeff4fd9a174bcbd66a991" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>. </p>
 
 </div>
 </div>
@@ -587,7 +598,7 @@ template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstrain
 </table>
 </div><div class="memdoc">
 
-<p>The vector of projected costs on each varaible. </p>
+<p>The vector of projected costs on each variable. </p>
 
 </div>
 </div>
@@ -645,7 +656,7 @@ template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstrain
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jul 10 2014 15:21:11 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 23 2014 23:44:52 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

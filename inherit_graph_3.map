@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classghost_1_1Domain.html" title="ghost::Domain\&lt; Building \&gt;" alt="" coords="6,5,183,32"/>
-<area shape="rect" id="node2" href="$classghost_1_1WallinDomain.html" title="ghost::WallinDomain" alt="" coords="233,5,375,32"/>
+<area shape="rect" id="node1" href="$classghost_1_1Constraint.html" title="ghost::Constraint\&lt;\l Action, BuildOrderDomain \&gt;" alt="" coords="5,5,195,46"/>
+<area shape="rect" id="node2" href="$classghost_1_1BuildOrderConstraint.html" title="ghost::BuildOrderConstraint" alt="" coords="243,12,426,39"/>
 </map>
