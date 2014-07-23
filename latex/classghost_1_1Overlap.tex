@@ -3,7 +3,7 @@
 }
 
 
-{\ttfamily \#include $<$buildorder\-Constraint.\-hpp$>$}
+{\ttfamily \#include $<$wallin\-Constraint.\-hpp$>$}
 
 
 
@@ -12,7 +12,7 @@ Inheritance diagram for ghost\-:\-:Overlap\-:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{classghost_1_1Overlap__inherit__graph}
+\includegraphics[width=210pt]{classghost_1_1Overlap__inherit__graph}
 \end{center}
 \end{figure}
 
@@ -28,12 +28,6 @@ Collaboration diagram for ghost\-:\-:Overlap\-:
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classghost_1_1Overlap_ab0968eeda4433f417c1e38675d38fe75}{Overlap} (const vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$, const \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain} $\ast$)
-\item 
-double \hyperlink{classghost_1_1Overlap_a7a926991f06c785126e5d7995953e493}{v\-\_\-cost} (vector$<$ double $>$ \&) const 
-\begin{DoxyCompactList}\small\item\em Pure virtual function to compute the current cost of the constraint. \end{DoxyCompactList}\item 
-vector$<$ double $>$ \hyperlink{classghost_1_1Overlap_a2130361801f50c5a35594097982655b7}{v\-\_\-simulate\-Cost} (\hyperlink{classghost_1_1Action}{Action} \&, const vector$<$ int $>$ \&, vector$<$ vector$<$ double $>$ $>$ \&)
-\item 
 \hyperlink{classghost_1_1Overlap_a256dfd7655e1937ed0d13368527e9eec}{Overlap} (const vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$, const \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$)
 \end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
@@ -42,19 +36,11 @@ vector$<$ double $>$ \hyperlink{classghost_1_1Overlap_a2130361801f50c5a355940979
 double \hyperlink{classghost_1_1Overlap_a7a926991f06c785126e5d7995953e493}{v\-\_\-cost} (vector$<$ double $>$ \&) const 
 \begin{DoxyCompactList}\small\item\em Pure virtual function to compute the current cost of the constraint. \end{DoxyCompactList}\item 
 vector$<$ double $>$ \hyperlink{classghost_1_1Overlap_a3a347d3067235b29bbb19c2013498edf}{v\-\_\-simulate\-Cost} (\hyperlink{classghost_1_1Building}{Building} \&, const vector$<$ int $>$ \&, vector$<$ vector$<$ double $>$ $>$ \&, shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Objective}{Objective}$<$ \hyperlink{classghost_1_1Building}{Building}, \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $>$ $>$)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Pure virtual function to simulate the cost of the constraint on all possible values of the given variable. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
 
 \subsection{Constructor \& Destructor Documentation}
-\hypertarget{classghost_1_1Overlap_ab0968eeda4433f417c1e38675d38fe75}{\index{ghost\-::\-Overlap@{ghost\-::\-Overlap}!Overlap@{Overlap}}
-\index{Overlap@{Overlap}!ghost::Overlap@{ghost\-::\-Overlap}}
-\subsubsection[{Overlap}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Overlap\-::\-Overlap (
-\begin{DoxyParamCaption}
-\item[{const vector$<$ {\bf Action} $>$ $\ast$}]{, }
-\item[{const {\bf Build\-Order\-Domain} $\ast$}]{}
-\end{DoxyParamCaption}
-)}}\label{classghost_1_1Overlap_ab0968eeda4433f417c1e38675d38fe75}
 \hypertarget{classghost_1_1Overlap_a256dfd7655e1937ed0d13368527e9eec}{\index{ghost\-::\-Overlap@{ghost\-::\-Overlap}!Overlap@{Overlap}}
 \index{Overlap@{Overlap}!ghost::Overlap@{ghost\-::\-Overlap}}
 \subsubsection[{Overlap}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Overlap\-::\-Overlap (
@@ -66,34 +52,6 @@ vector$<$ double $>$ \hyperlink{classghost_1_1Overlap_a3a347d3067235b29bbb19c201
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classghost_1_1Overlap_a7a926991f06c785126e5d7995953e493}{\index{ghost\-::\-Overlap@{ghost\-::\-Overlap}!v\-\_\-cost@{v\-\_\-cost}}
-\index{v\-\_\-cost@{v\-\_\-cost}!ghost::Overlap@{ghost\-::\-Overlap}}
-\subsubsection[{v\-\_\-cost}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Overlap\-::v\-\_\-cost (
-\begin{DoxyParamCaption}
-\item[{vector$<$ double $>$ \&}]{var\-Cost}
-\end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classghost_1_1Overlap_a7a926991f06c785126e5d7995953e493}
-
-
-Pure virtual function to compute the current cost of the constraint. 
-
-In cost, the parameter var\-Cost is not given to be used by the function, but to store into var\-Cost the projected cost of each variable. This must be computed I\-N\-S\-I\-D\-E the cost function.
-
-
-\begin{DoxyParams}{Parameters}
-{\em var\-Cost} & A reference to a vector of double in order to store the projected cost of each variable. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-A double representing the cost of the constraint on the current configuration. 
-\end{DoxyReturn}
-\begin{DoxySeeAlso}{See Also}
-\hyperlink{classghost_1_1Constraint_a5051092934738b004fe848190a5aa9a5}{cost} \hyperlink{classghost_1_1Overlap_a2130361801f50c5a35594097982655b7}{v\-\_\-simulate\-Cost} 
-\end{DoxySeeAlso}
-
-
-Implements \hyperlink{classghost_1_1Constraint_ac67f7952cdf7212327b7db506225d12c}{ghost\-::\-Constraint$<$ Building, Wallin\-Domain $>$}.
-
 \hypertarget{classghost_1_1Overlap_a7a926991f06c785126e5d7995953e493}{\index{ghost\-::\-Overlap@{ghost\-::\-Overlap}!v\-\_\-cost@{v\-\_\-cost}}
 \index{v\-\_\-cost@{v\-\_\-cost}!ghost::Overlap@{ghost\-::\-Overlap}}
 \subsubsection[{v\-\_\-cost}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Overlap\-::v\-\_\-cost (
@@ -116,39 +74,52 @@ In cost, the parameter var\-Cost is not given to be used by the function, but to
 A double representing the cost of the constraint on the current configuration. 
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See Also}
-\hyperlink{classghost_1_1Constraint_a5051092934738b004fe848190a5aa9a5}{cost} \hyperlink{classghost_1_1Overlap_a2130361801f50c5a35594097982655b7}{v\-\_\-simulate\-Cost} 
+\hyperlink{classghost_1_1Constraint_a5051092934738b004fe848190a5aa9a5}{cost} \hyperlink{classghost_1_1Overlap_a3a347d3067235b29bbb19c2013498edf}{v\-\_\-simulate\-Cost} 
 \end{DoxySeeAlso}
 
 
 Implements \hyperlink{classghost_1_1Constraint_ac67f7952cdf7212327b7db506225d12c}{ghost\-::\-Constraint$<$ Building, Wallin\-Domain $>$}.
 
-\hypertarget{classghost_1_1Overlap_a2130361801f50c5a35594097982655b7}{\index{ghost\-::\-Overlap@{ghost\-::\-Overlap}!v\-\_\-simulate\-Cost@{v\-\_\-simulate\-Cost}}
-\index{v\-\_\-simulate\-Cost@{v\-\_\-simulate\-Cost}!ghost::Overlap@{ghost\-::\-Overlap}}
-\subsubsection[{v\-\_\-simulate\-Cost}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$double$>$ ghost\-::\-Overlap\-::v\-\_\-simulate\-Cost (
-\begin{DoxyParamCaption}
-\item[{{\bf Action} \&}]{, }
-\item[{const vector$<$ int $>$ \&}]{, }
-\item[{vector$<$ vector$<$ double $>$ $>$ \&}]{}
-\end{DoxyParamCaption}
-)}}\label{classghost_1_1Overlap_a2130361801f50c5a35594097982655b7}
 \hypertarget{classghost_1_1Overlap_a3a347d3067235b29bbb19c2013498edf}{\index{ghost\-::\-Overlap@{ghost\-::\-Overlap}!v\-\_\-simulate\-Cost@{v\-\_\-simulate\-Cost}}
 \index{v\-\_\-simulate\-Cost@{v\-\_\-simulate\-Cost}!ghost::Overlap@{ghost\-::\-Overlap}}
 \subsubsection[{v\-\_\-simulate\-Cost}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ double $>$ ghost\-::\-Overlap\-::v\-\_\-simulate\-Cost (
 \begin{DoxyParamCaption}
-\item[{{\bf Building} \&}]{old\-Building, }
-\item[{const vector$<$ int $>$ \&}]{new\-Position, }
+\item[{{\bf Building} \&}]{current\-Var, }
+\item[{const vector$<$ int $>$ \&}]{possible\-Values, }
 \item[{vector$<$ vector$<$ double $>$ $>$ \&}]{vec\-Var\-Sim\-Costs, }
 \item[{shared\-\_\-ptr$<$ {\bf Objective}$<$ {\bf Building}, {\bf Wallin\-Domain} $>$ $>$}]{objective}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [virtual]}}}\label{classghost_1_1Overlap_a3a347d3067235b29bbb19c2013498edf}
 
 
-Reimplemented from \hyperlink{classghost_1_1BuildOrderConstraint_a3ffc8f323b117f17c76cc6df522345ba}{ghost\-::\-Build\-Order\-Constraint}.
+Pure virtual function to simulate the cost of the constraint on all possible values of the given variable. 
+
+In v\-\_\-simulates\-Cost, the parameter vec\-Var\-Sim\-Costs is not given to be used by the function, but to store into vec\-Var\-Sim\-Costs the projected cost of current\-Var on all possible values. This must be computed I\-N\-S\-I\-D\-E the simulate\-Cost function.
+
+
+\begin{DoxyParams}{Parameters}
+{\em current\-Var} & A reference to the variable we want to change the current value. \\
+\hline
+{\em possible\-Values} & A reference to a constant vector of the possible values for current\-Var. \\
+\hline
+{\em vec\-Var\-Sim\-Costs} & A reference to the vector of vector of double in order to store the projected cost of current\-Var on all possible values. \\
+\hline
+{\em objective} & The (plausibly null) current objective object. This parameter is necessary to update the heuristic value helper. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The vector of the cost of the constraint for each possible value of current\-Var. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classghost_1_1Constraint_a173958081ed2cfad938cead81b684455}{simulate\-Cost} \hyperlink{classghost_1_1Overlap_a7a926991f06c785126e5d7995953e493}{v\-\_\-cost} 
+\end{DoxySeeAlso}
+
+
+Reimplemented from \hyperlink{classghost_1_1WallinConstraint_af2d6f103c844a14745b7de6c656f9981}{ghost\-::\-Wallin\-Constraint}.
 
 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-include/constraints/\hyperlink{buildorderConstraint_8hpp}{buildorder\-Constraint.\-hpp}\item 
 include/constraints/\hyperlink{wallinConstraint_8hpp}{wallin\-Constraint.\-hpp}\item 
 src/constraints/\hyperlink{wallinConstraint_8cpp}{wallin\-Constraint.\-cpp}\end{DoxyCompactItemize}

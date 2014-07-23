@@ -22,7 +22,8 @@ Inheritance diagram for ghost\-:\-:Variable\-:
 \end{figure}
 
 
-Collaboration diagram for ghost\-:\-:Variable\-:\nopagebreak
+Collaboration diagram for ghost\-:\-:Variable\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -43,6 +44,8 @@ Collaboration diagram for ghost\-:\-:Variable\-:\nopagebreak
 bool \hyperlink{classghost_1_1Variable_aeea921ab89e0f175037ce8c81845905c}{operator$<$} (const \hyperlink{classghost_1_1Variable}{Variable} \&other) const 
 \item 
 void \hyperlink{classghost_1_1Variable_a8afe14b1858476bf4ef59a41a2947f93}{shift\-Value} ()
+\item 
+void \hyperlink{classghost_1_1Variable_a3bebc2cc15609a5280a4949d63f7405d}{unshift\-Value} ()
 \item 
 void \hyperlink{classghost_1_1Variable_a8186ea296b868d44656be01e94b9aa80}{swap\-Value} (\hyperlink{classghost_1_1Variable}{Variable} \&other)
 \begin{DoxyCompactList}\small\item\em Inline function to swap the value of two objects. \end{DoxyCompactList}\item 
@@ -283,7 +286,14 @@ In this class, swap\-Value calls std\-::swap between this-\/$>$value and other.\
 {\em other} & A reference to a \hyperlink{classghost_1_1Variable}{Variable} object. \\
 \hline
 \end{DoxyParams}
-
+\hypertarget{classghost_1_1Variable_a3bebc2cc15609a5280a4949d63f7405d}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!unshift\-Value@{unshift\-Value}}
+\index{unshift\-Value@{unshift\-Value}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{unshift\-Value}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Variable\-::unshift\-Value (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Variable_a3bebc2cc15609a5280a4949d63f7405d}
+Inline function to unshift the object value. In this class, unshift\-Value is implemented to decrement the value (--value). 
 
 \subsection{Friends And Related Function Documentation}
 \hypertarget{classghost_1_1Variable_aab05ab0693334e9e9a39f43903a37cb7}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!operator$<$$<$@{operator$<$$<$}}

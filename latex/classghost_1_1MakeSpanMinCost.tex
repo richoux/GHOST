@@ -1,0 +1,103 @@
+\hypertarget{classghost_1_1MakeSpanMinCost}{\section{ghost\-:\-:Make\-Span\-Min\-Cost Class Reference}
+\label{classghost_1_1MakeSpanMinCost}\index{ghost\-::\-Make\-Span\-Min\-Cost@{ghost\-::\-Make\-Span\-Min\-Cost}}
+}
+
+
+{\ttfamily \#include $<$buildorder\-Objective.\-hpp$>$}
+
+
+
+Inheritance diagram for ghost\-:\-:Make\-Span\-Min\-Cost\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classghost_1_1MakeSpanMinCost__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for ghost\-:\-:Make\-Span\-Min\-Cost\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classghost_1_1MakeSpanMinCost__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classghost_1_1MakeSpanMinCost_a900db3b3d8979eb44b92f8175ac10735}{Make\-Span\-Min\-Cost} ()
+\item 
+\hyperlink{classghost_1_1MakeSpanMinCost_a523f42c1f9a07fa9c8041c6672b1ce2a}{Make\-Span\-Min\-Cost} (const vector$<$ pair$<$ string, int $>$ $>$ \&input, vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ \&variables)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{classghost_1_1MakeSpanMinCost_a892905457a09d229d0b08ec36d47f20c}{v\-\_\-postprocess\-Optimization} (vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$vec\-Variables, \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain} $\ast$domain, double \&best\-Cost)
+\begin{DoxyCompactList}\small\item\em Virtual function to perform optimization post-\/processing. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classghost_1_1MakeSpanMinCost_a900db3b3d8979eb44b92f8175ac10735}{\index{ghost\-::\-Make\-Span\-Min\-Cost@{ghost\-::\-Make\-Span\-Min\-Cost}!Make\-Span\-Min\-Cost@{Make\-Span\-Min\-Cost}}
+\index{Make\-Span\-Min\-Cost@{Make\-Span\-Min\-Cost}!ghost::MakeSpanMinCost@{ghost\-::\-Make\-Span\-Min\-Cost}}
+\subsubsection[{Make\-Span\-Min\-Cost}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Make\-Span\-Min\-Cost\-::\-Make\-Span\-Min\-Cost (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1MakeSpanMinCost_a900db3b3d8979eb44b92f8175ac10735}
+\hypertarget{classghost_1_1MakeSpanMinCost_a523f42c1f9a07fa9c8041c6672b1ce2a}{\index{ghost\-::\-Make\-Span\-Min\-Cost@{ghost\-::\-Make\-Span\-Min\-Cost}!Make\-Span\-Min\-Cost@{Make\-Span\-Min\-Cost}}
+\index{Make\-Span\-Min\-Cost@{Make\-Span\-Min\-Cost}!ghost::MakeSpanMinCost@{ghost\-::\-Make\-Span\-Min\-Cost}}
+\subsubsection[{Make\-Span\-Min\-Cost}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Make\-Span\-Min\-Cost\-::\-Make\-Span\-Min\-Cost (
+\begin{DoxyParamCaption}
+\item[{const vector$<$ pair$<$ string, int $>$ $>$ \&}]{input, }
+\item[{vector$<$ {\bf Action} $>$ \&}]{variables}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1MakeSpanMinCost_a523f42c1f9a07fa9c8041c6672b1ce2a}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classghost_1_1MakeSpanMinCost_a892905457a09d229d0b08ec36d47f20c}{\index{ghost\-::\-Make\-Span\-Min\-Cost@{ghost\-::\-Make\-Span\-Min\-Cost}!v\-\_\-postprocess\-Optimization@{v\-\_\-postprocess\-Optimization}}
+\index{v\-\_\-postprocess\-Optimization@{v\-\_\-postprocess\-Optimization}!ghost::MakeSpanMinCost@{ghost\-::\-Make\-Span\-Min\-Cost}}
+\subsubsection[{v\-\_\-postprocess\-Optimization}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Make\-Span\-Min\-Cost\-::v\-\_\-postprocess\-Optimization (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf Action} $>$ $\ast$}]{vec\-Variables, }
+\item[{{\bf Build\-Order\-Domain} $\ast$}]{domain, }
+\item[{double \&}]{best\-Cost}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [virtual]}}}\label{classghost_1_1MakeSpanMinCost_a892905457a09d229d0b08ec36d47f20c}
+
+
+Virtual function to perform optimization post-\/processing. 
+
+This function is called by the solver after all optimization runs to apply human-\/knowledge optimization, allowing to improve the optimization cost.
+
+This implementation by default does nothing.
+
+
+\begin{DoxyParams}{Parameters}
+{\em vec\-Variables} & A constant pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
+\hline
+{\em domain} & A constant pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
+\hline
+{\em best\-Cost} & A reference the double representing the best optimization cost found by the solver so far. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The function runtime in milliseconds. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classghost_1_1Objective_a78ac0f829786f02fe69b2afe6f2636bc}{postprocess\-Optimization} 
+\end{DoxySeeAlso}
+
+
+Reimplemented from \hyperlink{classghost_1_1BuildOrderObjective_a07306469a8512e33a420d7f8ebab507b}{ghost\-::\-Build\-Order\-Objective}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+include/objectives/\hyperlink{buildorderObjective_8hpp}{buildorder\-Objective.\-hpp}\item 
+src/objectives/\hyperlink{buildorderObjective_8cpp}{buildorder\-Objective.\-cpp}\end{DoxyCompactItemize}

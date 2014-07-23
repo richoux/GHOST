@@ -100,6 +100,12 @@ vector$<$ int $>$ \hyperlink{classghost_1_1WallinDomain_ab4441d234f628c487742480
 void \hyperlink{classghost_1_1WallinDomain_a6fcb3370e7a7df62156c556b381c78f7}{add} (int, int, string, int)
 \item 
 void \hyperlink{classghost_1_1WallinDomain_ae6903c1353bafc1269ad1fa8fcd158ee}{clear} (int, int, string, int)
+\item 
+void \hyperlink{classghost_1_1WallinDomain_aad60a94ecdc1a63cc0ff2a5ab3079c46}{v\-\_\-restart} (vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$variables)
+\item 
+void \hyperlink{classghost_1_1WallinDomain_a816435b0754c2b62b916b59d60677742}{v\-\_\-wipe} (vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$variables)
+\item 
+void \hyperlink{classghost_1_1WallinDomain_af296daeef852ce0d84e01fccac4c0f48}{v\-\_\-rebuild} (vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$variables)
 \end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
@@ -407,6 +413,39 @@ ostream \& \hyperlink{classghost_1_1WallinDomain_a183a5a6c377b42188996fa08efa37a
 \item[{vector$<$ pair$<$ int, int $>$ $>$}]{unbuildables}
 \end{DoxyParamCaption}
 )}}\label{classghost_1_1WallinDomain_ac29b7395041e907eb1b94527ac6ebf36}
+\hypertarget{classghost_1_1WallinDomain_af296daeef852ce0d84e01fccac4c0f48}{\index{ghost\-::\-Wallin\-Domain@{ghost\-::\-Wallin\-Domain}!v\-\_\-rebuild@{v\-\_\-rebuild}}
+\index{v\-\_\-rebuild@{v\-\_\-rebuild}!ghost::WallinDomain@{ghost\-::\-Wallin\-Domain}}
+\subsubsection[{v\-\_\-rebuild}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Wallin\-Domain\-::v\-\_\-rebuild (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf Building} $>$ $\ast$}]{variables}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [virtual]}}}\label{classghost_1_1WallinDomain_af296daeef852ce0d84e01fccac4c0f48}
+Empty virtual function called in Sovler\-::solve before postprocessing\-Optimization. Can be use to rebuild the domain. 
+
+Reimplemented from \hyperlink{classghost_1_1Domain_aef5aef1cb394b5093e9a68c653c54ce5}{ghost\-::\-Domain$<$ Building $>$}.
+
+\hypertarget{classghost_1_1WallinDomain_aad60a94ecdc1a63cc0ff2a5ab3079c46}{\index{ghost\-::\-Wallin\-Domain@{ghost\-::\-Wallin\-Domain}!v\-\_\-restart@{v\-\_\-restart}}
+\index{v\-\_\-restart@{v\-\_\-restart}!ghost::WallinDomain@{ghost\-::\-Wallin\-Domain}}
+\subsubsection[{v\-\_\-restart}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Wallin\-Domain\-::v\-\_\-restart (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf Building} $>$ $\ast$}]{variables}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [virtual]}}}\label{classghost_1_1WallinDomain_aad60a94ecdc1a63cc0ff2a5ab3079c46}
+Pure virtual function restarting the search process from a fresh and randomly generated configuration. 
+
+Implements \hyperlink{classghost_1_1Domain_aee3a6ae1de917ffb936c978633ac2663}{ghost\-::\-Domain$<$ Building $>$}.
+
+\hypertarget{classghost_1_1WallinDomain_a816435b0754c2b62b916b59d60677742}{\index{ghost\-::\-Wallin\-Domain@{ghost\-::\-Wallin\-Domain}!v\-\_\-wipe@{v\-\_\-wipe}}
+\index{v\-\_\-wipe@{v\-\_\-wipe}!ghost::WallinDomain@{ghost\-::\-Wallin\-Domain}}
+\subsubsection[{v\-\_\-wipe}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Wallin\-Domain\-::v\-\_\-wipe (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf Building} $>$ $\ast$}]{variables}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [virtual]}}}\label{classghost_1_1WallinDomain_a816435b0754c2b62b916b59d60677742}
+Empty virtual function called in Sovler\-::solve before postprocessing\-Optimization. Can be use to flush variables in the domain. 
+
+Reimplemented from \hyperlink{classghost_1_1Domain_ad0adb4cc8b6c9d2b9aec3f20e7fde1ef}{ghost\-::\-Domain$<$ Building $>$}.
+
 
 
 \subsection{Friends And Related Function Documentation}

@@ -6,6 +6,10 @@
 \item 
 class \hyperlink{classghost_1_1BuildOrderConstraint}{Build\-Order\-Constraint}
 \item 
+class \hyperlink{classghost_1_1Constraint}{Constraint}
+\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Constraint}{Constraint} is the class encoding constraints of your C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\item 
+class \hyperlink{classghost_1_1WallinConstraint}{Wallin\-Constraint}
+\item 
 class \hyperlink{classghost_1_1Overlap}{Overlap}
 \item 
 class \hyperlink{classghost_1_1Buildable}{Buildable}
@@ -13,10 +17,6 @@ class \hyperlink{classghost_1_1Buildable}{Buildable}
 class \hyperlink{classghost_1_1NoGaps}{No\-Gaps}
 \item 
 class \hyperlink{classghost_1_1StartingTargetTiles}{Starting\-Target\-Tiles}
-\item 
-class \hyperlink{classghost_1_1Constraint}{Constraint}
-\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Constraint}{Constraint} is the class encoding constraints of your C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\item 
-class \hyperlink{classghost_1_1WallinConstraint}{Wallin\-Constraint}
 \item 
 class \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain}
 \item 
@@ -26,13 +26,17 @@ class \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain}
 \item 
 class \hyperlink{classghost_1_1Random}{Random}
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Random}{Random} is the class coding pseudo-\/random generators used in G\-H\-O\-S\-T. \end{DoxyCompactList}\item 
+class \hyperlink{classghost_1_1BuildOrderObjective}{Build\-Order\-Objective}
+\item 
+class \hyperlink{classghost_1_1MakeSpanMinCost}{Make\-Span\-Min\-Cost}
+\item 
+class \hyperlink{classghost_1_1MakeSpanMaxProd}{Make\-Span\-Max\-Prod}
+\item 
 class \hyperlink{classghost_1_1Objective}{Objective}
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Objective}{Objective} is the class encoding objective functions of your C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\item 
 class \hyperlink{classghost_1_1NullObjective}{Null\-Objective}
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1NullObjective}{Null\-Objective} is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). \end{DoxyCompactList}\item 
 class \hyperlink{classghost_1_1WallinObjective}{Wallin\-Objective}
-\item 
-class \hyperlink{classghost_1_1NoneObj}{None\-Obj}
 \item 
 class \hyperlink{classghost_1_1GapObj}{Gap\-Obj}
 \item 
@@ -71,6 +75,10 @@ enum \hyperlink{namespaceghost_a7c0deb8266504feb7d025903f2b77693}{Action\-Type} 
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
+\hyperlink{classghost_1_1Action}{Action} \hyperlink{namespaceghost_a2f66838c6ce8dec9c2c69ee4668df38b}{factory\-Action} (const string \&full\-Name)
+\item 
+\hyperlink{classghost_1_1Action}{Action} \hyperlink{namespaceghost_a2b18a866dd0083eab934fa1263f11ecf}{factory\-Protoss\-Action} (const string \&full\-Name)
+\item 
 std\-::vector$<$ std\-::shared\-\_\-ptr\\*
 $<$ \hyperlink{classghost_1_1Building}{Building} $>$ $>$ \hyperlink{namespaceghost_af3e32bb59f07ee561580978affe544bd}{make\-Protoss\-Buildings} ()
 \item 
@@ -82,6 +90,8 @@ vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ \hyperlink{namespaceg
 \item 
 vector$<$ shared\-\_\-ptr\\*
 $<$ \hyperlink{classghost_1_1WallinConstraint}{Wallin\-Constraint} $>$ $>$ \hyperlink{namespaceghost_af7fa3891f5f6563a142a99d3ab6b604b}{make\-Terran\-Constraints} (const vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$vec, const \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$domain)
+\item 
+ostream \& \hyperlink{namespaceghost_ab9c6639581eec36ee5c981bdcebaa4d1}{operator$<$$<$} (ostream \&os, const \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain} \&b)
 \item 
 ostream \& \hyperlink{namespaceghost_a324a8e116f71d2eee57a356671330cc1}{operator$<$$<$} (ostream \&os, const \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} \&g)
 \item 
@@ -168,6 +178,20 @@ The enumeration type containing all Star\-Craft races, ie, Terran, Protoss, Zerg
 
 
 \subsection{Function Documentation}
+\hypertarget{namespaceghost_a2f66838c6ce8dec9c2c69ee4668df38b}{\index{ghost@{ghost}!factory\-Action@{factory\-Action}}
+\index{factory\-Action@{factory\-Action}!ghost@{ghost}}
+\subsubsection[{factory\-Action}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Action} ghost\-::factory\-Action (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{full\-Name}
+\end{DoxyParamCaption}
+)}}\label{namespaceghost_a2f66838c6ce8dec9c2c69ee4668df38b}
+\hypertarget{namespaceghost_a2b18a866dd0083eab934fa1263f11ecf}{\index{ghost@{ghost}!factory\-Protoss\-Action@{factory\-Protoss\-Action}}
+\index{factory\-Protoss\-Action@{factory\-Protoss\-Action}!ghost@{ghost}}
+\subsubsection[{factory\-Protoss\-Action}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Action} ghost\-::factory\-Protoss\-Action (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{full\-Name}
+\end{DoxyParamCaption}
+)}}\label{namespaceghost_a2b18a866dd0083eab934fa1263f11ecf}
 \hypertarget{namespaceghost_a797dd3167189ccc913156ff624a7ad6a}{\index{ghost@{ghost}!factory\-Terran\-Building@{factory\-Terran\-Building}}
 \index{factory\-Terran\-Building@{factory\-Terran\-Building}!ghost@{ghost}}
 \subsubsection[{factory\-Terran\-Building}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Building} ghost\-::factory\-Terran\-Building (
@@ -206,14 +230,6 @@ The enumeration type containing all Star\-Craft races, ie, Terran, Protoss, Zerg
 \item[{const Wallin\-Domain $\ast$}]{domain}
 \end{DoxyParamCaption}
 )}}\label{namespaceghost_af7fa3891f5f6563a142a99d3ab6b604b}
-\hypertarget{namespaceghost_a8126241ce5aea5db6c61184fa000a90f}{\index{ghost@{ghost}!operator$<$$<$@{operator$<$$<$}}
-\index{operator$<$$<$@{operator$<$$<$}!ghost@{ghost}}
-\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}ostream\& ghost\-::operator$<$$<$ (
-\begin{DoxyParamCaption}
-\item[{ostream \&}]{os, }
-\item[{const Action \&}]{a}
-\end{DoxyParamCaption}
-)}}\label{namespaceghost_a8126241ce5aea5db6c61184fa000a90f}
 \hypertarget{namespaceghost_a1e7e02c276d52eda961d841a47211933}{\index{ghost@{ghost}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ghost@{ghost}}
 \subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}ostream\& ghost\-::operator$<$$<$ (
@@ -222,6 +238,22 @@ The enumeration type containing all Star\-Craft races, ie, Terran, Protoss, Zerg
 \item[{const Building \&}]{b}
 \end{DoxyParamCaption}
 )}}\label{namespaceghost_a1e7e02c276d52eda961d841a47211933}
+\hypertarget{namespaceghost_a8126241ce5aea5db6c61184fa000a90f}{\index{ghost@{ghost}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ghost@{ghost}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}ostream\& ghost\-::operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{ostream \&}]{os, }
+\item[{const Action \&}]{a}
+\end{DoxyParamCaption}
+)}}\label{namespaceghost_a8126241ce5aea5db6c61184fa000a90f}
+\hypertarget{namespaceghost_ab9c6639581eec36ee5c981bdcebaa4d1}{\index{ghost@{ghost}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ghost@{ghost}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}ostream\& ghost\-::operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{ostream \&}]{os, }
+\item[{const Build\-Order\-Domain \&}]{b}
+\end{DoxyParamCaption}
+)}}\label{namespaceghost_ab9c6639581eec36ee5c981bdcebaa4d1}
 \hypertarget{namespaceghost_a324a8e116f71d2eee57a356671330cc1}{\index{ghost@{ghost}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ghost@{ghost}}
 \subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}ostream\& ghost\-::operator$<$$<$ (

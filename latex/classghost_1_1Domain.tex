@@ -27,6 +27,12 @@ Collaboration diagram for ghost\-:\-:Domain$<$ Type\-Variable $>$\-:
 \begin{DoxyCompactList}\small\item\em First \hyperlink{classghost_1_1Domain}{Domain} constructor. \end{DoxyCompactList}\item 
 \hyperlink{classghost_1_1Domain_a26d7b928aa7a0bc44a47f2f407402ed7}{Domain} (int \hyperlink{classghost_1_1Domain_a13e282f60c6c7cddf5b5716b45ad161c}{size}, int number\-Variables, const vector$<$ int $>$ \&\hyperlink{classghost_1_1Domain_a8890ca1323c293a4a1e2aa1830eff043}{initial\-Domain})
 \begin{DoxyCompactList}\small\item\em Second and last \hyperlink{classghost_1_1Domain}{Domain} constructor. \end{DoxyCompactList}\item 
+void \hyperlink{classghost_1_1Domain_a253f06705e99ff88c9da7ed0ad6855aa}{restart} (vector$<$ Type\-Variable $>$ $\ast$variables)
+\begin{DoxyCompactList}\small\item\em Inline function following the N\-V\-I idiom. Calling v\-\_\-restart. \end{DoxyCompactList}\item 
+void \hyperlink{classghost_1_1Domain_ac26f73027a2b0abe86e5fef062ea177f}{wipe} (vector$<$ Type\-Variable $>$ $\ast$variables)
+\begin{DoxyCompactList}\small\item\em Inline function following the N\-V\-I idiom. Calling v\-\_\-wipe. \end{DoxyCompactList}\item 
+void \hyperlink{classghost_1_1Domain_a557b4c89eaf8503c27e873a7dcff838d}{rebuild} (vector$<$ Type\-Variable $>$ $\ast$variables)
+\begin{DoxyCompactList}\small\item\em Inline function following the N\-V\-I idiom. Calling v\-\_\-rebuild. \end{DoxyCompactList}\item 
 int \hyperlink{classghost_1_1Domain_abd3f0bd85c98e66c025e0ff3532af8dd}{random\-Value} (const Type\-Variable \&variable)
 \begin{DoxyCompactList}\small\item\em Inline function to get a random value among the possible values of a given variable. \end{DoxyCompactList}\item 
 vector$<$ int $>$ \hyperlink{classghost_1_1Domain_a5d4e6a323e4c3c14bc1da5ddbd5af55d}{values\-Of} (const Type\-Variable \&variable) const 
@@ -41,6 +47,15 @@ void \hyperlink{classghost_1_1Domain_aa9386317ee6ca064d1e2018acefaf8bb}{add} (co
 \begin{DoxyCompactList}\small\item\em Inline function to add something into the domain. \end{DoxyCompactList}\item 
 void \hyperlink{classghost_1_1Domain_ad3b39f88a7becd7c8c347c04963e3414}{clear} (const Type\-Variable \&variable)
 \begin{DoxyCompactList}\small\item\em Inline function to clear (or remove) something into the domain. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \hyperlink{classghost_1_1Domain_aee3a6ae1de917ffb936c978633ac2663}{v\-\_\-restart} (vector$<$ Type\-Variable $>$ $\ast$variables)=0
+\item 
+virtual void \hyperlink{classghost_1_1Domain_ad0adb4cc8b6c9d2b9aec3f20e7fde1ef}{v\-\_\-wipe} (vector$<$ Type\-Variable $>$ $\ast$variables)
+\item 
+virtual void \hyperlink{classghost_1_1Domain_aef5aef1cb394b5093e9a68c653c54ce5}{v\-\_\-rebuild} (vector$<$ Type\-Variable $>$ $\ast$variables)
+\end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -143,8 +158,8 @@ Inline function to add something into the domain.
 The implementation by default does nothing. This function has been declared because it could be useful for some custom domain classes to add a value from the given variable into a custom data structure. This function is called into the solver three times\-:
 \begin{DoxyItemize}
 \item during a move (\hyperlink{classghost_1_1Solver_a58d9540a9700be0e953ebdcf0660920f}{Solver\-::move}), ie, when the solver assigns a new value to a given variable.
-\item during a reset (\hyperlink{classghost_1_1Solver_a43db35b71a3e494ce208622cc45cbeb0}{Solver\-::reset}).
-\item just between the end of the optimization run and the beginning of the optimization post-\/processing, in \hyperlink{classghost_1_1Solver_a30dd2769fb30ac42d231d2c305dcdf13}{Solver\-::solve}.
+\item during a reset (Solver\-::reset).
+\item just between the end of the optimization run and the beginning of the optimization post-\/processing, in \hyperlink{classghost_1_1Solver_af025b99595aeff4fd9a174bcbd66a991}{Solver\-::solve}.
 \end{DoxyItemize}
 
 
@@ -166,8 +181,8 @@ Inline function to clear (or remove) something into the domain.
 The implementation by default does nothing. This function has been declared because it could be useful for some custom domain classes to clear/remove a value from the given variable into a custom data structure. This function is called into the solver three times\-:
 \begin{DoxyItemize}
 \item during a move (\hyperlink{classghost_1_1Solver_a58d9540a9700be0e953ebdcf0660920f}{Solver\-::move}), ie, when the solver assigns a new value to a given variable.
-\item during a reset (\hyperlink{classghost_1_1Solver_a43db35b71a3e494ce208622cc45cbeb0}{Solver\-::reset}).
-\item just between the end of the optimization run and the beginning of the optimization post-\/processing, in \hyperlink{classghost_1_1Solver_a30dd2769fb30ac42d231d2c305dcdf13}{Solver\-::solve}.
+\item during a reset (Solver\-::reset).
+\item just between the end of the optimization run and the beginning of the optimization post-\/processing, in \hyperlink{classghost_1_1Solver_af025b99595aeff4fd9a174bcbd66a991}{Solver\-::solve}.
 \end{DoxyItemize}
 
 
@@ -208,6 +223,17 @@ A random value among the possible values of variable.
 \begin{DoxySeeAlso}{See Also}
 \hyperlink{classghost_1_1Random}{Random} 
 \end{DoxySeeAlso}
+\hypertarget{classghost_1_1Domain_a557b4c89eaf8503c27e873a7dcff838d}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!rebuild@{rebuild}}
+\index{rebuild@{rebuild}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{rebuild}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ void {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::rebuild (
+\begin{DoxyParamCaption}
+\item[{vector$<$ Type\-Variable $>$ $\ast$}]{variables}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Domain_a557b4c89eaf8503c27e873a7dcff838d}
+
+
+Inline function following the N\-V\-I idiom. Calling v\-\_\-rebuild. 
+
 \hypertarget{classghost_1_1Domain_aa014a06ba46e4e057ed182d328a72e97}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!reset\-All\-Domains@{reset\-All\-Domains}}
 \index{reset\-All\-Domains@{reset\-All\-Domains}!ghost::Domain@{ghost\-::\-Domain}}
 \subsubsection[{reset\-All\-Domains}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ void {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::reset\-All\-Domains (
@@ -233,6 +259,50 @@ The domain of the given variable will be reset to the initial domain created or 
 {\em variable} & A constant reference to a variable. \\
 \hline
 \end{DoxyParams}
+\hypertarget{classghost_1_1Domain_a253f06705e99ff88c9da7ed0ad6855aa}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!restart@{restart}}
+\index{restart@{restart}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{restart}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ void {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::restart (
+\begin{DoxyParamCaption}
+\item[{vector$<$ Type\-Variable $>$ $\ast$}]{variables}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Domain_a253f06705e99ff88c9da7ed0ad6855aa}
+
+
+Inline function following the N\-V\-I idiom. Calling v\-\_\-restart. 
+
+\hypertarget{classghost_1_1Domain_aef5aef1cb394b5093e9a68c653c54ce5}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!v\-\_\-rebuild@{v\-\_\-rebuild}}
+\index{v\-\_\-rebuild@{v\-\_\-rebuild}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{v\-\_\-rebuild}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ virtual void {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::v\-\_\-rebuild (
+\begin{DoxyParamCaption}
+\item[{vector$<$ Type\-Variable $>$ $\ast$}]{variables}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classghost_1_1Domain_aef5aef1cb394b5093e9a68c653c54ce5}
+Empty virtual function called in Sovler\-::solve before postprocessing\-Optimization. Can be use to rebuild the domain. 
+
+Reimplemented in \hyperlink{classghost_1_1WallinDomain_af296daeef852ce0d84e01fccac4c0f48}{ghost\-::\-Wallin\-Domain}.
+
+\hypertarget{classghost_1_1Domain_aee3a6ae1de917ffb936c978633ac2663}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!v\-\_\-restart@{v\-\_\-restart}}
+\index{v\-\_\-restart@{v\-\_\-restart}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{v\-\_\-restart}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ virtual void {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::v\-\_\-restart (
+\begin{DoxyParamCaption}
+\item[{vector$<$ Type\-Variable $>$ $\ast$}]{variables}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}}\label{classghost_1_1Domain_aee3a6ae1de917ffb936c978633ac2663}
+Pure virtual function restarting the search process from a fresh and randomly generated configuration. 
+
+Implemented in \hyperlink{classghost_1_1WallinDomain_aad60a94ecdc1a63cc0ff2a5ab3079c46}{ghost\-::\-Wallin\-Domain}, and \hyperlink{classghost_1_1BuildOrderDomain_a8f96e0ec1cedb76a38ca516ca2cdc88a}{ghost\-::\-Build\-Order\-Domain}.
+
+\hypertarget{classghost_1_1Domain_ad0adb4cc8b6c9d2b9aec3f20e7fde1ef}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!v\-\_\-wipe@{v\-\_\-wipe}}
+\index{v\-\_\-wipe@{v\-\_\-wipe}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{v\-\_\-wipe}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ virtual void {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::v\-\_\-wipe (
+\begin{DoxyParamCaption}
+\item[{vector$<$ Type\-Variable $>$ $\ast$}]{variables}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classghost_1_1Domain_ad0adb4cc8b6c9d2b9aec3f20e7fde1ef}
+Empty virtual function called in Sovler\-::solve before postprocessing\-Optimization. Can be use to flush variables in the domain. 
+
+Reimplemented in \hyperlink{classghost_1_1WallinDomain_a816435b0754c2b62b916b59d60677742}{ghost\-::\-Wallin\-Domain}.
+
 \hypertarget{classghost_1_1Domain_a5d4e6a323e4c3c14bc1da5ddbd5af55d}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!values\-Of@{values\-Of}}
 \index{values\-Of@{values\-Of}!ghost::Domain@{ghost\-::\-Domain}}
 \subsubsection[{values\-Of}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ vector$<$int$>$ {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::values\-Of (
@@ -252,6 +322,17 @@ Inline function to get the vector of the possible values of a given variable.
 \begin{DoxyReturn}{Returns}
 The vector of integers of all possible values of variable. 
 \end{DoxyReturn}
+\hypertarget{classghost_1_1Domain_ac26f73027a2b0abe86e5fef062ea177f}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!wipe@{wipe}}
+\index{wipe@{wipe}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{wipe}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable$>$ void {\bf ghost\-::\-Domain}$<$ Type\-Variable $>$\-::wipe (
+\begin{DoxyParamCaption}
+\item[{vector$<$ Type\-Variable $>$ $\ast$}]{variables}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Domain_ac26f73027a2b0abe86e5fef062ea177f}
+
+
+Inline function following the N\-V\-I idiom. Calling v\-\_\-wipe. 
+
 
 
 \subsection{Friends And Related Function Documentation}

@@ -22,38 +22,110 @@ Collaboration diagram for ghost\-:\-:Build\-Order\-Domain\-:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=206pt]{classghost_1_1BuildOrderDomain__coll__graph}
+\includegraphics[height=550pt]{classghost_1_1BuildOrderDomain__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classghost_1_1BuildOrderDomain_a5cfeef0e729cb67dd15023fb30027cb1}{Build\-Order\-Domain} (int, const vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$)
+\hyperlink{classghost_1_1BuildOrderDomain_ac09e92262d5c39c75dd0164fb938fabc}{Build\-Order\-Domain} (int, vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$)
 \item 
-void \hyperlink{classghost_1_1BuildOrderDomain_aa81e66fde8858d7497c1ab2343cda6ee}{add\-Action} ()
+void \hyperlink{classghost_1_1BuildOrderDomain_a7019f574fc926bca2c03c7910f23e165}{add} (const \hyperlink{classghost_1_1Action}{Action} \&)
+\item 
+void \hyperlink{classghost_1_1BuildOrderDomain_ab18f42adf6e2eddea3142ae8fdc8c951}{clear} (const \hyperlink{classghost_1_1Action}{Action} \&)
+\item 
+void \hyperlink{classghost_1_1BuildOrderDomain_ad258d2c26e415388b9e42a02ecbadb06}{move\-To} (int from, int to)
+\item 
+void \hyperlink{classghost_1_1BuildOrderDomain_a9747d6078687ebed2487fad646fd61a8}{add\-Action} (\hyperlink{classghost_1_1Action}{Action} \&, bool)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classghost_1_1BuildOrderDomain_a8f96e0ec1cedb76a38ca516ca2cdc88a}{v\-\_\-restart} (vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$variables)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$ \hyperlink{classghost_1_1BuildOrderDomain_a61f5d1cd92865b46aa330ee31a15ab1d}{order}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+ostream \& \hyperlink{classghost_1_1BuildOrderDomain_aadd2c6ae390e9b377250fd4b066ee7c8}{operator$<$$<$} (ostream \&, const \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain} \&)
 \end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
 
 \subsection{Constructor \& Destructor Documentation}
-\hypertarget{classghost_1_1BuildOrderDomain_a5cfeef0e729cb67dd15023fb30027cb1}{\index{ghost\-::\-Build\-Order\-Domain@{ghost\-::\-Build\-Order\-Domain}!Build\-Order\-Domain@{Build\-Order\-Domain}}
+\hypertarget{classghost_1_1BuildOrderDomain_ac09e92262d5c39c75dd0164fb938fabc}{\index{ghost\-::\-Build\-Order\-Domain@{ghost\-::\-Build\-Order\-Domain}!Build\-Order\-Domain@{Build\-Order\-Domain}}
 \index{Build\-Order\-Domain@{Build\-Order\-Domain}!ghost::BuildOrderDomain@{ghost\-::\-Build\-Order\-Domain}}
 \subsubsection[{Build\-Order\-Domain}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Build\-Order\-Domain\-::\-Build\-Order\-Domain (
 \begin{DoxyParamCaption}
 \item[{int}]{number\-Variables, }
-\item[{const vector$<$ {\bf Action} $>$ $\ast$}]{variables}
+\item[{vector$<$ {\bf Action} $>$ $\ast$}]{variables}
 \end{DoxyParamCaption}
-)}}\label{classghost_1_1BuildOrderDomain_a5cfeef0e729cb67dd15023fb30027cb1}
+)}}\label{classghost_1_1BuildOrderDomain_ac09e92262d5c39c75dd0164fb938fabc}
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classghost_1_1BuildOrderDomain_aa81e66fde8858d7497c1ab2343cda6ee}{\index{ghost\-::\-Build\-Order\-Domain@{ghost\-::\-Build\-Order\-Domain}!add\-Action@{add\-Action}}
+\hypertarget{classghost_1_1BuildOrderDomain_a7019f574fc926bca2c03c7910f23e165}{\index{ghost\-::\-Build\-Order\-Domain@{ghost\-::\-Build\-Order\-Domain}!add@{add}}
+\index{add@{add}!ghost::BuildOrderDomain@{ghost\-::\-Build\-Order\-Domain}}
+\subsubsection[{add}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Build\-Order\-Domain\-::add (
+\begin{DoxyParamCaption}
+\item[{const {\bf Action} \&}]{action}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1BuildOrderDomain_a7019f574fc926bca2c03c7910f23e165}
+\hypertarget{classghost_1_1BuildOrderDomain_a9747d6078687ebed2487fad646fd61a8}{\index{ghost\-::\-Build\-Order\-Domain@{ghost\-::\-Build\-Order\-Domain}!add\-Action@{add\-Action}}
 \index{add\-Action@{add\-Action}!ghost::BuildOrderDomain@{ghost\-::\-Build\-Order\-Domain}}
 \subsubsection[{add\-Action}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Build\-Order\-Domain\-::add\-Action (
 \begin{DoxyParamCaption}
-{}
+\item[{{\bf Action} \&}]{action, }
+\item[{bool}]{initialized}
 \end{DoxyParamCaption}
-)}}\label{classghost_1_1BuildOrderDomain_aa81e66fde8858d7497c1ab2343cda6ee}
+)}}\label{classghost_1_1BuildOrderDomain_a9747d6078687ebed2487fad646fd61a8}
+\hypertarget{classghost_1_1BuildOrderDomain_ab18f42adf6e2eddea3142ae8fdc8c951}{\index{ghost\-::\-Build\-Order\-Domain@{ghost\-::\-Build\-Order\-Domain}!clear@{clear}}
+\index{clear@{clear}!ghost::BuildOrderDomain@{ghost\-::\-Build\-Order\-Domain}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Build\-Order\-Domain\-::clear (
+\begin{DoxyParamCaption}
+\item[{const {\bf Action} \&}]{action}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1BuildOrderDomain_ab18f42adf6e2eddea3142ae8fdc8c951}
+\hypertarget{classghost_1_1BuildOrderDomain_ad258d2c26e415388b9e42a02ecbadb06}{\index{ghost\-::\-Build\-Order\-Domain@{ghost\-::\-Build\-Order\-Domain}!move\-To@{move\-To}}
+\index{move\-To@{move\-To}!ghost::BuildOrderDomain@{ghost\-::\-Build\-Order\-Domain}}
+\subsubsection[{move\-To}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Build\-Order\-Domain\-::move\-To (
+\begin{DoxyParamCaption}
+\item[{int}]{from, }
+\item[{int}]{to}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1BuildOrderDomain_ad258d2c26e415388b9e42a02ecbadb06}
+\hypertarget{classghost_1_1BuildOrderDomain_a8f96e0ec1cedb76a38ca516ca2cdc88a}{\index{ghost\-::\-Build\-Order\-Domain@{ghost\-::\-Build\-Order\-Domain}!v\-\_\-restart@{v\-\_\-restart}}
+\index{v\-\_\-restart@{v\-\_\-restart}!ghost::BuildOrderDomain@{ghost\-::\-Build\-Order\-Domain}}
+\subsubsection[{v\-\_\-restart}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Build\-Order\-Domain\-::v\-\_\-restart (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf Action} $>$ $\ast$}]{variables}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [virtual]}}}\label{classghost_1_1BuildOrderDomain_a8f96e0ec1cedb76a38ca516ca2cdc88a}
+Pure virtual function restarting the search process from a fresh and randomly generated configuration. 
+
+Implements \hyperlink{classghost_1_1Domain_aee3a6ae1de917ffb936c978633ac2663}{ghost\-::\-Domain$<$ Action $>$}.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classghost_1_1BuildOrderDomain_aadd2c6ae390e9b377250fd4b066ee7c8}{\index{ghost\-::\-Build\-Order\-Domain@{ghost\-::\-Build\-Order\-Domain}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ghost::BuildOrderDomain@{ghost\-::\-Build\-Order\-Domain}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}ostream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{ostream \&}]{os, }
+\item[{const {\bf Build\-Order\-Domain} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{classghost_1_1BuildOrderDomain_aadd2c6ae390e9b377250fd4b066ee7c8}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classghost_1_1BuildOrderDomain_a61f5d1cd92865b46aa330ee31a15ab1d}{\index{ghost\-::\-Build\-Order\-Domain@{ghost\-::\-Build\-Order\-Domain}!order@{order}}
+\index{order@{order}!ghost::BuildOrderDomain@{ghost\-::\-Build\-Order\-Domain}}
+\subsubsection[{order}]{\setlength{\rightskip}{0pt plus 5cm}vector$<${\bf Action}$>$$\ast$ ghost\-::\-Build\-Order\-Domain\-::order\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1BuildOrderDomain_a61f5d1cd92865b46aa330ee31a15ab1d}
 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
