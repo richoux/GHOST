@@ -113,4 +113,34 @@ namespace ghost
 
     return conflicts;
   }
+
+  vector<double> BuildOrderConstraint::v_simulateCost( Action &currentAction,
+						       const vector<int> &newPosition,
+						       vector< vector<double> > &vecVarSimCosts,
+						       shared_ptr< Objective< Action, BuildOrderDomain > > objective )
+  {
+    vector<double> simCosts( domain->getSize(), -1. );
+    int backup = currentAction.getValue();
+    
+    if( objective )
+      objective->resetHelper();
+    
+    for( const auto &pos : newPosition )
+    {
+      domain->clear( currentAction );
+      currentAction.setValue( pos );
+      domain->add( currentAction );
+      
+      simCosts[pos] = v_cost( vecVarSimCosts[pos] );
+      
+      if( objective )
+	objective->setHelper( currentAction, variables, domain );
+    }
+    
+    domain->clear( currentAction );
+    currentAction.setValue( backup );
+    domain->add( currentAction );
+    
+    return simCosts;
+  }
 }

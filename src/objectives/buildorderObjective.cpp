@@ -300,6 +300,31 @@ namespace ghost
     return vecId[ randomVar.getRandNum( vecId.size() ) ];
   }
 
+  int BuildOrderObjective::v_heuristicValue( const std::vector< double > &vecGlobalCosts, 
+					     double &bestEstimatedCost,
+					     int &bestValue ) const
+  {
+    int best = 0;
+    double bestHelp = numeric_limits<int>::max();
+
+    for( int i = 0; i < vecGlobalCosts.size(); ++i )
+    {
+      if( vecGlobalCosts[i] < bestEstimatedCost
+	  || ( vecGlobalCosts[i] == bestEstimatedCost
+	       && vecGlobalCosts[i] < numeric_limits<int>::max()
+	       && heuristicValueHelper.at( i ) < bestHelp ) )
+      {
+	bestEstimatedCost = vecGlobalCosts[i];
+	bestValue = i;
+	if( heuristicValueHelper.at( i ) < bestHelp )
+	  bestHelp = heuristicValueHelper.at( i );
+	best = i;
+      }
+    }
+    
+    return best;
+  }
+
   void BuildOrderObjective::v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain )
   {
     // int pos = b.getValue();

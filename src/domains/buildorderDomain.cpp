@@ -36,21 +36,21 @@ using namespace std;
 
 namespace ghost
 {
-  BuildOrderDomain::BuildOrderDomain( int numberVariables, const vector<Action> *variables )
-    : Domain( numberVariables, numberVariables, 0 ), order(*variables)
+  BuildOrderDomain::BuildOrderDomain( int numberVariables, vector<Action> *variables )
+    : Domain( numberVariables, numberVariables, 0 ), order(variables)
   { }
   
   void BuildOrderDomain::add( const Action &action )
   {
-    auto it = order.insert( begin(order) + action.getValue(), action );
-    for( auto iter = it + 1 ; iter != end(order) ; ++iter )
+    auto it = order->insert( begin(*order) + action.getValue(), action );
+    for( auto iter = it + 1 ; iter != end(*order) ; ++iter )
       iter->shiftValue();
   }
   
   void BuildOrderDomain::clear( const Action &action )
   {
-    auto it = order.erase( begin(order) + action.getValue() );
-    for( auto iter = it ; iter != end(order) ; ++iter )
+    auto it = order->erase( begin(*order) + action.getValue() );
+    for( auto iter = it ; iter != end(*order) ; ++iter )
       iter->setValue( iter->getValue() - 1 );
   }
 
@@ -59,17 +59,17 @@ namespace ghost
     if( from == to )
       return;
     
-    Action action = order.at( from );
+    Action action = order->at( from );
     action.setValue( to );
-    order.erase( begin(order) + from );
-    order.insert( begin(order) + to, action );
+    order->erase( begin(*order) + from );
+    order->insert( begin(*order) + to, action );
 
     if( from > to )
-      for( auto iter = begin(order) + to ; iter != begin(order) + from ; ++iter )
+      for( auto iter = begin(*order) + to ; iter != begin(*order) + from ; ++iter )
 	iter->shiftValue();
 
     else
-      for( auto iter = begin(order) + from ; iter != begin(order) + to ; ++iter )
+      for( auto iter = begin(*order) + from ; iter != begin(*order) + to ; ++iter )
 	iter->setValue( iter->getValue() - 1 );
   }
 
@@ -90,7 +90,7 @@ namespace ghost
     else
     {
       action.setValue( size );
-      order.push_back( action );
+      order->push_back( action );
     }
   }
 

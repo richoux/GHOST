@@ -51,6 +51,9 @@ namespace ghost
     double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const;
     
     int v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain );
+    int v_heuristicValue( const std::vector< double > &vecGlobalCosts, 
+			  double &bestEstimatedCost,
+			  int &bestValue ) const;
     void v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain );
 
     virtual double v_postprocessOptimization( vector< Action > *vecActions,

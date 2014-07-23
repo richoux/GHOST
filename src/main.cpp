@@ -136,13 +136,7 @@ int main(int argc, char **argv)
   // Define constraints
   vector< shared_ptr<BuildOrderConstraint> > vecConstraints { make_shared<BuildOrderConstraint>( &vec, &domain ) };
 
-  // for( const auto &v : vec )
-  //   cout << v << endl;
-
   Solver<Action, BuildOrderDomain, BuildOrderConstraint> solver(&vec, &domain, vecConstraints, objective );
-
-  // for( const auto &v : vec )
-  //   cout << v << endl;
 
   solver.solve( 20 );    
 }

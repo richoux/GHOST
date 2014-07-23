@@ -253,6 +253,9 @@ namespace ghost
 	  {
 	    draw.clear();
 	    bestEstimatedCost = vecGlobalCosts[i];
+
+	    // WARNING! This line implies we start our domain by the value -1
+	    // which is not necessary the case. TOFIX
 	    bestValue = i - 1;
 	    if( heuristicValueHelper.at( i ) < bestHelp )
 	      bestHelp = heuristicValueHelper.at( i );
@@ -265,6 +268,9 @@ namespace ghost
 	int i = draw[ const_cast<Objective*>(this)->randomVar.getRandNum( draw.size() ) ];
 	  
 	bestEstimatedCost = vecGlobalCosts[i];
+	
+	// WARNING! This line implies we start our domain by the value -1
+	// which is not necessary the case. TOFIX
 	bestValue = i - 1;
 	if( heuristicValueHelper.at( i ) < bestHelp )
 	  bestHelp = heuristicValueHelper.at( i );

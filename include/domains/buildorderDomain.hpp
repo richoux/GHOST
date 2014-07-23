@@ -38,9 +38,7 @@ namespace ghost
   class BuildOrderDomain : public Domain<Action>
   {
   public:
-    BuildOrderDomain( int, const vector<Action>* );
-
-    inline vector<Action> getOrder() const { return order; }
+    BuildOrderDomain( int, vector<Action>* );
 
     void add( const Action& );
     void clear( const Action& );
@@ -53,6 +51,6 @@ namespace ghost
   private:
     void v_restart( vector<Action> *variables );
 
-    vector<Action> order;
+    vector<Action> *order;
   };
 }

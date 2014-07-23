@@ -202,13 +202,12 @@ namespace ghost
 	  
 	  if( globalCost == numeric_limits<int>::max() )
 	  {
+	    domain->restart( vecVariables );
 	    currentCost = 0.;
 
 	    for( const auto &c : vecConstraints )
 	      currentCost += c->cost( variableCost );
 
-	    // cout << "currentCost(" << iterations << "): " << currentCost << endl;
-	    
 	    if( currentCost < globalCost )
 	      globalCost = currentCost;
 	    else
@@ -305,6 +304,9 @@ namespace ghost
 		      bind( less<double>(), placeholders::_1, 0. ), 
 		      numeric_limits<int>::max() );
 
+	  // for( int i = 0 ; i < vecGlobalCosts.size() ; ++i )
+	  //   cout << "vecGC[" << i << "]: " << vecGlobalCosts[i] << endl;
+	  
 	  // look for the first smallest cost, according to objective heuristic
 	  int b = objective->heuristicValue( vecGlobalCosts, bestEstimatedCost, bestValue );
 	  bestSimCost = vecVarSimCosts[ b ];
@@ -356,23 +358,17 @@ namespace ghost
 	     || ( objOriginalNull && elapsedTime.count() < timeout * loops ) );
 
       domain->wipe( vecVariables );
-      // for( const auto &b : *vecVariables )
-      // 	domain->clear( b );
 
       for( int i = 0; i < vecVariables->size(); ++i )
 	vecVariables->at(i).setValue( bestSolution[i] );
 
       domain->rebuild( vecVariables );
-      // for( const auto &b : *vecVariables )
-      // 	domain->add( b );
 
       beforePostProc = bestCost;
       
       if( bestGlobalCost == 0 )
 	timerPostProcessOpt = objective->postprocessOptimization( vecVariables, domain, bestCost );
     
-      cout << "Domains:" << *domain << endl;
-
       if( objOriginalNull )
 	cout << "SATISFACTION run: try to find a sound wall only!" << endl;
       else
