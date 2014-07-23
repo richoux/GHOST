@@ -72,7 +72,7 @@ namespace ghost
     /*!
      * \param name A string to give the Objective object a specific name.
      */
-    Objective( const string &name ) : name(name) { }
+    Objective( const string &name, bool permut = false ) : name(name), permutation(permut) { }
 
     //! Inline function following the NVI idiom. Calling v_cost.
     //! \sa v_cost
@@ -132,6 +132,10 @@ namespace ghost
     {
       std::fill( heuristicValueHelper.begin(), heuristicValueHelper.end(), numeric_limits<int>::max() );
     }
+
+    //! Inline function returning permutation.
+    //! \sa permutation
+    inline bool isPermutation() { return permutation; }
 
   protected:
     //! Pure virtual function to compute the value of the objective function on the current configuration.
@@ -284,6 +288,7 @@ namespace ghost
     Random randomVar;				//!< The random generator used by the function heuristicValue.
     string name;				//!< A string for the name of the objective object.
     vector<double> heuristicValueHelper;	//!< The vector of double values implementing the value heuristic for each possible value of a given variable.
+    bool   permutation;				//!< Boolean telling is the problem is a permutation problem or not.
   };
 
   //! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 

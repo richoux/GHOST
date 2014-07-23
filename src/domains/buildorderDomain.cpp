@@ -42,16 +42,16 @@ namespace ghost
   
   void BuildOrderDomain::add( const Action &action )
   {
-    auto it = order->insert( begin(*order) + action.getValue(), action );
-    for( auto iter = it + 1 ; iter != end(*order) ; ++iter )
-      iter->shiftValue();
+    auto it = begin(*order) + action.getValue();
+    for_each( it, end(*order), [](Action &a){a.shiftValue();} );
+    order->insert( it, action );
   }
   
   void BuildOrderDomain::clear( const Action &action )
   {
-    auto it = order->erase( begin(*order) + action.getValue() );
-    for( auto iter = it ; iter != end(*order) ; ++iter )
-      iter->setValue( iter->getValue() - 1 );
+    auto it = begin(*order) + action.getValue();
+    for_each( it+1, end(*order), [](Action &a){a.unshiftValue();} );
+    order->erase( it );
   }
 
   void BuildOrderDomain::moveTo( int from, int to )
@@ -65,12 +65,10 @@ namespace ghost
     order->insert( begin(*order) + to, action );
 
     if( from > to )
-      for( auto iter = begin(*order) + to ; iter != begin(*order) + from ; ++iter )
-	iter->shiftValue();
+      for_each( begin(*order) + to, begin(*order) + from, [](Action &a){a.shiftValue();} );
 
     else
-      for( auto iter = begin(*order) + from ; iter != begin(*order) + to ; ++iter )
-	iter->setValue( iter->getValue() - 1 );
+      for_each( begin(*order) + from, begin(*order) + to, [](Action &a){a.unshiftValue();} );
   }
 
   void BuildOrderDomain::addAction( Action &action, bool initialized )
@@ -104,7 +102,11 @@ namespace ghost
       v.setValue( iter++ );
   }
 
-  // friend ostream& operator<<( ostream &os, const BuildOrderDomain &b )
-  // {
-  // }
+  ostream& operator<<( ostream &os, const BuildOrderDomain &b )
+  {
+    os << endl;
+    for( const auto &o : *(b.order) )
+      os << o.getFullName() << "(" << o.getId() << ")" << " at " << o.getValue() << endl;
+    return os;
+  }
 }

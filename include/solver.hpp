@@ -215,6 +215,7 @@ namespace ghost
 	      domain->restart( vecVariables );
 	      continue;
 	    }
+	    // cout << "ORIGIN" << endl << *domain << endl ;
 	  }
 
 	  // make sure there is at least one untabu variable
@@ -331,7 +332,17 @@ namespace ghost
 	    }
 	    
 	    variableCost = bestSimCost;
-	    move( oldVariable, bestValue );
+
+	    if( objective->isPermutation() )
+	    {
+	      permut( oldVariable, bestValue );
+	    }
+	    else
+	    {
+	      // cout << "BEFORE MOVE (" << oldVariable->getFullName() << " : " << oldVariable->getValue() << " to " << bestValue << ")" << endl << *domain << endl;
+	      move( oldVariable, bestValue );
+	      // cout << "AFTER MOVE (" << oldVariable->getFullName() << " : " << oldVariable->getValue() << ")" << endl << *domain << endl;
+	    }
 	  }
 	  else // local minima
 	    tabuList[ worstVariableId ] = TABU;
@@ -368,7 +379,9 @@ namespace ghost
       
       if( bestGlobalCost == 0 )
 	timerPostProcessOpt = objective->postprocessOptimization( vecVariables, domain, bestCost );
-    
+
+      cout << "Domains:" << *domain << endl;
+      
       if( objOriginalNull )
 	cout << "SATISFACTION run: try to find a sound wall only!" << endl;
       else
@@ -399,7 +412,7 @@ namespace ghost
       }
       
       if( timerPostProcessOpt != 0 )
-	cout << "Post-processing time: " << timerPostProcessOpt << endl; 
+	cout << "Post-processing time: " << timerPostProcessOpt / 1000 << endl; 
 
 // #ifndef NDEBUG
 //       cout << endl << "Elapsed time to simulate cost: " << timeSimCost.count() / 1000 << endl
@@ -441,6 +454,37 @@ namespace ghost
       domain->clear( *building );
       building->setValue( newValue );
       domain->add( *building );
+    }
+
+    //! Solver's function to make a permutation move, ie, to assign a given
+    //! variable to a new position
+    inline void permut( TypeVariable *building, int newValue )
+    {
+      int backup = building->getValue();
+
+      if( backup == newValue )
+	return;
+      
+      if( backup > newValue )
+      {
+	for( int i = backup ; i > newValue ; --i )
+	{
+	  std::swap( vecVariables->at(i-1), vecVariables->at(i) );
+	  vecVariables->at(i).shiftValue();
+	}
+
+	vecVariables->at(newValue).setValue( newValue );	
+      }
+      else
+      {
+	for( int i = backup ; i < newValue ; ++i )
+	{
+	  std::swap( vecVariables->at(i), vecVariables->at(i+1) );
+	  vecVariables->at(i).unshiftValue();
+	}
+
+	vecVariables->at(newValue).setValue( newValue );	
+      }
     }
 
     vector< TypeVariable >				*vecVariables;	//!< A pointer to the vector of variable objects of the CSP/COP.

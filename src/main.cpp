@@ -56,55 +56,55 @@ int main(int argc, char **argv)
 {
   // Wall-in
 
-  //   vector< pair<int, int> > unbuildables 
-  //   { 
-  //     make_pair(7, 12), 
-  //       make_pair(7, 13), 
-  //       make_pair(7, 14), 
-  //       make_pair(7, 15), 
-  //       make_pair(8, 10), 
-  //       make_pair(8, 11), 
-  //       make_pair(8, 12), 
-  //       make_pair(8, 13), 
-  //       make_pair(8, 14), 
-  //       make_pair(8, 15), 
-  //       make_pair(9, 10), 
-  //       make_pair(9, 11), 
-  //       make_pair(9, 12), 
-  //       make_pair(9, 13), 
-  //       make_pair(9, 14), 
-  //       make_pair(9, 15), 
-  //       make_pair(10, 8), 
-  //       make_pair(10, 9), 
-  //       make_pair(10, 10), 
-  //       make_pair(10, 11), 
-  //       make_pair(10, 12), 
-  //       make_pair(10, 13), 
-  //       make_pair(10, 14), 
-  //       make_pair(10, 15), 
-  //       make_pair(11, 8), 
-  //       make_pair(11, 9), 
-  //       make_pair(11, 10), 
-  //       make_pair(11, 11), 
-  //       make_pair(11, 12), 
-  //       make_pair(11, 13), 
-  //       make_pair(11, 14), 
-  //       make_pair(11, 15) 
-  //       };
+  // vector< pair<int, int> > unbuildables 
+  // { 
+  //   make_pair(7, 12), 
+  //     make_pair(7, 13), 
+  //     make_pair(7, 14), 
+  //     make_pair(7, 15), 
+  //     make_pair(8, 10), 
+  //     make_pair(8, 11), 
+  //     make_pair(8, 12), 
+  //     make_pair(8, 13), 
+  //     make_pair(8, 14), 
+  //     make_pair(8, 15), 
+  //     make_pair(9, 10), 
+  //     make_pair(9, 11), 
+  //     make_pair(9, 12), 
+  //     make_pair(9, 13), 
+  //     make_pair(9, 14), 
+  //     make_pair(9, 15), 
+  //     make_pair(10, 8), 
+  //     make_pair(10, 9), 
+  //     make_pair(10, 10), 
+  //     make_pair(10, 11), 
+  //     make_pair(10, 12), 
+  //     make_pair(10, 13), 
+  //     make_pair(10, 14), 
+  //     make_pair(10, 15), 
+  //     make_pair(11, 8), 
+  //     make_pair(11, 9), 
+  //     make_pair(11, 10), 
+  //     make_pair(11, 11), 
+  //     make_pair(11, 12), 
+  //     make_pair(11, 13), 
+  //     make_pair(11, 14), 
+  //     make_pair(11, 15) 
+  //     };
   
-  //   // Define variables
-  //   vector< Building > vec = makeTerranBuildings();
+  // // Define variables
+  // vector< Building > vec = makeTerranBuildings();
 
-  //   // Define domain
-  //   WallinDomain domain( 16, 12, unbuildables, &vec, 11, 7, 6, 15 );
+  // // Define domain
+  // WallinDomain domain( 16, 12, unbuildables, &vec, 11, 7, 6, 15 );
 
-  //   // Define constraints
-  //   vector< shared_ptr<WallinConstraint> > vecConstraints = makeTerranConstraints( &vec, &domain );
+  // // Define constraints
+  // vector< shared_ptr<WallinConstraint> > vecConstraints = makeTerranConstraints( &vec, &domain );
 
-  //   // Define objective
-  //   shared_ptr<WallinObjective> objective = make_shared<GapObj>();
+  // // Define objective
+  // shared_ptr<WallinObjective> objective = make_shared<GapObj>();
   
-  //   Solver<Building, WallinDomain, WallinConstraint> solver(&vec, &domain, vecConstraints, objective );
+  // Solver<Building, WallinDomain, WallinConstraint> solver(&vec, &domain, vecConstraints, objective );
 
   // #ifndef NDEBUG
   //   cout << boolalpha << "Building movable: " << is_nothrow_move_constructible<Building>::value << endl;
@@ -132,11 +132,15 @@ int main(int argc, char **argv)
 
   // Define domain
   BuildOrderDomain domain( vec.size(), &vec );
-
+  
   // Define constraints
   vector< shared_ptr<BuildOrderConstraint> > vecConstraints { make_shared<BuildOrderConstraint>( &vec, &domain ) };
 
   Solver<Action, BuildOrderDomain, BuildOrderConstraint> solver(&vec, &domain, vecConstraints, objective );
 
+
+
+  //////////////
+  // Solver call
   solver.solve( 20 );    
 }

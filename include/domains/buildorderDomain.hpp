@@ -46,7 +46,7 @@ namespace ghost
     void moveTo( int from, int to );
     void addAction( Action &, bool );
     
-    // friend ostream& operator<<( ostream&, const BuildOrderDomain& );
+    friend ostream& operator<<( ostream&, const BuildOrderDomain& );
 
   private:
     void v_restart( vector<Action> *variables );

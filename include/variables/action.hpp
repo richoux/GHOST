@@ -77,6 +77,10 @@ namespace ghost
       default: return "Unknown";
       }
     }
+
+    inline void	swapValue( Action &other ) { std::swap( value, other.value ); }
+
+    inline bool operator==( const Action & other ) { return id == other.id; }
     
     friend ostream& operator<<( ostream&, const Action& );
 

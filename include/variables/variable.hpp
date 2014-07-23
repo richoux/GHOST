@@ -100,6 +100,10 @@ namespace ghost
     //! In this class, shiftValue is implemented to increment the value (++value).
     inline void		shiftValue()					{ ++value; }
 
+    //! Inline function to unshift the object value.
+    //! In this class, unshiftValue is implemented to decrement the value (--value).
+    inline void		unshiftValue()					{ --value; }
+
     //! Inline function to swap the value of two objects.
     /*! 
      * In this class, swapValue calls std::swap between this->value and other.value.

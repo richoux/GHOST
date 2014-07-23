@@ -124,22 +124,36 @@ namespace ghost
     
     if( objective )
       objective->resetHelper();
-    
+
     for( const auto &pos : newPosition )
     {
-      domain->clear( currentAction );
-      currentAction.setValue( pos );
-      domain->add( currentAction );
-      
+      if( pos == 0 )
+      {
+	for( int i = backup ; i > 0 ; --i )
+	{
+	  std::swap( variables->at(i-1), variables->at(i) );
+	  variables->at(i).shiftValue();
+	}
+	variables->at(0).setValue( 0 );	
+      }
+      else
+      {
+	std::swap( variables->at(pos-1), variables->at(pos) );
+	variables->at(pos-1).swapValue( variables->at(pos) );
+      }
+
       simCosts[pos] = v_cost( vecVarSimCosts[pos] );
       
       if( objective )
 	objective->setHelper( currentAction, variables, domain );
     }
-    
-    domain->clear( currentAction );
-    currentAction.setValue( backup );
-    domain->add( currentAction );
+
+    for( int i = variables->size() - 1 ; i > backup ; --i )
+    {
+      std::swap( variables->at(i-1), variables->at(i) );
+      variables->at(i).shiftValue();
+    }
+    variables->at(backup).setValue( backup );	
     
     return simCosts;
   }

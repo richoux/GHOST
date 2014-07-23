@@ -46,7 +46,7 @@ namespace ghost
   /* BuildOrderObjective */
   /***********************/
   BuildOrderObjective::BuildOrderObjective( const string &name )
-    : Objective<Action, BuildOrderDomain>( name ),
+    : Objective<Action, BuildOrderDomain>( name, true ),
     currentState( State() ),
     // goals( vector<Goal>() ),
     goals( map<string, pair<int, int> >() ),
@@ -56,7 +56,7 @@ namespace ghost
   BuildOrderObjective::BuildOrderObjective( const string &name,
 					    const vector< pair<string, int> > &input,
 					    vector<Action> &variables )
-    : Objective<Action, BuildOrderDomain>( name ),
+    : Objective<Action, BuildOrderDomain>( name, true ),
     currentState( State() ),
     // goals( vector<Goal>() ),
     goals( map<string, pair<int, int> >() ),
