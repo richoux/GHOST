@@ -106,7 +106,7 @@ namespace ghost
     inline double postprocessSatisfaction( vector< TypeVariable > *vecVariables,
 					   TypeDomain *domain,
 					   double &bestCost,
-					   vector<int> &bestSolution)
+					   vector< TypeVariable > &bestSolution)
     { return v_postprocessSatisfaction(vecVariables, domain, bestCost, bestSolution); }
 
     //! Inline function following the NVI idiom. Calling v_postprocessOptimization.
@@ -182,14 +182,14 @@ namespace ghost
      * \param vecVariables A constant pointer to the vector of variable objects of the CSP/COP.
      * \param domain A constant pointer to the domain object of the CSP/COP.
      * \param bestCost A reference the double representing the best global cost found by the solver so far.
-     * \param solution A reference to the vector of variable values of the solution found by the solver.
+     * \param solution A reference to the vector of variables of the solution found by the solver.
      * \return The function runtime in milliseconds.
      * \sa postprocessSatisfaction
      */
     virtual double v_postprocessSatisfaction( vector< TypeVariable > *vecVariables,
 					      TypeDomain *domain,
 					      double &bestCost,
-					      vector<int> &solution ) const
+					      vector< TypeVariable > &solution ) const
     {
       bestCost = 0.;
       return 0.;

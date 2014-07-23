@@ -328,21 +328,17 @@ namespace ghost
 	      // cout << "Coucou !" << endl;
 	      bestGlobalCost = globalCost;
 	      for( int i = 0; i < vecVariables->size(); ++i )
-		bestSolution[i] = vecVariables->at(i).getValue();
+		bestSolution[i] = vecVariables->at(i);
 	    }
 	    
 	    variableCost = bestSimCost;
 
+	    // cout << "globalCost=" << globalCost << endl;
+	    
 	    if( objective->isPermutation() )
-	    {
 	      permut( oldVariable, bestValue );
-	    }
 	    else
-	    {
-	      // cout << "BEFORE MOVE (" << oldVariable->getFullName() << " : " << oldVariable->getValue() << " to " << bestValue << ")" << endl << *domain << endl;
 	      move( oldVariable, bestValue );
-	      // cout << "AFTER MOVE (" << oldVariable->getFullName() << " : " << oldVariable->getValue() << ")" << endl << *domain << endl;
-	    }
 	  }
 	  else // local minima
 	    tabuList[ worstVariableId ] = TABU;
@@ -358,11 +354,12 @@ namespace ghost
 	
 	// remove useless buildings
 	if( globalCost == 0 )
+	{
 	  objective->postprocessSatisfaction( vecVariables, domain, bestCost, bestSolution );
-	
+	  cout << "Global=0" << *domain << endl;
+	}
 	// cout << "bestCost: " << bestCost << endl;
 
-	domain->restart( vecVariables );
 	elapsedTime = chrono::high_resolution_clock::now() - start;
       }
       while( ( ( !objOriginalNull || loops == 0 )  && ( elapsedTime.count() < OPT_TIME ) )
@@ -370,8 +367,14 @@ namespace ghost
 
       domain->wipe( vecVariables );
 
-      for( int i = 0; i < vecVariables->size(); ++i )
-	vecVariables->at(i).setValue( bestSolution[i] );
+      cout << "BEFORE BEST" << *domain << endl;
+
+      // for( auto b : bestSolution )
+      // 	cout << b << endl;
+
+      copy( begin(bestSolution), end(bestSolution), begin(*vecVariables) );
+      // for( int i = 0; i < vecVariables->size(); ++i )
+      // 	vecVariables->at(i) = bestSolution[i];
 
       domain->rebuild( vecVariables );
 
@@ -497,6 +500,6 @@ namespace ghost
     vector<int>					tabuList;		//!< The tabu list, frozing each used variable for TABU iterations 
     Random					randomVar;		//!< The random generator used by the solver.
     double					bestCost;		//!< The (satisfaction or optimization) cost of the best solution.
-    vector<int>					bestSolution;		//!< The best solution found by the solver.
+    vector< TypeVariable >			bestSolution;		//!< The best solution found by the solver.
   };
 }

@@ -61,7 +61,7 @@ namespace ghost
   double WallinObjective::v_postprocessSatisfaction( vector< Building > *vecVariables,
 						     WallinDomain *domain,
 						     double &bestCost,
-						     vector<int> &bestSolution ) const 
+						     vector< Building > &bestSolution ) const 
   {
     chrono::time_point<chrono::high_resolution_clock> startPostprocess = chrono::high_resolution_clock::now(); 
 
@@ -134,7 +134,7 @@ namespace ghost
       sizeWall = currentSizeWall;
       bestCost = objectiveCost;
       for( int i = 0; i < vecVariables->size(); ++i )
-	bestSolution[i] = vecVariables->at(i).getValue();
+	bestSolution[i] = vecVariables->at(i);
     }
 
     return (chrono::high_resolution_clock::now() - startPostprocess).count();

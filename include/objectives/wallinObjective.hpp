@@ -51,7 +51,7 @@ namespace ghost
     virtual double v_postprocessSatisfaction( vector< Building > *vecVariables,
 					      WallinDomain *domain,
 					      double &bestCost,
-					      vector<int> &bestSolution ) const;
+					      vector< Building > &bestSolution ) const;
     
     virtual double v_postprocessOptimization( vector< Building > *vecBuildings,
 					      WallinDomain *domain,

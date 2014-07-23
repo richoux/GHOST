@@ -51,8 +51,8 @@ namespace ghost
       auto dep = it->getDependencies();
       if( !dep.empty() && !( dep.size() == 1 && dep.at(0).compare("Protoss_Nexus") == 0 ) )
 	for( const auto &d : dep )
-	  if( it != variables->begin()
-	      &&
+	  if( // it != variables->begin()
+	      // &&
 	      none_of( variables->begin(), it, [&](Action &a){return d.compare(a.getFullName()) == 0;} ) )
 	  {
 	    depConflict = true;
