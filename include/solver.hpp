@@ -141,11 +141,6 @@ namespace ghost
       chrono::duration<double,micro> timeSimCost(0);
       chrono::time_point<chrono::high_resolution_clock> startSimCost; 
 
-// #ifndef NDEBUG
-//       chrono::duration<double,micro> toverlap(0), tbuildable(0), tnogaps(0), tstt(0);
-//       chrono::time_point<chrono::high_resolution_clock> soverlap, sbuildable, snogaps, sstt; 
-// #endif
-
       // double timerPostProcessSat = 0;
       double timerPostProcessOpt = 0;
       
@@ -215,7 +210,6 @@ namespace ghost
 	      domain->restart( vecVariables );
 	      continue;
 	    }
-	    // cout << "ORIGIN" << endl << *domain << endl ;
 	  }
 
 	  // make sure there is at least one untabu variable
@@ -267,27 +261,9 @@ namespace ghost
 	  // variable simulated costs
 	  fill( bestSimCost.begin(), bestSimCost.end(), 0. );
 
-// #ifndef NDEBUG
-// 	  soverlap = chrono::high_resolution_clock::now();
-// 	  vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
-// 	  toverlap += chrono::high_resolution_clock::now() - soverlap;
-
-// 	  sbuildable = chrono::high_resolution_clock::now();
-// 	  vecConstraintsCosts[1] = vecConstraints[1]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
-// 	  tbuildable += chrono::high_resolution_clock::now() - sbuildable;
-
-// 	  snogaps = chrono::high_resolution_clock::now();
-// 	  vecConstraintsCosts[2] = vecConstraints[2]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
-// 	  tnogaps += chrono::high_resolution_clock::now() - snogaps;
-
-// 	  sstt = chrono::high_resolution_clock::now();
-// 	  vecConstraintsCosts[3] = vecConstraints[3]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
-// 	  tstt += chrono::high_resolution_clock::now() - sstt;
-// #else
 	  vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts, objective );
 	  for( int i = 1; i < vecConstraints.size(); ++i )
 	    vecConstraintsCosts[i] = vecConstraints[i]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
-// #endif
 
 	  fill( vecGlobalCosts.begin(), vecGlobalCosts.end(), 0. );
 
@@ -305,9 +281,6 @@ namespace ghost
 		      bind( less<double>(), placeholders::_1, 0. ), 
 		      numeric_limits<int>::max() );
 
-	  // for( int i = 0 ; i < vecGlobalCosts.size() ; ++i )
-	  //   cout << "vecGC[" << i << "]: " << vecGlobalCosts[i] << endl;
-	  
 	  // look for the first smallest cost, according to objective heuristic
 	  int b = objective->heuristicValue( vecGlobalCosts, bestEstimatedCost, bestValue );
 	  bestSimCost = vecVarSimCosts[ b ];
@@ -316,29 +289,23 @@ namespace ghost
 
 	  currentCost = bestEstimatedCost;
 
-	  // cout << "bestEstimatedCost: " << bestEstimatedCost << endl
-	  //      << "globalCost: " << globalCost << endl;
-
 	  if( bestEstimatedCost < globalCost )
 	  {
 	    globalCost = bestEstimatedCost;
 
-	    if( globalCost < bestGlobalCost )
-	    {
-	      // cout << "Coucou !" << endl;
-	      bestGlobalCost = globalCost;
-	      for( int i = 0; i < vecVariables->size(); ++i )
-		bestSolution[i] = vecVariables->at(i);
-	    }
-	    
-	    variableCost = bestSimCost;
-
-	    // cout << "globalCost=" << globalCost << endl;
-	    
 	    if( objective->isPermutation() )
 	      permut( oldVariable, bestValue );
 	    else
 	      move( oldVariable, bestValue );
+
+	    if( globalCost < bestGlobalCost )
+	    {
+	      bestGlobalCost = globalCost;
+	      copy( begin(*vecVariables), end(*vecVariables), begin(bestSolution) );
+	      // cout << "COPY BEST" << *domain << endl;
+	    }
+	    
+	    variableCost = bestSimCost;
 	  }
 	  else // local minima
 	    tabuList[ worstVariableId ] = TABU;
@@ -347,18 +314,9 @@ namespace ghost
 	  elapsedTime = chrono::high_resolution_clock::now() - start;
 	} while( globalCost != 0. && elapsedTimeTour.count() < timeout && elapsedTime.count() < OPT_TIME );
 
-	// cout << "globalCost: " << globalCost << endl
-	//      << "timeout: " << timeout << endl
-	//      << "elapsed time tour: " << elapsedTimeTour.count() << endl
-	//      << "elapsed time: " << elapsedTime.count() << endl;
-	
 	// remove useless buildings
 	if( globalCost == 0 )
-	{
 	  objective->postprocessSatisfaction( vecVariables, domain, bestCost, bestSolution );
-	  cout << "Global=0" << *domain << endl;
-	}
-	// cout << "bestCost: " << bestCost << endl;
 
 	elapsedTime = chrono::high_resolution_clock::now() - start;
       }
@@ -367,14 +325,9 @@ namespace ghost
 
       domain->wipe( vecVariables );
 
-      cout << "BEFORE BEST" << *domain << endl;
-
-      // for( auto b : bestSolution )
-      // 	cout << b << endl;
+      // cout << "BEFORE BEST" << *domain << endl;
 
       copy( begin(bestSolution), end(bestSolution), begin(*vecVariables) );
-      // for( int i = 0; i < vecVariables->size(); ++i )
-      // 	vecVariables->at(i) = bestSolution[i];
 
       domain->rebuild( vecVariables );
 
@@ -416,32 +369,6 @@ namespace ghost
       
       if( timerPostProcessOpt != 0 )
 	cout << "Post-processing time: " << timerPostProcessOpt / 1000 << endl; 
-
-// #ifndef NDEBUG
-//       cout << endl << "Elapsed time to simulate cost: " << timeSimCost.count() / 1000 << endl
-// 	   << "Overlap: " << toverlap.count() / 1000 << endl
-// 	   << "Buildable: " << tbuildable.count() / 1000 << endl
-// 	   << "NoGaps: " << tnogaps.count() / 1000 << endl
-// 	   << "STT: " << tstt.count() / 1000 << endl;
-
-//       // print cost for each constraint
-//       for( const auto &c : vecConstraints )
-//       {
-// 	fill( varSimCost.begin(), varSimCost.end(), 0. );
-// 	cout << "Cost of " << typeid(*c).name() << ": " << c->cost( varSimCost ) << " [";
-
-// 	for( const auto &v : varSimCost )
-// 	  cout << " " << v;
-
-// 	cout << " ]" << endl;
-//       }      
-
-//       cout << endl << "Buildings:" << endl;
-//       for( const auto &v : *vecVariables )
-// 	cout << v << endl;
-      
-//       cout << endl;
-// #endif
 
       if( objOriginalNull )
 	return bestGlobalCost;

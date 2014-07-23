@@ -66,6 +66,13 @@ namespace ghost
       makeVecVariables( i, variables, goals );
   }
 
+  void BuildOrderObjective::printBO() const
+  {
+    for( const auto &b : bo )
+      cout << b.fullName << ":" << b.completedTime << endl;
+    cout << endl;
+  }
+  
   double BuildOrderObjective::v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const
   {
     return v_cost( vecVariables, domain, false );
@@ -74,20 +81,19 @@ namespace ghost
   double BuildOrderObjective::v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain, bool optimization ) const
   {
     currentState.reset();
-    int seconds = 0;
     auto nextAction = vecVariables->begin();
     string creator = nextAction->getCreator();
     
     while( nextAction != vecVariables->end() && !currentState.busy.empty() )
     {
-      ++seconds;
-      
+      ++currentState.seconds;
+
       // update mineral / gas stocks
       currentState.stockMineral += currentState.mineralWorkers * 1.08; // 1.08 mineral per worker per second in average
       currentState.stockGas += currentState.gasWorkers * 1.68; // 1.68 gas per worker per second in average
 
       // update busy list
-      updateBusy( seconds );
+      updateBusy();
 
       // update inMove list
       updateInMove();
@@ -146,9 +152,13 @@ namespace ghost
 	    &&
 	    currentState.supplyUsed + nextAction->getCostSupply() <= currentState.supplyCapacity
 	    &&
-	    ( creator.empty() || currentState.resources[ creator ] > 0 )
-	    &&
-	    currentState.mineralWorkers + currentState.gasWorkers > 0 )
+	    ( creator.empty()
+	      ||
+	      currentState.resources[ creator ] > 0
+	      ||
+	      ( creator.compare("Protoss_Probe") == 0 && currentState.mineralWorkers + currentState.gasWorkers > 0 )
+	    )
+	  )
 	{
 	  currentState.stockMineral -= nextAction->getCostMineral();
 	  currentState.stockGas -= nextAction->getCostGas();
@@ -167,7 +177,7 @@ namespace ghost
 	  }
 	  else
 	    currentState.busy.emplace_back( creator, nextAction->getFullName(), nextAction->getSecondsRequired() );
-
+	  
 	  ++nextAction;
 	  if( nextAction != vecVariables->end() )
 	    creator = nextAction->getCreator();
@@ -175,10 +185,10 @@ namespace ghost
       }
     }
 
-    return static_cast<double>( seconds );
+    return static_cast<double>( currentState.seconds );
   }
 
-  void BuildOrderObjective::updateBusy( int seconds ) const
+  void BuildOrderObjective::updateBusy() const
   {
     for( auto &t : currentState.busy )
     {
@@ -226,7 +236,12 @@ namespace ghost
 	
 	if( t.goal.compare("Protoss_Probe") != 0 && t.goal.compare("Protoss_Pylon") != 0 )
 	{
-	  bo.emplace_back( t.goal, seconds );
+	  // cout << t.goal << " at " << currentState.seconds
+	  //      << ", m=" << currentState.stockMineral
+	  //      << ", g=" << currentState.stockGas
+	  //      << ", s=(" << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+	    
+	  bo.emplace_back( t.goal, currentState.seconds );
 	  if( goals.find( t.goal ) != goals.end() )
 	    ++goals.at( t.goal ).second;
 	}
@@ -335,6 +350,28 @@ namespace ghost
     // heuristicValueHelper.at( pos ) = domain->getSize() - pos;
 
     heuristicValueHelper.at( b.getValue() ) = randomVar.getRandNum( 1000 );
+  }
+
+  double BuildOrderObjective::v_postprocessSatisfaction( vector< Action > *vecVariables,
+							 BuildOrderDomain *domain,
+							 double &bestCost,
+							 vector< Action > &bestSolution) const
+  {
+    chrono::time_point<chrono::high_resolution_clock> startPostprocess = chrono::high_resolution_clock::now(); 
+    chrono::duration<double,micro> postprocesstimer(0);
+
+    double optiCost = v_cost( vecVariables, domain );
+
+    if( optiCost < bestCost )
+    {
+      bestCost = optiCost;
+      copy( begin(*vecVariables), end(*vecVariables), begin(bestSolution) );
+    }
+
+    // printBO();
+      
+    postprocesstimer = chrono::high_resolution_clock::now() - startPostprocess;
+    return postprocesstimer.count();
   }
 
 

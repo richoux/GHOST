@@ -47,6 +47,8 @@ namespace ghost
     BuildOrderObjective( const string &name );
     BuildOrderObjective( const string &name, const vector< pair<string, int> > &input, vector<Action> &variables );
 
+    void printBO() const;
+    
   protected:
     double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const;
     
@@ -60,6 +62,11 @@ namespace ghost
 					      BuildOrderDomain *domain,
 					      double &bestCost );
 
+    double v_postprocessSatisfaction( vector< Action > *vecVariables,
+				      BuildOrderDomain *domain,
+				      double &bestCost,
+				      vector< Action > &bestSolution) const;
+    
     struct Tuple
     {
       Tuple( string actor, string goal, int time, int waitTime = 0 )
@@ -187,7 +194,7 @@ namespace ghost
     
   private:
     double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain, bool optimization ) const;
-    void updateBusy( int seconds ) const;
+    void updateBusy() const;
     void updateInMove() const;
     bool makingPylons() const;
     void youMustConstructAdditionalPylons() const;
