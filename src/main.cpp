@@ -45,6 +45,7 @@
 #include "../include/constraints/buildorderConstraint.hpp"
 #include "../include/objectives/buildorderObjective.hpp"
 #include "../include/misc/actionFactory.hpp"
+// #include "../include/misc/raceActions.hpp"
 
 
 #include "../include/solver.hpp"
@@ -121,11 +122,14 @@ int main(int argc, char **argv)
   
   // BO
 
+  // RaceActions ra;
+  // cout << "Size " << ra.protoss.size() << endl;
+  
   // Define variables
   vector< Action > vec;
 
   // BO list
-  vector< pair<string, int> > input { make_pair<string, int>("Protoss_Zealot", 20), make_pair<string, int>("Protoss_Dragoon", 5), make_pair<string, int>("Protoss_Ground_Weapons_1", 1) };
+  vector< pair<string, int> > input { make_pair("Protoss_Zealot", 20), make_pair("Protoss_Dragoon", 5), make_pair("Protoss_Ground_Weapons_1", 1) };
   
   // Define objective
   shared_ptr<BuildOrderObjective> objective = make_shared<MakeSpanMaxProd>( input, vec );

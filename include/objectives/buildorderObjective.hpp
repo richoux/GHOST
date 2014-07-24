@@ -33,6 +33,7 @@
 #include "objective.hpp"
 #include "../variables/action.hpp"
 #include "../domains/buildorderDomain.hpp"
+// #include "../misc/raceActions.hpp"
 
 using namespace std;
 
@@ -90,13 +91,17 @@ namespace ghost
       	  supplyCapacity(8),
       	  numberBases(1),
       	  numberRefineries(0),
-      	  resources(map<string, int>()),
+	  numberPylons(0),
+      	  resources(),
+	  canBuild(),
       	  busy{Tuple("Protoss_Nexus", "Protoss_Probe", 20)},
       	  inMove{ Tuple("Protoss_Probe", "Mineral", 0, 2),
 	      Tuple("Protoss_Probe", "Mineral", 0, 2),
 	      Tuple("Protoss_Probe", "Mineral", 0, 2),
 	      Tuple("Protoss_Probe", "Mineral", 0, 2) }
-      { }
+      {
+	initCanBuild();
+      }
       
       State( int seconds,
 	     double stockMineral,
@@ -107,7 +112,9 @@ namespace ghost
 	     int supplyCapacity,
 	     int numberBases,
 	     int numberRefineries,
+	     int numberPylons,
 	     const map<string, int> &resources,
+	     const map<string, bool> &canBuild,
 	     const vector< Tuple > &busy,
 	     const vector< Tuple > &inMove )
 	: seconds(seconds),
@@ -119,7 +126,9 @@ namespace ghost
 	  supplyCapacity(supplyCapacity),
 	  numberBases(numberBases),
 	  numberRefineries(numberRefineries),
+	  numberPylons(numberPylons),
 	  resources(resources),
+	  canBuild(canBuild),
 	  busy(busy),
 	  inMove(inMove)
       { }
@@ -135,12 +144,25 @@ namespace ghost
       	supplyCapacity = 8;
       	numberBases = 1;
       	numberRefineries = 0;
+	numberPylons = 0;
       	resources.clear();
+	initCanBuild();
       	busy.clear();
       	busy.emplace_back( "Protoss_Nexus", "Protoss_Probe", 20 );
       	inMove.clear();
 	for( int i = 0 ; i < 4 ; ++i )
 	  inMove.emplace_back( "Protoss_Probe", "Mineral", 0, 2 );
+      }
+
+      void initCanBuild()
+      {
+	canBuild.clear();
+	canBuild["Protoss_Probe"] = true;
+	canBuild["Protoss_Nexus"] = true;
+	canBuild["Protoss_Pylon"] = true;
+	canBuild["Protoss_Gateway"] = true;
+	canBuild["Protoss_Assimilator"] = true;
+	canBuild["Protoss_Forge"] = true;
       }
       
       int	seconds;
@@ -152,7 +174,9 @@ namespace ghost
       int	supplyCapacity;
       int	numberBases;
       int	numberRefineries;
+      int	numberPylons;
       map<string, int> resources;
+      map<string, bool> canBuild;
       vector< Tuple > busy;
       vector< Tuple > inMove;      
     };
@@ -191,6 +215,7 @@ namespace ghost
     // mutable vector<Goal>	goals;
     mutable map< string, pair<int, int> > goals;
     mutable vector<BO>		bo;
+    // mutable RaceActions		raceActions;
     
   private:
     double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain, bool optimization ) const;
@@ -198,6 +223,8 @@ namespace ghost
     void updateInMove() const;
     bool makingPylons() const;
     void youMustConstructAdditionalPylons() const;
+    double mineralsIn( int seconds ) const;
+    double gasIn( int seconds ) const;    
   };
   
 
