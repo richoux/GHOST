@@ -62,10 +62,7 @@ namespace ghost
 		  if( fullName.compare("Protoss_Assimilator") == 0 )
 		    return Action( 40, 100, 0, 0, building, vector<string>(), "Protoss_Probe", Protoss, "pba", "Protoss_Assimilator" );
 		  else
-		  {
-		    cout << "WHY? " << fullName << endl;
 		    return Action();
-		  }
   }
 
   

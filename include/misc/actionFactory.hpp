@@ -26,6 +26,8 @@
 
 #pragma once
 
+#include <map>
+
 #include "../variables/action.hpp"
 
 namespace ghost
