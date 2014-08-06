@@ -287,12 +287,12 @@ namespace ghost
 
 
   /**********/
-  /* NoGaps */
+  /* NoHoles */
   /**********/  
-  NoGaps::NoGaps(const vector< Building > *variables, const WallinDomain *domain) 
+  NoHoles::NoHoles(const vector< Building > *variables, const WallinDomain *domain) 
     : WallinConstraint(variables, domain) { }
 
-  double NoGaps::v_cost( vector<double> &varCost ) const
+  double NoHoles::v_cost( vector<double> &varCost ) const
   {
     // cost = |buildings with one neighbor| - 1 + |buildings with no neighbors|
     double conflicts = 0.;
@@ -340,7 +340,7 @@ namespace ghost
   }
 
   // v2, less efficient with the gap objective
-  // double NoGaps::v_cost( vector<double> &varCost ) const
+  // double NoHoles::v_cost( vector<double> &varCost ) const
   // {
   //   // cost = |buildings with one neighbor| - 1 + |buildings with no neighbors|
   //   double conflicts = 0.;
@@ -380,7 +380,7 @@ namespace ghost
   //   return conflicts;    
   // }
 
-  double NoGaps::postprocess_simulateCost( Building &oldBuilding, const int newPosition, vector<double> &varSimCost )
+  double NoHoles::postprocess_simulateCost( Building &oldBuilding, const int newPosition, vector<double> &varSimCost )
   {
     int backup = oldBuilding.getValue();
 

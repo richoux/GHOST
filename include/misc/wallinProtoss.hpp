@@ -78,11 +78,11 @@ namespace ghost
   {
     overlap	 = make_shared<Overlap>( vec, domain );
     buildable	 = make_shared<Buildable>( vec, domain );
-    noGaps	 = make_shared<NoGaps>( vec, domain );
+    noHoles	 = make_shared<NoHoles>( vec, domain );
     specialTiles = make_shared<StartingTargetTiles>( vec, domain );
     pylons	 = make_shared<Pylons>( vec, domain );
     
-    vector< shared_ptr<Constraint> > vecConstraints {overlap, buildable, noGaps, specialTiles, pylons};
+    vector< shared_ptr<Constraint> > vecConstraints {overlap, buildable, noHoles, specialTiles, pylons};
     return vecConstraints;
   }
 }

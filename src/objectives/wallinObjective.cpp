@@ -67,7 +67,7 @@ namespace ghost
 
     bool change;
     double cost;
-    NoGaps ng( vecVariables, domain );
+    NoHoles nh( vecVariables, domain );
 
     // find all buildings accessible from the starting building and remove all others
     int nberCurrent = *( domain->buildingsAt( domain->getStartingTile() ).begin() );
@@ -114,7 +114,7 @@ namespace ghost
 	    cost = 0.;
 	    fill( varSimCost.begin(), varSimCost.end(), 0. );
 	      
-	    cost = ng.postprocess_simulateCost( b, -1, varSimCost );
+	    cost = nh.postprocess_simulateCost( b, -1, varSimCost );
 	      
 	    if( cost == 0. )
 	    {

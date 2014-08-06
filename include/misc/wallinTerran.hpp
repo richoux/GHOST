@@ -152,10 +152,10 @@ namespace ghost
   {
     shared_ptr<WallinConstraint> overlap	= make_shared<Overlap>( vec, domain );
     shared_ptr<WallinConstraint> buildable	= make_shared<Buildable>( vec, domain );
-    shared_ptr<WallinConstraint> noGaps		= make_shared<NoGaps>( vec, domain );
+    shared_ptr<WallinConstraint> noHoles	= make_shared<NoHoles>( vec, domain );
     shared_ptr<WallinConstraint> specialTiles	= make_shared<StartingTargetTiles>( vec, domain );
 
-    vector< shared_ptr<WallinConstraint> > vecConstraints {overlap, buildable, noGaps, specialTiles};
+    vector< shared_ptr<WallinConstraint> > vecConstraints {overlap, buildable, noHoles, specialTiles};
     return vecConstraints;
   }
 }

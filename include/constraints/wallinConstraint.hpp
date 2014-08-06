@@ -125,12 +125,12 @@ namespace ghost
 
   
   /**********/
-  /* NoGaps */
+  /* NoHoles */
   /**********/  
-  class NoGaps : public WallinConstraint
+  class NoHoles : public WallinConstraint
   {
   public:
-    NoGaps( const vector< Building >*, const WallinDomain* );
+    NoHoles( const vector< Building >*, const WallinDomain* );
 
     double postprocess_simulateCost( Building&, const int, vector<double>& );
     
