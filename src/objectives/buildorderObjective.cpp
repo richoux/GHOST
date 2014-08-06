@@ -81,6 +81,7 @@ namespace ghost
   double BuildOrderObjective::v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain, bool optimization ) const
   {
     currentState.reset();
+    bo.clear();
     auto nextAction = vecVariables->begin();
     string creator = nextAction->getCreator();
     
@@ -502,12 +503,14 @@ namespace ghost
     chrono::time_point<chrono::high_resolution_clock> startPostprocess = chrono::high_resolution_clock::now(); 
     chrono::duration<double,micro> postprocesstimer(0);
 
-    // double optiCost = v_cost( vecVariables, domain, true );
+    double optiCost = v_cost( vecVariables, domain, true );
 
-    // if( optiCost < bestCost )
-    // {
-    //   bestCost = optiCost;
-    // }
+    if( optiCost < bestCost )
+    {
+      bestCost = optiCost;
+    }
+
+    printBO();
 
     postprocesstimer = chrono::high_resolution_clock::now() - startPostprocess;
     return postprocesstimer.count();
