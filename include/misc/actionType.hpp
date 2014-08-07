@@ -32,7 +32,7 @@
 
 namespace ghost
 {
-  struct Actions
+  struct ActionType
   {
     static const map<string, Action> actionOf
     {  

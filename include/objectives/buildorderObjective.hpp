@@ -32,6 +32,7 @@
 
 #include "objective.hpp"
 #include "../variables/action.hpp"
+#include "../misc/actionType.hpp"
 #include "../domains/buildorderDomain.hpp"
 // #include "../misc/raceActions.hpp"
 
@@ -94,11 +95,13 @@ namespace ghost
 	  numberPylons(0),
       	  resources(),
 	  canBuild(),
-      	  busy{Tuple("Protoss_Nexus", "Protoss_Probe", 20)},
-      	  inMove{ Tuple("Protoss_Probe", "Mineral", 0, 2),
-	      Tuple("Protoss_Probe", "Mineral", 0, 2),
-	      Tuple("Protoss_Probe", "Mineral", 0, 2),
-	      Tuple("Protoss_Probe", "Mineral", 0, 2) }
+	  busy{},
+	  inMove{}
+      	  // busy{Tuple("Protoss_Nexus", "Protoss_Probe", 20)},
+      	  // inMove{ Tuple("Protoss_Probe", "Mineral", 0, 2),
+	  //     Tuple("Protoss_Probe", "Mineral", 0, 2),
+	  //     Tuple("Protoss_Probe", "Mineral", 0, 2),
+	  //     Tuple("Protoss_Probe", "Mineral", 0, 2) }
       {
 	initCanBuild();
       }
