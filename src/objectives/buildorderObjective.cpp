@@ -84,6 +84,9 @@ namespace ghost
     bo.clear();
     auto nextAction = vecVariables->begin();
     string creator = nextAction->getCreator();
+
+    int mineralsBooked = 0;
+    int gasBooked = 0;
     
     while( nextAction != vecVariables->end() || !currentState.busy.empty() )
     {
@@ -162,9 +165,9 @@ namespace ghost
 	// if the next action is building a building
 	if( nextAction->getType() == ActionType::building )
 	{
-	  if( currentState.stockMineral + mineralsIn(5) >= nextAction->getCostMineral()
+	  if( currentState.stockMineral >= nextAction->getCostMineral() + mineralsBooked - mineralsIn(5)
 	      &&
-	      currentState.stockGas + gasIn(5) >= nextAction->getCostGas()
+	      currentState.stockGas >= nextAction->getCostGas() + gasBooked - gasIn(5) 
 	      &&
 	      currentState.mineralWorkers + currentState.gasWorkers > 0
 	      &&
@@ -173,13 +176,8 @@ namespace ghost
 	      currentState.canBuild[ nextAction->getFullName() ]
 	    )
 	  {
-	    cout << "Start " << nextAction->getFullName() << " at " << currentState.seconds
-		 << ", m=" << currentState.stockMineral
-		 << ", g=" << currentState.stockGas
-		 << ", s=(" << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
-
-	    currentState.stockMineral -= nextAction->getCostMineral();
-	    currentState.stockGas -= nextAction->getCostGas();
+	    mineralsBooked += nextAction->getCostMineral();
+	    gasBooked += nextAction->getCostGas();
 	    
 	    currentState.inMove.emplace_back( creator, nextAction->getFullName(), nextAction->getSecondsRequired(), 5 );
 	    if( currentState.mineralWorkers > 0 )
@@ -195,9 +193,9 @@ namespace ghost
 	// otherwise, it is a unit/research/upgrade
 	else
 	{
-	  if( currentState.stockMineral >= nextAction->getCostMineral()
+	  if( currentState.stockMineral >= nextAction->getCostMineral() + mineralsBooked
 	      &&
-	      currentState.stockGas >= nextAction->getCostGas()
+	      currentState.stockGas >= nextAction->getCostGas() + gasBooked
 	      &&
 	      currentState.supplyUsed + nextAction->getCostSupply() <= currentState.supplyCapacity
 	      &&
@@ -214,7 +212,7 @@ namespace ghost
 	    currentState.supplyUsed += nextAction->getCostSupply();
 	    currentState.stockMineral -= nextAction->getCostMineral();
 	    currentState.stockGas -= nextAction->getCostGas();
-	    
+
 	    if( !creator.empty() && creator.compare("Protoss_Probe") != 0 )
 	      --currentState.resources[ creator ];
 	    
@@ -327,7 +325,15 @@ namespace ghost
 	      // warp building and return to mineral fields
 	      currentState.inMove.emplace_back( "Protoss_Probe", "Mineral", 0, 4 );
 
-	      // currentState.stockMineral -= raceActions.protoss[t.goal].getCostMineral();
+	      cout << "Start " << nextAction->getFullName() << " at " << currentState.seconds
+		   << ", m=" << currentState.stockMineral
+		   << ", g=" << currentState.stockGas
+		   << ", s=(" << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+	      
+	      currentState.stockMineral -= nextAction->getCostMineral();
+	      currentState.stockGas -= nextAction->getCostGas();
+
+	    // currentState.stockMineral -= raceActions.protoss[t.goal].getCostMineral();
 	      // currentState.stockGas -= raceActions.protoss[t.goal].getCostGas();
 	      
 	      // cout << "Start " << t.goal << " at " << currentState.seconds
@@ -361,28 +367,31 @@ namespace ghost
     double futurProduction = 0.;
     int workers = currentState.mineralWorkers;
 
-    for( int i = 1 ; i <= seconds ; ++i )
-    {
-      for( const auto &t : currentState.inMove )
-	if( t.actor.compare("Protoss_Probe") == 0
-	    &&
-	    t.goal.compare("Mineral") == 0
-	    &&
-	    t.waitTime - i == 0 )
-	{
-	  ++workers;
-	}
+    // rough estimation
+    futurProduction = workers * 1.08 * seconds;
+    
+    // for( int i = 1 ; i <= seconds ; ++i )
+    // {
+    //   for( const auto &t : currentState.inMove )
+    // 	if( t.actor.compare("Protoss_Probe") == 0
+    // 	    &&
+    // 	    t.goal.compare("Mineral") == 0
+    // 	    &&
+    // 	    t.waitTime - i == 0 )
+    // 	{
+    // 	  ++workers;
+    // 	}
 
-      for( const auto &t : currentState.busy )
-	if( t.goal.compare("Protoss_Probe") == 0
-	    &&
-	    t.time + 2 - i == 0 )
-	{
-	  ++workers;
-	}
+    //   for( const auto &t : currentState.busy )
+    // 	if( t.goal.compare("Protoss_Probe") == 0
+    // 	    &&
+    // 	    t.time + 2 - i == 0 )
+    // 	{
+    // 	  ++workers;
+    // 	}
       
-      futurProduction += workers * 1.08;
-    }
+    //   futurProduction += workers * 1.08;
+    // }
 
     return futurProduction;
   }
@@ -392,43 +401,74 @@ namespace ghost
     double futurProduction = 0.;
     int workers = currentState.gasWorkers;
 
-    for( int i = 1 ; i <= seconds ; ++i )
-    {
-      for( const auto &t : currentState.inMove )
-	if( t.actor.compare("Protoss_Probe") == 0
-	    &&
-	    t.goal.compare("Gas") == 0
-	    &&
-	    t.waitTime - i == 0 )
-	{
-	  ++workers;
-	}
+    // rough estimation
+    futurProduction = workers * 1.68 * seconds;
+
+    // for( int i = 1 ; i <= seconds ; ++i )
+    // {
+    //   for( const auto &t : currentState.inMove )
+    // 	if( t.actor.compare("Protoss_Probe") == 0
+    // 	    &&
+    // 	    t.goal.compare("Gas") == 0
+    // 	    &&
+    // 	    t.waitTime - i == 0 )
+    // 	{
+    // 	  ++workers;
+    // 	}
       
-      futurProduction += workers * 1.68;
-    }
+    //   futurProduction += workers * 1.68;
+    // }
 
     return futurProduction;
   }
 
   void BuildOrderObjective::youMustConstructAdditionalPylons() const
   {
-    int supplyConsumption = currentState.resources["Protoss_Nexus"] + 2*currentState.resources["Protoss_Gateway"];
-    if( supplyConsumption + currentState.supplyUsed >= currentState.supplyCapacity )
+    // build the first pylon ASAP
+    if( currentState.numberPylons == 0
+	&& currentState.stockMineral >= 100 - mineralsIn( 4 ) )
     {
-      int toBuild = ( (supplyConsumption + currentState.supplyUsed - currentState.supplyCapacity) / 8 ) + 1;
-      for( int i = 0 ; i < toBuild && i < currentState.mineralWorkers + currentState.gasWorkers ; ++i )
+      currentState.inMove.emplace_back( "Protoss_Probe", "Protoss_Pylon", 30, 5 );
+      
+      cout << "Start first Protoss_Pylon at " << currentState.seconds
+	   << ", m=" << currentState.stockMineral
+	   << ", g=" << currentState.stockGas
+	   << ", s=(" << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+      
+      if( currentState.mineralWorkers > 0 )
+	--currentState.mineralWorkers;
+      else
+	--currentState.gasWorkers;
+    }
+    // otherwise build other pylons when needed
+    else
+    {
+      int supplyConsumption = currentState.resources["Protoss_Nexus"] + 2*currentState.resources["Protoss_Gateway"];
+      if( supplyConsumption + currentState.supplyUsed >= currentState.supplyCapacity )
       {
-	currentState.inMove.emplace_back( "Protoss_Probe", "Protoss_Pylon", 30, 5 );
+	int toBuild = ( (supplyConsumption + currentState.supplyUsed - currentState.supplyCapacity) / 8 ) + 1;
 
-	cout << "Start Protoss_Pylon at " << currentState.seconds
-	     << ", m=" << currentState.stockMineral
-	     << ", g=" << currentState.stockGas
-	     << ", s=(" << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+	// Besur we have enough mineral to build 'toBuild pylons'
+	// if not, descrease toBuild till we can (eventually till toBuild == 0)
+	while( currentState.stockMineral < toBuild*100 - mineralsIn( 4 ) && toBuild > 0 )
+	{
+	  --toBuild;
+	}
 	
-	if( currentState.mineralWorkers > 0 )
-	  --currentState.mineralWorkers;
-	else
-	  --currentState.gasWorkers;
+	for( int i = 0 ; i < toBuild && i < currentState.mineralWorkers + currentState.gasWorkers ; ++i )
+	{
+	  currentState.inMove.emplace_back( "Protoss_Probe", "Protoss_Pylon", 30, 5 );
+	  
+	  cout << "Start Protoss_Pylon at " << currentState.seconds
+	       << ", m=" << currentState.stockMineral
+	       << ", g=" << currentState.stockGas
+	       << ", s=(" << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+	  
+	  if( currentState.mineralWorkers > 0 )
+	    --currentState.mineralWorkers;
+	  else
+	    --currentState.gasWorkers;
+	}
       }
     }
   }

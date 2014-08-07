@@ -68,16 +68,16 @@ namespace ghost
 				      double &bestCost,
 				      vector< Action > &bestSolution) const;
     
-    struct Tuple
-    {
-      Tuple( string actor, string goal, int time, int waitTime = 0 )
-	: actor(actor), goal(goal), time(time), waitTime(waitTime) { }
+    // struct Tuple
+    // {
+    //   Tuple( string actor, string goal, int time, int waitTime = 0 )
+    // 	: actor(actor), goal(goal), time(time), waitTime(waitTime) { }
       
-      string actor;
-      string goal;
-      int time;
-      int waitTime;
-    };
+    //   string actor;
+    //   string goal;
+    //   int time;
+    //   int waitTime;
+    // };
     
     struct State
     {
@@ -177,8 +177,8 @@ namespace ghost
       int	numberPylons;
       map<string, int> resources;
       map<string, bool> canBuild;
-      vector< Tuple > busy;
-      vector< Tuple > inMove;      
+      vector< Action > busy;
+      vector< std::pair<Action, int> > inMove;      
     };
 
     struct BO
