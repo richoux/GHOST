@@ -36,7 +36,7 @@
 
 #include "../../include/objectives/buildorderObjective.hpp"
 #include "../../include/variables/action.hpp"
-#include "../../include/misc/actionFactory.hpp"
+#include "../../include/misc/actionMap.hpp"
 
 using namespace std;
 
@@ -85,9 +85,6 @@ namespace ghost
     auto nextAction = vecVariables->begin();
     string creator = nextAction->getCreator();
 
-    int mineralsBooked = 0;
-    int gasBooked = 0;
-    
     while( nextAction != vecVariables->end() || !currentState.busy.empty() )
     {
       ++currentState.seconds;
@@ -108,14 +105,15 @@ namespace ghost
       if( nextAction != vecVariables->end() )
       {
 	// send workers to gas, if need and possible
-	int comingForGas = count_if( begin(currentState.inMove), end(currentState.inMove), [](Tuple &t){return t.goal.compare("Gas") == 0;} );
+	int comingForGas = count_if( begin(currentState.inMove), end(currentState.inMove), [](Tuple &t){return t.action.name.compare("Gas") == 0;} );
 	if( currentState.gasWorkers + comingForGas < currentState.numberRefineries * 3 )
 	{
 	  // if we have few workers mining, do not sent them to gas
 	  int toGas = min( 3, currentState.mineralWorkers - 3 );
+	  Tuple tuple_gas( actionOf["Protoss_Gas"], 2, false );
 	  for( int i = 0 ; i < toGas ; ++i )
 	  {
-	    currentState.inMove.emplace_back( "Protoss_Probe", "Gas", 0, 2 );
+	    currentState.inMove.push_back( tuple_gas );
 	    --currentState.mineralWorkers;
 	  }
 	}
@@ -136,11 +134,13 @@ namespace ghost
 	  currentState.stockMineral -= 50;
 	  ++currentState.supplyUsed;
 	  --currentState.resources["Protoss_Nexus"];
-	  currentState.busy.emplace_back( "Protoss_Nexus", "Protoss_Probe", 20 );
+	  currentState.busy.push_back( actionOf["Protoss_Probe"] );
 
 	  cout << "Start Protoss_Probe at " << currentState.seconds
 	       << ", m=" << currentState.stockMineral
 	       << ", g=" << currentState.stockGas
+	       << ", mb=" << currentState.mineralsBooked
+	       << ", gb=" << currentState.gasBooked
 	       << ", s=(" << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 	}
 
@@ -165,9 +165,9 @@ namespace ghost
 	// if the next action is building a building
 	if( nextAction->getType() == ActionType::building )
 	{
-	  if( currentState.stockMineral >= nextAction->getCostMineral() + mineralsBooked - mineralsIn(5)
+	  if( ( nextAction->getCostMineral() == 0 || currentState.stockMineral >= nextAction->getCostMineral() + currentState.mineralsBooked - mineralsIn(5) )
 	      &&
-	      currentState.stockGas >= nextAction->getCostGas() + gasBooked - gasIn(5) 
+	      ( nextAction->getCostGas() == 0 || currentState.stockGas >= nextAction->getCostGas() + currentState.gasBooked - gasIn(5) ) 
 	      &&
 	      currentState.mineralWorkers + currentState.gasWorkers > 0
 	      &&
@@ -176,10 +176,10 @@ namespace ghost
 	      currentState.canBuild[ nextAction->getFullName() ]
 	    )
 	  {
-	    mineralsBooked += nextAction->getCostMineral();
-	    gasBooked += nextAction->getCostGas();
+	    currentState.mineralsBooked += nextAction->getCostMineral();
+	    currentState.gasBooked += nextAction->getCostGas();
 	    
-	    currentState.inMove.emplace_back( creator, nextAction->getFullName(), nextAction->getSecondsRequired(), 5 );
+	    currentState.inMove.push_back( Tuple( nextAction->getData(), 5, false ) );
 	    if( currentState.mineralWorkers > 0 )
 	      --currentState.mineralWorkers;
 	    else
@@ -193,9 +193,9 @@ namespace ghost
 	// otherwise, it is a unit/research/upgrade
 	else
 	{
-	  if( currentState.stockMineral >= nextAction->getCostMineral() + mineralsBooked
+	  if( ( nextAction->getCostMineral() == 0 || currentState.stockMineral >= nextAction->getCostMineral() + currentState.mineralsBooked )
 	      &&
-	      currentState.stockGas >= nextAction->getCostGas() + gasBooked
+	      ( nextAction->getCostGas() == 0 || currentState.stockGas >= nextAction->getCostGas() + currentState.gasBooked )
 	      &&
 	      currentState.supplyUsed + nextAction->getCostSupply() <= currentState.supplyCapacity
 	      &&
@@ -207,6 +207,8 @@ namespace ghost
 	    cout << "Start " << nextAction->getFullName() << " at " << currentState.seconds
 		 << ", m=" << currentState.stockMineral
 		 << ", g=" << currentState.stockGas
+		 << ", mb=" << currentState.mineralsBooked
+		 << ", gb=" << currentState.gasBooked
 		 << ", s=(" << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 	    
 	    currentState.supplyUsed += nextAction->getCostSupply();
@@ -216,7 +218,7 @@ namespace ghost
 	    if( !creator.empty() && creator.compare("Protoss_Probe") != 0 )
 	      --currentState.resources[ creator ];
 	    
-	    currentState.busy.emplace_back( creator, nextAction->getFullName(), nextAction->getSecondsRequired() );
+	    currentState.busy.push_back( nextAction->getData() );
 	    
 	    ++nextAction;
 	    if( nextAction != vecVariables->end() )
@@ -232,48 +234,48 @@ namespace ghost
   {
     for( auto &t : currentState.busy )
     {
-      --t.time;
-      if( t.time == 0 )
+      int time = t.decreaseSeconds();
+      if( time == 0 )
       {
-	if( t.actor.compare("Protoss_Probe") != 0 )
-	  ++currentState.resources[ t.actor ];
+	if( t.creator.compare("Protoss_Probe") != 0 )
+	  ++currentState.resources[ t.creator ];
 	
-	if( t.goal.compare("Protoss_Probe") == 0 )
-	  currentState.inMove.emplace_back( "Protoss_Probe", "Mineral", 0, 2 );
+	if( t.name.compare("Protoss_Probe") == 0 )
+	  currentState.inMove.push_back( Tuple( actionOf["Protoss_Mineral"], 2, false ) );
 	else
 	{
-	  if( t.goal.compare("Protoss_Nexus") == 0 )
+	  if( t.name.compare("Protoss_Nexus") == 0 )
 	  {
 	    ++currentState.resources["Protoss_Nexus"];
 	    ++currentState.numberBases;
 	  }
 	  else
-	    if( t.goal.compare("Protoss_Gateway") == 0 )
+	    if( t.name.compare("Protoss_Gateway") == 0 )
 	    {
 	      ++currentState.resources["Protoss_Gateway"];
 	      currentState.canBuild["Protoss_Zealot"] = true;
 	      currentState.canBuild["Protoss_Cybernetics_Core"] = true;
 	    }
 	    else
-	      if( t.goal.compare("Protoss_Cybernetics_Core") == 0 )
+	      if( t.name.compare("Protoss_Cybernetics_Core") == 0 )
 	      {
 		++currentState.resources["Protoss_Cybernetics_Core"];
 		currentState.canBuild["Protoss_Dragoon"] = true;
 	      }
 	      else
-		if( t.goal.compare("Protoss_Forge") == 0 )
+		if( t.name.compare("Protoss_Forge") == 0 )
 		{
 		  ++currentState.resources["Protoss_Forge"];
 		  currentState.canBuild["Protoss_Ground_Weapons_1"] = true;
 		}
 		else
-		  if( t.goal.compare("Protoss_Pylon") == 0 )
+		  if( t.name.compare("Protoss_Pylon") == 0 )
 		  {
 		    currentState.supplyCapacity += 8;
 		    ++currentState.numberPylons;
 		  }
 		  else
-		    if( t.goal.compare("Protoss_Assimilator") == 0 )
+		    if( t.name.compare("Protoss_Assimilator") == 0 )
 		    {
 		      ++currentState.numberRefineries;
 		      
@@ -281,27 +283,29 @@ namespace ghost
 		      int toGas = min( 3, currentState.mineralWorkers - 3 );
 		      for( int i = 0 ; i < toGas ; ++i )
 		      {
-			currentState.inMove.emplace_back( "Protoss_Probe", "Gas", 0, 2 );
+			currentState.inMove.push_back( Tuple( actionOf["Protoss_Gas"], 2, false ) );
 			--currentState.mineralWorkers;
 		      }
 		    }
 	}
 
-	cout << "Finish " << t.goal << " at " << currentState.seconds
+	cout << "Finish " << t.name << " at " << currentState.seconds
 	     << ", m=" << currentState.stockMineral
 	     << ", g=" << currentState.stockGas
+	     << ", mb=" << currentState.mineralsBooked
+	     << ", gb=" << currentState.gasBooked
 	     << ", s=(" << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 	
-	if( t.goal.compare("Protoss_Probe") != 0 && t.goal.compare("Protoss_Pylon") != 0 )
-	{
-	  bo.emplace_back( t.goal, currentState.seconds );
-	  if( goals.find( t.goal ) != goals.end() )
-	    ++goals.at( t.goal ).second;
-	}
+	// if( goal.compare("Protoss_Probe") != 0 && goal.compare("Protoss_Pylon") != 0 )
+	// {
+	  bo.emplace_back( t.name, currentState.seconds );
+	  if( goals.find( t.name ) != goals.end() )
+	    ++goals.at( t.name ).second;
+	// }
       }
     }
 
-    auto itEnd = remove_if( begin( currentState.busy ), end( currentState.busy ), [](Tuple &t){return t.time == 0;} );
+    auto itEnd = remove_if( begin( currentState.busy ), end( currentState.busy ), [](ActionData &a){return a.secondsRequired == 0;} );
     currentState.busy.erase( itEnd, end( currentState.busy ) );
   }
   
@@ -310,53 +314,63 @@ namespace ghost
     for( auto &t : currentState.inMove )
     {
       --t.waitTime;
-      if( t.waitTime == 0 )
-      {
-	if( t.actor.compare("Protoss_Probe") == 0 )
+      if( t.waitTime == 0
+	  && !t.done
+	  && ( t.action.costMineral == 0 || currentState.stockMineral >= t.action.costMineral + currentState.mineralsBooked )
+	  && ( t.action.costGas == 0 || currentState.stockGas >= t.action.costGas + currentState.gasBooked )
+	)
+      {	
+	string creator = t.action.creator;
+	string goal = t.action.name;
+
+	int mineralCost = t.action.costMineral;
+	int gasCost = t.action.costGas;
+	
+	if( creator.compare("Protoss_Probe") == 0 )
 	{
-	  if( t.goal.compare("Mineral") == 0 ) 
+	  if( goal.compare("Mineral") == 0 ) 
 	    ++currentState.mineralWorkers;
 	  else
-	    if( t.goal.compare("Gas") == 0 ) 
+	    if( goal.compare("Gas") == 0 ) 
 	      ++currentState.gasWorkers;
 	    else // ie, the worker is about to build something
 	    {
-	      currentState.busy.emplace_back( t.actor, t.goal, t.time );
+	      currentState.busy.push_back( t.action );
 	      // warp building and return to mineral fields
-	      currentState.inMove.emplace_back( "Protoss_Probe", "Mineral", 0, 4 );
+	      currentState.inMove.push_back( Tuple( actionOf["Protoss_Mineral"], 4, false ) );
+	      
+	      currentState.stockMineral -= mineralCost;
+	      currentState.stockGas -= gasCost;
 
-	      cout << "Start " << nextAction->getFullName() << " at " << currentState.seconds
+	      currentState.mineralsBooked -= mineralCost;
+	      currentState.gasBooked -= gasCost;
+	      
+	      cout << "Start " << goal << " at " << currentState.seconds
 		   << ", m=" << currentState.stockMineral
 		   << ", g=" << currentState.stockGas
+		   << ", mb=" << currentState.mineralsBooked
+		   << ", gb=" << currentState.gasBooked
 		   << ", s=(" << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
-	      
-	      currentState.stockMineral -= nextAction->getCostMineral();
-	      currentState.stockGas -= nextAction->getCostGas();
-
-	    // currentState.stockMineral -= raceActions.protoss[t.goal].getCostMineral();
-	      // currentState.stockGas -= raceActions.protoss[t.goal].getCostGas();
-	      
-	      // cout << "Start " << t.goal << " at " << currentState.seconds
-	      // 	   << ", m=" << currentState.stockMineral
-	      // 	   << ", g=" << currentState.stockGas
-	      // 	   << ", s=(" << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 	    }
+
+	  t.done = true;
+	  
 	}
       }
     }
 
-    auto itEnd = remove_if( begin( currentState.inMove ), end( currentState.inMove ), [](Tuple &t){return t.waitTime == 0;} );
+    auto itEnd = remove_if( begin( currentState.inMove ), end( currentState.inMove ), [](Tuple &t){return t.done;} );
     currentState.inMove.erase( itEnd, end( currentState.inMove ) );
   }
   
   bool BuildOrderObjective::makingPylons() const
   {
     for( const auto &t : currentState.busy )
-      if( t.goal.compare("Protoss_Pylon") == 0 )
+      if( t.name.compare("Protoss_Pylon") == 0 )
 	return true;
 
     for( const auto &t : currentState.inMove )
-      if( t.goal.compare("Protoss_Pylon") == 0 )
+      if( t.action.name.compare("Protoss_Pylon") == 0 )
 	return true;    
 
     return false;
@@ -428,7 +442,7 @@ namespace ghost
     if( currentState.numberPylons == 0
 	&& currentState.stockMineral >= 100 - mineralsIn( 4 ) )
     {
-      currentState.inMove.emplace_back( "Protoss_Probe", "Protoss_Pylon", 30, 5 );
+      currentState.inMove.push_back( Tuple( actionOf["Protoss_Pylon"], 5, false ) );
       
       cout << "Start first Protoss_Pylon at " << currentState.seconds
 	   << ", m=" << currentState.stockMineral
@@ -457,7 +471,7 @@ namespace ghost
 	
 	for( int i = 0 ; i < toBuild && i < currentState.mineralWorkers + currentState.gasWorkers ; ++i )
 	{
-	  currentState.inMove.emplace_back( "Protoss_Probe", "Protoss_Pylon", 30, 5 );
+	  currentState.inMove.push_back( Tuple( actionOf["Protoss_Pylon"], 5, false ) );
 	  
 	  cout << "Start Protoss_Pylon at " << currentState.seconds
 	       << ", m=" << currentState.stockMineral
@@ -626,7 +640,7 @@ namespace ghost
 
   void BuildOrderObjective::makeVecVariables( const pair<string, int> &input, vector<Action> &variables, map< string, pair<int, int> > &goals )
   {
-    Action action = factoryAction( input.first );
+    Action action( actionOf[input.first] );
     // Goal goal( action.getFullName(), action.getTypeString(), input.second, 0 );
     // goals.push_back( goal );
     goals.emplace( action.getFullName(), make_pair<int, int>( static_cast<int>( input.second ), 0 ) );
@@ -642,11 +656,11 @@ namespace ghost
     {
       variables.push_back( action );
       for( int i = 1; i < count; ++i )
-    	variables.push_back( factoryAction( action.getFullName() ) );
+    	variables.push_back( Action( actionOf[ action.getFullName() ] ) );
       
       for( const auto &d : action.getDependencies() )
     	if( d.compare( "Protoss_High_Templar" ) == 0 || d.compare( "Protoss_Dark_Templar" ) == 0 )
-    	  makeVecVariables( factoryAction( d ), variables, 2 * count ); // Each (dark) archon needs 2 (dark) templars 
+    	  makeVecVariables( Action( actionOf[ d ] ), variables, 2 * count ); // Each (dark) archon needs 2 (dark) templars 
     	else
     	  if( d.compare( "Protoss_Nexus" ) != 0 )
 	  {
@@ -659,7 +673,7 @@ namespace ghost
 	      }
 
 	    if( !isAlreadyInVar )
-	      makeVecVariables( factoryAction( d ), variables, 1 );
+	      makeVecVariables( Action( actionOf[ d ] ), variables, 1 );
 	  }
     }
   }

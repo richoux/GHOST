@@ -33,27 +33,59 @@ using namespace std;
 
 namespace ghost
 {
-  enum ActionType{ building, unit, upgrade, research };
-  
+  enum ActionType{ building, unit, upgrade, research, special };
+
+  /******************/
+  /*** ActionData ***/
+  /******************/  
+  struct ActionData
+  {
+    ActionData();
+    ActionData(int, int, int, int, ActionType, vector<string>, string, Race, string );
+    ActionData(const ActionData&);
+    ActionData& operator=(ActionData);
+
+    inline int decreaseSeconds() { return --secondsRequired; }
+    
+    int			secondsRequired;
+    int			costMineral;
+    int			costGas;
+    int			costSupply;
+    ActionType		actionType;
+    vector<string>	dependencies;
+    string		creator; 
+    Race		race;
+    string		name;
+    
+  private:
+    void swap(ActionData&);
+  };
+
+
+  /**************/
+  /*** Action ***/
+  /**************/  
   class Action : public Variable
   {
   public:
     Action();
-    Action(int, int, int, int, ActionType, vector<string>, string, Race, string, string, int = -1);
+    Action(ActionData, int = -1);
     Action(const Action&);
     Action& operator=(Action);
 
     inline bool	isSelected()	const	{ return value != -1; }
 
-    inline int getSecondsRequired()	const { return secondsRequired; }
-    inline int getCostMineral()		const { return costMineral; }
-    inline int getCostGas()		const { return costGas; }
-    inline int getCostSupply()		const { return costSupply; }
+    inline ActionData getData()		const { return data; }
+    
+    inline int getSecondsRequired()	const { return data.secondsRequired; }
+    inline int getCostMineral()		const { return data.costMineral; }
+    inline int getCostGas()		const { return data.costGas; }
+    inline int getCostSupply()		const { return data.costSupply; }
 
-    inline ActionType getType()		const { return actionType; }
+    inline ActionType getType()		const { return data.actionType; }
     inline string getTypeString()	const	
     { 
-      switch( actionType ) 
+      switch( data.actionType ) 
       {
       case building: return "Building";
       case unit: return "Unit";
@@ -63,13 +95,13 @@ namespace ghost
       }
     }
     
-    inline vector<string> getDependencies()	const { return dependencies; }
-    inline string	  getCreator()		const { return creator; }
+    inline vector<string> getDependencies()	const { return data.dependencies; }
+    inline string	  getCreator()		const { return data.creator; }
 
-    inline Race getRace()		const { return race; }
+    inline Race getRace()		const { return data.race; }
     inline string getRaceString()	const	
     { 
-      switch( race ) 
+      switch( data.race ) 
       {
       case Terran: return "Terran";
       case Protoss: return "Protoss";
@@ -78,7 +110,7 @@ namespace ghost
       }
     }
 
-    inline void	swapValue( Action &other ) { std::swap( value, other.value ); }
+    inline void	swapValue( Action &other )	{ std::swap( value, other.value ); }
 
     inline bool operator==( const Action & other ) { return id == other.id; }
     
@@ -87,15 +119,6 @@ namespace ghost
   private:
     void swap(Action&);
 
-    int		secondsRequired;
-    int		costMineral;
-    int		costGas;
-    int		costSupply;
-    ActionType	actionType;
-
-    vector<string>	dependencies;
-    string		creator; 
-
-    Race race;
+    ActionData data;
   };
 }

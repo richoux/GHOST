@@ -26,11 +26,11 @@
 
 #pragma once
 
+#include <map>
+
 #include "../variables/action.hpp"
 
 namespace ghost
 {
-  Action factoryProtossAction( const string &fullName );
-
-  // vector< shared_ptr<BuildOrderConstraint> > makeProtossBuildOrderConstraints( const vector< Action > *vec, const BuildOrderDomain *domain );
+  extern map<string, ActionData> actionOf;
 }

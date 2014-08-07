@@ -32,9 +32,8 @@
 
 #include "objective.hpp"
 #include "../variables/action.hpp"
-#include "../misc/actionType.hpp"
+#include "../misc/actionMap.hpp"
 #include "../domains/buildorderDomain.hpp"
-// #include "../misc/raceActions.hpp"
 
 using namespace std;
 
@@ -69,16 +68,15 @@ namespace ghost
 				      double &bestCost,
 				      vector< Action > &bestSolution) const;
     
-    // struct Tuple
-    // {
-    //   Tuple( string actor, string goal, int time, int waitTime = 0 )
-    // 	: actor(actor), goal(goal), time(time), waitTime(waitTime) { }
-      
-    //   string actor;
-    //   string goal;
-    //   int time;
-    //   int waitTime;
-    // };
+    struct Tuple
+    {
+      Tuple( ActionData action, int waitTime, bool done )
+    	: action(action), waitTime(waitTime), done(done) { }
+
+      ActionData action;
+      int waitTime;
+      bool done;
+    };
     
     struct State
     {
@@ -86,6 +84,8 @@ namespace ghost
       	: seconds(0),
       	  stockMineral(0.),
       	  stockGas(0.),
+	  mineralsBooked(0),
+	  gasBooked(0),
       	  mineralWorkers(0),
       	  gasWorkers(0),
       	  supplyUsed(5),
@@ -95,13 +95,11 @@ namespace ghost
 	  numberPylons(0),
       	  resources(),
 	  canBuild(),
-	  busy{},
-	  inMove{}
-      	  // busy{Tuple("Protoss_Nexus", "Protoss_Probe", 20)},
-      	  // inMove{ Tuple("Protoss_Probe", "Mineral", 0, 2),
-	  //     Tuple("Protoss_Probe", "Mineral", 0, 2),
-	  //     Tuple("Protoss_Probe", "Mineral", 0, 2),
-	  //     Tuple("Protoss_Probe", "Mineral", 0, 2) }
+	  busy{actionOf["Protoss_Probe"]},
+	  inMove{ Tuple{ actionOf["Protoss_Mineral"], 2, false },
+	      Tuple{ actionOf["Protoss_Mineral"], 2, false },
+	      Tuple{ actionOf["Protoss_Mineral"], 2, false },
+	      Tuple{ actionOf["Protoss_Mineral"], 2, false } }
       {
 	initCanBuild();
       }
@@ -109,6 +107,8 @@ namespace ghost
       State( int seconds,
 	     double stockMineral,
 	     double stockGas,
+	     int mineralsBooked,
+	     int gasBooked,
 	     int mineralWorkers,
 	     int gasWorkers,
 	     int supplyUsed,
@@ -118,11 +118,13 @@ namespace ghost
 	     int numberPylons,
 	     const map<string, int> &resources,
 	     const map<string, bool> &canBuild,
-	     const vector< Action > &busy,
-	     const vector< std::pair<Action, int> > &inMove )
+	     const vector< ActionData > &busy,
+	     const vector< Tuple > &inMove )
 	: seconds(seconds),
 	  stockMineral(stockMineral),
 	  stockGas(stockGas),
+	  mineralsBooked(mineralsBooked),
+	  gasBooked(gasBooked),
 	  mineralWorkers(mineralWorkers),
 	  gasWorkers(gasWorkers),
 	  supplyUsed(supplyUsed),
@@ -138,23 +140,25 @@ namespace ghost
 
       void reset()
       {
-      	seconds = 0;
-      	stockMineral = 0.;
-      	stockGas = 0.;
-      	mineralWorkers = 0;
-      	gasWorkers = 0;
-      	supplyUsed = 5;
-      	supplyCapacity = 8;
-      	numberBases = 1;
+      	seconds		= 0;
+      	stockMineral	= 0.;
+      	stockGas	= 0.;
+	mineralsBooked	= 0;
+	gasBooked	= 0;
+      	mineralWorkers	= 0;
+      	gasWorkers	= 0;
+      	supplyUsed	= 5;
+      	supplyCapacity	= 8;
+      	numberBases	= 1;
       	numberRefineries = 0;
-	numberPylons = 0;
+	numberPylons	= 0;
       	resources.clear();
 	initCanBuild();
       	busy.clear();
-      	busy.emplace_back( "Protoss_Nexus", "Protoss_Probe", 20 );
+      	busy.push_back( actionOf["Protoss_Probe"] );
       	inMove.clear();
 	for( int i = 0 ; i < 4 ; ++i )
-	  inMove.emplace_back( "Protoss_Probe", "Mineral", 0, 2 );
+	  inMove.push_back( Tuple{ actionOf["Protoss_Mineral"], 2, false } );
       }
 
       void initCanBuild()
@@ -171,6 +175,8 @@ namespace ghost
       int	seconds;
       double	stockMineral;
       double	stockGas;
+      int	mineralsBooked;
+      int	gasBooked;
       int	mineralWorkers;
       int	gasWorkers;
       int	supplyUsed;
@@ -180,8 +186,8 @@ namespace ghost
       int	numberPylons;
       map<string, int> resources;
       map<string, bool> canBuild;
-      vector< Action > busy;
-      vector< std::pair<Action, int> > inMove;      
+      vector< ActionData > busy;
+      vector< Tuple > inMove;      
     };
 
     struct BO
@@ -218,7 +224,6 @@ namespace ghost
     // mutable vector<Goal>	goals;
     mutable map< string, pair<int, int> > goals;
     mutable vector<BO>		bo;
-    // mutable RaceActions		raceActions;
     
   private:
     double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain, bool optimization ) const;

@@ -30,28 +30,75 @@
 
 namespace ghost
 {
-  Action::Action() { }
+  /******************/
+  /*** ActionData ***/
+  /******************/  
   
-  Action::Action(int second, 
-		 int mineral, 
-		 int gas, 
-		 int supply,
-		 ActionType actionType,
-		 vector<string> dep, 
-		 string creator, 
-		 Race race,
-		 string name,
-		 string fullName,
-		 int value)
-    : Variable( name, fullName, value ),
-      secondsRequired(second),
+  ActionData::ActionData() { }
+  
+  ActionData::ActionData(int second, 
+			 int mineral, 
+			 int gas, 
+			 int supply,
+			 ActionType actionType,
+			 vector<string> dep, 
+			 string creator, 
+			 Race race,
+			 string name)
+    : secondsRequired(second),
       costMineral(mineral),
       costGas(gas), 
       costSupply(supply),
       actionType(actionType),
       dependencies(dep), 
       creator(creator),
-      race(race)
+      race(race),
+      name(name)
+  { }
+
+  ActionData::ActionData( const ActionData &other )
+    : secondsRequired(other.secondsRequired),
+      costMineral(other.costMineral),
+      costGas(other.costGas), 
+      costSupply(other.costSupply), 
+      actionType(other.actionType), 
+      dependencies(other.dependencies), 
+      creator(other.creator),
+      race(other.race),
+      name(other.name)
+  { }
+
+  ActionData& ActionData::operator=( ActionData other )
+  {
+    this->swap( other );
+    return *this;
+  }
+
+  void ActionData::swap( ActionData &other )
+  {
+    std::swap(this->secondsRequired, other.secondsRequired);
+    std::swap(this->costMineral, other.costMineral);
+    std::swap(this->costGas, other.costGas);
+    std::swap(this->costSupply, other.costSupply);
+    std::swap(this->actionType, other.actionType);
+    std::swap(this->dependencies, other.dependencies);
+    std::swap(this->creator, other.creator);
+    std::swap(this->race, other.race);
+    std::swap(this->name, other.name);
+  }
+
+
+  
+  /**************/
+  /*** Action ***/
+  /**************/  
+
+  Action::Action() { }
+  
+  Action::Action(ActionData data,
+		 int value)
+    : Variable( data.name, data.name, value ),
+      data(data)
   {
     if( value == -1)
       value = id;
@@ -59,14 +106,7 @@ namespace ghost
 
   Action::Action( const Action &other )
     : Variable(other),
-      secondsRequired(other.secondsRequired),
-      costMineral(other.costMineral),
-      costGas(other.costGas), 
-      costSupply(other.costSupply), 
-      actionType(other.actionType), 
-      dependencies(other.dependencies), 
-      creator(other.creator),
-      race(other.race)
+      data(other.data)
   { }
 
   Action& Action::operator=( Action other )
@@ -81,14 +121,7 @@ namespace ghost
     std::swap(this->fullName, other.fullName);
     std::swap(this->id, other.id);
     std::swap(this->value, other.value);
-    std::swap(this->secondsRequired, other.secondsRequired);
-    std::swap(this->costMineral, other.costMineral);
-    std::swap(this->costGas, other.costGas);
-    std::swap(this->costSupply, other.costSupply);
-    std::swap(this->actionType, other.actionType);
-    std::swap(this->dependencies, other.dependencies);
-    std::swap(this->creator, other.creator);
-    std::swap(this->race, other.race);
+    std::swap(this->data, other.data);
   }
 
   ostream& operator<<( ostream &os, const Action &a )
@@ -97,17 +130,16 @@ namespace ghost
       << "Type info: " <<  typeid(a).name() << endl
       << "Type: " <<  a.getTypeString() << endl
       << "Race: " <<  a.getRaceString() << endl
-      << "Name: " << a.name << endl
       << "Full name: " << a.fullName << endl
       << "Id num: " << a.id << endl
-      << "Seconds required: " << a.secondsRequired << endl
-      << "Cost Mineral: " <<  a.costMineral << endl
-      << "Cost Gas: " <<  a.costGas << endl
-      << "Cost Supply: " <<  a.costSupply << endl
-      << "Built/Trained/Researched/Upgraded/Morphed from: " <<  a.creator << endl
+      << "Seconds required: " << a.data.secondsRequired << endl
+      << "Cost Mineral: " <<  a.data.costMineral << endl
+      << "Cost Gas: " <<  a.data.costGas << endl
+      << "Cost Supply: " <<  a.data.costSupply << endl
+      << "Built/Trained/Researched/Upgraded/Morphed from: " <<  a.data.creator << endl
       << "Dependencies: ";
     
-    for( const auto& d : a.dependencies )
+    for( const auto& d : a.data.dependencies )
       os << d << "  "; 
     
     os << endl << "-------" << endl;

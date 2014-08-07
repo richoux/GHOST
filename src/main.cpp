@@ -40,12 +40,12 @@
 
 
 // BO
+
 #include "../include/variables/action.hpp"
 #include "../include/domains/buildorderDomain.hpp"
 #include "../include/constraints/buildorderConstraint.hpp"
 #include "../include/objectives/buildorderObjective.hpp"
-#include "../include/misc/actionFactory.hpp"
-// #include "../include/misc/raceActions.hpp"
+#include "../include/misc/actionMap.hpp"
 
 
 #include "../include/solver.hpp"

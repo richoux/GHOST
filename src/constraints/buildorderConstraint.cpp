@@ -47,6 +47,9 @@ namespace ghost
     
     for( auto it = variables->begin() ; it != variables->end() ; ++it )
     {
+      if( it->getType() == special )
+	continue;
+	
       depConflict = false;
       auto dep = it->getDependencies();
       if( !dep.empty() && !( dep.size() == 1 && dep.at(0).compare("Protoss_Nexus") == 0 ) )
@@ -64,7 +67,7 @@ namespace ghost
 		conflicts += 2;
 	      }
 	  }
-	
+
       if( depConflict )
       {
 	varCost.at( it->getId() ) += 3;
