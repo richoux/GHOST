@@ -115,8 +115,8 @@ namespace ghost
 	     int numberPylons,
 	     const map<string, int> &resources,
 	     const map<string, bool> &canBuild,
-	     const vector< Tuple > &busy,
-	     const vector< Tuple > &inMove )
+	     const vector< Action > &busy,
+	     const vector< std::pair<Action, int> > &inMove )
 	: seconds(seconds),
 	  stockMineral(stockMineral),
 	  stockGas(stockGas),
