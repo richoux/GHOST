@@ -33,6 +33,7 @@
 #include <chrono>
 #include <ctime>
 #include <numeric>
+#include <iomanip>
 
 #include "../../include/objectives/buildorderObjective.hpp"
 #include "../../include/variables/action.hpp"
@@ -85,6 +86,8 @@ namespace ghost
     auto nextAction = vecVariables->begin();
     string creator = nextAction->getCreator();
 
+    cout << endl << endl;
+    
     while( nextAction != vecVariables->end() || !currentState.busy.empty() )
     {
       ++currentState.seconds;
@@ -129,19 +132,21 @@ namespace ghost
 	    &&
 	    currentState.supplyUsed < currentState.supplyCapacity
 	    &&
-	    currentState.mineralWorkers <= currentState.numberBases * 24 )
+	    currentState.mineralWorkers < currentState.numberBases * 24 )
 	{
 	  currentState.stockMineral -= 50;
 	  ++currentState.supplyUsed;
 	  --currentState.resources["Protoss_Nexus"];
 	  currentState.busy.push_back( actionOf["Protoss_Probe"] );
 
-	  cout << "Start Protoss_Probe at " << currentState.seconds
-	       << ", m=" << currentState.stockMineral
-	       << ", g=" << currentState.stockGas
-	       << ", mb=" << currentState.mineralsBooked
-	       << ", gb=" << currentState.gasBooked
-	       << ", s=(" << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+	  cout << std::left << setw(35) << "Start Protoss_Probe at " << setw(5) << currentState.seconds
+	       << ",\t m = " << setw(9) << currentState.stockMineral
+	       << ",\t g = " << setw(8) << currentState.stockGas
+	       << ",\t mb = " << setw(5) << currentState.mineralsBooked
+	       << ",\t gb = " << setw(4) << currentState.gasBooked
+	       << ",\t mw = " << setw(3) << currentState.mineralWorkers
+	       << ",\t gw = " << setw(3) << currentState.gasWorkers
+	       << ",\t s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 	}
 
 	// only used by postprocessingOptimization, to see if we can
@@ -178,6 +183,16 @@ namespace ghost
 	  {
 	    currentState.mineralsBooked += nextAction->getCostMineral();
 	    currentState.gasBooked += nextAction->getCostGas();
+
+	    string text = "Go for " + nextAction->getFullName() + " at ";
+	      cout << std::left << setw(35) << text << setw(5) << currentState.seconds
+		 << ",\t m = " << setw(9) << currentState.stockMineral
+		 << ",\t g = " << setw(8) << currentState.stockGas
+		 << ",\t mb = " << setw(5) << currentState.mineralsBooked
+		 << ",\t gb = " << setw(4) << currentState.gasBooked
+		 << ",\t mw = " << setw(3) << currentState.mineralWorkers
+		 << ",\t gw = " << setw(3) << currentState.gasWorkers
+		 << ",\t s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 	    
 	    currentState.inMove.push_back( Tuple( nextAction->getData(), 5, false ) );
 	    if( currentState.mineralWorkers > 0 )
@@ -204,12 +219,15 @@ namespace ghost
 	      currentState.canBuild[ nextAction->getFullName() ]
 	    )
 	  {
-	    cout << "Start " << nextAction->getFullName() << " at " << currentState.seconds
-		 << ", m=" << currentState.stockMineral
-		 << ", g=" << currentState.stockGas
-		 << ", mb=" << currentState.mineralsBooked
-		 << ", gb=" << currentState.gasBooked
-		 << ", s=(" << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+	    string text = "Start " + nextAction->getFullName() + " at ";
+	      cout << std::left << setw(35) << text << setw(5) << currentState.seconds
+		 << ",\t m = " << setw(9) << currentState.stockMineral
+		 << ",\t g = " << setw(8) << currentState.stockGas
+		 << ",\t mb = " << setw(5) << currentState.mineralsBooked
+		 << ",\t gb = " << setw(4) << currentState.gasBooked
+		 << ",\t mw = " << setw(3) << currentState.mineralWorkers
+		 << ",\t gw = " << setw(3) << currentState.gasWorkers
+		 << ",\t s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 	    
 	    currentState.supplyUsed += nextAction->getCostSupply();
 	    currentState.stockMineral -= nextAction->getCostMineral();
@@ -289,12 +307,15 @@ namespace ghost
 		    }
 	}
 
-	cout << "Finish " << t.name << " at " << currentState.seconds
-	     << ", m=" << currentState.stockMineral
-	     << ", g=" << currentState.stockGas
-	     << ", mb=" << currentState.mineralsBooked
-	     << ", gb=" << currentState.gasBooked
-	     << ", s=(" << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+	string text = "Finish " + t.name + " at ";
+	cout << std::left << setw(35) << text << setw(5) << currentState.seconds
+	     << ",\t m = " << setw(9) << currentState.stockMineral
+	     << ",\t g = " << setw(8) << currentState.stockGas
+	     << ",\t mb = " << setw(5) << currentState.mineralsBooked
+	     << ",\t gb = " << setw(4) << currentState.gasBooked
+	     << ",\t mw = " << setw(3) << currentState.mineralWorkers
+	     << ",\t gw = " << setw(3) << currentState.gasWorkers
+	     << ",\t s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 	
 	// if( goal.compare("Protoss_Probe") != 0 && goal.compare("Protoss_Pylon") != 0 )
 	// {
@@ -313,19 +334,21 @@ namespace ghost
   {
     for( auto &t : currentState.inMove )
     {
-      --t.waitTime;
+      if( t.waitTime > 0 )
+	--t.waitTime;
+
       if( t.waitTime == 0
 	  && !t.done
-	  && ( t.action.costMineral == 0 || currentState.stockMineral >= t.action.costMineral + currentState.mineralsBooked )
-	  && ( t.action.costGas == 0 || currentState.stockGas >= t.action.costGas + currentState.gasBooked )
+	  && ( t.action.costMineral == 0 || currentState.stockMineral >= t.action.costMineral )
+	  && ( t.action.costGas == 0 || currentState.stockGas >= t.action.costGas )
 	)
-      {	
+      {
 	string creator = t.action.creator;
 	string goal = t.action.name;
 
 	int mineralCost = t.action.costMineral;
 	int gasCost = t.action.costGas;
-	
+
 	if( creator.compare("Protoss_Probe") == 0 )
 	{
 	  if( goal.compare("Mineral") == 0 ) 
@@ -344,13 +367,16 @@ namespace ghost
 
 	      currentState.mineralsBooked -= mineralCost;
 	      currentState.gasBooked -= gasCost;
-	      
-	      cout << "Start " << goal << " at " << currentState.seconds
-		   << ", m=" << currentState.stockMineral
-		   << ", g=" << currentState.stockGas
-		   << ", mb=" << currentState.mineralsBooked
-		   << ", gb=" << currentState.gasBooked
-		   << ", s=(" << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+
+	      string text = "Start " + goal + " at ";
+	      cout << std::left << setw(35) << text << setw(5) << currentState.seconds
+		   << ",\t m = " << setw(9) << currentState.stockMineral
+		   << ",\t g = " << setw(8) << currentState.stockGas
+		   << ",\t mb = " << setw(5) << currentState.mineralsBooked
+		   << ",\t gb = " << setw(4) << currentState.gasBooked
+		   << ",\t mw = " << setw(3) << currentState.mineralWorkers
+		   << ",\t gw = " << setw(3) << currentState.gasWorkers
+		   << ",\t s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 	    }
 
 	  t.done = true;
@@ -443,11 +469,17 @@ namespace ghost
 	&& currentState.stockMineral >= 100 - mineralsIn( 4 ) )
     {
       currentState.inMove.push_back( Tuple( actionOf["Protoss_Pylon"], 5, false ) );
+
+      currentState.mineralsBooked += 100;
       
-      cout << "Start first Protoss_Pylon at " << currentState.seconds
-	   << ", m=" << currentState.stockMineral
-	   << ", g=" << currentState.stockGas
-	   << ", s=(" << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+      cout << std::left << setw(35) << "Go for first Protoss_Pylon at " << setw(5) << currentState.seconds
+	   << ",\t m = " << setw(9) << currentState.stockMineral
+	   << ",\t g = " << setw(8) << currentState.stockGas
+	   << ",\t mb = " << setw(5) << currentState.mineralsBooked
+	   << ",\t gb = " << setw(4) << currentState.gasBooked
+	   << ",\t mw = " << setw(3) << currentState.mineralWorkers
+	   << ",\t gw = " << setw(3) << currentState.gasWorkers
+	   << ",\t s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
       
       if( currentState.mineralWorkers > 0 )
 	--currentState.mineralWorkers;
@@ -472,11 +504,17 @@ namespace ghost
 	for( int i = 0 ; i < toBuild && i < currentState.mineralWorkers + currentState.gasWorkers ; ++i )
 	{
 	  currentState.inMove.push_back( Tuple( actionOf["Protoss_Pylon"], 5, false ) );
-	  
-	  cout << "Start Protoss_Pylon at " << currentState.seconds
-	       << ", m=" << currentState.stockMineral
-	       << ", g=" << currentState.stockGas
-	       << ", s=(" << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+
+	  currentState.mineralsBooked += 100;
+
+	  cout << std::left << setw(35) << "Go for Protoss_Pylon at " << setw(5) << currentState.seconds
+	       << ",\t m = " << setw(9) << currentState.stockMineral
+	       << ",\t g = " << setw(8) << currentState.stockGas
+	       << ",\t mb = " << setw(5) << currentState.mineralsBooked
+	       << ",\t gb = " << setw(4) << currentState.gasBooked
+	       << ",\t mw = " << setw(3) << currentState.mineralWorkers
+	       << ",\t gw = " << setw(3) << currentState.gasWorkers
+	       << ",\t s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 	  
 	  if( currentState.mineralWorkers > 0 )
 	    --currentState.mineralWorkers;
@@ -568,74 +606,6 @@ namespace ghost
 
     postprocesstimer = chrono::high_resolution_clock::now() - startPostprocess;
     return postprocesstimer.count();
-
-    
-    // vector<int> tabuList( vecVariables->size() );
-    // std::fill( tabuList.begin(), tabuList.end(), 0 );
-
-    // multimap<int, Action> actionSameSize;
-    
-    // for( const auto &v : *vecVariables )
-    //   actionSameSize.insert( make_pair( v.getSurface(), v ) );
-
-    // Action *oldVariable;
-    // vector<int> goodVar;
-    // Action *toSwap;
-    // bool mustSwap;
-    
-    // bestCost = v_cost( vecVariables, domain );
-    // double currentCost = bestCost;
-
-    // while( (postprocesstimer = chrono::high_resolution_clock::now() - startPostprocess).count() < static_cast<int>( ceil(OPT_TIME / 100) ) && bestCost > 0 )
-    // {
-    //   goodVar.clear();
-
-    //   for( int i = 0; i < tabuList.size(); ++i )
-    //   {
-    // 	if( tabuList[i] <= 1 )
-    // 	  tabuList[i] = 0;
-    // 	else
-    // 	  --tabuList[i];
-    //   }
-
-    //   for( int i = 0; i < vecVariables->size(); ++i )
-    //   {
-    // 	if( tabuList[i] == 0 )
-    // 	  goodVar.push_back( i );
-    //   }
-
-    //   if( goodVar.empty() )
-    // 	for( int i = 0; i < vecVariables->size(); ++i )
-    // 	  goodVar.push_back( i );	
-
-    //   int index = v_heuristicVariable( goodVar, vecVariables, domain );
-    //   oldVariable = &vecVariables->at( index );
-    //   auto surface = actionSameSize.equal_range( oldVariable->getSurface() );
-	
-    //   for( auto &it = surface.first; it != surface.second; ++it )
-    //   {
-    //   	mustSwap = false;
-    //   	if( it->second.getId() != oldVariable->getId() )
-    //   	{
-    //   	  domain->swap( it->second, *oldVariable );
-	    
-    //   	  currentCost = v_cost( vecVariables, domain );
-    //   	  if( currentCost < bestCost )
-    //   	  {
-    //   	    bestCost = currentCost;
-    //   	    toSwap = &it->second;
-    //   	    mustSwap = true;
-    //   	  }
-
-    //   	  domain->swap( it->second, *oldVariable );
-    //   	}
-	  
-    //   	if( mustSwap )
-    //   	  domain->swap( *toSwap, *oldVariable );
-    //   }
-
-    //   tabuList[ index ] = 2;//std::max(2, static_cast<int>( ceil(TABU / 2) ) );
-    // }
   }
 
   void BuildOrderObjective::makeVecVariables( const pair<string, int> &input, vector<Action> &variables, map< string, pair<int, int> > &goals )
