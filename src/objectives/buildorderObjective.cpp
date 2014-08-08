@@ -49,7 +49,6 @@ namespace ghost
   BuildOrderObjective::BuildOrderObjective( const string &name )
     : Objective<Action, BuildOrderDomain>( name, true ),
     currentState( State() ),
-    // goals( vector<Goal>() ),
     goals( map<string, pair<int, int> >() ),
     bo( vector<BO>() )
   { }
@@ -59,7 +58,6 @@ namespace ghost
 					    vector<Action> &variables )
     : Objective<Action, BuildOrderDomain>( name, true ),
     currentState( State() ),
-    // goals( vector<Goal>() ),
     goals( map<string, pair<int, int> >() ),
     bo( vector<BO>() )
   {
@@ -69,8 +67,13 @@ namespace ghost
 
   void BuildOrderObjective::printBO() const
   {
+    cout << endl << endl;
+    string text;
     for( const auto &b : bo )
-      cout << b.fullName << ":" << b.completedTime << endl;
+    {
+      text = b.fullName + ": ";
+      cout << std::left << setw(26) << text  << std::right << setw(4) << b.completedTime << endl;
+    }
     cout << endl;
   }
   
@@ -83,22 +86,26 @@ namespace ghost
   {
     currentState.reset();
     bo.clear();
+    for( auto &g : goals)
+      g.second.second = 0;
+    
     auto nextAction = vecVariables->begin();
     string creator = nextAction->getCreator();
 
-    cout << endl << endl;
+    cout << endl << endl << "Optimization run: ";
+    cout << (optimization ? "true" : "false") << endl;
     
     while( nextAction != vecVariables->end() || !currentState.busy.empty() )
     {
       ++currentState.seconds;
 
+      // cout << "Minerals in 30s: " << sharpMineralsIn(30) << endl;
+      // cout << "Gas in 30s: " << sharpGasIn(30) << endl;
+      
       // update mineral / gas stocks
       currentState.stockMineral += currentState.mineralWorkers * 1.08; // 1.08 mineral per worker per second in average
       currentState.stockGas += currentState.gasWorkers * 1.68; // 1.68 gas per worker per second in average
 
-      // cout << "[" << currentState.seconds << "] current minerals: " << currentState.stockMineral << endl;
-      // cout << "[" << currentState.seconds << "] current gas: " << currentState.stockGas << endl;
-      
       // update busy list
       updateBusy();
 
@@ -126,17 +133,18 @@ namespace ghost
 	// 2. if I have at least one available Nexus
 	// 3. if I am not supply blocked
 	// 4. if I don't reach the saturation number (ie 24 workers per base)
+	int workerBuilding = std::count_if( begin(currentState.inMove), end(currentState.inMove), [](const Tuple &t){return t.action.creator.compare("Protoss_Probe") == 0;});
 	if( currentState.stockMineral >= 50
 	    &&
-	    currentState.resources["Protoss_Nexus"] > 0
+	    currentState.resources["Protoss_Nexus"].second > 0
 	    &&
 	    currentState.supplyUsed < currentState.supplyCapacity
 	    &&
-	    currentState.mineralWorkers < currentState.numberBases * 24 )
+	    currentState.mineralWorkers + workerBuilding < currentState.numberBases * 24 )
 	{
 	  currentState.stockMineral -= 50;
 	  ++currentState.supplyUsed;
-	  --currentState.resources["Protoss_Nexus"];
+	  --currentState.resources["Protoss_Nexus"].second;
 	  currentState.busy.push_back( actionOf["Protoss_Probe"] );
 
 	  cout << std::left << setw(35) << "Start Protoss_Probe at " << setw(5) << currentState.seconds
@@ -154,7 +162,108 @@ namespace ghost
 	// like gateways for instance.
 	if( optimization )
 	{
+	  ActionData action, creator;
+	  double real_time, simulated_time;
+	  int simulated_mineral, simulated_gas;
+	  int future_mineral, future_gas;
 	  
+	  int to_produce;
+	  int creator_in_production;
+	  for( const auto &g : goals )
+	  {
+	    action = actionOf[g.first];
+	    if( action.actionType != ActionType::unit )
+	      continue;
+
+	    creator = actionOf[ action.creator ];
+
+	    if( currentState.resources[creator.name].first == 0 )
+	      continue;
+
+	    // test is we are faster after making an additional production building
+	    to_produce = g.second.first - g.second.second;
+	    real_time = 0.;
+	    
+	    for( const auto &t : currentState.busy )
+	      if( t.name.compare( action.name ) == 0 )
+	      {
+		--to_produce;
+		real_time += t.secondsRequired;
+	      }
+
+	    simulated_time = real_time + creator.secondsRequired;
+
+	    creator_in_production = count_if( begin(currentState.inMove), end(currentState.inMove), [&creator](Tuple &t){return t.action.name.compare( creator.name ) == 0;});
+	    creator_in_production += count_if( begin(currentState.busy), end(currentState.busy), [&creator](ActionData &a){return a.name.compare( creator.name ) == 0;});
+	    
+	    real_time += to_produce * action.secondsRequired / ( currentState.resources[creator.name].first + creator_in_production );
+	    simulated_time += to_produce * action.secondsRequired / ( currentState.resources[creator.name].first + creator_in_production + 1 );
+
+	    // cout << creator.name << ", rt=" << real_time << ", st=" << simulated_time << endl;
+
+	    if( simulated_time > real_time )
+	      continue;
+
+	    // test is we have to money for making an additional production building
+	    simulated_mineral = ( currentState.resources[creator.name].first + creator_in_production + 1 ) * action.costMineral;
+	    simulated_gas = ( currentState.resources[creator.name].first + creator_in_production + 1 ) * action.costGas;
+
+	    future_mineral = sharpMineralsIn( action.secondsRequired, creator.secondsRequired );
+	    future_gas = sharpGasIn( action.secondsRequired, creator.secondsRequired );
+
+	    // cout << creator.name
+	    // 	 << ", fm=" << future_mineral
+	    // 	 << ", fg=" << future_gas
+	    // 	 << ", sm=" << simulated_mineral
+	    // 	 << ", sg=" << simulated_gas
+	    // 	 << ", sm=" << simulated_mineral
+	    // 	 << ", sg=" << simulated_gas
+	    // 	 << ", m= " << currentState.stockMineral
+	    // 	 << ", g= " << currentState.stockGas
+	    // 	 << ", mb= " << currentState.mineralsBooked
+	    // 	 << ", gb= " << currentState.gasBooked
+	    // 	 << endl;
+	    
+	    // if we can make this additional building, do it! 
+	    if( future_mineral >= simulated_mineral && future_gas >= simulated_gas
+		&&
+		( creator.costMineral == 0 || currentState.stockMineral >= creator.costMineral + currentState.mineralsBooked - mineralsIn(5) )
+		&&
+		( creator.costGas == 0 || currentState.stockGas >= creator.costGas + currentState.gasBooked - gasIn(5) ) 
+		&&
+		currentState.mineralWorkers + currentState.gasWorkers > 0
+		&&
+		currentState.numberPylons > 0
+		&&
+		currentState.canBuild[ creator.name ]
+	      )
+	    {
+	      currentState.mineralsBooked += creator.costMineral;
+	      currentState.gasBooked += creator.costGas;
+	      
+	      string text = "Optimize " + creator.name + " at ";
+	      cout << std::left << setw(35) << text << setw(5) << currentState.seconds
+		   << ",\t m = " << setw(9) << currentState.stockMineral
+		   << ",\t g = " << setw(8) << currentState.stockGas
+		   << ",\t mb = " << setw(5) << currentState.mineralsBooked
+		   << ",\t gb = " << setw(4) << currentState.gasBooked
+		   << ",\t mw = " << setw(3) << currentState.mineralWorkers
+		   << ",\t gw = " << setw(3) << currentState.gasWorkers
+		   << ",\t s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+
+
+	      // The three following line are certainly the most AWEFUL lines I ever wrote in my life!!!
+	      auto it_find = std::find( const_cast< vector<Action>* >(vecVariables)->begin(), const_cast< vector<Action>* >(vecVariables)->end(), *nextAction );
+	      auto it = const_cast< vector<Action>* >(vecVariables)->insert( it_find, Action( creator, nextAction->getValue() ) );
+	      std::for_each( it+1, const_cast< vector<Action>* >(vecVariables)->end(), [](Action &a){a.shiftValue();} );
+	      
+	      currentState.inMove.push_back( Tuple( creator, 5, false ) );
+	      if( currentState.mineralWorkers > 0 )
+		--currentState.mineralWorkers;
+	      else
+		--currentState.gasWorkers;
+	    }	    
+	  }	  
 	}
 	
 	// build a pylon if I must, ie:
@@ -163,9 +272,6 @@ namespace ghost
 	if( !makingPylons() )
 	  youMustConstructAdditionalPylons();
 
-	// cout << "[" << currentState.seconds << "] minerals in 5 seconds with " << currentState.mineralWorkers << " workers: " << mineralsIn(5) << endl;
-	// cout << "[" << currentState.seconds << "] gas in 5 seconds with " << currentState.gasWorkers << " workers: " << gasIn(5) << endl;
-	
 	// can I handle the next action?
 	// if the next action is building a building
 	if( nextAction->getType() == ActionType::building )
@@ -214,7 +320,7 @@ namespace ghost
 	      &&
 	      currentState.supplyUsed + nextAction->getCostSupply() <= currentState.supplyCapacity
 	      &&
-	      ( creator.empty() || currentState.resources[ creator ] > 0 )
+	      ( creator.empty() || currentState.resources[ creator ].second > 0 )
 	      &&
 	      currentState.canBuild[ nextAction->getFullName() ]
 	    )
@@ -234,7 +340,7 @@ namespace ghost
 	    currentState.stockGas -= nextAction->getCostGas();
 
 	    if( !creator.empty() && creator.compare("Protoss_Probe") != 0 )
-	      --currentState.resources[ creator ];
+	      --currentState.resources[ creator ].second;
 	    
 	    currentState.busy.push_back( nextAction->getData() );
 	    
@@ -256,55 +362,55 @@ namespace ghost
       if( time == 0 )
       {
 	if( t.creator.compare("Protoss_Probe") != 0 )
-	  ++currentState.resources[ t.creator ];
-	
+	{
+	  ++currentState.resources[ t.creator ].second;
+	}
 	if( t.name.compare("Protoss_Probe") == 0 )
 	  currentState.inMove.push_back( Tuple( actionOf["Protoss_Mineral"], 2, false ) );
 	else
 	{
 	  if( t.name.compare("Protoss_Nexus") == 0 )
 	  {
-	    ++currentState.resources["Protoss_Nexus"];
+	    ++currentState.resources["Protoss_Nexus"].first;
+	    ++currentState.resources["Protoss_Nexus"].second;
 	    ++currentState.numberBases;
 	  }
-	  else
-	    if( t.name.compare("Protoss_Gateway") == 0 )
+	  else if( t.name.compare("Protoss_Gateway") == 0 )
+	  {
+	    ++currentState.resources["Protoss_Gateway"].first;
+	    ++currentState.resources["Protoss_Gateway"].second;
+	    currentState.canBuild["Protoss_Zealot"] = true;
+	    currentState.canBuild["Protoss_Cybernetics_Core"] = true;
+	  }
+	  else if( t.name.compare("Protoss_Cybernetics_Core") == 0 )
+	  {
+	    ++currentState.resources["Protoss_Cybernetics_Core"].first;
+	    ++currentState.resources["Protoss_Cybernetics_Core"].second;
+	    currentState.canBuild["Protoss_Dragoon"] = true;
+	  }
+	  else if( t.name.compare("Protoss_Forge") == 0 )
+	  {
+	    ++currentState.resources["Protoss_Forge"].first;
+	    ++currentState.resources["Protoss_Forge"].second;
+	    currentState.canBuild["Protoss_Ground_Weapons_1"] = true;
+	  }
+	  else if( t.name.compare("Protoss_Pylon") == 0 )
+	  {
+	    currentState.supplyCapacity += 8;
+	    ++currentState.numberPylons;
+	  }
+	  else if( t.name.compare("Protoss_Assimilator") == 0 )
+	  {
+	    ++currentState.numberRefineries;
+	    
+	    // if we have few workers mining, do not sent them to gas
+	    int toGas = min( 3, currentState.mineralWorkers - 3 );
+	    for( int i = 0 ; i < toGas ; ++i )
 	    {
-	      ++currentState.resources["Protoss_Gateway"];
-	      currentState.canBuild["Protoss_Zealot"] = true;
-	      currentState.canBuild["Protoss_Cybernetics_Core"] = true;
+	      currentState.inMove.push_back( Tuple( actionOf["Protoss_Gas"], 2, false ) );
+	      --currentState.mineralWorkers;
 	    }
-	    else
-	      if( t.name.compare("Protoss_Cybernetics_Core") == 0 )
-	      {
-		++currentState.resources["Protoss_Cybernetics_Core"];
-		currentState.canBuild["Protoss_Dragoon"] = true;
-	      }
-	      else
-		if( t.name.compare("Protoss_Forge") == 0 )
-		{
-		  ++currentState.resources["Protoss_Forge"];
-		  currentState.canBuild["Protoss_Ground_Weapons_1"] = true;
-		}
-		else
-		  if( t.name.compare("Protoss_Pylon") == 0 )
-		  {
-		    currentState.supplyCapacity += 8;
-		    ++currentState.numberPylons;
-		  }
-		  else
-		    if( t.name.compare("Protoss_Assimilator") == 0 )
-		    {
-		      ++currentState.numberRefineries;
-		      
-		      // if we have few workers mining, do not sent them to gas
-		      int toGas = min( 3, currentState.mineralWorkers - 3 );
-		      for( int i = 0 ; i < toGas ; ++i )
-		      {
-			currentState.inMove.push_back( Tuple( actionOf["Protoss_Gas"], 2, false ) );
-			--currentState.mineralWorkers;
-		      }
-		    }
+	  }
 	}
 
 	string text = "Finish " + t.name + " at ";
@@ -402,66 +508,6 @@ namespace ghost
     return false;
   }
 
-  double BuildOrderObjective::mineralsIn( int seconds ) const
-  {
-    double futurProduction = 0.;
-    int workers = currentState.mineralWorkers;
-
-    // rough estimation
-    futurProduction = workers * 1.08 * seconds;
-    
-    // for( int i = 1 ; i <= seconds ; ++i )
-    // {
-    //   for( const auto &t : currentState.inMove )
-    // 	if( t.actor.compare("Protoss_Probe") == 0
-    // 	    &&
-    // 	    t.goal.compare("Mineral") == 0
-    // 	    &&
-    // 	    t.waitTime - i == 0 )
-    // 	{
-    // 	  ++workers;
-    // 	}
-
-    //   for( const auto &t : currentState.busy )
-    // 	if( t.goal.compare("Protoss_Probe") == 0
-    // 	    &&
-    // 	    t.time + 2 - i == 0 )
-    // 	{
-    // 	  ++workers;
-    // 	}
-      
-    //   futurProduction += workers * 1.08;
-    // }
-
-    return futurProduction;
-  }
-  
-  double BuildOrderObjective::gasIn( int seconds ) const
-  {
-    double futurProduction = 0.;
-    int workers = currentState.gasWorkers;
-
-    // rough estimation
-    futurProduction = workers * 1.68 * seconds;
-
-    // for( int i = 1 ; i <= seconds ; ++i )
-    // {
-    //   for( const auto &t : currentState.inMove )
-    // 	if( t.actor.compare("Protoss_Probe") == 0
-    // 	    &&
-    // 	    t.goal.compare("Gas") == 0
-    // 	    &&
-    // 	    t.waitTime - i == 0 )
-    // 	{
-    // 	  ++workers;
-    // 	}
-      
-    //   futurProduction += workers * 1.68;
-    // }
-
-    return futurProduction;
-  }
-
   void BuildOrderObjective::youMustConstructAdditionalPylons() const
   {
     // build the first pylon ASAP
@@ -489,7 +535,7 @@ namespace ghost
     // otherwise build other pylons when needed
     else
     {
-      int supplyConsumption = currentState.resources["Protoss_Nexus"] + 2*currentState.resources["Protoss_Gateway"];
+      int supplyConsumption = currentState.resources["Protoss_Nexus"].first + 2*currentState.resources["Protoss_Gateway"].first;
       if( supplyConsumption + currentState.supplyUsed >= currentState.supplyCapacity )
       {
 	int toBuild = ( (supplyConsumption + currentState.supplyUsed - currentState.supplyCapacity) / 8 ) + 1;
@@ -524,7 +570,84 @@ namespace ghost
       }
     }
   }
+
+  double BuildOrderObjective::sharpMineralsIn( int duration, int InSeconds ) const
+  {
+    double futurProduction = 0.;
+    int workers = currentState.mineralWorkers;
+
+    int min_time = std::min( InSeconds, 20 );
+    vector<int> last_build;
+
+    // simulation time from now till InSeconds
+    for( int i = 1 ; i <= min_time ; ++i )
+    {
+      for( const auto &t : currentState.inMove )
+	if( t.action.creator.compare("Protoss_Probe") == 0
+	    &&
+	    t.action.name.compare("Mineral") == 0
+	    &&
+	    t.waitTime - i == 0 )
+	{
+	  ++workers;
+	}
+      
+      for( const auto &t : currentState.busy )
+	if( t.name.compare("Protoss_Probe") == 0
+	    &&
+	    t.secondsRequired + 2 - i == 0 )
+	{
+	  ++workers;
+	  last_build.push_back(i);
+	}
+    }
+
+    for( int i = min_time + 1 ; i <= InSeconds ; ++i )
+    {
+      for( const auto &l : last_build )
+	if( ( i + 2 - l ) % 20 == 0 )
+	  ++workers;
+    }
+
+    // start to count income from InSeconds till InSeconds + duration
+    for( int i = InSeconds + 1 ; i <= InSeconds + duration ; ++i )
+    {
+      for( const auto &l : last_build )
+	if( ( i + 2 - l ) % 20 == 0 )
+	  ++workers;
+      
+      futurProduction += workers * 1.08;
+    }
+    
+    return futurProduction;
+  }
   
+  double BuildOrderObjective::sharpGasIn( int duration, int InSeconds ) const
+  {
+    double futurProduction = 0.;
+    int workers = currentState.gasWorkers;
+
+    // simulation time from now till InSeconds
+    for( int i = 1 ; i <= InSeconds ; ++i )
+    {
+      for( const auto &t : currentState.inMove )
+	if( t.action.creator.compare("Protoss_Probe") == 0
+	    &&
+	    t.action.name.compare("Gas") == 0
+	    &&
+	    t.waitTime - i == 0 )
+	{
+	  ++workers;
+	}
+    }
+
+    // start to count income from InSeconds till InSeconds + duration
+    for( int i = InSeconds + 1 ; i <= InSeconds + duration ; ++i )
+      futurProduction += workers * 1.08;
+
+    return futurProduction;
+  }
+
   int BuildOrderObjective::v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain )
   {
     return vecId[ randomVar.getRandNum( vecId.size() ) ];
@@ -611,8 +734,6 @@ namespace ghost
   void BuildOrderObjective::makeVecVariables( const pair<string, int> &input, vector<Action> &variables, map< string, pair<int, int> > &goals )
   {
     Action action( actionOf[input.first] );
-    // Goal goal( action.getFullName(), action.getTypeString(), input.second, 0 );
-    // goals.push_back( goal );
     goals.emplace( action.getFullName(), make_pair<int, int>( static_cast<int>( input.second ), 0 ) );
     
     makeVecVariables( action, variables, input.second );
@@ -656,11 +777,11 @@ namespace ghost
     : BuildOrderObjective( "MakeSpanMinCost", input, variables ) { }
 
   
-  double MakeSpanMinCost::v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost )
-  {
+  // double MakeSpanMinCost::v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost )
+  // {
 
-    return 0;
-  }
+  //   return 0;
+  // }
 
   
   /*******************/
@@ -670,9 +791,9 @@ namespace ghost
   MakeSpanMaxProd::MakeSpanMaxProd( const vector< pair<string, int> > &input, vector<Action> &variables )
     : BuildOrderObjective( "MakeSpanMaxProd", input, variables ) { }
 
-  double MakeSpanMaxProd::v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost )
-  {
+  // double MakeSpanMaxProd::v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost )
+  // {
 
-    return 0;
-  }
+  //   return 0;
+  // }
 }

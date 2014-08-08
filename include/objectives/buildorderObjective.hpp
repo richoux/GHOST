@@ -116,7 +116,7 @@ namespace ghost
 	     int numberBases,
 	     int numberRefineries,
 	     int numberPylons,
-	     const map<string, int> &resources,
+	     const map<string, pair<int, int> > &resources,
 	     const map<string, bool> &canBuild,
 	     const vector< ActionData > &busy,
 	     const vector< Tuple > &inMove )
@@ -153,6 +153,8 @@ namespace ghost
       	numberRefineries = 0;
 	numberPylons	= 0;
       	resources.clear();
+	resources["Protoss_Nexus"].first = 1;
+	resources["Protoss_Nexus"].second = 0;	
 	initCanBuild();
       	busy.clear();
       	busy.push_back( actionOf["Protoss_Probe"] );
@@ -184,7 +186,7 @@ namespace ghost
       int	numberBases;
       int	numberRefineries;
       int	numberPylons;
-      map<string, int> resources;
+      map<string, pair<int, int> > resources;
       map<string, bool> canBuild;
       vector< ActionData > busy;
       vector< Tuple > inMove;      
@@ -201,27 +203,11 @@ namespace ghost
       int completedTime;
     };
     
-    // struct Goal
-    // {
-    //   Goal() {}
-      
-    //   Goal( string fullName, string type, int toHave, int current )
-    // 	: fullName(fullName), type(type), toHave(toHave), current(current)
-    //   { }
-      
-    //   string	fullName;
-    //   string	type;
-    //   int	toHave;
-    //   int	current;
-    // };
-
-
     void makeVecVariables( const pair<string, int> &input, vector<Action> &variables, map< string, pair<int, int> > &goals );
     void makeVecVariables( const Action &action, vector<Action> &variables, int count );
 
     
     mutable State		currentState;
-    // mutable vector<Goal>	goals;
     mutable map< string, pair<int, int> > goals;
     mutable vector<BO>		bo;
     
@@ -231,9 +217,15 @@ namespace ghost
     void updateInMove() const;
     bool makingPylons() const;
     void youMustConstructAdditionalPylons() const;
-    double mineralsIn( int seconds ) const;
-    double gasIn( int seconds ) const;    
-  };
+
+    // rough estimations
+    inline double mineralsIn( int duration )	const { return currentState.mineralWorkers * 1.08 * duration; }
+    inline double gasIn( int duration )		const { return currentState.gasWorkers * 1.68 * duration; }
+
+    // sharp estimations
+    double sharpMineralsIn( int duration, int inSeconds = 0 ) const;
+    double sharpGasIn( int duration, int inSeconds = 0 ) const;
+};
   
 
   /*******************/
@@ -245,8 +237,8 @@ namespace ghost
     MakeSpanMinCost();
     MakeSpanMinCost( const vector< pair<string, int> > &input, vector<Action> &variables );
 
-  private:
-    double v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost );
+  // private:
+  //   double v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost );
   };
 
   /*******************/
@@ -258,7 +250,7 @@ namespace ghost
     MakeSpanMaxProd();
     MakeSpanMaxProd( const vector< pair<string, int> > &input, vector<Action> &variables );
 
-  private:
-    double v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost );
+  // private:
+  //   double v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost );
   };
 }
