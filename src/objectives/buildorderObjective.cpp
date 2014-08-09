@@ -252,7 +252,7 @@ namespace ghost
 		   << ",\t s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 
 
-	      // The three following line are certainly the most AWEFUL lines I ever wrote in my life!!!
+	      // The three following line are certainly the most AWFUL lines I ever wrote in my life!!!
 	      auto it_find = std::find( const_cast< vector<Action>* >(vecVariables)->begin(), const_cast< vector<Action>* >(vecVariables)->end(), *nextAction );
 	      auto it = const_cast< vector<Action>* >(vecVariables)->insert( it_find, Action( creator, nextAction->getValue() ) );
 	      std::for_each( it+1, const_cast< vector<Action>* >(vecVariables)->end(), [](Action &a){a.shiftValue();} );
