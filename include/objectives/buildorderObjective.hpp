@@ -89,7 +89,7 @@ namespace ghost
       	  mineralWorkers(0),
       	  gasWorkers(0),
       	  supplyUsed(5),
-      	  supplyCapacity(8),
+      	  supplyCapacity(9),
       	  numberBases(1),
       	  numberRefineries(0),
 	  numberPylons(0),
@@ -148,7 +148,7 @@ namespace ghost
       	mineralWorkers	= 0;
       	gasWorkers	= 0;
       	supplyUsed	= 5;
-      	supplyCapacity	= 8;
+      	supplyCapacity	= 9;
       	numberBases	= 1;
       	numberRefineries = 0;
 	numberPylons	= 0;
@@ -196,10 +196,11 @@ namespace ghost
     {
       BO() { }
 
-      BO( string fullName, int completedTime )
-	: fullName(fullName), completedTime(completedTime) { }
+      BO( string fullName, int startTime, int completedTime )
+	: fullName(fullName), startTime(startTime), completedTime(completedTime) { }
       
       string fullName;
+      int startTime;
       int completedTime;
     };
     
@@ -217,7 +218,8 @@ namespace ghost
     void updateInMove() const;
     bool makingPylons() const;
     void youMustConstructAdditionalPylons() const;
-
+    void pushInBusy( ActionData ) const;
+    
     // rough estimations
     inline double mineralsIn( int duration )	const { return currentState.mineralWorkers * 1.08 * duration; }
     inline double gasIn( int duration )		const { return currentState.gasWorkers * 1.68 * duration; }

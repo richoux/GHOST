@@ -71,8 +71,11 @@ namespace ghost
     string text;
     for( const auto &b : bo )
     {
-      text = b.fullName + ": ";
-      cout << std::left << setw(26) << text  << std::right << setw(4) << b.completedTime << endl;
+      cout << b.fullName
+	   << ": start at " << b.completedTime
+	   << ", finish at " << b.startTime << endl;
+      // cout << std::left << setw(26) << b.fullName
+      // 	   << std::right << text << endl;
     }
     cout << endl;
   }
@@ -145,7 +148,7 @@ namespace ghost
 	  currentState.stockMineral -= 50;
 	  ++currentState.supplyUsed;
 	  --currentState.resources["Protoss_Nexus"].second;
-	  currentState.busy.push_back( actionOf["Protoss_Probe"] );
+	  pushInBusy( actionOf["Protoss_Probe"] );
 
 	  cout << std::left << setw(35) << "Start Protoss_Probe at " << setw(5) << currentState.seconds
 	       << ",\t m = " << setw(9) << currentState.stockMineral
@@ -342,7 +345,7 @@ namespace ghost
 	    if( !creator.empty() && creator.compare("Protoss_Probe") != 0 )
 	      --currentState.resources[ creator ].second;
 	    
-	    currentState.busy.push_back( nextAction->getData() );
+	    pushInBusy( nextAction->getData() );
 	    
 	    ++nextAction;
 	    if( nextAction != vecVariables->end() )
@@ -422,13 +425,6 @@ namespace ghost
 	     << ",\t mw = " << setw(3) << currentState.mineralWorkers
 	     << ",\t gw = " << setw(3) << currentState.gasWorkers
 	     << ",\t s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
-	
-	// if( goal.compare("Protoss_Probe") != 0 && goal.compare("Protoss_Pylon") != 0 )
-	// {
-	  bo.emplace_back( t.name, currentState.seconds );
-	  if( goals.find( t.name ) != goals.end() )
-	    ++goals.at( t.name ).second;
-	// }
       }
     }
 
@@ -464,7 +460,7 @@ namespace ghost
 	      ++currentState.gasWorkers;
 	    else // ie, the worker is about to build something
 	    {
-	      currentState.busy.push_back( t.action );
+	      pushInBusy( t.action );
 	      // warp building and return to mineral fields
 	      currentState.inMove.push_back( Tuple( actionOf["Protoss_Mineral"], 4, false ) );
 	      
@@ -535,42 +531,57 @@ namespace ghost
     // otherwise build other pylons when needed
     else
     {
-      int supplyConsumption = currentState.resources["Protoss_Nexus"].first + 2*currentState.resources["Protoss_Gateway"].first;
-      if( supplyConsumption + currentState.supplyUsed >= currentState.supplyCapacity )
+      int productionCapacity =
+	currentState.resources["Protoss_Nexus"].first
+	+ count_if( begin(currentState.busy), end(currentState.busy), [](ActionData &a){return a.name.compare( "Protoss_Nexus" ) == 0;})
+
+	+ 2 * ( currentState.resources["Protoss_Gateway"].first
+		+ count_if( begin(currentState.busy), end(currentState.busy), [](ActionData &a){return a.name.compare( "Protoss_Nexus" ) == 0;}) )
+	+ 4 * ( currentState.resources["Protoss_Robotics_Facility"].first
+		+ count_if( begin(currentState.busy), end(currentState.busy), [](ActionData &a){return a.name.compare( "Protoss_Robotics_Facility" ) == 0;}) )
+	+ 6 * ( currentState.resources["Protoss_Stargate"].first
+		+ count_if( begin(currentState.busy), end(currentState.busy), [](ActionData &a){return a.name.compare( "Protoss_Stargate" ) == 0;}) );
+
+      int plannedSupply = currentState.supplyCapacity
+	+ 8 * count_if( begin(currentState.busy), end(currentState.busy), [](ActionData &a){return a.name.compare( "Protoss_Pylon" ) == 0;} )
+	+ 8 * count_if( begin(currentState.inMove), end(currentState.inMove), [](Tuple &t){return t.action.name.compare("Protoss_Pylon") == 0;} )
+	+ 9 * count_if( begin(currentState.busy), end(currentState.busy), [](ActionData &a){return a.name.compare( "Protoss_Nexus" ) == 0;} )
+	+ 9 * count_if( begin(currentState.inMove), end(currentState.inMove), [](Tuple &t){return t.action.name.compare("Protoss_Nexus") == 0;} );
+      
+      if( plannedSupply <= 1.2 * ( productionCapacity + currentState.supplyUsed ) )
       {
-	int toBuild = ( (supplyConsumption + currentState.supplyUsed - currentState.supplyCapacity) / 8 ) + 1;
-
-	// Besur we have enough mineral to build 'toBuild pylons'
-	// if not, descrease toBuild till we can (eventually till toBuild == 0)
-	while( currentState.stockMineral < toBuild*100 - mineralsIn( 4 ) && toBuild > 0 )
-	{
-	  --toBuild;
-	}
+	currentState.inMove.push_back( Tuple( actionOf["Protoss_Pylon"], 5, false ) );
+	currentState.mineralsBooked += 100;
 	
-	for( int i = 0 ; i < toBuild && i < currentState.mineralWorkers + currentState.gasWorkers ; ++i )
-	{
-	  currentState.inMove.push_back( Tuple( actionOf["Protoss_Pylon"], 5, false ) );
-
-	  currentState.mineralsBooked += 100;
-
-	  cout << std::left << setw(35) << "Go for Protoss_Pylon at " << setw(5) << currentState.seconds
-	       << ",\t m = " << setw(9) << currentState.stockMineral
-	       << ",\t g = " << setw(8) << currentState.stockGas
-	       << ",\t mb = " << setw(5) << currentState.mineralsBooked
-	       << ",\t gb = " << setw(4) << currentState.gasBooked
-	       << ",\t mw = " << setw(3) << currentState.mineralWorkers
-	       << ",\t gw = " << setw(3) << currentState.gasWorkers
-	       << ",\t s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
-	  
-	  if( currentState.mineralWorkers > 0 )
-	    --currentState.mineralWorkers;
-	  else
-	    --currentState.gasWorkers;
-	}
+	cout << std::left << setw(35) << "Go for Protoss_Pylon at " << setw(5) << currentState.seconds
+	     << ",\t m = " << setw(9) << currentState.stockMineral
+	     << ",\t g = " << setw(8) << currentState.stockGas
+	     << ",\t mb = " << setw(5) << currentState.mineralsBooked
+	     << ",\t gb = " << setw(4) << currentState.gasBooked
+	     << ",\t mw = " << setw(3) << currentState.mineralWorkers
+	     << ",\t gw = " << setw(3) << currentState.gasWorkers
+	     << ",\t s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+	
+	if( currentState.mineralWorkers > 0 )
+	  --currentState.mineralWorkers;
+	else
+	  --currentState.gasWorkers;
       }
     }
   }
 
+  void BuildOrderObjective::pushInBusy( ActionData a ) const
+  {
+    currentState.busy.push_back( a );
+    
+    // if( goal.compare("Protoss_Probe") != 0 && goal.compare("Protoss_Pylon") != 0 )
+    // {
+    bo.emplace_back( a.name, currentState.seconds, currentState.seconds + a.secondsRequired );
+    if( goals.find( a.name ) != goals.end() )
+      ++goals.at( a.name ).second;
+    // }
+  }
+  
   double BuildOrderObjective::sharpMineralsIn( int duration, int InSeconds ) const
   {
     double futurProduction = 0.;
