@@ -241,7 +241,7 @@ namespace ghost
 	    	 << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 
 	    auto it_find = std::find( vecVariables->begin(), vecVariables->end(), *nextAction );
-	    auto it = vecVariables->insert( it_find, Action( creator, nextAction->getValue() ) );
+	    auto it = vecVariables->insert( it_find, Action( creator, it_find->getValue() ) );
 	    std::for_each( it+1, vecVariables->end(), [](Action &a){a.shiftValue();} );
 	      
 	    currentState.inMove.push_back( Tuple( creator, 5, false ) );
