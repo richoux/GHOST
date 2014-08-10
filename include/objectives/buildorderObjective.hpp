@@ -52,6 +52,7 @@ namespace ghost
     
   protected:
     double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const;
+    double costOpti( vector< Action > *vecVariables ) const;
     
     int v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain );
     int v_heuristicValue( const std::vector< double > &vecGlobalCosts, 
@@ -213,9 +214,10 @@ namespace ghost
     mutable vector<BO>		bo;
     
   private:
-    double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain, bool optimization ) const;
     void updateBusy() const;
     void updateInMove() const;
+    void dealWithWorkers() const;
+    bool handleNextAction( const Action& ) const;
     bool makingPylons() const;
     void youMustConstructAdditionalPylons() const;
     void pushInBusy( ActionData ) const;
