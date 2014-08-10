@@ -50,7 +50,7 @@ namespace ghost
       costGas(gas), 
       costSupply(supply),
       actionType(actionType),
-      dependencies(dep), 
+      dependencies(dep),
       creator(creator),
       race(race),
       name(name)
@@ -97,7 +97,7 @@ namespace ghost
   
   Action::Action(ActionData data,
 		 int value)
-    : Variable( data.name, data.name, value ),
+    : Variable( "", data.name, value ),
       data(data)
   {
     if( value == -1)
@@ -141,7 +141,7 @@ namespace ghost
     
     for( const auto& d : a.data.dependencies )
       os << d << "  "; 
-    
+
     os << endl << "-------" << endl;
 
     return os;

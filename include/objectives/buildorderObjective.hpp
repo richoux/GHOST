@@ -219,6 +219,7 @@ namespace ghost
     bool makingPylons() const;
     void youMustConstructAdditionalPylons() const;
     void pushInBusy( ActionData ) const;
+    bool dependenciesCheck( string ) const;
     
     // rough estimations
     inline double mineralsIn( int duration )	const { return currentState.mineralWorkers * 1.08 * duration; }

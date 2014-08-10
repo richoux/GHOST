@@ -54,19 +54,29 @@ namespace ghost
       auto dep = it->getDependencies();
       if( !dep.empty() && !( dep.size() == 1 && dep.at(0).compare("Protoss_Nexus") == 0 ) )
 	for( const auto &d : dep )
-	  if( // it != variables->begin()
-	      // &&
-	      none_of( variables->begin(), it, [&](Action &a){return d.compare(a.getFullName()) == 0;} ) )
+	  if( none_of( variables->begin(), it, [&](Action &a){return d.compare(a.getFullName()) == 0;} ) )
 	  {
 	    depConflict = true;
 	    
-	    for( auto it_dep = variables->begin() ; it_dep != it ; ++it_dep )
+	    for( auto it_dep = it+1 ; it_dep != variables->end() ; ++it_dep )
 	      if( d.compare( it_dep->getFullName() ) == 0 )
 	      {
-		varCost.at( it_dep->getId() ) += 2;
-		conflicts += 2;
+	    	varCost.at( it_dep->getId() ) += 2;
+	    	conflicts += 2;
 	      }
 	  }
+
+      if( it->getCostGas() > 0 && none_of( variables->begin(), it, [&](Action &a){return a.getFullName().compare("Protoss_Assimilator") == 0;} ) )
+      {
+	depConflict = true;
+	
+	for( auto it_dep = it+1 ; it_dep != variables->end() ; ++it_dep )
+	  if( it_dep->getFullName().compare("Protoss_Assimilator") == 0 )
+	  {
+	    varCost.at( it_dep->getId() ) += 2;
+	    conflicts += 2;
+	  }
+      }
 
       if( depConflict )
       {
@@ -75,45 +85,6 @@ namespace ghost
       }
     }
     
-    // auto vecOrder = domain->getOrder();
-    // for( auto it = begin(vecOrder) ; it != end(vecOrder) ; ++it )
-    // {
-    //   int value = it->getValue();
-    //   for( const auto &d : it->getDependencies() )
-    //   {
-    // 	vector<Action> dependencies( vecOrder.size() );
-    // 	auto iter = copy_if( begin(vecOrder), end(vecOrder), begin(dependencies), [&](Action a){return d.compare(a.getName()) == 0;} );
-    // 	dependencies.resize( std::distance( begin(dependencies), iter ) );
-
-    // 	if( dependencies.empty() )
-    // 	{
-    // 	  Action newAction = factoryAction( d );
-
-    // 	  newAction.setValue( value );
-    // 	  domain->addAction( newAction, true );
-
-    // 	  for( auto &v : *variables )
-    // 	    if( v.getValue() >= value )
-    // 	      v.shiftValue();
-	    
-    // 	  variables->push_back( newAction );
-    // 	  varCost.push_back(1);
-    // 	  ++conflicts;
-    // 	}
-    // 	else
-    // 	  if( none_of( begin(dependencies), end(dependencies), [&](Action a){return a.getValue() < value;} ) )
-    // 	  {
-    // 	    varCost.at( it->getId() ) += 3;
-    // 	    conflicts += 3;
-    // 	    for( const auto &dep : dependencies )
-    // 	    {
-    // 	      varCost.at( dep.getId() ) += 2;
-    // 	      conflicts += 2;
-    // 	    }
-    // 	  }
-    //   }
-    // }
-
     return conflicts;
   }
 
