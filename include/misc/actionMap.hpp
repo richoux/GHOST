@@ -32,5 +32,5 @@
 
 namespace ghost
 {
-  extern map<string, ActionData> actionOf;
+  extern map<string, const ActionData> actionOf;
 }

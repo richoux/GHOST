@@ -74,8 +74,6 @@ namespace ghost
       cout << b.fullName
 	   << ": start at " << b.startTime
 	   << ", finish at " << b.completedTime << endl;
-      // cout << std::left << setw(26) << b.fullName
-      // 	   << std::right << text << endl;
     }
     cout << endl;
   }
@@ -129,12 +127,14 @@ namespace ghost
     bo.clear();
     for( auto &g : goals)
       g.second.second = 0;
+
+    vector< Action > copyVec = *vecVariables;
     
-    auto nextAction = vecVariables->begin();
+    auto nextAction = copyVec.begin();
 
     cout << endl << endl << "Optimization run" << endl;
     
-    while( nextAction != vecVariables->end() || !currentState.busy.empty() )
+    while( nextAction != copyVec.end() || !currentState.busy.empty() )
     {
       ++currentState.seconds;
 
@@ -148,7 +148,7 @@ namespace ghost
       // update inMove list
       updateInMove();
 
-      if( nextAction != vecVariables->end() )
+      if( nextAction != copyVec.end() )
       {
 	dealWithWorkers();
 	
@@ -232,13 +232,13 @@ namespace ghost
 	      
 	    string text = "Optimize " + creator.name + " at ";
 	    cout << std::left << setw(35) << text << setw(5) << currentState.seconds
-		 << "  m = " << setw(9) << currentState.stockMineral
-		 << "  g = " << setw(8) << currentState.stockGas
-		 << "  mb = " << setw(5) << currentState.mineralsBooked
-		 << "  gb = " << setw(4) << currentState.gasBooked
-		 << "  mw = " << setw(3) << currentState.mineralWorkers
-		 << "  gw = " << setw(3) << currentState.gasWorkers
-		 << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+	    	 << "  m = " << setw(9) << currentState.stockMineral
+	    	 << "  g = " << setw(8) << currentState.stockGas
+	    	 << "  mb = " << setw(5) << currentState.mineralsBooked
+	    	 << "  gb = " << setw(4) << currentState.gasBooked
+	    	 << "  mw = " << setw(3) << currentState.mineralWorkers
+	    	 << "  gw = " << setw(3) << currentState.gasWorkers
+	    	 << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 
 	    auto it_find = std::find( vecVariables->begin(), vecVariables->end(), *nextAction );
 	    auto it = vecVariables->insert( it_find, Action( creator, nextAction->getValue() ) );
@@ -303,8 +303,13 @@ namespace ghost
 	      --currentState.mineralWorkers;
 	    }
 	  }
-	  else if( t.actionType == ActionType::building
-		   || t.name.compare("Protoss_High_Templar") == 0
+	  else if( t.actionType == ActionType::building )
+	  {
+	    ++currentState.resources[ t.name ].first;
+	    ++currentState.resources[ t.name ].second;
+	    currentState.inMove.push_back( Tuple( actionOf["Protoss_Mineral"], 4, false ) );
+	  }
+	  else if( t.name.compare("Protoss_High_Templar") == 0
 		   || t.name.compare("Protoss_Dark_Templar") == 0 )
 	  {
 	    ++currentState.resources[ t.name ].first;
@@ -438,6 +443,8 @@ namespace ghost
 
   bool BuildOrderObjective::handleNextAction( const Action &nextAction ) const
   {
+    // cout << nextAction << endl;
+    
     // if the next action is building a building
     if( nextAction.getType() == ActionType::building )
     {
@@ -478,7 +485,6 @@ namespace ghost
     else
     {
       string creator = nextAction.getCreator();
-      cout << "name = " << nextAction.getFullName() << endl;
       
       if( ( nextAction.getCostMineral() == 0 || currentState.stockMineral >= nextAction.getCostMineral() + currentState.mineralsBooked )
 	  &&
@@ -576,13 +582,9 @@ namespace ghost
      
       if( plannedSupply <= productionCapacity + currentState.supplyUsed )
       {
-	cout << "ps = " << plannedSupply
-	     << ", pc = " << productionCapacity
-	     << ", su = " << currentState.supplyUsed << endl;
-
 	currentState.inMove.push_back( Tuple( actionOf["Protoss_Pylon"], 5, false ) );
 	currentState.mineralsBooked += 100;
-	
+
 	cout << std::left << setw(35) << "Go for Protoss_Pylon at " << setw(5) << currentState.seconds
 	     << "  m = " << setw(9) << currentState.stockMineral
 	     << "  g = " << setw(8) << currentState.stockGas

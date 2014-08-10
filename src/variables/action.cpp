@@ -128,10 +128,11 @@ namespace ghost
   {
     os
       << "Type info: " <<  typeid(a).name() << endl
-      << "Type: " <<  a.getTypeString() << endl
-      << "Race: " <<  a.getRaceString() << endl
       << "Full name: " << a.fullName << endl
       << "Id num: " << a.id << endl
+      << "Value: " <<  a.value << endl
+      << "Type: " <<  a.getTypeString() << endl
+      << "Race: " <<  a.getRaceString() << endl
       << "Seconds required: " << a.data.secondsRequired << endl
       << "Cost Mineral: " <<  a.data.costMineral << endl
       << "Cost Gas: " <<  a.data.costGas << endl
@@ -141,9 +142,9 @@ namespace ghost
     
     for( const auto& d : a.data.dependencies )
       os << d << "  "; 
-
+    
     os << endl << "-------" << endl;
-
+    
     return os;
   }
 }
