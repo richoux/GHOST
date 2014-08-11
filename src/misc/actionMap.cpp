@@ -28,35 +28,14 @@
 
 namespace ghost
 {
-  // map<string, ActionData> actionOf;
-
-  // actionOf["Protoss_Mineral"] = ActionData( 0, 0, 0, 0, special, vector<string>("Protoss_Nexus"), "Protoss_Probe", Protoss, "Mineral" );
-  // actionOf["Protoss_Gas"] = ActionData( 0, 0, 0, 0, special, vector<string>("Protoss_Nexus", "Protoss_Assimilator"), "Protoss_Probe", Protoss, "Gas" );
-
-  // // units
-  // actionOf["Protoss_Probe"] = ActionData( 20, 50, 0, 1, unit, vector<string>("Protoss_Nexus"), "Protoss_Nexus", Protoss, "Protoss_Probe" );
-  // actionOf["Protoss_Zealot"] = ActionData( 40, 100, 0, 2, unit, vector<string>("Protoss_Gateway"), "Protoss_Gateway", Protoss, "Protoss_Zealot" );
-  // actionOf["Protoss_Dragoon"] = ActionData( 50, 125, 50, 2, unit, vector<string>("Protoss_Cybernetics_Core"), "Protoss_Gateway", Protoss, "Protoss_Dragoon" );
-
-  //  // buildings
-  // actionOf["Protoss_Nexus"] = ActionData( 120, 400, 0, 0, building, vector<string>(), "Protoss_Probe", Protoss, "Protoss_Nexus" );
-  // actionOf["Protoss_Pylon"] = ActionData( 30, 100, 0, 0, building, vector<string>(), "Protoss_Probe", Protoss, "Protoss_Pylon" );
-  // actionOf["Protoss_Assimilator"] = ActionData( 40, 100, 0, 0, building, vector<string>(), "Protoss_Probe", Protoss, "Protoss_Assimilator" );
-  // actionOf["Protoss_Gateway"] = ActionData( 60, 150, 0, 0, building, vector<string>("Protoss_Nexus"), "Protoss_Probe", Protoss, "Protoss_Gateway" );
-  // actionOf["Protoss_Forge"] = ActionData( 40, 150, 0, 0, building, vector<string>("Protoss_Nexus"), "Protoss_Probe", Protoss, "Protoss_Forge" );
-  // actionOf["Protoss_Cybernetics_Core"] = ActionData( 60, 200, 0, 0, building, vector<string>("Protoss_Gateway"), "Protoss_Probe", Protoss, "Protoss_Cybernetics_Core" );
-  // actionOf["Protoss_Shield_Battery"] = ActionData( 30, 100, 0, 0, building, vector<string>("Protoss_Gateway"), "Protoss_Probe", Protoss, "Protoss_Shield_Battery" );
-  //  // upgrades
-  // actionOf["Protoss_Ground_Weapons_1"] = ActionData( 266, 100, 100, 0, upgrade, vector<string>("Protoss_Forge"), "Protoss_Forge", Protoss, "Protoss_Ground_Weapons_1" );
-
-
   map<string, const ActionData> actionOf
-  { 
+  {
+    // special
     make_pair( "Protoss_Mineral",
   	       ActionData( 0, 0, 0, 0, special, {"Protoss_Nexus"}, "Protoss_Probe", Protoss, "Mineral" ) ),
       make_pair( "Protoss_Gas",
   		 ActionData( 0, 0, 0, 0, special, {"Protoss_Nexus", "Protoss_Assimilator"}, "Protoss_Probe", Protoss, "Gas" ) ),
-   // units
+      // units
       make_pair( "Protoss_Probe",
   		 ActionData( 20, 50, 0, 1, unit, {"Protoss_Nexus"}, "Protoss_Nexus", Protoss, "Protoss_Probe" ) ),
       make_pair( "Protoss_Zealot",
@@ -85,7 +64,7 @@ namespace ghost
   		 ActionData( 160, 100, 350, 4, unit, {"Protoss_Arbiter_Tribunal"}, "Protoss_Stargate", Protoss, "Protoss_Arbiter" ) ),
       make_pair( "Protoss_Corsair",
   		 ActionData( 40, 150, 350, 2, unit, {"Protoss_Stargate"}, "Protoss_Stargate", Protoss, "Protoss_Corsair" ) ),
-   // buildings
+      // buildings
       make_pair( "Protoss_Nexus",
   		 ActionData( 120, 400, 0, 0, building, {}, "Protoss_Probe", Protoss, "Protoss_Nexus" ) ),
       make_pair( "Protoss_Pylon",
@@ -96,13 +75,102 @@ namespace ghost
   		 ActionData( 60, 150, 0, 0, building, {"Protoss_Nexus"}, "Protoss_Probe", Protoss, "Protoss_Gateway" ) ),
       make_pair( "Protoss_Forge",
   		 ActionData( 40, 150, 0, 0, building, {"Protoss_Nexus"}, "Protoss_Probe", Protoss, "Protoss_Forge" ) ),
-      make_pair( "Protoss_Cybernetics_Core",
-  		 ActionData( 60, 200, 0, 0, building, {"Protoss_Gateway"}, "Protoss_Probe", Protoss, "Protoss_Cybernetics_Core" ) ),
       make_pair( "Protoss_Shield_Battery",
   		 ActionData( 30, 100, 0, 0, building, {"Protoss_Gateway"}, "Protoss_Probe", Protoss, "Protoss_Shield_Battery" ) ),
-   // upgrades
+      make_pair( "Protoss_Cybernetics_Core",
+  		 ActionData( 60, 200, 0, 0, building, {"Protoss_Gateway"}, "Protoss_Probe", Protoss, "Protoss_Cybernetics_Core" ) ),
+      make_pair( "Protoss_Photon_Cannon",
+  		 ActionData( 50, 150, 0, 0, building, {"Protoss_Forge"}, "Protoss_Probe", Protoss, "Protoss_Photon_Cannon" ) ),
+      make_pair( "Protoss_Robotics_Facility",
+  		 ActionData( 80, 200, 200, 0, building, {"Protoss_Cybernetics_Core"}, "Protoss_Probe", Protoss, "Protoss_Robotics_Facility" ) ),
+      make_pair( "Protoss_Stargate",
+  		 ActionData( 70, 150, 150, 0, building, {"Protoss_Cybernetics_Core"}, "Protoss_Probe", Protoss, "Protoss_Stargate" ) ),
+      make_pair( "Protoss_Citadel_Of_Adun",
+  		 ActionData( 60, 150, 100, 0, building, {"Protoss_Cybernetics_Core"}, "Protoss_Probe", Protoss, "Protoss_Citadel_Of_Adun" ) ),
+      make_pair( "Protoss_Robotics_Support_Bay",
+  		 ActionData( 30, 150, 100, 0, building, {"Protoss_Robotics_Facility"}, "Protoss_Probe", Protoss, "Protoss_Robotics_Support_Bay" ) ),
+      make_pair( "Protoss_Fleet_Beacon",
+  		 ActionData( 60, 300, 200, 0, building, {"Protoss_Stargate"}, "Protoss_Probe", Protoss, "Protoss_Fleet_Beacon" ) ),
+      make_pair( "Protoss_Templar_Archives",
+  		 ActionData( 60, 150, 200, 0, building, {"Protoss_Citadel_Of_Adun"}, "Protoss_Probe", Protoss, "Protoss_Templar_Archives" ) ),
+      make_pair( "Protoss_Observatory",
+  		 ActionData( 30, 50, 100, 0, building, {"Protoss_Robotics_Facility"}, "Protoss_Probe", Protoss, "Protoss_Observatory" ) ),
+      make_pair( "Protoss_Arbiter_Tribunal",
+  		 ActionData( 60, 200, 150, 0, building, {"Protoss_Stargate, Protoss_Templar_Archives"}, "Protoss_Probe", Protoss, "Protoss_Arbiter_Tribunal" ) ),
+      // upgrades
       make_pair( "Protoss_Ground_Weapons_1",
-  		 ActionData( 266, 100, 100, 0, upgrade, {"Protoss_Forge"}, "Protoss_Forge", Protoss, "Protoss_Ground_Weapons_1" ) )
+  		 ActionData( 266, 100, 100, 0, upgrade, {"Protoss_Forge"}, "Protoss_Forge", Protoss, "Protoss_Ground_Weapons_1" ) ),
+      make_pair( "Protoss_Ground_Weapons_2",
+  		 ActionData( 298, 150, 150, 0, upgrade, {"Protoss_Ground_Weapons_1"}, "Protoss_Forge", Protoss, "Protoss_Ground_Weapons_2" ) ),
+      make_pair( "Protoss_Ground_Weapons_3",
+  		 ActionData( 330, 200, 200, 0, upgrade, {"Protoss_Ground_Weapons_2"}, "Protoss_Forge", Protoss, "Protoss_Ground_Weapons_3" ) ),
+      make_pair( "Protoss_Ground_Armor_1",
+  		 ActionData( 266, 100, 100, 0, upgrade, {"Protoss_Forge"}, "Protoss_Forge", Protoss, "Protoss_Ground_Armor_1" ) ),
+      make_pair( "Protoss_Ground_Armor_2",
+  		 ActionData( 298, 175, 175, 0, upgrade, {"Protoss_Ground_Armor_1"}, "Protoss_Forge", Protoss, "Protoss_Ground_Armor_2" ) ),
+      make_pair( "Protoss_Ground_Armor_3",
+  		 ActionData( 330, 250, 250, 0, upgrade, {"Protoss_Ground_Armor_2"}, "Protoss_Forge", Protoss, "Protoss_Ground_Armor_3" ) ),
+      make_pair( "Protoss_Plasma_Shields_1",
+  		 ActionData( 266, 200, 200, 0, upgrade, {"Protoss_Forge"}, "Protoss_Forge", Protoss, "Protoss_Plasma_Shields_1" ) ),
+      make_pair( "Protoss_Plasma_Shields_2",
+  		 ActionData( 298, 300, 300, 0, upgrade, {"Protoss_Plasma_Shields_1"}, "Protoss_Forge", Protoss, "Protoss_Plasma_Shields_2" ) ),
+      make_pair( "Protoss_Plasma_Shields_3",
+  		 ActionData( 330, 400, 400, 0, upgrade, {"Protoss_Plasma_Shields_2"}, "Protoss_Forge", Protoss, "Protoss_Plasma_Shields_3" ) ),
+      make_pair( "Protoss_Air_Weapons_1",
+  		 ActionData( 266, 100, 100, 0, upgrade, {"Protoss_Cybernetics_Core"}, "Protoss_Cybernetics_Core", Protoss, "Protoss_Air_Weapons_1" ) ),
+      make_pair( "Protoss_Air_Weapons_2",
+  		 ActionData( 298, 175, 175, 0, upgrade, {"Protoss_Air_Weapons_1"}, "Protoss_Cybernetics_Core", Protoss, "Protoss_Air_Weapons_2" ) ),
+      make_pair( "Protoss_Air_Weapons_3",
+  		 ActionData( 330, 250, 250, 0, upgrade, {"Protoss_Air_Weapons_2"}, "Protoss_Cybernetics_Core", Protoss, "Protoss_Air_Weapons_3" ) ),
+      make_pair( "Protoss_Air_Armor_1",
+  		 ActionData( 266, 150, 150, 0, upgrade, {"Protoss_Cybernetics_Core"}, "Protoss_Cybernetics_Core", Protoss, "Protoss_Air_Armor_1" ) ),
+      make_pair( "Protoss_Air_Armor_2",
+  		 ActionData( 298, 225, 225, 0, upgrade, {"Protoss_Air_Armor_1"}, "Protoss_Cybernetics_Core", Protoss, "Protoss_Air_Armor_2" ) ),
+      make_pair( "Protoss_Air_Armor_3",
+  		 ActionData( 330, 300, 300, 0, upgrade, {"Protoss_Air_Armor_2"}, "Protoss_Cybernetics_Core", Protoss, "Protoss_Air_Armor_3" ) ),
+      // researches
+      make_pair( "Singularity_Charge",
+  		 ActionData( 166, 150, 150, 0, research, {"Protoss_Cybernetics_Core"}, "Protoss_Cybernetics_Core", Protoss, "Singularity_Charge" ) ),
+      make_pair( "Leg_Enhancements",
+  		 ActionData( 133, 150, 150, 0, research, {"Protoss_Citadel_Of_Adun"}, "Protoss_Citadel_Of_Adun", Protoss, "Leg_Enhancements" ) ),
+      make_pair( "Scarab_Damage",
+  		 ActionData( 166, 200, 200, 0, research, {"Protoss_Robotics_Support_Bay"}, "Protoss_Robotics_Support_Bay", Protoss, "Scarab_Damage" ) ),
+      make_pair( "Reaver_Capacity",
+  		 ActionData( 166, 200, 200, 0, research, {"Protoss_Robotics_Support_Bay"}, "Protoss_Robotics_Support_Bay", Protoss, "Reaver_Capacity" ) ),
+      make_pair( "Gravitic_Drive",
+  		 ActionData( 166, 200, 200, 0, research, {"Protoss_Robotics_Support_Bay"}, "Protoss_Robotics_Support_Bay", Protoss, "Gravitic_Drive" ) ),
+      make_pair( "Apial_Sensors",
+  		 ActionData( 166, 100, 100, 0, research, {"Protoss_Fleet_Beacon"}, "Protoss_Fleet_Beacon", Protoss, "Apial_Sensors" ) ),
+      make_pair( "Gravitic_Thrusters",
+  		 ActionData( 166, 200, 200, 0, research, {"Protoss_Fleet_Beacon"}, "Protoss_Fleet_Beacon", Protoss, "Gravitic_Thrusters" ) ),
+      make_pair( "Carrier_Capacity",
+  		 ActionData( 100, 100, 100, 0, research, {"Protoss_Fleet_Beacon"}, "Protoss_Fleet_Beacon", Protoss, "Carrier_Capacity" ) ),
+      make_pair( "Argus_Jewel",
+  		 ActionData( 166, 100, 100, 0, research, {"Protoss_Fleet_Beacon"}, "Protoss_Fleet_Beacon", Protoss, "Argus_Jewel" ) ),
+      make_pair( "Disruption_Web",
+  		 ActionData( 80, 200, 200, 0, research, {"Protoss_Fleet_Beacon"}, "Protoss_Fleet_Beacon", Protoss, "Disruption_Web" ) ),
+      make_pair( "Psionic_Storm",
+  		 ActionData( 120, 200, 200, 0, research, {"Protoss_Templar_Archives"}, "Protoss_Templar_Archives", Protoss, "Psionic_Storm" ) ),
+      make_pair( "Hallucination",
+		 ActionData( 80, 150, 150, 0, research, {"Protoss_Templar_Archives"}, "Protoss_Templar_Archives", Protoss, "Hallucination" ) ),
+      make_pair( "Khaydarin_Amulet",
+		 ActionData( 166, 150, 150, 0, research, {"Protoss_Templar_Archives"}, "Protoss_Templar_Archives", Protoss, "Khaydarin_Amulet" ) ),
+      make_pair( "Maelstrom",
+		 ActionData( 100, 100, 100, 0, research, {"Protoss_Templar_Archives"}, "Protoss_Templar_Archives", Protoss, "Maelstrom" ) ),
+      make_pair( "Mind_Control",
+		 ActionData( 120, 200, 200, 0, research, {"Protoss_Templar_Archives"}, "Protoss_Templar_Archives", Protoss, "Mind_Control" ) ),
+      make_pair( "Argus_Talisman",
+  		 ActionData( 166, 150, 150, 0, research, {"Protoss_Templar_Archives"}, "Protoss_Templar_Archives", Protoss, "Argus_Talisman" ) ),
+      make_pair( "Sensor_Array",
+  		 ActionData( 133, 150, 150, 0, research, {"Protoss_Observatory"}, "Protoss_Observatory", Protoss, "Sensor_Array" ) ),
+      make_pair( "Gravitic_Boosters",
+  		 ActionData( 166, 200, 200, 0, research, {"Protoss_Observatory"}, "Protoss_Observatory", Protoss, "Gravitic_Boosters" ) ),
+      make_pair( "Recall",
+  		 ActionData( 120, 150, 150, 0, research, {"Protoss_Arbiter_Tribunal"}, "Protoss_Arbiter_Tribunal", Protoss, "Recall" ) ),
+      make_pair( "Stasis_Field",
+  		 ActionData( 100, 150, 150, 0, research, {"Protoss_Arbiter_Tribunal"}, "Protoss_Arbiter_Tribunal", Protoss, "Stasis_Field" ) ),
+      make_pair( "Khaydarin_Core",
+  		 ActionData( 166, 150, 150, 0, research, {"Protoss_Arbiter_Tribunal"}, "Protoss_Arbiter_Tribunal", Protoss, "Khaydarin_Core" ) )
    };
 
 }
