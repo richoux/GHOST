@@ -85,7 +85,7 @@ namespace ghost
     for( auto &g : goals)
       g.second.second = 0;
 
-    cout << endl << endl;
+    // cout << endl << endl;
     
     auto nextAction = vecVariables->begin();
     
@@ -780,7 +780,7 @@ namespace ghost
       bestCost = optiCost;
     }
 
-    printBO();
+    // printBO();
 
     postprocesstimer = chrono::high_resolution_clock::now() - startPostprocess;
     return postprocesstimer.count();

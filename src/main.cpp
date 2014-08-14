@@ -29,6 +29,7 @@
 #include <memory>
 #include <algorithm>
 #include <type_traits>
+#include <string>
 
 // Wall-in
 
@@ -146,5 +147,5 @@ int main(int argc, char **argv)
 
   //////////////
   // Solver call
-  solver.solve( 20 );    
+  solver.solve( stod(argv[1]), stod(argv[2]) );    
 }

@@ -128,9 +128,11 @@ namespace ghost
      * instanciate with a null Objective (pure satisfaction run) or an
      * non-null Objective (optimization run).
      */
-    double solve( double timeout_ms )
+    double solve( double sat_timeout, double opt_timeout )
     {
-      double timeout = timeout_ms * 1000; // timeout in microseconds
+      sat_timeout *= 1000; // timeouts in microseconds
+      opt_timeout *= 1000;
+      
       chrono::duration<double,micro> elapsedTime(0);
       chrono::duration<double,micro> elapsedTimeTour(0);
       chrono::time_point<chrono::high_resolution_clock> start;
@@ -312,7 +314,7 @@ namespace ghost
 
 	  elapsedTimeTour = chrono::high_resolution_clock::now() - startTour;
 	  elapsedTime = chrono::high_resolution_clock::now() - start;
-	} while( globalCost != 0. && elapsedTimeTour.count() < timeout && elapsedTime.count() < OPT_TIME );
+	} while( globalCost != 0. && elapsedTimeTour.count() < sat_timeout && elapsedTime.count() < opt_timeout );
 
 	// remove useless buildings
 	if( globalCost == 0 )
@@ -320,8 +322,8 @@ namespace ghost
 
 	elapsedTime = chrono::high_resolution_clock::now() - start;
       }
-      while( ( ( !objOriginalNull || loops == 0 )  && ( elapsedTime.count() < OPT_TIME ) )
-	     || ( objOriginalNull && elapsedTime.count() < timeout * loops ) );
+      while( ( ( !objOriginalNull || loops == 0 )  && ( elapsedTime.count() < opt_timeout ) )
+	     || ( objOriginalNull && elapsedTime.count() < sat_timeout * loops ) );
 
       domain->wipe( vecVariables );
 
@@ -336,7 +338,8 @@ namespace ghost
       if( bestGlobalCost == 0 )
 	timerPostProcessOpt = objective->postprocessOptimization( vecVariables, domain, bestCost );
 
-      cout << "Domains:" << *domain << endl;
+      // cout << "Domains:" << *domain << endl;
+      cout << "############" << endl;
       
       if( objOriginalNull )
 	cout << "SATISFACTION run: try to find a sound wall only!" << endl;
@@ -370,6 +373,8 @@ namespace ghost
       if( timerPostProcessOpt != 0 )
 	cout << "Post-processing time: " << timerPostProcessOpt / 1000 << endl; 
 
+      cout << endl;
+      
       if( objOriginalNull )
 	return bestGlobalCost;
       else
