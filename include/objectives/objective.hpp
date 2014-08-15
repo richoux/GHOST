@@ -31,7 +31,6 @@
 #include <vector>
 
 #include "../misc/random.hpp"
-#include "../misc/constants.hpp"
 
 using namespace std;
 
@@ -106,15 +105,17 @@ namespace ghost
     inline double postprocessSatisfaction( vector< TypeVariable > *vecVariables,
 					   TypeDomain *domain,
 					   double &bestCost,
-					   vector< TypeVariable > &bestSolution)
-    { return v_postprocessSatisfaction(vecVariables, domain, bestCost, bestSolution); }
+					   vector< TypeVariable > &bestSolution,
+					   double sat_timeout)
+    { return v_postprocessSatisfaction(vecVariables, domain, bestCost, bestSolution, sat_timeout); }
 
     //! Inline function following the NVI idiom. Calling v_postprocessOptimization.
     //! \sa v_postprocessOptimization
     inline double postprocessOptimization( vector< TypeVariable > *vecVariables,
 					   TypeDomain *domain,
-					   double &bestCost )
-    { return v_postprocessOptimization(vecVariables, domain, bestCost); }
+					   double &bestCost,
+					   double opt_timeout)
+    { return v_postprocessOptimization(vecVariables, domain, bestCost, opt_timeout); }
 
     //! Inline accessor to get the name of the objective object.
     inline string getName() { return name; }
@@ -183,13 +184,15 @@ namespace ghost
      * \param domain A constant pointer to the domain object of the CSP/COP.
      * \param bestCost A reference the double representing the best global cost found by the solver so far.
      * \param solution A reference to the vector of variables of the solution found by the solver.
+     * \param sat_timeout The satisfaction timeout given in argument of Solver::solve
      * \return The function runtime in milliseconds.
      * \sa postprocessSatisfaction
      */
     virtual double v_postprocessSatisfaction( vector< TypeVariable > *vecVariables,
 					      TypeDomain *domain,
 					      double &bestCost,
-					      vector< TypeVariable > &solution ) const
+					      vector< TypeVariable > &solution,
+					      double sat_timeout) const
     {
       bestCost = 0.;
       return 0.;
@@ -206,12 +209,14 @@ namespace ghost
      * \param vecVariables A constant pointer to the vector of variable objects of the CSP/COP.
      * \param domain A constant pointer to the domain object of the CSP/COP.
      * \param bestCost A reference the double representing the best optimization cost found by the solver so far.
+     * \param opt_timeout The optimization timeout given in argument of Solver::solve
      * \return The function runtime in milliseconds.
      * \sa postprocessOptimization
      */
     virtual double v_postprocessOptimization( vector< TypeVariable > *vecVariables,
 					      TypeDomain *domain,
-					      double &bestCost )
+					      double &bestCost,
+					      double opt_timeout)
     {
       bestCost = 0.;
       return 0.;

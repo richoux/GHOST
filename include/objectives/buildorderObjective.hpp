@@ -60,14 +60,16 @@ namespace ghost
 			  int &bestValue ) const;
     void v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain );
 
-    virtual double v_postprocessOptimization( vector< Action > *vecActions,
-					      BuildOrderDomain *domain,
-					      double &bestCost );
+    double v_postprocessOptimization( vector< Action > *vecActions,
+				      BuildOrderDomain *domain,
+				      double &bestCost,
+				      double opt_timeout );
 
     double v_postprocessSatisfaction( vector< Action > *vecVariables,
 				      BuildOrderDomain *domain,
 				      double &bestCost,
-				      vector< Action > &bestSolution) const;
+				      vector< Action > &bestSolution,
+				      double sat_timeout ) const;
     
     struct Tuple
     {

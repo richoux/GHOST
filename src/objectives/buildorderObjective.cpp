@@ -748,7 +748,8 @@ namespace ghost
   double BuildOrderObjective::v_postprocessSatisfaction( vector< Action > *vecVariables,
 							 BuildOrderDomain *domain,
 							 double &bestCost,
-							 vector< Action > &bestSolution) const
+							 vector< Action > &bestSolution,
+							 double sat_timeout ) const
   {
     chrono::time_point<chrono::high_resolution_clock> startPostprocess = chrono::high_resolution_clock::now(); 
     chrono::duration<double,micro> postprocesstimer(0);
@@ -768,7 +769,10 @@ namespace ghost
   }
 
 
-  double BuildOrderObjective::v_postprocessOptimization( vector< Action > *vecVariables, BuildOrderDomain *domain, double &bestCost ) 
+  double BuildOrderObjective::v_postprocessOptimization( vector< Action > *vecVariables,
+							 BuildOrderDomain *domain,
+							 double &bestCost,
+							 double opt_timeout ) 
   {
     chrono::time_point<chrono::high_resolution_clock> startPostprocess = chrono::high_resolution_clock::now(); 
     chrono::duration<double,micro> postprocesstimer(0);

@@ -51,31 +51,18 @@ namespace ghost
     virtual double v_postprocessSatisfaction( vector< Building > *vecVariables,
 					      WallinDomain *domain,
 					      double &bestCost,
-					      vector< Building > &bestSolution ) const;
+					      vector< Building > &bestSolution,
+					      double sat_timeout) const;
     
     virtual double v_postprocessOptimization( vector< Building > *vecBuildings,
 					      WallinDomain *domain,
-					      double &bestCost );
+					      double &bestCost,
+					      double opt_timeout);
 
     
     static int sizeWall;
   };
   
-  // /***********/
-  // /* NoneObj */
-  // /***********/
-  // class NoneObj : public WallinObjective
-  // {
-  // public:
-  //   NoneObj();
-
-  // private:
-  //   double v_cost( const vector< Building > *vecVariables, const WallinDomain *domain ) const;
-  //   int v_heuristicVariable( const vector< int > &vecId, const vector< Building > *vecVariables, WallinDomain *domain );
-  //   void v_setHelper( const Building &b, const vector< Building > *vecVariables, const WallinDomain *domain );
-  //   double v_postprocessOptimization( vector< Building > *vecVariables, WallinDomain *domain, double &bestCost );
-  // };
-
   /**********/
   /* GapObj */
   /**********/
@@ -102,7 +89,7 @@ namespace ghost
   private:
     double v_cost( const vector< Building > *vecVariables, const WallinDomain *domain ) const;
     int v_heuristicVariable( const vector< int > &vecId, const vector< Building > *vecVariables, WallinDomain *domain );
-    double v_postprocessOptimization( vector< Building > *vecVariables, WallinDomain *domain, double &bestCost );
+    double v_postprocessOptimization( vector< Building > *vecVariables, WallinDomain *domain, double &bestCost, double opt_timeout );
   };
 
   /***************/

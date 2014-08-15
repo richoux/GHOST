@@ -42,7 +42,6 @@
 #include "constraints/constraint.hpp"
 #include "domains/domain.hpp"
 #include "misc/random.hpp"
-#include "misc/constants.hpp"
 #include "objectives/objective.hpp"
 
 using namespace std;
@@ -128,10 +127,15 @@ namespace ghost
      * instanciate with a null Objective (pure satisfaction run) or an
      * non-null Objective (optimization run).
      */
-    double solve( double sat_timeout, double opt_timeout )
+    double solve( double sat_timeout, double opt_timeout = 0)
     {
       sat_timeout *= 1000; // timeouts in microseconds
-      opt_timeout *= 1000;
+      if( opt_timeout == 0 )
+	opt_timeout = sat_timeout * 10;
+      else
+	opt_timeout *= 1000;
+
+      int tabu_length = std::max( 2, static_cast<int>(vecVariables->size() / 3) ); // was 5 before
       
       chrono::duration<double,micro> elapsedTime(0);
       chrono::duration<double,micro> elapsedTimeTour(0);
@@ -310,7 +314,7 @@ namespace ghost
 	    variableCost = bestSimCost;
 	  }
 	  else // local minima
-	    tabuList[ worstVariableId ] = TABU;
+	    tabuList[ worstVariableId ] = tabu_length;
 
 	  elapsedTimeTour = chrono::high_resolution_clock::now() - startTour;
 	  elapsedTime = chrono::high_resolution_clock::now() - start;
@@ -318,7 +322,7 @@ namespace ghost
 
 	// remove useless buildings
 	if( globalCost == 0 )
-	  objective->postprocessSatisfaction( vecVariables, domain, bestCost, bestSolution );
+	  objective->postprocessSatisfaction( vecVariables, domain, bestCost, bestSolution, sat_timeout );
 
 	elapsedTime = chrono::high_resolution_clock::now() - start;
       }
@@ -336,7 +340,7 @@ namespace ghost
       beforePostProc = bestCost;
       
       if( bestGlobalCost == 0 )
-	timerPostProcessOpt = objective->postprocessOptimization( vecVariables, domain, bestCost );
+	timerPostProcessOpt = objective->postprocessOptimization( vecVariables, domain, bestCost, opt_timeout );
 
       // cout << "Domains:" << *domain << endl;
       cout << "############" << endl;
@@ -429,7 +433,7 @@ namespace ghost
 
     vector<double>				variableCost;		//!< The vector of projected costs on each variable.
     int						loops;			//!< The number of times we reiterate the satisfaction loop inside Solver::solve 
-    vector<int>					tabuList;		//!< The tabu list, frozing each used variable for TABU iterations 
+    vector<int>					tabuList;		//!< The tabu list, frozing each used variable for tabu_length iterations 
     Random					randomVar;		//!< The random generator used by the solver.
     double					bestCost;		//!< The (satisfaction or optimization) cost of the best solution.
     vector< TypeVariable >			bestSolution;		//!< The best solution found by the solver.

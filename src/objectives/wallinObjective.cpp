@@ -61,7 +61,8 @@ namespace ghost
   double WallinObjective::v_postprocessSatisfaction( vector< Building > *vecVariables,
 						     WallinDomain *domain,
 						     double &bestCost,
-						     vector< Building > &bestSolution ) const 
+						     vector< Building > &bestSolution,
+						     double sat_timeout ) const 
   {
     chrono::time_point<chrono::high_resolution_clock> startPostprocess = chrono::high_resolution_clock::now(); 
 
@@ -140,7 +141,10 @@ namespace ghost
     return (chrono::high_resolution_clock::now() - startPostprocess).count();
   }
 
-  double WallinObjective::v_postprocessOptimization( vector< Building > *vecVariables, WallinDomain *domain, double &bestCost ) 
+  double WallinObjective::v_postprocessOptimization( vector< Building > *vecVariables,
+						     WallinDomain *domain,
+						     double &bestCost,
+						     double opt_timeout ) 
   {
     chrono::time_point<chrono::high_resolution_clock> startPostprocess = chrono::high_resolution_clock::now(); 
     chrono::duration<double,micro> postprocesstimer(0);
@@ -161,7 +165,7 @@ namespace ghost
     bestCost = v_cost( vecVariables, domain );
     double currentCost = bestCost;
 
-    int postprocessTimeLimit = std::max( 1, static_cast<int>( ceil( static_cast<double>(OPT_TIME) / 100) ) );
+    int postprocessTimeLimit = std::max( 1, static_cast<int>( ceil( static_cast<double>(opt_timeout) / 100) ) );
 
     while( (postprocesstimer = chrono::high_resolution_clock::now() - startPostprocess).count() < postprocessTimeLimit && bestCost > 0 )
     {
@@ -216,30 +220,6 @@ namespace ghost
     return postprocesstimer.count();
   }
 
-  // /***********/
-  // /* NoneObj */
-  // /***********/
-  // NoneObj::NoneObj() : WallinObjective( "wallinNone" ) { }
-
-  // double NoneObj::v_cost( const vector< Building > *vecVariables, const WallinDomain *domain ) const
-  // {
-  //   return count_if( vecVariables->begin(), 
-  // 		     vecVariables->end(), 
-  // 		     []( const Building &b ){ return b.isSelected(); });
-  // }
-
-  // int NoneObj::v_heuristicVariable( const vector< int > &vecId, const vector< Building > *vecVariables, WallinDomain *domain )
-  // {
-  //   return vecId[ randomVar.getRandNum( vecId.size() ) ];
-  // }
-
-  // void NoneObj::v_setHelper( const Building &b, const vector< Building > *vecVariables, const WallinDomain *domain )
-  // {
-  //   if( b.isSelected() )
-  //     heuristicValueHelper.at( b.getValue() ) = 0;
-  // }
-
-  // double NoneObj::v_postprocessOptimization( vector< Building > *vecVariables, WallinDomain *domain, double &bestCost ) { return 0.; }
   
   /**********/
   /* GapObj */
@@ -356,7 +336,10 @@ namespace ghost
     return varOnDomain[ randomVar.getRandNum( size ) ];    
   }
 
-  double BuildingObj::v_postprocessOptimization( vector< Building > *vecVariables, WallinDomain *domain, double &bestCost ) { return 0.; }
+  double BuildingObj::v_postprocessOptimization( vector< Building > *vecVariables,
+						 WallinDomain *domain,
+						 double &bestCost,
+						 double opt_timeout ) { return 0.; }
 
   /***************/
   /* TechTreeObj */

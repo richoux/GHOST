@@ -119,12 +119,10 @@ int main(int argc, char **argv)
   //   cout << boolalpha << "GapObj movable: " << is_nothrow_move_constructible<GapObj>::value << endl;
   // #endif
 
+  // solver.solve( 20 );    
 
   
   // BO
-
-  // RaceActions ra;
-  // cout << "Size " << ra.protoss.size() << endl;
   
   // Define variables
   vector< Action > vec;
@@ -143,9 +141,5 @@ int main(int argc, char **argv)
 
   Solver<Action, BuildOrderDomain, BuildOrderConstraint> solver(&vec, &domain, vecConstraints, objective );
 
-
-
-  //////////////
-  // Solver call
-  solver.solve( stod(argv[1]), stod(argv[2]) );    
+  solver.solve( 30, 1000 );    
 }
