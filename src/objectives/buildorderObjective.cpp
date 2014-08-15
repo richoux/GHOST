@@ -43,6 +43,12 @@ using namespace std;
 
 namespace ghost
 {
+  constexpr int goToBuild = 5;
+  constexpr int returnToMinerals = 4;
+  constexpr int fromBaseToMinerals = 2;
+  constexpr int fromMinToGas = 2;
+  
+  
   /***********************/
   /* BuildOrderObjective */
   /***********************/
@@ -244,7 +250,7 @@ namespace ghost
 	    auto it = vecVariables->insert( it_find, Action( creator, it_find->getValue() ) );
 	    std::for_each( it+1, vecVariables->end(), [](Action &a){a.shiftValue();} );
 	      
-	    currentState.inMove.push_back( Tuple( creator, 5, false ) );
+	    currentState.inMove.push_back( Tuple( creator, goToBuild ) );
 	    if( currentState.mineralWorkers > 0 )
 	      --currentState.mineralWorkers;
 	    else
@@ -278,7 +284,7 @@ namespace ghost
 	  ++currentState.resources[ t.creator ].second;
 	}
 	if( t.name.compare("Protoss_Probe") == 0 )
-	  currentState.inMove.push_back( Tuple( actionOf["Protoss_Mineral"], 2, false ) );
+	  currentState.inMove.push_back( Tuple( actionOf["Protoss_Mineral"], fromBaseToMinerals ) );
 	else
 	{
 	  if( t.name.compare("Protoss_Nexus") == 0 )
@@ -299,7 +305,7 @@ namespace ghost
 	    // if we have few workers mining, do not sent them to gas
 	    for( int i = 0 ; i < min( 3, currentState.mineralWorkers - 3 ) ; ++i )
 	    {
-	      currentState.inMove.push_back( Tuple( actionOf["Protoss_Gas"], 2, false ) );
+	      currentState.inMove.push_back( Tuple( actionOf["Protoss_Gas"], fromMinToGas ) );
 	      --currentState.mineralWorkers;
 	    }
 	  }
@@ -307,7 +313,7 @@ namespace ghost
 	  {
 	    ++currentState.resources[ t.name ].first;
 	    ++currentState.resources[ t.name ].second;
-	    currentState.inMove.push_back( Tuple( actionOf["Protoss_Mineral"], 4, false ) );
+	    currentState.inMove.push_back( Tuple( actionOf["Protoss_Mineral"], returnToMinerals ) );
 	  }
 	  else if( t.name.compare("Protoss_High_Templar") == 0
 		   || t.name.compare("Protoss_Dark_Templar") == 0 )
@@ -363,7 +369,7 @@ namespace ghost
 	    {
 	      pushInBusy( t.action );
 	      // warp building and return to mineral fields
-	      currentState.inMove.push_back( Tuple( actionOf["Protoss_Mineral"], 4, false ) );
+	      currentState.inMove.push_back( Tuple( actionOf["Protoss_Mineral"], returnToMinerals ) );
 	      
 	      currentState.stockMineral -= mineralCost;
 	      currentState.stockGas -= gasCost;
@@ -401,7 +407,7 @@ namespace ghost
 	< currentState.numberRefineries * 3 )
     {
       // if we have few workers mining, do not sent them to gas
-      Tuple tuple_gas( actionOf["Protoss_Gas"], 2, false );
+      Tuple tuple_gas( actionOf["Protoss_Gas"], fromMinToGas );
       for( int i = 0 ; i < min( 3, currentState.mineralWorkers - 3 ) ; ++i )
       {
 	currentState.inMove.push_back( tuple_gas );
@@ -472,7 +478,7 @@ namespace ghost
 	//      << "  gw = " << setw(3) << currentState.gasWorkers
 	//      << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 	
-	currentState.inMove.push_back( Tuple( nextAction.getData(), 5, false ) );
+	currentState.inMove.push_back( Tuple( nextAction.getData(), goToBuild ) );
 	if( currentState.mineralWorkers > 0 )
 	  --currentState.mineralWorkers;
 	else
@@ -542,7 +548,7 @@ namespace ghost
     if( currentState.numberPylons == 0
 	&& currentState.stockMineral >= 100 - mineralsIn( 4 ) )
     {
-      currentState.inMove.push_back( Tuple( actionOf["Protoss_Pylon"], 5, false ) );
+      currentState.inMove.push_back( Tuple( actionOf["Protoss_Pylon"], goToBuild ) );
 
       currentState.mineralsBooked += 100;
       
@@ -582,7 +588,7 @@ namespace ghost
      
       if( plannedSupply <= productionCapacity + currentState.supplyUsed )
       {
-	currentState.inMove.push_back( Tuple( actionOf["Protoss_Pylon"], 5, false ) );
+	currentState.inMove.push_back( Tuple( actionOf["Protoss_Pylon"], goToBuild ) );
 	currentState.mineralsBooked += 100;
 
 	// cout << std::left << setw(35) << "Go for Protoss_Pylon at " << setw(5) << currentState.seconds

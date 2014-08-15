@@ -73,7 +73,7 @@ namespace ghost
     
     struct Tuple
     {
-      Tuple( ActionData action, int waitTime, bool done )
+      Tuple( ActionData action, int waitTime, bool done = false )
     	: action(action), waitTime(waitTime), done(done) { }
 
       ActionData action;
