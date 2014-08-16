@@ -775,16 +775,16 @@ namespace ghost
     chrono::time_point<chrono::high_resolution_clock> startPostprocess = chrono::high_resolution_clock::now(); 
     chrono::duration<double,micro> postprocesstimer(0);
 
-    double optiCost = v_cost( vecVariables, domain );
-
+    v_cost( vecVariables, domain );
+    vector< Action > copyVec(*vecVariables);
+    double optiCost = costOpti( &copyVec );
+    
     if( optiCost < bestCost )
     {
       bestCost = optiCost;
       copy( begin(*vecVariables), end(*vecVariables), begin(bestSolution) );
     }
 
-    // printBO();
-      
     postprocesstimer = chrono::high_resolution_clock::now() - startPostprocess;
     return postprocesstimer.count();
   }
@@ -798,13 +798,14 @@ namespace ghost
     chrono::time_point<chrono::high_resolution_clock> startPostprocess = chrono::high_resolution_clock::now(); 
     chrono::duration<double,micro> postprocesstimer(0);
 
-    double optiCost = costOpti( vecVariables );
+    // double optiCost = costOpti( vecVariables );
 
-    if( optiCost < bestCost )
-    {
-      bestCost = optiCost;
-    }
+    // if( optiCost < bestCost )
+    // {
+    //   bestCost = optiCost;
+    // }
 
+    bestCost = costOpti( vecVariables );
     printBO();
 
     postprocesstimer = chrono::high_resolution_clock::now() - startPostprocess;
