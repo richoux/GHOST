@@ -806,7 +806,7 @@ namespace ghost
     // }
 
     bestCost = costOpti( vecVariables );
-    printBO();
+    // printBO();
 
     postprocesstimer = chrono::high_resolution_clock::now() - startPostprocess;
     return postprocesstimer.count();
