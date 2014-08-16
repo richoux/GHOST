@@ -224,9 +224,9 @@ namespace ghost
 	  // if we can make this additional building, do it! 
 	  if( future_mineral >= simulated_mineral && future_gas >= simulated_gas
 	      &&
-	      ( creator.costMineral == 0 || currentState.stockMineral >= creator.costMineral + currentState.mineralsBooked - mineralsIn(5) )
+	      ( creator.costMineral == 0 || currentState.stockMineral >= creator.costMineral + currentState.mineralsBooked - mineralsIn(goToBuild) )
 	      &&
-	      ( creator.costGas == 0 || currentState.stockGas >= creator.costGas + currentState.gasBooked - gasIn(5) ) 
+	      ( creator.costGas == 0 || currentState.stockGas >= creator.costGas + currentState.gasBooked - gasIn(goToBuild) ) 
 	      &&
 	      currentState.mineralWorkers + currentState.gasWorkers > 0
 	      &&
@@ -462,9 +462,9 @@ namespace ghost
     // if the next action is building a building
     if( nextAction.getType() == ActionType::building )
     {
-      if( ( nextAction.getCostMineral() == 0 || currentState.stockMineral >= nextAction.getCostMineral() + currentState.mineralsBooked - mineralsIn(5) )
+      if( ( nextAction.getCostMineral() == 0 || currentState.stockMineral >= nextAction.getCostMineral() + currentState.mineralsBooked - mineralsIn(goToBuild) )
 	  &&
-	  ( nextAction.getCostGas() == 0 || currentState.stockGas >= nextAction.getCostGas() + currentState.gasBooked - gasIn(5) ) 
+	  ( nextAction.getCostGas() == 0 || currentState.stockGas >= nextAction.getCostGas() + currentState.gasBooked - gasIn(goToBuild) ) 
 	  &&
 	  currentState.mineralWorkers + currentState.gasWorkers > 0
 	  &&
@@ -558,7 +558,7 @@ namespace ghost
   {
     // build the first pylon ASAP
     if( currentState.numberPylons == 0
-	&& currentState.stockMineral >= 100 - mineralsIn( 4 ) )
+	&& currentState.stockMineral >= 100 - mineralsIn( returnToMinerals ) )
     {
       currentState.inMove.push_back( Tuple( actionOf["Protoss_Pylon"], goToBuild ) );
 
@@ -806,7 +806,7 @@ namespace ghost
     // }
 
     bestCost = costOpti( vecVariables );
-    // printBO();
+    printBO();
 
     postprocesstimer = chrono::high_resolution_clock::now() - startPostprocess;
     return postprocesstimer.count();
