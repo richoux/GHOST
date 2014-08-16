@@ -43,10 +43,10 @@ using namespace std;
 
 namespace ghost
 {
-  constexpr int goToBuild = 2;		//5
-  constexpr int returnToMinerals = 2;	//4
-  constexpr int fromBaseToMinerals = 0; //2
-  constexpr int fromMinToGas = 0;	//2
+  constexpr int goToBuild = 5;		//5
+  constexpr int returnToMinerals = 4;	//4
+  constexpr int fromBaseToMinerals = 2; //2
+  constexpr int fromMinToGas = 2;	//2
   
   
   /***********************/
@@ -371,7 +371,7 @@ namespace ghost
 	      ++currentState.gasWorkers;
 	    else // ie, the worker is about to build something
 	    {
-	      pushInBusy( t.action );
+	      pushInBusy( t.action.name );
 	      // warp building and return to mineral fields
 	      currentState.inMove.push_back( Tuple( actionOf["Protoss_Mineral"], returnToMinerals ) );
 	      
@@ -440,7 +440,7 @@ namespace ghost
       currentState.stockMineral -= 50;
       ++currentState.supplyUsed;
       --currentState.resources["Protoss_Nexus"].second;
-      pushInBusy( actionOf["Protoss_Probe"] );
+      pushInBusy( "Protoss_Probe" );
       
 #ifndef NDEBUG
       cout << std::left << setw(35) << "Start Protoss_Probe at " << setw(5) << currentState.seconds
@@ -532,7 +532,7 @@ namespace ghost
 	if( !creator.empty() && creator.compare("Protoss_Probe") != 0 )
 	  --currentState.resources[ creator ].second;
 	
-	pushInBusy( nextAction.getData() );
+	pushInBusy( nextAction.getFullName() );
 	
 	return true;
       }
@@ -624,8 +624,9 @@ namespace ghost
     }
   }
 
-  void BuildOrderObjective::pushInBusy( ActionData a ) const
+  void BuildOrderObjective::pushInBusy( const string  &name ) const
   {
+    ActionData a  = actionOf[ name ];
     currentState.busy.push_back( a );
     
     // if( goal.compare("Protoss_Probe") != 0 && goal.compare("Protoss_Pylon") != 0 )
@@ -636,7 +637,7 @@ namespace ghost
     // }
   }
 
-  bool BuildOrderObjective::dependenciesCheck( string s ) const
+  bool BuildOrderObjective::dependenciesCheck( const string &s ) const
   {
     ActionData data = actionOf[ s ]; 
     if( data.costGas > 0 && currentState.numberRefineries == 0)
@@ -806,7 +807,7 @@ namespace ghost
     // }
 
     bestCost = costOpti( vecVariables );
-    printBO();
+    // printBO();
 
     postprocesstimer = chrono::high_resolution_clock::now() - startPostprocess;
     return postprocesstimer.count();

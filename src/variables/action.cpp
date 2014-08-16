@@ -87,6 +87,24 @@ namespace ghost
     std::swap(this->name, other.name);
   }
 
+  ostream& operator<<( ostream &os, const ActionData &a )
+  {
+    os
+      << "Name: " << a.name << endl
+      << "Seconds required: " << a.secondsRequired << endl
+      << "Cost Mineral: " <<  a.costMineral << endl
+      << "Cost Gas: " <<  a.costGas << endl
+      << "Cost Supply: " <<  a.costSupply << endl
+      << "Built/Trained/Researched/Upgraded/Morphed from: " <<  a.creator << endl
+      << "Dependencies: ";
+    
+    for( const auto& d : a.dependencies )
+      os << d << "  "; 
+    
+    os << endl << "-------" << endl;
+    
+    return os;
+  }
 
   
   /**************/
@@ -133,17 +151,7 @@ namespace ghost
       << "Value: " <<  a.value << endl
       << "Type: " <<  a.getTypeString() << endl
       << "Race: " <<  a.getRaceString() << endl
-      << "Seconds required: " << a.data.secondsRequired << endl
-      << "Cost Mineral: " <<  a.data.costMineral << endl
-      << "Cost Gas: " <<  a.data.costGas << endl
-      << "Cost Supply: " <<  a.data.costSupply << endl
-      << "Built/Trained/Researched/Upgraded/Morphed from: " <<  a.data.creator << endl
-      << "Dependencies: ";
-    
-    for( const auto& d : a.data.dependencies )
-      os << d << "  "; 
-    
-    os << endl << "-------" << endl;
+      << a.data;
     
     return os;
   }

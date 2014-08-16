@@ -56,7 +56,9 @@ namespace ghost
     string		creator; 
     Race		race;
     string		name;
-    
+
+    friend ostream& operator<<( ostream&, const ActionData& );
+
   private:
     void swap(ActionData&);
   };
