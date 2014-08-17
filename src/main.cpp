@@ -128,7 +128,8 @@ int main(int argc, char **argv)
   vector< Action > vec;
 
   // BO list
-  vector< pair<string, int> > input { make_pair("Protoss_Zealot", 20), make_pair("Protoss_Dragoon", 5), make_pair("Protoss_Ground_Weapons_1", 1) };
+  // vector< pair<string, int> > input { make_pair("Protoss_Zealot", 20), make_pair("Protoss_Dragoon", 5), make_pair("Protoss_Ground_Weapons_1", 1) };
+  vector< pair<string, int> > input { make_pair("Protoss_Zealot", 3), make_pair("Protoss_Arbiter_Tribunal", 1) };
   
   // Define objective
   shared_ptr<BuildOrderObjective> objective = make_shared<MakeSpanMaxProd>( input, vec );
@@ -141,5 +142,5 @@ int main(int argc, char **argv)
 
   Solver<Action, BuildOrderDomain, BuildOrderConstraint> solver(&vec, &domain, vecConstraints, objective );
 
-  solver.solve( 30, 1000 );    
+  solver.solve( 30, 1000 );
 }

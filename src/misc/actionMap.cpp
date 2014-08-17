@@ -96,7 +96,7 @@ namespace ghost
       make_pair( "Protoss_Observatory",
   		 ActionData( 30, 50, 100, 0, building, {"Protoss_Robotics_Facility"}, "Protoss_Probe", Protoss, "Protoss_Observatory" ) ),
       make_pair( "Protoss_Arbiter_Tribunal",
-  		 ActionData( 60, 200, 150, 0, building, {"Protoss_Stargate, Protoss_Templar_Archives"}, "Protoss_Probe", Protoss, "Protoss_Arbiter_Tribunal" ) ),
+  		 ActionData( 60, 200, 150, 0, building, {"Protoss_Stargate", "Protoss_Templar_Archives"}, "Protoss_Probe", Protoss, "Protoss_Arbiter_Tribunal" ) ),
       // upgrades
       make_pair( "Protoss_Ground_Weapons_1",
   		 ActionData( 266, 100, 100, 0, upgrade, {"Protoss_Forge"}, "Protoss_Forge", Protoss, "Protoss_Ground_Weapons_1" ) ),
