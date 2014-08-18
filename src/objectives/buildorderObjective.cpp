@@ -43,10 +43,10 @@ using namespace std;
 
 namespace ghost
 {
-  constexpr int goToBuild = 5;		//5
-  constexpr int returnToMinerals = 4;	//4
-  constexpr int fromBaseToMinerals = 2; //2
-  constexpr int fromMinToGas = 2;	//2
+  constexpr int goToBuild = 4;		//5
+  constexpr int returnToMinerals = 0;	//4
+  constexpr int fromBaseToMinerals = 0; //2
+  constexpr int fromMinToGas = 0;	//2
   
   
   /***********************/
@@ -807,7 +807,7 @@ namespace ghost
     // }
 
     bestCost = costOpti( vecVariables );
-    // printBO();
+    printBO();
 
     postprocesstimer = chrono::high_resolution_clock::now() - startPostprocess;
     return postprocesstimer.count();

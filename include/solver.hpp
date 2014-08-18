@@ -135,7 +135,12 @@ namespace ghost
       else
 	opt_timeout *= 1000;
 
-      int tabu_length = std::max( 2, static_cast<int>(vecVariables->size() / 3) ); // was =5 before
+      int tabu_length;
+
+      if( vecVariables->size() < 3)
+	tabu_length = 0;
+      else
+	tabu_length = std::max( 2, static_cast<int>(vecVariables->size() / 4) ); // was =5 before
       
       chrono::duration<double,micro> elapsedTime(0);
       chrono::duration<double,micro> elapsedTimeTour(0);
