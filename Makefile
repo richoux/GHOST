@@ -30,17 +30,17 @@ vpath %.cpp $(SRCDIR)
 # $< is the first item in the dependencies list
 
 # Rules
-all: clean
-all: CXX=g++
-all: LINKER=g++ -o
-all: CXXFLAGS += -DNDEBUG
-all: $(BINDIR)/$(EXEC)
+gcc: clean
+gcc: CXX=g++
+gcc: LINKER=g++ -o
+gcc: CXXFLAGS += -DNDEBUG
+gcc: $(BINDIR)/$(EXEC)
 
-debug: clean
-debug: CXX=g++
-debug: LINKER=g++ -o
-debug: CXXFLAGS += -g
-debug: $(BINDIR)/$(EXEC)
+gcc-debug: clean
+gcc-debug: CXX=g++
+gcc-debug: LINKER=g++ -o
+gcc-debug: CXXFLAGS += -g
+gcc-debug: $(BINDIR)/$(EXEC)
 
 clang: clean
 clang: CXX=clang++
