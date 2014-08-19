@@ -26,6 +26,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "variable.hpp"
 #include "../misc/races.hpp"
 
