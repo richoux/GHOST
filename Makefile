@@ -2,13 +2,11 @@
 EXEC=ghost
 
 # Compiler
-CXX=g++
 IDIR=include include/constraints include/domains include/misc include/objectives include/variables
 IDIRFLAG=$(foreach idir, $(IDIR), -I$(idir))
 CXXFLAGS=-std=c++0x -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(IDIRFLAG)
 
 # Linker
-LINKER=g++ -o
 LFLAGS=$(IDIRFLAG)
 
 # Directories
@@ -33,12 +31,28 @@ vpath %.cpp $(SRCDIR)
 
 # Rules
 all: clean
+all: CXX=g++
+all: LINKER=g++ -o
 all: CXXFLAGS += -DNDEBUG
 all: $(BINDIR)/$(EXEC)
 
 debug: clean
+debug: CXX=g++
+debug: LINKER=g++ -o
 debug: CXXFLAGS += -g
 debug: $(BINDIR)/$(EXEC)
+
+clang: clean
+clang: CXX=clang++
+clang: LINKER=clang++ -o
+clang: CXXFLAGS += -DNDEBUG -stdlib=libc++
+clang: $(BINDIR)/$(EXEC)
+
+clang-debug: clean
+clang-debug: CXX=clang++
+clang-debug: LINKER=clang++ -o
+clang-debug: CXXFLAGS += -g -stdlib=libc++
+clang-debug: $(BINDIR)/$(EXEC)
 
 $(BINDIR)/$(EXEC): $(OBJECTS)
 	@$(LINKER) $@ $(LFLAGS) $^
