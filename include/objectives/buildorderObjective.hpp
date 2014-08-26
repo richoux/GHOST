@@ -51,7 +51,7 @@ namespace ghost
     void printBO() const;
     
   protected:
-    double v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const;
+    double v_cost( vector< Action > *vecVariables, BuildOrderDomain *domain ) const;
     double costOpti( vector< Action > *vecVariables ) const;
     
     int v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain );

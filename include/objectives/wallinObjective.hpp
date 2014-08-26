@@ -72,7 +72,7 @@ namespace ghost
     GapObj();
 
   private:
-    double v_cost( const vector< Building > *vecVariables, const WallinDomain *domain ) const;
+    double v_cost( vector< Building > *vecVariables, WallinDomain *domain ) const;
     int v_heuristicVariable( const vector< int > &vecId, const vector< Building > *vecVariables, WallinDomain *domain );
     void v_setHelper( const Building &b, const vector< Building > *vecVariables, const WallinDomain *domain );
     int gapSize( const Building &b, const vector< Building > *vecVariables, const WallinDomain *domain ) const;
@@ -87,7 +87,7 @@ namespace ghost
     BuildingObj();
 
   private:
-    double v_cost( const vector< Building > *vecVariables, const WallinDomain *domain ) const;
+    double v_cost( vector< Building > *vecVariables, WallinDomain *domain ) const;
     int v_heuristicVariable( const vector< int > &vecId, const vector< Building > *vecVariables, WallinDomain *domain );
     double v_postprocessOptimization( vector< Building > *vecVariables, WallinDomain *domain, double &bestCost, double opt_timeout );
   };
@@ -101,7 +101,7 @@ namespace ghost
     TechTreeObj();
 
   private:
-    double v_cost( const vector< Building > *vecVariables, const WallinDomain *domain ) const;
+    double v_cost( vector< Building > *vecVariables, WallinDomain *domain ) const;
     int v_heuristicVariable( const vector< int > &vecId, const vector< Building > *vecVariables, WallinDomain *domain );
   };
 }

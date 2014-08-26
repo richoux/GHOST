@@ -75,8 +75,8 @@ namespace ghost
 
     //! Inline function following the NVI idiom. Calling v_cost.
     //! \sa v_cost
-    inline double cost( const vector< TypeVariable > *vecVariables,
-			const TypeDomain *domain ) const
+    inline double cost( vector< TypeVariable > *vecVariables,
+			TypeDomain *domain ) const
     { return v_cost(vecVariables, domain); }
 
     //! Inline function following the NVI idiom. Calling v_heuristicVariable.
@@ -146,8 +146,8 @@ namespace ghost
      * \return The value of the objective function on the current configuration.
      * \sa cost
      */
-    virtual double v_cost( const vector< TypeVariable > *vecVariables,
-			   const TypeDomain *domain ) const = 0;
+    virtual double v_cost( vector< TypeVariable > *vecVariables,
+			   TypeDomain *domain ) const = 0;
 
     //! Pure virtual function to apply the variable heuristic used by the solver.
     /*! 
@@ -307,8 +307,8 @@ namespace ghost
     NullObjective() : Objective<TypeVariable, TypeDomain>("nullObjective") { }
 
   private:
-    virtual double v_cost( const vector< TypeVariable > *vecVariables,
-			   const TypeDomain *domain ) const
+    virtual double v_cost( vector< TypeVariable > *vecVariables,
+			   TypeDomain *domain ) const
     { return 0.; }
     
     virtual int	v_heuristicVariable( const vector< int > &vecId,

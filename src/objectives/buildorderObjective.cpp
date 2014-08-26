@@ -84,7 +84,7 @@ namespace ghost
     cout << endl;
   }
   
-  double BuildOrderObjective::v_cost( const vector< Action > *vecVariables, const BuildOrderDomain *domain ) const
+  double BuildOrderObjective::v_cost( vector< Action > *vecVariables, BuildOrderDomain *domain ) const
   {
     currentState.reset();
     bo.clear();

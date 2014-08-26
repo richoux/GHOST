@@ -226,7 +226,7 @@ namespace ghost
   /**********/
   GapObj::GapObj() : WallinObjective( "wallinGap" ) { }
 
-  double GapObj::v_cost( const vector< Building > *vecVariables, const WallinDomain *domain ) const
+  double GapObj::v_cost( vector< Building > *vecVariables, WallinDomain *domain ) const
   {
     int gaps = 0;
     
@@ -309,7 +309,7 @@ namespace ghost
   /***************/
   BuildingObj::BuildingObj() : WallinObjective( "wallinBuilding" ) { }
 
-  double BuildingObj::v_cost( const vector< Building > *vecVariables, const WallinDomain *domain ) const
+  double BuildingObj::v_cost( vector< Building > *vecVariables, WallinDomain *domain ) const
   {
     return count_if( vecVariables->begin(), 
 		     vecVariables->end(), 
@@ -346,7 +346,7 @@ namespace ghost
   /***************/
   TechTreeObj::TechTreeObj() : WallinObjective( "wallinTechtree" ) { }
 
-  double TechTreeObj::v_cost( const vector< Building > *vecVariables, const WallinDomain *domain ) const
+  double TechTreeObj::v_cost( vector< Building > *vecVariables, WallinDomain *domain ) const
   {
     vector< Building > onDomain( vecVariables->size() );
     
