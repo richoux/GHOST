@@ -347,7 +347,7 @@ namespace ghost
       if( bestGlobalCost == 0 )
 	timerPostProcessOpt = objective->postprocessOptimization( vecVariables, domain, bestCost, opt_timeout );
 
-      // cout << "Domains:" << *domain << endl;
+      cout << "Domains:" << *domain << endl;
       cout << "############" << endl;
       
       if( objOriginalNull )
