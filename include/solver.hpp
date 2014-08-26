@@ -127,7 +127,7 @@ namespace ghost
      * instanciate with a null Objective (pure satisfaction run) or an
      * non-null Objective (optimization run).
      */
-    double solve( double sat_timeout, int tabu, double opt_timeout = 0 )
+    double solve( double sat_timeout, double opt_timeout = 0 )
     {
       sat_timeout *= 1000; // timeouts in microseconds
       if( opt_timeout == 0 )
@@ -135,13 +135,8 @@ namespace ghost
       else
 	opt_timeout *= 1000;
 
-      int tabu_length = tabu;
+      int tabu_length = vecVariables->size() - 1;
 
-      // if( vecVariables->size() < 3)
-      // 	tabu_length = 0;
-      // else
-      // 	tabu_length = std::max( 2, static_cast<int>(vecVariables->size() / 4) ); // was =5 before
-      
       chrono::duration<double,micro> elapsedTime(0);
       chrono::duration<double,micro> elapsedTimeTour(0);
       chrono::time_point<chrono::high_resolution_clock> start;

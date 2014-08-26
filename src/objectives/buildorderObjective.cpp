@@ -117,6 +117,10 @@ namespace ghost
 	if( !makingPylons() )
 	  youMustConstructAdditionalPylons();
 
+	// can I produce units?
+	if( actionToDo->getType() != ActionType::unit )
+	  produceUnitsFirst( actionToDo, vecVariables );
+	
 	// can I handle the current action?
 	if( handleActionToDo( *actionToDo ) )
 	  ++actionToDo;
@@ -133,8 +137,8 @@ namespace ghost
 	    currentState.gasBooked += gasCost;
 	    if ( canHandleBuilding( *nextAction ) || canHandleNotBuilding( *nextAction ) )
 	    {
-	      cout << "Swap " << actionToDo->getFullName() << ":" << actionToDo->getValue()
-		   << " with " << nextAction->getFullName() << ":" << nextAction->getValue() << endl;
+	      // cout << "Swap " << actionToDo->getFullName() << ":" << actionToDo->getValue()
+	      // 	   << " with " << nextAction->getFullName() << ":" << nextAction->getValue() << endl;
 
 	      std::swap( *actionToDo, *nextAction );
 	      actionToDo->swapValue( *nextAction );
@@ -297,9 +301,48 @@ namespace ghost
 	if( !makingPylons() )
 	  youMustConstructAdditionalPylons();
 
-	// can I handle the next action?
+	// can I produce units?
+	if( actionToDo->getType() != ActionType::unit )
+	  produceUnitsFirst( actionToDo, &copyVec );
+
+	// can I handle the current action?
 	if( handleActionToDo( *actionToDo ) )
 	  ++actionToDo;
+	else // can I handle the next action?
+	{
+	  auto nextAction = actionToDo + 1;
+	  if( nextAction != vecVariables->end() )
+	  {
+	    // book resources for the current action
+	    int mineralCost = actionToDo->getCostMineral();
+	    int gasCost = actionToDo->getCostGas();
+	    
+	    currentState.mineralsBooked += mineralCost;
+	    currentState.gasBooked += gasCost;
+	    if ( canHandleBuilding( *nextAction ) || canHandleNotBuilding( *nextAction ) )
+	    {
+	      // cout << "Swap " << actionToDo->getFullName() << ":" << actionToDo->getValue()
+	      // 	   << " with " << nextAction->getFullName() << ":" << nextAction->getValue() << endl;
+
+	      std::swap( *actionToDo, *nextAction );
+	      actionToDo->swapValue( *nextAction );
+	      currentState.mineralsBooked -= mineralCost;
+	      currentState.gasBooked -= gasCost;
+	      if( handleActionToDo( *actionToDo ) )
+		++actionToDo;
+	      else
+	      {
+		cout << "This should never append." << endl;
+		exit(0);
+	      }	      
+	    }
+	    else
+	    {
+	      currentState.mineralsBooked -= mineralCost;
+	      currentState.gasBooked -= gasCost;
+	    }
+	  }
+	}
       }
     }
     return static_cast<double>( currentState.seconds );
@@ -486,6 +529,39 @@ namespace ghost
     }
   }
 
+  void BuildOrderObjective::produceUnitsFirst( vector<Action>::iterator &actionToDo, vector< Action > *vecVariables ) const
+  {
+    if( actionToDo == vecVariables->end() || actionToDo == vecVariables->end() - 1 )
+      return;
+    
+    for( auto it = actionToDo + 1 ; it != vecVariables->end() ; ++it )
+    {
+      // cout << "Looking at " << it->getFullName() << ":" << it->getValue() << endl;
+      if( it->getType() == ActionType::unit && canHandleNotBuilding( *it ) )
+      {
+	// cout << "Produce " << it->getFullName() << ":" << it->getValue()
+	//      << " before " << actionToDo->getFullName() << ":" << actionToDo->getValue() << endl;
+
+	for( auto it_swap = it - 1 ; it_swap != vecVariables->begin() && it_swap != actionToDo - 1 ; --it_swap )
+	{
+	  auto next = it_swap+1;
+	  std::swap( *it_swap, *next );
+	  it_swap->swapValue( *next );
+	}
+	
+	// cout << "Current action is " << actionToDo->getFullName() << ":" << actionToDo->getValue() << endl;
+
+	if( handleActionToDo( *actionToDo ) )
+	  ++actionToDo;
+	else
+	{
+	  cout << "This should never append too." << endl;
+	  exit(0);
+	}	
+      }
+    }
+  }
+  
   bool BuildOrderObjective::canHandleBuilding( const Action &actionToDo ) const
   {
     if( actionToDo.getType() != ActionType::building )
@@ -854,14 +930,16 @@ namespace ghost
     chrono::time_point<chrono::high_resolution_clock> startPostprocess = chrono::high_resolution_clock::now(); 
     chrono::duration<double,micro> postprocesstimer(0);
 
-    double optiCost = costOpti( vecVariables );
+    vector<Action> copyVec(*vecVariables);
+    double optiCost = costOpti( &copyVec );
 
     if( optiCost < bestCost )
     {
       bestCost = optiCost;
+      vecVariables->clear();
+      copy( begin(copyVec), end(copyVec), begin(*vecVariables) );
     }
 
-    bestCost = costOpti( vecVariables );
     // printBO();
 
     postprocesstimer = chrono::high_resolution_clock::now() - startPostprocess;

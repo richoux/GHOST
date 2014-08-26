@@ -141,8 +141,8 @@ namespace ghost
   protected:
     //! Pure virtual function to compute the value of the objective function on the current configuration.
     /*! 
-     * \param vecVariables A constant pointer to the vector of variable objects of the CSP/COP.
-     * \param domain A constant pointer to the domain object of the CSP/COP.
+     * \param vecVariables A pointer to the vector of variable objects of the CSP/COP.
+     * \param domain A pointer to the domain object of the CSP/COP.
      * \return The value of the objective function on the current configuration.
      * \sa cost
      */

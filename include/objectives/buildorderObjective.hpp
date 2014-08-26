@@ -222,6 +222,7 @@ namespace ghost
     bool canHandleBuilding( const Action& ) const;
     bool canHandleNotBuilding( const Action& ) const;
     bool handleActionToDo( const Action& ) const;
+    void produceUnitsFirst( vector<Action>::iterator&, vector<Action>* ) const;
     bool makingPylons() const;
     void youMustConstructAdditionalPylons() const;
     void pushInBusy( const string& ) const;
