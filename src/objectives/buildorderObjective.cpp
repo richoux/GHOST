@@ -311,7 +311,7 @@ namespace ghost
 	else // can I handle the next action?
 	{
 	  auto nextAction = actionToDo + 1;
-	  if( nextAction != vecVariables->end() )
+	  if( nextAction != copyVec.end() )
 	  {
 	    // book resources for the current action
 	    int mineralCost = actionToDo->getCostMineral();
@@ -937,7 +937,9 @@ namespace ghost
     {
       bestCost = optiCost;
       vecVariables->clear();
-      copy( begin(copyVec), end(copyVec), begin(*vecVariables) );
+      for( const auto &v : copyVec )
+	vecVariables->push_back(v);
+      //copy( begin(copyVec), end(copyVec), begin(*vecVariables) );
     }
 
     // printBO();
