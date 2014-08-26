@@ -475,6 +475,7 @@ namespace ghost
       }
     }
 
+    // remove from the inMove list actions just done
     auto itEnd = remove_if( begin( currentState.inMove ), end( currentState.inMove ), [](Tuple &t){return t.done;} );
     currentState.inMove.erase( itEnd, end( currentState.inMove ) );
   }
