@@ -219,7 +219,9 @@ namespace ghost
     void updateBusy() const;
     void updateInMove() const;
     void dealWithWorkers() const;
-    bool handleNextAction( const Action& ) const;
+    bool canHandleBuilding( const Action& ) const;
+    bool canHandleNotBuilding( const Action& ) const;
+    bool handleActionToDo( const Action& ) const;
     bool makingPylons() const;
     void youMustConstructAdditionalPylons() const;
     void pushInBusy( const string& ) const;

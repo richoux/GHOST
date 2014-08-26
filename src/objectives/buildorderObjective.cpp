@@ -91,11 +91,9 @@ namespace ghost
     for( auto &g : goals)
       g.second.second = 0;
 
-    // cout << endl << endl;
+    auto actionToDo = vecVariables->begin();
     
-    auto nextAction = vecVariables->begin();
-    
-    while( nextAction != vecVariables->end() || !currentState.busy.empty() )
+    while( actionToDo != vecVariables->end() || !currentState.busy.empty() )
     {
       ++currentState.seconds;
 
@@ -109,7 +107,7 @@ namespace ghost
       // update inMove list
       updateInMove();
 
-      if( nextAction != vecVariables->end() )
+      if( actionToDo != vecVariables->end() )
       {
 	dealWithWorkers();
 	
@@ -119,9 +117,44 @@ namespace ghost
 	if( !makingPylons() )
 	  youMustConstructAdditionalPylons();
 
-	// can I handle the next action?
-	if( handleNextAction( *nextAction ) )
-	  ++nextAction;
+	// can I handle the current action?
+	if( handleActionToDo( *actionToDo ) )
+	  ++actionToDo;
+	else // can I handle the next action?
+	{
+	  auto nextAction = actionToDo + 1;
+	  if( nextAction != vecVariables->end() )
+	  {
+	    // book resources for the current action
+	    int mineralCost = actionToDo->getCostMineral();
+	    int gasCost = actionToDo->getCostGas();
+	    
+	    currentState.mineralsBooked += mineralCost;
+	    currentState.gasBooked += gasCost;
+	    if ( canHandleBuilding( *nextAction ) || canHandleNotBuilding( *nextAction ) )
+	    {
+	      cout << "Swap " << actionToDo->getFullName() << ":" << actionToDo->getValue()
+		   << " with " << nextAction->getFullName() << ":" << nextAction->getValue() << endl;
+
+	      std::swap( *actionToDo, *nextAction );
+	      actionToDo->swapValue( *nextAction );
+	      currentState.mineralsBooked -= mineralCost;
+	      currentState.gasBooked -= gasCost;
+	      if( handleActionToDo( *actionToDo ) )
+		++actionToDo;
+	      else
+	      {
+		cout << "This should never append." << endl;
+		exit(0);
+	      }	      
+	    }
+	    else
+	    {
+	      currentState.mineralsBooked -= mineralCost;
+	      currentState.gasBooked -= gasCost;
+	    }
+	  }
+	}
       }
     }
     return static_cast<double>( currentState.seconds );
@@ -136,11 +169,9 @@ namespace ghost
 
     vector< Action > copyVec = *vecVariables;
     
-    auto nextAction = copyVec.begin();
+    auto actionToDo = copyVec.begin();
 
-    // cout << endl << endl << "Optimization run" << endl;
-    
-    while( nextAction != copyVec.end() || !currentState.busy.empty() )
+    while( actionToDo != copyVec.end() || !currentState.busy.empty() )
     {
       ++currentState.seconds;
 
@@ -154,7 +185,7 @@ namespace ghost
       // update inMove list
       updateInMove();
 
-      if( nextAction != copyVec.end() )
+      if( actionToDo != copyVec.end() )
       {
 	dealWithWorkers();
 	
@@ -248,7 +279,7 @@ namespace ghost
 	    	 << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 #endif
 	    
-	    auto it_find = std::find( vecVariables->begin(), vecVariables->end(), *nextAction );
+	    auto it_find = std::find( vecVariables->begin(), vecVariables->end(), *actionToDo );
 	    auto it = vecVariables->insert( it_find, Action( creator, it_find->getValue() ) );
 	    std::for_each( it+1, vecVariables->end(), [](Action &a){a.shiftValue();} );
 	      
@@ -267,8 +298,8 @@ namespace ghost
 	  youMustConstructAdditionalPylons();
 
 	// can I handle the next action?
-	if( handleNextAction( *nextAction ) )
-	  ++nextAction;
+	if( handleActionToDo( *actionToDo ) )
+	  ++actionToDo;
       }
     }
     return static_cast<double>( currentState.seconds );
@@ -455,29 +486,64 @@ namespace ghost
     }
   }
 
-  bool BuildOrderObjective::handleNextAction( const Action &nextAction ) const
+  bool BuildOrderObjective::canHandleBuilding( const Action &actionToDo ) const
   {
-    // cout << nextAction << endl;
-    
-    // if the next action is building a building
-    if( nextAction.getType() == ActionType::building )
+    if( actionToDo.getType() != ActionType::building )
+      return false;
+
+    if( ( actionToDo.getCostMineral() == 0 || currentState.stockMineral >= actionToDo.getCostMineral() + currentState.mineralsBooked - mineralsIn(goToBuild) )
+	&&
+	( actionToDo.getCostGas() == 0 || currentState.stockGas >= actionToDo.getCostGas() + currentState.gasBooked - gasIn(goToBuild) ) 
+	&&
+	currentState.mineralWorkers + currentState.gasWorkers > 0
+	&&
+	currentState.numberPylons > 0
+	&&
+	dependenciesCheck( actionToDo.getFullName() )
+      )
     {
-      if( ( nextAction.getCostMineral() == 0 || currentState.stockMineral >= nextAction.getCostMineral() + currentState.mineralsBooked - mineralsIn(goToBuild) )
-	  &&
-	  ( nextAction.getCostGas() == 0 || currentState.stockGas >= nextAction.getCostGas() + currentState.gasBooked - gasIn(goToBuild) ) 
-	  &&
-	  currentState.mineralWorkers + currentState.gasWorkers > 0
-	  &&
-	  currentState.numberPylons > 0
-	  &&
-	  dependenciesCheck( nextAction.getFullName() )
-	  )
+      return true;
+    }
+    else
+      return false;
+  }
+  
+  bool BuildOrderObjective::canHandleNotBuilding( const Action &actionToDo ) const
+  {
+    if( actionToDo.getType() == ActionType::building )
+      return false;
+
+    string creator = actionToDo.getCreator();
+        
+    if( ( actionToDo.getCostMineral() == 0 || currentState.stockMineral >= actionToDo.getCostMineral() + currentState.mineralsBooked )
+	&&
+	( actionToDo.getCostGas() == 0 || currentState.stockGas >= actionToDo.getCostGas() + currentState.gasBooked )
+	&&
+	currentState.supplyUsed + actionToDo.getCostSupply() <= currentState.supplyCapacity
+	&&
+	( creator.empty() || currentState.resources[ creator ].second > 0 )
+	&&
+	dependenciesCheck( actionToDo.getFullName() )
+      )
+    {
+      return true;
+    }
+    else
+      return false;
+  }
+
+  bool BuildOrderObjective::handleActionToDo( const Action &actionToDo ) const
+  {
+    // if the next action is building a building
+    if( actionToDo.getType() == ActionType::building )
+    {
+      if( canHandleBuilding( actionToDo ) )
       {
-	currentState.mineralsBooked += nextAction.getCostMineral();
-	currentState.gasBooked += nextAction.getCostGas();
+	currentState.mineralsBooked += actionToDo.getCostMineral();
+	currentState.gasBooked += actionToDo.getCostGas();
 	
 #ifndef NDEBUG
-	string text = "Go for " + nextAction.getFullName() + " at ";
+	string text = "Go for " + actionToDo.getFullName() + " at ";
 	cout << std::left << setw(35) << text << setw(5) << currentState.seconds
 	     << "  m = " << setw(9) << currentState.stockMineral
 	     << "  g = " << setw(8) << currentState.stockGas
@@ -488,7 +554,7 @@ namespace ghost
 	     << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 #endif
 	
-	currentState.inMove.push_back( Tuple( nextAction.getData(), goToBuild ) );
+	currentState.inMove.push_back( Tuple( actionToDo.getData(), goToBuild ) );
 	if( currentState.mineralWorkers > 0 )
 	  --currentState.mineralWorkers;
 	else
@@ -500,21 +566,12 @@ namespace ghost
     // otherwise, it is a unit/research/upgrade
     else
     {
-      string creator = nextAction.getCreator();
-      
-      if( ( nextAction.getCostMineral() == 0 || currentState.stockMineral >= nextAction.getCostMineral() + currentState.mineralsBooked )
-	  &&
-	  ( nextAction.getCostGas() == 0 || currentState.stockGas >= nextAction.getCostGas() + currentState.gasBooked )
-	  &&
-	  currentState.supplyUsed + nextAction.getCostSupply() <= currentState.supplyCapacity
-	  &&
-	  ( creator.empty() || currentState.resources[ creator ].second > 0 )
-	  &&
-	  dependenciesCheck( nextAction.getFullName() )
-	  )
+      string creator = actionToDo.getCreator();
+
+      if( canHandleNotBuilding( actionToDo ) )
       {
 #ifndef NDEBUG
-	string text = "Start " + nextAction.getFullName() + " at ";
+	string text = "Start " + actionToDo.getFullName() + " at ";
 	cout << std::left << setw(35) << text << setw(5) << currentState.seconds
 	     << "  m = " << setw(9) << currentState.stockMineral
 	     << "  g = " << setw(8) << currentState.stockGas
@@ -525,14 +582,14 @@ namespace ghost
 	     << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 #endif
 	
-	currentState.supplyUsed += nextAction.getCostSupply();
-	currentState.stockMineral -= nextAction.getCostMineral();
-	currentState.stockGas -= nextAction.getCostGas();
+	currentState.supplyUsed += actionToDo.getCostSupply();
+	currentState.stockMineral -= actionToDo.getCostMineral();
+	currentState.stockGas -= actionToDo.getCostGas();
 	
 	if( !creator.empty() && creator.compare("Protoss_Probe") != 0 )
 	  --currentState.resources[ creator ].second;
 	
-	pushInBusy( nextAction.getFullName() );
+	pushInBusy( actionToDo.getFullName() );
 	
 	return true;
       }
@@ -776,13 +833,11 @@ namespace ghost
     chrono::time_point<chrono::high_resolution_clock> startPostprocess = chrono::high_resolution_clock::now(); 
     chrono::duration<double,micro> postprocesstimer(0);
 
-    v_cost( vecVariables, domain );
-    vector< Action > copyVec(*vecVariables);
-    double optiCost = costOpti( &copyVec );
+    double cost = v_cost( vecVariables, domain );
     
-    if( optiCost < bestCost )
+    if( cost < bestCost )
     {
-      bestCost = optiCost;
+      bestCost = cost;
       copy( begin(*vecVariables), end(*vecVariables), begin(bestSolution) );
     }
 
@@ -799,15 +854,15 @@ namespace ghost
     chrono::time_point<chrono::high_resolution_clock> startPostprocess = chrono::high_resolution_clock::now(); 
     chrono::duration<double,micro> postprocesstimer(0);
 
-    // double optiCost = costOpti( vecVariables );
+    double optiCost = costOpti( vecVariables );
 
-    // if( optiCost < bestCost )
-    // {
-    //   bestCost = optiCost;
-    // }
+    if( optiCost < bestCost )
+    {
+      bestCost = optiCost;
+    }
 
     bestCost = costOpti( vecVariables );
-    printBO();
+    // printBO();
 
     postprocesstimer = chrono::high_resolution_clock::now() - startPostprocess;
     return postprocesstimer.count();
