@@ -537,12 +537,8 @@ namespace ghost
     
     for( auto it = actionToDo + 1 ; it != vecVariables->end() ; ++it )
     {
-      // cout << "Looking at " << it->getFullName() << ":" << it->getValue() << endl;
       if( it->getType() == ActionType::unit && canHandleNotBuilding( *it ) )
       {
-	// cout << "Produce " << it->getFullName() << ":" << it->getValue()
-	//      << " before " << actionToDo->getFullName() << ":" << actionToDo->getValue() << endl;
-
 	for( auto it_swap = it - 1 ; it_swap != vecVariables->begin() && it_swap != actionToDo - 1 ; --it_swap )
 	{
 	  auto next = it_swap+1;
@@ -550,8 +546,6 @@ namespace ghost
 	  it_swap->swapValue( *next );
 	}
 	
-	// cout << "Current action is " << actionToDo->getFullName() << ":" << actionToDo->getValue() << endl;
-
 	if( handleActionToDo( *actionToDo ) )
 	  ++actionToDo;
 	else
@@ -785,7 +779,25 @@ namespace ghost
     if( data.costGas > 0 && currentState.numberRefineries == 0)
       return false;
 
-    if( any_of( begin(data.dependencies), end(data.dependencies), [&](const string &n){return currentState.resources[ n ].first == 0;} ) )
+    // Ok, this if statement is a bit tricky
+    // return false if, for any dependency: 
+    if( any_of( begin(data.dependencies), end(data.dependencies),
+		[&](const string &n)
+		{
+		  // 1. the dependency has not been created yet
+		  return ( currentState.resources[ n ].first == 0
+			   &&
+			   // 2. and (it is not planned to get one before goToBuild seconds OR data not a building)
+			   ( data.actionType != ActionType::building
+			     ||
+			     none_of( begin(currentState.busy), end(currentState.busy),
+				      [&n](ActionData &a)
+		                      {
+					return ( a.name.compare( n ) == 0 && a.secondsRequired <= goToBuild );
+				      })
+			   ) 
+			 );
+		} ) )
       return false;
 
     return true;
