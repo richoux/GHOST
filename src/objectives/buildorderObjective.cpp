@@ -114,7 +114,7 @@ namespace ghost
 	// build a pylon if I must, ie:
 	// 1. if I am not currently making pylons
 	// 2. if my supply cap cannot manage the next global unit production
-	if( !makingPylons() )
+	if( !makingPylons() || currentState.numberPylons != 0 )
 	  youMustConstructAdditionalPylons();
 
 	// can I produce units?
@@ -298,7 +298,7 @@ namespace ghost
 	// build a pylon if I must, ie:
 	// 1. if I am not currently making pylons
 	// 2. if my supply cap cannot manage the next global unit production
-	if( !makingPylons() )
+	if( !makingPylons() || currentState.numberPylons != 0 )
 	  youMustConstructAdditionalPylons();
 
 	// can I produce units?
@@ -367,6 +367,7 @@ namespace ghost
 	  {
 	    ++currentState.resources["Protoss_Nexus"].first;
 	    ++currentState.resources["Protoss_Nexus"].second;
+	    currentState.supplyCapacity += 9;
 	    ++currentState.numberBases;
 	  }
 	  else if( t.name.compare("Protoss_Pylon") == 0 )
@@ -690,28 +691,30 @@ namespace ghost
   void BuildOrderObjective::youMustConstructAdditionalPylons() const
   {
     // build the first pylon ASAP
-    if( currentState.numberPylons == 0
-	&& currentState.stockMineral >= 100 - mineralsIn( returnToMinerals ) )
+    if( currentState.numberPylons == 0 )
     {
-      currentState.inMove.push_back( Tuple( actionOf["Protoss_Pylon"], goToBuild ) );
-
-      currentState.mineralsBooked += 100;
-      
+      if( currentState.stockMineral >= 100 - mineralsIn( returnToMinerals ) )
+      {
+	currentState.inMove.push_back( Tuple( actionOf["Protoss_Pylon"], goToBuild ) );
+	
+	currentState.mineralsBooked += 100;
+	
 #ifndef NDEBUG
-      cout << std::left << setw(35) << "Go for first Protoss_Pylon at " << setw(5) << currentState.seconds
-      	   << "  m = " << setw(9) << currentState.stockMineral
-      	   << "  g = " << setw(8) << currentState.stockGas
-      	   << "  mb = " << setw(5) << currentState.mineralsBooked
-      	   << "  gb = " << setw(4) << currentState.gasBooked
-      	   << "  mw = " << setw(3) << currentState.mineralWorkers
-      	   << "  gw = " << setw(3) << currentState.gasWorkers
-      	   << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+	cout << std::left << setw(35) << "Go for first Protoss_Pylon at " << setw(5) << currentState.seconds
+	     << "  m = " << setw(9) << currentState.stockMineral
+	     << "  g = " << setw(8) << currentState.stockGas
+	     << "  mb = " << setw(5) << currentState.mineralsBooked
+	     << "  gb = " << setw(4) << currentState.gasBooked
+	     << "  mw = " << setw(3) << currentState.mineralWorkers
+	     << "  gw = " << setw(3) << currentState.gasWorkers
+	     << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 #endif
-      
-      if( currentState.mineralWorkers > 0 )
-	--currentState.mineralWorkers;
-      else
-	--currentState.gasWorkers;
+	
+	if( currentState.mineralWorkers > 0 )
+	  --currentState.mineralWorkers;
+	else
+	  --currentState.gasWorkers;
+      }
     }
     // otherwise build other pylons when needed
     else
@@ -732,12 +735,18 @@ namespace ghost
 	+ 8 * count_if( begin(currentState.inMove), end(currentState.inMove), [](Tuple &t){return t.action.name.compare("Protoss_Pylon") == 0;} )
 	+ 9 * count_if( begin(currentState.busy), end(currentState.busy), [](ActionData &a){return a.name.compare( "Protoss_Nexus" ) == 0;} )
 	+ 9 * count_if( begin(currentState.inMove), end(currentState.inMove), [](Tuple &t){return t.action.name.compare("Protoss_Nexus") == 0;} );
-     
+
       if( plannedSupply <= productionCapacity + currentState.supplyUsed )
       {
-	currentState.inMove.push_back( Tuple( actionOf["Protoss_Pylon"], goToBuild ) );
-	currentState.mineralsBooked += 100;
-
+	int countBuild = 0;
+	do
+	{
+	  currentState.inMove.push_back( Tuple( actionOf["Protoss_Pylon"], goToBuild ) );
+	  currentState.mineralsBooked += 100;
+	  ++countBuild;
+	} while( plannedSupply + ( 8 * countBuild ) <= productionCapacity + currentState.supplyUsed );
+	
+	
 #ifndef NDEBUG
 	cout << std::left << setw(35) << "Go for Protoss_Pylon at " << setw(5) << currentState.seconds
 	     << "  m = " << setw(9) << currentState.stockMineral
