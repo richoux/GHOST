@@ -270,18 +270,6 @@ namespace ghost
 	  {
 	    currentState.mineralsBooked += creator.costMineral;
 	    currentState.gasBooked += creator.costGas;
-
-#ifndef NDEBUG
-	    string text = "Optimize " + creator.name + " at ";
-	    cout << std::left << setw(35) << text << setw(5) << currentState.seconds
-	    	 << "  m = " << setw(9) << currentState.stockMineral
-	    	 << "  g = " << setw(8) << currentState.stockGas
-	    	 << "  mb = " << setw(5) << currentState.mineralsBooked
-	    	 << "  gb = " << setw(4) << currentState.gasBooked
-	    	 << "  mw = " << setw(3) << currentState.mineralWorkers
-	    	 << "  gw = " << setw(3) << currentState.gasWorkers
-	    	 << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
-#endif
 	    
 	    auto it_find = std::find( vecVariables->begin(), vecVariables->end(), *actionToDo );
 	    auto it = vecVariables->insert( it_find, Action( creator, it_find->getValue() ) );
@@ -292,6 +280,24 @@ namespace ghost
 	      --currentState.mineralWorkers;
 	    else
 	      --currentState.gasWorkers;
+
+#ifndef NDEBUG
+	    string text = "Optimize " + creator.name + " at ";
+	    cout << std::left << setw(35) << text << setw(5) << currentState.seconds
+	    	 << "  m = " << setw(9) << currentState.stockMineral
+	    	 << "  g = " << setw(8) << currentState.stockGas
+	    	 << "  mb = " << setw(5) << currentState.mineralsBooked
+	    	 << "  gb = " << setw(4) << currentState.gasBooked
+	    	 << "  mw = " << setw(3) << currentState.mineralWorkers
+	    	 << "  gw = " << setw(3) << currentState.gasWorkers
+	    	 << "  bu = ";
+	    for( const auto &i : currentState.busy )
+	      cout << i.name << ", ";
+	    cout << "  mo = ";
+	    for( const auto &i : currentState.inMove )
+	      cout << i.action.name << ", ";	    
+	    cout << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+#endif	    
 	  }	    
 	}	  
 	
@@ -409,7 +415,13 @@ namespace ghost
 	     << "  gb = " << setw(4) << currentState.gasBooked
 	     << "  mw = " << setw(3) << currentState.mineralWorkers
 	     << "  gw = " << setw(3) << currentState.gasWorkers
-	     << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+	    	 << "  bu = ";
+	    for( const auto &i : currentState.busy )
+	      cout << i.name << ", ";
+	    cout << "  mo = ";
+	    for( const auto &i : currentState.inMove )
+	      cout << i.action.name << ", ";	    
+	    cout << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 #endif
       }
     }
@@ -420,11 +432,25 @@ namespace ghost
   
   void BuildOrderObjective::updateInMove() const
   {
+    // remove from the inMove list actions just done
+    auto itEnd = remove_if( begin( currentState.inMove ), end( currentState.inMove ), [](Tuple &t){return t.done;} );
+    currentState.inMove.erase( itEnd, end( currentState.inMove ) );
+    
     for( auto &t : currentState.inMove )
     {
       if( t.waitTime > 0 )
 	--t.waitTime;
 
+      if( t.action.name.compare("Protoss_Templar_Archives") == 0 )
+      {
+      	cout << "Details Templar Archives: sec req=" << t.action.secondsRequired << ", wait=" << t.waitTime << ", done=" << t.done << endl;
+      }
+      
+      if( t.action.name.compare("Protoss_Robotics_Support_Bay") == 0 )
+      {
+      	cout << "Details Robo Bay: sec req=" << t.action.secondsRequired << ", wait=" << t.waitTime << ", done=" << t.done << endl;
+      }
+      
       if( t.waitTime == 0
 	  && !t.done
 	  && ( t.action.costMineral == 0 || currentState.stockMineral >= t.action.costMineral )
@@ -439,6 +465,7 @@ namespace ghost
 
 	if( creator.compare("Protoss_Probe") == 0 )
 	{
+	  t.done = true;
 	  if( goal.compare("Mineral") == 0 ) 
 	    ++currentState.mineralWorkers;
 	  else
@@ -465,19 +492,18 @@ namespace ghost
 	      	   << "  gb = " << setw(4) << currentState.gasBooked
 	      	   << "  mw = " << setw(3) << currentState.mineralWorkers
 	      	   << "  gw = " << setw(3) << currentState.gasWorkers
-	      	   << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+	    	 << "  bu = ";
+	    for( const auto &i : currentState.busy )
+	      cout << i.name << ", ";
+	    cout << "  mo = ";
+	    for( const auto &i : currentState.inMove )
+	      cout << i.action.name << ", ";	    
+	    cout << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 #endif
-	    }
-
-	  t.done = true;
-	  
+	    } 
 	}
       }
     }
-
-    // remove from the inMove list actions just done
-    auto itEnd = remove_if( begin( currentState.inMove ), end( currentState.inMove ), [](Tuple &t){return t.done;} );
-    currentState.inMove.erase( itEnd, end( currentState.inMove ) );
   }
 
   void BuildOrderObjective::dealWithWorkers() const
@@ -526,7 +552,13 @@ namespace ghost
       	   << "  gb = " << setw(4) << currentState.gasBooked
       	   << "  mw = " << setw(3) << currentState.mineralWorkers
       	   << "  gw = " << setw(3) << currentState.gasWorkers
-      	   << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+	    	 << "  bu = ";
+	    for( const auto &i : currentState.busy )
+	      cout << i.name << ", ";
+	    cout << "  mo = ";
+	    for( const auto &i : currentState.inMove )
+	      cout << i.action.name << ", ";	    
+	    cout << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 #endif
     }
   }
@@ -613,7 +645,13 @@ namespace ghost
       {
 	currentState.mineralsBooked += actionToDo.getCostMineral();
 	currentState.gasBooked += actionToDo.getCostGas();
-	
+		
+	currentState.inMove.push_back( Tuple( actionToDo.getData(), goToBuild ) );
+	if( currentState.mineralWorkers > 0 )
+	  --currentState.mineralWorkers;
+	else
+	  --currentState.gasWorkers;
+
 #ifndef NDEBUG
 	string text = "Go for " + actionToDo.getFullName() + " at ";
 	cout << std::left << setw(35) << text << setw(5) << currentState.seconds
@@ -623,14 +661,14 @@ namespace ghost
 	     << "  gb = " << setw(4) << currentState.gasBooked
 	     << "  mw = " << setw(3) << currentState.mineralWorkers
 	     << "  gw = " << setw(3) << currentState.gasWorkers
-	     << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+	    	 << "  bu = ";
+	    for( const auto &i : currentState.busy )
+	      cout << i.name << ", ";
+	    cout << "  mo = ";
+	    for( const auto &i : currentState.inMove )
+	      cout << i.action.name << ", ";	    
+	    cout << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 #endif
-	
-	currentState.inMove.push_back( Tuple( actionToDo.getData(), goToBuild ) );
-	if( currentState.mineralWorkers > 0 )
-	  --currentState.mineralWorkers;
-	else
-	  --currentState.gasWorkers;
 	
 	return true;
       }
@@ -642,6 +680,15 @@ namespace ghost
 
       if( canHandleNotBuilding( actionToDo ) )
       {
+	currentState.supplyUsed += actionToDo.getCostSupply();
+	currentState.stockMineral -= actionToDo.getCostMineral();
+	currentState.stockGas -= actionToDo.getCostGas();
+	
+	if( !creator.empty() && creator.compare("Protoss_Probe") != 0 )
+	  --currentState.resources[ creator ].second;
+	
+	pushInBusy( actionToDo.getFullName() );
+	
 #ifndef NDEBUG
 	string text = "Start " + actionToDo.getFullName() + " at ";
 	cout << std::left << setw(35) << text << setw(5) << currentState.seconds
@@ -651,17 +698,14 @@ namespace ghost
 	     << "  gb = " << setw(4) << currentState.gasBooked
 	     << "  mw = " << setw(3) << currentState.mineralWorkers
 	     << "  gw = " << setw(3) << currentState.gasWorkers
-	     << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+	    	 << "  bu = ";
+	    for( const auto &i : currentState.busy )
+	      cout << i.name << ", ";
+	    cout << "  mo = ";
+	    for( const auto &i : currentState.inMove )
+	      cout << i.action.name << ", ";	    
+	    cout << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 #endif
-	
-	currentState.supplyUsed += actionToDo.getCostSupply();
-	currentState.stockMineral -= actionToDo.getCostMineral();
-	currentState.stockGas -= actionToDo.getCostGas();
-	
-	if( !creator.empty() && creator.compare("Protoss_Probe") != 0 )
-	  --currentState.resources[ creator ].second;
-	
-	pushInBusy( actionToDo.getFullName() );
 	
 	return true;
       }
@@ -694,6 +738,11 @@ namespace ghost
 	
 	currentState.mineralsBooked += 100;
 	
+	if( currentState.mineralWorkers > 0 )
+	  --currentState.mineralWorkers;
+	else
+	  --currentState.gasWorkers;
+
 #ifndef NDEBUG
 	cout << std::left << setw(35) << "Go for first Protoss_Pylon at " << setw(5) << currentState.seconds
 	     << "  m = " << setw(9) << currentState.stockMineral
@@ -702,13 +751,14 @@ namespace ghost
 	     << "  gb = " << setw(4) << currentState.gasBooked
 	     << "  mw = " << setw(3) << currentState.mineralWorkers
 	     << "  gw = " << setw(3) << currentState.gasWorkers
-	     << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
-#endif
-	
-	if( currentState.mineralWorkers > 0 )
-	  --currentState.mineralWorkers;
-	else
-	  --currentState.gasWorkers;
+	    	 << "  bu = ";
+	    for( const auto &i : currentState.busy )
+	      cout << i.name << ", ";
+	    cout << "  mo = ";
+	    for( const auto &i : currentState.inMove )
+	      cout << i.action.name << ", ";	    
+	    cout << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+#endif	
       }
     }
     // otherwise build other pylons when needed
@@ -740,8 +790,12 @@ namespace ghost
 	  currentState.mineralsBooked += 100;
 	  ++countBuild;
 	} while( plannedSupply + ( 8 * countBuild ) <= productionCapacity + currentState.supplyUsed );
-	
-	
+		
+	if( currentState.mineralWorkers > 0 )
+	  --currentState.mineralWorkers;
+	else
+	  --currentState.gasWorkers;
+
 #ifndef NDEBUG
 	cout << std::left << setw(35) << "Go for Protoss_Pylon at " << setw(5) << currentState.seconds
 	     << "  m = " << setw(9) << currentState.stockMineral
@@ -750,13 +804,14 @@ namespace ghost
 	     << "  gb = " << setw(4) << currentState.gasBooked
 	     << "  mw = " << setw(3) << currentState.mineralWorkers
 	     << "  gw = " << setw(3) << currentState.gasWorkers
-	     << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
+	    	 << "  bu = ";
+	    for( const auto &i : currentState.busy )
+	      cout << i.name << ", ";
+	    cout << "  mo = ";
+	    for( const auto &i : currentState.inMove )
+	      cout << i.action.name << ", ";	    
+	    cout << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 #endif
-	
-	if( currentState.mineralWorkers > 0 )
-	  --currentState.mineralWorkers;
-	else
-	  --currentState.gasWorkers;
       }
     }
   }
