@@ -39,6 +39,11 @@ using namespace std;
 
 namespace ghost
 {
+  constexpr int goToBuild		= 4; //5
+  constexpr int returnToMinerals	= 0; //4
+  constexpr int fromBaseToMinerals	= 0; //2
+  constexpr int fromMinToGas		= 0; //2
+  
   /***********************/
   /* BuildOrderObjective */
   /***********************/
@@ -55,7 +60,7 @@ namespace ghost
     double costOpti( vector< Action > *vecVariables ) const;
     
     int v_heuristicVariable( const vector< int > &vecId, const vector< Action > *vecVariables, BuildOrderDomain *domain );
-    int v_heuristicValue( const std::vector< double > &vecGlobalCosts, 
+    int v_heuristicValue( const vector< double > &vecGlobalCosts, 
 			  double &bestEstimatedCost,
 			  int &bestValue ) const;
     void v_setHelper( const Action &b, const vector< Action > *vecVariables, const BuildOrderDomain *domain );
@@ -71,14 +76,13 @@ namespace ghost
 				      vector< Action > &bestSolution,
 				      double sat_timeout ) const;
     
-    struct Tuple
+    struct ActionPrep
     {
-      Tuple( ActionData action, int waitTime, bool done = false )
-    	: action(action), waitTime(waitTime), done(done) { }
+      ActionPrep( ActionData action, int waitTime )
+    	: action(action), waitTime(waitTime) { }
 
       ActionData action;
       int waitTime;
-      bool done;
     };
     
     struct State
@@ -97,12 +101,11 @@ namespace ghost
       	  numberRefineries(0),
 	  numberPylons(0),
       	  resources(),
-	  canBuild(),
 	  busy{actionOf["Protoss_Probe"]},
-	  inMove{ Tuple{ actionOf["Protoss_Mineral"], 2, false },
-	      Tuple{ actionOf["Protoss_Mineral"], 2, false },
-	      Tuple{ actionOf["Protoss_Mineral"], 2, false },
-	      Tuple{ actionOf["Protoss_Mineral"], 2, false } }
+	  inMove{ ActionPrep{ actionOf["Protoss_Mineral"], fromBaseToMinerals },
+	      ActionPrep{ actionOf["Protoss_Mineral"], fromBaseToMinerals },
+	      ActionPrep{ actionOf["Protoss_Mineral"], fromBaseToMinerals },
+	      ActionPrep{ actionOf["Protoss_Mineral"], fromBaseToMinerals } }
       {
 	initCanBuild();
       }
@@ -120,9 +123,8 @@ namespace ghost
 	     int numberRefineries,
 	     int numberPylons,
 	     const map<string, pair<int, int> > &resources,
-	     const map<string, bool> &canBuild,
 	     const vector< ActionData > &busy,
-	     const vector< Tuple > &inMove )
+	     const vector< ActionPrep > &inMove )
 	: seconds(seconds),
 	  stockMineral(stockMineral),
 	  stockGas(stockGas),
@@ -136,7 +138,6 @@ namespace ghost
 	  numberRefineries(numberRefineries),
 	  numberPylons(numberPylons),
 	  resources(resources),
-	  canBuild(canBuild),
 	  busy(busy),
 	  inMove(inMove)
       { }
@@ -163,20 +164,9 @@ namespace ghost
       	busy.push_back( actionOf["Protoss_Probe"] );
       	inMove.clear();
 	for( int i = 0 ; i < 4 ; ++i )
-	  inMove.push_back( Tuple{ actionOf["Protoss_Mineral"], 2, false } );
+	  inMove.push_back( ActionPrep{ actionOf["Protoss_Mineral"], fromBaseToMinerals } );
       }
 
-      void initCanBuild()
-      {
-	canBuild.clear();
-	canBuild["Protoss_Probe"] = true;
-	canBuild["Protoss_Nexus"] = true;
-	canBuild["Protoss_Pylon"] = true;
-	canBuild["Protoss_Gateway"] = true;
-	canBuild["Protoss_Assimilator"] = true;
-	canBuild["Protoss_Forge"] = true;
-      }
-      
       int	seconds;
       double	stockMineral;
       double	stockGas;
@@ -190,9 +180,8 @@ namespace ghost
       int	numberRefineries;
       int	numberPylons;
       map<string, pair<int, int> > resources;
-      map<string, bool> canBuild;
       vector< ActionData > busy;
-      vector< Tuple > inMove;      
+      vector< ActionPrep > inMove;      
     };
 
     struct BO

@@ -43,12 +43,6 @@ using namespace std;
 
 namespace ghost
 {
-  constexpr int goToBuild = 4;		//5
-  constexpr int returnToMinerals = 0;	//4
-  constexpr int fromBaseToMinerals = 0; //2
-  constexpr int fromMinToGas = 0;	//2
-  
-  
   /***********************/
   /* BuildOrderObjective */
   /***********************/
@@ -218,7 +212,7 @@ namespace ghost
 	  creator_in_production =
 	    count_if( begin(currentState.inMove),
 		      end(currentState.inMove),
-		      [&creator](Tuple &t){return t.action.name.compare( creator.name ) == 0;})
+		      [&creator](ActionPrep &t){return t.action.name.compare( creator.name ) == 0;})
 	    + count_if( begin(currentState.busy),
 			end(currentState.busy),
 			[&creator](ActionData &a){return a.name.compare( creator.name ) == 0;});
@@ -275,7 +269,7 @@ namespace ghost
 	    auto it = vecVariables->insert( it_find, Action( creator, it_find->getValue() ) );
 	    std::for_each( it+1, vecVariables->end(), [](Action &a){a.shiftValue();} );
 	      
-	    currentState.inMove.push_back( Tuple( creator, goToBuild ) );
+	    currentState.inMove.push_back( ActionPrep( creator, goToBuild ) );
 	    if( currentState.mineralWorkers > 0 )
 	      --currentState.mineralWorkers;
 	    else
@@ -366,7 +360,7 @@ namespace ghost
 	  ++currentState.resources[ t.creator ].second;
 	}
 	if( t.name.compare("Protoss_Probe") == 0 )
-	  currentState.inMove.push_back( Tuple( actionOf["Protoss_Mineral"], fromBaseToMinerals ) );
+	  currentState.inMove.push_back( ActionPrep( actionOf["Protoss_Mineral"], fromBaseToMinerals ) );
 	else
 	{
 	  if( t.name.compare("Protoss_Nexus") == 0 )
@@ -388,7 +382,7 @@ namespace ghost
 	    // if we have few workers mining, do not sent them to gas
 	    for( int i = 0 ; i < min( 3, currentState.mineralWorkers - 3 ) ; ++i )
 	    {
-	      currentState.inMove.push_back( Tuple( actionOf["Protoss_Gas"], fromMinToGas ) );
+	      currentState.inMove.push_back( ActionPrep( actionOf["Protoss_Gas"], fromMinToGas ) );
 	      --currentState.mineralWorkers;
 	    }
 	  }
@@ -396,7 +390,7 @@ namespace ghost
 	  {
 	    ++currentState.resources[ t.name ].first;
 	    ++currentState.resources[ t.name ].second;
-	    currentState.inMove.push_back( Tuple( actionOf["Protoss_Mineral"], returnToMinerals ) );
+	    currentState.inMove.push_back( ActionPrep( actionOf["Protoss_Mineral"], returnToMinerals ) );
 	  }
 	  else if( t.name.compare("Protoss_High_Templar") == 0
 		   || t.name.compare("Protoss_Dark_Templar") == 0 )
@@ -433,65 +427,70 @@ namespace ghost
   void BuildOrderObjective::updateInMove() const
   {
     // remove from the inMove list actions just done
-    auto itEnd = remove_if( begin( currentState.inMove ), end( currentState.inMove ), [](Tuple &t){return t.done;} );
-    currentState.inMove.erase( itEnd, end( currentState.inMove ) );
-    
-    for( auto &t : currentState.inMove )
-    {
-      if( t.waitTime > 0 )
-	--t.waitTime;
+    // auto itEnd = remove_if( begin( currentState.inMove ), end( currentState.inMove ), [](ActionPrep &t){return t.done;} );
+    // currentState.inMove.erase( itEnd, end( currentState.inMove ) );
 
-      if( t.action.name.compare("Protoss_Templar_Archives") == 0 )
-      {
-      	cout << "Details Templar Archives: sec req=" << t.action.secondsRequired << ", wait=" << t.waitTime << ", done=" << t.done << endl;
-      }
+    // The code below is not groovy
+    // but it is written that way to avoid a really weird bug
+    for_each( begin( currentState.inMove ), end( currentState.inMove ), [](ActionPrep &a){ if(a.waitTime > 0) --a.waitTime; } );
+    auto copyInMove(currentState.inMove);
+    
+    for( int i = 0 ; i < copyInMove.size() ; ++i )
+    {
+      // if( copyInMove[i].waitTime > 0 )
+      // 	--copyInMove[i].waitTime;
+
+      // if( t.action.name.compare("Protoss_Templar_Archives") == 0 )
+      // {
+      // 	cout << "Details Templar Archives: sec req=" << t.action.secondsRequired << ", wait=" << t.waitTime << ", done=" << t.done << endl;
+      // }
       
-      if( t.action.name.compare("Protoss_Robotics_Support_Bay") == 0 )
-      {
-      	cout << "Details Robo Bay: sec req=" << t.action.secondsRequired << ", wait=" << t.waitTime << ", done=" << t.done << endl;
-      }
+      // if( t.action.name.compare("Protoss_Robotics_Support_Bay") == 0 )
+      // {
+      // 	cout << "Details Robo Bay: sec req=" << t.action.secondsRequired << ", wait=" << t.waitTime << ", done=" << t.done << endl;
+      // }
       
-      if( t.waitTime == 0
-	  && !t.done
-	  && ( t.action.costMineral == 0 || currentState.stockMineral >= t.action.costMineral )
-	  && ( t.action.costGas == 0 || currentState.stockGas >= t.action.costGas )
+      if( copyInMove[i].waitTime == 0
+	  && ( copyInMove[i].action.costMineral == 0 || currentState.stockMineral >= copyInMove[i].action.costMineral )
+	  && ( copyInMove[i].action.costGas == 0 || currentState.stockGas >= copyInMove[i].action.costGas )
 	)
       {
-	string creator = t.action.creator;
-	string goal = t.action.name;
+	string creator = copyInMove[i].action.creator;
+	string goal = copyInMove[i].action.name;
 
-	int mineralCost = t.action.costMineral;
-	int gasCost = t.action.costGas;
+	int mineralCost = copyInMove[i].action.costMineral;
+	int gasCost = copyInMove[i].action.costGas;
 
 	if( creator.compare("Protoss_Probe") == 0 )
 	{
-	  t.done = true;
+	  // The action is about to be done, so erase it from inMove
+	  currentState.inMove.erase( begin( currentState.inMove ) + i );
+	  
 	  if( goal.compare("Mineral") == 0 ) 
 	    ++currentState.mineralWorkers;
-	  else
-	    if( goal.compare("Gas") == 0 ) 
-	      ++currentState.gasWorkers;
-	    else // ie, the worker is about to build something
-	    {
-	      pushInBusy( t.action.name );
-	      // warp building and return to mineral fields
-	      currentState.inMove.push_back( Tuple( actionOf["Protoss_Mineral"], returnToMinerals ) );
-	      
-	      currentState.stockMineral -= mineralCost;
-	      currentState.stockGas -= gasCost;
-
-	      currentState.mineralsBooked -= mineralCost;
-	      currentState.gasBooked -= gasCost;
-
+	  else if( goal.compare("Gas") == 0 ) 
+	    ++currentState.gasWorkers;
+	  else // ie, the worker is about to build something
+	  {
+	    pushInBusy( copyInMove[i].action.name );
+	    // warp building and return to mineral fields
+	    currentState.inMove.push_back( ActionPrep( actionOf["Protoss_Mineral"], returnToMinerals ) );
+	    
+	    currentState.stockMineral -= mineralCost;
+	    currentState.stockGas -= gasCost;
+	    
+	    currentState.mineralsBooked -= mineralCost;
+	    currentState.gasBooked -= gasCost;
+	    
 #ifndef NDEBUG
-	      string text = "Start " + goal + " at ";
-	      cout << std::left << setw(35) << text << setw(5) << currentState.seconds
-	      	   << "  m = " << setw(9) << currentState.stockMineral
-	      	   << "  g = " << setw(8) << currentState.stockGas
-	      	   << "  mb = " << setw(5) << currentState.mineralsBooked
-	      	   << "  gb = " << setw(4) << currentState.gasBooked
-	      	   << "  mw = " << setw(3) << currentState.mineralWorkers
-	      	   << "  gw = " << setw(3) << currentState.gasWorkers
+	    string text = "Start " + goal + " at ";
+	    cout << std::left << setw(35) << text << setw(5) << currentState.seconds
+		 << "  m = " << setw(9) << currentState.stockMineral
+		 << "  g = " << setw(8) << currentState.stockGas
+		 << "  mb = " << setw(5) << currentState.mineralsBooked
+		 << "  gb = " << setw(4) << currentState.gasBooked
+		 << "  mw = " << setw(3) << currentState.mineralWorkers
+		 << "  gw = " << setw(3) << currentState.gasWorkers
 	    	 << "  bu = ";
 	    for( const auto &i : currentState.busy )
 	      cout << i.name << ", ";
@@ -500,10 +499,10 @@ namespace ghost
 	      cout << i.action.name << ", ";	    
 	    cout << "  s = " << currentState.supplyUsed << "/" << currentState.supplyCapacity << ")" << endl;
 #endif
-	    } 
+	  } 
 	}
       }
-    }
+    }    
   }
 
   void BuildOrderObjective::dealWithWorkers() const
@@ -511,11 +510,11 @@ namespace ghost
     // send workers to gas, if need and possible
     if( currentState.gasWorkers + count_if( begin(currentState.inMove),
 					    end(currentState.inMove),
-					    [](Tuple &t){return t.action.name.compare("Gas") == 0;} )
+					    [](ActionPrep &t){return t.action.name.compare("Gas") == 0;} )
 	< currentState.numberRefineries * 3 )
     {
       // if we have few workers mining, do not sent them to gas
-      Tuple tuple_gas( actionOf["Protoss_Gas"], fromMinToGas );
+      ActionPrep tuple_gas( actionOf["Protoss_Gas"], fromMinToGas );
       for( int i = 0 ; i < min( 3, currentState.mineralWorkers - 3 ) ; ++i )
       {
 	currentState.inMove.push_back( tuple_gas );
@@ -536,7 +535,7 @@ namespace ghost
 	&&
 	currentState.mineralWorkers + count_if( begin(currentState.inMove),
 						end(currentState.inMove),
-						[](const Tuple &t){return t.action.creator.compare("Protoss_Probe") == 0;})
+						[](const ActionPrep &t){return t.action.creator.compare("Protoss_Probe") == 0;})
 	< currentState.numberBases * 24 )
     {
       currentState.stockMineral -= 50;
@@ -595,16 +594,33 @@ namespace ghost
     if( actionToDo.getType() != ActionType::building )
       return false;
 
-    if( ( actionToDo.getCostMineral() == 0 || currentState.stockMineral >= actionToDo.getCostMineral() + currentState.mineralsBooked - mineralsIn(goToBuild) )
-	&&
-	( actionToDo.getCostGas() == 0 || currentState.stockGas >= actionToDo.getCostGas() + currentState.gasBooked - gasIn(goToBuild) ) 
-	&&
-	currentState.mineralWorkers + currentState.gasWorkers > 0
-	&&
-	currentState.numberPylons > 0
-	&&
-	dependenciesCheck( actionToDo.getFullName() )
-      )
+    // special case for the Assimilator
+    if( actionToDo.getFullName().compare("Protoss_Assimilator") == 0 )
+    {
+      if( currentState.stockMineral >= 100 + currentState.mineralsBooked - mineralsIn(goToBuild)
+	  &&
+	  currentState.mineralWorkers + currentState.gasWorkers > 0
+	  &&
+	  currentState.numberPylons > 0
+	  &&
+	  currentState.numberRefineries < currentState.numberBases
+	)
+      {
+	return true;
+      }
+      else
+	return false;
+    }
+    else if( ( actionToDo.getCostMineral() == 0 || currentState.stockMineral >= actionToDo.getCostMineral() + currentState.mineralsBooked - mineralsIn(goToBuild) )
+	     &&
+	     ( actionToDo.getCostGas() == 0 || currentState.stockGas >= actionToDo.getCostGas() + currentState.gasBooked - gasIn(goToBuild) ) 
+	     &&
+	     currentState.mineralWorkers + currentState.gasWorkers > 0
+	     &&
+	     currentState.numberPylons > 0
+	     &&
+	     dependenciesCheck( actionToDo.getFullName() )
+	     )
     {
       return true;
     }
@@ -646,7 +662,7 @@ namespace ghost
 	currentState.mineralsBooked += actionToDo.getCostMineral();
 	currentState.gasBooked += actionToDo.getCostGas();
 		
-	currentState.inMove.push_back( Tuple( actionToDo.getData(), goToBuild ) );
+	currentState.inMove.push_back( ActionPrep( actionToDo.getData(), goToBuild ) );
 	if( currentState.mineralWorkers > 0 )
 	  --currentState.mineralWorkers;
 	else
@@ -734,7 +750,7 @@ namespace ghost
     {
       if( currentState.stockMineral >= 100 - mineralsIn( returnToMinerals ) )
       {
-	currentState.inMove.push_back( Tuple( actionOf["Protoss_Pylon"], goToBuild ) );
+	currentState.inMove.push_back( ActionPrep( actionOf["Protoss_Pylon"], goToBuild ) );
 	
 	currentState.mineralsBooked += 100;
 	
@@ -777,16 +793,16 @@ namespace ghost
 
       int plannedSupply = currentState.supplyCapacity
 	+ 8 * count_if( begin(currentState.busy), end(currentState.busy), [](ActionData &a){return a.name.compare( "Protoss_Pylon" ) == 0;} )
-	+ 8 * count_if( begin(currentState.inMove), end(currentState.inMove), [](Tuple &t){return t.action.name.compare("Protoss_Pylon") == 0;} )
+	+ 8 * count_if( begin(currentState.inMove), end(currentState.inMove), [](ActionPrep &t){return t.action.name.compare("Protoss_Pylon") == 0;} )
 	+ 9 * count_if( begin(currentState.busy), end(currentState.busy), [](ActionData &a){return a.name.compare( "Protoss_Nexus" ) == 0;} )
-	+ 9 * count_if( begin(currentState.inMove), end(currentState.inMove), [](Tuple &t){return t.action.name.compare("Protoss_Nexus") == 0;} );
+	+ 9 * count_if( begin(currentState.inMove), end(currentState.inMove), [](ActionPrep &t){return t.action.name.compare("Protoss_Nexus") == 0;} );
 
       if( plannedSupply <= productionCapacity + currentState.supplyUsed )
       {
 	int countBuild = 0;
 	do
 	{
-	  currentState.inMove.push_back( Tuple( actionOf["Protoss_Pylon"], goToBuild ) );
+	  currentState.inMove.push_back( ActionPrep( actionOf["Protoss_Pylon"], goToBuild ) );
 	  currentState.mineralsBooked += 100;
 	  ++countBuild;
 	} while( plannedSupply + ( 8 * countBuild ) <= productionCapacity + currentState.supplyUsed );
