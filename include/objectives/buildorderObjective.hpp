@@ -78,11 +78,12 @@ namespace ghost
     
     struct ActionPrep
     {
-      ActionPrep( ActionData action, int waitTime )
-    	: action(action), waitTime(waitTime) { }
+      ActionPrep( ActionData action, int waitTime, int id )
+    	: action(action), waitTime(waitTime), id(id) { }
 
       ActionData action;
       int waitTime;
+      int id;
     };
     
     struct State
@@ -102,13 +103,11 @@ namespace ghost
 	  numberPylons(0),
       	  resources(),
 	  busy{actionOf["Protoss_Probe"]},
-	  inMove{ ActionPrep{ actionOf["Protoss_Mineral"], fromBaseToMinerals },
-	      ActionPrep{ actionOf["Protoss_Mineral"], fromBaseToMinerals },
-	      ActionPrep{ actionOf["Protoss_Mineral"], fromBaseToMinerals },
-	      ActionPrep{ actionOf["Protoss_Mineral"], fromBaseToMinerals } }
-      {
-	initCanBuild();
-      }
+	  inMove{ ActionPrep{ actionOf["Protoss_Mineral"], fromBaseToMinerals, 0 },
+	      ActionPrep{ actionOf["Protoss_Mineral"], fromBaseToMinerals, 1 },
+		ActionPrep{ actionOf["Protoss_Mineral"], fromBaseToMinerals, 2 },
+		  ActionPrep{ actionOf["Protoss_Mineral"], fromBaseToMinerals, 3 } }
+      { }
       
       State( int seconds,
 	     double stockMineral,
@@ -159,12 +158,11 @@ namespace ghost
       	resources.clear();
 	resources["Protoss_Nexus"].first = 1;
 	resources["Protoss_Nexus"].second = 0;	
-	initCanBuild();
       	busy.clear();
       	busy.push_back( actionOf["Protoss_Probe"] );
       	inMove.clear();
 	for( int i = 0 ; i < 4 ; ++i )
-	  inMove.push_back( ActionPrep{ actionOf["Protoss_Mineral"], fromBaseToMinerals } );
+	  inMove.push_back( ActionPrep{ actionOf["Protoss_Mineral"], fromBaseToMinerals, i } );
       }
 
       int	seconds;
@@ -200,9 +198,9 @@ namespace ghost
     void makeVecVariables( const Action &action, vector<Action> &variables, int count );
 
     
-    mutable State		currentState;
-    mutable map< string, pair<int, int> > goals;
-    mutable vector<BO>		bo;
+    mutable State				currentState;
+    mutable map< string, pair<int, int> >	goals;
+    mutable vector<BO>				bo;
     
   private:
     void updateBusy() const;
