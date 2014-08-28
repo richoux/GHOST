@@ -68,11 +68,12 @@ namespace ghost
   void BuildOrderObjective::printBO() const
   {
     cout << endl << endl;
-    for( const auto &b : bo )
+    for( const auto &b : bestBO )
     {
-      cout << b.fullName
-	   << ": start at " << b.startTime
-	   << ", finish at " << b.completedTime << endl;
+      if( b.fullName.compare("Protoss_Probe") != 0 && b.fullName.compare("Protoss_Pylon") != 0 )
+	cout << b.fullName
+	     << ": start at " << b.startTime
+	     << ", finish at " << b.completedTime << endl;
     }
     cout << endl;
   }
@@ -997,6 +998,7 @@ namespace ghost
     
     if( cost < bestCost )
     {
+      bestBO = bo;
       bestCost = cost;
       copy( begin(*vecVariables), end(*vecVariables), begin(bestSolution) );
     }
@@ -1019,6 +1021,7 @@ namespace ghost
 
     if( optiCost < bestCost )
     {
+      bestBO = bo;
       bestCost = optiCost;
       vecVariables->clear();
       for( const auto &v : copyVec )
@@ -1026,7 +1029,7 @@ namespace ghost
       //copy( begin(copyVec), end(copyVec), begin(*vecVariables) );
     }
 
-    // printBO();
+    printBO();
 
     postprocesstimer = chrono::high_resolution_clock::now() - startPostprocess;
     return postprocesstimer.count();

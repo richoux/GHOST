@@ -201,6 +201,7 @@ namespace ghost
     mutable State				currentState;
     mutable map< string, pair<int, int> >	goals;
     mutable vector<BO>				bo;
+    mutable vector<BO>				bestBO;
     
   private:
     void updateBusy() const;
@@ -222,9 +223,9 @@ namespace ghost
     // sharp estimations
     double sharpMineralsIn( int duration, int inSeconds = 0 ) const;
     double sharpGasIn( int duration, int inSeconds = 0 ) const;
-};
+  };
   
-
+  
   /*******************/
   /* MakeSpanMinCost */
   /*******************/
