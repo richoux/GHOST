@@ -584,41 +584,41 @@ namespace ghost
       return false;
 
     // special case for the Assimilator
-    if( actionToDo.getFullName().compare("Protoss_Assimilator") == 0 )
-    {
+    // if( actionToDo.getFullName().compare("Protoss_Assimilator") == 0 )
+    // {
       
-      // if(currentState.seconds > 700)
-      // {
-      // 	bool plop = find_if( begin(currentState.busy),
-      // 			     end(currentState.busy),
-      // 			     [](ActionData &a){return a.name.compare( "Protoss_Nexus" ) == 0;} ) != currentState.busy.end();
+    //   if(currentState.seconds > 700)
+    //   {
+    //   	bool plop = find_if( begin(currentState.busy),
+    //   			     end(currentState.busy),
+    //   			     [](ActionData &a){return a.name.compare( "Protoss_Nexus" ) == 0;} ) != currentState.busy.end();
 	
-      // 	cout << "nb ref: " << currentState.numberRefineries
-      // 	     << ", nb base:" << currentState.numberBases
-      // 	     << ", under build: " << plop << endl;
-      // }
+    //   	cout << "nb ref: " << currentState.numberRefineries
+    //   	     << ", nb base:" << currentState.numberBases
+    //   	     << ", under build: " << plop << endl;
+    //   }
       
-      if( currentState.stockMineral >= 100 + currentState.mineralsBooked - mineralsIn(goToBuild)
-	  &&
-	  currentState.mineralWorkers + currentState.gasWorkers > 0
-	  &&
-	  currentState.numberPylons > 0
-	  &&
-	  ( currentState.numberRefineries < currentState.numberBases
-	    || ( currentState.numberRefineries + 1 == currentState.numberBases
-		 && find_if( begin(currentState.busy),
-			     end(currentState.busy),
-			     [](ActionData &a){return a.name.compare( "Protoss_Nexus" ) == 0;} ) != currentState.busy.end() )
-	  )
-	)
-      {
-	return true;
-      }
-      else
-	return false;
-    }
-    else
-    {
+    //   if( currentState.stockMineral >= 100 + currentState.mineralsBooked - mineralsIn(goToBuild)
+    // 	  &&
+    // 	  currentState.mineralWorkers + currentState.gasWorkers > 0
+    // 	  &&
+    // 	  currentState.numberPylons > 0
+    // 	  &&
+    // 	  ( currentState.numberRefineries < currentState.numberBases
+    // 	    || ( currentState.numberRefineries + 1 == currentState.numberBases
+    // 		 && find_if( begin(currentState.busy),
+    // 			     end(currentState.busy),
+    // 			     [](ActionData &a){return a.name.compare( "Protoss_Nexus" ) == 0;} ) != currentState.busy.end() )
+    // 	  )
+    // 	)
+    //   {
+    // 	return true;
+    //   }
+    //   else
+    // 	return false;
+    // }
+    // else
+    // {
       // if(currentState.seconds > 700)
       // {
       // 	cout << "dep ok: " << dependenciesCheck( actionToDo.getFullName() ) << endl;
@@ -640,7 +640,7 @@ namespace ghost
     }
     else
       return false;
-    }
+      // }
   }
   
   bool BuildOrderObjective::canHandleNotBuilding( const Action &actionToDo ) const
