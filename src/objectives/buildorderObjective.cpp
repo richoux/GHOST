@@ -103,8 +103,8 @@ namespace ghost
 	++currentState.seconds;
 
       // update mineral / gas stocks
-      currentState.stockMineral += currentState.mineralWorkers * 1.08; // 1.08 mineral per worker per second in average
-      currentState.stockGas += currentState.gasWorkers * 1.68; // 1.68 gas per worker per second in average
+      currentState.stockMineral += currentState.mineralWorkers * minRate; // minRate mineral per worker per second in average
+      currentState.stockGas += currentState.gasWorkers * gasRate; // gasRate gas per worker per second in average
 
       // update busy list
       updateBusy();
@@ -185,8 +185,8 @@ namespace ghost
       ++currentState.seconds;
 
       // update mineral / gas stocks
-      currentState.stockMineral += currentState.mineralWorkers * 1.08; // 1.08 mineral per worker per second in average
-      currentState.stockGas += currentState.gasWorkers * 1.68; // 1.68 gas per worker per second in average
+      currentState.stockMineral += currentState.mineralWorkers * minRate;
+      currentState.stockGas += currentState.gasWorkers * gasRate;
 
       // update busy list
       updateBusy();
@@ -912,7 +912,7 @@ namespace ghost
 	if( ( i + 2 - l ) % 20 == 0 )
 	  ++workers;
       
-      futurProduction += workers * 1.08;
+      futurProduction += workers * minRate;
     }
     
     return futurProduction;
@@ -939,7 +939,7 @@ namespace ghost
 
     // start to count income from InSeconds till InSeconds + duration
     for( int i = InSeconds + 1 ; i <= InSeconds + duration ; ++i )
-      futurProduction += workers * 1.08;
+      futurProduction += workers * minRate;
 
     return futurProduction;
   }

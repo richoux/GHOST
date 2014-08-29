@@ -39,11 +39,14 @@ using namespace std;
 
 namespace ghost
 {
-  constexpr int goToBuild		= 4; //5
-  constexpr int returnToMinerals	= 0; //4
-  constexpr int fromBaseToMinerals	= 0; //2
-  constexpr int fromMinToGas		= 0; //2
-  
+  constexpr int goToBuild		= 5; //5
+  constexpr int returnToMinerals	= 4; //4
+  constexpr int fromBaseToMinerals	= 5; //2
+  constexpr int fromMinToGas		= 5; //2
+
+  constexpr double minRate		= 0.68; //1.07
+  constexpr double gasRate		= 1.15; //1.66
+    
   /***********************/
   /* BuildOrderObjective */
   /***********************/
@@ -217,8 +220,8 @@ namespace ghost
     bool dependenciesCheck( const string& ) const;
     
     // rough estimations
-    inline double mineralsIn( int duration )	const { return currentState.mineralWorkers * 1.08 * duration; }
-    inline double gasIn( int duration )		const { return currentState.gasWorkers * 1.68 * duration; }
+    inline double mineralsIn( int duration )	const { return currentState.mineralWorkers * minRate * duration; }
+    inline double gasIn( int duration )		const { return currentState.gasWorkers * gasRate * duration; }
 
     // sharp estimations
     double sharpMineralsIn( int duration, int inSeconds = 0 ) const;
