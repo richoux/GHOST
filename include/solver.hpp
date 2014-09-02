@@ -267,7 +267,11 @@ namespace ghost
 	  // variable simulated costs
 	  fill( bestSimCost.begin(), bestSimCost.end(), 0. );
 
-	  vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts, objective );
+	  if( !objOriginalNull )
+	    vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts, objective );
+	  else
+	    vecConstraintsCosts[0] = vecConstraints[0]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
+
 	  for( int i = 1; i < vecConstraints.size(); ++i )
 	    vecConstraintsCosts[i] = vecConstraints[i]->simulateCost( *oldVariable, possibleValues, vecVarSimCosts );
 
@@ -330,13 +334,8 @@ namespace ghost
 	     || ( objOriginalNull && elapsedTime.count() < sat_timeout * loops ) );
 
       domain->wipe( vecVariables );
-
-      // cout << "BEFORE BEST" << *domain << endl;
-
       copy( begin(bestSolution), end(bestSolution), begin(*vecVariables) );
-
       domain->rebuild( vecVariables );
-
       beforePostProc = bestCost;
       
       if( bestGlobalCost == 0 )
@@ -355,20 +354,7 @@ namespace ghost
 	   << "Number of tours: " << tour << endl
 	   << "Number of iterations: " << iterations << endl;
 
-      if( objOriginalNull )
-      {
-        // if( bestGlobalCost == 0 )
-        // {
-        //   shared_ptr<WallinObjective> bObj = make_shared<BuildingObj>();
-        //   shared_ptr<WallinObjective> gObj = make_shared<GapObj>();
-        //   shared_ptr<WallinObjective> tObj = make_shared<TechTreeObj>();
-	  
-        //   cout << "Opt Cost if the objective was building: " << bObj->cost( vecVariables, domain ) << endl
-	//        << "Opt Cost if the objective was gap: \t" << gObj->cost( vecVariables, domain ) << endl
-	//        << "Opt Cost if the objective was techtree: " << tObj->cost( vecVariables, domain ) << endl;
-        // }
-      }
-      else
+      if( !objOriginalNull )
       {
 	cout << "Optimization cost: " << bestCost << endl
 	     << "Opt Cost BEFORE post-processing: " << beforePostProc << endl;
