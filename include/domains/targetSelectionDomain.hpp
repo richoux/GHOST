@@ -40,8 +40,12 @@ namespace ghost
   public:
     TargetSelectionDomain( int, vector<UnitData>* );
 
+    vector<UnitData> getEnemiesInRange( const Unit& );
+    
+    inline UnitData getEnemyData( int i ) const { return enemies->at( i ); }
+    
     friend ostream& operator<<( ostream&, const TargetSelectionDomain& );
-
+        
   private:
     void v_restart( vector<Unit>* );
 

@@ -24,50 +24,36 @@
  */
 
 
-#include <iostream>
-#include <numeric>
-#include <algorithm>
-#include <chrono>
-#include <typeinfo>
+#pragma once
 
-#include "../../include/domains/targetSelectionDomain.hpp"
-#include "../../include/misc/unitMap.hpp"
+#include <vector>
+#include <iostream>
+#include <memory>
+#include <algorithm>
+#include <string>
+
+#include "constraint.hpp"
+#include "../variables/unit.hpp"
+#include "../domains/targetSelectionDomain.hpp"
+#include "../objectives/objective.hpp"
+#include "../misc/unitMap.hpp"
 
 using namespace std;
 
 namespace ghost
 {
-  TargetSelectionDomain::TargetSelectionDomain( int numberVariables, vector<UnitData> *data )
-    : Domain( numberVariables, numberVariables, -1 ), enemies(data)
-  { }
-  
-  void TargetSelectionDomain::v_restart( vector<Unit> *variables )
+  class TargetSelectionConstraint : public Constraint<Unit, TargetSelectionDomain>
   {
-    for( auto &v : *variables )
-    {
-      v.setValue( -1 );
-      v.setData( unitOf[ v.getFullName() ] );
-    }
-  }
+  public:
+    TargetSelectionConstraint( const vector< Unit >*, const TargetSelectionDomain* );
 
-  vector<UnitData> TargetSelectionDomain::getEnemiesInRange( const Unit &u )
-  {
-    vector<UnitData> inRange;
 
-    for( const auto &e : *enemies )
-      if( u.isInRange( e ) )
-	inRange.push_back( e );
-    
-    return inRange;
-  }
-  
-  ostream& operator<<( ostream &os, const TargetSelectionDomain &t )
-  {
-    os << endl;
-    for( const auto &e : *(t.enemies) )
-      os << e << endl
-	 << "Coord: (" << e.coord.x << ", " << e.coord.y << ")" << endl; 
+  private:
+    double		v_cost	      ( vector<double> &varCost ) const;
 
-    return os;
-  }
+    vector<double>	v_simulateCost( Unit &currentUnit,
+					const vector<int> &newTarget,
+					vector< vector<double> > &vecVarSimCosts,
+					shared_ptr< Objective< Unit, TargetSelectionDomain > > objective );
+  };  
 }

@@ -27,6 +27,7 @@
 #pragma once
 
 #include <vector>
+#include <cmath>
 
 #include "variable.hpp"
 #include "../misc/races.hpp"
@@ -67,6 +68,12 @@ namespace ghost
     inline bool canShoot()		const	{ return canShootIn == 0; }
     inline void justShot()			{ canShootIn = cooldown; }
     inline void oneStep()			{ --canShootIn; }
+
+    inline double distanceFrom( const UnitData &u ) const
+    { return sqrt( pow( u.coord.x - coord.x, 2 ) + pow( u.coord.y - coord.y, 2 ) ); }
+
+    inline bool isInRange( const UnitData &u )  const
+    { return distanceFrom(u) >= range.min && distanceFrom(u) <= range.max; }
     
     string	name;
     Coord	coord;
@@ -105,7 +112,16 @@ namespace ghost
     inline bool canShoot()		const { return data.canShoot(); }
     inline void justShot()		      { data.justShot(); }
     inline void oneStep()		      { data.oneStep(); }
-    
+
+    inline double distanceFrom( const Unit &u ) const
+    { return data.distanceFrom( u.data ); }
+
+    inline bool isInRange( const Unit &u ) const
+    { return data.isInRange( u.data ); }
+
+    inline bool isInRange( const UnitData &ud ) const
+    { return data.isInRange( ud ); }
+
     inline UnitData getData()		const { return data; }
     inline void setData( UnitData u )	      { data = u; }
 
