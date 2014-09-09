@@ -110,7 +110,7 @@ namespace ghost
     double distanceFrom( const UnitEnemy& )	const;
     bool isInRange( const Unit& )		const;
     bool isInRangeAndAlive( const Unit& )	const;
-    void doDamageAgainst( Unit &u, vector<Unit> &vecUnit, int num );
+    void doDamageAgainst( Unit *u, vector<Unit> &vecUnit, int num );
   };
 
   

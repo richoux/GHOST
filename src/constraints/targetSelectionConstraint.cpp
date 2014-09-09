@@ -59,6 +59,13 @@ namespace ghost
 	++conflicts;
 	++varCost[ it->getId() ];
       }
+
+      // Other situation: u has no living reachable targets but is not affected to -1
+      if( domain->getLivingEnemiesInRange( *it ).empty() && it->getValue() != -1 )
+      {
+	++conflicts;
+	++varCost[ it->getId() ];
+      }
     }
     
     return conflicts;
