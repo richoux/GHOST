@@ -28,11 +28,11 @@ Collaboration diagram for ghost\-:\-:Build\-Order\-Objective\-:
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
+struct \hyperlink{structghost_1_1BuildOrderObjective_1_1ActionPrep}{Action\-Prep}
+\item 
 struct \hyperlink{structghost_1_1BuildOrderObjective_1_1BO}{B\-O}
 \item 
 struct \hyperlink{structghost_1_1BuildOrderObjective_1_1State}{State}
-\item 
-struct \hyperlink{structghost_1_1BuildOrderObjective_1_1Tuple}{Tuple}
 \end{DoxyCompactItemize}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
@@ -46,17 +46,19 @@ void \hyperlink{classghost_1_1BuildOrderObjective_a04c8eff1ac3b0c98f8520189d5b75
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-double \hyperlink{classghost_1_1BuildOrderObjective_a2d76e1734085c9775af4784b6d29dd12}{v\-\_\-cost} (const vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$vec\-Variables, const \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain} $\ast$domain) const 
+double \hyperlink{classghost_1_1BuildOrderObjective_a65a1e23654ddb00ff575c628cf982bef}{v\-\_\-cost} (vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$vec\-Variables, \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain} $\ast$domain) const 
 \begin{DoxyCompactList}\small\item\em Pure virtual function to compute the value of the objective function on the current configuration. \end{DoxyCompactList}\item 
+double \hyperlink{classghost_1_1BuildOrderObjective_aa1783d6d3ae2550905a961e6fcc37a86}{cost\-Opti} (vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$vec\-Variables) const 
+\item 
 int \hyperlink{classghost_1_1BuildOrderObjective_a3704745355d6bf12a3afe2e8d551f38a}{v\-\_\-heuristic\-Variable} (const vector$<$ int $>$ \&vec\-Id, const vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$vec\-Variables, \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain} $\ast$domain)
 \begin{DoxyCompactList}\small\item\em Pure virtual function to apply the variable heuristic used by the solver. \end{DoxyCompactList}\item 
-int \hyperlink{classghost_1_1BuildOrderObjective_ac53eb5d747fff00a064b6c45f02a99ee}{v\-\_\-heuristic\-Value} (const std\-::vector$<$ double $>$ \&vec\-Global\-Costs, double \&best\-Estimated\-Cost, int \&best\-Value) const 
-\begin{DoxyCompactList}\small\item\em Virtual function to apply the value heuristic used by the solver. \end{DoxyCompactList}\item 
+int \hyperlink{classghost_1_1BuildOrderObjective_a3018e45b565e872b39865fcf2a5ed626}{v\-\_\-heuristic\-Value} (const vector$<$ double $>$ \&vec\-Global\-Costs, double \&best\-Estimated\-Cost, int \&best\-Value) const 
+\item 
 void \hyperlink{classghost_1_1BuildOrderObjective_ad76dc815275350590eb67db1d22cc02b}{v\-\_\-set\-Helper} (const \hyperlink{classghost_1_1Action}{Action} \&b, const vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$vec\-Variables, const \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain} $\ast$domain)
 \begin{DoxyCompactList}\small\item\em Pure virtual function to set heuristic\-Value\-Helper\mbox{[}current\-Var.\-get\-Value()\mbox{]}. \end{DoxyCompactList}\item 
-virtual double \hyperlink{classghost_1_1BuildOrderObjective_a07306469a8512e33a420d7f8ebab507b}{v\-\_\-postprocess\-Optimization} (vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$vec\-Actions, \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain} $\ast$domain, double \&best\-Cost)
+double \hyperlink{classghost_1_1BuildOrderObjective_ac08754712162e2d592f102ed68a98e4c}{v\-\_\-postprocess\-Optimization} (vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$vec\-Actions, \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain} $\ast$domain, double \&best\-Cost, double opt\-\_\-timeout)
 \begin{DoxyCompactList}\small\item\em Virtual function to perform optimization post-\/processing. \end{DoxyCompactList}\item 
-double \hyperlink{classghost_1_1BuildOrderObjective_ac33af5d279166ee0ec8d088ca9f03596}{v\-\_\-postprocess\-Satisfaction} (vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$vec\-Variables, \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain} $\ast$domain, double \&best\-Cost, vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ \&best\-Solution) const 
+double \hyperlink{classghost_1_1BuildOrderObjective_a9505c468fb79506073b759e0bec156d9}{v\-\_\-postprocess\-Satisfaction} (vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$vec\-Variables, \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain} $\ast$domain, double \&best\-Cost, vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ \&best\-Solution, double sat\-\_\-timeout) const 
 \begin{DoxyCompactList}\small\item\em Virtual function to perform satisfaction post-\/processing. \end{DoxyCompactList}\item 
 void \hyperlink{classghost_1_1BuildOrderObjective_a8f898f213a9fa0b59bd0567fa4617b08}{make\-Vec\-Variables} (const pair$<$ string, int $>$ \&input, vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ \&variables, map$<$ string, pair$<$ int, int $>$ $>$ \&\hyperlink{classghost_1_1BuildOrderObjective_a714a7fc416d8925bc7d2b9026e9a212c}{goals})
 \item 
@@ -70,19 +72,41 @@ void \hyperlink{classghost_1_1BuildOrderObjective_ae6bd3128472d66100c1643bbaf095
 map$<$ string, pair$<$ int, int $>$ $>$ \hyperlink{classghost_1_1BuildOrderObjective_a714a7fc416d8925bc7d2b9026e9a212c}{goals}
 \item 
 vector$<$ \hyperlink{structghost_1_1BuildOrderObjective_1_1BO}{B\-O} $>$ \hyperlink{classghost_1_1BuildOrderObjective_aa55dce8a8fbdc5fe64ddadfa715e968e}{bo}
+\item 
+vector$<$ \hyperlink{structghost_1_1BuildOrderObjective_1_1BO}{B\-O} $>$ \hyperlink{classghost_1_1BuildOrderObjective_a71ec5c0a8425d3e5facebb76190adfb7}{best\-B\-O}
 \end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
-\item 
-double \hyperlink{classghost_1_1BuildOrderObjective_a8374173fe58843718dc7ba1410628e72}{v\-\_\-cost} (const vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$vec\-Variables, const \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain} $\ast$domain, bool optimization) const 
 \item 
 void \hyperlink{classghost_1_1BuildOrderObjective_abf798bcb896d5311038e9c882a5314b6}{update\-Busy} () const 
 \item 
 void \hyperlink{classghost_1_1BuildOrderObjective_a6f1e369381790f195420562d9eb68c66}{update\-In\-Move} () const 
 \item 
+void \hyperlink{classghost_1_1BuildOrderObjective_af02717f953c7353c5f91adbb6f6b0c58}{deal\-With\-Workers} () const 
+\item 
+bool \hyperlink{classghost_1_1BuildOrderObjective_af047bf976b44bf4f525ba320370609c8}{can\-Handle\-Building} (const \hyperlink{classghost_1_1Action}{Action} \&) const 
+\item 
+bool \hyperlink{classghost_1_1BuildOrderObjective_af61b5f5aa5ac311fa64fddbbad52312b}{can\-Handle\-Not\-Building} (const \hyperlink{classghost_1_1Action}{Action} \&) const 
+\item 
+bool \hyperlink{classghost_1_1BuildOrderObjective_ae19be683aec902dc0cf219434571096b}{handle\-Action\-To\-Do} (const \hyperlink{classghost_1_1Action}{Action} \&) const 
+\item 
+void \hyperlink{classghost_1_1BuildOrderObjective_a626a838d77e150a3d5946ff240323d11}{produce\-Units\-First} (vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$\-::iterator \&, vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$) const 
+\item 
 bool \hyperlink{classghost_1_1BuildOrderObjective_a0704c4f68c1a77436dfa88af016cd952}{making\-Pylons} () const 
 \item 
 void \hyperlink{classghost_1_1BuildOrderObjective_a2f814ebbd373a2aa9fd316f987de352c}{you\-Must\-Construct\-Additional\-Pylons} () const 
+\item 
+void \hyperlink{classghost_1_1BuildOrderObjective_a1d131785563d450a5c0bd0819bb8d7fe}{push\-In\-Busy} (const string \&) const 
+\item 
+bool \hyperlink{classghost_1_1BuildOrderObjective_a08f9ed1c0d4a8aaacbe2dc64e3ecffc6}{dependencies\-Check} (const string \&) const 
+\item 
+double \hyperlink{classghost_1_1BuildOrderObjective_a55f4291cf798d3530161cc30c04be9f4}{minerals\-In} (int duration) const 
+\item 
+double \hyperlink{classghost_1_1BuildOrderObjective_ac47b4cf4499805d98d2daeb506435130}{gas\-In} (int duration) const 
+\item 
+double \hyperlink{classghost_1_1BuildOrderObjective_a3c3deeffad2171024cf026b078214b91}{sharp\-Minerals\-In} (int duration, int in\-Seconds=0) const 
+\item 
+double \hyperlink{classghost_1_1BuildOrderObjective_a19352d224173dd3073e69565f45096a4}{sharp\-Gas\-In} (int duration, int in\-Seconds=0) const 
 \end{DoxyCompactItemize}
 
 
@@ -106,6 +130,55 @@ void \hyperlink{classghost_1_1BuildOrderObjective_a2f814ebbd373a2aa9fd316f987de3
 
 
 \subsection{Member Function Documentation}
+\hypertarget{classghost_1_1BuildOrderObjective_af047bf976b44bf4f525ba320370609c8}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!can\-Handle\-Building@{can\-Handle\-Building}}
+\index{can\-Handle\-Building@{can\-Handle\-Building}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
+\subsubsection[{can\-Handle\-Building}]{\setlength{\rightskip}{0pt plus 5cm}bool ghost\-::\-Build\-Order\-Objective\-::can\-Handle\-Building (
+\begin{DoxyParamCaption}
+\item[{const {\bf Action} \&}]{action\-To\-Do}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1BuildOrderObjective_af047bf976b44bf4f525ba320370609c8}
+\hypertarget{classghost_1_1BuildOrderObjective_af61b5f5aa5ac311fa64fddbbad52312b}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!can\-Handle\-Not\-Building@{can\-Handle\-Not\-Building}}
+\index{can\-Handle\-Not\-Building@{can\-Handle\-Not\-Building}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
+\subsubsection[{can\-Handle\-Not\-Building}]{\setlength{\rightskip}{0pt plus 5cm}bool ghost\-::\-Build\-Order\-Objective\-::can\-Handle\-Not\-Building (
+\begin{DoxyParamCaption}
+\item[{const {\bf Action} \&}]{action\-To\-Do}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1BuildOrderObjective_af61b5f5aa5ac311fa64fddbbad52312b}
+\hypertarget{classghost_1_1BuildOrderObjective_aa1783d6d3ae2550905a961e6fcc37a86}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!cost\-Opti@{cost\-Opti}}
+\index{cost\-Opti@{cost\-Opti}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
+\subsubsection[{cost\-Opti}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Build\-Order\-Objective\-::cost\-Opti (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf Action} $>$ $\ast$}]{vec\-Variables}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{classghost_1_1BuildOrderObjective_aa1783d6d3ae2550905a961e6fcc37a86}
+\hypertarget{classghost_1_1BuildOrderObjective_af02717f953c7353c5f91adbb6f6b0c58}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!deal\-With\-Workers@{deal\-With\-Workers}}
+\index{deal\-With\-Workers@{deal\-With\-Workers}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
+\subsubsection[{deal\-With\-Workers}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Build\-Order\-Objective\-::deal\-With\-Workers (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1BuildOrderObjective_af02717f953c7353c5f91adbb6f6b0c58}
+\hypertarget{classghost_1_1BuildOrderObjective_a08f9ed1c0d4a8aaacbe2dc64e3ecffc6}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!dependencies\-Check@{dependencies\-Check}}
+\index{dependencies\-Check@{dependencies\-Check}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
+\subsubsection[{dependencies\-Check}]{\setlength{\rightskip}{0pt plus 5cm}bool ghost\-::\-Build\-Order\-Objective\-::dependencies\-Check (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{s}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1BuildOrderObjective_a08f9ed1c0d4a8aaacbe2dc64e3ecffc6}
+\hypertarget{classghost_1_1BuildOrderObjective_ac47b4cf4499805d98d2daeb506435130}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!gas\-In@{gas\-In}}
+\index{gas\-In@{gas\-In}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
+\subsubsection[{gas\-In}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Build\-Order\-Objective\-::gas\-In (
+\begin{DoxyParamCaption}
+\item[{int}]{duration}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}}\label{classghost_1_1BuildOrderObjective_ac47b4cf4499805d98d2daeb506435130}
+\hypertarget{classghost_1_1BuildOrderObjective_ae19be683aec902dc0cf219434571096b}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!handle\-Action\-To\-Do@{handle\-Action\-To\-Do}}
+\index{handle\-Action\-To\-Do@{handle\-Action\-To\-Do}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
+\subsubsection[{handle\-Action\-To\-Do}]{\setlength{\rightskip}{0pt plus 5cm}bool ghost\-::\-Build\-Order\-Objective\-::handle\-Action\-To\-Do (
+\begin{DoxyParamCaption}
+\item[{const {\bf Action} \&}]{action\-To\-Do}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1BuildOrderObjective_ae19be683aec902dc0cf219434571096b}
 \hypertarget{classghost_1_1BuildOrderObjective_a8f898f213a9fa0b59bd0567fa4617b08}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!make\-Vec\-Variables@{make\-Vec\-Variables}}
 \index{make\-Vec\-Variables@{make\-Vec\-Variables}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
 \subsubsection[{make\-Vec\-Variables}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Build\-Order\-Objective\-::make\-Vec\-Variables (
@@ -131,6 +204,13 @@ void \hyperlink{classghost_1_1BuildOrderObjective_a2f814ebbd373a2aa9fd316f987de3
 {}
 \end{DoxyParamCaption}
 ) const\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1BuildOrderObjective_a0704c4f68c1a77436dfa88af016cd952}
+\hypertarget{classghost_1_1BuildOrderObjective_a55f4291cf798d3530161cc30c04be9f4}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!minerals\-In@{minerals\-In}}
+\index{minerals\-In@{minerals\-In}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
+\subsubsection[{minerals\-In}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Build\-Order\-Objective\-::minerals\-In (
+\begin{DoxyParamCaption}
+\item[{int}]{duration}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}}\label{classghost_1_1BuildOrderObjective_a55f4291cf798d3530161cc30c04be9f4}
 \hypertarget{classghost_1_1BuildOrderObjective_a04c8eff1ac3b0c98f8520189d5b75f9f}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!print\-B\-O@{print\-B\-O}}
 \index{print\-B\-O@{print\-B\-O}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
 \subsubsection[{print\-B\-O}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Build\-Order\-Objective\-::print\-B\-O (
@@ -138,6 +218,37 @@ void \hyperlink{classghost_1_1BuildOrderObjective_a2f814ebbd373a2aa9fd316f987de3
 {}
 \end{DoxyParamCaption}
 ) const}}\label{classghost_1_1BuildOrderObjective_a04c8eff1ac3b0c98f8520189d5b75f9f}
+\hypertarget{classghost_1_1BuildOrderObjective_a626a838d77e150a3d5946ff240323d11}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!produce\-Units\-First@{produce\-Units\-First}}
+\index{produce\-Units\-First@{produce\-Units\-First}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
+\subsubsection[{produce\-Units\-First}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Build\-Order\-Objective\-::produce\-Units\-First (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf Action} $>$\-::iterator \&}]{action\-To\-Do, }
+\item[{vector$<$ {\bf Action} $>$ $\ast$}]{vec\-Variables}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1BuildOrderObjective_a626a838d77e150a3d5946ff240323d11}
+\hypertarget{classghost_1_1BuildOrderObjective_a1d131785563d450a5c0bd0819bb8d7fe}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!push\-In\-Busy@{push\-In\-Busy}}
+\index{push\-In\-Busy@{push\-In\-Busy}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
+\subsubsection[{push\-In\-Busy}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Build\-Order\-Objective\-::push\-In\-Busy (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{name}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1BuildOrderObjective_a1d131785563d450a5c0bd0819bb8d7fe}
+\hypertarget{classghost_1_1BuildOrderObjective_a19352d224173dd3073e69565f45096a4}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!sharp\-Gas\-In@{sharp\-Gas\-In}}
+\index{sharp\-Gas\-In@{sharp\-Gas\-In}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
+\subsubsection[{sharp\-Gas\-In}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Build\-Order\-Objective\-::sharp\-Gas\-In (
+\begin{DoxyParamCaption}
+\item[{int}]{duration, }
+\item[{int}]{in\-Seconds = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1BuildOrderObjective_a19352d224173dd3073e69565f45096a4}
+\hypertarget{classghost_1_1BuildOrderObjective_a3c3deeffad2171024cf026b078214b91}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!sharp\-Minerals\-In@{sharp\-Minerals\-In}}
+\index{sharp\-Minerals\-In@{sharp\-Minerals\-In}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
+\subsubsection[{sharp\-Minerals\-In}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Build\-Order\-Objective\-::sharp\-Minerals\-In (
+\begin{DoxyParamCaption}
+\item[{int}]{duration, }
+\item[{int}]{in\-Seconds = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1BuildOrderObjective_a3c3deeffad2171024cf026b078214b91}
 \hypertarget{classghost_1_1BuildOrderObjective_abf798bcb896d5311038e9c882a5314b6}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!update\-Busy@{update\-Busy}}
 \index{update\-Busy@{update\-Busy}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
 \subsubsection[{update\-Busy}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Build\-Order\-Objective\-::update\-Busy (
@@ -152,73 +263,44 @@ void \hyperlink{classghost_1_1BuildOrderObjective_a2f814ebbd373a2aa9fd316f987de3
 {}
 \end{DoxyParamCaption}
 ) const\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1BuildOrderObjective_a6f1e369381790f195420562d9eb68c66}
-\hypertarget{classghost_1_1BuildOrderObjective_a2d76e1734085c9775af4784b6d29dd12}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!v\-\_\-cost@{v\-\_\-cost}}
+\hypertarget{classghost_1_1BuildOrderObjective_a65a1e23654ddb00ff575c628cf982bef}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!v\-\_\-cost@{v\-\_\-cost}}
 \index{v\-\_\-cost@{v\-\_\-cost}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
 \subsubsection[{v\-\_\-cost}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Build\-Order\-Objective\-::v\-\_\-cost (
 \begin{DoxyParamCaption}
-\item[{const vector$<$ {\bf Action} $>$ $\ast$}]{vec\-Variables, }
-\item[{const {\bf Build\-Order\-Domain} $\ast$}]{domain}
+\item[{vector$<$ {\bf Action} $>$ $\ast$}]{vec\-Variables, }
+\item[{{\bf Build\-Order\-Domain} $\ast$}]{domain}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classghost_1_1BuildOrderObjective_a2d76e1734085c9775af4784b6d29dd12}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classghost_1_1BuildOrderObjective_a65a1e23654ddb00ff575c628cf982bef}
 
 
 Pure virtual function to compute the value of the objective function on the current configuration. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em vec\-Variables} & A constant pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
+{\em vec\-Variables} & A pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
 \hline
-{\em domain} & A constant pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
+{\em domain} & A pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 The value of the objective function on the current configuration. 
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See Also}
-\hyperlink{classghost_1_1Objective_a2947c19e26ffd2a23c3a7f1b99c8bc79}{cost} 
+\hyperlink{classghost_1_1Objective_a8ac8effdac4a09063fd680ed60b6a06f}{cost} 
 \end{DoxySeeAlso}
 
 
-Implements \hyperlink{classghost_1_1Objective_affb6d6730adfbfe6a1f990e00d2a5eb2}{ghost\-::\-Objective$<$ Action, Build\-Order\-Domain $>$}.
+Implements \hyperlink{classghost_1_1Objective_a401aa21f01c1e01d34e34893766f3e9d}{ghost\-::\-Objective$<$ Action, Build\-Order\-Domain $>$}.
 
-\hypertarget{classghost_1_1BuildOrderObjective_a8374173fe58843718dc7ba1410628e72}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!v\-\_\-cost@{v\-\_\-cost}}
-\index{v\-\_\-cost@{v\-\_\-cost}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
-\subsubsection[{v\-\_\-cost}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Build\-Order\-Objective\-::v\-\_\-cost (
-\begin{DoxyParamCaption}
-\item[{const vector$<$ {\bf Action} $>$ $\ast$}]{vec\-Variables, }
-\item[{const {\bf Build\-Order\-Domain} $\ast$}]{domain, }
-\item[{bool}]{optimization}
-\end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1BuildOrderObjective_a8374173fe58843718dc7ba1410628e72}
-\hypertarget{classghost_1_1BuildOrderObjective_ac53eb5d747fff00a064b6c45f02a99ee}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!v\-\_\-heuristic\-Value@{v\-\_\-heuristic\-Value}}
+\hypertarget{classghost_1_1BuildOrderObjective_a3018e45b565e872b39865fcf2a5ed626}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!v\-\_\-heuristic\-Value@{v\-\_\-heuristic\-Value}}
 \index{v\-\_\-heuristic\-Value@{v\-\_\-heuristic\-Value}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
 \subsubsection[{v\-\_\-heuristic\-Value}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Build\-Order\-Objective\-::v\-\_\-heuristic\-Value (
 \begin{DoxyParamCaption}
-\item[{const std\-::vector$<$ double $>$ \&}]{vec\-Global\-Costs, }
+\item[{const vector$<$ double $>$ \&}]{vec\-Global\-Costs, }
 \item[{double \&}]{best\-Estimated\-Cost, }
 \item[{int \&}]{best\-Value}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classghost_1_1BuildOrderObjective_ac53eb5d747fff00a064b6c45f02a99ee}
-
-
-Virtual function to apply the value heuristic used by the solver. 
-
-This default implementation outputs the value leading to the lowest global cost. It uses heuristic\-Value\-Helper as a tiebreaker, if two or more values lead to configurations with the same lowest global cost. If two or more values cannot be tiebreak by heuristic\-Value\-Helper, one of them is randomly selected.
-
-
-\begin{DoxyParams}{Parameters}
-{\em \textbackslash{}param} & \\
-\hline
-{\em \textbackslash{}return} & The selected value according to the heuristic. \\
-\hline
-\end{DoxyParams}
-\begin{DoxySeeAlso}{See Also}
-\hyperlink{classghost_1_1Objective_ac9d6c8e05cca99cd797d302b3755b6b5}{heuristic\-Value}, \hyperlink{classghost_1_1Objective_a9bfe64f13de15bba7f2fa3a662c02e27}{heuristic\-Value\-Helper}, \hyperlink{classghost_1_1Random}{Random} 
-\end{DoxySeeAlso}
-
-
-Reimplemented from \hyperlink{classghost_1_1Objective_a03311ba62213580f1664f164e5f5696a}{ghost\-::\-Objective$<$ Action, Build\-Order\-Domain $>$}.
-
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{classghost_1_1BuildOrderObjective_a3018e45b565e872b39865fcf2a5ed626}
 \hypertarget{classghost_1_1BuildOrderObjective_a3704745355d6bf12a3afe2e8d551f38a}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!v\-\_\-heuristic\-Variable@{v\-\_\-heuristic\-Variable}}
 \index{v\-\_\-heuristic\-Variable@{v\-\_\-heuristic\-Variable}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
 \subsubsection[{v\-\_\-heuristic\-Variable}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Build\-Order\-Objective\-::v\-\_\-heuristic\-Variable (
@@ -251,15 +333,16 @@ The I\-D of the selected variable according to the heuristic.
 
 Implements \hyperlink{classghost_1_1Objective_ae4a49d23569c367182f934c25a6c6103}{ghost\-::\-Objective$<$ Action, Build\-Order\-Domain $>$}.
 
-\hypertarget{classghost_1_1BuildOrderObjective_a07306469a8512e33a420d7f8ebab507b}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!v\-\_\-postprocess\-Optimization@{v\-\_\-postprocess\-Optimization}}
+\hypertarget{classghost_1_1BuildOrderObjective_ac08754712162e2d592f102ed68a98e4c}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!v\-\_\-postprocess\-Optimization@{v\-\_\-postprocess\-Optimization}}
 \index{v\-\_\-postprocess\-Optimization@{v\-\_\-postprocess\-Optimization}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
 \subsubsection[{v\-\_\-postprocess\-Optimization}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Build\-Order\-Objective\-::v\-\_\-postprocess\-Optimization (
 \begin{DoxyParamCaption}
 \item[{vector$<$ {\bf Action} $>$ $\ast$}]{vec\-Variables, }
 \item[{{\bf Build\-Order\-Domain} $\ast$}]{domain, }
-\item[{double \&}]{best\-Cost}
+\item[{double \&}]{best\-Cost, }
+\item[{double}]{opt\-\_\-timeout}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classghost_1_1BuildOrderObjective_a07306469a8512e33a420d7f8ebab507b}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classghost_1_1BuildOrderObjective_ac08754712162e2d592f102ed68a98e4c}
 
 
 Virtual function to perform optimization post-\/processing. 
@@ -276,31 +359,30 @@ This implementation by default does nothing.
 \hline
 {\em best\-Cost} & A reference the double representing the best optimization cost found by the solver so far. \\
 \hline
+{\em opt\-\_\-timeout} & The optimization timeout given in argument of \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{Solver\-::solve} \\
+\hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 The function runtime in milliseconds. 
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See Also}
-\hyperlink{classghost_1_1Objective_a78ac0f829786f02fe69b2afe6f2636bc}{postprocess\-Optimization} 
+\hyperlink{classghost_1_1Objective_adbaff57012dd756d87dc5151d9718296}{postprocess\-Optimization} 
 \end{DoxySeeAlso}
 
 
-Reimplemented from \hyperlink{classghost_1_1Objective_a25c90555bec03d1d15f83ae145d81f8f}{ghost\-::\-Objective$<$ Action, Build\-Order\-Domain $>$}.
+Reimplemented from \hyperlink{classghost_1_1Objective_af54dd3c4c9e4115534e25f27b7ccb32f}{ghost\-::\-Objective$<$ Action, Build\-Order\-Domain $>$}.
 
-
-
-Reimplemented in \hyperlink{classghost_1_1MakeSpanMaxProd_ac687d94f54354cceb9710f5a27e244a6}{ghost\-::\-Make\-Span\-Max\-Prod}, and \hyperlink{classghost_1_1MakeSpanMinCost_a892905457a09d229d0b08ec36d47f20c}{ghost\-::\-Make\-Span\-Min\-Cost}.
-
-\hypertarget{classghost_1_1BuildOrderObjective_ac33af5d279166ee0ec8d088ca9f03596}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!v\-\_\-postprocess\-Satisfaction@{v\-\_\-postprocess\-Satisfaction}}
+\hypertarget{classghost_1_1BuildOrderObjective_a9505c468fb79506073b759e0bec156d9}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!v\-\_\-postprocess\-Satisfaction@{v\-\_\-postprocess\-Satisfaction}}
 \index{v\-\_\-postprocess\-Satisfaction@{v\-\_\-postprocess\-Satisfaction}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
 \subsubsection[{v\-\_\-postprocess\-Satisfaction}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Build\-Order\-Objective\-::v\-\_\-postprocess\-Satisfaction (
 \begin{DoxyParamCaption}
 \item[{vector$<$ {\bf Action} $>$ $\ast$}]{vec\-Variables, }
 \item[{{\bf Build\-Order\-Domain} $\ast$}]{domain, }
 \item[{double \&}]{best\-Cost, }
-\item[{vector$<$ {\bf Action} $>$ \&}]{solution}
+\item[{vector$<$ {\bf Action} $>$ \&}]{solution, }
+\item[{double}]{sat\-\_\-timeout}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classghost_1_1BuildOrderObjective_ac33af5d279166ee0ec8d088ca9f03596}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classghost_1_1BuildOrderObjective_a9505c468fb79506073b759e0bec156d9}
 
 
 Virtual function to perform satisfaction post-\/processing. 
@@ -319,16 +401,18 @@ This implementation by default does nothing.
 \hline
 {\em solution} & A reference to the vector of variables of the solution found by the solver. \\
 \hline
+{\em sat\-\_\-timeout} & The satisfaction timeout given in argument of \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{Solver\-::solve} \\
+\hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 The function runtime in milliseconds. 
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See Also}
-\hyperlink{classghost_1_1Objective_a605effc6d79bd00a22c2c9fca6078cc0}{postprocess\-Satisfaction} 
+\hyperlink{classghost_1_1Objective_aa79835aa61f6680e78912ecaee6f7fbc}{postprocess\-Satisfaction} 
 \end{DoxySeeAlso}
 
 
-Reimplemented from \hyperlink{classghost_1_1Objective_a403fdae56c632409f244f4ffe79dd2df}{ghost\-::\-Objective$<$ Action, Build\-Order\-Domain $>$}.
+Reimplemented from \hyperlink{classghost_1_1Objective_a5f2b324e82efdbdb27528a2915fa14e2}{ghost\-::\-Objective$<$ Action, Build\-Order\-Domain $>$}.
 
 \hypertarget{classghost_1_1BuildOrderObjective_ad76dc815275350590eb67db1d22cc02b}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!v\-\_\-set\-Helper@{v\-\_\-set\-Helper}}
 \index{v\-\_\-set\-Helper@{v\-\_\-set\-Helper}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
@@ -369,6 +453,9 @@ Implements \hyperlink{classghost_1_1Objective_a8c4efc1602123b28626a37c53e100a6e}
 
 
 \subsection{Member Data Documentation}
+\hypertarget{classghost_1_1BuildOrderObjective_a71ec5c0a8425d3e5facebb76190adfb7}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!best\-B\-O@{best\-B\-O}}
+\index{best\-B\-O@{best\-B\-O}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
+\subsubsection[{best\-B\-O}]{\setlength{\rightskip}{0pt plus 5cm}vector$<${\bf B\-O}$>$ ghost\-::\-Build\-Order\-Objective\-::best\-B\-O\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{classghost_1_1BuildOrderObjective_a71ec5c0a8425d3e5facebb76190adfb7}
 \hypertarget{classghost_1_1BuildOrderObjective_aa55dce8a8fbdc5fe64ddadfa715e968e}{\index{ghost\-::\-Build\-Order\-Objective@{ghost\-::\-Build\-Order\-Objective}!bo@{bo}}
 \index{bo@{bo}!ghost::BuildOrderObjective@{ghost\-::\-Build\-Order\-Objective}}
 \subsubsection[{bo}]{\setlength{\rightskip}{0pt plus 5cm}vector$<${\bf B\-O}$>$ ghost\-::\-Build\-Order\-Objective\-::bo\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{classghost_1_1BuildOrderObjective_aa55dce8a8fbdc5fe64ddadfa715e968e}

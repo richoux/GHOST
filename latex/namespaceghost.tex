@@ -8,13 +8,15 @@ class \hyperlink{classghost_1_1BuildOrderConstraint}{Build\-Order\-Constraint}
 \item 
 class \hyperlink{classghost_1_1Constraint}{Constraint}
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Constraint}{Constraint} is the class encoding constraints of your C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\item 
+class \hyperlink{classghost_1_1TargetSelectionConstraint}{Target\-Selection\-Constraint}
+\item 
 class \hyperlink{classghost_1_1WallinConstraint}{Wallin\-Constraint}
 \item 
 class \hyperlink{classghost_1_1Overlap}{Overlap}
 \item 
 class \hyperlink{classghost_1_1Buildable}{Buildable}
 \item 
-class \hyperlink{classghost_1_1NoGaps}{No\-Gaps}
+class \hyperlink{classghost_1_1NoHoles}{No\-Holes}
 \item 
 class \hyperlink{classghost_1_1StartingTargetTiles}{Starting\-Target\-Tiles}
 \item 
@@ -22,6 +24,8 @@ class \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain}
 \item 
 class \hyperlink{classghost_1_1Domain}{Domain}
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Domain}{Domain} is the class encoding the domain of your C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\item 
+class \hyperlink{classghost_1_1TargetSelectionDomain}{Target\-Selection\-Domain}
+\item 
 class \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain}
 \item 
 class \hyperlink{classghost_1_1Random}{Random}
@@ -46,9 +50,21 @@ class \hyperlink{classghost_1_1TechTreeObj}{Tech\-Tree\-Obj}
 \item 
 class \hyperlink{classghost_1_1Solver}{Solver}
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Solver}{Solver} is the class coding the solver itself. \end{DoxyCompactList}\item 
+struct \hyperlink{structghost_1_1ActionData}{Action\-Data}
+\item 
 class \hyperlink{classghost_1_1Action}{Action}
 \item 
 class \hyperlink{classghost_1_1Building}{Building}
+\item 
+struct \hyperlink{structghost_1_1Coord}{Coord}
+\item 
+struct \hyperlink{structghost_1_1Range}{Range}
+\item 
+struct \hyperlink{structghost_1_1Splash}{Splash}
+\item 
+struct \hyperlink{structghost_1_1UnitData}{Unit\-Data}
+\item 
+class \hyperlink{classghost_1_1Unit}{Unit}
 \item 
 class \hyperlink{classghost_1_1Variable}{Variable}
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Variable}{Variable} is the class encoding the variables of your C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -60,24 +76,33 @@ using \hyperlink{namespaceghost_af44c393431f46e255b1c303cd50854b8}{map\-Fail} = 
 \subsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
+enum \hyperlink{namespaceghost_ab52582bfe39e47fc05f33770f38185d6}{Damage\-Type} \{ \hyperlink{namespaceghost_ab52582bfe39e47fc05f33770f38185d6a724606de2d203b8f4da399e9404722d1}{Concussive}, 
+\hyperlink{namespaceghost_ab52582bfe39e47fc05f33770f38185d6a2fcac4bed4fc6c3b0234ef9d39363248}{Normal}, 
+\hyperlink{namespaceghost_ab52582bfe39e47fc05f33770f38185d6a99868ca4240dd521c24a50835ba3716b}{Explosive}
+ \}
+\item 
 enum \hyperlink{namespaceghost_a8b1db75c40c6980adcf244ddccc0324b}{Race} \{ \hyperlink{namespaceghost_a8b1db75c40c6980adcf244ddccc0324ba83c1a2af1bdced3b37d96f507dea0ea4}{Terran}, 
 \hyperlink{namespaceghost_a8b1db75c40c6980adcf244ddccc0324ba380e68da58f712ae9a02ded67517f6e5}{Protoss}, 
 \hyperlink{namespaceghost_a8b1db75c40c6980adcf244ddccc0324ba95a952d94cc72ad754bcb37b1e16c221}{Zerg}, 
 \hyperlink{namespaceghost_a8b1db75c40c6980adcf244ddccc0324ba900f1a9a96acbc80f0a573a909a21b01}{Unknown}
  \}
 \item 
-enum \hyperlink{namespaceghost_a7c0deb8266504feb7d025903f2b77693}{Action\-Type} \{ \hyperlink{namespaceghost_a7c0deb8266504feb7d025903f2b77693a4b7c211d9226050e5730e3b9a1b0b21a}{building}, 
+enum \hyperlink{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833}{Size} \{ \hyperlink{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833af2cb84dc4ba8b7ac70dd79183cdeae64}{Small}, 
+\hyperlink{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833a0a608d14b2f5e8015152d0a4ec9ded67}{Medium}, 
+\hyperlink{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833ad826429d45178abe70b066ee9d5f6c1f}{Large}
+ \}
+\item 
+enum \hyperlink{namespaceghost_a7c0deb8266504feb7d025903f2b77693}{Action\-Type} \{ \\*
+\hyperlink{namespaceghost_a7c0deb8266504feb7d025903f2b77693a4b7c211d9226050e5730e3b9a1b0b21a}{building}, 
 \hyperlink{namespaceghost_a7c0deb8266504feb7d025903f2b77693a3f35ff835bf714ce39b905238963165e}{unit}, 
 \hyperlink{namespaceghost_a7c0deb8266504feb7d025903f2b77693aead9b678553127619281c75832d3eaf0}{upgrade}, 
-\hyperlink{namespaceghost_a7c0deb8266504feb7d025903f2b77693ac20ee83627132d4ac11451ca40c0e7d0}{research}
+\hyperlink{namespaceghost_a7c0deb8266504feb7d025903f2b77693ac20ee83627132d4ac11451ca40c0e7d0}{research}, 
+\\*
+\hyperlink{namespaceghost_a7c0deb8266504feb7d025903f2b77693a220d18d4a6dc7d5f2c98fa8281247163}{special}
  \}
 \end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
-\item 
-\hyperlink{classghost_1_1Action}{Action} \hyperlink{namespaceghost_a2f66838c6ce8dec9c2c69ee4668df38b}{factory\-Action} (const string \&full\-Name)
-\item 
-\hyperlink{classghost_1_1Action}{Action} \hyperlink{namespaceghost_a2b18a866dd0083eab934fa1263f11ecf}{factory\-Protoss\-Action} (const string \&full\-Name)
 \item 
 std\-::vector$<$ std\-::shared\-\_\-ptr\\*
 $<$ \hyperlink{classghost_1_1Building}{Building} $>$ $>$ \hyperlink{namespaceghost_af3e32bb59f07ee561580978affe544bd}{make\-Protoss\-Buildings} ()
@@ -93,14 +118,26 @@ $<$ \hyperlink{classghost_1_1WallinConstraint}{Wallin\-Constraint} $>$ $>$ \hype
 \item 
 ostream \& \hyperlink{namespaceghost_ab9c6639581eec36ee5c981bdcebaa4d1}{operator$<$$<$} (ostream \&os, const \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain} \&b)
 \item 
+ostream \& \hyperlink{namespaceghost_a51a65ec59b29a4696886fe8670e1dc49}{operator$<$$<$} (ostream \&os, const \hyperlink{classghost_1_1TargetSelectionDomain}{Target\-Selection\-Domain} \&t)
+\item 
 ostream \& \hyperlink{namespaceghost_a324a8e116f71d2eee57a356671330cc1}{operator$<$$<$} (ostream \&os, const \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} \&g)
+\item 
+ostream \& \hyperlink{namespaceghost_a71243ab1786edd855cab3c2a604b2028}{operator$<$$<$} (ostream \&os, const \hyperlink{structghost_1_1ActionData}{Action\-Data} \&a)
 \item 
 ostream \& \hyperlink{namespaceghost_a8126241ce5aea5db6c61184fa000a90f}{operator$<$$<$} (ostream \&os, const \hyperlink{classghost_1_1Action}{Action} \&a)
 \item 
 ostream \& \hyperlink{namespaceghost_a1e7e02c276d52eda961d841a47211933}{operator$<$$<$} (ostream \&os, const \hyperlink{classghost_1_1Building}{Building} \&b)
+\item 
+ostream \& \hyperlink{namespaceghost_a3c71d36b7dc68d865005ad019acbae6f}{operator$<$$<$} (ostream \&os, const \hyperlink{structghost_1_1UnitData}{Unit\-Data} \&u)
+\item 
+ostream \& \hyperlink{namespaceghost_a9e77e4ad5af45625c1237a1679bc6ebf}{operator$<$$<$} (ostream \&os, const \hyperlink{classghost_1_1Unit}{Unit} \&u)
 \end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
+\item 
+map$<$ string, const \hyperlink{structghost_1_1ActionData}{Action\-Data} $>$ \hyperlink{namespaceghost_a39cb7cc32473e2ea03f0192af2c832fc}{action\-Of}
+\item 
+map$<$ string, const \hyperlink{structghost_1_1UnitData}{Unit\-Data} $>$ \hyperlink{namespaceghost_ab5bef690341741098adffdc2a214a5aa}{unit\-Of}
 \item 
 std\-::shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Building}{Building} $>$ \hyperlink{namespaceghost_a1e04a626798fce7a46db973e9693354e}{c}
 \item 
@@ -133,6 +170,18 @@ shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Constraint}{Constraint} $>$ \hyperli
 shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Constraint}{Constraint} $>$ \hyperlink{namespaceghost_a41140633099e7f2158ce39ca3a469abb}{special\-Tiles}
 \item 
 shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Constraint}{Constraint} $>$ \hyperlink{namespaceghost_a381584b094da85f582a9b24eedf21411}{pylons}
+\item 
+constexpr int \hyperlink{namespaceghost_a6281c7426908c18212d4d10b999e40bc}{go\-To\-Build} = 5
+\item 
+constexpr int \hyperlink{namespaceghost_ada242341970bc16ae93c8343d092b9d1}{return\-To\-Minerals} = 4
+\item 
+constexpr int \hyperlink{namespaceghost_aef53554d2400a44d3f13b5d10da5dc60}{from\-Base\-To\-Minerals} = 5
+\item 
+constexpr int \hyperlink{namespaceghost_a1accff79c78b223ee8400747204dd3b2}{from\-Min\-To\-Gas} = 5
+\item 
+constexpr double \hyperlink{namespaceghost_a093a7f8d4ed6ac0ed8e51ffb3f61d3b3}{min\-Rate} = 0.\-68
+\item 
+constexpr double \hyperlink{namespaceghost_a080e7a4629484df50f3c1fa938a80181}{gas\-Rate} = 1.\-15
 \end{DoxyCompactItemize}
 
 
@@ -157,6 +206,22 @@ shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Constraint}{Constraint} $>$ \hyperli
 \hypertarget{namespaceghost_a7c0deb8266504feb7d025903f2b77693aead9b678553127619281c75832d3eaf0}{upgrade}\label{namespaceghost_a7c0deb8266504feb7d025903f2b77693aead9b678553127619281c75832d3eaf0}
 }]\index{research@{research}!ghost@{ghost}}\index{ghost@{ghost}!research@{research}}\item[{\em 
 \hypertarget{namespaceghost_a7c0deb8266504feb7d025903f2b77693ac20ee83627132d4ac11451ca40c0e7d0}{research}\label{namespaceghost_a7c0deb8266504feb7d025903f2b77693ac20ee83627132d4ac11451ca40c0e7d0}
+}]\index{special@{special}!ghost@{ghost}}\index{ghost@{ghost}!special@{special}}\item[{\em 
+\hypertarget{namespaceghost_a7c0deb8266504feb7d025903f2b77693a220d18d4a6dc7d5f2c98fa8281247163}{special}\label{namespaceghost_a7c0deb8266504feb7d025903f2b77693a220d18d4a6dc7d5f2c98fa8281247163}
+}]\end{description}
+\end{Desc}
+\hypertarget{namespaceghost_ab52582bfe39e47fc05f33770f38185d6}{\index{ghost@{ghost}!Damage\-Type@{Damage\-Type}}
+\index{Damage\-Type@{Damage\-Type}!ghost@{ghost}}
+\subsubsection[{Damage\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf ghost\-::\-Damage\-Type}}}\label{namespaceghost_ab52582bfe39e47fc05f33770f38185d6}
+The enumeration type containing the three main Star\-Craft damage types, ie, Concussive, Normal and Explosive. Ability and Special are managed differently. \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Concussive@{Concussive}!ghost@{ghost}}\index{ghost@{ghost}!Concussive@{Concussive}}\item[{\em 
+\hypertarget{namespaceghost_ab52582bfe39e47fc05f33770f38185d6a724606de2d203b8f4da399e9404722d1}{Concussive}\label{namespaceghost_ab52582bfe39e47fc05f33770f38185d6a724606de2d203b8f4da399e9404722d1}
+}]\index{Normal@{Normal}!ghost@{ghost}}\index{ghost@{ghost}!Normal@{Normal}}\item[{\em 
+\hypertarget{namespaceghost_ab52582bfe39e47fc05f33770f38185d6a2fcac4bed4fc6c3b0234ef9d39363248}{Normal}\label{namespaceghost_ab52582bfe39e47fc05f33770f38185d6a2fcac4bed4fc6c3b0234ef9d39363248}
+}]\index{Explosive@{Explosive}!ghost@{ghost}}\index{ghost@{ghost}!Explosive@{Explosive}}\item[{\em 
+\hypertarget{namespaceghost_ab52582bfe39e47fc05f33770f38185d6a99868ca4240dd521c24a50835ba3716b}{Explosive}\label{namespaceghost_ab52582bfe39e47fc05f33770f38185d6a99868ca4240dd521c24a50835ba3716b}
 }]\end{description}
 \end{Desc}
 \hypertarget{namespaceghost_a8b1db75c40c6980adcf244ddccc0324b}{\index{ghost@{ghost}!Race@{Race}}
@@ -175,23 +240,23 @@ The enumeration type containing all Star\-Craft races, ie, Terran, Protoss, Zerg
 \hypertarget{namespaceghost_a8b1db75c40c6980adcf244ddccc0324ba900f1a9a96acbc80f0a573a909a21b01}{Unknown}\label{namespaceghost_a8b1db75c40c6980adcf244ddccc0324ba900f1a9a96acbc80f0a573a909a21b01}
 }]\end{description}
 \end{Desc}
+\hypertarget{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833}{\index{ghost@{ghost}!Size@{Size}}
+\index{Size@{Size}!ghost@{ghost}}
+\subsubsection[{Size}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf ghost\-::\-Size}}}\label{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833}
+The enumeration type containing all Star\-Craft unit sizes, ie, Small, Medium and Large. \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Small@{Small}!ghost@{ghost}}\index{ghost@{ghost}!Small@{Small}}\item[{\em 
+\hypertarget{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833af2cb84dc4ba8b7ac70dd79183cdeae64}{Small}\label{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833af2cb84dc4ba8b7ac70dd79183cdeae64}
+}]\index{Medium@{Medium}!ghost@{ghost}}\index{ghost@{ghost}!Medium@{Medium}}\item[{\em 
+\hypertarget{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833a0a608d14b2f5e8015152d0a4ec9ded67}{Medium}\label{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833a0a608d14b2f5e8015152d0a4ec9ded67}
+}]\index{Large@{Large}!ghost@{ghost}}\index{ghost@{ghost}!Large@{Large}}\item[{\em 
+\hypertarget{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833ad826429d45178abe70b066ee9d5f6c1f}{Large}\label{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833ad826429d45178abe70b066ee9d5f6c1f}
+}]\end{description}
+\end{Desc}
 
 
 \subsection{Function Documentation}
-\hypertarget{namespaceghost_a2f66838c6ce8dec9c2c69ee4668df38b}{\index{ghost@{ghost}!factory\-Action@{factory\-Action}}
-\index{factory\-Action@{factory\-Action}!ghost@{ghost}}
-\subsubsection[{factory\-Action}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Action} ghost\-::factory\-Action (
-\begin{DoxyParamCaption}
-\item[{const string \&}]{full\-Name}
-\end{DoxyParamCaption}
-)}}\label{namespaceghost_a2f66838c6ce8dec9c2c69ee4668df38b}
-\hypertarget{namespaceghost_a2b18a866dd0083eab934fa1263f11ecf}{\index{ghost@{ghost}!factory\-Protoss\-Action@{factory\-Protoss\-Action}}
-\index{factory\-Protoss\-Action@{factory\-Protoss\-Action}!ghost@{ghost}}
-\subsubsection[{factory\-Protoss\-Action}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Action} ghost\-::factory\-Protoss\-Action (
-\begin{DoxyParamCaption}
-\item[{const string \&}]{full\-Name}
-\end{DoxyParamCaption}
-)}}\label{namespaceghost_a2b18a866dd0083eab934fa1263f11ecf}
 \hypertarget{namespaceghost_a797dd3167189ccc913156ff624a7ad6a}{\index{ghost@{ghost}!factory\-Terran\-Building@{factory\-Terran\-Building}}
 \index{factory\-Terran\-Building@{factory\-Terran\-Building}!ghost@{ghost}}
 \subsubsection[{factory\-Terran\-Building}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Building} ghost\-::factory\-Terran\-Building (
@@ -230,6 +295,22 @@ The enumeration type containing all Star\-Craft races, ie, Terran, Protoss, Zerg
 \item[{const Wallin\-Domain $\ast$}]{domain}
 \end{DoxyParamCaption}
 )}}\label{namespaceghost_af7fa3891f5f6563a142a99d3ab6b604b}
+\hypertarget{namespaceghost_a51a65ec59b29a4696886fe8670e1dc49}{\index{ghost@{ghost}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ghost@{ghost}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}ostream\& ghost\-::operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{ostream \&}]{os, }
+\item[{const Target\-Selection\-Domain \&}]{t}
+\end{DoxyParamCaption}
+)}}\label{namespaceghost_a51a65ec59b29a4696886fe8670e1dc49}
+\hypertarget{namespaceghost_a71243ab1786edd855cab3c2a604b2028}{\index{ghost@{ghost}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ghost@{ghost}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}ostream\& ghost\-::operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{ostream \&}]{os, }
+\item[{const Action\-Data \&}]{a}
+\end{DoxyParamCaption}
+)}}\label{namespaceghost_a71243ab1786edd855cab3c2a604b2028}
 \hypertarget{namespaceghost_a1e7e02c276d52eda961d841a47211933}{\index{ghost@{ghost}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ghost@{ghost}}
 \subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}ostream\& ghost\-::operator$<$$<$ (
@@ -238,14 +319,14 @@ The enumeration type containing all Star\-Craft races, ie, Terran, Protoss, Zerg
 \item[{const Building \&}]{b}
 \end{DoxyParamCaption}
 )}}\label{namespaceghost_a1e7e02c276d52eda961d841a47211933}
-\hypertarget{namespaceghost_a8126241ce5aea5db6c61184fa000a90f}{\index{ghost@{ghost}!operator$<$$<$@{operator$<$$<$}}
+\hypertarget{namespaceghost_a3c71d36b7dc68d865005ad019acbae6f}{\index{ghost@{ghost}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ghost@{ghost}}
 \subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}ostream\& ghost\-::operator$<$$<$ (
 \begin{DoxyParamCaption}
 \item[{ostream \&}]{os, }
-\item[{const Action \&}]{a}
+\item[{const Unit\-Data \&}]{u}
 \end{DoxyParamCaption}
-)}}\label{namespaceghost_a8126241ce5aea5db6c61184fa000a90f}
+)}}\label{namespaceghost_a3c71d36b7dc68d865005ad019acbae6f}
 \hypertarget{namespaceghost_ab9c6639581eec36ee5c981bdcebaa4d1}{\index{ghost@{ghost}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ghost@{ghost}}
 \subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}ostream\& ghost\-::operator$<$$<$ (
@@ -254,6 +335,22 @@ The enumeration type containing all Star\-Craft races, ie, Terran, Protoss, Zerg
 \item[{const Build\-Order\-Domain \&}]{b}
 \end{DoxyParamCaption}
 )}}\label{namespaceghost_ab9c6639581eec36ee5c981bdcebaa4d1}
+\hypertarget{namespaceghost_a8126241ce5aea5db6c61184fa000a90f}{\index{ghost@{ghost}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ghost@{ghost}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}ostream\& ghost\-::operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{ostream \&}]{os, }
+\item[{const Action \&}]{a}
+\end{DoxyParamCaption}
+)}}\label{namespaceghost_a8126241ce5aea5db6c61184fa000a90f}
+\hypertarget{namespaceghost_a9e77e4ad5af45625c1237a1679bc6ebf}{\index{ghost@{ghost}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ghost@{ghost}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}ostream\& ghost\-::operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{ostream \&}]{os, }
+\item[{const Unit \&}]{u}
+\end{DoxyParamCaption}
+)}}\label{namespaceghost_a9e77e4ad5af45625c1237a1679bc6ebf}
 \hypertarget{namespaceghost_a324a8e116f71d2eee57a356671330cc1}{\index{ghost@{ghost}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ghost@{ghost}}
 \subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}ostream\& ghost\-::operator$<$$<$ (
@@ -265,6 +362,9 @@ The enumeration type containing all Star\-Craft races, ie, Terran, Protoss, Zerg
 
 
 \subsection{Variable Documentation}
+\hypertarget{namespaceghost_a39cb7cc32473e2ea03f0192af2c832fc}{\index{ghost@{ghost}!action\-Of@{action\-Of}}
+\index{action\-Of@{action\-Of}!ghost@{ghost}}
+\subsubsection[{action\-Of}]{\setlength{\rightskip}{0pt plus 5cm}map$<$ string, const {\bf Action\-Data} $>$ ghost\-::action\-Of}}\label{namespaceghost_a39cb7cc32473e2ea03f0192af2c832fc}
 \hypertarget{namespaceghost_aed6c0dcd76842d41ca1a81a6b4301247}{\index{ghost@{ghost}!buildable@{buildable}}
 \index{buildable@{buildable}!ghost@{ghost}}
 \subsubsection[{buildable}]{\setlength{\rightskip}{0pt plus 5cm}shared\-\_\-ptr$<${\bf Constraint}$>$ ghost\-::buildable}}\label{namespaceghost_aed6c0dcd76842d41ca1a81a6b4301247}
@@ -274,12 +374,27 @@ The enumeration type containing all Star\-Craft races, ie, Terran, Protoss, Zerg
 \hypertarget{namespaceghost_a79c82e0d4f18942474a997e6421358f4}{\index{ghost@{ghost}!f@{f}}
 \index{f@{f}!ghost@{ghost}}
 \subsubsection[{f}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<${\bf Building}$>$ ghost\-::f}}\label{namespaceghost_a79c82e0d4f18942474a997e6421358f4}
+\hypertarget{namespaceghost_aef53554d2400a44d3f13b5d10da5dc60}{\index{ghost@{ghost}!from\-Base\-To\-Minerals@{from\-Base\-To\-Minerals}}
+\index{from\-Base\-To\-Minerals@{from\-Base\-To\-Minerals}!ghost@{ghost}}
+\subsubsection[{from\-Base\-To\-Minerals}]{\setlength{\rightskip}{0pt plus 5cm}constexpr int ghost\-::from\-Base\-To\-Minerals = 5}}\label{namespaceghost_aef53554d2400a44d3f13b5d10da5dc60}
+\hypertarget{namespaceghost_a1accff79c78b223ee8400747204dd3b2}{\index{ghost@{ghost}!from\-Min\-To\-Gas@{from\-Min\-To\-Gas}}
+\index{from\-Min\-To\-Gas@{from\-Min\-To\-Gas}!ghost@{ghost}}
+\subsubsection[{from\-Min\-To\-Gas}]{\setlength{\rightskip}{0pt plus 5cm}constexpr int ghost\-::from\-Min\-To\-Gas = 5}}\label{namespaceghost_a1accff79c78b223ee8400747204dd3b2}
 \hypertarget{namespaceghost_a69c92ddb4f46d01dc2b21ff8b6c7abdd}{\index{ghost@{ghost}!g1@{g1}}
 \index{g1@{g1}!ghost@{ghost}}
 \subsubsection[{g1}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<${\bf Building}$>$ ghost\-::g1}}\label{namespaceghost_a69c92ddb4f46d01dc2b21ff8b6c7abdd}
 \hypertarget{namespaceghost_a06d6bb1ff9795198ea63e209711cfc9e}{\index{ghost@{ghost}!g2@{g2}}
 \index{g2@{g2}!ghost@{ghost}}
 \subsubsection[{g2}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<${\bf Building}$>$ ghost\-::g2}}\label{namespaceghost_a06d6bb1ff9795198ea63e209711cfc9e}
+\hypertarget{namespaceghost_a080e7a4629484df50f3c1fa938a80181}{\index{ghost@{ghost}!gas\-Rate@{gas\-Rate}}
+\index{gas\-Rate@{gas\-Rate}!ghost@{ghost}}
+\subsubsection[{gas\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}constexpr double ghost\-::gas\-Rate = 1.\-15}}\label{namespaceghost_a080e7a4629484df50f3c1fa938a80181}
+\hypertarget{namespaceghost_a6281c7426908c18212d4d10b999e40bc}{\index{ghost@{ghost}!go\-To\-Build@{go\-To\-Build}}
+\index{go\-To\-Build@{go\-To\-Build}!ghost@{ghost}}
+\subsubsection[{go\-To\-Build}]{\setlength{\rightskip}{0pt plus 5cm}constexpr int ghost\-::go\-To\-Build = 5}}\label{namespaceghost_a6281c7426908c18212d4d10b999e40bc}
+\hypertarget{namespaceghost_a093a7f8d4ed6ac0ed8e51ffb3f61d3b3}{\index{ghost@{ghost}!min\-Rate@{min\-Rate}}
+\index{min\-Rate@{min\-Rate}!ghost@{ghost}}
+\subsubsection[{min\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}constexpr double ghost\-::min\-Rate = 0.\-68}}\label{namespaceghost_a093a7f8d4ed6ac0ed8e51ffb3f61d3b3}
 \hypertarget{namespaceghost_a4b6df9d0b61991e356eb28353a73be30}{\index{ghost@{ghost}!no\-Gaps@{no\-Gaps}}
 \index{no\-Gaps@{no\-Gaps}!ghost@{ghost}}
 \subsubsection[{no\-Gaps}]{\setlength{\rightskip}{0pt plus 5cm}shared\-\_\-ptr$<${\bf Constraint}$>$ ghost\-::no\-Gaps}}\label{namespaceghost_a4b6df9d0b61991e356eb28353a73be30}
@@ -295,12 +410,42 @@ The enumeration type containing all Star\-Craft races, ie, Terran, Protoss, Zerg
 \hypertarget{namespaceghost_a381584b094da85f582a9b24eedf21411}{\index{ghost@{ghost}!pylons@{pylons}}
 \index{pylons@{pylons}!ghost@{ghost}}
 \subsubsection[{pylons}]{\setlength{\rightskip}{0pt plus 5cm}shared\-\_\-ptr$<${\bf Constraint}$>$ ghost\-::pylons}}\label{namespaceghost_a381584b094da85f582a9b24eedf21411}
+\hypertarget{namespaceghost_ada242341970bc16ae93c8343d092b9d1}{\index{ghost@{ghost}!return\-To\-Minerals@{return\-To\-Minerals}}
+\index{return\-To\-Minerals@{return\-To\-Minerals}!ghost@{ghost}}
+\subsubsection[{return\-To\-Minerals}]{\setlength{\rightskip}{0pt plus 5cm}constexpr int ghost\-::return\-To\-Minerals = 4}}\label{namespaceghost_ada242341970bc16ae93c8343d092b9d1}
 \hypertarget{namespaceghost_a21eab9fd4ae07c7db20e824cc4452a97}{\index{ghost@{ghost}!s@{s}}
 \index{s@{s}!ghost@{ghost}}
 \subsubsection[{s}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<${\bf Building}$>$ ghost\-::s}}\label{namespaceghost_a21eab9fd4ae07c7db20e824cc4452a97}
 \hypertarget{namespaceghost_a41140633099e7f2158ce39ca3a469abb}{\index{ghost@{ghost}!special\-Tiles@{special\-Tiles}}
 \index{special\-Tiles@{special\-Tiles}!ghost@{ghost}}
 \subsubsection[{special\-Tiles}]{\setlength{\rightskip}{0pt plus 5cm}shared\-\_\-ptr$<${\bf Constraint}$>$ ghost\-::special\-Tiles}}\label{namespaceghost_a41140633099e7f2158ce39ca3a469abb}
+\hypertarget{namespaceghost_ab5bef690341741098adffdc2a214a5aa}{\index{ghost@{ghost}!unit\-Of@{unit\-Of}}
+\index{unit\-Of@{unit\-Of}!ghost@{ghost}}
+\subsubsection[{unit\-Of}]{\setlength{\rightskip}{0pt plus 5cm}map$<$ string, const {\bf Unit\-Data} $>$ ghost\-::unit\-Of}}\label{namespaceghost_ab5bef690341741098adffdc2a214a5aa}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+\{
+    make\_pair( \textcolor{stringliteral}{"Terran\_Marine"},
+           UnitData( \textcolor{stringliteral}{"Terran\_Marine"}, 40, 0, \hyperlink{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833af2cb84dc4ba8b7ac70dd79183cdeae64}{Small}, 0, 15, 6, \hyperlink{namespaceghost_ab52582bfe39e47fc05f33770f38185d6a2fcac4bed4fc6c3b0234ef9d39363248}{Normal}, \{0, 128\}, \{0,0,0\}) ),
+    make\_pair( \textcolor{stringliteral}{"Terran\_Firebat"},
+           UnitData( \textcolor{stringliteral}{"Terran\_Firebat"}, 50, 1, \hyperlink{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833af2cb84dc4ba8b7ac70dd79183cdeae64}{Small}, 0, 22, 16, \hyperlink{namespaceghost_ab52582bfe39e47fc05f33770f38185d6a724606de2d203b8f4da399e9404722d1}{Concussive}, \{0, 32\}, \{15,20,
+      25\}) ),
+    make\_pair( \textcolor{stringliteral}{"Terran\_Ghost"},
+           UnitData( \textcolor{stringliteral}{"Terran\_Ghost"}, 45, 0, \hyperlink{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833af2cb84dc4ba8b7ac70dd79183cdeae64}{Small}, 0, 22, 10, \hyperlink{namespaceghost_ab52582bfe39e47fc05f33770f38185d6a724606de2d203b8f4da399e9404722d1}{Concussive}, \{0, 244\}, \{0,0,0\})
+       ),
+    make\_pair( \textcolor{stringliteral}{"Terran\_Vulture"},
+           UnitData( \textcolor{stringliteral}{"Terran\_Vulture"}, 80, 0, \hyperlink{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833a0a608d14b2f5e8015152d0a4ec9ded67}{Medium}, 0, 30, 20, 
+      \hyperlink{namespaceghost_ab52582bfe39e47fc05f33770f38185d6a724606de2d203b8f4da399e9404722d1}{Concussive}, \{0, 160\}, \{0,0,0\}) ),
+    make\_pair( \textcolor{stringliteral}{"Terran\_Goliath"},
+           UnitData( \textcolor{stringliteral}{"Terran\_Goliath"}, 125, 1, \hyperlink{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833ad826429d45178abe70b066ee9d5f6c1f}{Large}, 0, 22, 12, \hyperlink{namespaceghost_ab52582bfe39e47fc05f33770f38185d6a2fcac4bed4fc6c3b0234ef9d39363248}{Normal}, \{0, 192\}, \{0,0,0\}) ),
+    make\_pair( \textcolor{stringliteral}{"Terran\_Siege\_Tank\_Tank\_Mode"},
+           UnitData( \textcolor{stringliteral}{"Terran\_Siege\_Tank\_Tank\_Mode"}, 150, 1, \hyperlink{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833ad826429d45178abe70b066ee9d5f6c1f}{Large}, 0, 37, 30, 
+      \hyperlink{namespaceghost_ab52582bfe39e47fc05f33770f38185d6a99868ca4240dd521c24a50835ba3716b}{Explosive}, \{0, 224\}, \{0,0,0\}) ),
+    make\_pair( \textcolor{stringliteral}{"Terran\_Siege\_Tank\_Siege\_Mode"},
+           UnitData( \textcolor{stringliteral}{"Terran\_Siege\_Tank\_Siege\_Mode"}, 150, 1, \hyperlink{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833ad826429d45178abe70b066ee9d5f6c1f}{Large}, 0, 75, 70, 
+      \hyperlink{namespaceghost_ab52582bfe39e47fc05f33770f38185d6a99868ca4240dd521c24a50835ba3716b}{Explosive}, \{64, 384\}, \{10,25,40\}) )
+   \}
+\end{DoxyCode}
 \hypertarget{namespaceghost_af02ccfe4153013ca001f67b21cb8ba43}{\index{ghost@{ghost}!y1@{y1}}
 \index{y1@{y1}!ghost@{ghost}}
 \subsubsection[{y1}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<${\bf Building}$>$ ghost\-::y1}}\label{namespaceghost_af02ccfe4153013ca001f67b21cb8ba43}

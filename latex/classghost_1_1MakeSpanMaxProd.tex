@@ -32,11 +32,6 @@ Collaboration diagram for ghost\-:\-:Make\-Span\-Max\-Prod\-:
 \item 
 \hyperlink{classghost_1_1MakeSpanMaxProd_ac0b0ad3d8d7b5aab182a96aac115b125}{Make\-Span\-Max\-Prod} (const vector$<$ pair$<$ string, int $>$ $>$ \&input, vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ \&variables)
 \end{DoxyCompactItemize}
-\subsection*{Private Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-double \hyperlink{classghost_1_1MakeSpanMaxProd_ac687d94f54354cceb9710f5a27e244a6}{v\-\_\-postprocess\-Optimization} (vector$<$ \hyperlink{classghost_1_1Action}{Action} $>$ $\ast$vec\-Variables, \hyperlink{classghost_1_1BuildOrderDomain}{Build\-Order\-Domain} $\ast$domain, double \&best\-Cost)
-\begin{DoxyCompactList}\small\item\em Virtual function to perform optimization post-\/processing. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
 
@@ -56,45 +51,6 @@ double \hyperlink{classghost_1_1MakeSpanMaxProd_ac687d94f54354cceb9710f5a27e244a
 \item[{vector$<$ {\bf Action} $>$ \&}]{variables}
 \end{DoxyParamCaption}
 )}}\label{classghost_1_1MakeSpanMaxProd_ac0b0ad3d8d7b5aab182a96aac115b125}
-
-
-\subsection{Member Function Documentation}
-\hypertarget{classghost_1_1MakeSpanMaxProd_ac687d94f54354cceb9710f5a27e244a6}{\index{ghost\-::\-Make\-Span\-Max\-Prod@{ghost\-::\-Make\-Span\-Max\-Prod}!v\-\_\-postprocess\-Optimization@{v\-\_\-postprocess\-Optimization}}
-\index{v\-\_\-postprocess\-Optimization@{v\-\_\-postprocess\-Optimization}!ghost::MakeSpanMaxProd@{ghost\-::\-Make\-Span\-Max\-Prod}}
-\subsubsection[{v\-\_\-postprocess\-Optimization}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Make\-Span\-Max\-Prod\-::v\-\_\-postprocess\-Optimization (
-\begin{DoxyParamCaption}
-\item[{vector$<$ {\bf Action} $>$ $\ast$}]{vec\-Variables, }
-\item[{{\bf Build\-Order\-Domain} $\ast$}]{domain, }
-\item[{double \&}]{best\-Cost}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [virtual]}}}\label{classghost_1_1MakeSpanMaxProd_ac687d94f54354cceb9710f5a27e244a6}
-
-
-Virtual function to perform optimization post-\/processing. 
-
-This function is called by the solver after all optimization runs to apply human-\/knowledge optimization, allowing to improve the optimization cost.
-
-This implementation by default does nothing.
-
-
-\begin{DoxyParams}{Parameters}
-{\em vec\-Variables} & A constant pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
-\hline
-{\em domain} & A constant pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
-\hline
-{\em best\-Cost} & A reference the double representing the best optimization cost found by the solver so far. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-The function runtime in milliseconds. 
-\end{DoxyReturn}
-\begin{DoxySeeAlso}{See Also}
-\hyperlink{classghost_1_1Objective_a78ac0f829786f02fe69b2afe6f2636bc}{postprocess\-Optimization} 
-\end{DoxySeeAlso}
-
-
-Reimplemented from \hyperlink{classghost_1_1BuildOrderObjective_a07306469a8512e33a420d7f8ebab507b}{ghost\-::\-Build\-Order\-Objective}.
-
 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}

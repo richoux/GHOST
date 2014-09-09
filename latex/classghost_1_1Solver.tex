@@ -12,8 +12,7 @@
 
 
 
-Collaboration diagram for ghost\-:\-:Solver$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-:
-\nopagebreak
+Collaboration diagram for ghost\-:\-:Solver$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -27,7 +26,7 @@ Collaboration diagram for ghost\-:\-:Solver$<$ Type\-Variable, Type\-Domain, Typ
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Solver}{Solver}'s regular constructor. \end{DoxyCompactList}\item 
 \hyperlink{classghost_1_1Solver_a512335329b22a91700bdfa7870f053e9}{Solver} (vector$<$ Type\-Variable $>$ $\ast$\hyperlink{classghost_1_1Solver_a2d033a454234b2277aabdcc4d89eaba2}{vec\-Variables}, Type\-Domain $\ast$\hyperlink{classghost_1_1Solver_ad9292e9219261ba8058fec05b453c0c9}{domain}, const vector$<$ shared\-\_\-ptr$<$ Type\-Constraint $>$ $>$ \&\hyperlink{classghost_1_1Solver_a170746edcfb777b12978444c2ab3962e}{vec\-Constraints}, const shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Objective}{Objective}$<$ Type\-Variable, Type\-Domain $>$ $>$ \&obj, const int \hyperlink{classghost_1_1Solver_aa6a77e14862a9be467e6c6c76124b526}{loops})
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Solver}{Solver}'s constructor mostly used for tests. \end{DoxyCompactList}\item 
-double \hyperlink{classghost_1_1Solver_af025b99595aeff4fd9a174bcbd66a991}{solve} (double timeout\-\_\-ms)
+double \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{solve} (double sat\-\_\-timeout, double opt\-\_\-timeout=0)
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Solver}{Solver}'s main function, to solve the given C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
@@ -52,9 +51,9 @@ $<$ Type\-Variable, Type\-Domain $>$ $>$ \hyperlink{classghost_1_1Solver_a4fd74b
 vector$<$ double $>$ \hyperlink{classghost_1_1Solver_a76c1057367112ead0304b436b5f508f1}{variable\-Cost}
 \begin{DoxyCompactList}\small\item\em The vector of projected costs on each variable. \end{DoxyCompactList}\item 
 int \hyperlink{classghost_1_1Solver_aa6a77e14862a9be467e6c6c76124b526}{loops}
-\begin{DoxyCompactList}\small\item\em The number of times we reiterate the satisfaction loop inside \hyperlink{classghost_1_1Solver_af025b99595aeff4fd9a174bcbd66a991}{Solver\-::solve}. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em The number of times we reiterate the satisfaction loop inside \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{Solver\-::solve}. \end{DoxyCompactList}\item 
 vector$<$ int $>$ \hyperlink{classghost_1_1Solver_aa5c12894a6fbd524fb33906c8f3fbcae}{tabu\-List}
-\begin{DoxyCompactList}\small\item\em The tabu list, frozing each used variable for T\-A\-B\-U iterations. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em The tabu list, frozing each used variable for tabu\-\_\-length iterations. \end{DoxyCompactList}\item 
 \hyperlink{classghost_1_1Random}{Random} \hyperlink{classghost_1_1Solver_acec87a0a0adcc3a8d794a1ff84718201}{random\-Var}
 \begin{DoxyCompactList}\small\item\em The random generator used by the solver. \end{DoxyCompactList}\item 
 double \hyperlink{classghost_1_1Solver_a2fa5cf25d3417e3046aad3c1123320ed}{best\-Cost}
@@ -122,7 +121,7 @@ The solver is calling Solver(vec\-Variables, domain, vec\-Constraints, obj, 0)
 
 \hyperlink{classghost_1_1Solver}{Solver}'s constructor mostly used for tests. 
 
-Like the regular constructor, but take also a loops parameter to repeat loops times to satisfaction loop inside \hyperlink{classghost_1_1Solver_af025b99595aeff4fd9a174bcbd66a991}{Solver\-::solve}. This is mostly used for tests and runtime performance measures.
+Like the regular constructor, but take also a loops parameter to repeat loops times to satisfaction loop inside \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{Solver\-::solve}. This is mostly used for tests and runtime performance measures.
 
 
 \begin{DoxyParams}{Parameters}
@@ -134,7 +133,7 @@ Like the regular constructor, but take also a loops parameter to repeat loops ti
 \hline
 {\em obj} & A reference to the shared pointer of an \hyperlink{classghost_1_1Objective}{Objective} object. Default value is nullptr. \\
 \hline
-{\em loops} & The number of times we want to repeat the satisaction loop inside \hyperlink{classghost_1_1Solver_af025b99595aeff4fd9a174bcbd66a991}{Solver\-::solve}. \\
+{\em loops} & The number of times we want to repeat the satisaction loop inside \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{Solver\-::solve}. \\
 \hline
 \end{DoxyParams}
 
@@ -156,13 +155,14 @@ Like the regular constructor, but take also a loops parameter to repeat loops ti
 \item[{int}]{new\-Value}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}}\label{classghost_1_1Solver_ae3489c7f10952a8a0a2a0895b9b1c8fe}
-\hyperlink{classghost_1_1Solver}{Solver}'s function to make a permutation move, ie, to assign a given variable to a new position \hypertarget{classghost_1_1Solver_af025b99595aeff4fd9a174bcbd66a991}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!solve@{solve}}
+\hyperlink{classghost_1_1Solver}{Solver}'s function to make a permutation move, ie, to assign a given variable to a new position \hypertarget{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!solve@{solve}}
 \index{solve@{solve}!ghost::Solver@{ghost\-::\-Solver}}
 \subsubsection[{solve}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ double {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::solve (
 \begin{DoxyParamCaption}
-\item[{double}]{timeout\-\_\-ms}
+\item[{double}]{sat\-\_\-timeout, }
+\item[{double}]{opt\-\_\-timeout = {\ttfamily 0}}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Solver_af025b99595aeff4fd9a174bcbd66a991}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}
 
 
 \hyperlink{classghost_1_1Solver}{Solver}'s main function, to solve the given C\-S\-P/\-C\-O\-P. 
@@ -204,7 +204,7 @@ A pointer to the domain object of the C\-S\-P/\-C\-O\-P.
 \subsubsection[{loops}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ int {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::loops\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Solver_aa6a77e14862a9be467e6c6c76124b526}
 
 
-The number of times we reiterate the satisfaction loop inside \hyperlink{classghost_1_1Solver_af025b99595aeff4fd9a174bcbd66a991}{Solver\-::solve}. 
+The number of times we reiterate the satisfaction loop inside \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{Solver\-::solve}. 
 
 \hypertarget{classghost_1_1Solver_a4fd74bd68d0ea253fd35adad697f964d}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!objective@{objective}}
 \index{objective@{objective}!ghost::Solver@{ghost\-::\-Solver}}
@@ -225,7 +225,7 @@ The random generator used by the solver.
 \subsubsection[{tabu\-List}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ vector$<$int$>$ {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::tabu\-List\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Solver_aa5c12894a6fbd524fb33906c8f3fbcae}
 
 
-The tabu list, frozing each used variable for T\-A\-B\-U iterations. 
+The tabu list, frozing each used variable for tabu\-\_\-length iterations. 
 
 \hypertarget{classghost_1_1Solver_a76c1057367112ead0304b436b5f508f1}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!variable\-Cost@{variable\-Cost}}
 \index{variable\-Cost@{variable\-Cost}!ghost::Solver@{ghost\-::\-Solver}}

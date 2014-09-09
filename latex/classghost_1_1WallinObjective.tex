@@ -7,8 +7,7 @@
 
 
 
-Inheritance diagram for ghost\-:\-:Wallin\-Objective\-:
-\nopagebreak
+Inheritance diagram for ghost\-:\-:Wallin\-Objective\-:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -17,8 +16,7 @@ Inheritance diagram for ghost\-:\-:Wallin\-Objective\-:
 \end{figure}
 
 
-Collaboration diagram for ghost\-:\-:Wallin\-Objective\-:
-\nopagebreak
+Collaboration diagram for ghost\-:\-:Wallin\-Objective\-:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -35,9 +33,9 @@ Collaboration diagram for ghost\-:\-:Wallin\-Objective\-:
 \item 
 virtual void \hyperlink{classghost_1_1WallinObjective_abc0f66adeebca9f9787a4ae348219fb8}{v\-\_\-set\-Helper} (const \hyperlink{classghost_1_1Building}{Building} \&b, const vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$vec\-Variables, const \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$domain)
 \begin{DoxyCompactList}\small\item\em Pure virtual function to set heuristic\-Value\-Helper\mbox{[}current\-Var.\-get\-Value()\mbox{]}. \end{DoxyCompactList}\item 
-virtual double \hyperlink{classghost_1_1WallinObjective_a84bf06db1526faf60d5b1354230f5d4f}{v\-\_\-postprocess\-Satisfaction} (vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$vec\-Variables, \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$domain, double \&best\-Cost, vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ \&best\-Solution) const 
+virtual double \hyperlink{classghost_1_1WallinObjective_abf3e5873e61f7878e9c31a45642d1544}{v\-\_\-postprocess\-Satisfaction} (vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$vec\-Variables, \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$domain, double \&best\-Cost, vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ \&best\-Solution, double sat\-\_\-timeout) const 
 \begin{DoxyCompactList}\small\item\em Virtual function to perform satisfaction post-\/processing. \end{DoxyCompactList}\item 
-virtual double \hyperlink{classghost_1_1WallinObjective_aa30f157bc7a09fdfe2a671960e4e60df}{v\-\_\-postprocess\-Optimization} (vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$vec\-Buildings, \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$domain, double \&best\-Cost)
+virtual double \hyperlink{classghost_1_1WallinObjective_a646246ffb22f8b915f2d24c9439426fd}{v\-\_\-postprocess\-Optimization} (vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$vec\-Buildings, \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$domain, double \&best\-Cost, double opt\-\_\-timeout)
 \begin{DoxyCompactList}\small\item\em Virtual function to perform optimization post-\/processing. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Static Protected Attributes}
 \begin{DoxyCompactItemize}
@@ -58,15 +56,16 @@ static int \hyperlink{classghost_1_1WallinObjective_aef1d7697ca6b29eccb4f3c62f42
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classghost_1_1WallinObjective_aa30f157bc7a09fdfe2a671960e4e60df}{\index{ghost\-::\-Wallin\-Objective@{ghost\-::\-Wallin\-Objective}!v\-\_\-postprocess\-Optimization@{v\-\_\-postprocess\-Optimization}}
+\hypertarget{classghost_1_1WallinObjective_a646246ffb22f8b915f2d24c9439426fd}{\index{ghost\-::\-Wallin\-Objective@{ghost\-::\-Wallin\-Objective}!v\-\_\-postprocess\-Optimization@{v\-\_\-postprocess\-Optimization}}
 \index{v\-\_\-postprocess\-Optimization@{v\-\_\-postprocess\-Optimization}!ghost::WallinObjective@{ghost\-::\-Wallin\-Objective}}
 \subsubsection[{v\-\_\-postprocess\-Optimization}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Wallin\-Objective\-::v\-\_\-postprocess\-Optimization (
 \begin{DoxyParamCaption}
 \item[{vector$<$ {\bf Building} $>$ $\ast$}]{vec\-Variables, }
 \item[{{\bf Wallin\-Domain} $\ast$}]{domain, }
-\item[{double \&}]{best\-Cost}
+\item[{double \&}]{best\-Cost, }
+\item[{double}]{opt\-\_\-timeout}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classghost_1_1WallinObjective_aa30f157bc7a09fdfe2a671960e4e60df}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classghost_1_1WallinObjective_a646246ffb22f8b915f2d24c9439426fd}
 
 
 Virtual function to perform optimization post-\/processing. 
@@ -83,31 +82,34 @@ This implementation by default does nothing.
 \hline
 {\em best\-Cost} & A reference the double representing the best optimization cost found by the solver so far. \\
 \hline
+{\em opt\-\_\-timeout} & The optimization timeout given in argument of \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{Solver\-::solve} \\
+\hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 The function runtime in milliseconds. 
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See Also}
-\hyperlink{classghost_1_1Objective_a78ac0f829786f02fe69b2afe6f2636bc}{postprocess\-Optimization} 
+\hyperlink{classghost_1_1Objective_adbaff57012dd756d87dc5151d9718296}{postprocess\-Optimization} 
 \end{DoxySeeAlso}
 
 
-Reimplemented from \hyperlink{classghost_1_1Objective_a25c90555bec03d1d15f83ae145d81f8f}{ghost\-::\-Objective$<$ Building, Wallin\-Domain $>$}.
+Reimplemented from \hyperlink{classghost_1_1Objective_af54dd3c4c9e4115534e25f27b7ccb32f}{ghost\-::\-Objective$<$ Building, Wallin\-Domain $>$}.
 
 
 
-Reimplemented in \hyperlink{classghost_1_1BuildingObj_af6b0953277810bbb5a9edf1d38d657ba}{ghost\-::\-Building\-Obj}.
+Reimplemented in \hyperlink{classghost_1_1BuildingObj_a9731c0052aa09f7ec64ce0322a65d2bf}{ghost\-::\-Building\-Obj}.
 
-\hypertarget{classghost_1_1WallinObjective_a84bf06db1526faf60d5b1354230f5d4f}{\index{ghost\-::\-Wallin\-Objective@{ghost\-::\-Wallin\-Objective}!v\-\_\-postprocess\-Satisfaction@{v\-\_\-postprocess\-Satisfaction}}
+\hypertarget{classghost_1_1WallinObjective_abf3e5873e61f7878e9c31a45642d1544}{\index{ghost\-::\-Wallin\-Objective@{ghost\-::\-Wallin\-Objective}!v\-\_\-postprocess\-Satisfaction@{v\-\_\-postprocess\-Satisfaction}}
 \index{v\-\_\-postprocess\-Satisfaction@{v\-\_\-postprocess\-Satisfaction}!ghost::WallinObjective@{ghost\-::\-Wallin\-Objective}}
 \subsubsection[{v\-\_\-postprocess\-Satisfaction}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Wallin\-Objective\-::v\-\_\-postprocess\-Satisfaction (
 \begin{DoxyParamCaption}
 \item[{vector$<$ {\bf Building} $>$ $\ast$}]{vec\-Variables, }
 \item[{{\bf Wallin\-Domain} $\ast$}]{domain, }
 \item[{double \&}]{best\-Cost, }
-\item[{vector$<$ {\bf Building} $>$ \&}]{solution}
+\item[{vector$<$ {\bf Building} $>$ \&}]{solution, }
+\item[{double}]{sat\-\_\-timeout}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classghost_1_1WallinObjective_a84bf06db1526faf60d5b1354230f5d4f}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classghost_1_1WallinObjective_abf3e5873e61f7878e9c31a45642d1544}
 
 
 Virtual function to perform satisfaction post-\/processing. 
@@ -126,16 +128,18 @@ This implementation by default does nothing.
 \hline
 {\em solution} & A reference to the vector of variables of the solution found by the solver. \\
 \hline
+{\em sat\-\_\-timeout} & The satisfaction timeout given in argument of \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{Solver\-::solve} \\
+\hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 The function runtime in milliseconds. 
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See Also}
-\hyperlink{classghost_1_1Objective_a605effc6d79bd00a22c2c9fca6078cc0}{postprocess\-Satisfaction} 
+\hyperlink{classghost_1_1Objective_aa79835aa61f6680e78912ecaee6f7fbc}{postprocess\-Satisfaction} 
 \end{DoxySeeAlso}
 
 
-Reimplemented from \hyperlink{classghost_1_1Objective_a403fdae56c632409f244f4ffe79dd2df}{ghost\-::\-Objective$<$ Building, Wallin\-Domain $>$}.
+Reimplemented from \hyperlink{classghost_1_1Objective_a5f2b324e82efdbdb27528a2915fa14e2}{ghost\-::\-Objective$<$ Building, Wallin\-Domain $>$}.
 
 \hypertarget{classghost_1_1WallinObjective_abc0f66adeebca9f9787a4ae348219fb8}{\index{ghost\-::\-Wallin\-Objective@{ghost\-::\-Wallin\-Objective}!v\-\_\-set\-Helper@{v\-\_\-set\-Helper}}
 \index{v\-\_\-set\-Helper@{v\-\_\-set\-Helper}!ghost::WallinObjective@{ghost\-::\-Wallin\-Objective}}

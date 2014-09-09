@@ -7,8 +7,7 @@
 
 
 
-Inheritance diagram for ghost\-:\-:Tech\-Tree\-Obj\-:
-\nopagebreak
+Inheritance diagram for ghost\-:\-:Tech\-Tree\-Obj\-:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -17,8 +16,7 @@ Inheritance diagram for ghost\-:\-:Tech\-Tree\-Obj\-:
 \end{figure}
 
 
-Collaboration diagram for ghost\-:\-:Tech\-Tree\-Obj\-:
-\nopagebreak
+Collaboration diagram for ghost\-:\-:Tech\-Tree\-Obj\-:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -33,7 +31,7 @@ Collaboration diagram for ghost\-:\-:Tech\-Tree\-Obj\-:
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-double \hyperlink{classghost_1_1TechTreeObj_a08017f78e70b65bc3a46615929f5302f}{v\-\_\-cost} (const vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$vec\-Variables, const \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$domain) const 
+double \hyperlink{classghost_1_1TechTreeObj_a77d75eae8334709be1eac005b5c88ad4}{v\-\_\-cost} (vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$vec\-Variables, \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$domain) const 
 \begin{DoxyCompactList}\small\item\em Pure virtual function to compute the value of the objective function on the current configuration. \end{DoxyCompactList}\item 
 int \hyperlink{classghost_1_1TechTreeObj_a0048f628a37031a5b4ba18acc2958b63}{v\-\_\-heuristic\-Variable} (const vector$<$ int $>$ \&vec\-Id, const vector$<$ \hyperlink{classghost_1_1Building}{Building} $>$ $\ast$vec\-Variables, \hyperlink{classghost_1_1WallinDomain}{Wallin\-Domain} $\ast$domain)
 \begin{DoxyCompactList}\small\item\em Pure virtual function to apply the variable heuristic used by the solver. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -51,34 +49,34 @@ int \hyperlink{classghost_1_1TechTreeObj_a0048f628a37031a5b4ba18acc2958b63}{v\-\
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classghost_1_1TechTreeObj_a08017f78e70b65bc3a46615929f5302f}{\index{ghost\-::\-Tech\-Tree\-Obj@{ghost\-::\-Tech\-Tree\-Obj}!v\-\_\-cost@{v\-\_\-cost}}
+\hypertarget{classghost_1_1TechTreeObj_a77d75eae8334709be1eac005b5c88ad4}{\index{ghost\-::\-Tech\-Tree\-Obj@{ghost\-::\-Tech\-Tree\-Obj}!v\-\_\-cost@{v\-\_\-cost}}
 \index{v\-\_\-cost@{v\-\_\-cost}!ghost::TechTreeObj@{ghost\-::\-Tech\-Tree\-Obj}}
 \subsubsection[{v\-\_\-cost}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Tech\-Tree\-Obj\-::v\-\_\-cost (
 \begin{DoxyParamCaption}
-\item[{const vector$<$ {\bf Building} $>$ $\ast$}]{vec\-Variables, }
-\item[{const {\bf Wallin\-Domain} $\ast$}]{domain}
+\item[{vector$<$ {\bf Building} $>$ $\ast$}]{vec\-Variables, }
+\item[{{\bf Wallin\-Domain} $\ast$}]{domain}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [virtual]}}}\label{classghost_1_1TechTreeObj_a08017f78e70b65bc3a46615929f5302f}
+) const\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [virtual]}}}\label{classghost_1_1TechTreeObj_a77d75eae8334709be1eac005b5c88ad4}
 
 
 Pure virtual function to compute the value of the objective function on the current configuration. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em vec\-Variables} & A constant pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
+{\em vec\-Variables} & A pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
 \hline
-{\em domain} & A constant pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
+{\em domain} & A pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 The value of the objective function on the current configuration. 
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See Also}
-\hyperlink{classghost_1_1Objective_a2947c19e26ffd2a23c3a7f1b99c8bc79}{cost} 
+\hyperlink{classghost_1_1Objective_a8ac8effdac4a09063fd680ed60b6a06f}{cost} 
 \end{DoxySeeAlso}
 
 
-Implements \hyperlink{classghost_1_1Objective_affb6d6730adfbfe6a1f990e00d2a5eb2}{ghost\-::\-Objective$<$ Building, Wallin\-Domain $>$}.
+Implements \hyperlink{classghost_1_1Objective_a401aa21f01c1e01d34e34893766f3e9d}{ghost\-::\-Objective$<$ Building, Wallin\-Domain $>$}.
 
 \hypertarget{classghost_1_1TechTreeObj_a0048f628a37031a5b4ba18acc2958b63}{\index{ghost\-::\-Tech\-Tree\-Obj@{ghost\-::\-Tech\-Tree\-Obj}!v\-\_\-heuristic\-Variable@{v\-\_\-heuristic\-Variable}}
 \index{v\-\_\-heuristic\-Variable@{v\-\_\-heuristic\-Variable}!ghost::TechTreeObj@{ghost\-::\-Tech\-Tree\-Obj}}

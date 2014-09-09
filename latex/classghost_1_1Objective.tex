@@ -12,8 +12,7 @@
 
 
 
-Inheritance diagram for ghost\-:\-:Objective$<$ Type\-Variable, Type\-Domain $>$\-:
-\nopagebreak
+Inheritance diagram for ghost\-:\-:Objective$<$ Type\-Variable, Type\-Domain $>$\-:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -22,8 +21,7 @@ Inheritance diagram for ghost\-:\-:Objective$<$ Type\-Variable, Type\-Domain $>$
 \end{figure}
 
 
-Collaboration diagram for ghost\-:\-:Objective$<$ Type\-Variable, Type\-Domain $>$\-:
-\nopagebreak
+Collaboration diagram for ghost\-:\-:Objective$<$ Type\-Variable, Type\-Domain $>$\-:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -35,7 +33,7 @@ Collaboration diagram for ghost\-:\-:Objective$<$ Type\-Variable, Type\-Domain $
 \item 
 \hyperlink{classghost_1_1Objective_ae8f0c0e859244a5acf8e6f9a609b8e12}{Objective} (const string \&\hyperlink{classghost_1_1Objective_ae9533a52b3600c826df6e20c65db1e7a}{name}, bool permut=false)
 \begin{DoxyCompactList}\small\item\em The unique \hyperlink{classghost_1_1Objective}{Objective} constructor. \end{DoxyCompactList}\item 
-double \hyperlink{classghost_1_1Objective_a2947c19e26ffd2a23c3a7f1b99c8bc79}{cost} (const vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, const Type\-Domain $\ast$domain) const 
+double \hyperlink{classghost_1_1Objective_a8ac8effdac4a09063fd680ed60b6a06f}{cost} (vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, Type\-Domain $\ast$domain) const 
 \item 
 int \hyperlink{classghost_1_1Objective_af68c07a226162ea7f9ee01a0b00d3ae4}{heuristic\-Variable} (const vector$<$ int $>$ \&vec\-Var\-Id, const vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, Type\-Domain $\ast$domain)
 \item 
@@ -43,9 +41,9 @@ int \hyperlink{classghost_1_1Objective_ac9d6c8e05cca99cd797d302b3755b6b5}{heuris
 \item 
 void \hyperlink{classghost_1_1Objective_ab589c264cf391bab9005562f66a39797}{set\-Helper} (const Type\-Variable \&variable, const vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, const Type\-Domain $\ast$domain)
 \item 
-double \hyperlink{classghost_1_1Objective_a605effc6d79bd00a22c2c9fca6078cc0}{postprocess\-Satisfaction} (vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, Type\-Domain $\ast$domain, double \&best\-Cost, vector$<$ Type\-Variable $>$ \&best\-Solution)
+double \hyperlink{classghost_1_1Objective_aa79835aa61f6680e78912ecaee6f7fbc}{postprocess\-Satisfaction} (vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, Type\-Domain $\ast$domain, double \&best\-Cost, vector$<$ Type\-Variable $>$ \&best\-Solution, double sat\-\_\-timeout)
 \item 
-double \hyperlink{classghost_1_1Objective_a78ac0f829786f02fe69b2afe6f2636bc}{postprocess\-Optimization} (vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, Type\-Domain $\ast$domain, double \&best\-Cost)
+double \hyperlink{classghost_1_1Objective_adbaff57012dd756d87dc5151d9718296}{postprocess\-Optimization} (vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, Type\-Domain $\ast$domain, double \&best\-Cost, double opt\-\_\-timeout)
 \item 
 string \hyperlink{classghost_1_1Objective_adfe2130d5a472771544a4033e457c4bb}{get\-Name} ()
 \begin{DoxyCompactList}\small\item\em Inline accessor to get the name of the objective object. \end{DoxyCompactList}\item 
@@ -58,15 +56,15 @@ bool \hyperlink{classghost_1_1Objective_a558991ad856cff48262e2848c6ab5796}{is\-P
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-virtual double \hyperlink{classghost_1_1Objective_affb6d6730adfbfe6a1f990e00d2a5eb2}{v\-\_\-cost} (const vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, const Type\-Domain $\ast$domain) const =0
+virtual double \hyperlink{classghost_1_1Objective_a401aa21f01c1e01d34e34893766f3e9d}{v\-\_\-cost} (vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, Type\-Domain $\ast$domain) const =0
 \begin{DoxyCompactList}\small\item\em Pure virtual function to compute the value of the objective function on the current configuration. \end{DoxyCompactList}\item 
 virtual int \hyperlink{classghost_1_1Objective_ae4a49d23569c367182f934c25a6c6103}{v\-\_\-heuristic\-Variable} (const vector$<$ int $>$ \&vec\-Var\-Id, const vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, Type\-Domain $\ast$domain)=0
 \begin{DoxyCompactList}\small\item\em Pure virtual function to apply the variable heuristic used by the solver. \end{DoxyCompactList}\item 
 virtual void \hyperlink{classghost_1_1Objective_a8c4efc1602123b28626a37c53e100a6e}{v\-\_\-set\-Helper} (const Type\-Variable \&current\-Var, const vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, const Type\-Domain $\ast$domain)=0
 \begin{DoxyCompactList}\small\item\em Pure virtual function to set heuristic\-Value\-Helper\mbox{[}current\-Var.\-get\-Value()\mbox{]}. \end{DoxyCompactList}\item 
-virtual double \hyperlink{classghost_1_1Objective_a403fdae56c632409f244f4ffe79dd2df}{v\-\_\-postprocess\-Satisfaction} (vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, Type\-Domain $\ast$domain, double \&best\-Cost, vector$<$ Type\-Variable $>$ \&solution) const 
+virtual double \hyperlink{classghost_1_1Objective_a5f2b324e82efdbdb27528a2915fa14e2}{v\-\_\-postprocess\-Satisfaction} (vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, Type\-Domain $\ast$domain, double \&best\-Cost, vector$<$ Type\-Variable $>$ \&solution, double sat\-\_\-timeout) const 
 \begin{DoxyCompactList}\small\item\em Virtual function to perform satisfaction post-\/processing. \end{DoxyCompactList}\item 
-virtual double \hyperlink{classghost_1_1Objective_a25c90555bec03d1d15f83ae145d81f8f}{v\-\_\-postprocess\-Optimization} (vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, Type\-Domain $\ast$domain, double \&best\-Cost)
+virtual double \hyperlink{classghost_1_1Objective_af54dd3c4c9e4115534e25f27b7ccb32f}{v\-\_\-postprocess\-Optimization} (vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, Type\-Domain $\ast$domain, double \&best\-Cost, double opt\-\_\-timeout)
 \begin{DoxyCompactList}\small\item\em Virtual function to perform optimization post-\/processing. \end{DoxyCompactList}\item 
 virtual int \hyperlink{classghost_1_1Objective_a03311ba62213580f1664f164e5f5696a}{v\-\_\-heuristic\-Value} (const std\-::vector$<$ double $>$ \&vec\-Global\-Costs, double \&best\-Estimated\-Cost, int \&best\-Value) const 
 \begin{DoxyCompactList}\small\item\em Virtual function to apply the value heuristic used by the solver. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -127,16 +125,16 @@ The unique \hyperlink{classghost_1_1Objective}{Objective} constructor.
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classghost_1_1Objective_a2947c19e26ffd2a23c3a7f1b99c8bc79}{\index{ghost\-::\-Objective@{ghost\-::\-Objective}!cost@{cost}}
+\hypertarget{classghost_1_1Objective_a8ac8effdac4a09063fd680ed60b6a06f}{\index{ghost\-::\-Objective@{ghost\-::\-Objective}!cost@{cost}}
 \index{cost@{cost}!ghost::Objective@{ghost\-::\-Objective}}
 \subsubsection[{cost}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable, typename Type\-Domain$>$ double {\bf ghost\-::\-Objective}$<$ Type\-Variable, Type\-Domain $>$\-::cost (
 \begin{DoxyParamCaption}
-\item[{const vector$<$ Type\-Variable $>$ $\ast$}]{vec\-Variables, }
-\item[{const Type\-Domain $\ast$}]{domain}
+\item[{vector$<$ Type\-Variable $>$ $\ast$}]{vec\-Variables, }
+\item[{Type\-Domain $\ast$}]{domain}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Objective_a2947c19e26ffd2a23c3a7f1b99c8bc79}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Objective_a8ac8effdac4a09063fd680ed60b6a06f}
 Inline function following the N\-V\-I idiom. Calling v\-\_\-cost. \begin{DoxySeeAlso}{See Also}
-\hyperlink{classghost_1_1Objective_affb6d6730adfbfe6a1f990e00d2a5eb2}{v\-\_\-cost} 
+\hyperlink{classghost_1_1Objective_a401aa21f01c1e01d34e34893766f3e9d}{v\-\_\-cost} 
 \end{DoxySeeAlso}
 \hypertarget{classghost_1_1Objective_adfe2130d5a472771544a4033e457c4bb}{\index{ghost\-::\-Objective@{ghost\-::\-Objective}!get\-Name@{get\-Name}}
 \index{get\-Name@{get\-Name}!ghost::Objective@{ghost\-::\-Objective}}
@@ -193,30 +191,32 @@ Inline function to initialize heuristic\-Value\-Helper to a vector of M\-A\-X\-\
 Inline function returning permutation. \begin{DoxySeeAlso}{See Also}
 \hyperlink{classghost_1_1Objective_aae8345f4b7981f4b386eb58e447e0286}{permutation} 
 \end{DoxySeeAlso}
-\hypertarget{classghost_1_1Objective_a78ac0f829786f02fe69b2afe6f2636bc}{\index{ghost\-::\-Objective@{ghost\-::\-Objective}!postprocess\-Optimization@{postprocess\-Optimization}}
+\hypertarget{classghost_1_1Objective_adbaff57012dd756d87dc5151d9718296}{\index{ghost\-::\-Objective@{ghost\-::\-Objective}!postprocess\-Optimization@{postprocess\-Optimization}}
 \index{postprocess\-Optimization@{postprocess\-Optimization}!ghost::Objective@{ghost\-::\-Objective}}
 \subsubsection[{postprocess\-Optimization}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable, typename Type\-Domain$>$ double {\bf ghost\-::\-Objective}$<$ Type\-Variable, Type\-Domain $>$\-::postprocess\-Optimization (
 \begin{DoxyParamCaption}
 \item[{vector$<$ Type\-Variable $>$ $\ast$}]{vec\-Variables, }
 \item[{Type\-Domain $\ast$}]{domain, }
-\item[{double \&}]{best\-Cost}
+\item[{double \&}]{best\-Cost, }
+\item[{double}]{opt\-\_\-timeout}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Objective_a78ac0f829786f02fe69b2afe6f2636bc}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Objective_adbaff57012dd756d87dc5151d9718296}
 Inline function following the N\-V\-I idiom. Calling v\-\_\-postprocess\-Optimization. \begin{DoxySeeAlso}{See Also}
-\hyperlink{classghost_1_1Objective_a25c90555bec03d1d15f83ae145d81f8f}{v\-\_\-postprocess\-Optimization} 
+\hyperlink{classghost_1_1Objective_af54dd3c4c9e4115534e25f27b7ccb32f}{v\-\_\-postprocess\-Optimization} 
 \end{DoxySeeAlso}
-\hypertarget{classghost_1_1Objective_a605effc6d79bd00a22c2c9fca6078cc0}{\index{ghost\-::\-Objective@{ghost\-::\-Objective}!postprocess\-Satisfaction@{postprocess\-Satisfaction}}
+\hypertarget{classghost_1_1Objective_aa79835aa61f6680e78912ecaee6f7fbc}{\index{ghost\-::\-Objective@{ghost\-::\-Objective}!postprocess\-Satisfaction@{postprocess\-Satisfaction}}
 \index{postprocess\-Satisfaction@{postprocess\-Satisfaction}!ghost::Objective@{ghost\-::\-Objective}}
 \subsubsection[{postprocess\-Satisfaction}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable, typename Type\-Domain$>$ double {\bf ghost\-::\-Objective}$<$ Type\-Variable, Type\-Domain $>$\-::postprocess\-Satisfaction (
 \begin{DoxyParamCaption}
 \item[{vector$<$ Type\-Variable $>$ $\ast$}]{vec\-Variables, }
 \item[{Type\-Domain $\ast$}]{domain, }
 \item[{double \&}]{best\-Cost, }
-\item[{vector$<$ Type\-Variable $>$ \&}]{best\-Solution}
+\item[{vector$<$ Type\-Variable $>$ \&}]{best\-Solution, }
+\item[{double}]{sat\-\_\-timeout}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Objective_a605effc6d79bd00a22c2c9fca6078cc0}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Objective_aa79835aa61f6680e78912ecaee6f7fbc}
 Inline function following the N\-V\-I idiom. Calling v\-\_\-postprocess\-Satisfaction. \begin{DoxySeeAlso}{See Also}
-\hyperlink{classghost_1_1Objective_a403fdae56c632409f244f4ffe79dd2df}{v\-\_\-postprocess\-Satisfaction} 
+\hyperlink{classghost_1_1Objective_a5f2b324e82efdbdb27528a2915fa14e2}{v\-\_\-postprocess\-Satisfaction} 
 \end{DoxySeeAlso}
 \hypertarget{classghost_1_1Objective_a76ca30dd5fc977963058f0c3abfe100a}{\index{ghost\-::\-Objective@{ghost\-::\-Objective}!reset\-Helper@{reset\-Helper}}
 \index{reset\-Helper@{reset\-Helper}!ghost::Objective@{ghost\-::\-Objective}}
@@ -240,34 +240,34 @@ Inline function to reset heuristic\-Value\-Helper with M\-A\-X\-\_\-\-I\-N\-T va
 Inline function following the N\-V\-I idiom. Calling v\-\_\-set\-Helper. \begin{DoxySeeAlso}{See Also}
 \hyperlink{classghost_1_1Objective_a8c4efc1602123b28626a37c53e100a6e}{v\-\_\-set\-Helper} 
 \end{DoxySeeAlso}
-\hypertarget{classghost_1_1Objective_affb6d6730adfbfe6a1f990e00d2a5eb2}{\index{ghost\-::\-Objective@{ghost\-::\-Objective}!v\-\_\-cost@{v\-\_\-cost}}
+\hypertarget{classghost_1_1Objective_a401aa21f01c1e01d34e34893766f3e9d}{\index{ghost\-::\-Objective@{ghost\-::\-Objective}!v\-\_\-cost@{v\-\_\-cost}}
 \index{v\-\_\-cost@{v\-\_\-cost}!ghost::Objective@{ghost\-::\-Objective}}
 \subsubsection[{v\-\_\-cost}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable, typename Type\-Domain$>$ virtual double {\bf ghost\-::\-Objective}$<$ Type\-Variable, Type\-Domain $>$\-::v\-\_\-cost (
 \begin{DoxyParamCaption}
-\item[{const vector$<$ Type\-Variable $>$ $\ast$}]{vec\-Variables, }
-\item[{const Type\-Domain $\ast$}]{domain}
+\item[{vector$<$ Type\-Variable $>$ $\ast$}]{vec\-Variables, }
+\item[{Type\-Domain $\ast$}]{domain}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}}\label{classghost_1_1Objective_affb6d6730adfbfe6a1f990e00d2a5eb2}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}}\label{classghost_1_1Objective_a401aa21f01c1e01d34e34893766f3e9d}
 
 
 Pure virtual function to compute the value of the objective function on the current configuration. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em vec\-Variables} & A constant pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
+{\em vec\-Variables} & A pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
 \hline
-{\em domain} & A constant pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
+{\em domain} & A pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 The value of the objective function on the current configuration. 
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See Also}
-\hyperlink{classghost_1_1Objective_a2947c19e26ffd2a23c3a7f1b99c8bc79}{cost} 
+\hyperlink{classghost_1_1Objective_a8ac8effdac4a09063fd680ed60b6a06f}{cost} 
 \end{DoxySeeAlso}
 
 
-Implemented in \hyperlink{classghost_1_1NullObjective_a309e1913d38d728b41a61c1ce40f3dca}{ghost\-::\-Null\-Objective$<$ Type\-Variable, Type\-Domain $>$}, \hyperlink{classghost_1_1TechTreeObj_a08017f78e70b65bc3a46615929f5302f}{ghost\-::\-Tech\-Tree\-Obj}, \hyperlink{classghost_1_1BuildingObj_a776e66ee83bea375f906aada814f791f}{ghost\-::\-Building\-Obj}, \hyperlink{classghost_1_1GapObj_a0aff22c12b3a097df5a2314da5f41a04}{ghost\-::\-Gap\-Obj}, and \hyperlink{classghost_1_1BuildOrderObjective_a2d76e1734085c9775af4784b6d29dd12}{ghost\-::\-Build\-Order\-Objective}.
+Implemented in \hyperlink{classghost_1_1NullObjective_ad0b2d0aa21ecfc4c0fa42c0ada282a30}{ghost\-::\-Null\-Objective$<$ Type\-Variable, Type\-Domain $>$}, \hyperlink{classghost_1_1TechTreeObj_a77d75eae8334709be1eac005b5c88ad4}{ghost\-::\-Tech\-Tree\-Obj}, \hyperlink{classghost_1_1BuildingObj_af18c96bbcadf9bcbf6fb634155aff92c}{ghost\-::\-Building\-Obj}, \hyperlink{classghost_1_1GapObj_a55b7f1bf57a44915f6a35a651cf82e5b}{ghost\-::\-Gap\-Obj}, and \hyperlink{classghost_1_1BuildOrderObjective_a65a1e23654ddb00ff575c628cf982bef}{ghost\-::\-Build\-Order\-Objective}.
 
 \hypertarget{classghost_1_1Objective_a03311ba62213580f1664f164e5f5696a}{\index{ghost\-::\-Objective@{ghost\-::\-Objective}!v\-\_\-heuristic\-Value@{v\-\_\-heuristic\-Value}}
 \index{v\-\_\-heuristic\-Value@{v\-\_\-heuristic\-Value}!ghost::Objective@{ghost\-::\-Objective}}
@@ -294,10 +294,6 @@ This default implementation outputs the value leading to the lowest global cost.
 \begin{DoxySeeAlso}{See Also}
 \hyperlink{classghost_1_1Objective_ac9d6c8e05cca99cd797d302b3755b6b5}{heuristic\-Value}, \hyperlink{classghost_1_1Objective_a9bfe64f13de15bba7f2fa3a662c02e27}{heuristic\-Value\-Helper}, \hyperlink{classghost_1_1Random}{Random} 
 \end{DoxySeeAlso}
-
-
-Reimplemented in \hyperlink{classghost_1_1BuildOrderObjective_ac53eb5d747fff00a064b6c45f02a99ee}{ghost\-::\-Build\-Order\-Objective}.
-
 \hypertarget{classghost_1_1Objective_ae4a49d23569c367182f934c25a6c6103}{\index{ghost\-::\-Objective@{ghost\-::\-Objective}!v\-\_\-heuristic\-Variable@{v\-\_\-heuristic\-Variable}}
 \index{v\-\_\-heuristic\-Variable@{v\-\_\-heuristic\-Variable}!ghost::Objective@{ghost\-::\-Objective}}
 \subsubsection[{v\-\_\-heuristic\-Variable}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable, typename Type\-Domain$>$ virtual int {\bf ghost\-::\-Objective}$<$ Type\-Variable, Type\-Domain $>$\-::v\-\_\-heuristic\-Variable (
@@ -330,15 +326,16 @@ The I\-D of the selected variable according to the heuristic.
 
 Implemented in \hyperlink{classghost_1_1NullObjective_aef7e24c71f2522034764402704e3b16f}{ghost\-::\-Null\-Objective$<$ Type\-Variable, Type\-Domain $>$}, \hyperlink{classghost_1_1TechTreeObj_a0048f628a37031a5b4ba18acc2958b63}{ghost\-::\-Tech\-Tree\-Obj}, \hyperlink{classghost_1_1BuildingObj_a472940adf4a07d5062376bc2f4a349d1}{ghost\-::\-Building\-Obj}, \hyperlink{classghost_1_1GapObj_a6cbd377f5f11676d918fcdf65f384cd3}{ghost\-::\-Gap\-Obj}, and \hyperlink{classghost_1_1BuildOrderObjective_a3704745355d6bf12a3afe2e8d551f38a}{ghost\-::\-Build\-Order\-Objective}.
 
-\hypertarget{classghost_1_1Objective_a25c90555bec03d1d15f83ae145d81f8f}{\index{ghost\-::\-Objective@{ghost\-::\-Objective}!v\-\_\-postprocess\-Optimization@{v\-\_\-postprocess\-Optimization}}
+\hypertarget{classghost_1_1Objective_af54dd3c4c9e4115534e25f27b7ccb32f}{\index{ghost\-::\-Objective@{ghost\-::\-Objective}!v\-\_\-postprocess\-Optimization@{v\-\_\-postprocess\-Optimization}}
 \index{v\-\_\-postprocess\-Optimization@{v\-\_\-postprocess\-Optimization}!ghost::Objective@{ghost\-::\-Objective}}
 \subsubsection[{v\-\_\-postprocess\-Optimization}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable, typename Type\-Domain$>$ virtual double {\bf ghost\-::\-Objective}$<$ Type\-Variable, Type\-Domain $>$\-::v\-\_\-postprocess\-Optimization (
 \begin{DoxyParamCaption}
 \item[{vector$<$ Type\-Variable $>$ $\ast$}]{vec\-Variables, }
 \item[{Type\-Domain $\ast$}]{domain, }
-\item[{double \&}]{best\-Cost}
+\item[{double \&}]{best\-Cost, }
+\item[{double}]{opt\-\_\-timeout}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classghost_1_1Objective_a25c90555bec03d1d15f83ae145d81f8f}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classghost_1_1Objective_af54dd3c4c9e4115534e25f27b7ccb32f}
 
 
 Virtual function to perform optimization post-\/processing. 
@@ -355,27 +352,30 @@ This implementation by default does nothing.
 \hline
 {\em best\-Cost} & A reference the double representing the best optimization cost found by the solver so far. \\
 \hline
+{\em opt\-\_\-timeout} & The optimization timeout given in argument of \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{Solver\-::solve} \\
+\hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 The function runtime in milliseconds. 
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See Also}
-\hyperlink{classghost_1_1Objective_a78ac0f829786f02fe69b2afe6f2636bc}{postprocess\-Optimization} 
+\hyperlink{classghost_1_1Objective_adbaff57012dd756d87dc5151d9718296}{postprocess\-Optimization} 
 \end{DoxySeeAlso}
 
 
-Reimplemented in \hyperlink{classghost_1_1MakeSpanMaxProd_ac687d94f54354cceb9710f5a27e244a6}{ghost\-::\-Make\-Span\-Max\-Prod}, \hyperlink{classghost_1_1MakeSpanMinCost_a892905457a09d229d0b08ec36d47f20c}{ghost\-::\-Make\-Span\-Min\-Cost}, \hyperlink{classghost_1_1BuildingObj_af6b0953277810bbb5a9edf1d38d657ba}{ghost\-::\-Building\-Obj}, \hyperlink{classghost_1_1BuildOrderObjective_a07306469a8512e33a420d7f8ebab507b}{ghost\-::\-Build\-Order\-Objective}, and \hyperlink{classghost_1_1WallinObjective_aa30f157bc7a09fdfe2a671960e4e60df}{ghost\-::\-Wallin\-Objective}.
+Reimplemented in \hyperlink{classghost_1_1BuildingObj_a9731c0052aa09f7ec64ce0322a65d2bf}{ghost\-::\-Building\-Obj}, \hyperlink{classghost_1_1BuildOrderObjective_ac08754712162e2d592f102ed68a98e4c}{ghost\-::\-Build\-Order\-Objective}, and \hyperlink{classghost_1_1WallinObjective_a646246ffb22f8b915f2d24c9439426fd}{ghost\-::\-Wallin\-Objective}.
 
-\hypertarget{classghost_1_1Objective_a403fdae56c632409f244f4ffe79dd2df}{\index{ghost\-::\-Objective@{ghost\-::\-Objective}!v\-\_\-postprocess\-Satisfaction@{v\-\_\-postprocess\-Satisfaction}}
+\hypertarget{classghost_1_1Objective_a5f2b324e82efdbdb27528a2915fa14e2}{\index{ghost\-::\-Objective@{ghost\-::\-Objective}!v\-\_\-postprocess\-Satisfaction@{v\-\_\-postprocess\-Satisfaction}}
 \index{v\-\_\-postprocess\-Satisfaction@{v\-\_\-postprocess\-Satisfaction}!ghost::Objective@{ghost\-::\-Objective}}
 \subsubsection[{v\-\_\-postprocess\-Satisfaction}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable, typename Type\-Domain$>$ virtual double {\bf ghost\-::\-Objective}$<$ Type\-Variable, Type\-Domain $>$\-::v\-\_\-postprocess\-Satisfaction (
 \begin{DoxyParamCaption}
 \item[{vector$<$ Type\-Variable $>$ $\ast$}]{vec\-Variables, }
 \item[{Type\-Domain $\ast$}]{domain, }
 \item[{double \&}]{best\-Cost, }
-\item[{vector$<$ Type\-Variable $>$ \&}]{solution}
+\item[{vector$<$ Type\-Variable $>$ \&}]{solution, }
+\item[{double}]{sat\-\_\-timeout}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classghost_1_1Objective_a403fdae56c632409f244f4ffe79dd2df}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classghost_1_1Objective_a5f2b324e82efdbdb27528a2915fa14e2}
 
 
 Virtual function to perform satisfaction post-\/processing. 
@@ -394,16 +394,18 @@ This implementation by default does nothing.
 \hline
 {\em solution} & A reference to the vector of variables of the solution found by the solver. \\
 \hline
+{\em sat\-\_\-timeout} & The satisfaction timeout given in argument of \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{Solver\-::solve} \\
+\hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 The function runtime in milliseconds. 
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See Also}
-\hyperlink{classghost_1_1Objective_a605effc6d79bd00a22c2c9fca6078cc0}{postprocess\-Satisfaction} 
+\hyperlink{classghost_1_1Objective_aa79835aa61f6680e78912ecaee6f7fbc}{postprocess\-Satisfaction} 
 \end{DoxySeeAlso}
 
 
-Reimplemented in \hyperlink{classghost_1_1BuildOrderObjective_ac33af5d279166ee0ec8d088ca9f03596}{ghost\-::\-Build\-Order\-Objective}, and \hyperlink{classghost_1_1WallinObjective_a84bf06db1526faf60d5b1354230f5d4f}{ghost\-::\-Wallin\-Objective}.
+Reimplemented in \hyperlink{classghost_1_1BuildOrderObjective_a9505c468fb79506073b759e0bec156d9}{ghost\-::\-Build\-Order\-Objective}, and \hyperlink{classghost_1_1WallinObjective_abf3e5873e61f7878e9c31a45642d1544}{ghost\-::\-Wallin\-Objective}.
 
 \hypertarget{classghost_1_1Objective_a8c4efc1602123b28626a37c53e100a6e}{\index{ghost\-::\-Objective@{ghost\-::\-Objective}!v\-\_\-set\-Helper@{v\-\_\-set\-Helper}}
 \index{v\-\_\-set\-Helper@{v\-\_\-set\-Helper}!ghost::Objective@{ghost\-::\-Objective}}

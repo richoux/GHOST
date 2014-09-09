@@ -20,7 +20,7 @@ Collaboration diagram for ghost\-:\-:Build\-Order\-Objective\-:\-:State\-:
 \item 
 \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a434ad550a8659290581f98c30865c800}{State} ()
 \item 
-\hyperlink{structghost_1_1BuildOrderObjective_1_1State_ab50cf2922fb42ab8c863576c83eb7ec3}{State} (int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a0aa600bbcf11f69da073ee5f5df45c86}{seconds}, double \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a0e53b3e6a66bbd9ce0f9e08513796610}{stock\-Mineral}, double \hyperlink{structghost_1_1BuildOrderObjective_1_1State_af0fa35ae9792f888a68d588507de4d65}{stock\-Gas}, int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_aa4de47baa8f94de50faec04b91e365c3}{mineral\-Workers}, int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a17467d1d4d7d6a8f7ccfa96ae90a6bd8}{gas\-Workers}, int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a5eabdc60e3ea9d4063b6545741215fc1}{supply\-Used}, int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a2699219ad3dbb62ac5b5ec1fb12a8318}{supply\-Capacity}, int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a54d467ee421d3cdd60277fd2a813f46e}{number\-Bases}, int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_aca273265810b45bd356a1c81f71c3a4b}{number\-Refineries}, const map$<$ string, int $>$ \&\hyperlink{structghost_1_1BuildOrderObjective_1_1State_ada76e810fe40251c861548bee83df73f}{resources}, const vector$<$ \hyperlink{structghost_1_1BuildOrderObjective_1_1Tuple}{Tuple} $>$ \&\hyperlink{structghost_1_1BuildOrderObjective_1_1State_a451d864f0e411c953f2e31f8048b75c6}{busy}, const vector$<$ \hyperlink{structghost_1_1BuildOrderObjective_1_1Tuple}{Tuple} $>$ \&\hyperlink{structghost_1_1BuildOrderObjective_1_1State_a9083a73ad0675c4b96c199416aa843d5}{in\-Move})
+\hyperlink{structghost_1_1BuildOrderObjective_1_1State_a98d93bd15c4665f49e71625cd196c641}{State} (int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a0aa600bbcf11f69da073ee5f5df45c86}{seconds}, double \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a0e53b3e6a66bbd9ce0f9e08513796610}{stock\-Mineral}, double \hyperlink{structghost_1_1BuildOrderObjective_1_1State_af0fa35ae9792f888a68d588507de4d65}{stock\-Gas}, int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_ade4e3c7a7f75aacebbb00997989477dd}{minerals\-Booked}, int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_af4bb998060b50f33d32f20b0a576fb0f}{gas\-Booked}, int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_aa4de47baa8f94de50faec04b91e365c3}{mineral\-Workers}, int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a17467d1d4d7d6a8f7ccfa96ae90a6bd8}{gas\-Workers}, int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a5eabdc60e3ea9d4063b6545741215fc1}{supply\-Used}, int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a2699219ad3dbb62ac5b5ec1fb12a8318}{supply\-Capacity}, int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a54d467ee421d3cdd60277fd2a813f46e}{number\-Bases}, int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_aca273265810b45bd356a1c81f71c3a4b}{number\-Refineries}, int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a98217d636c0ee8ff7f2598c60add8c00}{number\-Pylons}, const map$<$ string, pair$<$ int, int $>$ $>$ \&\hyperlink{structghost_1_1BuildOrderObjective_1_1State_a9fb998bd3bfb206ea64c06d466aece05}{resources}, const vector$<$ \hyperlink{structghost_1_1ActionData}{Action\-Data} $>$ \&\hyperlink{structghost_1_1BuildOrderObjective_1_1State_a584c3367a42b491f5783adcd78d9b7d1}{busy}, const vector$<$ \hyperlink{structghost_1_1BuildOrderObjective_1_1ActionPrep}{Action\-Prep} $>$ \&\hyperlink{structghost_1_1BuildOrderObjective_1_1State_a22879d00e86e8284fac0beb74cac32fe}{in\-Move})
 \item 
 void \hyperlink{structghost_1_1BuildOrderObjective_1_1State_aaeff0c079bfda0bc12f069db1b633026}{reset} ()
 \end{DoxyCompactItemize}
@@ -32,6 +32,10 @@ int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a0aa600bbcf11f69da073
 double \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a0e53b3e6a66bbd9ce0f9e08513796610}{stock\-Mineral}
 \item 
 double \hyperlink{structghost_1_1BuildOrderObjective_1_1State_af0fa35ae9792f888a68d588507de4d65}{stock\-Gas}
+\item 
+int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_ade4e3c7a7f75aacebbb00997989477dd}{minerals\-Booked}
+\item 
+int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_af4bb998060b50f33d32f20b0a576fb0f}{gas\-Booked}
 \item 
 int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_aa4de47baa8f94de50faec04b91e365c3}{mineral\-Workers}
 \item 
@@ -45,11 +49,13 @@ int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a54d467ee421d3cdd6027
 \item 
 int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_aca273265810b45bd356a1c81f71c3a4b}{number\-Refineries}
 \item 
-map$<$ string, int $>$ \hyperlink{structghost_1_1BuildOrderObjective_1_1State_ada76e810fe40251c861548bee83df73f}{resources}
+int \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a98217d636c0ee8ff7f2598c60add8c00}{number\-Pylons}
 \item 
-vector$<$ \hyperlink{structghost_1_1BuildOrderObjective_1_1Tuple}{Tuple} $>$ \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a451d864f0e411c953f2e31f8048b75c6}{busy}
+map$<$ string, pair$<$ int, int $>$ $>$ \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a9fb998bd3bfb206ea64c06d466aece05}{resources}
 \item 
-vector$<$ \hyperlink{structghost_1_1BuildOrderObjective_1_1Tuple}{Tuple} $>$ \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a9083a73ad0675c4b96c199416aa843d5}{in\-Move}
+vector$<$ \hyperlink{structghost_1_1ActionData}{Action\-Data} $>$ \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a584c3367a42b491f5783adcd78d9b7d1}{busy}
+\item 
+vector$<$ \hyperlink{structghost_1_1BuildOrderObjective_1_1ActionPrep}{Action\-Prep} $>$ \hyperlink{structghost_1_1BuildOrderObjective_1_1State_a22879d00e86e8284fac0beb74cac32fe}{in\-Move}
 \end{DoxyCompactItemize}
 
 
@@ -61,24 +67,27 @@ vector$<$ \hyperlink{structghost_1_1BuildOrderObjective_1_1Tuple}{Tuple} $>$ \hy
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [inline]}}}\label{structghost_1_1BuildOrderObjective_1_1State_a434ad550a8659290581f98c30865c800}
-\hypertarget{structghost_1_1BuildOrderObjective_1_1State_ab50cf2922fb42ab8c863576c83eb7ec3}{\index{ghost\-::\-Build\-Order\-Objective\-::\-State@{ghost\-::\-Build\-Order\-Objective\-::\-State}!State@{State}}
+\hypertarget{structghost_1_1BuildOrderObjective_1_1State_a98d93bd15c4665f49e71625cd196c641}{\index{ghost\-::\-Build\-Order\-Objective\-::\-State@{ghost\-::\-Build\-Order\-Objective\-::\-State}!State@{State}}
 \index{State@{State}!ghost::BuildOrderObjective::State@{ghost\-::\-Build\-Order\-Objective\-::\-State}}
 \subsubsection[{State}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Build\-Order\-Objective\-::\-State\-::\-State (
 \begin{DoxyParamCaption}
 \item[{int}]{seconds, }
 \item[{double}]{stock\-Mineral, }
 \item[{double}]{stock\-Gas, }
+\item[{int}]{minerals\-Booked, }
+\item[{int}]{gas\-Booked, }
 \item[{int}]{mineral\-Workers, }
 \item[{int}]{gas\-Workers, }
 \item[{int}]{supply\-Used, }
 \item[{int}]{supply\-Capacity, }
 \item[{int}]{number\-Bases, }
 \item[{int}]{number\-Refineries, }
-\item[{const map$<$ string, int $>$ \&}]{resources, }
-\item[{const vector$<$ {\bf Tuple} $>$ \&}]{busy, }
-\item[{const vector$<$ {\bf Tuple} $>$ \&}]{in\-Move}
+\item[{int}]{number\-Pylons, }
+\item[{const map$<$ string, pair$<$ int, int $>$ $>$ \&}]{resources, }
+\item[{const vector$<$ {\bf Action\-Data} $>$ \&}]{busy, }
+\item[{const vector$<$ {\bf Action\-Prep} $>$ \&}]{in\-Move}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{structghost_1_1BuildOrderObjective_1_1State_ab50cf2922fb42ab8c863576c83eb7ec3}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{structghost_1_1BuildOrderObjective_1_1State_a98d93bd15c4665f49e71625cd196c641}
 
 
 \subsection{Member Function Documentation}
@@ -92,27 +101,36 @@ vector$<$ \hyperlink{structghost_1_1BuildOrderObjective_1_1Tuple}{Tuple} $>$ \hy
 
 
 \subsection{Member Data Documentation}
-\hypertarget{structghost_1_1BuildOrderObjective_1_1State_a451d864f0e411c953f2e31f8048b75c6}{\index{ghost\-::\-Build\-Order\-Objective\-::\-State@{ghost\-::\-Build\-Order\-Objective\-::\-State}!busy@{busy}}
+\hypertarget{structghost_1_1BuildOrderObjective_1_1State_a584c3367a42b491f5783adcd78d9b7d1}{\index{ghost\-::\-Build\-Order\-Objective\-::\-State@{ghost\-::\-Build\-Order\-Objective\-::\-State}!busy@{busy}}
 \index{busy@{busy}!ghost::BuildOrderObjective::State@{ghost\-::\-Build\-Order\-Objective\-::\-State}}
-\subsubsection[{busy}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ {\bf Tuple} $>$ ghost\-::\-Build\-Order\-Objective\-::\-State\-::busy}}\label{structghost_1_1BuildOrderObjective_1_1State_a451d864f0e411c953f2e31f8048b75c6}
+\subsubsection[{busy}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ {\bf Action\-Data} $>$ ghost\-::\-Build\-Order\-Objective\-::\-State\-::busy}}\label{structghost_1_1BuildOrderObjective_1_1State_a584c3367a42b491f5783adcd78d9b7d1}
+\hypertarget{structghost_1_1BuildOrderObjective_1_1State_af4bb998060b50f33d32f20b0a576fb0f}{\index{ghost\-::\-Build\-Order\-Objective\-::\-State@{ghost\-::\-Build\-Order\-Objective\-::\-State}!gas\-Booked@{gas\-Booked}}
+\index{gas\-Booked@{gas\-Booked}!ghost::BuildOrderObjective::State@{ghost\-::\-Build\-Order\-Objective\-::\-State}}
+\subsubsection[{gas\-Booked}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Build\-Order\-Objective\-::\-State\-::gas\-Booked}}\label{structghost_1_1BuildOrderObjective_1_1State_af4bb998060b50f33d32f20b0a576fb0f}
 \hypertarget{structghost_1_1BuildOrderObjective_1_1State_a17467d1d4d7d6a8f7ccfa96ae90a6bd8}{\index{ghost\-::\-Build\-Order\-Objective\-::\-State@{ghost\-::\-Build\-Order\-Objective\-::\-State}!gas\-Workers@{gas\-Workers}}
 \index{gas\-Workers@{gas\-Workers}!ghost::BuildOrderObjective::State@{ghost\-::\-Build\-Order\-Objective\-::\-State}}
 \subsubsection[{gas\-Workers}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Build\-Order\-Objective\-::\-State\-::gas\-Workers}}\label{structghost_1_1BuildOrderObjective_1_1State_a17467d1d4d7d6a8f7ccfa96ae90a6bd8}
-\hypertarget{structghost_1_1BuildOrderObjective_1_1State_a9083a73ad0675c4b96c199416aa843d5}{\index{ghost\-::\-Build\-Order\-Objective\-::\-State@{ghost\-::\-Build\-Order\-Objective\-::\-State}!in\-Move@{in\-Move}}
+\hypertarget{structghost_1_1BuildOrderObjective_1_1State_a22879d00e86e8284fac0beb74cac32fe}{\index{ghost\-::\-Build\-Order\-Objective\-::\-State@{ghost\-::\-Build\-Order\-Objective\-::\-State}!in\-Move@{in\-Move}}
 \index{in\-Move@{in\-Move}!ghost::BuildOrderObjective::State@{ghost\-::\-Build\-Order\-Objective\-::\-State}}
-\subsubsection[{in\-Move}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ {\bf Tuple} $>$ ghost\-::\-Build\-Order\-Objective\-::\-State\-::in\-Move}}\label{structghost_1_1BuildOrderObjective_1_1State_a9083a73ad0675c4b96c199416aa843d5}
+\subsubsection[{in\-Move}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ {\bf Action\-Prep} $>$ ghost\-::\-Build\-Order\-Objective\-::\-State\-::in\-Move}}\label{structghost_1_1BuildOrderObjective_1_1State_a22879d00e86e8284fac0beb74cac32fe}
+\hypertarget{structghost_1_1BuildOrderObjective_1_1State_ade4e3c7a7f75aacebbb00997989477dd}{\index{ghost\-::\-Build\-Order\-Objective\-::\-State@{ghost\-::\-Build\-Order\-Objective\-::\-State}!minerals\-Booked@{minerals\-Booked}}
+\index{minerals\-Booked@{minerals\-Booked}!ghost::BuildOrderObjective::State@{ghost\-::\-Build\-Order\-Objective\-::\-State}}
+\subsubsection[{minerals\-Booked}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Build\-Order\-Objective\-::\-State\-::minerals\-Booked}}\label{structghost_1_1BuildOrderObjective_1_1State_ade4e3c7a7f75aacebbb00997989477dd}
 \hypertarget{structghost_1_1BuildOrderObjective_1_1State_aa4de47baa8f94de50faec04b91e365c3}{\index{ghost\-::\-Build\-Order\-Objective\-::\-State@{ghost\-::\-Build\-Order\-Objective\-::\-State}!mineral\-Workers@{mineral\-Workers}}
 \index{mineral\-Workers@{mineral\-Workers}!ghost::BuildOrderObjective::State@{ghost\-::\-Build\-Order\-Objective\-::\-State}}
 \subsubsection[{mineral\-Workers}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Build\-Order\-Objective\-::\-State\-::mineral\-Workers}}\label{structghost_1_1BuildOrderObjective_1_1State_aa4de47baa8f94de50faec04b91e365c3}
 \hypertarget{structghost_1_1BuildOrderObjective_1_1State_a54d467ee421d3cdd60277fd2a813f46e}{\index{ghost\-::\-Build\-Order\-Objective\-::\-State@{ghost\-::\-Build\-Order\-Objective\-::\-State}!number\-Bases@{number\-Bases}}
 \index{number\-Bases@{number\-Bases}!ghost::BuildOrderObjective::State@{ghost\-::\-Build\-Order\-Objective\-::\-State}}
 \subsubsection[{number\-Bases}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Build\-Order\-Objective\-::\-State\-::number\-Bases}}\label{structghost_1_1BuildOrderObjective_1_1State_a54d467ee421d3cdd60277fd2a813f46e}
+\hypertarget{structghost_1_1BuildOrderObjective_1_1State_a98217d636c0ee8ff7f2598c60add8c00}{\index{ghost\-::\-Build\-Order\-Objective\-::\-State@{ghost\-::\-Build\-Order\-Objective\-::\-State}!number\-Pylons@{number\-Pylons}}
+\index{number\-Pylons@{number\-Pylons}!ghost::BuildOrderObjective::State@{ghost\-::\-Build\-Order\-Objective\-::\-State}}
+\subsubsection[{number\-Pylons}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Build\-Order\-Objective\-::\-State\-::number\-Pylons}}\label{structghost_1_1BuildOrderObjective_1_1State_a98217d636c0ee8ff7f2598c60add8c00}
 \hypertarget{structghost_1_1BuildOrderObjective_1_1State_aca273265810b45bd356a1c81f71c3a4b}{\index{ghost\-::\-Build\-Order\-Objective\-::\-State@{ghost\-::\-Build\-Order\-Objective\-::\-State}!number\-Refineries@{number\-Refineries}}
 \index{number\-Refineries@{number\-Refineries}!ghost::BuildOrderObjective::State@{ghost\-::\-Build\-Order\-Objective\-::\-State}}
 \subsubsection[{number\-Refineries}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Build\-Order\-Objective\-::\-State\-::number\-Refineries}}\label{structghost_1_1BuildOrderObjective_1_1State_aca273265810b45bd356a1c81f71c3a4b}
-\hypertarget{structghost_1_1BuildOrderObjective_1_1State_ada76e810fe40251c861548bee83df73f}{\index{ghost\-::\-Build\-Order\-Objective\-::\-State@{ghost\-::\-Build\-Order\-Objective\-::\-State}!resources@{resources}}
+\hypertarget{structghost_1_1BuildOrderObjective_1_1State_a9fb998bd3bfb206ea64c06d466aece05}{\index{ghost\-::\-Build\-Order\-Objective\-::\-State@{ghost\-::\-Build\-Order\-Objective\-::\-State}!resources@{resources}}
 \index{resources@{resources}!ghost::BuildOrderObjective::State@{ghost\-::\-Build\-Order\-Objective\-::\-State}}
-\subsubsection[{resources}]{\setlength{\rightskip}{0pt plus 5cm}map$<$string, int$>$ ghost\-::\-Build\-Order\-Objective\-::\-State\-::resources}}\label{structghost_1_1BuildOrderObjective_1_1State_ada76e810fe40251c861548bee83df73f}
+\subsubsection[{resources}]{\setlength{\rightskip}{0pt plus 5cm}map$<$string, pair$<$int, int$>$ $>$ ghost\-::\-Build\-Order\-Objective\-::\-State\-::resources}}\label{structghost_1_1BuildOrderObjective_1_1State_a9fb998bd3bfb206ea64c06d466aece05}
 \hypertarget{structghost_1_1BuildOrderObjective_1_1State_a0aa600bbcf11f69da073ee5f5df45c86}{\index{ghost\-::\-Build\-Order\-Objective\-::\-State@{ghost\-::\-Build\-Order\-Objective\-::\-State}!seconds@{seconds}}
 \index{seconds@{seconds}!ghost::BuildOrderObjective::State@{ghost\-::\-Build\-Order\-Objective\-::\-State}}
 \subsubsection[{seconds}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Build\-Order\-Objective\-::\-State\-::seconds}}\label{structghost_1_1BuildOrderObjective_1_1State_a0aa600bbcf11f69da073ee5f5df45c86}

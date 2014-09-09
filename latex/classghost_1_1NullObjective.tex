@@ -12,8 +12,7 @@
 
 
 
-Inheritance diagram for ghost\-:\-:Null\-Objective$<$ Type\-Variable, Type\-Domain $>$\-:
-\nopagebreak
+Inheritance diagram for ghost\-:\-:Null\-Objective$<$ Type\-Variable, Type\-Domain $>$\-:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -22,8 +21,7 @@ Inheritance diagram for ghost\-:\-:Null\-Objective$<$ Type\-Variable, Type\-Doma
 \end{figure}
 
 
-Collaboration diagram for ghost\-:\-:Null\-Objective$<$ Type\-Variable, Type\-Domain $>$\-:
-\nopagebreak
+Collaboration diagram for ghost\-:\-:Null\-Objective$<$ Type\-Variable, Type\-Domain $>$\-:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -38,7 +36,7 @@ Collaboration diagram for ghost\-:\-:Null\-Objective$<$ Type\-Variable, Type\-Do
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-virtual double \hyperlink{classghost_1_1NullObjective_a309e1913d38d728b41a61c1ce40f3dca}{v\-\_\-cost} (const vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, const Type\-Domain $\ast$domain) const 
+virtual double \hyperlink{classghost_1_1NullObjective_ad0b2d0aa21ecfc4c0fa42c0ada282a30}{v\-\_\-cost} (vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, Type\-Domain $\ast$domain) const 
 \begin{DoxyCompactList}\small\item\em Pure virtual function to compute the value of the objective function on the current configuration. \end{DoxyCompactList}\item 
 virtual int \hyperlink{classghost_1_1NullObjective_aef7e24c71f2522034764402704e3b16f}{v\-\_\-heuristic\-Variable} (const vector$<$ int $>$ \&vec\-Id, const vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, Type\-Domain $\ast$domain)
 \begin{DoxyCompactList}\small\item\em Pure virtual function to apply the variable heuristic used by the solver. \end{DoxyCompactList}\item 
@@ -63,34 +61,34 @@ virtual void \hyperlink{classghost_1_1NullObjective_a5f4b22306c25132590e3c10a6dc
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classghost_1_1NullObjective_a309e1913d38d728b41a61c1ce40f3dca}{\index{ghost\-::\-Null\-Objective@{ghost\-::\-Null\-Objective}!v\-\_\-cost@{v\-\_\-cost}}
+\hypertarget{classghost_1_1NullObjective_ad0b2d0aa21ecfc4c0fa42c0ada282a30}{\index{ghost\-::\-Null\-Objective@{ghost\-::\-Null\-Objective}!v\-\_\-cost@{v\-\_\-cost}}
 \index{v\-\_\-cost@{v\-\_\-cost}!ghost::NullObjective@{ghost\-::\-Null\-Objective}}
 \subsubsection[{v\-\_\-cost}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain $>$ virtual double {\bf ghost\-::\-Null\-Objective}$<$ Type\-Variable, Type\-Domain $>$\-::v\-\_\-cost (
 \begin{DoxyParamCaption}
-\item[{const vector$<$ Type\-Variable $>$ $\ast$}]{vec\-Variables, }
-\item[{const Type\-Domain $\ast$}]{domain}
+\item[{vector$<$ Type\-Variable $>$ $\ast$}]{vec\-Variables, }
+\item[{Type\-Domain $\ast$}]{domain}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}, {\ttfamily [virtual]}}}\label{classghost_1_1NullObjective_a309e1913d38d728b41a61c1ce40f3dca}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}, {\ttfamily [virtual]}}}\label{classghost_1_1NullObjective_ad0b2d0aa21ecfc4c0fa42c0ada282a30}
 
 
 Pure virtual function to compute the value of the objective function on the current configuration. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em vec\-Variables} & A constant pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
+{\em vec\-Variables} & A pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
 \hline
-{\em domain} & A constant pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
+{\em domain} & A pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 The value of the objective function on the current configuration. 
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See Also}
-\hyperlink{classghost_1_1Objective_a2947c19e26ffd2a23c3a7f1b99c8bc79}{cost} 
+\hyperlink{classghost_1_1Objective_a8ac8effdac4a09063fd680ed60b6a06f}{cost} 
 \end{DoxySeeAlso}
 
 
-Implements \hyperlink{classghost_1_1Objective_affb6d6730adfbfe6a1f990e00d2a5eb2}{ghost\-::\-Objective$<$ Type\-Variable, Type\-Domain $>$}.
+Implements \hyperlink{classghost_1_1Objective_a401aa21f01c1e01d34e34893766f3e9d}{ghost\-::\-Objective$<$ Type\-Variable, Type\-Domain $>$}.
 
 \hypertarget{classghost_1_1NullObjective_aef7e24c71f2522034764402704e3b16f}{\index{ghost\-::\-Null\-Objective@{ghost\-::\-Null\-Objective}!v\-\_\-heuristic\-Variable@{v\-\_\-heuristic\-Variable}}
 \index{v\-\_\-heuristic\-Variable@{v\-\_\-heuristic\-Variable}!ghost::NullObjective@{ghost\-::\-Null\-Objective}}

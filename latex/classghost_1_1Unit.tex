@@ -1,0 +1,447 @@
+\hypertarget{classghost_1_1Unit}{\section{ghost\-:\-:Unit Class Reference}
+\label{classghost_1_1Unit}\index{ghost\-::\-Unit@{ghost\-::\-Unit}}
+}
+
+
+{\ttfamily \#include $<$unit.\-hpp$>$}
+
+
+
+Inheritance diagram for ghost\-:\-:Unit\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=174pt]{classghost_1_1Unit__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for ghost\-:\-:Unit\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classghost_1_1Unit__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classghost_1_1Unit_abeb9f38ac59d79647e2ca99a1ceacd99}{Unit} ()
+\item 
+\hyperlink{classghost_1_1Unit_a7f0a37abfc313f96251e9f6999e243b9}{Unit} (\hyperlink{structghost_1_1UnitData}{Unit\-Data}, \hyperlink{structghost_1_1Coord}{Coord}, int=-\/1)
+\item 
+\hyperlink{classghost_1_1Unit_aea6197d87e619b053e6e9fcacf03a3ce}{Unit} (\hyperlink{structghost_1_1UnitData}{Unit\-Data}, int, int, int=-\/1)
+\item 
+\hyperlink{classghost_1_1Unit_a0a1ad686d4679dfca5d1044ded41a87a}{Unit} (const \hyperlink{classghost_1_1Unit}{Unit} \&)
+\item 
+\hyperlink{classghost_1_1Unit}{Unit} \& \hyperlink{classghost_1_1Unit_ac4fc9086478925b2f2320d4228807320}{operator=} (\hyperlink{classghost_1_1Unit}{Unit})
+\item 
+bool \hyperlink{classghost_1_1Unit_ab70ad4d9a69f8d23d6002b187e096cff}{is\-Selected} () const 
+\item 
+int \hyperlink{classghost_1_1Unit_a26694b0032e8fd394841c99d92d27604}{take\-Hit} (int point)
+\item 
+bool \hyperlink{classghost_1_1Unit_aba5b4df1bb091711fc6a13ed08223231}{is\-Dead} () const 
+\item 
+bool \hyperlink{classghost_1_1Unit_ad78528a5b7ec9682646bfbbeccb46473}{can\-Shoot} () const 
+\item 
+void \hyperlink{classghost_1_1Unit_ab7fd1da43562cf36a254953cff45ee24}{just\-Shot} ()
+\item 
+void \hyperlink{classghost_1_1Unit_a854f0bca7fca429ef33e4af97d5f647d}{one\-Step} ()
+\item 
+double \hyperlink{classghost_1_1Unit_ad1284798367694b78f9b1fdc68d79daf}{distance\-From} (const \hyperlink{classghost_1_1Unit}{Unit} \&u) const 
+\item 
+bool \hyperlink{classghost_1_1Unit_a75692cefef39aa5d3f65308426849787}{is\-In\-Range} (const \hyperlink{classghost_1_1Unit}{Unit} \&u) const 
+\item 
+bool \hyperlink{classghost_1_1Unit_a8aa83316a45d49fbaebce203756033a0}{is\-In\-Range} (const \hyperlink{structghost_1_1UnitData}{Unit\-Data} \&ud) const 
+\item 
+\hyperlink{structghost_1_1UnitData}{Unit\-Data} \hyperlink{classghost_1_1Unit_a6b14edf653460aee0f626c8e969e82c2}{get\-Data} () const 
+\item 
+void \hyperlink{classghost_1_1Unit_ab9f6b7f97d9249a1ceb5606da2440a20}{set\-Data} (\hyperlink{structghost_1_1UnitData}{Unit\-Data} u)
+\item 
+\hyperlink{structghost_1_1Coord}{Coord} \hyperlink{classghost_1_1Unit_a38416cbe7886c2ec428d22273c29ab5d}{get\-Coord} () const 
+\item 
+int \hyperlink{classghost_1_1Unit_a415bb28bec1802f78ff3e9470d65f960}{get\-X} () const 
+\item 
+int \hyperlink{classghost_1_1Unit_a104cdedcd5cea24e09088ab26f4bdf47}{get\-Y} () const 
+\item 
+void \hyperlink{classghost_1_1Unit_a0cb26e44e2ff004a35d479bff4106ab7}{set\-Coord} (\hyperlink{structghost_1_1Coord}{Coord} \hyperlink{namespaceghost_a1e04a626798fce7a46db973e9693354e}{c})
+\item 
+void \hyperlink{classghost_1_1Unit_a999285545f43bd798853ba5e8b00bb22}{set\-X} (int x)
+\item 
+void \hyperlink{classghost_1_1Unit_a1da9f131e6f919f61ac817281c848e71}{set\-Y} (int y)
+\item 
+int \hyperlink{classghost_1_1Unit_ac0d8e38d05ba0947677a32f88c5b46e4}{get\-H\-P} () const 
+\item 
+int \hyperlink{classghost_1_1Unit_a53e356c8dcd356e5c2d18e6c8dc508c9}{can\-Shoot\-In} () const 
+\item 
+int \hyperlink{classghost_1_1Unit_ab86ea22fa11f848af6795da5d11d4f26}{get\-Armor} () const 
+\item 
+\hyperlink{namespaceghost_a2615b54cc16a8c95ffeeb246ad722833}{Size} \hyperlink{classghost_1_1Unit_aa5176ff5dfee4be4f3508e8c59b77d08}{get\-Size} () const 
+\item 
+string \hyperlink{classghost_1_1Unit_a098cc525d219966d0c51f5d437e958ea}{get\-Size\-String} () const 
+\item 
+int \hyperlink{classghost_1_1Unit_a431aa469dc819c762cc28e1729c422c9}{get\-Cooldown} () const 
+\item 
+int \hyperlink{classghost_1_1Unit_a5e1ea40f45d3dd61bf6aee5c15da5378}{get\-Damage} () const 
+\item 
+\hyperlink{namespaceghost_ab52582bfe39e47fc05f33770f38185d6}{Damage\-Type} \hyperlink{classghost_1_1Unit_a9c803b150c878b49aab88a5fb5d177bf}{get\-Damage\-Type} () const 
+\item 
+string \hyperlink{classghost_1_1Unit_a9bdd8172a7f3244c038ac3c691a102b4}{get\-Damage\-Type\-String} () const 
+\item 
+\hyperlink{structghost_1_1Range}{Range} \hyperlink{classghost_1_1Unit_af894e826de43cec0b700c9db178b560e}{get\-Range} () const 
+\item 
+double \hyperlink{classghost_1_1Unit_a118c4fce326cfef9b9c983963a1c985d}{get\-Range\-Min} () const 
+\item 
+double \hyperlink{classghost_1_1Unit_ac1b57bea07978d0efd265079028902aa}{get\-Range\-Max} () const 
+\item 
+\hyperlink{structghost_1_1Splash}{Splash} \hyperlink{classghost_1_1Unit_a8b9273df4f0ead9d0f6f4cec0052c654}{get\-Splash\-Radius} () const 
+\item 
+double \hyperlink{classghost_1_1Unit_ad37d8cd2027e8cb0b3e022fc7cfdaba7}{get\-Splash\-Radius\-Min} () const 
+\item 
+double \hyperlink{classghost_1_1Unit_ae1a04592a47847a7cbb5b9aac284bbc6}{get\-Splash\-Radius\-Med} () const 
+\item 
+double \hyperlink{classghost_1_1Unit_ab17ecf5e83a4ee3461a4d17f9bd39acf}{get\-Splash\-Radius\-Max} () const 
+\item 
+void \hyperlink{classghost_1_1Unit_a5d3a0d6bb9da6fde7ea1cf2e3b50c970}{swap\-Value} (\hyperlink{classghost_1_1Unit}{Unit} \&other)
+\item 
+bool \hyperlink{classghost_1_1Unit_a897f79bb428f28937a8c61b27c3def91}{operator==} (const \hyperlink{classghost_1_1Unit}{Unit} \&other)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classghost_1_1Unit_ac351094feab1278c4a8b81ba74215336}{swap} (\hyperlink{classghost_1_1Unit}{Unit} \&)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structghost_1_1UnitData}{Unit\-Data} \hyperlink{classghost_1_1Unit_a7ca43892e28cb7df114d17cb297d6617}{data}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+ostream \& \hyperlink{classghost_1_1Unit_adfd98717a4a81282f3323f91a123bbe0}{operator$<$$<$} (ostream \&, const \hyperlink{classghost_1_1Unit}{Unit} \&)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classghost_1_1Unit_abeb9f38ac59d79647e2ca99a1ceacd99}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!Unit@{Unit}}
+\index{Unit@{Unit}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{Unit}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Unit\-::\-Unit (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1Unit_abeb9f38ac59d79647e2ca99a1ceacd99}
+\hypertarget{classghost_1_1Unit_a7f0a37abfc313f96251e9f6999e243b9}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!Unit@{Unit}}
+\index{Unit@{Unit}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{Unit}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Unit\-::\-Unit (
+\begin{DoxyParamCaption}
+\item[{{\bf Unit\-Data}}]{data, }
+\item[{{\bf Coord}}]{coord, }
+\item[{int}]{value = {\ttfamily -\/1}}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1Unit_a7f0a37abfc313f96251e9f6999e243b9}
+\hypertarget{classghost_1_1Unit_aea6197d87e619b053e6e9fcacf03a3ce}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!Unit@{Unit}}
+\index{Unit@{Unit}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{Unit}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Unit\-::\-Unit (
+\begin{DoxyParamCaption}
+\item[{{\bf Unit\-Data}}]{data, }
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{int}]{value = {\ttfamily -\/1}}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1Unit_aea6197d87e619b053e6e9fcacf03a3ce}
+\hypertarget{classghost_1_1Unit_a0a1ad686d4679dfca5d1044ded41a87a}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!Unit@{Unit}}
+\index{Unit@{Unit}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{Unit}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Unit\-::\-Unit (
+\begin{DoxyParamCaption}
+\item[{const {\bf Unit} \&}]{other}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1Unit_a0a1ad686d4679dfca5d1044ded41a87a}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classghost_1_1Unit_ad78528a5b7ec9682646bfbbeccb46473}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!can\-Shoot@{can\-Shoot}}
+\index{can\-Shoot@{can\-Shoot}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{can\-Shoot}]{\setlength{\rightskip}{0pt plus 5cm}bool ghost\-::\-Unit\-::can\-Shoot (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_ad78528a5b7ec9682646bfbbeccb46473}
+\hypertarget{classghost_1_1Unit_a53e356c8dcd356e5c2d18e6c8dc508c9}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!can\-Shoot\-In@{can\-Shoot\-In}}
+\index{can\-Shoot\-In@{can\-Shoot\-In}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{can\-Shoot\-In}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Unit\-::can\-Shoot\-In (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a53e356c8dcd356e5c2d18e6c8dc508c9}
+\hypertarget{classghost_1_1Unit_ad1284798367694b78f9b1fdc68d79daf}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!distance\-From@{distance\-From}}
+\index{distance\-From@{distance\-From}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{distance\-From}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Unit\-::distance\-From (
+\begin{DoxyParamCaption}
+\item[{const {\bf Unit} \&}]{u}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_ad1284798367694b78f9b1fdc68d79daf}
+\hypertarget{classghost_1_1Unit_ab86ea22fa11f848af6795da5d11d4f26}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!get\-Armor@{get\-Armor}}
+\index{get\-Armor@{get\-Armor}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{get\-Armor}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Unit\-::get\-Armor (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_ab86ea22fa11f848af6795da5d11d4f26}
+\hypertarget{classghost_1_1Unit_a431aa469dc819c762cc28e1729c422c9}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!get\-Cooldown@{get\-Cooldown}}
+\index{get\-Cooldown@{get\-Cooldown}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{get\-Cooldown}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Unit\-::get\-Cooldown (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a431aa469dc819c762cc28e1729c422c9}
+\hypertarget{classghost_1_1Unit_a38416cbe7886c2ec428d22273c29ab5d}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!get\-Coord@{get\-Coord}}
+\index{get\-Coord@{get\-Coord}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{get\-Coord}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Coord} ghost\-::\-Unit\-::get\-Coord (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a38416cbe7886c2ec428d22273c29ab5d}
+\hypertarget{classghost_1_1Unit_a5e1ea40f45d3dd61bf6aee5c15da5378}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!get\-Damage@{get\-Damage}}
+\index{get\-Damage@{get\-Damage}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{get\-Damage}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Unit\-::get\-Damage (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a5e1ea40f45d3dd61bf6aee5c15da5378}
+\hypertarget{classghost_1_1Unit_a9c803b150c878b49aab88a5fb5d177bf}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!get\-Damage\-Type@{get\-Damage\-Type}}
+\index{get\-Damage\-Type@{get\-Damage\-Type}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{get\-Damage\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Damage\-Type} ghost\-::\-Unit\-::get\-Damage\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a9c803b150c878b49aab88a5fb5d177bf}
+\hypertarget{classghost_1_1Unit_a9bdd8172a7f3244c038ac3c691a102b4}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!get\-Damage\-Type\-String@{get\-Damage\-Type\-String}}
+\index{get\-Damage\-Type\-String@{get\-Damage\-Type\-String}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{get\-Damage\-Type\-String}]{\setlength{\rightskip}{0pt plus 5cm}string ghost\-::\-Unit\-::get\-Damage\-Type\-String (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a9bdd8172a7f3244c038ac3c691a102b4}
+\hypertarget{classghost_1_1Unit_a6b14edf653460aee0f626c8e969e82c2}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!get\-Data@{get\-Data}}
+\index{get\-Data@{get\-Data}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{get\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Unit\-Data} ghost\-::\-Unit\-::get\-Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a6b14edf653460aee0f626c8e969e82c2}
+\hypertarget{classghost_1_1Unit_ac0d8e38d05ba0947677a32f88c5b46e4}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!get\-H\-P@{get\-H\-P}}
+\index{get\-H\-P@{get\-H\-P}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{get\-H\-P}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Unit\-::get\-H\-P (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_ac0d8e38d05ba0947677a32f88c5b46e4}
+\hypertarget{classghost_1_1Unit_af894e826de43cec0b700c9db178b560e}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!get\-Range@{get\-Range}}
+\index{get\-Range@{get\-Range}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{get\-Range}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Range} ghost\-::\-Unit\-::get\-Range (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_af894e826de43cec0b700c9db178b560e}
+\hypertarget{classghost_1_1Unit_ac1b57bea07978d0efd265079028902aa}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!get\-Range\-Max@{get\-Range\-Max}}
+\index{get\-Range\-Max@{get\-Range\-Max}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{get\-Range\-Max}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Unit\-::get\-Range\-Max (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_ac1b57bea07978d0efd265079028902aa}
+\hypertarget{classghost_1_1Unit_a118c4fce326cfef9b9c983963a1c985d}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!get\-Range\-Min@{get\-Range\-Min}}
+\index{get\-Range\-Min@{get\-Range\-Min}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{get\-Range\-Min}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Unit\-::get\-Range\-Min (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a118c4fce326cfef9b9c983963a1c985d}
+\hypertarget{classghost_1_1Unit_aa5176ff5dfee4be4f3508e8c59b77d08}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!get\-Size@{get\-Size}}
+\index{get\-Size@{get\-Size}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{get\-Size}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Size} ghost\-::\-Unit\-::get\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_aa5176ff5dfee4be4f3508e8c59b77d08}
+\hypertarget{classghost_1_1Unit_a098cc525d219966d0c51f5d437e958ea}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!get\-Size\-String@{get\-Size\-String}}
+\index{get\-Size\-String@{get\-Size\-String}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{get\-Size\-String}]{\setlength{\rightskip}{0pt plus 5cm}string ghost\-::\-Unit\-::get\-Size\-String (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a098cc525d219966d0c51f5d437e958ea}
+\hypertarget{classghost_1_1Unit_a8b9273df4f0ead9d0f6f4cec0052c654}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!get\-Splash\-Radius@{get\-Splash\-Radius}}
+\index{get\-Splash\-Radius@{get\-Splash\-Radius}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{get\-Splash\-Radius}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Splash} ghost\-::\-Unit\-::get\-Splash\-Radius (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a8b9273df4f0ead9d0f6f4cec0052c654}
+\hypertarget{classghost_1_1Unit_ab17ecf5e83a4ee3461a4d17f9bd39acf}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!get\-Splash\-Radius\-Max@{get\-Splash\-Radius\-Max}}
+\index{get\-Splash\-Radius\-Max@{get\-Splash\-Radius\-Max}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{get\-Splash\-Radius\-Max}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Unit\-::get\-Splash\-Radius\-Max (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_ab17ecf5e83a4ee3461a4d17f9bd39acf}
+\hypertarget{classghost_1_1Unit_ae1a04592a47847a7cbb5b9aac284bbc6}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!get\-Splash\-Radius\-Med@{get\-Splash\-Radius\-Med}}
+\index{get\-Splash\-Radius\-Med@{get\-Splash\-Radius\-Med}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{get\-Splash\-Radius\-Med}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Unit\-::get\-Splash\-Radius\-Med (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_ae1a04592a47847a7cbb5b9aac284bbc6}
+\hypertarget{classghost_1_1Unit_ad37d8cd2027e8cb0b3e022fc7cfdaba7}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!get\-Splash\-Radius\-Min@{get\-Splash\-Radius\-Min}}
+\index{get\-Splash\-Radius\-Min@{get\-Splash\-Radius\-Min}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{get\-Splash\-Radius\-Min}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Unit\-::get\-Splash\-Radius\-Min (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_ad37d8cd2027e8cb0b3e022fc7cfdaba7}
+\hypertarget{classghost_1_1Unit_a415bb28bec1802f78ff3e9470d65f960}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!get\-X@{get\-X}}
+\index{get\-X@{get\-X}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{get\-X}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Unit\-::get\-X (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a415bb28bec1802f78ff3e9470d65f960}
+\hypertarget{classghost_1_1Unit_a104cdedcd5cea24e09088ab26f4bdf47}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!get\-Y@{get\-Y}}
+\index{get\-Y@{get\-Y}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{get\-Y}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Unit\-::get\-Y (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a104cdedcd5cea24e09088ab26f4bdf47}
+\hypertarget{classghost_1_1Unit_aba5b4df1bb091711fc6a13ed08223231}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!is\-Dead@{is\-Dead}}
+\index{is\-Dead@{is\-Dead}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{is\-Dead}]{\setlength{\rightskip}{0pt plus 5cm}bool ghost\-::\-Unit\-::is\-Dead (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_aba5b4df1bb091711fc6a13ed08223231}
+\hypertarget{classghost_1_1Unit_a75692cefef39aa5d3f65308426849787}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!is\-In\-Range@{is\-In\-Range}}
+\index{is\-In\-Range@{is\-In\-Range}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{is\-In\-Range}]{\setlength{\rightskip}{0pt plus 5cm}bool ghost\-::\-Unit\-::is\-In\-Range (
+\begin{DoxyParamCaption}
+\item[{const {\bf Unit} \&}]{u}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a75692cefef39aa5d3f65308426849787}
+\hypertarget{classghost_1_1Unit_a8aa83316a45d49fbaebce203756033a0}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!is\-In\-Range@{is\-In\-Range}}
+\index{is\-In\-Range@{is\-In\-Range}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{is\-In\-Range}]{\setlength{\rightskip}{0pt plus 5cm}bool ghost\-::\-Unit\-::is\-In\-Range (
+\begin{DoxyParamCaption}
+\item[{const {\bf Unit\-Data} \&}]{ud}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a8aa83316a45d49fbaebce203756033a0}
+\hypertarget{classghost_1_1Unit_ab70ad4d9a69f8d23d6002b187e096cff}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!is\-Selected@{is\-Selected}}
+\index{is\-Selected@{is\-Selected}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{is\-Selected}]{\setlength{\rightskip}{0pt plus 5cm}bool ghost\-::\-Unit\-::is\-Selected (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_ab70ad4d9a69f8d23d6002b187e096cff}
+\hypertarget{classghost_1_1Unit_ab7fd1da43562cf36a254953cff45ee24}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!just\-Shot@{just\-Shot}}
+\index{just\-Shot@{just\-Shot}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{just\-Shot}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Unit\-::just\-Shot (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_ab7fd1da43562cf36a254953cff45ee24}
+\hypertarget{classghost_1_1Unit_a854f0bca7fca429ef33e4af97d5f647d}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!one\-Step@{one\-Step}}
+\index{one\-Step@{one\-Step}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{one\-Step}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Unit\-::one\-Step (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a854f0bca7fca429ef33e4af97d5f647d}
+\hypertarget{classghost_1_1Unit_ac4fc9086478925b2f2320d4228807320}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!operator=@{operator=}}
+\index{operator=@{operator=}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Unit} \& ghost\-::\-Unit\-::operator= (
+\begin{DoxyParamCaption}
+\item[{{\bf Unit}}]{other}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1Unit_ac4fc9086478925b2f2320d4228807320}
+\hypertarget{classghost_1_1Unit_a897f79bb428f28937a8c61b27c3def91}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!operator==@{operator==}}
+\index{operator==@{operator==}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}bool ghost\-::\-Unit\-::operator== (
+\begin{DoxyParamCaption}
+\item[{const {\bf Unit} \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a897f79bb428f28937a8c61b27c3def91}
+\hypertarget{classghost_1_1Unit_a0cb26e44e2ff004a35d479bff4106ab7}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!set\-Coord@{set\-Coord}}
+\index{set\-Coord@{set\-Coord}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{set\-Coord}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Unit\-::set\-Coord (
+\begin{DoxyParamCaption}
+\item[{{\bf Coord}}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a0cb26e44e2ff004a35d479bff4106ab7}
+\hypertarget{classghost_1_1Unit_ab9f6b7f97d9249a1ceb5606da2440a20}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!set\-Data@{set\-Data}}
+\index{set\-Data@{set\-Data}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{set\-Data}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Unit\-::set\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf Unit\-Data}}]{u}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_ab9f6b7f97d9249a1ceb5606da2440a20}
+\hypertarget{classghost_1_1Unit_a999285545f43bd798853ba5e8b00bb22}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!set\-X@{set\-X}}
+\index{set\-X@{set\-X}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{set\-X}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Unit\-::set\-X (
+\begin{DoxyParamCaption}
+\item[{int}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a999285545f43bd798853ba5e8b00bb22}
+\hypertarget{classghost_1_1Unit_a1da9f131e6f919f61ac817281c848e71}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!set\-Y@{set\-Y}}
+\index{set\-Y@{set\-Y}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{set\-Y}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Unit\-::set\-Y (
+\begin{DoxyParamCaption}
+\item[{int}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a1da9f131e6f919f61ac817281c848e71}
+\hypertarget{classghost_1_1Unit_ac351094feab1278c4a8b81ba74215336}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!swap@{swap}}
+\index{swap@{swap}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{swap}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Unit\-::swap (
+\begin{DoxyParamCaption}
+\item[{{\bf Unit} \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Unit_ac351094feab1278c4a8b81ba74215336}
+\hypertarget{classghost_1_1Unit_a5d3a0d6bb9da6fde7ea1cf2e3b50c970}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!swap\-Value@{swap\-Value}}
+\index{swap\-Value@{swap\-Value}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{swap\-Value}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Unit\-::swap\-Value (
+\begin{DoxyParamCaption}
+\item[{{\bf Unit} \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a5d3a0d6bb9da6fde7ea1cf2e3b50c970}
+\hypertarget{classghost_1_1Unit_a26694b0032e8fd394841c99d92d27604}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!take\-Hit@{take\-Hit}}
+\index{take\-Hit@{take\-Hit}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{take\-Hit}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Unit\-::take\-Hit (
+\begin{DoxyParamCaption}
+\item[{int}]{point}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Unit_a26694b0032e8fd394841c99d92d27604}
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classghost_1_1Unit_adfd98717a4a81282f3323f91a123bbe0}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}ostream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{ostream \&}]{os, }
+\item[{const {\bf Unit} \&}]{u}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{classghost_1_1Unit_adfd98717a4a81282f3323f91a123bbe0}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classghost_1_1Unit_a7ca43892e28cb7df114d17cb297d6617}{\index{ghost\-::\-Unit@{ghost\-::\-Unit}!data@{data}}
+\index{data@{data}!ghost::Unit@{ghost\-::\-Unit}}
+\subsubsection[{data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Unit\-Data} ghost\-::\-Unit\-::data\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Unit_a7ca43892e28cb7df114d17cb297d6617}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+include/variables/\hyperlink{unit_8hpp}{unit.\-hpp}\item 
+src/variables/\hyperlink{unit_8cpp}{unit.\-cpp}\end{DoxyCompactItemize}

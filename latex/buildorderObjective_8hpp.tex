@@ -6,6 +6,7 @@
 {\ttfamily \#include $<$memory$>$}\\*
 {\ttfamily \#include \char`\"{}objective.\-hpp\char`\"{}}\\*
 {\ttfamily \#include \char`\"{}../variables/action.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../misc/action\-Map.\-hpp\char`\"{}}\\*
 {\ttfamily \#include \char`\"{}../domains/buildorder\-Domain.\-hpp\char`\"{}}\\*
 Include dependency graph for buildorder\-Objective.\-hpp\-:
 \nopagebreak
@@ -15,8 +16,7 @@ Include dependency graph for buildorder\-Objective.\-hpp\-:
 \includegraphics[width=350pt]{buildorderObjective_8hpp__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\-:
-\nopagebreak
+This graph shows which files directly or indirectly include this file\-:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -28,7 +28,7 @@ This graph shows which files directly or indirectly include this file\-:
 \item 
 class \hyperlink{classghost_1_1BuildOrderObjective}{ghost\-::\-Build\-Order\-Objective}
 \item 
-struct \hyperlink{structghost_1_1BuildOrderObjective_1_1Tuple}{ghost\-::\-Build\-Order\-Objective\-::\-Tuple}
+struct \hyperlink{structghost_1_1BuildOrderObjective_1_1ActionPrep}{ghost\-::\-Build\-Order\-Objective\-::\-Action\-Prep}
 \item 
 struct \hyperlink{structghost_1_1BuildOrderObjective_1_1State}{ghost\-::\-Build\-Order\-Objective\-::\-State}
 \item 
@@ -42,4 +42,19 @@ class \hyperlink{classghost_1_1MakeSpanMaxProd}{ghost\-::\-Make\-Span\-Max\-Prod
 \begin{DoxyCompactItemize}
 \item 
 \hyperlink{namespaceghost}{ghost}
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+constexpr int \hyperlink{namespaceghost_a6281c7426908c18212d4d10b999e40bc}{ghost\-::go\-To\-Build} = 5
+\item 
+constexpr int \hyperlink{namespaceghost_ada242341970bc16ae93c8343d092b9d1}{ghost\-::return\-To\-Minerals} = 4
+\item 
+constexpr int \hyperlink{namespaceghost_aef53554d2400a44d3f13b5d10da5dc60}{ghost\-::from\-Base\-To\-Minerals} = 5
+\item 
+constexpr int \hyperlink{namespaceghost_a1accff79c78b223ee8400747204dd3b2}{ghost\-::from\-Min\-To\-Gas} = 5
+\item 
+constexpr double \hyperlink{namespaceghost_a093a7f8d4ed6ac0ed8e51ffb3f61d3b3}{ghost\-::min\-Rate} = 0.\-68
+\item 
+constexpr double \hyperlink{namespaceghost_a080e7a4629484df50f3c1fa938a80181}{ghost\-::gas\-Rate} = 1.\-15
 \end{DoxyCompactItemize}
