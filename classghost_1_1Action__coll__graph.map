@@ -1,3 +1,4 @@
 <map id="ghost::Action" name="ghost::Action">
-<area shape="rect" id="node2" href="$classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. " alt="" coords="23,6,149,333"/>
+<area shape="rect" id="node2" href="$classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. " alt="" coords="5,6,131,333"/>
+<area shape="rect" id="node3" href="$structghost_1_1ActionData.html" title="{ghost::ActionData\n|+ secondsRequired\l+ costMineral\l+ costGas\l+ costSupply\l+ actionType\l+ dependencies\l+ creator\l+ race\l+ name\l|+ ActionData()\l+ ActionData()\l+ ActionData()\l+ operator=()\l+ decreaseSeconds()\l&#45; swap()\l}" alt="" coords="156,35,303,303"/>
 </map>

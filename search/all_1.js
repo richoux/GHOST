@@ -1,9 +1,10 @@
 var searchData=
 [
+  ['bestbo',['bestBO',['../classghost_1_1BuildOrderObjective.html#a71ec5c0a8425d3e5facebb76190adfb7',1,'ghost::BuildOrderObjective']]],
   ['bestcost',['bestCost',['../classghost_1_1Solver.html#a2fa5cf25d3417e3046aad3c1123320ed',1,'ghost::Solver']]],
   ['bestsolution',['bestSolution',['../classghost_1_1Solver.html#aa76ec90c418b23b261a0f3da63a9ee4a',1,'ghost::Solver']]],
   ['bo',['BO',['../structghost_1_1BuildOrderObjective_1_1BO.html',1,'ghost::BuildOrderObjective']]],
-  ['bo',['BO',['../structghost_1_1BuildOrderObjective_1_1BO.html#ae412993ce70ea08514148f73f5e58cc4',1,'ghost::BuildOrderObjective::BO::BO()'],['../structghost_1_1BuildOrderObjective_1_1BO.html#a8901530ad70062087732a1b5954b10b7',1,'ghost::BuildOrderObjective::BO::BO(string fullName, int completedTime)'],['../classghost_1_1BuildOrderObjective.html#aa55dce8a8fbdc5fe64ddadfa715e968e',1,'ghost::BuildOrderObjective::bo()']]],
+  ['bo',['bo',['../classghost_1_1BuildOrderObjective.html#aa55dce8a8fbdc5fe64ddadfa715e968e',1,'ghost::BuildOrderObjective::bo()'],['../structghost_1_1BuildOrderObjective_1_1BO.html#ae412993ce70ea08514148f73f5e58cc4',1,'ghost::BuildOrderObjective::BO::BO()'],['../structghost_1_1BuildOrderObjective_1_1BO.html#a0c74ffe417301e4014a0e39e9e45c3a9',1,'ghost::BuildOrderObjective::BO::BO(string fullName, int startTime, int completedTime)']]],
   ['buildable',['Buildable',['../classghost_1_1Buildable.html',1,'ghost']]],
   ['buildable',['Buildable',['../classghost_1_1Buildable.html#afb25530b221922dd29a0a5bd7cdd68c6',1,'ghost::Buildable::Buildable()'],['../namespaceghost.html#aed6c0dcd76842d41ca1a81a6b4301247',1,'ghost::buildable()']]],
   ['building',['Building',['../classghost_1_1Building.html#a57d16dc6bf4b41cbcf67f2b51a416410',1,'ghost::Building::Building()'],['../classghost_1_1Building.html#a453e89a96f541b6f87360ba18ccffaf0',1,'ghost::Building::Building(int, int, int, int, int, int, Race, int, string, string, int=-1)'],['../classghost_1_1Building.html#a4fec1171ac6ce8c22e44681200d9df3d',1,'ghost::Building::Building(const Building &amp;)'],['../namespaceghost.html#a7c0deb8266504feb7d025903f2b77693a4b7c211d9226050e5730e3b9a1b0b21a',1,'ghost::building()']]],
@@ -25,7 +26,5 @@ var searchData=
   ['buildorderobjective',['BuildOrderObjective',['../classghost_1_1BuildOrderObjective.html',1,'ghost']]],
   ['buildorderobjective_2ecpp',['buildorderObjective.cpp',['../buildorderObjective_8cpp.html',1,'']]],
   ['buildorderobjective_2ehpp',['buildorderObjective.hpp',['../buildorderObjective_8hpp.html',1,'']]],
-  ['buildorderprotoss_2ecpp',['buildorderProtoss.cpp',['../buildorderProtoss_8cpp.html',1,'']]],
-  ['buildorderprotoss_2ehpp',['buildorderProtoss.hpp',['../buildorderProtoss_8hpp.html',1,'']]],
-  ['busy',['busy',['../structghost_1_1BuildOrderObjective_1_1State.html#a451d864f0e411c953f2e31f8048b75c6',1,'ghost::BuildOrderObjective::State']]]
+  ['busy',['busy',['../structghost_1_1BuildOrderObjective_1_1State.html#a584c3367a42b491f5783adcd78d9b7d1',1,'ghost::BuildOrderObjective::State']]]
 ];

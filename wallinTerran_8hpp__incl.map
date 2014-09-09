@@ -1,12 +1,11 @@
 <map id="include/misc/wallinTerran.hpp" name="include/misc/wallinTerran.hpp">
-<area shape="rect" id="node5" href="$building_8hpp.html" title="../variables/building.hpp" alt="" coords="1105,229,1263,256"/>
-<area shape="rect" id="node11" href="$wallinConstraint_8hpp.html" title="../constraints/wallinConstraint.hpp" alt="" coords="538,80,757,107"/>
-<area shape="rect" id="node20" href="$wallinDomain_8hpp.html" title="../domains/wallinDomain.hpp" alt="" coords="755,155,945,181"/>
-<area shape="rect" id="node6" href="$variable_8hpp.html" title="variable.hpp" alt="" coords="903,304,995,331"/>
-<area shape="rect" id="node10" href="$races_8hpp.html" title="../misc/races.hpp" alt="" coords="1123,304,1245,331"/>
-<area shape="rect" id="node13" href="$constraint_8hpp.html" title="constraint.hpp" alt="" coords="507,155,611,181"/>
-<area shape="rect" id="node14" href="$objective_8hpp.html" title="../objectives/objective.hpp" alt="" coords="155,229,329,256"/>
-<area shape="rect" id="node16" href="$random_8hpp.html" title="../misc/random.hpp" alt="" coords="390,304,524,331"/>
-<area shape="rect" id="node19" href="$constants_8hpp.html" title="../misc/constants.hpp" alt="" coords="83,304,231,331"/>
-<area shape="rect" id="node22" href="$domain_8hpp.html" title="domain.hpp" alt="" coords="825,229,913,256"/>
+<area shape="rect" id="node5" href="$building_8hpp.html" title="../variables/building.hpp" alt="" coords="953,229,1111,256"/>
+<area shape="rect" id="node11" href="$wallinConstraint_8hpp.html" title="../constraints/wallinConstraint.hpp" alt="" coords="465,80,684,107"/>
+<area shape="rect" id="node19" href="$wallinDomain_8hpp.html" title="../domains/wallinDomain.hpp" alt="" coords="685,155,875,181"/>
+<area shape="rect" id="node6" href="$variable_8hpp.html" title="variable.hpp" alt="" coords="725,304,816,331"/>
+<area shape="rect" id="node10" href="$races_8hpp.html" title="../misc/races.hpp" alt="" coords="993,304,1116,331"/>
+<area shape="rect" id="node13" href="$constraint_8hpp.html" title="constraint.hpp" alt="" coords="200,155,304,181"/>
+<area shape="rect" id="node14" href="$objective_8hpp.html" title="../objectives/objective.hpp" alt="" coords="353,229,527,256"/>
+<area shape="rect" id="node16" href="$random_8hpp.html" title="../misc/random.hpp" alt="" coords="474,304,608,331"/>
+<area shape="rect" id="node21" href="$domain_8hpp.html" title="domain.hpp" alt="" coords="622,229,711,256"/>
 </map>

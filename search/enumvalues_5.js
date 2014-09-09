@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['zerg',['Zerg',['../namespaceghost.html#a8b1db75c40c6980adcf244ddccc0324ba95a952d94cc72ad754bcb37b1e16c221',1,'ghost']]]
+  ['normal',['Normal',['../namespaceghost.html#ab52582bfe39e47fc05f33770f38185d6a2fcac4bed4fc6c3b0234ef9d39363248',1,'ghost']]]
 ];

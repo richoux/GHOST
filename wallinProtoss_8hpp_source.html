@@ -168,11 +168,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  {</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="namespaceghost.html#a7a91cd37137a7eae220126fcbb8ff96b">overlap</a>  = make_shared&lt;Overlap&gt;( vec, domain );</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <a class="code" href="namespaceghost.html#aed6c0dcd76842d41ca1a81a6b4301247">buildable</a>    = make_shared&lt;Buildable&gt;( vec, domain );</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <a class="code" href="namespaceghost.html#a4b6df9d0b61991e356eb28353a73be30">noGaps</a>   = make_shared&lt;NoGaps&gt;( vec, domain );</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    noHoles  = make_shared&lt;NoHoles&gt;( vec, domain );</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <a class="code" href="namespaceghost.html#a41140633099e7f2158ce39ca3a469abb">specialTiles</a> = make_shared&lt;StartingTargetTiles&gt;( vec, domain );</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <a class="code" href="namespaceghost.html#a381584b094da85f582a9b24eedf21411">pylons</a>   = make_shared&lt;Pylons&gt;( vec, domain );</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    vector&lt; shared_ptr&lt;Constraint&gt; &gt; vecConstraints {<a class="code" href="namespaceghost.html#a7a91cd37137a7eae220126fcbb8ff96b">overlap</a>, <a class="code" href="namespaceghost.html#aed6c0dcd76842d41ca1a81a6b4301247">buildable</a>, <a class="code" href="namespaceghost.html#a4b6df9d0b61991e356eb28353a73be30">noGaps</a>, <a class="code" href="namespaceghost.html#a41140633099e7f2158ce39ca3a469abb">specialTiles</a>, pylons};</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    vector&lt; shared_ptr&lt;Constraint&gt; &gt; vecConstraints {<a class="code" href="namespaceghost.html#a7a91cd37137a7eae220126fcbb8ff96b">overlap</a>, <a class="code" href="namespaceghost.html#aed6c0dcd76842d41ca1a81a6b4301247">buildable</a>, noHoles, <a class="code" href="namespaceghost.html#a41140633099e7f2158ce39ca3a469abb">specialTiles</a>, pylons};</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">return</span> vecConstraints;</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  }</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}</div>
@@ -198,7 +198,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 23 2014 23:44:51 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 9 2014 09:03:06 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

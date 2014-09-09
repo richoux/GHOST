@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['unbuildable',['unbuildable',['../classghost_1_1WallinDomain.html#a7439a8cf1148b6ad451f4f23d92765e1',1,'ghost::WallinDomain::unbuildable(int row, int col)'],['../classghost_1_1WallinDomain.html#ac29b7395041e907eb1b94527ac6ebf36',1,'ghost::WallinDomain::unbuildable(vector&lt; pair&lt; int, int &gt; &gt;)']]],
-  ['unshiftvalue',['unshiftValue',['../classghost_1_1Variable.html#a3bebc2cc15609a5280a4949d63f7405d',1,'ghost::Variable']]],
-  ['updatebusy',['updateBusy',['../classghost_1_1BuildOrderObjective.html#abf798bcb896d5311038e9c882a5314b6',1,'ghost::BuildOrderObjective']]],
-  ['updateinmove',['updateInMove',['../classghost_1_1BuildOrderObjective.html#a6f1e369381790f195420562d9eb68c66',1,'ghost::BuildOrderObjective']]]
+  ['takehit',['takeHit',['../structghost_1_1UnitData.html#a5ef93fffa09b0000485c18ccc8d3d523',1,'ghost::UnitData::takeHit()'],['../classghost_1_1Unit.html#a26694b0032e8fd394841c99d92d27604',1,'ghost::Unit::takeHit()']]],
+  ['targetselectionconstraint',['TargetSelectionConstraint',['../classghost_1_1TargetSelectionConstraint.html#a079d7eb7c7d2bfee8519d2871f676156',1,'ghost::TargetSelectionConstraint']]],
+  ['targetselectiondomain',['TargetSelectionDomain',['../classghost_1_1TargetSelectionDomain.html#a827a1e0a62c38b7a8767a512c3cda816',1,'ghost::TargetSelectionDomain']]],
+  ['techtreeobj',['TechTreeObj',['../classghost_1_1TechTreeObj.html#a94ae9f4d4aa715977fab009f54a0dbd5',1,'ghost::TechTreeObj']]]
 ];

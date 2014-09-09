@@ -80,6 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_b"><span>b</span></a></li>
       <li><a href="#index_c"><span>c</span></a></li>
       <li><a href="#index_d"><span>d</span></a></li>
+      <li><a href="#index_e"><span>e</span></a></li>
       <li><a href="#index_f"><span>f</span></a></li>
       <li><a href="#index_g"><span>g</span></a></li>
       <li><a href="#index_h"><span>h</span></a></li>
@@ -93,7 +94,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_s"><span>s</span></a></li>
       <li><a href="#index_t"><span>t</span></a></li>
       <li><a href="#index_v"><span>v</span></a></li>
-      <li class="current"><a href="#index_w"><span>w</span></a></li>
+      <li><a href="#index_w"><span>w</span></a></li>
+      <li><a href="#index_x"><span>x</span></a></li>
+      <li class="current"><a href="#index_y"><span>y</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -115,16 +118,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 &#160;
 
 <h3><a class="anchor" id="index_a"></a>- a -</h3><ul>
-<li>actionType
-: <a class="el" href="classghost_1_1Action.html#ab4a95e2a3030b8d81ae5da00f11c6118">ghost::Action</a>
+<li>action
+: <a class="el" href="structghost_1_1BuildOrderObjective_1_1ActionPrep.html#a9bec671b44077070fe7cc852d380c138">ghost::BuildOrderObjective::ActionPrep</a>
 </li>
-<li>actor
-: <a class="el" href="structghost_1_1BuildOrderObjective_1_1Tuple.html#a3e53211ec4154162d687c95b315d2c18">ghost::BuildOrderObjective::Tuple</a>
+<li>actionType
+: <a class="el" href="structghost_1_1ActionData.html#ae45a131006520b3d63e005c64aeed7fb">ghost::ActionData</a>
+</li>
+<li>armor
+: <a class="el" href="structghost_1_1UnitData.html#af528321b4ba1e7d8cffa506c3d362487">ghost::UnitData</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_b"></a>- b -</h3><ul>
+<li>bestBO
+: <a class="el" href="classghost_1_1BuildOrderObjective.html#a71ec5c0a8425d3e5facebb76190adfb7">ghost::BuildOrderObjective</a>
+</li>
 <li>bestCost
 : <a class="el" href="classghost_1_1Solver.html#a2fa5cf25d3417e3046aad3c1123320ed">ghost::Solver&lt; TypeVariable, TypeDomain, TypeConstraint &gt;</a>
 </li>
@@ -135,26 +144,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classghost_1_1BuildOrderObjective.html#aa55dce8a8fbdc5fe64ddadfa715e968e">ghost::BuildOrderObjective</a>
 </li>
 <li>busy
-: <a class="el" href="structghost_1_1BuildOrderObjective_1_1State.html#a451d864f0e411c953f2e31f8048b75c6">ghost::BuildOrderObjective::State</a>
+: <a class="el" href="structghost_1_1BuildOrderObjective_1_1State.html#a584c3367a42b491f5783adcd78d9b7d1">ghost::BuildOrderObjective::State</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
+<li>canShootIn
+: <a class="el" href="structghost_1_1UnitData.html#a2416df285073f4b94c3841fb36ad4bb3">ghost::UnitData</a>
+</li>
 <li>completedTime
 : <a class="el" href="structghost_1_1BuildOrderObjective_1_1BO.html#ac61b9122d2757d44ba08984665eda144">ghost::BuildOrderObjective::BO</a>
 </li>
+<li>cooldown
+: <a class="el" href="structghost_1_1UnitData.html#af3618bb67dd9903f51a5d9baba582cd6">ghost::UnitData</a>
+</li>
+<li>coord
+: <a class="el" href="structghost_1_1UnitData.html#ab24b4e9dedcb50e80b42044bd866f5f1">ghost::UnitData</a>
+</li>
 <li>costGas
-: <a class="el" href="classghost_1_1Action.html#a19015ea4ddcabea95f610b1a5450b3a0">ghost::Action</a>
+: <a class="el" href="structghost_1_1ActionData.html#a72fd3aaa2d8f6ba894a4f0b510cb1e9c">ghost::ActionData</a>
 </li>
 <li>costMineral
-: <a class="el" href="classghost_1_1Action.html#abc5c6f31a411189a0dbd57a42e20c723">ghost::Action</a>
+: <a class="el" href="structghost_1_1ActionData.html#aea11f5a509938083df28e21c6f753166">ghost::ActionData</a>
 </li>
 <li>costSupply
-: <a class="el" href="classghost_1_1Action.html#ac804f6d585c2b9df3bc9809539f72db3">ghost::Action</a>
+: <a class="el" href="structghost_1_1ActionData.html#a2e6e75207eaf7385ba218e1a6edd195d">ghost::ActionData</a>
 </li>
 <li>creator
-: <a class="el" href="classghost_1_1Action.html#ab4862cbb4a415783306abbd1a2c57472">ghost::Action</a>
+: <a class="el" href="structghost_1_1ActionData.html#ad611d6733b1b9212a7da8e96ebc4d43d">ghost::ActionData</a>
 </li>
 <li>currentState
 : <a class="el" href="classghost_1_1BuildOrderObjective.html#acb4b4b2c9dc0e99ab98e61289c62aff8">ghost::BuildOrderObjective</a>
@@ -163,8 +181,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
+<li>damage
+: <a class="el" href="structghost_1_1UnitData.html#a08745f6321c0738e30588db95ce8c31f">ghost::UnitData</a>
+</li>
+<li>damageType
+: <a class="el" href="structghost_1_1UnitData.html#a635abb95369c4a1d1df106728d94e990">ghost::UnitData</a>
+</li>
+<li>data
+: <a class="el" href="classghost_1_1Action.html#a3a86d913786cec4beb2900c7b46f9dfb">ghost::Action</a>
+, <a class="el" href="classghost_1_1Unit.html#a7ca43892e28cb7df114d17cb297d6617">ghost::Unit</a>
+</li>
 <li>dependencies
-: <a class="el" href="classghost_1_1Action.html#a0e7e5f84cc8d24bed8d83021602b02c2">ghost::Action</a>
+: <a class="el" href="structghost_1_1ActionData.html#a1944375640866259ba0bbc4c2a0be9be">ghost::ActionData</a>
 </li>
 <li>domain
 : <a class="el" href="classghost_1_1Constraint.html#a0ea15d113ab23ddb6ad74be72f7ac90d">ghost::Constraint&lt; TypeVariable, TypeDomain &gt;</a>
@@ -172,6 +200,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>domains
 : <a class="el" href="classghost_1_1Domain.html#a6940f37aa773c6c94cff18cfe1e6a7f7">ghost::Domain&lt; TypeVariable &gt;</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_e"></a>- e -</h3><ul>
+<li>enemies
+: <a class="el" href="classghost_1_1TargetSelectionDomain.html#a2f6d12b077378136e1ef535e6c1788da">ghost::TargetSelectionDomain</a>
 </li>
 </ul>
 
@@ -200,11 +235,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>gapTop
 : <a class="el" href="classghost_1_1Building.html#a6b95d50f1677590d310759c828c8bf48">ghost::Building</a>
 </li>
+<li>gasBooked
+: <a class="el" href="structghost_1_1BuildOrderObjective_1_1State.html#af4bb998060b50f33d32f20b0a576fb0f">ghost::BuildOrderObjective::State</a>
+</li>
 <li>gasWorkers
 : <a class="el" href="structghost_1_1BuildOrderObjective_1_1State.html#a17467d1d4d7d6a8f7ccfa96ae90a6bd8">ghost::BuildOrderObjective::State</a>
-</li>
-<li>goal
-: <a class="el" href="structghost_1_1BuildOrderObjective_1_1Tuple.html#ab6d651fc9c2618fb4b6a97df7909c521">ghost::BuildOrderObjective::Tuple</a>
 </li>
 <li>goals
 : <a class="el" href="classghost_1_1BuildOrderObjective.html#a714a7fc416d8925bc7d2b9026e9a212c">ghost::BuildOrderObjective</a>
@@ -219,18 +254,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>heuristicValueHelper
 : <a class="el" href="classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27">ghost::Objective&lt; TypeVariable, TypeDomain &gt;</a>
 </li>
+<li>hp
+: <a class="el" href="structghost_1_1UnitData.html#ab7e487e0851177e64723ba716d19e485">ghost::UnitData</a>
+</li>
 </ul>
 
 
 <h3><a class="anchor" id="index_i"></a>- i -</h3><ul>
 <li>id
-: <a class="el" href="classghost_1_1Variable.html#a3b1cd0e87cecbb58e115a9000be26f28">ghost::Variable</a>
+: <a class="el" href="structghost_1_1BuildOrderObjective_1_1ActionPrep.html#a2a3b997dfc60079d09320feca67b848e">ghost::BuildOrderObjective::ActionPrep</a>
+, <a class="el" href="classghost_1_1Variable.html#a3b1cd0e87cecbb58e115a9000be26f28">ghost::Variable</a>
 </li>
 <li>initialDomain
 : <a class="el" href="classghost_1_1Domain.html#a8890ca1323c293a4a1e2aa1830eff043">ghost::Domain&lt; TypeVariable &gt;</a>
 </li>
 <li>inMove
-: <a class="el" href="structghost_1_1BuildOrderObjective_1_1State.html#a9083a73ad0675c4b96c199416aa843d5">ghost::BuildOrderObjective::State</a>
+: <a class="el" href="structghost_1_1BuildOrderObjective_1_1State.html#a22879d00e86e8284fac0beb74cac32fe">ghost::BuildOrderObjective::State</a>
 </li>
 </ul>
 
@@ -255,8 +294,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>matrixType_
 : <a class="el" href="classghost_1_1WallinDomain.html#a896291f065d8af3e1232eb8938ed0eb7">ghost::WallinDomain</a>
 </li>
+<li>max
+: <a class="el" href="structghost_1_1Range.html#afc9dfa0ad6e7f7728a3e1474adce776d">ghost::Range</a>
+</li>
 <li>mCol_
 : <a class="el" href="classghost_1_1WallinDomain.html#ad7989e0a59285a96bff061aa27d5bbd4">ghost::WallinDomain</a>
+</li>
+<li>min
+: <a class="el" href="structghost_1_1Range.html#ad35b5ebdd4f72b7cafd7eacd3051c305">ghost::Range</a>
+</li>
+<li>mineralsBooked
+: <a class="el" href="structghost_1_1BuildOrderObjective_1_1State.html#ade4e3c7a7f75aacebbb00997989477dd">ghost::BuildOrderObjective::State</a>
 </li>
 <li>mineralWorkers
 : <a class="el" href="structghost_1_1BuildOrderObjective_1_1State.html#aa4de47baa8f94de50faec04b91e365c3">ghost::BuildOrderObjective::State</a>
@@ -266,7 +314,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_n"></a>- n -</h3><ul>
 <li>name
-: <a class="el" href="classghost_1_1Objective.html#ae9533a52b3600c826df6e20c65db1e7a">ghost::Objective&lt; TypeVariable, TypeDomain &gt;</a>
+: <a class="el" href="structghost_1_1ActionData.html#afadde6e57871331f04ebd051bd167285">ghost::ActionData</a>
+, <a class="el" href="classghost_1_1Objective.html#ae9533a52b3600c826df6e20c65db1e7a">ghost::Objective&lt; TypeVariable, TypeDomain &gt;</a>
+, <a class="el" href="structghost_1_1UnitData.html#a7ecbf48c9ed603fa864f275933b27b70">ghost::UnitData</a>
 , <a class="el" href="classghost_1_1Variable.html#a05cf4a4cd3a5c033028e0b0f11d1dafd">ghost::Variable</a>
 </li>
 <li>nRow_
@@ -274,6 +324,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>numberBases
 : <a class="el" href="structghost_1_1BuildOrderObjective_1_1State.html#a54d467ee421d3cdd60277fd2a813f46e">ghost::BuildOrderObjective::State</a>
+</li>
+<li>numberPylons
+: <a class="el" href="structghost_1_1BuildOrderObjective_1_1State.html#a98217d636c0ee8ff7f2598c60add8c00">ghost::BuildOrderObjective::State</a>
 </li>
 <li>numberRefineries
 : <a class="el" href="structghost_1_1BuildOrderObjective_1_1State.html#aca273265810b45bd356a1c81f71c3a4b">ghost::BuildOrderObjective::State</a>
@@ -306,7 +359,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
 <li>race
-: <a class="el" href="classghost_1_1Action.html#a040eaa1d69dc99221cbdf48d84ce6edb">ghost::Action</a>
+: <a class="el" href="structghost_1_1ActionData.html#a9dc614c3bcd09ba461e5d4752c4abbc0">ghost::ActionData</a>
 , <a class="el" href="classghost_1_1Building.html#a8192def1fb4bdf85ee44cd99dd04f598">ghost::Building</a>
 </li>
 <li>random
@@ -316,11 +369,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classghost_1_1Objective.html#a442da333edc70f47c33a15987c2a81b8">ghost::Objective&lt; TypeVariable, TypeDomain &gt;</a>
 , <a class="el" href="classghost_1_1Solver.html#acec87a0a0adcc3a8d794a1ff84718201">ghost::Solver&lt; TypeVariable, TypeDomain, TypeConstraint &gt;</a>
 </li>
+<li>range
+: <a class="el" href="structghost_1_1UnitData.html#a7951e942e15feab3c1854f869f7f5820">ghost::UnitData</a>
+</li>
+<li>ray1
+: <a class="el" href="structghost_1_1Splash.html#a283c04c8236bb2763dc8de33764cce7d">ghost::Splash</a>
+</li>
+<li>ray2
+: <a class="el" href="structghost_1_1Splash.html#ae5b63d9f92f4c1f19e24c4a0879512e9">ghost::Splash</a>
+</li>
+<li>ray3
+: <a class="el" href="structghost_1_1Splash.html#a2f90ec4779df2286e16d23fedb724fa3">ghost::Splash</a>
+</li>
 <li>rd
 : <a class="el" href="classghost_1_1Random.html#abb2a2b13a77bc4fb48486f7fd8993d05">ghost::Random</a>
 </li>
 <li>resources
-: <a class="el" href="structghost_1_1BuildOrderObjective_1_1State.html#ada76e810fe40251c861548bee83df73f">ghost::BuildOrderObjective::State</a>
+: <a class="el" href="structghost_1_1BuildOrderObjective_1_1State.html#a9fb998bd3bfb206ea64c06d466aece05">ghost::BuildOrderObjective::State</a>
 </li>
 <li>rng
 : <a class="el" href="classghost_1_1Random.html#a875f2ce3cba5e8d1bcf951e0f9d83d00">ghost::Random</a>
@@ -333,16 +398,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="structghost_1_1BuildOrderObjective_1_1State.html#a0aa600bbcf11f69da073ee5f5df45c86">ghost::BuildOrderObjective::State</a>
 </li>
 <li>secondsRequired
-: <a class="el" href="classghost_1_1Action.html#a18e79ee3f861c807dfd8c1b35c2b7a3f">ghost::Action</a>
+: <a class="el" href="structghost_1_1ActionData.html#a7ff20dbecf38edc51e5ed22c4fb4185f">ghost::ActionData</a>
 </li>
 <li>size
 : <a class="el" href="classghost_1_1Domain.html#a13e282f60c6c7cddf5b5716b45ad161c">ghost::Domain&lt; TypeVariable &gt;</a>
+, <a class="el" href="structghost_1_1UnitData.html#a36a08d9f1d0d9bd56e5595492b33a734">ghost::UnitData</a>
 </li>
 <li>sizeWall
 : <a class="el" href="classghost_1_1WallinObjective.html#aef1d7697ca6b29eccb4f3c62f42316ed">ghost::WallinObjective</a>
 </li>
+<li>splashRadius
+: <a class="el" href="structghost_1_1UnitData.html#affa93d0c36e7a68193572acefb3fe4f3">ghost::UnitData</a>
+</li>
 <li>startingTile
 : <a class="el" href="classghost_1_1WallinDomain.html#aca537784fa6aa04effeb402d936530ce">ghost::WallinDomain</a>
+</li>
+<li>startTime
+: <a class="el" href="structghost_1_1BuildOrderObjective_1_1BO.html#a2b4eac91ba456512b3b5f0f182d7dd01">ghost::BuildOrderObjective::BO</a>
 </li>
 <li>stockGas
 : <a class="el" href="structghost_1_1BuildOrderObjective_1_1State.html#af0fa35ae9792f888a68d588507de4d65">ghost::BuildOrderObjective::State</a>
@@ -365,9 +437,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>targetTile
 : <a class="el" href="classghost_1_1WallinDomain.html#a3a2cc8acb828fadffbe92fbe8f57cc9f">ghost::WallinDomain</a>
-</li>
-<li>time
-: <a class="el" href="structghost_1_1BuildOrderObjective_1_1Tuple.html#aec2af8e329fe4c3929d9a54462b92476">ghost::BuildOrderObjective::Tuple</a>
 </li>
 <li>treedepth
 : <a class="el" href="classghost_1_1Building.html#a9cce7581682e78208edde8ed462afe14">ghost::Building</a>
@@ -396,13 +465,27 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_w"></a>- w -</h3><ul>
 <li>waitTime
-: <a class="el" href="structghost_1_1BuildOrderObjective_1_1Tuple.html#acf901355f413337aa9b553e89eedd491">ghost::BuildOrderObjective::Tuple</a>
+: <a class="el" href="structghost_1_1BuildOrderObjective_1_1ActionPrep.html#af8a3d62c358363a6db4b392cd3f8237c">ghost::BuildOrderObjective::ActionPrep</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_x"></a>- x -</h3><ul>
+<li>x
+: <a class="el" href="structghost_1_1Coord.html#abe3b05082c73f30fe2cdbc4f7f95a66e">ghost::Coord</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_y"></a>- y -</h3><ul>
+<li>y
+: <a class="el" href="structghost_1_1Coord.html#a759ea460726dc146fd51cb35c33bcf21">ghost::Coord</a>
 </li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 23 2014 23:44:53 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 9 2014 09:03:14 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

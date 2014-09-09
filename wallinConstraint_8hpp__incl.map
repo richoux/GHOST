@@ -1,11 +1,10 @@
 <map id="include/constraints/wallinConstraint.hpp" name="include/constraints/wallinConstraint.hpp">
-<area shape="rect" id="node6" href="$constraint_8hpp.html" title="constraint.hpp" alt="" coords="188,96,292,123"/>
-<area shape="rect" id="node8" href="$objective_8hpp.html" title="../objectives/objective.hpp" alt="" coords="240,171,414,197"/>
-<area shape="rect" id="node15" href="$building_8hpp.html" title="../variables/building.hpp" alt="" coords="592,171,750,197"/>
-<area shape="rect" id="node18" href="$wallinDomain_8hpp.html" title="../domains/wallinDomain.hpp" alt="" coords="751,96,941,123"/>
-<area shape="rect" id="node11" href="$random_8hpp.html" title="../misc/random.hpp" alt="" coords="1170,245,1304,272"/>
-<area shape="rect" id="node14" href="$constants_8hpp.html" title="../misc/constants.hpp" alt="" coords="303,245,450,272"/>
-<area shape="rect" id="node16" href="$variable_8hpp.html" title="variable.hpp" alt="" coords="858,245,949,272"/>
-<area shape="rect" id="node17" href="$races_8hpp.html" title="../misc/races.hpp" alt="" coords="609,245,732,272"/>
-<area shape="rect" id="node21" href="$domain_8hpp.html" title="domain.hpp" alt="" coords="891,171,980,197"/>
+<area shape="rect" id="node6" href="$constraint_8hpp.html" title="constraint.hpp" alt="" coords="178,96,282,123"/>
+<area shape="rect" id="node8" href="$objective_8hpp.html" title="../objectives/objective.hpp" alt="" coords="579,171,753,197"/>
+<area shape="rect" id="node14" href="$building_8hpp.html" title="../variables/building.hpp" alt="" coords="344,171,502,197"/>
+<area shape="rect" id="node17" href="$wallinDomain_8hpp.html" title="../domains/wallinDomain.hpp" alt="" coords="703,96,893,123"/>
+<area shape="rect" id="node11" href="$random_8hpp.html" title="../misc/random.hpp" alt="" coords="1014,245,1148,272"/>
+<area shape="rect" id="node15" href="$variable_8hpp.html" title="variable.hpp" alt="" coords="651,245,742,272"/>
+<area shape="rect" id="node16" href="$races_8hpp.html" title="../misc/races.hpp" alt="" coords="293,245,416,272"/>
+<area shape="rect" id="node20" href="$domain_8hpp.html" title="domain.hpp" alt="" coords="922,171,1010,197"/>
 </map>

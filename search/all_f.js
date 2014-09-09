@@ -1,29 +1,4 @@
 var searchData=
 [
-  ['s',['s',['../namespaceghost.html#a21eab9fd4ae07c7db20e824cc4452a97',1,'ghost']]],
-  ['seconds',['seconds',['../structghost_1_1BuildOrderObjective_1_1State.html#a0aa600bbcf11f69da073ee5f5df45c86',1,'ghost::BuildOrderObjective::State']]],
-  ['secondsrequired',['secondsRequired',['../classghost_1_1Action.html#a18e79ee3f861c807dfd8c1b35c2b7a3f',1,'ghost::Action']]],
-  ['sethelper',['setHelper',['../classghost_1_1Objective.html#ab589c264cf391bab9005562f66a39797',1,'ghost::Objective']]],
-  ['setvalue',['setValue',['../classghost_1_1Variable.html#a6fe0abafde2231f18074ecab6d7325cd',1,'ghost::Variable']]],
-  ['shift',['shift',['../classghost_1_1WallinDomain.html#a00889726b2f7ae7f87070e35c07c1d37',1,'ghost::WallinDomain']]],
-  ['shiftvalue',['shiftValue',['../classghost_1_1Variable.html#a8afe14b1858476bf4ef59a41a2947f93',1,'ghost::Variable']]],
-  ['simulatecost',['simulateCost',['../classghost_1_1Constraint.html#a173958081ed2cfad938cead81b684455',1,'ghost::Constraint::simulateCost(TypeVariable &amp;currentVar, const vector&lt; int &gt; &amp;possibleValues, vector&lt; vector&lt; double &gt; &gt; &amp;vecVarSimCosts, shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; objective)'],['../classghost_1_1Constraint.html#ae5312daf02d5a4147dd4b519f2355712',1,'ghost::Constraint::simulateCost(TypeVariable &amp;currentVar, const vector&lt; int &gt; &amp;possibleValues, vector&lt; vector&lt; double &gt; &gt; &amp;vecVarSimCosts)']]],
-  ['size',['size',['../classghost_1_1Domain.html#a13e282f60c6c7cddf5b5716b45ad161c',1,'ghost::Domain']]],
-  ['sizewall',['sizeWall',['../classghost_1_1WallinObjective.html#aef1d7697ca6b29eccb4f3c62f42316ed',1,'ghost::WallinObjective']]],
-  ['solve',['solve',['../classghost_1_1Solver.html#af025b99595aeff4fd9a174bcbd66a991',1,'ghost::Solver']]],
-  ['solver',['Solver',['../classghost_1_1Solver.html',1,'ghost']]],
-  ['solver',['Solver',['../classghost_1_1Solver.html#aee74bbdf00494dc209d4909bf9fcb544',1,'ghost::Solver::Solver(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj=nullptr)'],['../classghost_1_1Solver.html#a512335329b22a91700bdfa7870f053e9',1,'ghost::Solver::Solver(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj, const int loops)']]],
-  ['solver_2ehpp',['solver.hpp',['../solver_8hpp.html',1,'']]],
-  ['specialtiles',['specialTiles',['../namespaceghost.html#a41140633099e7f2158ce39ca3a469abb',1,'ghost']]],
-  ['startingtargettiles',['StartingTargetTiles',['../classghost_1_1StartingTargetTiles.html',1,'ghost']]],
-  ['startingtargettiles',['StartingTargetTiles',['../classghost_1_1StartingTargetTiles.html#a6c2b6cf28fb668cfe7909396679d2587',1,'ghost::StartingTargetTiles']]],
-  ['startingtile',['startingTile',['../classghost_1_1WallinDomain.html#aca537784fa6aa04effeb402d936530ce',1,'ghost::WallinDomain']]],
-  ['state',['State',['../structghost_1_1BuildOrderObjective_1_1State.html',1,'ghost::BuildOrderObjective']]],
-  ['state',['State',['../structghost_1_1BuildOrderObjective_1_1State.html#a434ad550a8659290581f98c30865c800',1,'ghost::BuildOrderObjective::State::State()'],['../structghost_1_1BuildOrderObjective_1_1State.html#ab50cf2922fb42ab8c863576c83eb7ec3',1,'ghost::BuildOrderObjective::State::State(int seconds, double stockMineral, double stockGas, int mineralWorkers, int gasWorkers, int supplyUsed, int supplyCapacity, int numberBases, int numberRefineries, const map&lt; string, int &gt; &amp;resources, const vector&lt; Tuple &gt; &amp;busy, const vector&lt; Tuple &gt; &amp;inMove)']]],
-  ['stockgas',['stockGas',['../structghost_1_1BuildOrderObjective_1_1State.html#af0fa35ae9792f888a68d588507de4d65',1,'ghost::BuildOrderObjective::State']]],
-  ['stockmineral',['stockMineral',['../structghost_1_1BuildOrderObjective_1_1State.html#a0e53b3e6a66bbd9ce0f9e08513796610',1,'ghost::BuildOrderObjective::State']]],
-  ['supplycapacity',['supplyCapacity',['../structghost_1_1BuildOrderObjective_1_1State.html#a2699219ad3dbb62ac5b5ec1fb12a8318',1,'ghost::BuildOrderObjective::State']]],
-  ['supplyused',['supplyUsed',['../structghost_1_1BuildOrderObjective_1_1State.html#a5eabdc60e3ea9d4063b6545741215fc1',1,'ghost::BuildOrderObjective::State']]],
-  ['swap',['swap',['../classghost_1_1WallinDomain.html#a197909e511e4fd49d9710ccf121af486',1,'ghost::WallinDomain::swap()'],['../classghost_1_1Action.html#a8c965c1de8861fd2fd49cec707d94be0',1,'ghost::Action::swap()'],['../classghost_1_1Building.html#a3bd95117c9a9b063190962f1fd972ff7',1,'ghost::Building::swap()'],['../classghost_1_1Variable.html#a01b3dfd2e865fed19b5edf0ced7d74bc',1,'ghost::Variable::swap()']]],
-  ['swapvalue',['swapValue',['../classghost_1_1Action.html#a2928069f4b38a67ec7a955ee9e7783f2',1,'ghost::Action::swapValue()'],['../classghost_1_1Variable.html#a8186ea296b868d44656be01e94b9aa80',1,'ghost::Variable::swapValue()']]]
+  ['quickshift',['quickShift',['../classghost_1_1WallinDomain.html#a6d5d714504bf33eed03c8bbc9f929b5e',1,'ghost::WallinDomain']]]
 ];

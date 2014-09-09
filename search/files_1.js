@@ -7,7 +7,5 @@ var searchData=
   ['buildorderdomain_2ecpp',['buildorderDomain.cpp',['../buildorderDomain_8cpp.html',1,'']]],
   ['buildorderdomain_2ehpp',['buildorderDomain.hpp',['../buildorderDomain_8hpp.html',1,'']]],
   ['buildorderobjective_2ecpp',['buildorderObjective.cpp',['../buildorderObjective_8cpp.html',1,'']]],
-  ['buildorderobjective_2ehpp',['buildorderObjective.hpp',['../buildorderObjective_8hpp.html',1,'']]],
-  ['buildorderprotoss_2ecpp',['buildorderProtoss.cpp',['../buildorderProtoss_8cpp.html',1,'']]],
-  ['buildorderprotoss_2ehpp',['buildorderProtoss.hpp',['../buildorderProtoss_8hpp.html',1,'']]]
+  ['buildorderobjective_2ehpp',['buildorderObjective.hpp',['../buildorderObjective_8hpp.html',1,'']]]
 ];

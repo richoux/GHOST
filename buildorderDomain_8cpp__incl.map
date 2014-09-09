@@ -1,8 +1,8 @@
 <map id="src/domains/buildorderDomain.cpp" name="src/domains/buildorderDomain.cpp">
-<area shape="rect" id="node7" href="$buildorderDomain_8hpp.html" title="../../include/domains\l/buildorderDomain.hpp" alt="" coords="369,81,521,122"/>
-<area shape="rect" id="node9" href="$domain_8hpp.html" title="domain.hpp" alt="" coords="273,171,362,197"/>
-<area shape="rect" id="node13" href="$action_8hpp.html" title="../variables/action.hpp" alt="" coords="497,171,647,197"/>
-<area shape="rect" id="node10" href="$random_8hpp.html" title="../misc/random.hpp" alt="" coords="251,245,385,272"/>
-<area shape="rect" id="node14" href="$variable_8hpp.html" title="variable.hpp" alt="" coords="659,245,750,272"/>
-<area shape="rect" id="node15" href="$races_8hpp.html" title="../misc/races.hpp" alt="" coords="511,245,634,272"/>
+<area shape="rect" id="node7" href="$buildorderDomain_8hpp.html" title="../../include/domains\l/buildorderDomain.hpp" alt="" coords="323,81,475,122"/>
+<area shape="rect" id="node9" href="$domain_8hpp.html" title="domain.hpp" alt="" coords="272,171,360,197"/>
+<area shape="rect" id="node13" href="$action_8hpp.html" title="../variables/action.hpp" alt="" coords="437,171,587,197"/>
+<area shape="rect" id="node10" href="$random_8hpp.html" title="../misc/random.hpp" alt="" coords="166,245,300,272"/>
+<area shape="rect" id="node14" href="$variable_8hpp.html" title="variable.hpp" alt="" coords="460,245,551,272"/>
+<area shape="rect" id="node15" href="$races_8hpp.html" title="../misc/races.hpp" alt="" coords="627,245,750,272"/>
 </map>

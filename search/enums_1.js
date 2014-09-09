@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['race',['Race',['../namespaceghost.html#a8b1db75c40c6980adcf244ddccc0324b',1,'ghost']]]
+  ['damagetype',['DamageType',['../namespaceghost.html#ab52582bfe39e47fc05f33770f38185d6',1,'ghost']]]
 ];

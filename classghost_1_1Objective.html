@@ -120,18 +120,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae8f0c0e859244a5acf8e6f9a609b8e12"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#ae8f0c0e859244a5acf8e6f9a609b8e12">Objective</a> (const string &amp;<a class="el" href="classghost_1_1Objective.html#ae9533a52b3600c826df6e20c65db1e7a">name</a>, bool permut=false)</td></tr>
 <tr class="memdesc:ae8f0c0e859244a5acf8e6f9a609b8e12"><td class="mdescLeft">&#160;</td><td class="mdescRight">The unique <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> constructor.  <a href="#ae8f0c0e859244a5acf8e6f9a609b8e12">More...</a><br/></td></tr>
 <tr class="separator:ae8f0c0e859244a5acf8e6f9a609b8e12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2947c19e26ffd2a23c3a7f1b99c8bc79"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a2947c19e26ffd2a23c3a7f1b99c8bc79">cost</a> (const vector&lt; TypeVariable &gt; *vecVariables, const TypeDomain *domain) const </td></tr>
-<tr class="separator:a2947c19e26ffd2a23c3a7f1b99c8bc79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ac8effdac4a09063fd680ed60b6a06f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a8ac8effdac4a09063fd680ed60b6a06f">cost</a> (vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain) const </td></tr>
+<tr class="separator:a8ac8effdac4a09063fd680ed60b6a06f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af68c07a226162ea7f9ee01a0b00d3ae4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#af68c07a226162ea7f9ee01a0b00d3ae4">heuristicVariable</a> (const vector&lt; int &gt; &amp;vecVarId, const vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain)</td></tr>
 <tr class="separator:af68c07a226162ea7f9ee01a0b00d3ae4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9d6c8e05cca99cd797d302b3755b6b5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#ac9d6c8e05cca99cd797d302b3755b6b5">heuristicValue</a> (const std::vector&lt; double &gt; &amp;vecGlobalCosts, double &amp;bestEstimatedCost, int &amp;bestValue) const </td></tr>
 <tr class="separator:ac9d6c8e05cca99cd797d302b3755b6b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab589c264cf391bab9005562f66a39797"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#ab589c264cf391bab9005562f66a39797">setHelper</a> (const TypeVariable &amp;variable, const vector&lt; TypeVariable &gt; *vecVariables, const TypeDomain *domain)</td></tr>
 <tr class="separator:ab589c264cf391bab9005562f66a39797"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a605effc6d79bd00a22c2c9fca6078cc0"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a605effc6d79bd00a22c2c9fca6078cc0">postprocessSatisfaction</a> (vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, double &amp;bestCost, vector&lt; TypeVariable &gt; &amp;bestSolution)</td></tr>
-<tr class="separator:a605effc6d79bd00a22c2c9fca6078cc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78ac0f829786f02fe69b2afe6f2636bc"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a78ac0f829786f02fe69b2afe6f2636bc">postprocessOptimization</a> (vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, double &amp;bestCost)</td></tr>
-<tr class="separator:a78ac0f829786f02fe69b2afe6f2636bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa79835aa61f6680e78912ecaee6f7fbc"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#aa79835aa61f6680e78912ecaee6f7fbc">postprocessSatisfaction</a> (vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, double &amp;bestCost, vector&lt; TypeVariable &gt; &amp;bestSolution, double sat_timeout)</td></tr>
+<tr class="separator:aa79835aa61f6680e78912ecaee6f7fbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbaff57012dd756d87dc5151d9718296"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#adbaff57012dd756d87dc5151d9718296">postprocessOptimization</a> (vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, double &amp;bestCost, double opt_timeout)</td></tr>
+<tr class="separator:adbaff57012dd756d87dc5151d9718296"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfe2130d5a472771544a4033e457c4bb"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#adfe2130d5a472771544a4033e457c4bb">getName</a> ()</td></tr>
 <tr class="memdesc:adfe2130d5a472771544a4033e457c4bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline accessor to get the name of the objective object.  <a href="#adfe2130d5a472771544a4033e457c4bb">More...</a><br/></td></tr>
 <tr class="separator:adfe2130d5a472771544a4033e457c4bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -144,21 +144,21 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:affb6d6730adfbfe6a1f990e00d2a5eb2"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#affb6d6730adfbfe6a1f990e00d2a5eb2">v_cost</a> (const vector&lt; TypeVariable &gt; *vecVariables, const TypeDomain *domain) const =0</td></tr>
-<tr class="memdesc:affb6d6730adfbfe6a1f990e00d2a5eb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure virtual function to compute the value of the objective function on the current configuration.  <a href="#affb6d6730adfbfe6a1f990e00d2a5eb2">More...</a><br/></td></tr>
-<tr class="separator:affb6d6730adfbfe6a1f990e00d2a5eb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a401aa21f01c1e01d34e34893766f3e9d"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a401aa21f01c1e01d34e34893766f3e9d">v_cost</a> (vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain) const =0</td></tr>
+<tr class="memdesc:a401aa21f01c1e01d34e34893766f3e9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure virtual function to compute the value of the objective function on the current configuration.  <a href="#a401aa21f01c1e01d34e34893766f3e9d">More...</a><br/></td></tr>
+<tr class="separator:a401aa21f01c1e01d34e34893766f3e9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4a49d23569c367182f934c25a6c6103"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#ae4a49d23569c367182f934c25a6c6103">v_heuristicVariable</a> (const vector&lt; int &gt; &amp;vecVarId, const vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain)=0</td></tr>
 <tr class="memdesc:ae4a49d23569c367182f934c25a6c6103"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure virtual function to apply the variable heuristic used by the solver.  <a href="#ae4a49d23569c367182f934c25a6c6103">More...</a><br/></td></tr>
 <tr class="separator:ae4a49d23569c367182f934c25a6c6103"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c4efc1602123b28626a37c53e100a6e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a8c4efc1602123b28626a37c53e100a6e">v_setHelper</a> (const TypeVariable &amp;currentVar, const vector&lt; TypeVariable &gt; *vecVariables, const TypeDomain *domain)=0</td></tr>
 <tr class="memdesc:a8c4efc1602123b28626a37c53e100a6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure virtual function to set heuristicValueHelper[currentVar.getValue()].  <a href="#a8c4efc1602123b28626a37c53e100a6e">More...</a><br/></td></tr>
 <tr class="separator:a8c4efc1602123b28626a37c53e100a6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a403fdae56c632409f244f4ffe79dd2df"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a403fdae56c632409f244f4ffe79dd2df">v_postprocessSatisfaction</a> (vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, double &amp;bestCost, vector&lt; TypeVariable &gt; &amp;solution) const </td></tr>
-<tr class="memdesc:a403fdae56c632409f244f4ffe79dd2df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual function to perform satisfaction post-processing.  <a href="#a403fdae56c632409f244f4ffe79dd2df">More...</a><br/></td></tr>
-<tr class="separator:a403fdae56c632409f244f4ffe79dd2df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25c90555bec03d1d15f83ae145d81f8f"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a25c90555bec03d1d15f83ae145d81f8f">v_postprocessOptimization</a> (vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, double &amp;bestCost)</td></tr>
-<tr class="memdesc:a25c90555bec03d1d15f83ae145d81f8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual function to perform optimization post-processing.  <a href="#a25c90555bec03d1d15f83ae145d81f8f">More...</a><br/></td></tr>
-<tr class="separator:a25c90555bec03d1d15f83ae145d81f8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f2b324e82efdbdb27528a2915fa14e2"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a5f2b324e82efdbdb27528a2915fa14e2">v_postprocessSatisfaction</a> (vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, double &amp;bestCost, vector&lt; TypeVariable &gt; &amp;solution, double sat_timeout) const </td></tr>
+<tr class="memdesc:a5f2b324e82efdbdb27528a2915fa14e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual function to perform satisfaction post-processing.  <a href="#a5f2b324e82efdbdb27528a2915fa14e2">More...</a><br/></td></tr>
+<tr class="separator:a5f2b324e82efdbdb27528a2915fa14e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af54dd3c4c9e4115534e25f27b7ccb32f"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#af54dd3c4c9e4115534e25f27b7ccb32f">v_postprocessOptimization</a> (vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, double &amp;bestCost, double opt_timeout)</td></tr>
+<tr class="memdesc:af54dd3c4c9e4115534e25f27b7ccb32f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual function to perform optimization post-processing.  <a href="#af54dd3c4c9e4115534e25f27b7ccb32f">More...</a><br/></td></tr>
+<tr class="separator:af54dd3c4c9e4115534e25f27b7ccb32f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03311ba62213580f1664f164e5f5696a"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a03311ba62213580f1664f164e5f5696a">v_heuristicValue</a> (const std::vector&lt; double &gt; &amp;vecGlobalCosts, double &amp;bestEstimatedCost, int &amp;bestValue) const </td></tr>
 <tr class="memdesc:a03311ba62213580f1664f164e5f5696a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual function to apply the value heuristic used by the solver.  <a href="#a03311ba62213580f1664f164e5f5696a">More...</a><br/></td></tr>
 <tr class="separator:a03311ba62213580f1664f164e5f5696a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -239,7 +239,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a2947c19e26ffd2a23c3a7f1b99c8bc79"></a>
+<a class="anchor" id="a8ac8effdac4a09063fd680ed60b6a06f"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -251,13 +251,13 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
         <tr>
           <td class="memname">double <a class="el" href="classghost_1_1Objective.html">ghost::Objective</a>&lt; TypeVariable, TypeDomain &gt;::cost </td>
           <td>(</td>
-          <td class="paramtype">const vector&lt; TypeVariable &gt; *&#160;</td>
+          <td class="paramtype">vector&lt; TypeVariable &gt; *&#160;</td>
           <td class="paramname"><em>vecVariables</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const TypeDomain *&#160;</td>
+          <td class="paramtype">TypeDomain *&#160;</td>
           <td class="paramname"><em>domain</em>&#160;</td>
         </tr>
         <tr>
@@ -273,7 +273,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 </table>
 </div><div class="memdoc">
 <p>Inline function following the NVI idiom. Calling v_cost. </p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#affb6d6730adfbfe6a1f990e00d2a5eb2" title="Pure virtual function to compute the value of the objective function on the current configuration...">v_cost</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#a401aa21f01c1e01d34e34893766f3e9d" title="Pure virtual function to compute the value of the objective function on the current configuration...">v_cost</a> </dd></dl>
 
 </div>
 </div>
@@ -447,7 +447,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a78ac0f829786f02fe69b2afe6f2636bc"></a>
+<a class="anchor" id="adbaff57012dd756d87dc5151d9718296"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -472,7 +472,13 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double &amp;&#160;</td>
-          <td class="paramname"><em>bestCost</em>&#160;</td>
+          <td class="paramname"><em>bestCost</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>opt_timeout</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -487,11 +493,11 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 </table>
 </div><div class="memdoc">
 <p>Inline function following the NVI idiom. Calling v_postprocessOptimization. </p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#a25c90555bec03d1d15f83ae145d81f8f" title="Virtual function to perform optimization post-processing. ">v_postprocessOptimization</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#af54dd3c4c9e4115534e25f27b7ccb32f" title="Virtual function to perform optimization post-processing. ">v_postprocessOptimization</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a605effc6d79bd00a22c2c9fca6078cc0"></a>
+<a class="anchor" id="aa79835aa61f6680e78912ecaee6f7fbc"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -522,7 +528,13 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">vector&lt; TypeVariable &gt; &amp;&#160;</td>
-          <td class="paramname"><em>bestSolution</em>&#160;</td>
+          <td class="paramname"><em>bestSolution</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>sat_timeout</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -537,7 +549,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 </table>
 </div><div class="memdoc">
 <p>Inline function following the NVI idiom. Calling v_postprocessSatisfaction. </p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#a403fdae56c632409f244f4ffe79dd2df" title="Virtual function to perform satisfaction post-processing. ">v_postprocessSatisfaction</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#a5f2b324e82efdbdb27528a2915fa14e2" title="Virtual function to perform satisfaction post-processing. ">v_postprocessSatisfaction</a> </dd></dl>
 
 </div>
 </div>
@@ -612,7 +624,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="affb6d6730adfbfe6a1f990e00d2a5eb2"></a>
+<a class="anchor" id="a401aa21f01c1e01d34e34893766f3e9d"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -624,13 +636,13 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
         <tr>
           <td class="memname">virtual double <a class="el" href="classghost_1_1Objective.html">ghost::Objective</a>&lt; TypeVariable, TypeDomain &gt;::v_cost </td>
           <td>(</td>
-          <td class="paramtype">const vector&lt; TypeVariable &gt; *&#160;</td>
+          <td class="paramtype">vector&lt; TypeVariable &gt; *&#160;</td>
           <td class="paramname"><em>vecVariables</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const TypeDomain *&#160;</td>
+          <td class="paramtype">TypeDomain *&#160;</td>
           <td class="paramname"><em>domain</em>&#160;</td>
         </tr>
         <tr>
@@ -649,15 +661,15 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 <p>Pure virtual function to compute the value of the objective function on the current configuration. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vecVariables</td><td>A constant pointer to the vector of variable objects of the CSP/COP. </td></tr>
-    <tr><td class="paramname">domain</td><td>A constant pointer to the domain object of the CSP/COP. </td></tr>
+    <tr><td class="paramname">vecVariables</td><td>A pointer to the vector of variable objects of the CSP/COP. </td></tr>
+    <tr><td class="paramname">domain</td><td>A pointer to the domain object of the CSP/COP. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The value of the objective function on the current configuration. </dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#a2947c19e26ffd2a23c3a7f1b99c8bc79">cost</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#a8ac8effdac4a09063fd680ed60b6a06f">cost</a> </dd></dl>
 
-<p>Implemented in <a class="el" href="classghost_1_1NullObjective.html#a309e1913d38d728b41a61c1ce40f3dca">ghost::NullObjective&lt; TypeVariable, TypeDomain &gt;</a>, <a class="el" href="classghost_1_1TechTreeObj.html#a08017f78e70b65bc3a46615929f5302f">ghost::TechTreeObj</a>, <a class="el" href="classghost_1_1BuildingObj.html#a776e66ee83bea375f906aada814f791f">ghost::BuildingObj</a>, <a class="el" href="classghost_1_1GapObj.html#a0aff22c12b3a097df5a2314da5f41a04">ghost::GapObj</a>, and <a class="el" href="classghost_1_1BuildOrderObjective.html#a2d76e1734085c9775af4784b6d29dd12">ghost::BuildOrderObjective</a>.</p>
+<p>Implemented in <a class="el" href="classghost_1_1NullObjective.html#ad0b2d0aa21ecfc4c0fa42c0ada282a30">ghost::NullObjective&lt; TypeVariable, TypeDomain &gt;</a>, <a class="el" href="classghost_1_1TechTreeObj.html#a77d75eae8334709be1eac005b5c88ad4">ghost::TechTreeObj</a>, <a class="el" href="classghost_1_1BuildingObj.html#af18c96bbcadf9bcbf6fb634155aff92c">ghost::BuildingObj</a>, <a class="el" href="classghost_1_1GapObj.html#a55b7f1bf57a44915f6a35a651cf82e5b">ghost::GapObj</a>, and <a class="el" href="classghost_1_1BuildOrderObjective.html#a65a1e23654ddb00ff575c628cf982bef">ghost::BuildOrderObjective</a>.</p>
 
 </div>
 </div>
@@ -711,8 +723,6 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
   </dd>
 </dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#ac9d6c8e05cca99cd797d302b3755b6b5">heuristicValue</a>, <a class="el" href="classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27" title="The vector of double values implementing the value heuristic for each possible value of a given varia...">heuristicValueHelper</a>, <a class="el" href="classghost_1_1Random.html" title="Random is the class coding pseudo-random generators used in GHOST. ">Random</a> </dd></dl>
-
-<p>Reimplemented in <a class="el" href="classghost_1_1BuildOrderObjective.html#ac53eb5d747fff00a064b6c45f02a99ee">ghost::BuildOrderObjective</a>.</p>
 
 </div>
 </div>
@@ -772,7 +782,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a25c90555bec03d1d15f83ae145d81f8f"></a>
+<a class="anchor" id="af54dd3c4c9e4115534e25f27b7ccb32f"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -797,7 +807,13 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double &amp;&#160;</td>
-          <td class="paramname"><em>bestCost</em>&#160;</td>
+          <td class="paramname"><em>bestCost</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>opt_timeout</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -820,17 +836,18 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
     <tr><td class="paramname">vecVariables</td><td>A constant pointer to the vector of variable objects of the CSP/COP. </td></tr>
     <tr><td class="paramname">domain</td><td>A constant pointer to the domain object of the CSP/COP. </td></tr>
     <tr><td class="paramname">bestCost</td><td>A reference the double representing the best optimization cost found by the solver so far. </td></tr>
+    <tr><td class="paramname">opt_timeout</td><td>The optimization timeout given in argument of <a class="el" href="classghost_1_1Solver.html#a5d15e316f5a4bb8a33c6781058ad0307" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a> </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The function runtime in milliseconds. </dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#a78ac0f829786f02fe69b2afe6f2636bc">postprocessOptimization</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#adbaff57012dd756d87dc5151d9718296">postprocessOptimization</a> </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classghost_1_1MakeSpanMaxProd.html#ac687d94f54354cceb9710f5a27e244a6">ghost::MakeSpanMaxProd</a>, <a class="el" href="classghost_1_1MakeSpanMinCost.html#a892905457a09d229d0b08ec36d47f20c">ghost::MakeSpanMinCost</a>, <a class="el" href="classghost_1_1BuildingObj.html#af6b0953277810bbb5a9edf1d38d657ba">ghost::BuildingObj</a>, <a class="el" href="classghost_1_1BuildOrderObjective.html#a07306469a8512e33a420d7f8ebab507b">ghost::BuildOrderObjective</a>, and <a class="el" href="classghost_1_1WallinObjective.html#aa30f157bc7a09fdfe2a671960e4e60df">ghost::WallinObjective</a>.</p>
+<p>Reimplemented in <a class="el" href="classghost_1_1BuildingObj.html#a9731c0052aa09f7ec64ce0322a65d2bf">ghost::BuildingObj</a>, <a class="el" href="classghost_1_1BuildOrderObjective.html#ac08754712162e2d592f102ed68a98e4c">ghost::BuildOrderObjective</a>, and <a class="el" href="classghost_1_1WallinObjective.html#a646246ffb22f8b915f2d24c9439426fd">ghost::WallinObjective</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a403fdae56c632409f244f4ffe79dd2df"></a>
+<a class="anchor" id="a5f2b324e82efdbdb27528a2915fa14e2"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -861,7 +878,13 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">vector&lt; TypeVariable &gt; &amp;&#160;</td>
-          <td class="paramname"><em>solution</em>&#160;</td>
+          <td class="paramname"><em>solution</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>sat_timeout</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -885,13 +908,14 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
     <tr><td class="paramname">domain</td><td>A constant pointer to the domain object of the CSP/COP. </td></tr>
     <tr><td class="paramname">bestCost</td><td>A reference the double representing the best global cost found by the solver so far. </td></tr>
     <tr><td class="paramname">solution</td><td>A reference to the vector of variables of the solution found by the solver. </td></tr>
+    <tr><td class="paramname">sat_timeout</td><td>The satisfaction timeout given in argument of <a class="el" href="classghost_1_1Solver.html#a5d15e316f5a4bb8a33c6781058ad0307" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a> </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The function runtime in milliseconds. </dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#a605effc6d79bd00a22c2c9fca6078cc0">postprocessSatisfaction</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#aa79835aa61f6680e78912ecaee6f7fbc">postprocessSatisfaction</a> </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classghost_1_1BuildOrderObjective.html#ac33af5d279166ee0ec8d088ca9f03596">ghost::BuildOrderObjective</a>, and <a class="el" href="classghost_1_1WallinObjective.html#a84bf06db1526faf60d5b1354230f5d4f">ghost::WallinObjective</a>.</p>
+<p>Reimplemented in <a class="el" href="classghost_1_1BuildOrderObjective.html#a9505c468fb79506073b759e0bec156d9">ghost::BuildOrderObjective</a>, and <a class="el" href="classghost_1_1WallinObjective.html#abf3e5873e61f7878e9c31a45642d1544">ghost::WallinObjective</a>.</p>
 
 </div>
 </div>
@@ -1053,7 +1077,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 23 2014 23:44:52 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 9 2014 09:03:11 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

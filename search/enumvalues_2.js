@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['research',['research',['../namespaceghost.html#a7c0deb8266504feb7d025903f2b77693ac20ee83627132d4ac11451ca40c0e7d0',1,'ghost']]]
+  ['explosive',['Explosive',['../namespaceghost.html#ab52582bfe39e47fc05f33770f38185d6a99868ca4240dd521c24a50835ba3716b',1,'ghost']]]
 ];

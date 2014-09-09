@@ -1,8 +1,7 @@
 <map id="include/solver.hpp" name="include/solver.hpp">
-<area shape="rect" id="node13" href="$variable_8hpp.html" title="variables/variable.hpp" alt="" coords="317,80,464,107"/>
-<area shape="rect" id="node15" href="$constraint_8hpp.html" title="constraints/constraint.hpp" alt="" coords="69,80,240,107"/>
-<area shape="rect" id="node16" href="$objective_8hpp.html" title="../objectives/objective.hpp" alt="" coords="674,155,848,181"/>
-<area shape="rect" id="node17" href="$random_8hpp.html" title="../misc/random.hpp" alt="" coords="813,229,947,256"/>
-<area shape="rect" id="node20" href="$constants_8hpp.html" title="../misc/constants.hpp" alt="" coords="971,229,1119,256"/>
-<area shape="rect" id="node21" href="$domain_8hpp.html" title="domains/domain.hpp" alt="" coords="489,80,631,107"/>
+<area shape="rect" id="node13" href="$variable_8hpp.html" title="variables/variable.hpp" alt="" coords="316,80,463,107"/>
+<area shape="rect" id="node15" href="$constraint_8hpp.html" title="constraints/constraint.hpp" alt="" coords="120,80,291,107"/>
+<area shape="rect" id="node16" href="$objective_8hpp.html" title="../objectives/objective.hpp" alt="" coords="663,155,837,181"/>
+<area shape="rect" id="node17" href="$random_8hpp.html" title="../misc/random.hpp" alt="" coords="791,229,925,256"/>
+<area shape="rect" id="node20" href="$domain_8hpp.html" title="domains/domain.hpp" alt="" coords="488,80,630,107"/>
 </map>

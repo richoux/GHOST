@@ -1,14 +1,16 @@
 var searchData=
 [
-  ['p1',['p1',['../namespaceghost.html#ad597936cfadde60ce8c6ed70f14c242c',1,'ghost']]],
-  ['p2',['p2',['../namespaceghost.html#a47f813abed554f342cbabdd87c34a89e',1,'ghost']]],
-  ['permut',['permut',['../classghost_1_1Solver.html#ae3489c7f10952a8a0a2a0895b9b1c8fe',1,'ghost::Solver']]],
-  ['permutation',['permutation',['../classghost_1_1Objective.html#aae8345f4b7981f4b386eb58e447e0286',1,'ghost::Objective']]],
-  ['possiblepos',['possiblePos',['../classghost_1_1WallinDomain.html#ab4441d234f628c487742480107fcdd6d',1,'ghost::WallinDomain']]],
-  ['postprocess_5fsimulatecost',['postprocess_simulateCost',['../classghost_1_1NoGaps.html#a65b1ce5aa567ad8c67b184cec8f320ac',1,'ghost::NoGaps']]],
-  ['postprocessoptimization',['postprocessOptimization',['../classghost_1_1Objective.html#a78ac0f829786f02fe69b2afe6f2636bc',1,'ghost::Objective']]],
-  ['postprocesssatisfaction',['postprocessSatisfaction',['../classghost_1_1Objective.html#a605effc6d79bd00a22c2c9fca6078cc0',1,'ghost::Objective']]],
-  ['printbo',['printBO',['../classghost_1_1BuildOrderObjective.html#a04c8eff1ac3b0c98f8520189d5b75f9f',1,'ghost::BuildOrderObjective']]],
-  ['protoss',['Protoss',['../namespaceghost.html#a8b1db75c40c6980adcf244ddccc0324ba380e68da58f712ae9a02ded67517f6e5',1,'ghost']]],
-  ['pylons',['pylons',['../namespaceghost.html#a381584b094da85f582a9b24eedf21411',1,'ghost']]]
+  ['name',['name',['../classghost_1_1Objective.html#ae9533a52b3600c826df6e20c65db1e7a',1,'ghost::Objective::name()'],['../structghost_1_1ActionData.html#afadde6e57871331f04ebd051bd167285',1,'ghost::ActionData::name()'],['../structghost_1_1UnitData.html#a7ecbf48c9ed603fa864f275933b27b70',1,'ghost::UnitData::name()'],['../classghost_1_1Variable.html#a05cf4a4cd3a5c033028e0b0f11d1dafd',1,'ghost::Variable::name()']]],
+  ['nogaps',['noGaps',['../namespaceghost.html#a4b6df9d0b61991e356eb28353a73be30',1,'ghost']]],
+  ['noholes',['NoHoles',['../classghost_1_1NoHoles.html#a733e02db6f75497ac2c6189a5c720416',1,'ghost::NoHoles']]],
+  ['noholes',['NoHoles',['../classghost_1_1NoHoles.html',1,'ghost']]],
+  ['normal',['Normal',['../namespaceghost.html#ab52582bfe39e47fc05f33770f38185d6a2fcac4bed4fc6c3b0234ef9d39363248',1,'ghost']]],
+  ['nrow_5f',['nRow_',['../classghost_1_1WallinDomain.html#a2b4915025259fff122a44cfe5dca4b9e',1,'ghost::WallinDomain']]],
+  ['nullobjective',['NullObjective',['../classghost_1_1NullObjective.html',1,'ghost']]],
+  ['nullobjective',['NullObjective',['../classghost_1_1NullObjective.html#acb468a9e5fd85d31c3afc805481919ed',1,'ghost::NullObjective']]],
+  ['numberbases',['numberBases',['../structghost_1_1BuildOrderObjective_1_1State.html#a54d467ee421d3cdd60277fd2a813f46e',1,'ghost::BuildOrderObjective::State']]],
+  ['numberpylons',['numberPylons',['../structghost_1_1BuildOrderObjective_1_1State.html#a98217d636c0ee8ff7f2598c60add8c00',1,'ghost::BuildOrderObjective::State']]],
+  ['numberrefineries',['numberRefineries',['../structghost_1_1BuildOrderObjective_1_1State.html#aca273265810b45bd356a1c81f71c3a4b',1,'ghost::BuildOrderObjective::State']]],
+  ['numbers',['numbers',['../classghost_1_1Random.html#ac32393912fd8109be3f3f61097cec064',1,'ghost::Random']]],
+  ['numbervariables',['numberVariables',['../classghost_1_1Variable.html#a6c9862568c3f951afc4ef8dc75b874cf',1,'ghost::Variable']]]
 ];

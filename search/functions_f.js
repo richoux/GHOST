@@ -1,14 +1,11 @@
 var searchData=
 [
-  ['sethelper',['setHelper',['../classghost_1_1Objective.html#ab589c264cf391bab9005562f66a39797',1,'ghost::Objective']]],
-  ['setvalue',['setValue',['../classghost_1_1Variable.html#a6fe0abafde2231f18074ecab6d7325cd',1,'ghost::Variable']]],
-  ['shift',['shift',['../classghost_1_1WallinDomain.html#a00889726b2f7ae7f87070e35c07c1d37',1,'ghost::WallinDomain']]],
-  ['shiftvalue',['shiftValue',['../classghost_1_1Variable.html#a8afe14b1858476bf4ef59a41a2947f93',1,'ghost::Variable']]],
-  ['simulatecost',['simulateCost',['../classghost_1_1Constraint.html#a173958081ed2cfad938cead81b684455',1,'ghost::Constraint::simulateCost(TypeVariable &amp;currentVar, const vector&lt; int &gt; &amp;possibleValues, vector&lt; vector&lt; double &gt; &gt; &amp;vecVarSimCosts, shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; objective)'],['../classghost_1_1Constraint.html#ae5312daf02d5a4147dd4b519f2355712',1,'ghost::Constraint::simulateCost(TypeVariable &amp;currentVar, const vector&lt; int &gt; &amp;possibleValues, vector&lt; vector&lt; double &gt; &gt; &amp;vecVarSimCosts)']]],
-  ['solve',['solve',['../classghost_1_1Solver.html#af025b99595aeff4fd9a174bcbd66a991',1,'ghost::Solver']]],
-  ['solver',['Solver',['../classghost_1_1Solver.html#aee74bbdf00494dc209d4909bf9fcb544',1,'ghost::Solver::Solver(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj=nullptr)'],['../classghost_1_1Solver.html#a512335329b22a91700bdfa7870f053e9',1,'ghost::Solver::Solver(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj, const int loops)']]],
-  ['startingtargettiles',['StartingTargetTiles',['../classghost_1_1StartingTargetTiles.html#a6c2b6cf28fb668cfe7909396679d2587',1,'ghost::StartingTargetTiles']]],
-  ['state',['State',['../structghost_1_1BuildOrderObjective_1_1State.html#a434ad550a8659290581f98c30865c800',1,'ghost::BuildOrderObjective::State::State()'],['../structghost_1_1BuildOrderObjective_1_1State.html#ab50cf2922fb42ab8c863576c83eb7ec3',1,'ghost::BuildOrderObjective::State::State(int seconds, double stockMineral, double stockGas, int mineralWorkers, int gasWorkers, int supplyUsed, int supplyCapacity, int numberBases, int numberRefineries, const map&lt; string, int &gt; &amp;resources, const vector&lt; Tuple &gt; &amp;busy, const vector&lt; Tuple &gt; &amp;inMove)']]],
-  ['swap',['swap',['../classghost_1_1WallinDomain.html#a197909e511e4fd49d9710ccf121af486',1,'ghost::WallinDomain::swap()'],['../classghost_1_1Action.html#a8c965c1de8861fd2fd49cec707d94be0',1,'ghost::Action::swap()'],['../classghost_1_1Building.html#a3bd95117c9a9b063190962f1fd972ff7',1,'ghost::Building::swap()'],['../classghost_1_1Variable.html#a01b3dfd2e865fed19b5edf0ced7d74bc',1,'ghost::Variable::swap()']]],
-  ['swapvalue',['swapValue',['../classghost_1_1Action.html#a2928069f4b38a67ec7a955ee9e7783f2',1,'ghost::Action::swapValue()'],['../classghost_1_1Variable.html#a8186ea296b868d44656be01e94b9aa80',1,'ghost::Variable::swapValue()']]]
+  ['random',['Random',['../classghost_1_1Random.html#a7c45efd1f7c522a68760104ba6084d89',1,'ghost::Random::Random()'],['../classghost_1_1Random.html#aa57a39ee45a9ba30d7f7ea2c4c17b539',1,'ghost::Random::Random(const Random &amp;other)']]],
+  ['randomvalue',['randomValue',['../classghost_1_1Domain.html#abd3f0bd85c98e66c025e0ff3532af8dd',1,'ghost::Domain']]],
+  ['rebuild',['rebuild',['../classghost_1_1Domain.html#a557b4c89eaf8503c27e873a7dcff838d',1,'ghost::Domain']]],
+  ['reset',['reset',['../structghost_1_1BuildOrderObjective_1_1State.html#aaeff0c079bfda0bc12f069db1b633026',1,'ghost::BuildOrderObjective::State']]],
+  ['resetalldomains',['resetAllDomains',['../classghost_1_1Domain.html#aa014a06ba46e4e057ed182d328a72e97',1,'ghost::Domain']]],
+  ['resetdomain',['resetDomain',['../classghost_1_1Domain.html#a2165237b435a5cb4dfd8584680fcfe05',1,'ghost::Domain']]],
+  ['resethelper',['resetHelper',['../classghost_1_1Objective.html#a76ca30dd5fc977963058f0c3abfe100a',1,'ghost::Objective']]],
+  ['restart',['restart',['../classghost_1_1Domain.html#a253f06705e99ff88c9da7ed0ad6855aa',1,'ghost::Domain']]]
 ];

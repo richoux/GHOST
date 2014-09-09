@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['waittime',['waitTime',['../structghost_1_1BuildOrderObjective_1_1Tuple.html#acf901355f413337aa9b553e89eedd491',1,'ghost::BuildOrderObjective::Tuple']]]
+  ['unitof',['unitOf',['../namespaceghost.html#ab5bef690341741098adffdc2a214a5aa',1,'ghost']]]
 ];
