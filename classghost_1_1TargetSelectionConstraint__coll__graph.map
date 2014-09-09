@@ -1,0 +1,6 @@
+<map id="ghost::TargetSelectionConstraint" name="ghost::TargetSelectionConstraint">
+<area shape="rect" id="node2" href="$classghost_1_1Constraint.html" title="{ghost::Constraint\&lt;\l Unit, TargetSelectionDomain \&gt;\n|# variables\l|+ Constraint()\l+ cost()\l+ simulateCost()\l+ simulateCost()\l# v_cost()\l# v_simulateCost()\l}" alt="" coords="9,771,215,936"/>
+<area shape="rect" id="node3" href="$classghost_1_1TargetSelectionDomain.html" title="{ghost::TargetSelectionDomain\n|&#45; enemies\l|+ TargetSelectionDomain()\l+ getEnemiesInRange()\l+ getEnemyData()\l&#45; v_restart()\l}" alt="" coords="13,585,211,706"/>
+<area shape="rect" id="node4" href="$classghost_1_1Domain.html" title="{ghost::Domain\&lt; Unit \&gt;\n|# size\l# domains\l# initialDomain\l|+ Domain()\l+ Domain()\l+ restart()\l+ wipe()\l+ rebuild()\l+ randomValue()\l+ valuesOf()\l+ resetDomain()\l+ resetAllDomains()\l+ getSize()\l+ add()\l+ clear()\l# v_restart()\l# v_wipe()\l# v_rebuild()\l}" alt="" coords="35,221,188,533"/>
+<area shape="rect" id="node5" href="$classghost_1_1Random.html" title="Random is the class coding pseudo&#45;random generators used in GHOST. " alt="" coords="53,6,171,157"/>
+</map>

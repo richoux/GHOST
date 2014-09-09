@@ -1,0 +1,7 @@
+<map id="ghost::Unit" name="ghost::Unit">
+<area shape="rect" id="node2" href="$classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. " alt="" coords="5,183,131,510"/>
+<area shape="rect" id="node3" href="$structghost_1_1UnitData.html" title="{ghost::UnitData\n|+ name\l+ hp\l+ armor\l+ size\l+ canShootIn\l+ cooldown\l+ damage\l+ damageType\l|+ UnitData()\l+ UnitData()\l+ UnitData()\l+ operator=()\l+ takeHit()\l+ isDead()\l+ canShoot()\l+ justShot()\l+ oneStep()\l+ distanceFrom()\l+ isInRange()\l&#45; swap()\l}" alt="" coords="155,176,276,517"/>
+<area shape="rect" id="node4" href="$structghost_1_1Range.html" title="{ghost::Range\n|+ min\l+ max\l|}" alt="" coords="41,13,140,105"/>
+<area shape="rect" id="node5" href="$structghost_1_1Splash.html" title="{ghost::Splash\n|+ ray1\l+ ray2\l+ ray3\l|}" alt="" coords="165,5,267,112"/>
+<area shape="rect" id="node6" href="$structghost_1_1Coord.html" title="{ghost::Coord\n|+ x\l+ y\l|}" alt="" coords="291,13,388,105"/>
+</map>

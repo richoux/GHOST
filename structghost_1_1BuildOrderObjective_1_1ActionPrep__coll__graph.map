@@ -1,0 +1,3 @@
+<map id="ghost::BuildOrderObjective::ActionPrep" name="ghost::BuildOrderObjective::ActionPrep">
+<area shape="rect" id="node2" href="$structghost_1_1ActionData.html" title="{ghost::ActionData\n|+ secondsRequired\l+ costMineral\l+ costGas\l+ costSupply\l+ actionType\l+ dependencies\l+ creator\l+ race\l+ name\l|+ ActionData()\l+ ActionData()\l+ ActionData()\l+ operator=()\l+ decreaseSeconds()\l&#45; swap()\l}" alt="" coords="21,6,168,274"/>
+</map>

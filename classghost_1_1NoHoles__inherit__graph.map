@@ -1,0 +1,4 @@
+<map id="ghost::NoHoles" name="ghost::NoHoles">
+<area shape="rect" id="node2" href="$classghost_1_1WallinConstraint.html" title="{ghost::WallinConstraint\n||+ WallinConstraint()\l# v_simulateCost()\l# isWall()\l}" alt="" coords="25,235,183,341"/>
+<area shape="rect" id="node3" href="$classghost_1_1Constraint.html" title="{ghost::Constraint\&lt;\l Building, WallinDomain \&gt;\n|# variables\l# domain\l|+ Constraint()\l+ cost()\l+ simulateCost()\l+ simulateCost()\l# v_cost()\l# v_simulateCost()\l}" alt="" coords="17,6,191,186"/>
+</map>
