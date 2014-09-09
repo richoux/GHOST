@@ -38,17 +38,18 @@ namespace ghost
   class TargetSelectionDomain : public Domain<Unit>
   {
   public:
-    TargetSelectionDomain( int, vector<UnitData>* );
+    TargetSelectionDomain( int, vector<UnitEnemy>* );
 
-    vector<UnitData> getEnemiesInRange( const Unit& );
+    vector<UnitEnemy> getEnemiesInRange( const Unit& );
+    vector<UnitEnemy> getLivingEnemiesInRange( const Unit& );
     
-    inline UnitData getEnemyData( int i ) const { return enemies->at( i ); }
+    inline UnitEnemy getEnemyData( int i ) const { return enemies->at( i ); }
     
     friend ostream& operator<<( ostream&, const TargetSelectionDomain& );
         
   private:
     void v_restart( vector<Unit>* );
 
-    vector<UnitData> *enemies;
+    vector<UnitEnemy> *enemies;
   };
 }

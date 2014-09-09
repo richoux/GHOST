@@ -59,25 +59,18 @@ namespace ghost
   struct UnitData
   {
     UnitData();
-    UnitData( string, int, int, Size, int, int, int, DamageType, Range, Splash );
+    UnitData( string, double, int, Size, int, int, int, DamageType, Range, Splash, bool = false );
     UnitData( const UnitData& );
     UnitData& operator=( UnitData );
 
-    inline int takeHit( int point )		{ return hp -= point; }
-    inline bool isDead()		const	{ return hp <= 0; }
+    inline double takeHit( double point )	{ return hp -= point; }
+    inline bool isDead()		const	{ return hp <= 0.; }
     inline bool canShoot()		const	{ return canShootIn == 0; }
     inline void justShot()			{ canShootIn = cooldown; }
     inline void oneStep()			{ --canShootIn; }
 
-    inline double distanceFrom( const UnitData &u ) const
-    { return sqrt( pow( u.coord.x - coord.x, 2 ) + pow( u.coord.y - coord.y, 2 ) ); }
-
-    inline bool isInRange( const UnitData &u )  const
-    { return distanceFrom(u) >= range.min && distanceFrom(u) <= range.max; }
-    
     string	name;
-    Coord	coord;
-    int		hp;
+    double	hp;
     int		armor;
     Size	size;
     int		canShootIn;
@@ -86,6 +79,7 @@ namespace ghost
     DamageType	damageType;
     Range	range;
     Splash	splashRadius;
+    bool	doSplash;
 
     friend ostream& operator<<( ostream&, const UnitData& );
 
@@ -94,6 +88,33 @@ namespace ghost
   };
 
 
+  
+  /*****************/
+  /*** UnitEnemy ***/
+  /*****************/
+  class Unit;
+  struct UnitEnemy
+  {
+    UnitData data;
+    Coord coord;
+
+    UnitEnemy( UnitData data, Coord coord )
+      : data(data), coord(coord)
+    { }
+    
+    bool isDead()				const;
+    bool canShoot()				const;
+    void justShot();
+    void oneStep();
+    double distanceFrom( const Unit& )		const;
+    double distanceFrom( const UnitEnemy& )	const;
+    bool isInRange( const Unit& )		const;
+    bool isInRangeAndAlive( const Unit& )	const;
+    void doDamageAgainst( Unit &u, vector<Unit> &vecUnit );
+  };
+
+  
+  
   /************/
   /*** Unit ***/
   /************/  
@@ -107,33 +128,36 @@ namespace ghost
     Unit& operator=( Unit );
 
     inline bool	isSelected()		const { return value != -1; }
-    inline int takeHit( int point )	      { return data.takeHit( point ); }
+    inline double takeHit( double point )     { return data.takeHit( point ); }
     inline bool isDead()		const { return data.isDead(); }
     inline bool canShoot()		const { return data.canShoot(); }
     inline void justShot()		      { data.justShot(); }
     inline void oneStep()		      { data.oneStep(); }
 
+    inline double distanceFrom( const UnitEnemy &u ) const
+    { return sqrt( pow( u.coord.x - coord.x, 2 ) + pow( u.coord.y - coord.y, 2 ) ); }
+
     inline double distanceFrom( const Unit &u ) const
-    { return data.distanceFrom( u.data ); }
+    { return sqrt( pow( u.coord.x - coord.x, 2 ) + pow( u.coord.y - coord.y, 2 ) ); }
 
-    inline bool isInRange( const Unit &u ) const
-    { return data.isInRange( u.data ); }
+    inline bool isInRange( const UnitEnemy &u ) const
+    { return distanceFrom(u) >= data.range.min && distanceFrom(u) <= data.range.max; }
 
-    inline bool isInRange( const UnitData &ud ) const
-    { return data.isInRange( ud ); }
+    inline bool isInRangeAndAlive( const UnitEnemy &u ) const
+    { return !u.isDead() && isInRange( u ); }
 
     inline UnitData getData()		const { return data; }
     inline void setData( UnitData u )	      { data = u; }
 
-    inline Coord getCoord()		const { return data.coord; }
-    inline int getX()			const { return data.coord.x; }
-    inline int getY()			const { return data.coord.y; }
+    inline Coord getCoord()		const { return coord; }
+    inline int getX()			const { return coord.x; }
+    inline int getY()			const { return coord.y; }
 
-    inline void setCoord( Coord c )	      { data.coord = c; }
-    inline void setX( int x )		      { data.coord.x = x; }
-    inline void setY( int y )		      { data.coord.y = y; }
+    inline void setCoord( Coord c )	      { coord = c; }
+    inline void setX( int x )		      { coord.x = x; }
+    inline void setY( int y )		      { coord.y = y; }
     
-    inline int getHP()			const { return data.hp; }
+    inline double getHP()		const { return data.hp; }
     inline int canShootIn()		const { return data.canShootIn; }
     inline int getArmor()		const { return data.armor; }
     inline Size getSize()		const { return data.size; }
@@ -158,7 +182,7 @@ namespace ghost
       {
       case Concussive: return "concussive";
       case Normal: return "normal";
-      case Explosive: return "explosive";
+      case Explosive: return "explosive";\
       default: return "unknown";
       }
     }
@@ -171,6 +195,10 @@ namespace ghost
     inline double getSplashRadiusMed()	const { return data.splashRadius.ray2; }
     inline double getSplashRadiusMax()	const { return data.splashRadius.ray3; }
 
+    inline bool isSplash()		const { return data.doSplash; }
+    
+    void doDamage( vector<UnitEnemy> &vecEnemy );
+    
     inline void	swapValue( Unit &other )	{ std::swap( value, other.value ); }
 
     inline bool operator==( const Unit & other ) { return id == other.id; }
@@ -181,5 +209,6 @@ namespace ghost
     void swap( Unit& );
 
     UnitData	data;
+    Coord	coord;
   };
 }

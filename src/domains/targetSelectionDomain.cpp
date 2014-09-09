@@ -37,7 +37,7 @@ using namespace std;
 
 namespace ghost
 {
-  TargetSelectionDomain::TargetSelectionDomain( int numberVariables, vector<UnitData> *data )
+  TargetSelectionDomain::TargetSelectionDomain( int numberVariables, vector<UnitEnemy> *data )
     : Domain( numberVariables, numberVariables, -1 ), enemies(data)
   { }
   
@@ -50,9 +50,9 @@ namespace ghost
     }
   }
 
-  vector<UnitData> TargetSelectionDomain::getEnemiesInRange( const Unit &u )
+  vector<UnitEnemy> TargetSelectionDomain::getEnemiesInRange( const Unit &u )
   {
-    vector<UnitData> inRange;
+    vector<UnitEnemy> inRange;
 
     for( const auto &e : *enemies )
       if( u.isInRange( e ) )
@@ -60,13 +60,27 @@ namespace ghost
     
     return inRange;
   }
-  
+
+  vector<UnitEnemy> TargetSelectionDomain::getLivingEnemiesInRange( const Unit &u )
+  {
+    vector<UnitEnemy> inRange;
+
+    for( const auto &e : *enemies )
+      if( u.isInRangeAndAlive( e ) )
+	inRange.push_back( e );
+    
+    return inRange;
+  }
+
   ostream& operator<<( ostream &os, const TargetSelectionDomain &t )
   {
     os << endl;
-    for( const auto &e : *(t.enemies) )
-      os << e << endl
-	 << "Coord: (" << e.coord.x << ", " << e.coord.y << ")" << endl; 
+    for( int i = 0 ; i < t.enemies->size() ; ++i )
+      os << t.enemies->at(i).data
+	 << "Value: " << i << endl
+	 << "Coord: (" << t.enemies->at(i).coord.x << ", " << t.enemies->at(i).coord.y << ")" << endl
+	 << "-------" << endl << endl;
+
 
     return os;
   }

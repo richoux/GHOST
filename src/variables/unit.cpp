@@ -30,6 +30,27 @@
 
 namespace ghost
 {
+  double coeffDamageType( DamageType dt, Size s )
+  {
+    if( dt == Normal )
+    {
+      return 1.;
+    }
+    else if( dt == Concussive )
+    {
+      if( s == Small ) return 1.;
+      else if( s == Medium ) return 0.5;
+      else return 0.25;
+    }
+    else
+    {
+      if( s == Small ) return 0.5;
+      else if( s == Medium ) return 0.75;
+      else return 1;
+    }
+  }
+
+  
   /****************/
   /*** UnitData ***/
   /****************/  
@@ -37,7 +58,7 @@ namespace ghost
   UnitData::UnitData() { }
   
   UnitData::UnitData( string name,
-		      int hp,
+		      double hp,
 		      int armor,
 		      Size size,
 		      int canShootIn,
@@ -45,7 +66,8 @@ namespace ghost
 		      int damage,
 		      DamageType damageType,
 		      Range range,
-		      Splash splashRadius )
+		      Splash splashRadius,
+		      bool doSplash )
     : name(name),
       hp(hp),
       armor(armor),
@@ -55,12 +77,12 @@ namespace ghost
       damage(damage),
       damageType(damageType),
       range(range),
-      splashRadius(splashRadius)
+      splashRadius(splashRadius),
+      doSplash(doSplash)
   { }
 
   UnitData::UnitData( const UnitData &other )
     : name(other.name),
-      coord(other.coord),
       hp(other.hp),
       armor(other.armor),
       size(other.size),
@@ -69,7 +91,8 @@ namespace ghost
       damage(other.damage),
       damageType(other.damageType),
       range(other.range),
-      splashRadius(other.splashRadius)
+      splashRadius(other.splashRadius),
+      doSplash(other.doSplash)
   { }
 
   UnitData& UnitData::operator=( UnitData other )
@@ -81,7 +104,6 @@ namespace ghost
   void UnitData::swap( UnitData &other )
   {
     std::swap(this->name, other.name);
-    std::swap(this->coord, other.coord);
     std::swap(this->hp, other.hp);
     std::swap(this->armor, other.armor);
     std::swap(this->size, other.size);
@@ -91,6 +113,7 @@ namespace ghost
     std::swap(this->damageType, other.damageType);
     std::swap(this->range, other.range);
     std::swap(this->splashRadius, other.splashRadius);
+    std::swap(this->doSplash, other.doSplash);
   }
 
   ostream& operator<<( ostream &os, const UnitData &u )
@@ -101,16 +124,87 @@ namespace ghost
       << "Cooldown: " <<  u.cooldown << endl
       << "HP: " <<  u.hp << endl
       << "Damage: " <<  u.damage << endl
-      << "Armor" <<  u.armor << endl
-      << "-------" << endl;
+      << "Armor: " <<  u.armor << endl;
+      // << "-------" << endl;
     
     return os;
   }
+  
+  
+  /*****************/
+  /*** UnitEnemy ***/
+  /*****************/  
+
+  bool UnitEnemy::isDead()	const { return data.isDead(); }
+  bool UnitEnemy::canShoot()	const { return data.canShoot(); }
+  void UnitEnemy::justShot()	      { data.justShot(); }
+  void UnitEnemy::oneStep()	      { data.oneStep(); }
+  
+  double UnitEnemy::distanceFrom( const Unit &u ) const
+  {
+    return sqrt( pow( u.getX() - coord.x, 2 ) + pow( u.getY() - coord.y, 2 ) );
+  }
+
+  double UnitEnemy::distanceFrom( const UnitEnemy  &u ) const
+  {
+    return sqrt( pow( u.coord.x - coord.x, 2 ) + pow( u.coord.y - coord.y, 2 ) );
+  }
+
+  bool UnitEnemy::isInRange( const Unit &u ) const
+  {
+    return distanceFrom(u) >= data.range.min && distanceFrom(u) <= data.range.max;
+  }
+  
+  bool UnitEnemy::isInRangeAndAlive( const Unit &u ) const
+  {
+    return !u.isDead() && isInRange( u );
+  }
+
+  void UnitEnemy::doDamageAgainst( Unit &u, vector<Unit> &vecUnit )
+  {
+    if( canShoot() )
+    {
+      double hit;
+      if( !data.doSplash )
+      {
+	hit = ( data.damage - u.getArmor() ) * coeffDamageType( data.damageType, u.getSize() );
+	u.takeHit( std::max( hit, 0.5 ) );
+      }
+      else
+	for( auto &v : vecUnit )
+	  if( v.getId() == u.getId() )
+	  {
+	    hit = ( data.damage - u.getArmor() ) * coeffDamageType( data.damageType, u.getSize() );
+	    u.takeHit( std::max( hit, 0.5 ) );	    
+	  }
+	  else
+	  {
+	    double dist = u.distanceFrom( v );
+	    if( dist <= data.splashRadius.ray1 )
+	    {
+	      hit = ( data.damage - v.getArmor() ) * coeffDamageType( data.damageType, v.getSize() );
+	      v.takeHit( std::max( hit, 0.5 ) );	    
+	    }
+	    else if( dist > data.splashRadius.ray1 && dist <= data.splashRadius.ray2 )
+	    {
+	      hit = ( ( data.damage * 0.5 ) - v.getArmor() ) * coeffDamageType( data.damageType, v.getSize() );
+	      v.takeHit( std::max( hit, 0.5 ) );	    
+	    }
+	    else if( dist > data.splashRadius.ray2 && dist <= data.splashRadius.ray3 )
+	    {
+	      hit = ( ( data.damage * 0.25 ) - v.getArmor() ) * coeffDamageType( data.damageType, v.getSize() );
+	      v.takeHit( std::max( hit, 0.5 ) );	    
+	    }
+	  }
+      
+      justShot();
+    }
+  }
 
   
-  /**************/
+  /************/
   /*** Unit ***/
-  /**************/  
+  /************/  
 
   Unit::Unit() { }
 
@@ -118,12 +212,11 @@ namespace ghost
 	     Coord coord,
 	     int value)
     : Variable( "", data.name, value ),
-      data(data)
+      data(data),
+      coord(coord)
   {
     if( value == -1)
       value = id;
-
-    data.coord = coord;
   }
   
   Unit::Unit(UnitData data,
@@ -131,20 +224,65 @@ namespace ghost
 	     int y,
 	     int value)
     : Variable( "", data.name, value ),
-      data(data)
+      data(data),
+      coord{x, y}
   {
     if( value == -1)
       value = id;
-
-    data.coord.x = x;
-    data.coord.y = y;
   }
 
   Unit::Unit( const Unit &other )
     : Variable(other),
-      data(other.data)
+      data(other.data),
+      coord(other.coord)
   { }
 
+  void Unit::doDamage( vector<UnitEnemy> &vecUnit )
+  {
+    if( canShoot() )
+    {
+      double hit;
+      UnitEnemy u = vecUnit[ value ];
+      
+      if( !isSplash() )
+      {
+	hit = ( data.damage - u.data.armor ) * coeffDamageType( data.damageType, u.data.size );
+	u.data.hp -= std::max( hit, 0.5 );
+      }
+      else
+	for( int i = 0 ; i < vecUnit.size() ; ++i )
+	{
+	  auto v = vecUnit[ i ];
+	  if( i == value )
+	  {
+	    hit = ( data.damage - u.data.armor ) * coeffDamageType( data.damageType, u.data.size );
+	    u.data.hp -= std::max( hit, 0.5 );	    
+	  }
+	  else
+	  {
+	    double dist = u.distanceFrom( v );
+	    if( dist <= data.splashRadius.ray1 )
+	    {
+	      hit = ( data.damage - v.data.armor ) * coeffDamageType( data.damageType, v.data.size );
+	      v.data.hp -= std::max( hit, 0.5 );	    
+	    }
+	    else if( dist > data.splashRadius.ray1 && dist <= data.splashRadius.ray2 )
+	    {
+	      hit = ( ( data.damage * 0.5 ) - v.data.armor ) * coeffDamageType( data.damageType, v.data.size );
+	      v.data.hp -= std::max( hit, 0.5 );	    
+	    }
+	    else if( dist > data.splashRadius.ray2 && dist <= data.splashRadius.ray3 )
+	    {
+	      hit = ( ( data.damage * 0.25 ) - v.data.armor ) * coeffDamageType( data.damageType, v.data.size );
+	      v.data.hp -= std::max( hit, 0.5 );	    
+	    }
+	  }
+	}
+      
+      justShot();
+    }
+  }
+  
   Unit& Unit::operator=( Unit other )
   {
     this->swap( other );
@@ -158,6 +296,7 @@ namespace ghost
     std::swap(this->id, other.id);
     std::swap(this->value, other.value);
     std::swap(this->data, other.data);
+    std::swap(this->coord, other.coord);
   }
 
   ostream& operator<<( ostream &os, const Unit &u )
@@ -165,7 +304,7 @@ namespace ghost
     os
       << "Type info: " <<  typeid(u).name() << endl
       << "Full name: " << u.fullName << endl
-      << "Coord: (" << u.data.coord.x << ", " << u.data.coord.y << ")" << endl 
+      << "Coord: (" << u.coord.x << ", " << u.coord.y << ")" << endl 
       << "Id num: " << u.id << endl
       << "Value: " <<  u.value << endl
       << u.data;

@@ -48,11 +48,13 @@ namespace ghost
     {
       // A unit u is badly affected to a target t iif:
       // 1. u can shoot
-      // 2. u has at least one reachable target in its range
-      // 3. t is the dummy target (-1) or t in unreachable from u
+      // 2. u has at least one living reachable target in its range
+      // 3. t is the dummy target (-1) or t in unreachable from u or t is dead
       if( it->canShoot()
-	  && !domain->getEnemiesInRange( *it ).empty()
-	  && ( it->getValue() == -1 || !it->isInRange( domain->getEnemyData( it->getValue() ) ) ) )
+	  && !domain->getLivingEnemiesInRange( *it ).empty()
+	  && ( it->getValue() == -1
+	       ||
+	       !it->isInRangeAndAlive( domain->getEnemyData( it->getValue() ) ) ) )
       {
 	++conflicts;
 	++varCost[ it->getId() ];

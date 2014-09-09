@@ -341,11 +341,15 @@ namespace ghost
       if( bestGlobalCost == 0 )
 	timerPostProcessOpt = objective->postprocessOptimization( vecVariables, domain, bestCost, opt_timeout );
 
+      for( const auto &v : *vecVariables )
+	cout << v << endl;
+
       cout << "Domains:" << *domain << endl;
+      
       cout << "############" << endl;
       
       if( objOriginalNull )
-	cout << "SATISFACTION run: try to find a sound wall only!" << endl;
+	cout << "SATISFACTION run" << endl;
       else
 	cout << "OPTIMIZATION run with objective " << objective->getName() << endl;
       
