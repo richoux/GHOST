@@ -247,13 +247,13 @@ namespace ghost
     if( canShoot() )
     {
       double hit;
-      UnitEnemy u = vecUnit[ value ];
+      UnitEnemy *u = &vecUnit[ value ];
       
       if( !isSplash() )
       {
-	hit = ( data.damage - u.data.armor ) * coeffDamageType( data.damageType, u.data.size );
-	u.data.hp -= std::max( hit, 0.5 );
-	cout << getFullName() << ":" << getId() << " does " << std::max( hit, 0.5 ) << " damage to " << u.data.name << "@" << value << " (" << u.data.hp << " HP left)" << endl;
+	hit = ( data.damage - u->data.armor ) * coeffDamageType( data.damageType, u->data.size );
+	u->data.hp -= std::max( hit, 0.5 );
+	cout << getFullName() << ":" << getId() << " does " << std::max( hit, 0.5 ) << " damage to " << u->data.name << "@" << value << " (" << u->data.hp << " HP left)" << endl;
       }
       else
 	for( int i = 0 ; i < vecUnit.size() ; ++i )
@@ -261,13 +261,13 @@ namespace ghost
 	  auto v = vecUnit[ i ];
 	  if( i == value )
 	  {
-	    hit = ( data.damage - u.data.armor ) * coeffDamageType( data.damageType, u.data.size );
-	    u.data.hp -= std::max( hit, 0.5 );	    
-	    cout << getFullName() << ":" << getId() << " does " << std::max( hit, 0.5 ) << " full splash damage to " << u.data.name << "@" << value << " (" << u.data.hp << " HP left)" << endl;
+	    hit = ( data.damage - u->data.armor ) * coeffDamageType( data.damageType, u->data.size );
+	    u->data.hp -= std::max( hit, 0.5 );	    
+	    cout << getFullName() << ":" << getId() << " does " << std::max( hit, 0.5 ) << " full splash damage to " << u->data.name << "@" << value << " (" << u->data.hp << " HP left)" << endl;
 	  }
 	  else
 	  {
-	    double dist = u.distanceFrom( v );
+	    double dist = u->distanceFrom( v );
 	    if( dist <= data.splashRadius.ray1 )
 	    {
 	      hit = ( data.damage - v.data.armor ) * coeffDamageType( data.damageType, v.data.size );

@@ -114,7 +114,8 @@ namespace ghost
 	variableCost(vecVariables->size()),
 	loops(loops),
 	tabuList(vecVariables->size()),
-	bestSolution(vecVariables->size())
+	bestSolution(vecVariables->size()),
+	objOriginalNull(false)
     { 
       domain->restart( vecVariables );
     }
@@ -155,8 +156,7 @@ namespace ghost
       vector< double >			vecGlobalCosts( sizeDomain );
       vector< vector< double > >	vecVarSimCosts( sizeDomain );
 
-      bool objOriginalNull = false;
-      if( objective == nullptr )
+      if( objective == nullptr && !objOriginalNull )
       {
 	objective = make_shared< NullObjective<TypeVariable, TypeDomain> >();
 	objOriginalNull = true;
@@ -427,5 +427,6 @@ namespace ghost
     Random					randomVar;		//!< The random generator used by the solver.
     double					bestCost;		//!< The (satisfaction or optimization) cost of the best solution.
     vector< TypeVariable >			bestSolution;		//!< The best solution found by the solver.
+    bool					objOriginalNull;	//!< A boolean to know if it is a satisfaction or optimization run.
   };
 }
