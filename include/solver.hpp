@@ -334,7 +334,8 @@ namespace ghost
 	     || ( objOriginalNull && elapsedTime.count() < sat_timeout * loops ) );
 
       domain->wipe( vecVariables );
-      copy( begin(bestSolution), end(bestSolution), begin(*vecVariables) );
+      domain->copyBest( bestSolution, vecVariables );
+      // copy( begin(bestSolution), end(bestSolution), begin(*vecVariables) );
       domain->rebuild( vecVariables );
       beforePostProc = bestCost;
       

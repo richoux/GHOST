@@ -160,47 +160,51 @@ namespace ghost
     return !u.isDead() && isInRange( u );
   }
 
-  void UnitEnemy::doDamageAgainst( Unit *u, vector<Unit> &vecUnit, int num )
+  void UnitEnemy::doDamageAgainst( int index, vector<Unit> &vecUnit, int num )
   {
     if( canShoot() )
     {
       double hit;
       if( !data.doSplash )
       {
-	hit = ( data.damage - u->getArmor() ) * coeffDamageType( data.damageType, u->getSize() );
-	u->takeHit( std::max( hit, 0.5 ) );
-	cout << data.name << "@" << num << " does " << std::max( hit, 0.5 ) << " damage to " << u->getFullName() << ":" << u->getId() << " (" << u->getHP() << " HP left)" << endl;
+	hit = ( data.damage - vecUnit[index].getArmor() ) * coeffDamageType( data.damageType, vecUnit[index].getSize() );
+	vecUnit[index].takeHit( std::max( hit, 0.5 ) );
+	cout << data.name << "@" << num << " does " << std::max( hit, 0.5 ) << " damage to " << vecUnit[index].getFullName() << ":" << vecUnit[index].getId() << " (" << vecUnit[index].getHP() << " HP left)" << endl;
       }
       else
+      {
 	for( auto &v : vecUnit )
-	  if( v.getId() == u->getId() )
+	{
+	  if( v.getId() == vecUnit[index].getId() )
 	  {
-	    hit = ( data.damage - u->getArmor() ) * coeffDamageType( data.damageType, u->getSize() );
-	    u->takeHit( std::max( hit, 0.5 ) );	    
-	    cout << data.name << "@" << num << " does " << std::max( hit, 0.5 ) << " full splash damage to " << u->getFullName() << ":" << u->getId() << " (" << u->getHP() << " HP left)" << endl;
+	    hit = ( data.damage - vecUnit[index].getArmor() ) * coeffDamageType( data.damageType, vecUnit[index].getSize() );
+	    vecUnit[index].takeHit( std::max( hit, 0.5 ) );	    
+	    cout << data.name << "@" << num << " does " << std::max( hit, 0.5 ) << " full splash damage to " << vecUnit[index].getFullName() << ":" << vecUnit[index].getId() << " (" << vecUnit[index].getHP() << " HP left)" << endl;
 	  }
 	  else
 	  {
-	    double dist = u->distanceFrom( v );
+	    double dist = vecUnit[index].distanceFrom( v );
 	    if( dist <= data.splashRadius.ray1 )
 	    {
 	      hit = ( data.damage - v.getArmor() ) * coeffDamageType( data.damageType, v.getSize() );
 	      v.takeHit( std::max( hit, 0.5 ) );	    
-	      cout << data.name << "@" << num << " does " << std::max( hit, 0.5 ) << " full splash damage to " << v.getFullName() << ":" << u->getId() << " (" << v.getHP() << " HP left)" << endl;
+	      cout << data.name << "@" << num << " does " << std::max( hit, 0.5 ) << " full splash damage to " << v.getFullName() << ":" << vecUnit[index].getId() << " (" << v.getHP() << " HP left)" << endl;
 	    }
 	    else if( dist > data.splashRadius.ray1 && dist <= data.splashRadius.ray2 )
 	    {
 	      hit = ( ( data.damage * 0.5 ) - v.getArmor() ) * coeffDamageType( data.damageType, v.getSize() );
 	      v.takeHit( std::max( hit, 0.5 ) );	    
-	      cout << data.name << "@" << num << " does " << std::max( hit, 0.5 ) << " half splash damage to " << v.getFullName() << ":" << u->getId() << " (" << v.getHP() << " HP left)" << endl;
+	      cout << data.name << "@" << num << " does " << std::max( hit, 0.5 ) << " half splash damage to " << v.getFullName() << ":" << vecUnit[index].getId() << " (" << v.getHP() << " HP left)" << endl;
 	    }
 	    else if( dist > data.splashRadius.ray2 && dist <= data.splashRadius.ray3 )
 	    {
 	      hit = ( ( data.damage * 0.25 ) - v.getArmor() ) * coeffDamageType( data.damageType, v.getSize() );
 	      v.takeHit( std::max( hit, 0.5 ) );	    
-	      cout << data.name << "@" << num << " does " << std::max( hit, 0.5 ) << " quarter splash damage to " << v.getFullName() << ":" << u->getId() << " (" << v.getHP() << " HP left)" << endl;
+	      cout << data.name << "@" << num << " does " << std::max( hit, 0.5 ) << " quarter splash damage to " << v.getFullName() << ":" << vecUnit[index].getId() << " (" << v.getHP() << " HP left)" << endl;
 	    }
 	  }
+	}
+      }
       
       justShot();
     }
@@ -256,6 +260,7 @@ namespace ghost
 	cout << getFullName() << ":" << getId() << " does " << std::max( hit, 0.5 ) << " damage to " << u->data.name << "@" << value << " (" << u->data.hp << " HP left)" << endl;
       }
       else
+      {
 	for( int i = 0 ; i < vecUnit.size() ; ++i )
 	{
 	  auto v = vecUnit[ i ];
@@ -288,6 +293,7 @@ namespace ghost
 	    }
 	  }
 	}
+      }
       
       justShot();
     }

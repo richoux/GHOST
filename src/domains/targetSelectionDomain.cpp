@@ -46,7 +46,7 @@ namespace ghost
     for( auto &v : *variables )
     {
       v.setValue( -1 );
-      v.setData( unitOf[ v.getFullName() ] );
+      // v.setData( unitOf[ v.getFullName() ] );
     }
   }
 

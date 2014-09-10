@@ -117,6 +117,9 @@ namespace ghost
     //! Inline function following the NVI idiom. Calling v_rebuild.
     inline void rebuild( vector<TypeVariable> *variables ) { v_rebuild( variables ); }
 
+    //! Inline function following the NVI idiom. Calling v_copyBest.
+    inline void copyBest( vector<TypeVariable> &best, vector<TypeVariable> *variables ) { v_copyBest( best, variables ); }
+
     //! Inline function to get a random value among the possible values of a given variable.
     /*!
      * \param variable A constant reference to a variable.
@@ -218,6 +221,18 @@ namespace ghost
     //! Empty virtual function called in Sovler::solve before
     //! postprocessingOptimization. Can be use to rebuild the domain.
     virtual void v_rebuild( vector<TypeVariable> *variables ) { }
+
+    //! virtual function called in Sovler::solve before
+    //! postprocessingOptimization. By default, copy only the value of best[i] into variables[i].
+    /*!
+     * \param best The vector of best configuration found by the solver.
+     * \param variables The regular vector used to describe the vector of variables.
+     */
+    virtual void v_copyBest( vector<TypeVariable> &best, vector<TypeVariable> *variables )
+    {
+      for( int i = 0 ; i < best.size() ; ++i )
+	variables->at(i).setValue( best[i].getValue() );
+    }
 
     int size;				//!< An integer to specify the size of the domain.
     vector< vector< int > > domains;	//!< The vector of vector of integers, containing the domain of each variables. Thus, domains[i] is the domain of the variable i.
