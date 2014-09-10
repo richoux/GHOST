@@ -38,7 +38,7 @@ using namespace std;
 namespace ghost
 {
   TargetSelectionDomain::TargetSelectionDomain( int numberVariables, vector<UnitEnemy> *data )
-    : Domain( numberVariables, numberVariables, -1 ), enemies(data)
+    : Domain( numberVariables + 1, numberVariables, -1 ), enemies(data)
   { }
   
   void TargetSelectionDomain::v_restart( vector<Unit> *variables )
