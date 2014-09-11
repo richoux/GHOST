@@ -98,10 +98,14 @@ namespace ghost
     UnitData data;
     Coord coord;
 
+    UnitEnemy( UnitData data )
+      : data(data)
+    { }
+
     UnitEnemy( UnitData data, Coord coord )
       : data(data), coord(coord)
     { }
-    
+
     bool isDead()				const;
     bool canShoot()				const;
     void justShot();
