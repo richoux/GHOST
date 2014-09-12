@@ -12,8 +12,7 @@
 
 
 
-Collaboration diagram for ghost\-:\-:Solver$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-:
-\nopagebreak
+Collaboration diagram for ghost\-:\-:Solver$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -72,12 +71,12 @@ bool \hyperlink{classghost_1_1Solver_acc1a01dfcbc918ce3ae77d4fc47f1ac9}{obj\-Ori
 
 You just need to instanciate one \hyperlink{classghost_1_1Solver}{Solver} object.
 
-The \hyperlink{classghost_1_1Solver}{Solver} class is a template class, waiting for both the type of variable, the type of domain and the type of constraint. Thus, you must instanciate a solver by specifying the class of your variable objects, the class of your domain object and the class of your constraint objects, like for instance \hyperlink{classghost_1_1Solver}{Solver}$<$\hyperlink{classghost_1_1Variable}{Variable}, \hyperlink{classghost_1_1Domain}{Domain}, Constraint$>$ or \hyperlink{classghost_1_1Solver}{Solver}$<$My\-Custom\-Variable, My\-Custom\-Domain, My\-Custom\-Constraint$>$, if My\-Custom\-Variable inherits from the \hyperlink{classghost_1_1Variable}{ghost\-::\-Variable} class, My\-Custom\-Domain inherits from the \hyperlink{classghost_1_1Domain}{ghost\-::\-Domain} class and My\-Custom\-Constraint inherits from the ghost\-::\-Constraint class.
+The \hyperlink{classghost_1_1Solver}{Solver} class is a template class, waiting for both the type of variable, the type of domain and the type of constraint. Thus, you must instanciate a solver by specifying the class of your variable objects, the class of your domain object and the class of your constraint objects, like for instance \hyperlink{classghost_1_1Solver}{Solver}$<$\hyperlink{classghost_1_1Variable}{Variable}, \hyperlink{classghost_1_1Domain}{Domain}, \hyperlink{classghost_1_1Constraint}{Constraint}$>$ or \hyperlink{classghost_1_1Solver}{Solver}$<$My\-Custom\-Variable, My\-Custom\-Domain, My\-Custom\-Constraint$>$, if My\-Custom\-Variable inherits from the \hyperlink{classghost_1_1Variable}{ghost\-::\-Variable} class, My\-Custom\-Domain inherits from the \hyperlink{classghost_1_1Domain}{ghost\-::\-Domain} class and My\-Custom\-Constraint inherits from the \hyperlink{classghost_1_1Constraint}{ghost\-::\-Constraint} class.
 
 \hyperlink{classghost_1_1Solver}{Solver}'s constructor also need a shared pointer of an \hyperlink{classghost_1_1Objective}{Objective} object (nullptr by default). The reason why \hyperlink{classghost_1_1Objective}{Objective} is not a template parameter of \hyperlink{classghost_1_1Solver}{Solver} but a pointer is to allow a dynamic modification of the objective function.
 
 \begin{DoxySeeAlso}{See Also}
-\hyperlink{classghost_1_1Variable}{Variable}, \hyperlink{classghost_1_1Domain}{Domain}, Constraint, \hyperlink{classghost_1_1Objective}{Objective} 
+\hyperlink{classghost_1_1Variable}{Variable}, \hyperlink{classghost_1_1Domain}{Domain}, \hyperlink{classghost_1_1Constraint}{Constraint}, \hyperlink{classghost_1_1Objective}{Objective} 
 \end{DoxySeeAlso}
 
 
@@ -104,7 +103,7 @@ The solver is calling Solver(vec\-Variables, domain, vec\-Constraints, obj, 0)
 \hline
 {\em domain} & A pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
 \hline
-{\em vec\-Constraints} & A constant reference to the vector of shared pointers of Constraint \\
+{\em vec\-Constraints} & A constant reference to the vector of shared pointers of \hyperlink{classghost_1_1Constraint}{Constraint} \\
 \hline
 {\em obj} & A reference to the shared pointer of an \hyperlink{classghost_1_1Objective}{Objective} object. Default value is nullptr. \\
 \hline
@@ -132,7 +131,7 @@ Like the regular constructor, but take also a loops parameter to repeat loops ti
 \hline
 {\em domain} & A pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
 \hline
-{\em vec\-Constraints} & A constant reference to the vector of shared pointers of Constraint \\
+{\em vec\-Constraints} & A constant reference to the vector of shared pointers of \hyperlink{classghost_1_1Constraint}{Constraint} \\
 \hline
 {\em obj} & A reference to the shared pointer of an \hyperlink{classghost_1_1Objective}{Objective} object. Default value is nullptr. \\
 \hline
