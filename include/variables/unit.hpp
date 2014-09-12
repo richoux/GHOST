@@ -59,7 +59,7 @@ namespace ghost
   struct UnitData
   {
     UnitData();
-    UnitData( string, double, int, Size, int, int, int, DamageType, Range, Splash, bool = false );
+    UnitData( string, double, int, Size, int, int, int, DamageType, Range, Splash, bool, bool = false );
     UnitData( const UnitData& );
     UnitData& operator=( UnitData );
 
@@ -80,6 +80,7 @@ namespace ghost
     Range	range;
     Splash	splashRadius;
     bool	doSplash;
+    bool	doLinearSplash;
 
     friend ostream& operator<<( ostream&, const UnitData& );
 
@@ -200,6 +201,7 @@ namespace ghost
     inline double getSplashRadiusMax()	const { return data.splashRadius.ray3; }
 
     inline bool isSplash()		const { return data.doSplash; }
+    inline bool isLinearSplash()	const { return data.doLinearSplash; }
     
     void doDamage( vector<UnitEnemy> &vecEnemy );
     

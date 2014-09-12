@@ -67,7 +67,8 @@ namespace ghost
 		      DamageType damageType,
 		      Range range,
 		      Splash splashRadius,
-		      bool doSplash )
+		      bool doSplash,
+		      bool doLinearSplash )
     : name(name),
       hp(hp),
       armor(armor),
@@ -78,7 +79,8 @@ namespace ghost
       damageType(damageType),
       range(range),
       splashRadius(splashRadius),
-      doSplash(doSplash)
+      doSplash(doSplash),
+      doLinearSplash(doLinearSplash)
   { }
 
   UnitData::UnitData( const UnitData &other )
@@ -92,7 +94,8 @@ namespace ghost
       damageType(other.damageType),
       range(other.range),
       splashRadius(other.splashRadius),
-      doSplash(other.doSplash)
+      doSplash(other.doSplash),
+      doLinearSplash(other.doLinearSplash)
   { }
 
   UnitData& UnitData::operator=( UnitData other )
@@ -114,6 +117,7 @@ namespace ghost
     std::swap(this->range, other.range);
     std::swap(this->splashRadius, other.splashRadius);
     std::swap(this->doSplash, other.doSplash);
+    std::swap(this->doLinearSplash, other.doLinearSplash);
   }
 
   ostream& operator<<( ostream &os, const UnitData &u )
