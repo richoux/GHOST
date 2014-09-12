@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['height',['height',['../classghost_1_1Building.html#a2245674ef580e60ef2b3e908df930e41',1,'ghost::Building']]],
-  ['heuristicvaluehelper',['heuristicValueHelper',['../classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27',1,'ghost::Objective']]],
-  ['hp',['hp',['../structghost_1_1UnitData.html#ab7e487e0851177e64723ba716d19e485',1,'ghost::UnitData']]]
+  ['objective',['objective',['../classghost_1_1Solver.html#a4fd74bd68d0ea253fd35adad697f964d',1,'ghost::Solver']]],
+  ['objoriginalnull',['objOriginalNull',['../classghost_1_1Solver.html#acc1a01dfcbc918ce3ae77d4fc47f1ac9',1,'ghost::Solver']]]
 ];

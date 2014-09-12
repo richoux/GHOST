@@ -71,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -122,9 +122,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a58d9540a9700be0e953ebdcf0660920f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a58d9540a9700be0e953ebdcf0660920f">move</a> (TypeVariable *<a class="el" href="namespaceghost.html#a7c0deb8266504feb7d025903f2b77693a4b7c211d9226050e5730e3b9a1b0b21a">building</a>, int newValue)</td></tr>
+<tr class="memitem:a58d9540a9700be0e953ebdcf0660920f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a58d9540a9700be0e953ebdcf0660920f">move</a> (TypeVariable *building, int newValue)</td></tr>
 <tr class="separator:a58d9540a9700be0e953ebdcf0660920f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3489c7f10952a8a0a2a0895b9b1c8fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#ae3489c7f10952a8a0a2a0895b9b1c8fe">permut</a> (TypeVariable *<a class="el" href="namespaceghost.html#a7c0deb8266504feb7d025903f2b77693a4b7c211d9226050e5730e3b9a1b0b21a">building</a>, int newValue)</td></tr>
+<tr class="memitem:ae3489c7f10952a8a0a2a0895b9b1c8fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#ae3489c7f10952a8a0a2a0895b9b1c8fe">permut</a> (TypeVariable *building, int newValue)</td></tr>
 <tr class="separator:ae3489c7f10952a8a0a2a0895b9b1c8fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
@@ -161,6 +161,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:aa76ec90c418b23b261a0f3da63a9ee4a"><td class="memItemLeft" align="right" valign="top">vector&lt; TypeVariable &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#aa76ec90c418b23b261a0f3da63a9ee4a">bestSolution</a></td></tr>
 <tr class="memdesc:aa76ec90c418b23b261a0f3da63a9ee4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The best solution found by the solver.  <a href="#aa76ec90c418b23b261a0f3da63a9ee4a">More...</a><br/></td></tr>
 <tr class="separator:aa76ec90c418b23b261a0f3da63a9ee4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc1a01dfcbc918ce3ae77d4fc47f1ac9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#acc1a01dfcbc918ce3ae77d4fc47f1ac9">objOriginalNull</a></td></tr>
+<tr class="memdesc:acc1a01dfcbc918ce3ae77d4fc47f1ac9"><td class="mdescLeft">&#160;</td><td class="mdescRight">A boolean to know if it is a satisfaction or optimization run.  <a href="#acc1a01dfcbc918ce3ae77d4fc47f1ac9">More...</a><br/></td></tr>
+<tr class="separator:acc1a01dfcbc918ce3ae77d4fc47f1ac9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename TypeVariable, typename TypeDomain, typename TypeConstraint&gt;<br/>
@@ -168,9 +171,9 @@ class ghost::Solver&lt; TypeVariable, TypeDomain, TypeConstraint &gt;</h3>
 
 <p><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a> is the class coding the solver itself. </p>
 <p>You just need to instanciate one <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a> object.</p>
-<p>The <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a> class is a template class, waiting for both the type of variable, the type of domain and the type of constraint. Thus, you must instanciate a solver by specifying the class of your variable objects, the class of your domain object and the class of your constraint objects, like for instance <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>&lt;<a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">Variable</a>, <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a>, <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a>&gt; or <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>&lt;MyCustomVariable, MyCustomDomain, MyCustomConstraint&gt;, if MyCustomVariable inherits from the <a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">ghost::Variable</a> class, MyCustomDomain inherits from the <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">ghost::Domain</a> class and MyCustomConstraint inherits from the <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">ghost::Constraint</a> class.</p>
+<p>The <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a> class is a template class, waiting for both the type of variable, the type of domain and the type of constraint. Thus, you must instanciate a solver by specifying the class of your variable objects, the class of your domain object and the class of your constraint objects, like for instance <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>&lt;<a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">Variable</a>, <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a>, Constraint&gt; or <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>&lt;MyCustomVariable, MyCustomDomain, MyCustomConstraint&gt;, if MyCustomVariable inherits from the <a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">ghost::Variable</a> class, MyCustomDomain inherits from the <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">ghost::Domain</a> class and MyCustomConstraint inherits from the ghost::Constraint class.</p>
 <p><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s constructor also need a shared pointer of an <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> object (nullptr by default). The reason why <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> is not a template parameter of <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a> but a pointer is to allow a dynamic modification of the objective function.</p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">Variable</a>, <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a>, <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a>, <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">Variable</a>, <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a>, Constraint, <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aee74bbdf00494dc209d4909bf9fcb544"></a>
 <div class="memitem">
@@ -224,7 +227,7 @@ template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstrain
   <table class="params">
     <tr><td class="paramname">vecVariables</td><td>A pointer to the vector of variable objects of the CSP/COP. </td></tr>
     <tr><td class="paramname">domain</td><td>A pointer to the domain object of the CSP/COP. </td></tr>
-    <tr><td class="paramname">vecConstraints</td><td>A constant reference to the vector of shared pointers of <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> </td></tr>
+    <tr><td class="paramname">vecConstraints</td><td>A constant reference to the vector of shared pointers of Constraint </td></tr>
     <tr><td class="paramname">obj</td><td>A reference to the shared pointer of an <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> object. Default value is nullptr. </td></tr>
   </table>
   </dd>
@@ -290,7 +293,7 @@ template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstrain
   <table class="params">
     <tr><td class="paramname">vecVariables</td><td>A pointer to the vector of variable objects of the CSP/COP. </td></tr>
     <tr><td class="paramname">domain</td><td>A pointer to the domain object of the CSP/COP. </td></tr>
-    <tr><td class="paramname">vecConstraints</td><td>A constant reference to the vector of shared pointers of <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> </td></tr>
+    <tr><td class="paramname">vecConstraints</td><td>A constant reference to the vector of shared pointers of Constraint </td></tr>
     <tr><td class="paramname">obj</td><td>A reference to the shared pointer of an <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> object. Default value is nullptr. </td></tr>
     <tr><td class="paramname">loops</td><td>The number of times we want to repeat the satisaction loop inside <a class="el" href="classghost_1_1Solver.html#a5d15e316f5a4bb8a33c6781058ad0307" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>. </td></tr>
   </table>
@@ -540,6 +543,30 @@ template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstrain
 
 </div>
 </div>
+<a class="anchor" id="acc1a01dfcbc918ce3ae77d4fc47f1ac9"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstraint &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::objOriginalNull</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A boolean to know if it is a satisfaction or optimization run. </p>
+
+</div>
+</div>
 <a class="anchor" id="acec87a0a0adcc3a8d794a1ff84718201"></a>
 <div class="memitem">
 <div class="memproto">
@@ -666,7 +693,7 @@ template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstrain
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 9 2014 09:03:12 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Sep 12 2014 13:49:01 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

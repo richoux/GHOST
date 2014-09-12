@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['factoryterranbuilding',['factoryTerranBuilding',['../namespaceghost.html#a797dd3167189ccc913156ff624a7ad6a',1,'ghost']]],
-  ['failures',['failures',['../classghost_1_1WallinDomain.html#a070f1fe50460d46a85e6a497b09b8626',1,'ghost::WallinDomain']]]
+  ['heuristicvalue',['heuristicValue',['../classghost_1_1Objective.html#ac9d6c8e05cca99cd797d302b3755b6b5',1,'ghost::Objective']]],
+  ['heuristicvariable',['heuristicVariable',['../classghost_1_1Objective.html#af68c07a226162ea7f9ee01a0b00d3ae4',1,'ghost::Objective']]]
 ];

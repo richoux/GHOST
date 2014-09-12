@@ -1,30 +1,5 @@
 var searchData=
 [
-  ['bestbo',['bestBO',['../classghost_1_1BuildOrderObjective.html#a71ec5c0a8425d3e5facebb76190adfb7',1,'ghost::BuildOrderObjective']]],
   ['bestcost',['bestCost',['../classghost_1_1Solver.html#a2fa5cf25d3417e3046aad3c1123320ed',1,'ghost::Solver']]],
-  ['bestsolution',['bestSolution',['../classghost_1_1Solver.html#aa76ec90c418b23b261a0f3da63a9ee4a',1,'ghost::Solver']]],
-  ['bo',['BO',['../structghost_1_1BuildOrderObjective_1_1BO.html',1,'ghost::BuildOrderObjective']]],
-  ['bo',['bo',['../classghost_1_1BuildOrderObjective.html#aa55dce8a8fbdc5fe64ddadfa715e968e',1,'ghost::BuildOrderObjective::bo()'],['../structghost_1_1BuildOrderObjective_1_1BO.html#ae412993ce70ea08514148f73f5e58cc4',1,'ghost::BuildOrderObjective::BO::BO()'],['../structghost_1_1BuildOrderObjective_1_1BO.html#a0c74ffe417301e4014a0e39e9e45c3a9',1,'ghost::BuildOrderObjective::BO::BO(string fullName, int startTime, int completedTime)']]],
-  ['buildable',['Buildable',['../classghost_1_1Buildable.html',1,'ghost']]],
-  ['buildable',['Buildable',['../classghost_1_1Buildable.html#afb25530b221922dd29a0a5bd7cdd68c6',1,'ghost::Buildable::Buildable()'],['../namespaceghost.html#aed6c0dcd76842d41ca1a81a6b4301247',1,'ghost::buildable()']]],
-  ['building',['Building',['../classghost_1_1Building.html#a57d16dc6bf4b41cbcf67f2b51a416410',1,'ghost::Building::Building()'],['../classghost_1_1Building.html#a453e89a96f541b6f87360ba18ccffaf0',1,'ghost::Building::Building(int, int, int, int, int, int, Race, int, string, string, int=-1)'],['../classghost_1_1Building.html#a4fec1171ac6ce8c22e44681200d9df3d',1,'ghost::Building::Building(const Building &amp;)'],['../namespaceghost.html#a7c0deb8266504feb7d025903f2b77693a4b7c211d9226050e5730e3b9a1b0b21a',1,'ghost::building()']]],
-  ['building',['Building',['../classghost_1_1Building.html',1,'ghost']]],
-  ['building_2ecpp',['building.cpp',['../building_8cpp.html',1,'']]],
-  ['building_2ehpp',['building.hpp',['../building_8hpp.html',1,'']]],
-  ['buildingobj',['BuildingObj',['../classghost_1_1BuildingObj.html',1,'ghost']]],
-  ['buildingobj',['BuildingObj',['../classghost_1_1BuildingObj.html#af478d2e0b3cb57d439108806ac746fab',1,'ghost::BuildingObj']]],
-  ['buildingsat',['buildingsAt',['../classghost_1_1WallinDomain.html#a98b384df437bc0e42dba65ca9fc50538',1,'ghost::WallinDomain::buildingsAt(int row, int col) const '],['../classghost_1_1WallinDomain.html#a212b9349b853c945db66506c5be32453',1,'ghost::WallinDomain::buildingsAt(pair&lt; int, int &gt; p) const '],['../classghost_1_1WallinDomain.html#a4fb018a9cb3060e50fe365373b2b4e2d',1,'ghost::WallinDomain::buildingsAt(int p) const ']]],
-  ['buildorderconstraint',['BuildOrderConstraint',['../classghost_1_1BuildOrderConstraint.html',1,'ghost']]],
-  ['buildorderconstraint',['BuildOrderConstraint',['../classghost_1_1BuildOrderConstraint.html#af68622d82e3760efc0b2b2cc37fccabe',1,'ghost::BuildOrderConstraint']]],
-  ['buildorderconstraint_2ecpp',['buildorderConstraint.cpp',['../buildorderConstraint_8cpp.html',1,'']]],
-  ['buildorderconstraint_2ehpp',['buildorderConstraint.hpp',['../buildorderConstraint_8hpp.html',1,'']]],
-  ['buildorderdomain',['BuildOrderDomain',['../classghost_1_1BuildOrderDomain.html',1,'ghost']]],
-  ['buildorderdomain',['BuildOrderDomain',['../classghost_1_1BuildOrderDomain.html#ac09e92262d5c39c75dd0164fb938fabc',1,'ghost::BuildOrderDomain']]],
-  ['buildorderdomain_2ecpp',['buildorderDomain.cpp',['../buildorderDomain_8cpp.html',1,'']]],
-  ['buildorderdomain_2ehpp',['buildorderDomain.hpp',['../buildorderDomain_8hpp.html',1,'']]],
-  ['buildorderobjective',['BuildOrderObjective',['../classghost_1_1BuildOrderObjective.html#a8603f1e064d7bda83a19fec8fb8cc3cb',1,'ghost::BuildOrderObjective::BuildOrderObjective(const string &amp;name)'],['../classghost_1_1BuildOrderObjective.html#a8ee0f6c2ae3116ba32508fcec9975471',1,'ghost::BuildOrderObjective::BuildOrderObjective(const string &amp;name, const vector&lt; pair&lt; string, int &gt; &gt; &amp;input, vector&lt; Action &gt; &amp;variables)']]],
-  ['buildorderobjective',['BuildOrderObjective',['../classghost_1_1BuildOrderObjective.html',1,'ghost']]],
-  ['buildorderobjective_2ecpp',['buildorderObjective.cpp',['../buildorderObjective_8cpp.html',1,'']]],
-  ['buildorderobjective_2ehpp',['buildorderObjective.hpp',['../buildorderObjective_8hpp.html',1,'']]],
-  ['busy',['busy',['../structghost_1_1BuildOrderObjective_1_1State.html#a584c3367a42b491f5783adcd78d9b7d1',1,'ghost::BuildOrderObjective::State']]]
+  ['bestsolution',['bestSolution',['../classghost_1_1Solver.html#aa76ec90c418b23b261a0f3da63a9ee4a',1,'ghost::Solver']]]
 ];

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['justshot',['justShot',['../structghost_1_1UnitData.html#a348b16b3507443c35ab5534462a75069',1,'ghost::UnitData::justShot()'],['../classghost_1_1Unit.html#ab7fd1da43562cf36a254953cff45ee24',1,'ghost::Unit::justShot()']]]
+  ['mainpage_2edox',['mainpage.dox',['../mainpage_8dox.html',1,'']]],
+  ['move',['move',['../classghost_1_1Solver.html#a58d9540a9700be0e953ebdcf0660920f',1,'ghost::Solver']]]
 ];

@@ -1,33 +1,4 @@
 <map id="include/variables/variable.hpp" name="include/variables/variable.hpp">
-<area shape="rect" id="node2" href="$action_8hpp.html" title="include/variables/action.hpp" alt="" coords="459,80,641,107"/>
-<area shape="rect" id="node13" href="$unit_8hpp.html" title="include/variables/unit.hpp" alt="" coords="1441,80,1609,107"/>
-<area shape="rect" id="node21" href="$building_8hpp.html" title="include/variables/building.hpp" alt="" coords="2011,80,2203,107"/>
-<area shape="rect" id="node31" href="$solver_8hpp.html" title="include/solver.hpp" alt="" coords="1163,80,1289,107"/>
-<area shape="rect" id="node32" href="$variable_8cpp.html" title="src/variables/variable.cpp" alt="" coords="2227,80,2397,107"/>
-<area shape="rect" id="node3" href="$buildorderConstraint_8hpp.html" title="include/constraints\l/buildorderConstraint.hpp" alt="" coords="549,246,715,287"/>
-<area shape="rect" id="node5" href="$main_8cpp.html" title="src/main.cpp" alt="" coords="846,344,943,371"/>
-<area shape="rect" id="node6" href="$buildorderDomain_8hpp.html" title="include/domains/buildorder\lDomain.hpp" alt="" coords="613,155,789,197"/>
-<area shape="rect" id="node7" href="$buildorderObjective_8hpp.html" title="include/objectives\l/buildorderObjective.hpp" alt="" coords="361,246,524,287"/>
-<area shape="rect" id="node8" href="$buildorderObjective_8cpp.html" title="src/objectives/buildorder\lObjective.cpp" alt="" coords="5,337,168,378"/>
-<area shape="rect" id="node10" href="$actionMap_8hpp.html" title="include/misc/actionMap.hpp" alt="" coords="304,163,488,189"/>
-<area shape="rect" id="node12" href="$action_8cpp.html" title="src/variables/action.cpp" alt="" coords="120,163,279,189"/>
-<area shape="rect" id="node4" href="$buildorderConstraint_8cpp.html" title="src/constraints/buildorder\lConstraint.cpp" alt="" coords="548,337,716,378"/>
-<area shape="rect" id="node9" href="$buildorderDomain_8cpp.html" title="src/domains/buildorderDomain.cpp" alt="" coords="739,253,961,280"/>
-<area shape="rect" id="node11" href="$actionMap_8cpp.html" title="src/misc/actionMap.cpp" alt="" coords="125,253,285,280"/>
-<area shape="rect" id="node14" href="$targetSelectionConstraint_8hpp.html" title="include/constraints\l/targetSelectionConstraint.hpp" alt="" coords="1517,246,1715,287"/>
-<area shape="rect" id="node16" href="$targetSelectionDomain_8hpp.html" title="include/domains/targetSelection\lDomain.hpp" alt="" coords="1351,155,1557,197"/>
-<area shape="rect" id="node18" href="$unitMap_8hpp.html" title="include/misc/unitMap.hpp" alt="" coords="1156,163,1327,189"/>
-<area shape="rect" id="node20" href="$unit_8cpp.html" title="src/variables/unit.cpp" alt="" coords="1633,163,1780,189"/>
-<area shape="rect" id="node15" href="$targetSelectionConstraint_8cpp.html" title="src/constraints/targetSelection\lConstraint.cpp" alt="" coords="1517,337,1715,378"/>
-<area shape="rect" id="node17" href="$targetSelectionDomain_8cpp.html" title="src/domains/targetSelection\lDomain.cpp" alt="" coords="1308,246,1492,287"/>
-<area shape="rect" id="node19" href="$unitMap_8cpp.html" title="src/misc/unitMap.cpp" alt="" coords="1137,253,1284,280"/>
-<area shape="rect" id="node22" href="$wallinConstraint_8hpp.html" title="include/constraints\l/wallinConstraint.hpp" alt="" coords="2507,246,2651,287"/>
-<area shape="rect" id="node23" href="$wallinTerran_8hpp.html" title="include/misc/wallinTerran.hpp" alt="" coords="2148,344,2343,371"/>
-<area shape="rect" id="node25" href="$wallinObjective_8cpp.html" title="src/objectives/wallinObjective.cpp" alt="" coords="2675,344,2895,371"/>
-<area shape="rect" id="node26" href="$wallinDomain_8hpp.html" title="include/domains/wallinDomain.hpp" alt="" coords="2179,163,2401,189"/>
-<area shape="rect" id="node27" href="$wallinProtoss_8hpp.html" title="include/misc/wallinProtoss.hpp" alt="" coords="2005,253,2208,280"/>
-<area shape="rect" id="node28" href="$wallinObjective_8hpp.html" title="include/objectives\l/wallinObjective.hpp" alt="" coords="2675,246,2813,287"/>
-<area shape="rect" id="node30" href="$building_8cpp.html" title="src/variables/building.cpp" alt="" coords="1805,163,1973,189"/>
-<area shape="rect" id="node24" href="$wallinConstraint_8cpp.html" title="src/constraints/wallinConstraint.cpp" alt="" coords="2421,344,2651,371"/>
-<area shape="rect" id="node29" href="$wallinDomain_8cpp.html" title="src/domains/wallinDomain.cpp" alt="" coords="2283,253,2481,280"/>
+<area shape="rect" id="node2" href="$solver_8hpp.html" title="include/solver.hpp" alt="" coords="5,80,131,107"/>
+<area shape="rect" id="node3" href="$variable_8cpp.html" title="src/variables/variable.cpp" alt="" coords="156,80,327,107"/>
 </map>

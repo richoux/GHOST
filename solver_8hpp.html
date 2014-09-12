@@ -61,7 +61,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
-      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -69,7 +68,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -103,23 +102,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &lt;cassert&gt;</code><br/>
 <code>#include &lt;typeinfo&gt;</code><br/>
 <code>#include &quot;<a class="el" href="variable_8hpp_source.html">variables/variable.hpp</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="constraint_8hpp_source.html">constraints/constraint.hpp</a>&quot;</code><br/>
+<code>#include &quot;constraints/constraint.hpp&quot;</code><br/>
 <code>#include &quot;<a class="el" href="domain_8hpp_source.html">domains/domain.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="random_8hpp_source.html">misc/random.hpp</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="objective_8hpp_source.html">objectives/objective.hpp</a>&quot;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for solver.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="solver_8hpp__incl.png" border="0" usemap="#include_2solver_8hpp" alt=""/></div>
 <map name="include_2solver_8hpp" id="include_2solver_8hpp">
-<area shape="rect" id="node13" href="variable_8hpp.html" title="variables/variable.hpp" alt="" coords="316,80,463,107"/><area shape="rect" id="node15" href="constraint_8hpp.html" title="constraints/constraint.hpp" alt="" coords="120,80,291,107"/><area shape="rect" id="node16" href="objective_8hpp.html" title="../objectives/objective.hpp" alt="" coords="663,155,837,181"/><area shape="rect" id="node17" href="random_8hpp.html" title="../misc/random.hpp" alt="" coords="791,229,925,256"/><area shape="rect" id="node20" href="domain_8hpp.html" title="domains/domain.hpp" alt="" coords="488,80,630,107"/></map>
-</div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="solver_8hpp__dep__incl.png" border="0" usemap="#include_2solver_8hppdep" alt=""/></div>
-<map name="include_2solver_8hppdep" id="include_2solver_8hppdep">
-<area shape="rect" id="node2" href="main_8cpp.html" title="src/main.cpp" alt="" coords="19,80,116,107"/></map>
+<area shape="rect" id="node13" href="variable_8hpp.html" title="variables/variable.hpp" alt="" coords="161,95,308,121"/><area shape="rect" id="node17" href="domain_8hpp.html" title="domains/domain.hpp" alt="" coords="333,95,475,121"/><area shape="rect" id="node19" href="random_8hpp.html" title="../misc/random.hpp" alt="" coords="494,184,628,211"/></map>
 </div>
 </div>
 <p><a href="solver_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -138,7 +129,7 @@ Namespaces</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 9 2014 09:03:07 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Sep 12 2014 13:49:01 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
