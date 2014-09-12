@@ -71,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,6 +105,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Collaboration diagram for ghost::Constraint&lt; TypeVariable, TypeDomain &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1Constraint__coll__graph.png" border="0" usemap="#ghost_1_1Constraint_3_01TypeVariable_00_01TypeDomain_01_4_coll__map" alt="Collaboration graph"/></div>
+<map name="ghost_1_1Constraint_3_01TypeVariable_00_01TypeDomain_01_4_coll__map" id="ghost_1_1Constraint_3_01TypeVariable_00_01TypeDomain_01_4_coll__map">
+</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -139,7 +141,7 @@ Protected Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
-<tr class="memitem:a5fb3db9a0881ff7aae65d680386277f0"><td class="memItemLeft" align="right" valign="top">ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a5fb3db9a0881ff7aae65d680386277f0">operator&lt;&lt;</a> (ostream &amp;os, const <a class="el" href="classghost_1_1Constraint.html">Constraint</a>&lt; TypeVariable, TypeDomain &gt; &amp;<a class="el" href="namespaceghost.html#a1e04a626798fce7a46db973e9693354e">c</a>)</td></tr>
+<tr class="memitem:a5fb3db9a0881ff7aae65d680386277f0"><td class="memItemLeft" align="right" valign="top">ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a5fb3db9a0881ff7aae65d680386277f0">operator&lt;&lt;</a> (ostream &amp;os, const <a class="el" href="classghost_1_1Constraint.html">Constraint</a>&lt; TypeVariable, TypeDomain &gt; &amp;c)</td></tr>
 <tr class="memdesc:a5fb3db9a0881ff7aae65d680386277f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">friend override of operator&lt;&lt;  <a href="#a5fb3db9a0881ff7aae65d680386277f0">More...</a><br/></td></tr>
 <tr class="separator:a5fb3db9a0881ff7aae65d680386277f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -162,7 +164,7 @@ class ghost::Constraint&lt; TypeVariable, TypeDomain &gt;</h3>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
+template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -208,7 +210,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
+template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -236,7 +238,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
+template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -286,7 +288,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
+template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -330,7 +332,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
+template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -361,15 +363,13 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>A double representing the cost of the constraint on the current configuration. </dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Constraint.html#a5051092934738b004fe848190a5aa9a5">cost</a> <a class="el" href="classghost_1_1Constraint.html#a8dd05c04dbce51e88a6301e9332fb2f5" title="Pure virtual function to simulate the cost of the constraint on all possible values of the given vari...">v_simulateCost</a> </dd></dl>
 
-<p>Implemented in <a class="el" href="classghost_1_1StartingTargetTiles.html#aa9474c7fb81691a2059d2e5614702544">ghost::StartingTargetTiles</a>, <a class="el" href="classghost_1_1NoHoles.html#ae8bf1055c3f669edf305e5b7b92b18b3">ghost::NoHoles</a>, <a class="el" href="classghost_1_1Buildable.html#a584162de15bdeb91c7f9a0d0a0fa3c87">ghost::Buildable</a>, <a class="el" href="classghost_1_1Overlap.html#a7a926991f06c785126e5d7995953e493">ghost::Overlap</a>, <a class="el" href="classghost_1_1BuildOrderConstraint.html#ad4c276a47a97b4ce6f6c6389db4e65b5">ghost::BuildOrderConstraint</a>, and <a class="el" href="classghost_1_1TargetSelectionConstraint.html#a79bb4a127577d8149ced77238d1c33cb">ghost::TargetSelectionConstraint</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a8dd05c04dbce51e88a6301e9332fb2f5"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
+template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -425,8 +425,6 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>The vector of the cost of the constraint for each possible value of currentVar. </dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Constraint.html#a173958081ed2cfad938cead81b684455">simulateCost</a> <a class="el" href="classghost_1_1Constraint.html#ac67f7952cdf7212327b7db506225d12c" title="Pure virtual function to compute the current cost of the constraint. ">v_cost</a> </dd></dl>
 
-<p>Implemented in <a class="el" href="classghost_1_1Buildable.html#a8b2f97c002509cd35846af837405fc1e">ghost::Buildable</a>, <a class="el" href="classghost_1_1Overlap.html#a3a347d3067235b29bbb19c2013498edf">ghost::Overlap</a>, <a class="el" href="classghost_1_1BuildOrderConstraint.html#a95b9a2bcd858e6dc16fdc384e5c8e310">ghost::BuildOrderConstraint</a>, <a class="el" href="classghost_1_1TargetSelectionConstraint.html#afd05ed34d9eeb9d9bfd86e4a1c89345e">ghost::TargetSelectionConstraint</a>, and <a class="el" href="classghost_1_1WallinConstraint.html#af2d6f103c844a14745b7de6c656f9981">ghost::WallinConstraint</a>.</p>
-
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
@@ -434,7 +432,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
+template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -473,7 +471,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
+template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -497,7 +495,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
+template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -523,7 +521,7 @@ template&lt;typename TypeVariable, typename TypeDomain&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 9 2014 09:03:08 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Sep 12 2014 13:52:06 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

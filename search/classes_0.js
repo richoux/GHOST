@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['domain',['Domain',['../classghost_1_1Domain.html',1,'ghost']]]
+  ['constraint',['Constraint',['../classghost_1_1Constraint.html',1,'ghost']]]
 ];

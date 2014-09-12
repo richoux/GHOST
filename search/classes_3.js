@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['random',['Random',['../classghost_1_1Random.html',1,'ghost']]]
+  ['objective',['Objective',['../classghost_1_1Objective.html',1,'ghost']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['nullobjective',['NullObjective',['../classghost_1_1NullObjective.html',1,'ghost']]]
+  ['domain',['Domain',['../classghost_1_1Domain.html',1,'ghost']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['variable',['Variable',['../classghost_1_1Variable.html',1,'ghost']]]
+  ['solver',['Solver',['../classghost_1_1Solver.html',1,'ghost']]]
 ];

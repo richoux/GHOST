@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['variable_2ecpp',['variable.cpp',['../variable_8cpp.html',1,'']]],
-  ['variable_2ehpp',['variable.hpp',['../variable_8hpp.html',1,'']]]
+  ['solver_2ehpp',['solver.hpp',['../solver_8hpp.html',1,'']]]
 ];
