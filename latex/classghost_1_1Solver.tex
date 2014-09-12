@@ -12,7 +12,8 @@
 
 
 
-Collaboration diagram for ghost\-:\-:Solver$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-:\nopagebreak
+Collaboration diagram for ghost\-:\-:Solver$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -31,9 +32,9 @@ double \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{solve}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \hyperlink{classghost_1_1Solver_a58d9540a9700be0e953ebdcf0660920f}{move} (Type\-Variable $\ast$\hyperlink{namespaceghost_a7c0deb8266504feb7d025903f2b77693a4b7c211d9226050e5730e3b9a1b0b21a}{building}, int new\-Value)
+void \hyperlink{classghost_1_1Solver_a58d9540a9700be0e953ebdcf0660920f}{move} (Type\-Variable $\ast$building, int new\-Value)
 \item 
-void \hyperlink{classghost_1_1Solver_ae3489c7f10952a8a0a2a0895b9b1c8fe}{permut} (Type\-Variable $\ast$\hyperlink{namespaceghost_a7c0deb8266504feb7d025903f2b77693a4b7c211d9226050e5730e3b9a1b0b21a}{building}, int new\-Value)
+void \hyperlink{classghost_1_1Solver_ae3489c7f10952a8a0a2a0895b9b1c8fe}{permut} (Type\-Variable $\ast$building, int new\-Value)
 \end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
@@ -59,7 +60,9 @@ vector$<$ int $>$ \hyperlink{classghost_1_1Solver_aa5c12894a6fbd524fb33906c8f3fb
 double \hyperlink{classghost_1_1Solver_a2fa5cf25d3417e3046aad3c1123320ed}{best\-Cost}
 \begin{DoxyCompactList}\small\item\em The (satisfaction or optimization) cost of the best solution. \end{DoxyCompactList}\item 
 vector$<$ Type\-Variable $>$ \hyperlink{classghost_1_1Solver_aa76ec90c418b23b261a0f3da63a9ee4a}{best\-Solution}
-\begin{DoxyCompactList}\small\item\em The best solution found by the solver. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em The best solution found by the solver. \end{DoxyCompactList}\item 
+bool \hyperlink{classghost_1_1Solver_acc1a01dfcbc918ce3ae77d4fc47f1ac9}{obj\-Original\-Null}
+\begin{DoxyCompactList}\small\item\em A boolean to know if it is a satisfaction or optimization run. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -69,12 +72,12 @@ vector$<$ Type\-Variable $>$ \hyperlink{classghost_1_1Solver_aa76ec90c418b23b261
 
 You just need to instanciate one \hyperlink{classghost_1_1Solver}{Solver} object.
 
-The \hyperlink{classghost_1_1Solver}{Solver} class is a template class, waiting for both the type of variable, the type of domain and the type of constraint. Thus, you must instanciate a solver by specifying the class of your variable objects, the class of your domain object and the class of your constraint objects, like for instance \hyperlink{classghost_1_1Solver}{Solver}$<$\hyperlink{classghost_1_1Variable}{Variable}, \hyperlink{classghost_1_1Domain}{Domain}, \hyperlink{classghost_1_1Constraint}{Constraint}$>$ or \hyperlink{classghost_1_1Solver}{Solver}$<$My\-Custom\-Variable, My\-Custom\-Domain, My\-Custom\-Constraint$>$, if My\-Custom\-Variable inherits from the \hyperlink{classghost_1_1Variable}{ghost\-::\-Variable} class, My\-Custom\-Domain inherits from the \hyperlink{classghost_1_1Domain}{ghost\-::\-Domain} class and My\-Custom\-Constraint inherits from the \hyperlink{classghost_1_1Constraint}{ghost\-::\-Constraint} class.
+The \hyperlink{classghost_1_1Solver}{Solver} class is a template class, waiting for both the type of variable, the type of domain and the type of constraint. Thus, you must instanciate a solver by specifying the class of your variable objects, the class of your domain object and the class of your constraint objects, like for instance \hyperlink{classghost_1_1Solver}{Solver}$<$\hyperlink{classghost_1_1Variable}{Variable}, \hyperlink{classghost_1_1Domain}{Domain}, Constraint$>$ or \hyperlink{classghost_1_1Solver}{Solver}$<$My\-Custom\-Variable, My\-Custom\-Domain, My\-Custom\-Constraint$>$, if My\-Custom\-Variable inherits from the \hyperlink{classghost_1_1Variable}{ghost\-::\-Variable} class, My\-Custom\-Domain inherits from the \hyperlink{classghost_1_1Domain}{ghost\-::\-Domain} class and My\-Custom\-Constraint inherits from the ghost\-::\-Constraint class.
 
 \hyperlink{classghost_1_1Solver}{Solver}'s constructor also need a shared pointer of an \hyperlink{classghost_1_1Objective}{Objective} object (nullptr by default). The reason why \hyperlink{classghost_1_1Objective}{Objective} is not a template parameter of \hyperlink{classghost_1_1Solver}{Solver} but a pointer is to allow a dynamic modification of the objective function.
 
 \begin{DoxySeeAlso}{See Also}
-\hyperlink{classghost_1_1Variable}{Variable}, \hyperlink{classghost_1_1Domain}{Domain}, \hyperlink{classghost_1_1Constraint}{Constraint}, \hyperlink{classghost_1_1Objective}{Objective} 
+\hyperlink{classghost_1_1Variable}{Variable}, \hyperlink{classghost_1_1Domain}{Domain}, Constraint, \hyperlink{classghost_1_1Objective}{Objective} 
 \end{DoxySeeAlso}
 
 
@@ -101,7 +104,7 @@ The solver is calling Solver(vec\-Variables, domain, vec\-Constraints, obj, 0)
 \hline
 {\em domain} & A pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
 \hline
-{\em vec\-Constraints} & A constant reference to the vector of shared pointers of \hyperlink{classghost_1_1Constraint}{Constraint} \\
+{\em vec\-Constraints} & A constant reference to the vector of shared pointers of Constraint \\
 \hline
 {\em obj} & A reference to the shared pointer of an \hyperlink{classghost_1_1Objective}{Objective} object. Default value is nullptr. \\
 \hline
@@ -129,7 +132,7 @@ Like the regular constructor, but take also a loops parameter to repeat loops ti
 \hline
 {\em domain} & A pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
 \hline
-{\em vec\-Constraints} & A constant reference to the vector of shared pointers of \hyperlink{classghost_1_1Constraint}{Constraint} \\
+{\em vec\-Constraints} & A constant reference to the vector of shared pointers of Constraint \\
 \hline
 {\em obj} & A reference to the shared pointer of an \hyperlink{classghost_1_1Objective}{Objective} object. Default value is nullptr. \\
 \hline
@@ -212,6 +215,13 @@ The number of times we reiterate the satisfaction loop inside \hyperlink{classgh
 
 
 The shared pointer of the objective function. 
+
+\hypertarget{classghost_1_1Solver_acc1a01dfcbc918ce3ae77d4fc47f1ac9}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!obj\-Original\-Null@{obj\-Original\-Null}}
+\index{obj\-Original\-Null@{obj\-Original\-Null}!ghost::Solver@{ghost\-::\-Solver}}
+\subsubsection[{obj\-Original\-Null}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ bool {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::obj\-Original\-Null\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Solver_acc1a01dfcbc918ce3ae77d4fc47f1ac9}
+
+
+A boolean to know if it is a satisfaction or optimization run. 
 
 \hypertarget{classghost_1_1Solver_acec87a0a0adcc3a8d794a1ff84718201}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!random\-Var@{random\-Var}}
 \index{random\-Var@{random\-Var}!ghost::Solver@{ghost\-::\-Solver}}
