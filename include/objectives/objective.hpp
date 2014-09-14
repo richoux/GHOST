@@ -264,7 +264,7 @@ namespace ghost
 	    bestEstimatedCost = vecGlobalCosts[i];
 
 	    // WARNING! This line implies we start our domain by the value -1
-	    // which is not necessary the case. TOFIX
+	    // which is not necessarily the case. TOFIX
 	    bestValue = i - 1;
 	    if( heuristicValueHelper.at( i ) < bestHelp )
 	      bestHelp = heuristicValueHelper.at( i );
@@ -279,7 +279,7 @@ namespace ghost
 	bestEstimatedCost = vecGlobalCosts[i];
 	
 	// WARNING! This line implies we start our domain by the value -1
-	// which is not necessary the case. TOFIX
+	// which is not necessarily the case. TOFIX
 	bestValue = i - 1;
 	if( heuristicValueHelper.at( i ) < bestHelp )
 	  bestHelp = heuristicValueHelper.at( i );
@@ -290,9 +290,9 @@ namespace ghost
     }
 
 
-    Random randomVar;				//!< The random generator used by the function heuristicValue.
-    string name;				//!< A string for the name of the objective object.
-    vector<double> heuristicValueHelper;	//!< The vector of double values implementing the value heuristic for each possible value of a given variable.
+    Random randomVar;				//!< Random generator used by the function heuristicValue.
+    string name;				//!< String for the name of the objective object.
+    vector<double> heuristicValueHelper;	//!< Vector of local costs used by the value heuristic. Represent the cost for each possible value of a given variable. Used to tie-break equivalent configuration costs.
     bool   permutation;				//!< Boolean telling is the problem is a permutation problem or not.
   };
 

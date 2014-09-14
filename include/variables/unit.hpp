@@ -115,7 +115,7 @@ namespace ghost
     double distanceFrom( const UnitEnemy& )	const;
     bool isInRange( const Unit& )		const;
     bool isInRangeAndAlive( const Unit& )	const;
-    void doDamageAgainst( int index, vector<Unit> &vecUnit, int num );
+    double doDamageAgainst( int index, vector<Unit> &vecUnit, int num );
   };
 
   
@@ -203,7 +203,8 @@ namespace ghost
     inline bool isSplash()		const { return data.doSplash; }
     inline bool isLinearSplash()	const { return data.doLinearSplash; }
     
-    void doDamage( vector<UnitEnemy> &vecEnemy );
+    double doDamage( vector<UnitEnemy> &vecEnemy );
+    vector<double> computeDamage( vector<UnitEnemy> *vecEnemy ) const;
     
     inline void	swapValue( Unit &other )	{ std::swap( value, other.value ); }
 

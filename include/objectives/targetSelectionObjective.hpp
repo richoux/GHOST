@@ -46,21 +46,11 @@ namespace ghost
   {
   public:
     TargetSelectionObjective( const string &name );
-    TargetSelectionObjective( const string &name, const vector< pair<string, int> > &input, vector<Unit> &variables );
 
   protected:
     int v_heuristicVariable( const vector< int > &vecId, const vector< Unit > *vecVariables, TargetSelectionDomain *domain );
-    int v_heuristicValue( const vector< double > &vecGlobalCosts, 
-			  double &bestEstimatedCost,
-			  int &bestValue ) const;
-    void v_setHelper( const Unit &b, const vector< Unit > *vecVariables, const TargetSelectionDomain *domain );
-
-    double v_postprocessOptimization( vector< Unit > *vecUnits,
-				      TargetSelectionDomain *domain,
-				      double &bestCost,
-				      double opt_timeout );
-
-    double v_postprocessSatisfaction( vector< Unit > *vecVariables,
+    void v_setHelper( const Unit &u, const vector< Unit > *vecVariables, const TargetSelectionDomain *domain );
+    double v_postprocessSatisfaction( vector< Unit > *vecBuildings,
 				      TargetSelectionDomain *domain,
 				      double &bestCost,
 				      vector< Unit > &bestSolution,
@@ -75,7 +65,6 @@ namespace ghost
   {
   public:
     MaxDamage();
-    MaxDamage( const vector< pair<string, int> > &input, vector<Unit> &variables );
     double v_cost( vector< Unit > *vecVariables, TargetSelectionDomain *domain ) const;
   };
 }

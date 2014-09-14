@@ -43,7 +43,8 @@ namespace ghost
     vector<UnitEnemy> getEnemiesInRange( const Unit& );
     vector<UnitEnemy> getLivingEnemiesInRange( const Unit& );
     
-    inline UnitEnemy getEnemyData( int i ) const { return enemies->at( i ); }
+    inline UnitEnemy getEnemyData( int i )	const { return enemies->at( i ); }
+    inline vector<UnitEnemy>* getAllEnemies()	const { return enemies; }
     
     friend ostream& operator<<( ostream&, const TargetSelectionDomain& );
         

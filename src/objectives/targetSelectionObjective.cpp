@@ -25,8 +25,9 @@
 
 
 #include <vector>
-#include <map>
-#include <memory>
+#include <algorithm>
+#include <chrono>
+#include <ctime>
 
 #include "../../include/objectives/targetSelectionObjective.hpp"
 
@@ -38,18 +39,8 @@ namespace ghost
   /* TargetSelectionObjective */
   /****************************/
 
-  TargetSelectionObjective::TargetSelectionObjective( const string &name )
-    : Objective<Unit, TargetSelectionDomain>( name )
-  {
-    
-  }
+  TargetSelectionObjective::TargetSelectionObjective( const string &name ) : Objective<Unit, TargetSelectionDomain>( name ) { }
 
-  TargetSelectionObjective::TargetSelectionObjective( const string &name, const vector< pair<string, int> > &input, vector<Unit> &variables )
-    : Objective<Unit, TargetSelectionDomain>( name )
-  {
-
-  }
-    
   int TargetSelectionObjective::v_heuristicVariable( const vector< int > &vecId, const vector< Unit > *vecVariables, TargetSelectionDomain *domain )
   {
     // select first units that are about to shoot, and then splash units first among them.
@@ -65,69 +56,88 @@ namespace ghost
 			     varMinShoot.begin(),
 			     [&](int b){return vecVariables->at(b).canShootIn() == *min;} );
 
+    if( it_shoot == varMinShoot.begin() )
+      return vecId[ randomVar.getRandNum( vecId.size() ) ];
+
     varMinShoot.resize( distance( varMinShoot.begin(), it_shoot ) );
     varMinShoot.shrink_to_fit();    
-    vector< int > varSplash( vecMinShoot.size() );
+    vector< int > varSplash( varMinShoot.size() );
 
     auto it_splash = copy_if( varMinShoot.begin(),
 			      varMinShoot.end(),
 			      varSplash.begin(),
 			      [&](int b){return vecVariables->at(b).isSplash();} );
     
+    // cout << "varMinShoot.size() = " << varMinShoot.size() << endl;
+
     if( it_splash == varSplash.begin() )
-      return vecMinShoot[ randomVar.getRandNum( varMinShoot.size() ) ];    
+      return varMinShoot[ randomVar.getRandNum( varMinShoot.size() ) ];    
     else
-      return vecSplash[ randomVar.getRandNum( distance( varSplash.begin(), it_splash ) ) ];    
+      return varSplash[ randomVar.getRandNum( distance( varSplash.begin(), it_splash ) ) ];    
   }
 
-  int TargetSelectionObjective::v_heuristicValue( const vector< double > &vecGlobalCosts, 
-						  double &bestEstimatedCost,
-						  int &bestValue ) const
+
+  void TargetSelectionObjective::v_setHelper( const Unit &u, const vector< Unit > *vecVariables, const TargetSelectionDomain *domain )
   {
-
-  }
-
-  void TargetSelectionObjective::v_setHelper( const Unit &b, const vector< Unit > *vecVariables, const TargetSelectionDomain *domain )
-  {
-
-  }
-
-  double TargetSelectionObjective::v_postprocessOptimization( vector< Unit > *vecUnits,
-							      TargetSelectionDomain *domain,
-							      double &bestCost,
-							      double opt_timeout )
-  {
-
+    if( !u.isDead() && u.canShoot() && u.getValue() != -1 )
+      heuristicValueHelper.at( u.getValue() + 1 ) = domain->getEnemyData( u.getValue() ).data.hp;
   }
 
   double TargetSelectionObjective::v_postprocessSatisfaction( vector< Unit > *vecVariables,
 							      TargetSelectionDomain *domain,
-							      double &bestCost,
+							      double &bestCost,		
 							      vector< Unit > &bestSolution,
-							      double sat_timeout ) const
-  {
+							      double sat_timeout ) const 
 
+  {
+    chrono::time_point<chrono::high_resolution_clock> startPostprocess = chrono::high_resolution_clock::now(); 
+    chrono::duration<double,micro> postprocesstimer(0);
+
+    double cost = v_cost( vecVariables, domain );
+    
+    if( cost < bestCost )
+    {
+      bestCost = cost;
+      copy( begin(*vecVariables), end(*vecVariables), begin(bestSolution) );
+    }
+
+    postprocesstimer = chrono::high_resolution_clock::now() - startPostprocess;
+    return postprocesstimer.count();
   }
 
   
   /*************/
   /* MaxDamage */
   /*************/
-  MaxDamage::MaxDamage()
-    : TargetSelectionObjective( "MaxDamage" )
-  {
-
-  }
+  MaxDamage::MaxDamage() : TargetSelectionObjective( "MaxDamage" ) { }
   
-  MaxDamage::MaxDamage( const vector< pair<string, int> > &input, vector<Unit> &variables )
-    : TargetSelectionObjective( "MaxDamage" )
-  {
-
-  }
-
   double MaxDamage::v_cost( vector< Unit > *vecVariables, TargetSelectionDomain *domain ) const
   {
+    // double enemyHP = 0.;
+    // vector<UnitEnemy> *enemies = domain->getAllEnemies();
+    // for_each( begin( *enemies ), end( *enemies ), [&](UnitEnemy &u){enemyHP += u.data.hp;} );
+    
+    // vector<double> hits;
+    // for( const auto &v : *vecVariables )
+    // {
+    //   hits = v.computeDamage( enemies );
+    //   for_each( begin( hits ), end( hits ), [&](double d){enemyHP -= d;} );
+    // }
 
+    // return enemyHP;
+
+    double damages = 0.;
+    vector<double> hits;
+    vector<UnitEnemy> *enemies = domain->getAllEnemies();
+
+    for( const auto &v : *vecVariables )
+      if( v.getValue() != -1 )
+      {
+	hits = v.computeDamage( enemies );
+	for_each( begin( hits ), end( hits ), [&](double d){damages += d;} );
+      }
+
+    return 1. / damages;
   }
 
 }
