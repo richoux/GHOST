@@ -28,6 +28,7 @@
 #include <algorithm>
 #include <chrono>
 #include <ctime>
+#include <cstdlib>
 
 #include "../../include/objectives/targetSelectionObjective.hpp"
 
@@ -77,12 +78,6 @@ namespace ghost
   }
 
 
-  void TargetSelectionObjective::v_setHelper( const Unit &u, const vector< Unit > *vecVariables, const TargetSelectionDomain *domain )
-  {
-    if( !u.isDead() && u.canShoot() && u.getValue() != -1 )
-      heuristicValueHelper.at( u.getValue() + 1 ) = domain->getEnemyData( u.getValue() ).data.hp;
-  }
-
   double TargetSelectionObjective::v_postprocessSatisfaction( vector< Unit > *vecVariables,
 							      TargetSelectionDomain *domain,
 							      double &bestCost,		
@@ -113,19 +108,6 @@ namespace ghost
   
   double MaxDamage::v_cost( vector< Unit > *vecVariables, TargetSelectionDomain *domain ) const
   {
-    // double enemyHP = 0.;
-    // vector<UnitEnemy> *enemies = domain->getAllEnemies();
-    // for_each( begin( *enemies ), end( *enemies ), [&](UnitEnemy &u){enemyHP += u.data.hp;} );
-    
-    // vector<double> hits;
-    // for( const auto &v : *vecVariables )
-    // {
-    //   hits = v.computeDamage( enemies );
-    //   for_each( begin( hits ), end( hits ), [&](double d){enemyHP -= d;} );
-    // }
-
-    // return enemyHP;
-
     double damages = 0.;
     vector<double> hits;
     vector<UnitEnemy> *enemies = domain->getAllEnemies();
@@ -138,6 +120,56 @@ namespace ghost
       }
 
     return 1. / damages;
+  }
+
+  void MaxDamage::v_setHelper( const Unit &u, const vector< Unit > *vecVariables, const TargetSelectionDomain *domain )
+  {
+    if( !u.isDead() && u.canShoot() && u.getValue() != -1 )
+    {
+      auto hits = u.computeDamage( domain->getAllEnemies() );
+      heuristicValueHelper.at( u.getValue() + 1 ) = 1. / hits.at( u.getValue() );
+    }
+  }
+
+
+  /***********/
+  /* MaxKill */
+  /***********/
+  MaxKill::MaxKill() : TargetSelectionObjective( "MaxKill" ) { }
+  
+  double MaxKill::v_cost( vector< Unit > *vecVariables, TargetSelectionDomain *domain ) const
+  {
+    int kills = 0;
+    vector<double> hits;
+    vector<UnitEnemy> *enemies = domain->getAllEnemies();
+
+    vector<UnitEnemy> copyEnemies(*enemies);
+
+    for( const auto &v : *vecVariables )
+    {
+      if( v.getValue() != -1 )
+      {
+	hits = v.computeDamage( enemies );
+	for( int i = 0 ; i < copyEnemies.size() ; ++i )
+	  copyEnemies[i].data.hp -= hits[i];
+      }
+    }
+    
+    return count_if( begin(copyEnemies), end(copyEnemies), [](UnitEnemy &u){ return u.isDead(); } );
+  }
+
+  void MaxKill::v_setHelper( const Unit &u, const vector< Unit > *vecVariables, const TargetSelectionDomain *domain )
+  {
+    if( !u.isDead() && u.canShoot() && u.getValue() != -1 )
+    {
+      auto hits = u.computeDamage( domain->getAllEnemies() );
+      auto enemyHP = domain->getEnemyData( u.getValue() ).data.hp;
+      if( enemyHP <= hits.at( u.getValue() ) )
+	heuristicValueHelper.at( u.getValue() + 1 ) = 0.;
+      else
+	// heuristicValueHelper.at( u.getValue() + 1 ) = 1. / hits.at( u.getValue() );
+	heuristicValueHelper.at( u.getValue() + 1 ) = enemyHP;
+    }
   }
 
 }

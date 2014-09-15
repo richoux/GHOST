@@ -49,7 +49,6 @@ namespace ghost
 
   protected:
     int v_heuristicVariable( const vector< int > &vecId, const vector< Unit > *vecVariables, TargetSelectionDomain *domain );
-    void v_setHelper( const Unit &u, const vector< Unit > *vecVariables, const TargetSelectionDomain *domain );
     double v_postprocessSatisfaction( vector< Unit > *vecBuildings,
 				      TargetSelectionDomain *domain,
 				      double &bestCost,
@@ -66,5 +65,19 @@ namespace ghost
   public:
     MaxDamage();
     double v_cost( vector< Unit > *vecVariables, TargetSelectionDomain *domain ) const;
+    void v_setHelper( const Unit &u, const vector< Unit > *vecVariables, const TargetSelectionDomain *domain );
   };
+
+
+  /***********/
+  /* MaxKill */
+  /***********/
+  class MaxKill : public TargetSelectionObjective
+  {
+  public:
+    MaxKill();
+    double v_cost( vector< Unit > *vecVariables, TargetSelectionDomain *domain ) const;
+    void v_setHelper( const Unit &u, const vector< Unit > *vecVariables, const TargetSelectionDomain *domain );
+  };
+
 }
