@@ -72,11 +72,11 @@ virtual int \hyperlink{classghost_1_1Objective_a03311ba62213580f1664f164e5f5696a
 \begin{DoxyCompactItemize}
 \item 
 \hyperlink{classghost_1_1Random}{Random} \hyperlink{classghost_1_1Objective_a442da333edc70f47c33a15987c2a81b8}{random\-Var}
-\begin{DoxyCompactList}\small\item\em The random generator used by the function heuristic\-Value. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Random}{Random} generator used by the function heuristic\-Value. \end{DoxyCompactList}\item 
 string \hyperlink{classghost_1_1Objective_ae9533a52b3600c826df6e20c65db1e7a}{name}
-\begin{DoxyCompactList}\small\item\em A string for the name of the objective object. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em String for the name of the objective object. \end{DoxyCompactList}\item 
 vector$<$ double $>$ \hyperlink{classghost_1_1Objective_a9bfe64f13de15bba7f2fa3a662c02e27}{heuristic\-Value\-Helper}
-\begin{DoxyCompactList}\small\item\em The vector of double values implementing the value heuristic for each possible value of a given variable. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Vector of local costs used by the value heuristic. Represent the cost for each possible value of a given variable. Used to tie-\/break equivalent configuration costs. \end{DoxyCompactList}\item 
 bool \hyperlink{classghost_1_1Objective_aae8345f4b7981f4b386eb58e447e0286}{permutation}
 \begin{DoxyCompactList}\small\item\em Boolean telling is the problem is a permutation problem or not. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
@@ -436,14 +436,14 @@ Implemented in \hyperlink{classghost_1_1NullObjective_a5f4b22306c25132590e3c10a6
 \subsubsection[{heuristic\-Value\-Helper}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain $>$ vector$<$double$>$ {\bf ghost\-::\-Objective}$<$ Type\-Variable, Type\-Domain $>$\-::heuristic\-Value\-Helper\hspace{0.3cm}{\ttfamily [protected]}}}\label{classghost_1_1Objective_a9bfe64f13de15bba7f2fa3a662c02e27}
 
 
-The vector of double values implementing the value heuristic for each possible value of a given variable. 
+Vector of local costs used by the value heuristic. Represent the cost for each possible value of a given variable. Used to tie-\/break equivalent configuration costs. 
 
 \hypertarget{classghost_1_1Objective_ae9533a52b3600c826df6e20c65db1e7a}{\index{ghost\-::\-Objective@{ghost\-::\-Objective}!name@{name}}
 \index{name@{name}!ghost::Objective@{ghost\-::\-Objective}}
 \subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain $>$ string {\bf ghost\-::\-Objective}$<$ Type\-Variable, Type\-Domain $>$\-::name\hspace{0.3cm}{\ttfamily [protected]}}}\label{classghost_1_1Objective_ae9533a52b3600c826df6e20c65db1e7a}
 
 
-A string for the name of the objective object. 
+String for the name of the objective object. 
 
 \hypertarget{classghost_1_1Objective_aae8345f4b7981f4b386eb58e447e0286}{\index{ghost\-::\-Objective@{ghost\-::\-Objective}!permutation@{permutation}}
 \index{permutation@{permutation}!ghost::Objective@{ghost\-::\-Objective}}
@@ -457,7 +457,7 @@ Boolean telling is the problem is a permutation problem or not.
 \subsubsection[{random\-Var}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain $>$ {\bf Random} {\bf ghost\-::\-Objective}$<$ Type\-Variable, Type\-Domain $>$\-::random\-Var\hspace{0.3cm}{\ttfamily [protected]}}}\label{classghost_1_1Objective_a442da333edc70f47c33a15987c2a81b8}
 
 
-The random generator used by the function heuristic\-Value. 
+\hyperlink{classghost_1_1Random}{Random} generator used by the function heuristic\-Value. 
 
 
 
