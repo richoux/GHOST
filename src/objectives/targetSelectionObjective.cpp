@@ -139,7 +139,6 @@ namespace ghost
   
   double MaxKill::v_cost( vector< Unit > *vecVariables, TargetSelectionDomain *domain ) const
   {
-    int kills = 0;
     vector<double> hits;
     vector<UnitEnemy> *enemies = domain->getAllEnemies();
 
@@ -154,8 +153,8 @@ namespace ghost
 	  copyEnemies[i].data.hp -= hits[i];
       }
     }
-    
-    return count_if( begin(copyEnemies), end(copyEnemies), [](UnitEnemy &u){ return u.isDead(); } );
+
+    return 1. / count_if( begin(copyEnemies), end(copyEnemies), [](UnitEnemy &u){ return u.isDead(); } );
   }
 
   void MaxKill::v_setHelper( const Unit &u, const vector< Unit > *vecVariables, const TargetSelectionDomain *domain )
@@ -164,11 +163,14 @@ namespace ghost
     {
       auto hits = u.computeDamage( domain->getAllEnemies() );
       auto enemyHP = domain->getEnemyData( u.getValue() ).data.hp;
-      if( enemyHP <= hits.at( u.getValue() ) )
+
+      if( enemyHP <= 0 )
+	heuristicValueHelper.at( u.getValue() + 1 ) = 1000.;	
+      else if( enemyHP <= hits.at( u.getValue() ) )
 	heuristicValueHelper.at( u.getValue() + 1 ) = 0.;
       else
 	// heuristicValueHelper.at( u.getValue() + 1 ) = 1. / hits.at( u.getValue() );
-	heuristicValueHelper.at( u.getValue() + 1 ) = enemyHP;
+	heuristicValueHelper.at( u.getValue() + 1 ) = std::abs( enemyHP - hits.at( u.getValue() ) );
     }
   }
 
