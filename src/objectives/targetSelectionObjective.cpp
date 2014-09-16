@@ -169,8 +169,8 @@ namespace ghost
       else if( enemyHP <= hits.at( u.getValue() ) )
 	heuristicValueHelper.at( u.getValue() + 1 ) = 0.;
       else
-	// heuristicValueHelper.at( u.getValue() + 1 ) = 1. / hits.at( u.getValue() );
-	heuristicValueHelper.at( u.getValue() + 1 ) = std::abs( enemyHP - hits.at( u.getValue() ) );
+	heuristicValueHelper.at( u.getValue() + 1 ) = 1. / hits.at( u.getValue() );
+	// heuristicValueHelper.at( u.getValue() + 1 ) = std::abs( enemyHP - hits.at( u.getValue() ) );
     }
   }
 
