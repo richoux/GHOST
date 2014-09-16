@@ -346,7 +346,8 @@ namespace ghost
       // 	cout << v << endl;
 
       // cout << "Domains:" << *domain << endl;
-      
+
+#ifndef NDEBUG
       cout << "############" << endl;
       
       if( objOriginalNull )
@@ -369,6 +370,7 @@ namespace ghost
 	cout << "Post-processing time: " << timerPostProcessOpt / 1000 << endl; 
 
       cout << endl;
+#endif
       
       if( objOriginalNull )
 	return bestGlobalCost;
