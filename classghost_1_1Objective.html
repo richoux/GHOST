@@ -166,13 +166,13 @@ Protected Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a442da333edc70f47c33a15987c2a81b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classghost_1_1Random.html">Random</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a442da333edc70f47c33a15987c2a81b8">randomVar</a></td></tr>
-<tr class="memdesc:a442da333edc70f47c33a15987c2a81b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The random generator used by the function heuristicValue.  <a href="#a442da333edc70f47c33a15987c2a81b8">More...</a><br/></td></tr>
+<tr class="memdesc:a442da333edc70f47c33a15987c2a81b8"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classghost_1_1Random.html" title="Random is the class coding pseudo-random generators used in GHOST. ">Random</a> generator used by the function heuristicValue.  <a href="#a442da333edc70f47c33a15987c2a81b8">More...</a><br/></td></tr>
 <tr class="separator:a442da333edc70f47c33a15987c2a81b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae9533a52b3600c826df6e20c65db1e7a"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#ae9533a52b3600c826df6e20c65db1e7a">name</a></td></tr>
-<tr class="memdesc:ae9533a52b3600c826df6e20c65db1e7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">A string for the name of the objective object.  <a href="#ae9533a52b3600c826df6e20c65db1e7a">More...</a><br/></td></tr>
+<tr class="memdesc:ae9533a52b3600c826df6e20c65db1e7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">String for the name of the objective object.  <a href="#ae9533a52b3600c826df6e20c65db1e7a">More...</a><br/></td></tr>
 <tr class="separator:ae9533a52b3600c826df6e20c65db1e7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9bfe64f13de15bba7f2fa3a662c02e27"><td class="memItemLeft" align="right" valign="top">vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27">heuristicValueHelper</a></td></tr>
-<tr class="memdesc:a9bfe64f13de15bba7f2fa3a662c02e27"><td class="mdescLeft">&#160;</td><td class="mdescRight">The vector of double values implementing the value heuristic for each possible value of a given variable.  <a href="#a9bfe64f13de15bba7f2fa3a662c02e27">More...</a><br/></td></tr>
+<tr class="memdesc:a9bfe64f13de15bba7f2fa3a662c02e27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector of local costs used by the value heuristic. Represent the cost for each possible value of a given variable. Used to tie-break equivalent configuration costs.  <a href="#a9bfe64f13de15bba7f2fa3a662c02e27">More...</a><br/></td></tr>
 <tr class="separator:a9bfe64f13de15bba7f2fa3a662c02e27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae8345f4b7981f4b386eb58e447e0286"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#aae8345f4b7981f4b386eb58e447e0286">permutation</a></td></tr>
 <tr class="memdesc:aae8345f4b7981f4b386eb58e447e0286"><td class="mdescLeft">&#160;</td><td class="mdescRight">Boolean telling is the problem is a permutation problem or not.  <a href="#aae8345f4b7981f4b386eb58e447e0286">More...</a><br/></td></tr>
@@ -416,7 +416,7 @@ template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 </table>
 </div><div class="memdoc">
 <p>Inline function to initialize heuristicValueHelper to a vector of MAX_INT values. </p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27" title="The vector of double values implementing the value heuristic for each possible value of a given varia...">heuristicValueHelper</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27" title="Vector of local costs used by the value heuristic. Represent the cost for each possible value of a gi...">heuristicValueHelper</a> </dd></dl>
 
 </div>
 </div>
@@ -576,7 +576,7 @@ template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 </table>
 </div><div class="memdoc">
 <p>Inline function to reset heuristicValueHelper with MAX_INT values. </p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27" title="The vector of double values implementing the value heuristic for each possible value of a given varia...">heuristicValueHelper</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27" title="Vector of local costs used by the value heuristic. Represent the cost for each possible value of a gi...">heuristicValueHelper</a> </dd></dl>
 
 </div>
 </div>
@@ -722,7 +722,7 @@ template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#ac9d6c8e05cca99cd797d302b3755b6b5">heuristicValue</a>, <a class="el" href="classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27" title="The vector of double values implementing the value heuristic for each possible value of a given varia...">heuristicValueHelper</a>, <a class="el" href="classghost_1_1Random.html" title="Random is the class coding pseudo-random generators used in GHOST. ">Random</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#ac9d6c8e05cca99cd797d302b3755b6b5">heuristicValue</a>, <a class="el" href="classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27" title="Vector of local costs used by the value heuristic. Represent the cost for each possible value of a gi...">heuristicValueHelper</a>, <a class="el" href="classghost_1_1Random.html" title="Random is the class coding pseudo-random generators used in GHOST. ">Random</a> </dd></dl>
 
 </div>
 </div>
@@ -964,7 +964,7 @@ template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#ab589c264cf391bab9005562f66a39797">setHelper</a>, <a class="el" href="classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27" title="The vector of double values implementing the value heuristic for each possible value of a given varia...">heuristicValueHelper</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Objective.html#ab589c264cf391bab9005562f66a39797">setHelper</a>, <a class="el" href="classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27" title="Vector of local costs used by the value heuristic. Represent the cost for each possible value of a gi...">heuristicValueHelper</a> </dd></dl>
 
 <p>Implemented in <a class="el" href="classghost_1_1NullObjective.html#a5f4b22306c25132590e3c10a6dc34d15">ghost::NullObjective&lt; TypeVariable, TypeDomain &gt;</a>.</p>
 
@@ -991,7 +991,7 @@ template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>The vector of double values implementing the value heuristic for each possible value of a given variable. </p>
+<p>Vector of local costs used by the value heuristic. Represent the cost for each possible value of a given variable. Used to tie-break equivalent configuration costs. </p>
 
 </div>
 </div>
@@ -1015,7 +1015,7 @@ template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>A string for the name of the objective object. </p>
+<p>String for the name of the objective object. </p>
 
 </div>
 </div>
@@ -1063,7 +1063,7 @@ template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>The random generator used by the function heuristicValue. </p>
+<p><a class="el" href="classghost_1_1Random.html" title="Random is the class coding pseudo-random generators used in GHOST. ">Random</a> generator used by the function heuristicValue. </p>
 
 </div>
 </div>
@@ -1073,7 +1073,7 @@ template&lt;typename TypeVariable , typename TypeDomain &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Sep 12 2014 13:52:06 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 16 2014 15:59:31 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

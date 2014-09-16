@@ -387,115 +387,117 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;      <span class="comment">//    cout &lt;&lt; v &lt;&lt; endl;</span></div>
 <div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;</div>
 <div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;      <span class="comment">// cout &lt;&lt; &quot;Domains:&quot; &lt;&lt; *domain &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;      </div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;      cout &lt;&lt; <span class="stringliteral">&quot;############&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;      </div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;      <span class="keywordflow">if</span>( objOriginalNull )</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;SATISFACTION run&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;      <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;OPTIMIZATION run with objective &quot;</span> &lt;&lt; objective-&gt;getName() &lt;&lt; endl;</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;      </div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;      cout &lt;&lt; <span class="stringliteral">&quot;Elapsed time: &quot;</span> &lt;&lt; elapsedTime.count() / 1000 &lt;&lt; endl</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;       &lt;&lt; <span class="stringliteral">&quot;Global cost: &quot;</span> &lt;&lt; bestGlobalCost &lt;&lt; endl</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;       &lt;&lt; <span class="stringliteral">&quot;Number of tours: &quot;</span> &lt;&lt; tour &lt;&lt; endl</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;       &lt;&lt; <span class="stringliteral">&quot;Number of iterations: &quot;</span> &lt;&lt; iterations &lt;&lt; endl;</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;      <span class="keywordflow">if</span>( !objOriginalNull )</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;      {</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Optimization cost: &quot;</span> &lt;&lt; bestCost &lt;&lt; endl</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;         &lt;&lt; <span class="stringliteral">&quot;Opt Cost BEFORE post-processing: &quot;</span> &lt;&lt; beforePostProc &lt;&lt; endl;</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;      }</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;      </div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;      <span class="keywordflow">if</span>( timerPostProcessOpt != 0 )</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Post-processing time: &quot;</span> &lt;&lt; timerPostProcessOpt / 1000 &lt;&lt; endl; </div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;      cout &lt;&lt; endl;</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;      </div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;      <span class="keywordflow">if</span>( objOriginalNull )</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    <span class="keywordflow">return</span> bestGlobalCost;</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;      <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    <span class="keywordflow">return</span> bestCost;</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    }</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    </div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00382"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a58d9540a9700be0e953ebdcf0660920f">  382</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="classghost_1_1Solver.html#a58d9540a9700be0e953ebdcf0660920f">move</a>( TypeVariable *building, <span class="keywordtype">int</span> newValue )</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    {</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;      domain-&gt;clear( *building );</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;      building-&gt;setValue( newValue );</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;      domain-&gt;add( *building );</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    }</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;</div>
-<div class="line"><a name="l00391"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#ae3489c7f10952a8a0a2a0895b9b1c8fe">  391</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="classghost_1_1Solver.html#ae3489c7f10952a8a0a2a0895b9b1c8fe">permut</a>( TypeVariable *building, <span class="keywordtype">int</span> newValue )</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;    {</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;      <span class="keywordtype">int</span> backup = building-&gt;getValue();</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;      <span class="keywordflow">if</span>( backup == newValue )</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;      </div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;      <span class="keywordflow">if</span>( backup &gt; newValue )</div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;      {</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;    <span class="keywordflow">for</span>( <span class="keywordtype">int</span> i = backup ; i &gt; newValue ; --i )</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;    {</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;      std::swap( vecVariables-&gt;at(i-1), vecVariables-&gt;at(i) );</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;      vecVariables-&gt;at(i).shiftValue();</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;    }</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;    vecVariables-&gt;at(newValue).setValue( newValue );    </div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;      }</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;      <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;      {</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;    <span class="keywordflow">for</span>( <span class="keywordtype">int</span> i = backup ; i &lt; newValue ; ++i )</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;    {</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;      std::swap( vecVariables-&gt;at(i), vecVariables-&gt;at(i+1) );</div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;      vecVariables-&gt;at(i).unshiftValue();</div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;    }</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;    vecVariables-&gt;at(newValue).setValue( newValue );    </div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;      }</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;    }</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;</div>
-<div class="line"><a name="l00420"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a2d033a454234b2277aabdcc4d89eaba2">  420</a></span>&#160;    vector&lt; TypeVariable &gt;              *<a class="code" href="classghost_1_1Solver.html#a2d033a454234b2277aabdcc4d89eaba2">vecVariables</a>;  </div>
-<div class="line"><a name="l00421"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#ad9292e9219261ba8058fec05b453c0c9">  421</a></span>&#160;    TypeDomain                      *<a class="code" href="classghost_1_1Solver.html#ad9292e9219261ba8058fec05b453c0c9">domain</a>;    </div>
-<div class="line"><a name="l00422"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a170746edcfb777b12978444c2ab3962e">  422</a></span>&#160;    vector&lt; shared_ptr&lt;TypeConstraint&gt; &gt;        <a class="code" href="classghost_1_1Solver.html#a170746edcfb777b12978444c2ab3962e">vecConstraints</a>; </div>
-<div class="line"><a name="l00423"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a4fd74bd68d0ea253fd35adad697f964d">  423</a></span>&#160;    shared_ptr&lt; Objective&lt;TypeVariable, TypeDomain&gt; &gt;   <a class="code" href="classghost_1_1Solver.html#a4fd74bd68d0ea253fd35adad697f964d">objective</a>;  </div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;</div>
-<div class="line"><a name="l00425"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a76c1057367112ead0304b436b5f508f1">  425</a></span>&#160;    vector&lt;double&gt;              <a class="code" href="classghost_1_1Solver.html#a76c1057367112ead0304b436b5f508f1">variableCost</a>;       </div>
-<div class="line"><a name="l00426"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#aa6a77e14862a9be467e6c6c76124b526">  426</a></span>&#160;    <span class="keywordtype">int</span>                     <a class="code" href="classghost_1_1Solver.html#aa6a77e14862a9be467e6c6c76124b526">loops</a>;          </div>
-<div class="line"><a name="l00427"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#aa5c12894a6fbd524fb33906c8f3fbcae">  427</a></span>&#160;    vector&lt;int&gt;                 <a class="code" href="classghost_1_1Solver.html#aa5c12894a6fbd524fb33906c8f3fbcae">tabuList</a>;       </div>
-<div class="line"><a name="l00428"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#acec87a0a0adcc3a8d794a1ff84718201">  428</a></span>&#160;    <a class="code" href="classghost_1_1Random.html">Random</a>                  <a class="code" href="classghost_1_1Solver.html#acec87a0a0adcc3a8d794a1ff84718201">randomVar</a>;      </div>
-<div class="line"><a name="l00429"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a2fa5cf25d3417e3046aad3c1123320ed">  429</a></span>&#160;    <span class="keywordtype">double</span>                  <a class="code" href="classghost_1_1Solver.html#a2fa5cf25d3417e3046aad3c1123320ed">bestCost</a>;       </div>
-<div class="line"><a name="l00430"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#aa76ec90c418b23b261a0f3da63a9ee4a">  430</a></span>&#160;    vector&lt; TypeVariable &gt;          <a class="code" href="classghost_1_1Solver.html#aa76ec90c418b23b261a0f3da63a9ee4a">bestSolution</a>;       </div>
-<div class="line"><a name="l00431"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#acc1a01dfcbc918ce3ae77d4fc47f1ac9">  431</a></span>&#160;    <span class="keywordtype">bool</span>                    <a class="code" href="classghost_1_1Solver.html#acc1a01dfcbc918ce3ae77d4fc47f1ac9">objOriginalNull</a>;    </div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;  };</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;}</div>
-<div class="ttc" id="classghost_1_1Solver_html_acc1a01dfcbc918ce3ae77d4fc47f1ac9"><div class="ttname"><a href="classghost_1_1Solver.html#acc1a01dfcbc918ce3ae77d4fc47f1ac9">ghost::Solver::objOriginalNull</a></div><div class="ttdeci">bool objOriginalNull</div><div class="ttdoc">A boolean to know if it is a satisfaction or optimization run. </div><div class="ttdef"><b>Definition:</b> solver.hpp:431</div></div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="preprocessor"></span>      cout &lt;&lt; <span class="stringliteral">&quot;############&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;      </div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;      <span class="keywordflow">if</span>( objOriginalNull )</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;SATISFACTION run&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;      <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;OPTIMIZATION run with objective &quot;</span> &lt;&lt; objective-&gt;getName() &lt;&lt; endl;</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;      </div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;      cout &lt;&lt; <span class="stringliteral">&quot;Elapsed time: &quot;</span> &lt;&lt; elapsedTime.count() / 1000 &lt;&lt; endl</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;       &lt;&lt; <span class="stringliteral">&quot;Global cost: &quot;</span> &lt;&lt; bestGlobalCost &lt;&lt; endl</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;       &lt;&lt; <span class="stringliteral">&quot;Number of tours: &quot;</span> &lt;&lt; tour &lt;&lt; endl</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;       &lt;&lt; <span class="stringliteral">&quot;Number of iterations: &quot;</span> &lt;&lt; iterations &lt;&lt; endl;</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;      <span class="keywordflow">if</span>( !objOriginalNull )</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;      {</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Optimization cost: &quot;</span> &lt;&lt; bestCost &lt;&lt; endl</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;         &lt;&lt; <span class="stringliteral">&quot;Opt Cost BEFORE post-processing: &quot;</span> &lt;&lt; beforePostProc &lt;&lt; endl;</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;      }</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;      </div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;      <span class="keywordflow">if</span>( timerPostProcessOpt != 0 )</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Post-processing time: &quot;</span> &lt;&lt; timerPostProcessOpt / 1000 &lt;&lt; endl; </div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;      cout &lt;&lt; endl;</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;<span class="preprocessor"></span>      </div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;      <span class="keywordflow">if</span>( objOriginalNull )</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    <span class="keywordflow">return</span> bestGlobalCost;</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;      <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    <span class="keywordflow">return</span> bestCost;</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;    }</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;    </div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00384"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a58d9540a9700be0e953ebdcf0660920f">  384</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="classghost_1_1Solver.html#a58d9540a9700be0e953ebdcf0660920f">move</a>( TypeVariable *building, <span class="keywordtype">int</span> newValue )</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    {</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;      domain-&gt;clear( *building );</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;      building-&gt;setValue( newValue );</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;      domain-&gt;add( *building );</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    }</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;</div>
+<div class="line"><a name="l00393"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#ae3489c7f10952a8a0a2a0895b9b1c8fe">  393</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="classghost_1_1Solver.html#ae3489c7f10952a8a0a2a0895b9b1c8fe">permut</a>( TypeVariable *building, <span class="keywordtype">int</span> newValue )</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;    {</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;      <span class="keywordtype">int</span> backup = building-&gt;getValue();</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;      <span class="keywordflow">if</span>( backup == newValue )</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;      </div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;      <span class="keywordflow">if</span>( backup &gt; newValue )</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;      {</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;    <span class="keywordflow">for</span>( <span class="keywordtype">int</span> i = backup ; i &gt; newValue ; --i )</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;    {</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;      std::swap( vecVariables-&gt;at(i-1), vecVariables-&gt;at(i) );</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;      vecVariables-&gt;at(i).shiftValue();</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;    }</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;    vecVariables-&gt;at(newValue).setValue( newValue );    </div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;      }</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;      <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;      {</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;    <span class="keywordflow">for</span>( <span class="keywordtype">int</span> i = backup ; i &lt; newValue ; ++i )</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;    {</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;      std::swap( vecVariables-&gt;at(i), vecVariables-&gt;at(i+1) );</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;      vecVariables-&gt;at(i).unshiftValue();</div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;    }</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;    vecVariables-&gt;at(newValue).setValue( newValue );    </div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;      }</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;    }</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;</div>
+<div class="line"><a name="l00422"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a2d033a454234b2277aabdcc4d89eaba2">  422</a></span>&#160;    vector&lt; TypeVariable &gt;              *<a class="code" href="classghost_1_1Solver.html#a2d033a454234b2277aabdcc4d89eaba2">vecVariables</a>;  </div>
+<div class="line"><a name="l00423"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#ad9292e9219261ba8058fec05b453c0c9">  423</a></span>&#160;    TypeDomain                      *<a class="code" href="classghost_1_1Solver.html#ad9292e9219261ba8058fec05b453c0c9">domain</a>;    </div>
+<div class="line"><a name="l00424"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a170746edcfb777b12978444c2ab3962e">  424</a></span>&#160;    vector&lt; shared_ptr&lt;TypeConstraint&gt; &gt;        <a class="code" href="classghost_1_1Solver.html#a170746edcfb777b12978444c2ab3962e">vecConstraints</a>; </div>
+<div class="line"><a name="l00425"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a4fd74bd68d0ea253fd35adad697f964d">  425</a></span>&#160;    shared_ptr&lt; Objective&lt;TypeVariable, TypeDomain&gt; &gt;   <a class="code" href="classghost_1_1Solver.html#a4fd74bd68d0ea253fd35adad697f964d">objective</a>;  </div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;</div>
+<div class="line"><a name="l00427"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a76c1057367112ead0304b436b5f508f1">  427</a></span>&#160;    vector&lt;double&gt;              <a class="code" href="classghost_1_1Solver.html#a76c1057367112ead0304b436b5f508f1">variableCost</a>;       </div>
+<div class="line"><a name="l00428"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#aa6a77e14862a9be467e6c6c76124b526">  428</a></span>&#160;    <span class="keywordtype">int</span>                     <a class="code" href="classghost_1_1Solver.html#aa6a77e14862a9be467e6c6c76124b526">loops</a>;          </div>
+<div class="line"><a name="l00429"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#aa5c12894a6fbd524fb33906c8f3fbcae">  429</a></span>&#160;    vector&lt;int&gt;                 <a class="code" href="classghost_1_1Solver.html#aa5c12894a6fbd524fb33906c8f3fbcae">tabuList</a>;       </div>
+<div class="line"><a name="l00430"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#acec87a0a0adcc3a8d794a1ff84718201">  430</a></span>&#160;    <a class="code" href="classghost_1_1Random.html">Random</a>                  <a class="code" href="classghost_1_1Solver.html#acec87a0a0adcc3a8d794a1ff84718201">randomVar</a>;      </div>
+<div class="line"><a name="l00431"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a2fa5cf25d3417e3046aad3c1123320ed">  431</a></span>&#160;    <span class="keywordtype">double</span>                  <a class="code" href="classghost_1_1Solver.html#a2fa5cf25d3417e3046aad3c1123320ed">bestCost</a>;       </div>
+<div class="line"><a name="l00432"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#aa76ec90c418b23b261a0f3da63a9ee4a">  432</a></span>&#160;    vector&lt; TypeVariable &gt;          <a class="code" href="classghost_1_1Solver.html#aa76ec90c418b23b261a0f3da63a9ee4a">bestSolution</a>;       </div>
+<div class="line"><a name="l00433"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#acc1a01dfcbc918ce3ae77d4fc47f1ac9">  433</a></span>&#160;    <span class="keywordtype">bool</span>                    <a class="code" href="classghost_1_1Solver.html#acc1a01dfcbc918ce3ae77d4fc47f1ac9">objOriginalNull</a>;    </div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;  };</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;}</div>
+<div class="ttc" id="classghost_1_1Solver_html_acc1a01dfcbc918ce3ae77d4fc47f1ac9"><div class="ttname"><a href="classghost_1_1Solver.html#acc1a01dfcbc918ce3ae77d4fc47f1ac9">ghost::Solver::objOriginalNull</a></div><div class="ttdeci">bool objOriginalNull</div><div class="ttdoc">A boolean to know if it is a satisfaction or optimization run. </div><div class="ttdef"><b>Definition:</b> solver.hpp:433</div></div>
 <div class="ttc" id="classghost_1_1Objective_html"><div class="ttname"><a href="classghost_1_1Objective.html">ghost::Objective</a></div><div class="ttdoc">Objective is the class encoding objective functions of your CSP/COP. </div><div class="ttdef"><b>Definition:</b> objective.hpp:67</div></div>
-<div class="ttc" id="classghost_1_1Solver_html_aa5c12894a6fbd524fb33906c8f3fbcae"><div class="ttname"><a href="classghost_1_1Solver.html#aa5c12894a6fbd524fb33906c8f3fbcae">ghost::Solver::tabuList</a></div><div class="ttdeci">vector&lt; int &gt; tabuList</div><div class="ttdoc">The tabu list, frozing each used variable for tabu_length iterations. </div><div class="ttdef"><b>Definition:</b> solver.hpp:427</div></div>
+<div class="ttc" id="classghost_1_1Solver_html_aa5c12894a6fbd524fb33906c8f3fbcae"><div class="ttname"><a href="classghost_1_1Solver.html#aa5c12894a6fbd524fb33906c8f3fbcae">ghost::Solver::tabuList</a></div><div class="ttdeci">vector&lt; int &gt; tabuList</div><div class="ttdoc">The tabu list, frozing each used variable for tabu_length iterations. </div><div class="ttdef"><b>Definition:</b> solver.hpp:429</div></div>
 <div class="ttc" id="classghost_1_1Solver_html"><div class="ttname"><a href="classghost_1_1Solver.html">ghost::Solver</a></div><div class="ttdoc">Solver is the class coding the solver itself. </div><div class="ttdef"><b>Definition:</b> solver.hpp:74</div></div>
-<div class="ttc" id="classghost_1_1Solver_html_aa76ec90c418b23b261a0f3da63a9ee4a"><div class="ttname"><a href="classghost_1_1Solver.html#aa76ec90c418b23b261a0f3da63a9ee4a">ghost::Solver::bestSolution</a></div><div class="ttdeci">vector&lt; TypeVariable &gt; bestSolution</div><div class="ttdoc">The best solution found by the solver. </div><div class="ttdef"><b>Definition:</b> solver.hpp:430</div></div>
+<div class="ttc" id="classghost_1_1Solver_html_aa76ec90c418b23b261a0f3da63a9ee4a"><div class="ttname"><a href="classghost_1_1Solver.html#aa76ec90c418b23b261a0f3da63a9ee4a">ghost::Solver::bestSolution</a></div><div class="ttdeci">vector&lt; TypeVariable &gt; bestSolution</div><div class="ttdoc">The best solution found by the solver. </div><div class="ttdef"><b>Definition:</b> solver.hpp:432</div></div>
 <div class="ttc" id="constraint_8hpp_html"><div class="ttname"><a href="constraint_8hpp.html">constraint.hpp</a></div></div>
 <div class="ttc" id="domain_8hpp_html"><div class="ttname"><a href="domain_8hpp.html">domain.hpp</a></div></div>
-<div class="ttc" id="classghost_1_1Solver_html_a170746edcfb777b12978444c2ab3962e"><div class="ttname"><a href="classghost_1_1Solver.html#a170746edcfb777b12978444c2ab3962e">ghost::Solver::vecConstraints</a></div><div class="ttdeci">vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; vecConstraints</div><div class="ttdoc">The vector of (shared pointers of) constraints of the CSP/COP. </div><div class="ttdef"><b>Definition:</b> solver.hpp:422</div></div>
-<div class="ttc" id="classghost_1_1Solver_html_aa6a77e14862a9be467e6c6c76124b526"><div class="ttname"><a href="classghost_1_1Solver.html#aa6a77e14862a9be467e6c6c76124b526">ghost::Solver::loops</a></div><div class="ttdeci">int loops</div><div class="ttdoc">The number of times we reiterate the satisfaction loop inside Solver::solve. </div><div class="ttdef"><b>Definition:</b> solver.hpp:426</div></div>
-<div class="ttc" id="classghost_1_1Solver_html_a4fd74bd68d0ea253fd35adad697f964d"><div class="ttname"><a href="classghost_1_1Solver.html#a4fd74bd68d0ea253fd35adad697f964d">ghost::Solver::objective</a></div><div class="ttdeci">shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; objective</div><div class="ttdoc">The shared pointer of the objective function. </div><div class="ttdef"><b>Definition:</b> solver.hpp:423</div></div>
+<div class="ttc" id="classghost_1_1Solver_html_a170746edcfb777b12978444c2ab3962e"><div class="ttname"><a href="classghost_1_1Solver.html#a170746edcfb777b12978444c2ab3962e">ghost::Solver::vecConstraints</a></div><div class="ttdeci">vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; vecConstraints</div><div class="ttdoc">The vector of (shared pointers of) constraints of the CSP/COP. </div><div class="ttdef"><b>Definition:</b> solver.hpp:424</div></div>
+<div class="ttc" id="classghost_1_1Solver_html_aa6a77e14862a9be467e6c6c76124b526"><div class="ttname"><a href="classghost_1_1Solver.html#aa6a77e14862a9be467e6c6c76124b526">ghost::Solver::loops</a></div><div class="ttdeci">int loops</div><div class="ttdoc">The number of times we reiterate the satisfaction loop inside Solver::solve. </div><div class="ttdef"><b>Definition:</b> solver.hpp:428</div></div>
+<div class="ttc" id="classghost_1_1Solver_html_a4fd74bd68d0ea253fd35adad697f964d"><div class="ttname"><a href="classghost_1_1Solver.html#a4fd74bd68d0ea253fd35adad697f964d">ghost::Solver::objective</a></div><div class="ttdeci">shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; objective</div><div class="ttdoc">The shared pointer of the objective function. </div><div class="ttdef"><b>Definition:</b> solver.hpp:425</div></div>
 <div class="ttc" id="classghost_1_1Random_html"><div class="ttname"><a href="classghost_1_1Random.html">ghost::Random</a></div><div class="ttdoc">Random is the class coding pseudo-random generators used in GHOST. </div><div class="ttdef"><b>Definition:</b> random.hpp:41</div></div>
-<div class="ttc" id="classghost_1_1Solver_html_a2d033a454234b2277aabdcc4d89eaba2"><div class="ttname"><a href="classghost_1_1Solver.html#a2d033a454234b2277aabdcc4d89eaba2">ghost::Solver::vecVariables</a></div><div class="ttdeci">vector&lt; TypeVariable &gt; * vecVariables</div><div class="ttdoc">A pointer to the vector of variable objects of the CSP/COP. </div><div class="ttdef"><b>Definition:</b> solver.hpp:420</div></div>
+<div class="ttc" id="classghost_1_1Solver_html_a2d033a454234b2277aabdcc4d89eaba2"><div class="ttname"><a href="classghost_1_1Solver.html#a2d033a454234b2277aabdcc4d89eaba2">ghost::Solver::vecVariables</a></div><div class="ttdeci">vector&lt; TypeVariable &gt; * vecVariables</div><div class="ttdoc">A pointer to the vector of variable objects of the CSP/COP. </div><div class="ttdef"><b>Definition:</b> solver.hpp:422</div></div>
 <div class="ttc" id="objective_8hpp_html"><div class="ttname"><a href="objective_8hpp.html">objective.hpp</a></div></div>
-<div class="ttc" id="classghost_1_1Solver_html_a76c1057367112ead0304b436b5f508f1"><div class="ttname"><a href="classghost_1_1Solver.html#a76c1057367112ead0304b436b5f508f1">ghost::Solver::variableCost</a></div><div class="ttdeci">vector&lt; double &gt; variableCost</div><div class="ttdoc">The vector of projected costs on each variable. </div><div class="ttdef"><b>Definition:</b> solver.hpp:425</div></div>
+<div class="ttc" id="classghost_1_1Solver_html_a76c1057367112ead0304b436b5f508f1"><div class="ttname"><a href="classghost_1_1Solver.html#a76c1057367112ead0304b436b5f508f1">ghost::Solver::variableCost</a></div><div class="ttdeci">vector&lt; double &gt; variableCost</div><div class="ttdoc">The vector of projected costs on each variable. </div><div class="ttdef"><b>Definition:</b> solver.hpp:427</div></div>
 <div class="ttc" id="classghost_1_1Solver_html_aee74bbdf00494dc209d4909bf9fcb544"><div class="ttname"><a href="classghost_1_1Solver.html#aee74bbdf00494dc209d4909bf9fcb544">ghost::Solver::Solver</a></div><div class="ttdeci">Solver(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj=nullptr)</div><div class="ttdoc">Solver&#39;s regular constructor. </div><div class="ttdef"><b>Definition:</b> solver.hpp:86</div></div>
 <div class="ttc" id="classghost_1_1Solver_html_a512335329b22a91700bdfa7870f053e9"><div class="ttname"><a href="classghost_1_1Solver.html#a512335329b22a91700bdfa7870f053e9">ghost::Solver::Solver</a></div><div class="ttdeci">Solver(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj, const int loops)</div><div class="ttdoc">Solver&#39;s constructor mostly used for tests. </div><div class="ttdef"><b>Definition:</b> solver.hpp:105</div></div>
 <div class="ttc" id="classghost_1_1Solver_html_a5d15e316f5a4bb8a33c6781058ad0307"><div class="ttname"><a href="classghost_1_1Solver.html#a5d15e316f5a4bb8a33c6781058ad0307">ghost::Solver::solve</a></div><div class="ttdeci">double solve(double sat_timeout, double opt_timeout=0)</div><div class="ttdoc">Solver&#39;s main function, to solve the given CSP/COP. </div><div class="ttdef"><b>Definition:</b> solver.hpp:131</div></div>
-<div class="ttc" id="classghost_1_1Solver_html_ae3489c7f10952a8a0a2a0895b9b1c8fe"><div class="ttname"><a href="classghost_1_1Solver.html#ae3489c7f10952a8a0a2a0895b9b1c8fe">ghost::Solver::permut</a></div><div class="ttdeci">void permut(TypeVariable *building, int newValue)</div><div class="ttdef"><b>Definition:</b> solver.hpp:391</div></div>
+<div class="ttc" id="classghost_1_1Solver_html_ae3489c7f10952a8a0a2a0895b9b1c8fe"><div class="ttname"><a href="classghost_1_1Solver.html#ae3489c7f10952a8a0a2a0895b9b1c8fe">ghost::Solver::permut</a></div><div class="ttdeci">void permut(TypeVariable *building, int newValue)</div><div class="ttdef"><b>Definition:</b> solver.hpp:393</div></div>
 <div class="ttc" id="random_8hpp_html"><div class="ttname"><a href="random_8hpp.html">random.hpp</a></div></div>
-<div class="ttc" id="classghost_1_1Solver_html_a58d9540a9700be0e953ebdcf0660920f"><div class="ttname"><a href="classghost_1_1Solver.html#a58d9540a9700be0e953ebdcf0660920f">ghost::Solver::move</a></div><div class="ttdeci">void move(TypeVariable *building, int newValue)</div><div class="ttdef"><b>Definition:</b> solver.hpp:382</div></div>
-<div class="ttc" id="classghost_1_1Solver_html_ad9292e9219261ba8058fec05b453c0c9"><div class="ttname"><a href="classghost_1_1Solver.html#ad9292e9219261ba8058fec05b453c0c9">ghost::Solver::domain</a></div><div class="ttdeci">TypeDomain * domain</div><div class="ttdoc">A pointer to the domain object of the CSP/COP. </div><div class="ttdef"><b>Definition:</b> solver.hpp:421</div></div>
+<div class="ttc" id="classghost_1_1Solver_html_a58d9540a9700be0e953ebdcf0660920f"><div class="ttname"><a href="classghost_1_1Solver.html#a58d9540a9700be0e953ebdcf0660920f">ghost::Solver::move</a></div><div class="ttdeci">void move(TypeVariable *building, int newValue)</div><div class="ttdef"><b>Definition:</b> solver.hpp:384</div></div>
+<div class="ttc" id="classghost_1_1Solver_html_ad9292e9219261ba8058fec05b453c0c9"><div class="ttname"><a href="classghost_1_1Solver.html#ad9292e9219261ba8058fec05b453c0c9">ghost::Solver::domain</a></div><div class="ttdeci">TypeDomain * domain</div><div class="ttdoc">A pointer to the domain object of the CSP/COP. </div><div class="ttdef"><b>Definition:</b> solver.hpp:423</div></div>
 <div class="ttc" id="variable_8hpp_html"><div class="ttname"><a href="variable_8hpp.html">variable.hpp</a></div></div>
-<div class="ttc" id="classghost_1_1Solver_html_acec87a0a0adcc3a8d794a1ff84718201"><div class="ttname"><a href="classghost_1_1Solver.html#acec87a0a0adcc3a8d794a1ff84718201">ghost::Solver::randomVar</a></div><div class="ttdeci">Random randomVar</div><div class="ttdoc">The random generator used by the solver. </div><div class="ttdef"><b>Definition:</b> solver.hpp:428</div></div>
-<div class="ttc" id="classghost_1_1Solver_html_a2fa5cf25d3417e3046aad3c1123320ed"><div class="ttname"><a href="classghost_1_1Solver.html#a2fa5cf25d3417e3046aad3c1123320ed">ghost::Solver::bestCost</a></div><div class="ttdeci">double bestCost</div><div class="ttdoc">The (satisfaction or optimization) cost of the best solution. </div><div class="ttdef"><b>Definition:</b> solver.hpp:429</div></div>
+<div class="ttc" id="classghost_1_1Solver_html_acec87a0a0adcc3a8d794a1ff84718201"><div class="ttname"><a href="classghost_1_1Solver.html#acec87a0a0adcc3a8d794a1ff84718201">ghost::Solver::randomVar</a></div><div class="ttdeci">Random randomVar</div><div class="ttdoc">The random generator used by the solver. </div><div class="ttdef"><b>Definition:</b> solver.hpp:430</div></div>
+<div class="ttc" id="classghost_1_1Solver_html_a2fa5cf25d3417e3046aad3c1123320ed"><div class="ttname"><a href="classghost_1_1Solver.html#a2fa5cf25d3417e3046aad3c1123320ed">ghost::Solver::bestCost</a></div><div class="ttdeci">double bestCost</div><div class="ttdoc">The (satisfaction or optimization) cost of the best solution. </div><div class="ttdef"><b>Definition:</b> solver.hpp:431</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Sep 12 2014 13:52:05 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 16 2014 15:59:29 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
