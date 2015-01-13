@@ -46,7 +46,7 @@ namespace ghost
 
     for( auto it = variables->begin() ; it != variables->end() ; ++it )
     {
-      // A unit u is badly affected to a target t iif:
+      // A unit u is badly assigned to a target t iif:
       // 1. u can shoot
       // 2. u has at least one living reachable target in its range
       // 3. t is the dummy target (-1) or t in unreachable from u or t is dead
