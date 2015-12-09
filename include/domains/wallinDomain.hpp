@@ -49,15 +49,10 @@ namespace ghost
     using Domain<Building>::add;
     using Domain<Building>::clear;
 
-    WallinDomain( int, int, int, int, int, int, int ) ;
-    WallinDomain( int,
-		  int,
-		  const vector< pair<int, int> >&,
-		  const vector< Building >*,
-		  int,
-		  int,
-		  int,
-		  int ) ;
+	WallinDomain(int maxX, int maxY, int nbVar, int sX, int sY, int tX, int tY);
+	WallinDomain(int maxX, int maxY,
+		const vector< pair<int, int> > &unbuildables, const vector< Building > *variables,
+		int sX, int sY, int tX, int tY);
 
     pair<int, int>	shift( Building& );
     void		quickShift( Building& );
@@ -85,14 +80,14 @@ namespace ghost
     inline pair<int, int> getStartingTile()	const { return startingTile; }
     inline pair<int, int> getTargetTile()	const { return targetTile; }
            
-    inline int		 getNberRows()	const { return nRow_; }
-    inline int		 getNberCols()	const { return mCol_; }
+	inline int		 getNberRows()	const { return maxY_; }
+	inline int		 getNberCols()	const { return maxY_; }
     inline bool		 hasFailure()	const { return !failures_.empty(); }
     inline mapFail	 failures()	const { return failures_; }
 
-    inline pair<int, int> lin2mat( int p )	      const {return make_pair(p / mCol_, p % mCol_);}
-    inline int		  mat2lin( int row, int col ) const {return row * mCol_ + col;}
-    inline int		  mat2lin( pair<int, int> p ) const {return p.first * mCol_ + p.second;}
+	inline pair<int, int> lin2mat(int p)	      const { return make_pair(p % maxY_, p / maxY_); }
+	inline int		  mat2lin(int x, int y) const { return x + y * maxY_; }
+	inline int		  mat2lin(pair<int, int> p) const { return p.first + p.second * maxY_; }
 
     bool	isStartingOrTargetTile( int ) const;
     bool	isNeightborOfSTTBuildings( const Building &, vector< Building > ) const;
@@ -109,8 +104,8 @@ namespace ghost
     void v_wipe( vector<Building> *variables );
     void v_rebuild( vector<Building> *variables );
     
-    int mCol_;
-    int nRow_;
+    int maxX_;
+    int maxY_;
     vector< vector<string> > matrixType_;
     vector< vector< set<int> > > matrixId_;
     pair<int, int> startingTile;

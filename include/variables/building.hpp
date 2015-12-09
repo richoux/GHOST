@@ -37,7 +37,8 @@ namespace ghost
   {
   public:
     Building();
-    Building(int, int, int, int, int, int, Race, int, string, string, int = -1);
+	Building(int x, int y, int top, int right, int bottom, int left, Race race, int treedepth,
+		string name, string fullName, int position = -1);
     Building(const Building&);
     Building& operator=(Building);
 

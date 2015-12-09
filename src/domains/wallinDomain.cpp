@@ -31,178 +31,168 @@
 
 namespace ghost
 {
-  WallinDomain::WallinDomain( int col,
-			      int row,
-			      int nbVar,
-			      int sRow,
-			      int sCol,
-			      int tRow,
-			      int tCol ) 
-    : Domain(col*row+1, nbVar, -1),
-      mCol_(col),
-      nRow_(row),
-      matrixType_(vector< vector<string> >(nRow_, vector<string>(mCol_, "") ) ),
-      matrixId_(vector< vector< set<int> > >(nRow_, vector< set<int> >(mCol_, set<int>() ) ) ),
-      startingTile( make_pair( sRow, sCol ) ),
-      targetTile( make_pair( tRow, tCol ) )
-  { 
-    matrixType_[sRow][sCol] += "@s";
-    matrixType_[tRow][tCol] += "@t";
+	WallinDomain::WallinDomain(int maxX, int maxY, int nbVar, int sX, int sY, int tX, int tY)
+		: Domain(maxX*maxY + 1, nbVar, -1),
+		maxX_(maxX),
+		maxY_(maxY),
+		matrixType_(vector< vector<string> >(maxY, vector<string>(maxY, ""))),
+		matrixId_(vector< vector< set<int> > >(maxY, vector< set<int> >(maxY, set<int>()))),
+		startingTile(make_pair(sX, sY)),
+		targetTile(make_pair(tX, tY))
+	{
+		matrixType_[sX][sY] += "@s";
+		matrixType_[tX][tY] += "@t";
+	}
+
+	WallinDomain::WallinDomain(int maxX, int maxY,
+		const vector< pair<int, int> > &unbuildables, const vector< Building > *variables,
+		int sX, int sY, int tX, int tY)
+		: WallinDomain(maxX, maxY, variables->size(), sX, sY, tX, tY)
+	{
+		for (const auto &u : unbuildables) {
+// 			cout << "Assign # at point " << u.first << "," << u.second << endl;
+			matrixType_[u.first][u.second].assign(3, '#');
+		}
+
+		for (const auto &v : *variables)
+			domains[v.getId()] = possiblePos(v);
+	}
+
+  void WallinDomain::add(const Building& building)
+  {
+	  if (building.isSelected()) {
+		  pair<int, int> pos = lin2mat(building.getValue());
+		  int posX = pos.first;
+		  int posY = pos.second;
+// 		  cout << "Adding building " << building.getName() << " at " << posX << "," << posY << endl;
+
+		  for (int x = posX; x < posX + building.getLength(); ++x)
+			  for (int y = posY; y < posY + building.getHeight(); ++y)
+				  add(x, y, building.getName(), building.getId());
+// 		  cout << *this;
+	  }
   }
 
-  WallinDomain::WallinDomain( int col,
-			      int row,
-			      const vector< pair<int, int> > &unbuildables,
-			      const vector< Building > *variables,
-			      int sRow,
-			      int sCol,
-			      int tRow,
-			      int tCol ) 
-    : WallinDomain( col, row, variables->size(), sRow, sCol, tRow, tCol )
+  void WallinDomain::add(int x, int y, string b_short, int b_id)
   {
-    for( const auto &u : unbuildables )
-      matrixType_[u.first][u.second].assign(3, '#');
+	  bool fail = !(matrixType_[x][y].empty()
+		  || (matrixType_[x][y].find("@") != string::npos && matrixType_[x][y].size() <= 3));
 
-    for( const auto &v : *variables )
-      domains[ v.getId() ] = possiblePos( v );
-  }
+	  matrixType_[x][y] += b_short;
+	  matrixId_[x][y].insert(b_id);
+	  if (fail) {
+		  pair<int, int> key(x, y);
+		  if (failures_.find(key) == failures_.end()) {
+			  failures_.emplace(key, matrixType_[x][y]);
+		  } else {
+			  failures_.at(key) += b_short;
+		  }
 
-  void WallinDomain::add( const Building& building )
-  {
-    if( building.isSelected() )
-    {
-      pair<int, int> pos = lin2mat( building.getValue() );
-      int row = pos.first;
-      int col = pos.second;
-     
-      for( int x = row; x < row + building.getHeight(); ++x )
-	for( int y = col; y < col + building.getLength(); ++y )
-	  add(x, y, building.getName(), building.getId() );
-    }
-  }
-
-  void WallinDomain::add( int row, int col, string b_short, int b_id )
-  {
-    bool fail = ! ( matrixType_[row][col].empty() 
-		    || ( matrixType_[row][col].find("@") != string::npos && matrixType_[row][col].size() <= 3) );
-
-    matrixType_[row][col] += b_short;
-    matrixId_[row][col].insert( b_id );
-    if( fail )
-    {
-      pair<int, int> key(row, col);
-      if( failures_.find( key ) == failures_.end() )
-	failures_.emplace( key, matrixType_[row][col] );
-      else
-	failures_.at( key ) += b_short;
-    }
+	  }
   }
   
-  void WallinDomain::clear( const Building& building )
+  void WallinDomain::clear(const Building& building)
   {
-    if( building.isSelected() )
-    {
-      pair<int, int> pos = lin2mat( building.getValue() );
-      int row = pos.first;
-      int col = pos.second;
-      
-      for( int x = row; x < row + building.getHeight(); ++x )
-	for( int y = col; y < col + building.getLength(); ++y )
-	  clear(x, y, building.getName(), building.getId() );
-    }
+	  if (building.isSelected()) {
+		  pair<int, int> pos = lin2mat(building.getValue());
+		  int posX = pos.first;
+		  int posY = pos.second;
+
+// 		  cout << "Clear building " << building.getName() << " at " << posX << "," << posY << endl;
+		  for (int x = posX; x < posX + building.getLength(); ++x)
+			  for (int y = posY; y < posY + building.getHeight(); ++y)
+				  clear(x, y, building.getName(), building.getId());
+// 		  cout << *this;
+	  }
   }
 
-  void WallinDomain::clear( int row, int col, string b_short, int b_id )
+  void WallinDomain::clear(int x, int y, string b_short, int b_id)
   {
-    auto it = matrixType_[row][col].find( b_short );
-    if( it != string::npos )
-    {
-      matrixType_[row][col].replace( it,
-				     b_short.length(),
-				     "" );
-      matrixId_[row][col].erase( b_id );
-      
-      pair<int, int> key(row, col);
-      mapFail::iterator it = failures_.find( key );
-      
-      if( it != failures_.end() )
-      {
-	if( matrixType_[row][col].size() < 2 
-	    || matrixType_[row][col].compare("###") == 0 
-	    || ( matrixType_[row][col].size() == 2 && matrixType_[row][col].find("@") != string::npos ) )
-	  failures_.erase( it );
-	else
-	  failures_.at( key ) = matrixType_[row][col];
-      }
-    }
+	  auto it = matrixType_[x][y].find(b_short);
+	  if (it != string::npos) {
+		  matrixType_[x][y].replace(it, b_short.length(), "");
+		  matrixId_[x][y].erase(b_id);
+
+		  pair<int, int> key(x, y);
+		  mapFail::iterator it = failures_.find(key);
+
+		  if (it != failures_.end()) {
+			  if (matrixType_[x][y].size() < 2
+				  || matrixType_[x][y].compare("###") == 0
+				  || (matrixType_[x][y].size() == 2 && matrixType_[x][y].find("@") != string::npos))
+				  failures_.erase(it);
+			  else
+				  failures_.at(key) = matrixType_[x][y];
+		  }
+	  }
   }
 
-  pair<int, int> WallinDomain::shift( Building &building )
+  pair<int, int> WallinDomain::shift(Building &building)
   {
-    int overlaps = 0;
-    int unbuildables = 0;
-    
-    if( building.isSelected() )
-    {
-      pair<int, int> pos = lin2mat( building.getValue() );
-      int row = pos.first;
-      int col = pos.second;
+	  int overlaps = 0;
+	  int unbuildables = 0;
 
-      int row_shift = row + building.getHeight();
-      int col_shift = col + building.getLength();
+	  if (building.isSelected()) {
+		  pair<int, int> pos = lin2mat(building.getValue());
+		  int posX = pos.first;
+		  int posY = pos.second;
+// 		  cout << *this;
+// 		  cout << "Shift building " << building.getName() << " at " << posX << "," << posY << endl;
 
-      pair<int, int> key;
+		  int shiftX = posX + building.getLength();
+		  int shiftY = posY + building.getHeight();
 
-      for( int x = row; x < row_shift; ++x )
-      {
-	add(x, col_shift, building.getName(), building.getId() );	
+		  pair<int, int> key;
 
-	key = make_pair( x, col_shift );
-	if( failures_.find( key ) != failures_.end() )
-	{
-	  if( failures_.at( key ).find( "###" ) == std::string::npos )
-	    ++overlaps;
-	  else
-	    ++unbuildables;
-	}
+		  for (int y = posY; y < shiftY; ++y) {
+			  add(shiftX, y, building.getName(), building.getId());
 
-	key = make_pair( x, col );
-	if( failures_.find( key ) != failures_.end() )
-	{
-	  if( failures_.at( key ).find( "###" ) == std::string::npos )
-	    --overlaps;
-	  else
-	    --unbuildables;
-	}
+			  key = make_pair(shiftX, y);
+			  if (failures_.find(key) != failures_.end()) {
+				  if (failures_.at(key).find("###") == std::string::npos)
+					  ++overlaps;
+				  else
+					  ++unbuildables;
+			  }
 
-	clear(x, col, building.getName(), building.getId() );
-      }
-      
-      building.shiftValue();
-    }
+			  key = make_pair(posX, y);
+			  if (failures_.find(key) != failures_.end())  {
+				  if (failures_.at(key).find("###") == std::string::npos)
+					  --overlaps;
+				  else
+					  --unbuildables;
+			  }
 
-    return make_pair( overlaps, unbuildables );
+			  clear(posX, y, building.getName(), building.getId());
+		  }
+
+		  building.shiftValue();
+	  }
+
+	  pair<int, int> pos = lin2mat(building.getValue());
+// 	  cout << "Building " << building.getName() << " at " << pos.first << "," << pos.second << endl;
+// 	  cout << *this;
+// 	  cout << "Overlaps: " << overlaps << " Unbuildable: " << unbuildables << endl;
+	  return make_pair(overlaps, unbuildables);
   }
 
-  void WallinDomain::quickShift( Building &building )
+  void WallinDomain::quickShift(Building &building)
   {
-    if( building.isSelected() )
-    {
-      pair<int, int> pos = lin2mat( building.getValue() );
-      int row = pos.first;
-      int col = pos.second;
+	  if (building.isSelected())  {
+		  pair<int, int> pos = lin2mat(building.getValue());
+		  int posX = pos.first;
+		  int posY = pos.second;
 
-      int row_shift = row + building.getHeight();
-      int col_shift = col + building.getLength();
+		  int shiftX = posX + building.getLength();
+		  int shiftY = posY + building.getHeight();
 
-      for( int x = row; x < row_shift; ++x )
-      {
-	add(x, col_shift, building.getName(), building.getId() );	
-	clear(x, col, building.getName(), building.getId() );
-      }
-      
-      building.shiftValue();
-    }
+		  for (int y = posY; y < shiftY; ++y) {
+			  add(shiftX, y, building.getName(), building.getId());
+			  clear(posX, y, building.getName(), building.getId());
+		  }
+
+		  building.shiftValue();
+	  }
   }
 
   void WallinDomain::swap( Building &first, Building &second )
@@ -214,161 +204,159 @@ namespace ghost
     add( second );
   }  
 
-  set< Building > WallinDomain::getBuildingsAround ( const Building &b, const vector< Building > *variables ) const
+  set< Building > WallinDomain::getBuildingsAround(const Building &b, const vector< Building > *variables) const
   {
-    set< Building > myNeighbors;
+	  set< Building > myNeighbors;
+	  int left, top, right, bottom;
+	  int left2, top2, right2, bottom2;
 
-    if( b.isSelected() )
-    {
-      pair<int, int> coordinates = lin2mat( b.getValue() );
+	  if (b.isSelected()) {
+		  pair<int, int> pos = lin2mat(b.getValue());
+		  left = pos.first;
+		  top = pos.second;
+		  right = left + b.getLength() - 1;
+		  bottom = top + b.getHeight() - 1;
 
-      int top = coordinates.first;
-      int right = coordinates.second + b.getLength() - 1;
-      int bottom = coordinates.first + b.getHeight() - 1;
-      int left = coordinates.second;
+		  for (const auto& build2 : *variables) {
+			  if (build2.getId() != b.getId() && build2.isSelected()) {
+				  pair<int, int> pos2 = lin2mat(build2.getValue());
+				  left2 = pos2.first;
+				  top2 = pos2.second;
+				  right2 = left2 + build2.getLength() - 1;
+				  bottom2 = top2 + build2.getHeight() - 1;
 
-      for( const auto &other : *variables )
-      {
-  	if( other.getId() != b.getId() && other.isSelected() )
-  	{
-  	  pair<int, int> xyOther = lin2mat( other.getValue() );
-  	  int otherTop = xyOther.first;
-  	  int otherRight = xyOther.second + other.getLength() - 1;
-  	  int otherBottom = xyOther.first + other.getHeight() - 1;
-  	  int otherLeft = xyOther.second;
+				  if ((top == bottom2 + 1 && (right2 >= left && left2 <= right))
+					  || (right == left2 - 1 && (bottom2 >= top - 1 && top2 <= bottom + 1))
+					  || (bottom == top2 - 1 && (right2 >= left && left2 <= right))
+					  || (left == right2 + 1 && (bottom2 >= top - 1 && top2 <= bottom + 1)))
+				  {
+					  myNeighbors.insert(build2);
+				  }
+			  }
+		  }
+	  }
 
-  	  if(  ( top == otherBottom + 1 && ( otherRight >= left && otherLeft <= right ) )
-  	       || ( right == otherLeft - 1 && ( otherBottom >= top - 1 && otherTop <= bottom + 1 ) )
-  	       || ( bottom == otherTop - 1 && ( otherRight >= left && otherLeft <= right ) )
-  	       || ( left == otherRight + 1 && ( otherBottom >= top - 1 && otherTop <= bottom + 1 ) ) )
-  	  {
-  	    myNeighbors.insert( other );
-  	  }
-  	}
-      }
-    }
-    
-    return myNeighbors;
+	  return myNeighbors;
   }
 
-  set< Building > WallinDomain::getBuildingsAbove ( const Building &b, const vector< Building > *variables ) const
+  set< Building > WallinDomain::getBuildingsAbove(const Building &b, const vector< Building > *variables) const
   {
-    set< Building > myNeighbors;
+	  set< Building > myNeighbors;
+	  int left, top, right, bottom;
+	  int left2, top2, right2, bottom2;
 
-    if( b.isSelected() )
-    {
-      pair<int, int> coordinates = lin2mat( b.getValue() );
+	  if (b.isSelected())  {
+		  pair<int, int> pos = lin2mat(b.getValue());
+		  left = pos.first;
+		  top = pos.second;
+		  right = left + b.getLength() - 1;
+		  bottom = top + b.getHeight() - 1;
 
-      int top = coordinates.first;
-      int right = coordinates.second + b.getLength() - 1;
-      int left = coordinates.second;
+		  for (const auto& build2 : *variables) {
+			  if (build2.getId() != b.getId() && build2.isSelected()) {
+				  pair<int, int> pos2 = lin2mat(build2.getValue());
+				  left2 = pos2.first;
+				  top2 = pos2.second;
+				  right2 = left2 + build2.getLength() - 1;
+				  bottom2 = top2 + build2.getHeight() - 1;
 
-      for( const auto &other : *variables )
-      {
-	if( other.getId() != b.getId() && other.isSelected() )
-	{
-	  pair<int, int> xyOther = lin2mat( other.getValue() );
-	  int otherRight = xyOther.second + other.getLength() - 1;
-	  int otherBottom = xyOther.first + other.getHeight() - 1;
-	  int otherLeft = xyOther.second;
+				  if (top == bottom2 + 1 && right2 >= left && left2 <= right)
+					  myNeighbors.insert(build2);
+			  }
+		  }
+	  }
 
-	  if( top == otherBottom + 1 && otherRight >= left && otherLeft <= right )
-	    myNeighbors.insert( other );
-	}
-      }
-    }
-    
-    return myNeighbors;
+	  return myNeighbors;
   }
 
-  set< Building > WallinDomain::getBuildingsOnRight ( const Building &b, const vector< Building > *variables ) const
+  set< Building > WallinDomain::getBuildingsOnRight(const Building &b, const vector< Building > *variables) const
   {
-    set< Building > myNeighbors;
+	  set< Building > myNeighbors;
+	  int left, top, right, bottom;
+	  int left2, top2, right2, bottom2;
 
-    if( b.isSelected() )
-    {
-      pair<int, int> coordinates = lin2mat( b.getValue() );
+	  if (b.isSelected())  {
+		  pair<int, int> pos = lin2mat(b.getValue());
+		  left = pos.first;
+		  top = pos.second;
+		  right = left + b.getLength() - 1;
+		  bottom = top + b.getHeight() - 1;
 
-      int top = coordinates.first;
-      int right = coordinates.second + b.getLength() - 1;
-      int bottom = coordinates.first + b.getHeight() - 1;
+		  for (const auto& build2 : *variables) {
+			  if (build2.getId() != b.getId() && build2.isSelected()) {
+				  pair<int, int> pos2 = lin2mat(build2.getValue());
+				  left2 = pos2.first;
+				  top2 = pos2.second;
+				  right2 = left2 + build2.getLength() - 1;
+				  bottom2 = top2 + build2.getHeight() - 1;
 
-      for( const auto &other : *variables )
-      {
-	if( other.getId() != b.getId() && other.isSelected() )
-	{
-	  pair<int, int> xyOther = lin2mat( other.getValue() );
-	  int otherTop = xyOther.first;
-	  int otherBottom = xyOther.first + other.getHeight() - 1;
-	  int otherLeft = xyOther.second;
+				  if (right == left2 - 1 && bottom2 >= top - 1 && top2 <= bottom + 1)
+					  myNeighbors.insert(build2);
+			  }
+		  }
+	  }
 
-	  if( right == otherLeft - 1 && otherBottom >= top - 1 && otherTop <= bottom + 1 )
-	    myNeighbors.insert( other );
-	}
-      }
-    }
-    
-    return myNeighbors;
+	  return myNeighbors;
   }
 
-  set< Building > WallinDomain::getBuildingsBelow ( const Building &b, const vector< Building > *variables ) const
+  set< Building > WallinDomain::getBuildingsBelow(const Building &b, const vector< Building > *variables) const
   {
-    set< Building > myNeighbors;
+	  set< Building > myNeighbors;
+	  int left, top, right, bottom;
+	  int left2, top2, right2, bottom2;
 
-    if( b.isSelected() )
-    {
-      pair<int, int> coordinates = lin2mat( b.getValue() );
+	  if (b.isSelected())  {
+		  pair<int, int> pos = lin2mat(b.getValue());
+		  left = pos.first;
+		  top = pos.second;
+		  right = left + b.getLength() - 1;
+		  bottom = top + b.getHeight() - 1;
 
-      int right = coordinates.second + b.getLength() - 1;
-      int bottom = coordinates.first + b.getHeight() - 1;
-      int left = coordinates.second;
+		  for (const auto& build2 : *variables) {
+			  if (build2.getId() != b.getId() && build2.isSelected()) {
+				  pair<int, int> pos2 = lin2mat(build2.getValue());
+				  left2 = pos2.first;
+				  top2 = pos2.second;
+				  right2 = left2 + build2.getLength() - 1;
+				  bottom2 = top2 + build2.getHeight() - 1;
 
-      for( const auto &other : *variables )
-      {
-	if( other.getId() != b.getId() && other.isSelected() )
-	{
-	  pair<int, int> xyOther = lin2mat( other.getValue() );
-	  int otherTop = xyOther.first;
-	  int otherRight = xyOther.second + other.getLength() - 1;
-	  int otherLeft = xyOther.second;
+				  if (bottom == top2 - 1 && right2 >= left && left2 <= right)
+					  myNeighbors.insert(build2);
+			  }
+		  }
+	  }
 
-	  if( bottom == otherTop - 1 && otherRight >= left && otherLeft <= right )
-	    myNeighbors.insert( other );
-	}
-      }
-    }
-    
-    return myNeighbors;
+	  return myNeighbors;
   }
 
-  set< Building > WallinDomain::getBuildingsOnLeft ( const Building &b, const vector< Building > *variables ) const
+  set< Building > WallinDomain::getBuildingsOnLeft(const Building &b, const vector< Building > *variables) const
   {
-    set< Building > myNeighbors;
+	  set< Building > myNeighbors;
+	  int left, top, right, bottom;
+	  int left2, top2, right2, bottom2;
 
-    if( b.isSelected() )
-    {
-      pair<int, int> coordinates = lin2mat( b.getValue() );
+	  if (b.isSelected())  {
+		  pair<int, int> pos = lin2mat(b.getValue());
+		  left = pos.first;
+		  top = pos.second;
+		  right = left + b.getLength() - 1;
+		  bottom = top + b.getHeight() - 1;
 
-      int top = coordinates.first;
-      int bottom = coordinates.first + b.getHeight() - 1;
-      int left = coordinates.second;
+		  for (const auto& build2 : *variables) {
+			  if (build2.getId() != b.getId() && build2.isSelected()) {
+				  pair<int, int> pos2 = lin2mat(build2.getValue());
+				  left2 = pos2.first;
+				  top2 = pos2.second;
+				  right2 = left2 + build2.getLength() - 1;
+				  bottom2 = top2 + build2.getHeight() - 1;
 
-      for( const auto &other : *variables )
-      {
-	if( other.getId() != b.getId() && other.isSelected() )
-	{
-	  pair<int, int> xyOther = lin2mat( other.getValue() );
-	  int otherTop = xyOther.first;
-	  int otherRight = xyOther.second + other.getLength() - 1;
-	  int otherBottom = xyOther.first + other.getHeight() - 1;
+				  if (left == right2 + 1 && bottom2 >= top - 1 && top2 <= bottom + 1)
+					  myNeighbors.insert(build2);
+			  }
+		  }
+	  }
 
-	  if( left == otherRight + 1 && otherBottom >= top - 1 && otherTop <= bottom + 1 )
-	    myNeighbors.insert( other );
-	}
-      }
-    }
-    
-    return myNeighbors;
+	  return myNeighbors;
   }
 
   int WallinDomain::distanceTo( int source, pair<int, int> target ) const
@@ -416,22 +404,25 @@ namespace ghost
       return 0;
   }
 
-  vector<int> WallinDomain::possiblePos( const Building& b ) const
+  vector<int> WallinDomain::possiblePos(const Building& b) const
   {
-    vector<int> possiblePositions;
+	  vector<int> possiblePositions;
+	  possiblePositions.push_back(-1);
 
-    possiblePositions.push_back( -1 );
+	  for (int x = 0; x <= maxX_ - b.getLength(); ++x) {
+		  for (int y = 0; y <= maxY_ - b.getHeight(); ++y) {
+			  // check if corners (topLeft, topRight, bottomLeft, bottomRight) are buildable
+			  if (matrixType_[x][y].compare("###") != 0
+				  && matrixType_[x][y + b.getHeight() - 1].compare("###") != 0
+				  && matrixType_[x + b.getLength() - 1][y + b.getHeight() - 1].compare("###") != 0
+				  && matrixType_[x + b.getLength() - 1][y].compare("###") != 0)
+			  {
+				  possiblePositions.push_back(mat2lin(x, y));
+			  }
+		  }
+	  }
 
-    for( int row = 0; row <= nRow_ - b.getHeight(); ++row )
-      for( int col = 0; col <= mCol_ - b.getLength(); ++col )
-	if( matrixType_[row][col].compare("###") != 0
-	    &&
-	    matrixType_[row][col+b.getLength()-1].compare("###") != 0 )
-	{
-	  possiblePositions.push_back( mat2lin(row, col) );
-	}
-    
-    return possiblePositions;
+	  return possiblePositions;
   }
 
   void WallinDomain::v_restart( vector<Building> *variables )
@@ -464,49 +455,45 @@ namespace ghost
       add( v );
   }
   
-  ostream& operator<<( ostream& os, const WallinDomain& g )
+  ostream& operator<<(ostream& os, const WallinDomain& g)
   {
-    os << "#rows: " <<  g.nRow_ << endl
-       << "#columns: " <<  g.mCol_ << endl
-       << "Matrix Id:" << endl;
+	  string barLine = "";
+	  for (size_t i = 0; i < g.matrixType_[0].size(); ++i)
+		  barLine += "------";
 
-    string bar = "";
-    for( int i=0; i<g.matrixType_[0].size(); ++i )
-      bar += "------";
+// 	  os << "#max X: " << g.maxX_ << endl
+// 		  << "#max Y: " << g.maxY_ << endl
+// 		  << "Matrix Id:" << endl;
+// 
+// 	  for (int y = 0; y < g.maxY_; ++y) {
+// 		  os << barLine << endl << "| ";
+// 		  for (int x = 0; x < g.maxX_; ++x) {
+// 			  if (g.matrixId_[x][y].empty()) {
+// 				  os << setw(3) << "    | ";
+// 			  } else {
+// 				  for (const auto &id : g.matrixId_[x][y])
+// 					  os << setw(3) << to_string(id) << " | ";
+// 			  }
+// 		  }
+// 		  os << endl;
+// 	  }
+// 	  os << barLine << endl << endl;
+// 
+// 	  os << "Matrix Type:" << endl;
+	  for (int y = 0; y < g.maxY_; ++y) {
+		  os << barLine << endl << "| ";
+		  for (int x = 0; x < g.maxX_; ++x) {
+			  os << setw(3) << (g.matrixType_[x][y].empty() ? " " : g.matrixType_[x][y]) << " | ";
+		  }
+		  os << endl;
+	  }
+	  os << barLine << endl;
 
-    for( const auto &vec : g.matrixId_ )
-    {
-      os << bar << endl << "| ";
-      for( const auto &setId : vec )
-      {
-	if( setId.empty() )
-	  os << setw(3) << "    | ";
-	else
-	{
-	  for( const auto &id : setId )
-	    os << setw(3) << to_string( id ) << " | ";
-	}
-      }
-      os << endl;
-    }
-    os << bar << endl << endl;
+	  os << "Failures:" << endl;
+	  for (const auto &m : g.failures_)
+		  os << "(" << m.first.first << "," << m.first.second << "):" << m.second << endl;
 
-    os << "Matrix Type:" << endl;
-    for( const auto &vec : g.matrixType_ )
-    {
-      os << bar << endl << "| ";
-      for( const auto &str : vec )
-	os << setw(3) << (str.empty() ? " " : str) << " | ";
-
-      os << endl;
-    }
-    os << bar << endl;
-    
-    os << "Failures:" << endl;
-    for( const auto &m : g.failures_ )
-      os << "(" << m.first.first << "," << m.first.second << "):" << m.second << endl;
-
-    return os;
+	  return os;
   }
 
 }

@@ -80,8 +80,8 @@ namespace ghost
   vector< Building > makeTerranBuildings()
   {
     // Academy
-    Building a1 = factoryTerranBuilding("Academy");
-    Building a2 = factoryTerranBuilding("Academy");
+//     Building a1 = factoryTerranBuilding("Academy");
+//     Building a2 = factoryTerranBuilding("Academy");
 
     // Armory
     // Building r1 = factoryTerranBuilding("Armory");
@@ -89,11 +89,11 @@ namespace ghost
 
     // Barracks
     Building b1 = factoryTerranBuilding("Barracks");
-    Building b2 = factoryTerranBuilding("Barracks");
+//     Building b2 = factoryTerranBuilding("Barracks");
 
     // Bunker
-    Building u1 = factoryTerranBuilding("Bunker");
-    Building u2 = factoryTerranBuilding("Bunker");
+//     Building u1 = factoryTerranBuilding("Bunker");
+//     Building u2 = factoryTerranBuilding("Bunker");
 
     // Command Center
     // Building c1 = factoryTerranBuilding("Command Center");
@@ -104,8 +104,8 @@ namespace ghost
     // Building e2 = factoryTerranBuilding("Engineering Bay");
 
     // Factory
-    Building f1 = factoryTerranBuilding("Factory");
-    Building f2 = factoryTerranBuilding("Factory");
+//     Building f1 = factoryTerranBuilding("Factory");
+//     Building f2 = factoryTerranBuilding("Factory");
 
     // Missile Turret
     // Building t1 = factoryTerranBuilding("Missile Turret");
@@ -124,7 +124,8 @@ namespace ghost
     Building s2 = factoryTerranBuilding("Supply Depot");
 
     // vector< Building > vec {a1, a2, r1, r2, b1, b2, u1, u2, c1, c2, e1, e2, f1, f2, t1, t2, i1, i2, p1, p2, s1, s2};
-    vector< Building > vec {a1, a2, b1, b2, u1, u2, f1, f2, s1, s2};
+// 	vector< Building > vec{ a1, a2, b1, b2, u1, u2, f1, f2, s1, s2 };
+	vector< Building > vec{ b1, s1, s2 };
     return vec;
   }
 
