@@ -135,22 +135,22 @@ namespace ghost
 				opt_timeout = sat_timeout * 10;
 			else
 				opt_timeout *= 1000;
-			
+
 			int tabu_length = vecVariables->size() - 1;
 
 			chrono::duration<double, micro> elapsedTime(0);
 			chrono::duration<double, micro> elapsedTimeTour(0);
-			chrono::time_point<chrono::high_resolution_clock> start;
-			chrono::time_point<chrono::high_resolution_clock> startTour;
-			start = chrono::high_resolution_clock::now();
+			chrono::system_clock::time_point start;
+			chrono::system_clock::time_point startTour;
+			start = chrono::steady_clock::now();
 
 			// to time simulateCost and cost functions
 			chrono::duration<double, micro> timeSimCost(0);
-			chrono::time_point<chrono::high_resolution_clock> startSimCost;
+			chrono::system_clock::time_point startSimCost;
 
 			// double timerPostProcessSat = 0;
 			double timerPostProcessOpt = 0;
-			
+
 			int sizeDomain = domain->getSize();
 			vector< vector< double > >	vecConstraintsCosts(vecConstraints.size());
 			vector< double >			vecGlobalCosts(sizeDomain);
@@ -171,7 +171,7 @@ namespace ghost
 			double currentCost;
 			double bestEstimatedCost;
 			int    bestValue = 0;
-			
+
 			vector<int> worstVariables;
 			double worstVariableCost;
 			int worstVariableId;
@@ -183,10 +183,10 @@ namespace ghost
 
 			int tour = 0;
 			int iterations = 0;
-			
+
 			do // optimization loop
 			{
-				startTour = chrono::high_resolution_clock::now();
+				startTour = chrono::steady_clock::now();
 				++tour;
 				globalCost = numeric_limits<int>::max();
 				bestEstimatedCost = numeric_limits<int>::max();
@@ -217,7 +217,7 @@ namespace ghost
 							continue;
 						}
 					}
-					
+
 					// make sure there is at least one untabu variable
 					bool freeVariables = false;
 
@@ -232,7 +232,7 @@ namespace ghost
 						} else
 							--tabuList[i];
 					}
-					
+
 					// Here, we look at neighbor configurations with the lowest cost.
 					worstVariables.clear();
 					worstVariableCost = 0;
@@ -251,7 +251,7 @@ namespace ghost
 									worstVariables.push_back(i);
 						}
 					}
-					
+
 					// can apply some heuristics here, according to the objective function
 					worstVariableId = objective->heuristicVariable(worstVariables, vecVariables, domain);
 					oldVariable = &vecVariables->at(worstVariableId);
@@ -260,7 +260,7 @@ namespace ghost
 					possibleValues = domain->valuesOf(*oldVariable);
 
 					// time simulateCost
-					startSimCost = chrono::high_resolution_clock::now();
+					startSimCost = chrono::steady_clock::now();
 
 					// variable simulated costs
 					fill(bestSimCost.begin(), bestSimCost.end(), 0.);
@@ -274,7 +274,7 @@ namespace ghost
 						vecConstraintsCosts[i] = vecConstraints[i]->simulateCost(*oldVariable, possibleValues, vecVarSimCosts);
 
 					fill(vecGlobalCosts.begin(), vecGlobalCosts.end(), 0.);
-					
+
 					// sum all numbers in the vector vecConstraintsCosts[i] and put it into vecGlobalCosts[i] 
 					for (const auto &v : vecConstraintsCosts)
 						transform(vecGlobalCosts.begin(),
@@ -288,12 +288,12 @@ namespace ghost
 						vecGlobalCosts.end(),
 						bind(less<double>(), placeholders::_1, 0.),
 						numeric_limits<int>::max());
-					
+
 					// look for the first smallest cost, according to objective heuristic
 					int b = objective->heuristicValue(vecGlobalCosts, bestEstimatedCost, bestValue);
 					bestSimCost = vecVarSimCosts[b];
 
-					timeSimCost += chrono::high_resolution_clock::now() - startSimCost;
+					timeSimCost += chrono::steady_clock::now() - startSimCost;
 
 					currentCost = bestEstimatedCost;
 
@@ -316,16 +316,16 @@ namespace ghost
 						variableCost = bestSimCost;
 					} else // local minima
 						tabuList[worstVariableId] = tabu_length;
-					
-					elapsedTimeTour = chrono::high_resolution_clock::now() - startTour;
-					elapsedTime = chrono::high_resolution_clock::now() - start;
+
+					elapsedTimeTour = chrono::steady_clock::now() - startTour;
+					elapsedTime = chrono::steady_clock::now() - start;
 				} while (globalCost != 0. && elapsedTimeTour.count() < sat_timeout && elapsedTime.count() < opt_timeout);
 
 				// remove useless buildings
 				if (globalCost == 0)
 					objective->postprocessSatisfaction(vecVariables, domain, bestCost, bestSolution, sat_timeout);
 
-				elapsedTime = chrono::high_resolution_clock::now() - start;
+				elapsedTime = chrono::steady_clock::now() - start;
 			} while (((!objOriginalNull || loops == 0) && (elapsedTime.count() < opt_timeout))
 				|| (objOriginalNull && elapsedTime.count() < sat_timeout * loops));
 
@@ -343,7 +343,7 @@ namespace ghost
 
 			// cout << "Domains:" << *domain << endl;
 
-// #ifndef NDEBUG
+#ifndef NDEBUG
 			if (objOriginalNull)
 				cout << "SATISFACTION run" << endl;
 			else
@@ -364,7 +364,7 @@ namespace ghost
 				cout << "Post-processing time: " << timerPostProcessOpt / 1000 << endl;
 
 			cout << endl;
-// #endif
+#endif
 			if (objOriginalNull)
 				return bestGlobalCost;
 			else
@@ -411,17 +411,17 @@ namespace ghost
 			}
 		}
 
-		vector< TypeVariable >				*vecVariables;	//!< A pointer to the vector of variable objects of the CSP/COP.
-		TypeDomain						*domain;	//!< A pointer to the domain object of the CSP/COP.
-		vector< shared_ptr<TypeConstraint> >		vecConstraints; //!< The vector of (shared pointers of) constraints of the CSP/COP.
-		shared_ptr< Objective<TypeVariable, TypeDomain> >	objective;	//!< The shared pointer of the objective function.
+		vector< TypeVariable >                            *vecVariables;  //!< A pointer to the vector of variable objects of the CSP/COP.
+		TypeDomain                                        *domain;        //!< A pointer to the domain object of the CSP/COP.
+		vector< shared_ptr<TypeConstraint> >              vecConstraints; //!< The vector of (shared pointers of) constraints of the CSP/COP.
+		shared_ptr< Objective<TypeVariable, TypeDomain> > objective;      //!< The shared pointer of the objective function.
 
-		vector<double>				variableCost;		//!< The vector of projected costs on each variable.
-		int						loops;			//!< The number of times we reiterate the satisfaction loop inside Solver::solve 
-		vector<int>					tabuList;		//!< The tabu list, frozing each used variable for tabu_length iterations 
-		Random					randomVar;		//!< The random generator used by the solver.
-		double					bestCost;		//!< The (satisfaction or optimization) cost of the best solution.
-		vector< TypeVariable >			bestSolution;		//!< The best solution found by the solver.
-		bool					objOriginalNull;	//!< A boolean to know if it is a satisfaction or optimization run.
+		vector<double>         variableCost;    //!< The vector of projected costs on each variable.
+		int                    loops;           //!< The number of times we reiterate the satisfaction loop inside Solver::solve 
+		vector<int>            tabuList;        //!< The tabu list, frozing each used variable for tabu_length iterations 
+		Random                 randomVar;       //!< The random generator used by the solver.
+		double                 bestCost;        //!< The (satisfaction or optimization) cost of the best solution.
+		vector< TypeVariable > bestSolution;    //!< The best solution found by the solver.
+		bool                   objOriginalNull; //!< A boolean to know if it is a satisfaction or optimization run.
 	};
 }
