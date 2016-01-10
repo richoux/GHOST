@@ -35,8 +35,8 @@ namespace ghost
 		: Domain(maxX*maxY + 1, nbVar, -1),
 		maxX_(maxX),
 		maxY_(maxY),
-		matrixType_(vector< vector<string> >(maxY, vector<string>(maxY, ""))),
-		matrixId_(vector< vector< set<int> > >(maxY, vector< set<int> >(maxY, set<int>()))),
+		matrixType_(vector< vector<string> >(maxX, vector<string>(maxY, ""))),
+		matrixId_(vector< vector< set<int> > >(maxX, vector< set<int> >(maxY, set<int>()))),
 		startingTile(make_pair(sX, sY)),
 		targetTile(make_pair(tX, tY))
 	{
@@ -49,16 +49,17 @@ namespace ghost
 		int sX, int sY, int tX, int tY)
 		: WallinDomain(maxX, maxY, variables->size(), sX, sY, tX, tY)
 	{
-		for (const auto &u : unbuildables) {
+		for ( const auto &u : unbuildables )
+		{
 // 			cout << "Assign # at point " << u.first << "," << u.second << endl;
 			matrixType_[u.first][u.second].assign(3, '#');
 		}
 
-		for (const auto &v : *variables)
+		for ( const auto &v : *variables )
 			domains[v.getId()] = possiblePos(v);
 	}
 
-  void WallinDomain::add(const Building& building)
+  void WallinDomain::add( const Building& building )
   {
 	  if (building.isSelected()) {
 		  pair<int, int> pos = lin2mat(building.getValue());
@@ -73,7 +74,7 @@ namespace ghost
 	  }
   }
 
-  void WallinDomain::add(int x, int y, string b_short, int b_id)
+  void WallinDomain::add( int x, int y, string b_short, int b_id )
   {
 	  bool fail = !(matrixType_[x][y].empty()
 		  || (matrixType_[x][y].find("@") != string::npos && matrixType_[x][y].size() <= 3));
@@ -91,7 +92,7 @@ namespace ghost
 	  }
   }
   
-  void WallinDomain::clear(const Building& building)
+  void WallinDomain::clear( const Building& building )
   {
 	  if (building.isSelected()) {
 		  pair<int, int> pos = lin2mat(building.getValue());
@@ -106,7 +107,7 @@ namespace ghost
 	  }
   }
 
-  void WallinDomain::clear(int x, int y, string b_short, int b_id)
+  void WallinDomain::clear( int x, int y, string b_short, int b_id )
   {
 	  auto it = matrixType_[x][y].find(b_short);
 	  if (it != string::npos) {
@@ -127,7 +128,7 @@ namespace ghost
 	  }
   }
 
-  pair<int, int> WallinDomain::shift(Building &building)
+  pair<int, int> WallinDomain::shift( Building &building )
   {
 	  int overlaps = 0;
 	  int unbuildables = 0;
@@ -176,7 +177,7 @@ namespace ghost
 	  return make_pair(overlaps, unbuildables);
   }
 
-  void WallinDomain::quickShift(Building &building)
+  void WallinDomain::quickShift( Building &building )
   {
 	  if (building.isSelected())  {
 		  pair<int, int> pos = lin2mat(building.getValue());
@@ -204,7 +205,7 @@ namespace ghost
     add( second );
   }  
 
-  set< Building > WallinDomain::getBuildingsAround(const Building &b, const vector< Building > *variables) const
+  set< Building > WallinDomain::getBuildingsAround( const Building &b, const vector< Building > *variables ) const
   {
 	  set< Building > myNeighbors;
 	  int left, top, right, bottom;
@@ -239,7 +240,7 @@ namespace ghost
 	  return myNeighbors;
   }
 
-  set< Building > WallinDomain::getBuildingsAbove(const Building &b, const vector< Building > *variables) const
+  set< Building > WallinDomain::getBuildingsAbove( const Building &b, const vector< Building > *variables ) const
   {
 	  set< Building > myNeighbors;
 	  int left, top, right, bottom;
@@ -269,7 +270,7 @@ namespace ghost
 	  return myNeighbors;
   }
 
-  set< Building > WallinDomain::getBuildingsOnRight(const Building &b, const vector< Building > *variables) const
+  set< Building > WallinDomain::getBuildingsOnRight( const Building &b, const vector< Building > *variables ) const
   {
 	  set< Building > myNeighbors;
 	  int left, top, right, bottom;
@@ -299,7 +300,7 @@ namespace ghost
 	  return myNeighbors;
   }
 
-  set< Building > WallinDomain::getBuildingsBelow(const Building &b, const vector< Building > *variables) const
+  set< Building > WallinDomain::getBuildingsBelow( const Building &b, const vector< Building > *variables ) const
   {
 	  set< Building > myNeighbors;
 	  int left, top, right, bottom;
@@ -329,7 +330,7 @@ namespace ghost
 	  return myNeighbors;
   }
 
-  set< Building > WallinDomain::getBuildingsOnLeft(const Building &b, const vector< Building > *variables) const
+  set< Building > WallinDomain::getBuildingsOnLeft( const Building &b, const vector< Building > *variables ) const
   {
 	  set< Building > myNeighbors;
 	  int left, top, right, bottom;
@@ -404,7 +405,7 @@ namespace ghost
       return 0;
   }
 
-  vector<int> WallinDomain::possiblePos(const Building& b) const
+  vector<int> WallinDomain::possiblePos( const Building& b ) const
   {
 	  vector<int> possiblePositions;
 	  possiblePositions.push_back(-1);
@@ -455,10 +456,10 @@ namespace ghost
       add( v );
   }
   
-  ostream& operator<<(ostream& os, const WallinDomain& g)
+  ostream& operator<<( ostream& os, const WallinDomain& g )
   {
 	  string barLine = "";
-	  for (size_t i = 0; i < g.matrixType_[0].size(); ++i)
+	  for (int i = 0; i < g.getNberCols(); ++i)
 		  barLine += "------";
 
 // 	  os << "#max X: " << g.maxX_ << endl
