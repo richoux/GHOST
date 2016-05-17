@@ -71,6 +71,7 @@ namespace ghost
 		      bool doLinearSplash )
     : name(name),
       hp(hp),
+      initialHP(hp),
       armor(armor),
       size(size),
       canShootIn(canShootIn),
@@ -86,6 +87,7 @@ namespace ghost
   UnitData::UnitData( const UnitData &other )
     : name(other.name),
       hp(other.hp),
+      initialHP(other.initialHP),
       armor(other.armor),
       size(other.size),
       canShootIn(other.canShootIn),
@@ -108,6 +110,7 @@ namespace ghost
   {
     std::swap(this->name, other.name);
     std::swap(this->hp, other.hp);
+    std::swap(this->initialHP, other.initialHP);
     std::swap(this->armor, other.armor);
     std::swap(this->size, other.size);
     std::swap(this->canShootIn, other.canShootIn);
@@ -127,6 +130,7 @@ namespace ghost
       << "Can shoot in: " << u.canShootIn << " seconds" << endl
       << "Cooldown: " <<  u.cooldown << endl
       << "HP: " <<  u.hp << endl
+      << "Inital HP: " <<  u.hp << endl
       << "Damage: " <<  u.damage << endl
       << "Armor: " <<  u.armor << endl;
       // << "-------" << endl;

@@ -71,6 +71,7 @@ namespace ghost
 
     string	name;
     double	hp;
+    double	initialHP;
     int		armor;
     Size	size;
     int		canShootIn;
@@ -163,6 +164,7 @@ namespace ghost
     inline void setY( int y )		      { coord.y = y; }
     
     inline double getHP()		const { return data.hp; }
+    inline double getInitialHP()	const { return data.initialHP; }
     inline int canShootIn()		const { return data.canShootIn; }
     inline int getArmor()		const { return data.armor; }
     inline Size getSize()		const { return data.size; }
