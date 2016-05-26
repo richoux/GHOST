@@ -246,7 +246,7 @@ namespace ghost
 
       vector<int> draw;
 	
-      for( int i = 0; i < vecGlobalCosts.size(); ++i )
+      for( size_t i = 0; i < vecGlobalCosts.size(); ++i )
       {
 	if( vecGlobalCosts[i] == bestEstimatedCost
 	    && vecGlobalCosts[i] < numeric_limits<int>::max()

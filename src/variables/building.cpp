@@ -30,28 +30,29 @@
 
 namespace ghost
 {
-  Building::Building() { }
+	Building::Building()
+		: Variable("N", "None"),
+		length(0),
+		height(0),
+		gapTop(0),
+		gapRight(0),
+		gapBottom(0),
+		gapLeft(0),
+		race(Race::Unknown),
+		treedepth(0)
+	{ }
   
-  Building::Building(int x, 
-		     int y, 
-		     int top, 
-		     int right, 
-		     int bottom, 
-		     int left, 
-		     Race race,
-		     int treedepth,
-		     string name,
-		     string fullName,
-		     int position)
-    : Variable( name, fullName, position ),
-      length(x),
-      height(y),
-      gapTop(top), 
-      gapRight(right), 
-      gapBottom(bottom), 
-      gapLeft(left),
-      race(race),
-      treedepth(treedepth)
+  Building::Building(int x, int y, int top, int right, int bottom, int left, Race race, int treedepth,
+	  string name, string fullName, int position)
+	  : Variable(name, fullName, position),
+	  length(x),
+	  height(y),
+	  gapTop(top),
+	  gapRight(right),
+	  gapBottom(bottom),
+	  gapLeft(left),
+	  race(race),
+	  treedepth(treedepth)
   { }
 
   Building::Building( const Building &other )

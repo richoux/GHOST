@@ -27,7 +27,7 @@
 #pragma once
 
 #include <random>
-#include <unistd.h>
+// #include <unistd.h> // UNIX specific header
 
 namespace ghost
 {

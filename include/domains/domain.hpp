@@ -230,7 +230,7 @@ namespace ghost
      */
     virtual void v_copyBest( vector<TypeVariable> &best, vector<TypeVariable> *variables )
     {
-      for( int i = 0 ; i < best.size() ; ++i )
+      for( size_t i = 0 ; i < best.size() ; ++i )
 	variables->at(i).setValue( best[i].getValue() );
     }
 

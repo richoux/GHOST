@@ -134,11 +134,11 @@ namespace ghost
     {
       sizeWall = currentSizeWall;
       bestCost = objectiveCost;
-      for( int i = 0; i < vecVariables->size(); ++i )
+      for( size_t i = 0; i < vecVariables->size(); ++i )
 	bestSolution[i] = vecVariables->at(i);
     }
 
-    return (chrono::high_resolution_clock::now() - startPostprocess).count();
+    return static_cast<double>((chrono::high_resolution_clock::now() - startPostprocess).count());
   }
 
   double WallinObjective::v_postprocessOptimization( vector< Building > *vecVariables,
@@ -171,7 +171,7 @@ namespace ghost
     {
       goodVar.clear();
 
-      for( int i = 0; i < tabuList.size(); ++i )
+      for( size_t i = 0; i < tabuList.size(); ++i )
       {
 	if( tabuList[i] <= 1 )
 	  tabuList[i] = 0;
@@ -179,14 +179,14 @@ namespace ghost
 	  --tabuList[i];
       }
 
-      for( int i = 0; i < vecVariables->size(); ++i )
+      for( size_t i = 0; i < vecVariables->size(); ++i )
       {
 	if( tabuList[i] == 0 )
 	  goodVar.push_back( i );
       }
 
       if( goodVar.empty() )
-	for( int i = 0; i < vecVariables->size(); ++i )
+	for( size_t i = 0; i < vecVariables->size(); ++i )
 	  goodVar.push_back( i );	
 
       int index = v_heuristicVariable( goodVar, vecVariables, domain );

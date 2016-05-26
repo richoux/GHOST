@@ -49,19 +49,14 @@ namespace ghost
     using Domain<Building>::add;
     using Domain<Building>::clear;
 
-    WallinDomain( int, int, int, int, int, int, int ) ;
-    WallinDomain( int,
-		  int,
-		  const vector< pair<int, int> >&,
-		  const vector< Building >*,
-		  int,
-		  int,
-		  int,
-		  int ) ;
+	WallinDomain(int maxX, int maxY, int nbVar, int sX, int sY, int tX, int tY);
+	WallinDomain(int maxX, int maxY,
+		const vector< pair<int, int> > &unbuildables, const vector< Building > *variables,
+		int sX, int sY, int tX, int tY);
 
     pair<int, int>	shift( Building& );
     void		quickShift( Building& );
-    void		swap( Building&, Building& );	  
+    void		swap( Building&, Building& );
     void		add( const Building& );
     void		clear( const Building& );
     
@@ -71,32 +66,32 @@ namespace ghost
     set< Building > getBuildingsBelow( const Building &, const vector< Building >* )	const;
     set< Building > getBuildingsOnLeft( const Building &, const vector< Building >* )	const;
 
-    inline int		 distanceTo( int source, int target )	const { return distanceTo( source, lin2mat( target ) ); }
-    inline int		 distanceToTarget( int source )		const { return distanceTo( source, targetTile ); }
-	   int		 distanceTo( int, pair<int, int> )	const;
+	inline int		 distanceTo(int source, int target)	const { return distanceTo(source, lin2mat(target)); }
+	inline int		 distanceToTarget(int source)		const { return distanceTo(source, targetTile); }
+		   int		 distanceTo(int, pair<int, int>)	const;
     
-    inline void		 unbuildable( int row, int col )		{ matrixType_[row][col].assign(3, '#'); }
-	   void		 unbuildable( vector< pair<int, int> > );
+	inline void		 unbuildable(int x, int y)			{ matrixType_[x][y].assign(3, '#'); }
+		   void		 unbuildable(vector< pair<int, int> >);
     
-    inline set<int>	 buildingsAt( int row, int col )	const { return matrixId_[row][col]; }
+    inline set<int>	 buildingsAt( int x, int y )		const { return matrixId_[x][y]; }
     inline set<int>	 buildingsAt( pair<int, int> p )	const { return buildingsAt(p.first, p.second); }
-    inline set<int>	 buildingsAt( int p )			const { return buildingsAt( lin2mat( p ) ); }
+    inline set<int>	 buildingsAt( int p )				const { return buildingsAt( lin2mat( p ) ); }
 
     inline pair<int, int> getStartingTile()	const { return startingTile; }
     inline pair<int, int> getTargetTile()	const { return targetTile; }
            
-    inline int		 getNberRows()	const { return nRow_; }
-    inline int		 getNberCols()	const { return mCol_; }
+	inline int		 getNberRows()	const { return maxY_; }
+	inline int		 getNberCols()	const { return maxX_; }
     inline bool		 hasFailure()	const { return !failures_.empty(); }
-    inline mapFail	 failures()	const { return failures_; }
+    inline mapFail	 failures()		const { return failures_; }
 
-    inline pair<int, int> lin2mat( int p )	      const {return make_pair(p / mCol_, p % mCol_);}
-    inline int		  mat2lin( int row, int col ) const {return row * mCol_ + col;}
-    inline int		  mat2lin( pair<int, int> p ) const {return p.first * mCol_ + p.second;}
+	inline pair<int, int> lin2mat( int p )				const { return make_pair(p % maxY_, p / maxY_); }
+	inline int		      mat2lin( int x, int y )		const { return x + y * maxY_; }
+	inline int		      mat2lin( pair<int, int> p )	const { return p.first + p.second * maxY_; }
 
     bool	isStartingOrTargetTile( int ) const;
     bool	isNeightborOfSTTBuildings( const Building &, vector< Building > ) const;
-    int		countAround( const Building &, const vector< Building >* ) const;  
+    int		countAround( const Building &, const vector< Building >* ) const;
     vector<int>	possiblePos( const Building& ) const;
     
     friend ostream& operator<<( ostream&, const WallinDomain& );
@@ -109,8 +104,8 @@ namespace ghost
     void v_wipe( vector<Building> *variables );
     void v_rebuild( vector<Building> *variables );
     
-    int mCol_;
-    int nRow_;
+    int maxX_;
+    int maxY_;
     vector< vector<string> > matrixType_;
     vector< vector< set<int> > > matrixId_;
     pair<int, int> startingTile;
