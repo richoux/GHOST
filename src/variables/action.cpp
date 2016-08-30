@@ -26,7 +26,7 @@
 
 #include <typeinfo>
 
-#include "../../include/variables/action.hpp"
+#include "action.hpp"
 
 namespace ghost
 {

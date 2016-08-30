@@ -23,6 +23,6 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "../../include/variables/variable.hpp"
+#include "variable.hpp"
 
 int ghost::Variable::numberVariables = 0;

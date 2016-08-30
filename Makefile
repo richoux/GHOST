@@ -2,7 +2,7 @@
 EXEC=ghost
 
 # Compiler
-IDIR=include include/constraints include/domains include/misc include/objectives include/variables
+IDIR=src src/constraints src/domains src/misc src/objectives src/variables
 IDIRFLAG=$(foreach idir, $(IDIR), -I$(idir))
 CXXFLAGS=-std=c++0x -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(IDIRFLAG)
 

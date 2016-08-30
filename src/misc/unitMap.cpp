@@ -24,7 +24,7 @@
  */
 
 
-#include "../../include/misc/unitMap.hpp"
+#include "unitMap.hpp"
 
 namespace ghost
 {

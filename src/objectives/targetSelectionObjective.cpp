@@ -30,7 +30,7 @@
 #include <ctime>
 #include <cstdlib>
 
-#include "../../include/objectives/targetSelectionObjective.hpp"
+#include "targetSelectionObjective.hpp"
 
 using namespace std;
 

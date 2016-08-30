@@ -26,7 +26,7 @@
 
 #include <typeinfo>
 
-#include "../../include/variables/unit.hpp"
+#include "unit.hpp"
 
 namespace ghost
 {

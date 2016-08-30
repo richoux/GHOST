@@ -24,7 +24,7 @@
  */
 
 
-#include "../../include/constraints/wallinConstraint.hpp"
+#include "wallinConstraint.hpp"
 
 namespace ghost
 {

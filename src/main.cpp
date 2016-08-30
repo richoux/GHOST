@@ -33,23 +33,23 @@
 
 // Wall-in
 
-#include "../include/variables/building.hpp"
-#include "../include/domains/wallinDomain.hpp"
-#include "../include/constraints/wallinConstraint.hpp"
-#include "../include/objectives/wallinObjective.hpp"
-#include "../include/misc/wallinTerran.hpp"
+#include "variables/building.hpp"
+#include "domains/wallinDomain.hpp"
+#include "constraints/wallinConstraint.hpp"
+#include "objectives/wallinObjective.hpp"
+#include "misc/wallinTerran.hpp"
 
 
 // BO
 
-// #include "../include/variables/action.hpp"
-// #include "../include/domains/buildorderDomain.hpp"
-// #include "../include/constraints/buildorderConstraint.hpp"
-// #include "../include/objectives/buildorderObjective.hpp"
-// #include "../include/misc/actionMap.hpp"
+// #include "variables/action.hpp"
+// #include "domains/buildorderDomain.hpp"
+// #include "constraints/buildorderConstraint.hpp"
+// #include "objectives/buildorderObjective.hpp"
+// #include "misc/actionMap.hpp"
 
 
-#include "../include/solver.hpp"
+#include "solver.hpp"
 
 using namespace ghost;
 using namespace std;

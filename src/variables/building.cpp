@@ -26,7 +26,7 @@
 
 #include <typeinfo>
 
-#include "../../include/variables/building.hpp"
+#include "building.hpp"
 
 namespace ghost
 {

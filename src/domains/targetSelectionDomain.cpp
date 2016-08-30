@@ -30,8 +30,8 @@
 #include <chrono>
 #include <typeinfo>
 
-#include "../../include/domains/targetSelectionDomain.hpp"
-#include "../../include/misc/unitMap.hpp"
+#include "targetSelectionDomain.hpp"
+#include "../misc/unitMap.hpp"
 
 using namespace std;
 

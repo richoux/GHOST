@@ -30,7 +30,7 @@
 #include <algorithm>
 #include <string>
 
-#include "../../include/constraints/buildorderConstraint.hpp"
+#include "buildorderConstraint.hpp"
 
 using namespace std;
 

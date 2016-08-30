@@ -30,7 +30,7 @@
 #include <algorithm>
 #include <string>
 
-#include "../../include/constraints/targetSelectionConstraint.hpp"
+#include "targetSelectionConstraint.hpp"
 
 using namespace std;
 

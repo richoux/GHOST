@@ -34,9 +34,9 @@
 #include <ctime>
 #include <numeric>
 
-#include "../../include/objectives/wallinObjective.hpp"
-#include "../../include/variables/building.hpp"
-#include "../../include/constraints/wallinConstraint.hpp"
+#include "wallinObjective.hpp"
+#include "../variables/building.hpp"
+#include "../constraints/wallinConstraint.hpp"
 
 using namespace std;
 

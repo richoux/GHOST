@@ -27,7 +27,7 @@
 #include <iomanip>
 #include <algorithm>
 
-#include "../../include/domains/wallinDomain.hpp"
+#include "wallinDomain.hpp"
 
 namespace ghost
 {

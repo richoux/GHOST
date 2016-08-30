@@ -35,9 +35,9 @@
 #include <numeric>
 #include <iomanip>
 
-#include "../../include/objectives/buildorderObjective.hpp"
-#include "../../include/variables/action.hpp"
-#include "../../include/misc/actionMap.hpp"
+#include "buildorderObjective.hpp"
+#include "../variables/action.hpp"
+#include "../misc/actionMap.hpp"
 
 using namespace std;
 

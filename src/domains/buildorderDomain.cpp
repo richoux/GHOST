@@ -30,7 +30,7 @@
 #include <chrono>
 #include <typeinfo>
 
-#include "../../include/domains/buildorderDomain.hpp"
+#include "buildorderDomain.hpp"
 
 using namespace std;
 

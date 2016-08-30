@@ -24,7 +24,7 @@
  */
 
 
-#include "../../include/misc/actionMap.hpp"
+#include "actionMap.hpp"
 
 namespace ghost
 {
