@@ -97,7 +97,7 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # Configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = ./doc/mainpage.dox include/solver.hpp include/variables/variable.hpp include/domains/domain.hpp include/constraints/constraint.hpp include/objectives/objective.hpp include/misc/random.hpp src/variables/variable.cpp
+INPUT                  = ./doc/mainpage.dox src/solver.hpp src/variables/variable.hpp src/domains/domain.hpp src/constraints/constraint.hpp src/objectives/objective.hpp src/misc/random.hpp src/variables/variable.cpp
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          =
 RECURSIVE              = YES
