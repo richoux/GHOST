@@ -33,9 +33,9 @@
 #include <vector>
 #include <memory>
 
-#include "objective.hpp"
-#include "../variables/building.hpp"
-#include "../domains/wallinDomain.hpp"
+#include "../../src/objective.hpp"
+#include "building.hpp"
+#include "wallinDomain.hpp"
 
 using namespace std;
 

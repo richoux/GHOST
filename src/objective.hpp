@@ -34,7 +34,7 @@
 #include <limits>
 #include <vector>
 
-#include "../misc/random.hpp"
+#include "misc/random.hpp"
 
 using namespace std;
 

@@ -32,29 +32,29 @@
 
 #include <vector>
 
-#include "domain.hpp"
-#include "../variables/action.hpp"
+#include "../../src/domain.hpp"
+#include "unit.hpp"
 
 using namespace std;
 
 namespace ghost
 {
-  class BuildOrderDomain : public Domain<Action>
+  class TargetSelectionDomain : public Domain<Unit>
   {
   public:
-    BuildOrderDomain( int, vector<Action>* );
+    TargetSelectionDomain( int, vector<UnitEnemy>* );
 
-    void add( const Action& );
-    void clear( const Action& );
-
-    void moveTo( int from, int to );
-    void addAction( Action &, bool );
+    vector<UnitEnemy> getEnemiesInRange( const Unit& );
+    vector<UnitEnemy> getLivingEnemiesInRange( const Unit& );
     
-    friend ostream& operator<<( ostream&, const BuildOrderDomain& );
-
+    inline UnitEnemy getEnemyData( int i )	const { return enemies->at( i ); }
+    inline vector<UnitEnemy>* getAllEnemies()	const { return enemies; }
+    
+    friend ostream& operator<<( ostream&, const TargetSelectionDomain& );
+        
   private:
-    void v_restart( vector<Action> *variables );
+    void v_restart( vector<Unit>* );
 
-    vector<Action> *order;
+    vector<UnitEnemy> *enemies;
   };
 }

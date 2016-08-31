@@ -31,33 +31,30 @@
 #pragma once
 
 #include <vector>
-#include <iostream>
-#include <memory>
-#include <algorithm>
-#include <string>
 
-#include "constraint.hpp"
-#include "../variables/unit.hpp"
-#include "../domains/targetSelectionDomain.hpp"
-#include "../objectives/objective.hpp"
-#include "../misc/unitMap.hpp"
+#include "../../src/domain.hpp"
+#include "action.hpp"
 
 using namespace std;
 
 namespace ghost
 {
-  class TargetSelectionConstraint : public Constraint<Unit, TargetSelectionDomain>
+  class BuildOrderDomain : public Domain<Action>
   {
   public:
-    TargetSelectionConstraint( const vector< Unit >*, const TargetSelectionDomain* );
+    BuildOrderDomain( int, vector<Action>* );
 
+    void add( const Action& );
+    void clear( const Action& );
+
+    void moveTo( int from, int to );
+    void addAction( Action &, bool );
+    
+    friend ostream& operator<<( ostream&, const BuildOrderDomain& );
 
   private:
-    double		v_cost	      ( vector<double> &varCost ) const;
+    void v_restart( vector<Action> *variables );
 
-    vector<double>	v_simulateCost( Unit &currentUnit,
-					const vector<int> &newTarget,
-					vector< vector<double> > &vecVarSimCosts,
-					shared_ptr< Objective< Unit, TargetSelectionDomain > > objective );
-  };  
+    vector<Action> *order;
+  };
 }

@@ -30,34 +30,11 @@
 
 #pragma once
 
-#include <vector>
-#include <iostream>
-#include <memory>
-#include <algorithm>
-#include <string>
+#include <map>
 
-#include "constraint.hpp"
-#include "../variables/action.hpp"
-#include "../domains/buildorderDomain.hpp"
-#include "../objectives/objective.hpp"
-#include "../misc/actionMap.hpp"
-
-using namespace std;
+#include "action.hpp"
 
 namespace ghost
 {
-  class BuildOrderConstraint : public Constraint<Action, BuildOrderDomain>
-  {
-  public:
-    BuildOrderConstraint( const vector< Action >*, const BuildOrderDomain* );
-
-
-  private:
-    double		v_cost(		vector<double> &varCost ) const;
-
-    vector<double>	v_simulateCost( Action &currentAction,
-					const vector<int> &newPosition,
-					vector< vector<double> > &vecVarSimCosts,
-					shared_ptr< Objective< Action, BuildOrderDomain > > objective );
-  };  
+  extern map<string, const ActionData> actionOf;
 }

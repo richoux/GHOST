@@ -34,10 +34,10 @@
 #include <map>
 #include <memory>
 
-#include "objective.hpp"
-#include "../variables/action.hpp"
-#include "../misc/actionMap.hpp"
-#include "../domains/buildorderDomain.hpp"
+#include "../../src/objective.hpp"
+#include "action.hpp"
+#include "actionMap.hpp"
+#include "buildorderDomain.hpp"
 
 using namespace std;
 

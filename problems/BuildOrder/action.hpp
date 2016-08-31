@@ -32,8 +32,8 @@
 
 #include <vector>
 
-#include "variable.hpp"
-#include "../misc/races.hpp"
+#include "../../src/variable.hpp"
+#include "races.hpp"
 
 using namespace std;
 

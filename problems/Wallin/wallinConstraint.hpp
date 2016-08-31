@@ -35,10 +35,10 @@
 #include <memory>
 #include <map>
 
-#include "constraint.hpp"
-#include "../variables/building.hpp"
-#include "../domains/wallinDomain.hpp"
-#include "../objectives/objective.hpp"
+#include "../../src/constraint.hpp"
+#include "../../src/objective.hpp"
+#include "building.hpp"
+#include "wallinDomain.hpp"
 
 using namespace std;
 

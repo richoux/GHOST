@@ -30,11 +30,62 @@
 
 #pragma once
 
-#include <map>
+#include "../../src/variable.hpp"
+#include "races.hpp"
 
-#include "../variables/unit.hpp"
+using namespace std;
 
 namespace ghost
 {
-  extern map<string, const UnitData> unitOf;
+  class Building : public Variable
+  {
+  public:
+    Building();
+    Building(int, int, int, int, int, int, Race, int, string, string, int = -1);
+    Building(const Building&);
+    Building& operator=(Building);
+
+    
+    inline int getLength()	const	{ return length; }
+    inline int getHeight()	const	{ return height; }
+    inline int getSurface()	const	{ return height * length; }
+
+    inline int getGapTop()	const	{ return gapTop; }
+    inline int getGapRight()	const	{ return gapRight; }
+    inline int getGapBottom()	const	{ return gapBottom; }
+    inline int getGapLeft()	const	{ return gapLeft; }
+
+    inline bool	isSelected()	const	{ return value != -1; }
+
+    inline Race getRace()	const	{ return race; }
+    inline string getRaceString()	const	
+    { 
+      switch( race ) 
+      {
+      case Terran: return "Terran";
+      case Protoss: return "Protoss";
+      case Zerg: return "Zerg";
+      default: return "Unknown";
+      }
+    }
+    
+    inline int getTreedepth()	const	{ return treedepth; }
+    
+    friend ostream& operator<<( ostream&, const Building& );
+
+  private:
+    void swap(Building&);
+
+    
+    int length;
+    int height;
+
+    int gapTop;
+    int gapRight;
+    int gapBottom;
+    int gapLeft;
+
+    Race race;
+    int treedepth;
+  };
 }

@@ -36,9 +36,9 @@
 #include <string>
 #include <iostream>
 
-#include "domain.hpp"
-#include "../variables/building.hpp"
-#include "../misc/random.hpp"
+#include "../../src/domain.hpp"
+#include "../../src/misc/random.hpp"
+#include "building.hpp"
 
 using namespace std;
 

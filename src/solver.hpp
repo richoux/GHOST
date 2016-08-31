@@ -42,11 +42,11 @@
 #include <cassert>
 #include <typeinfo>
 
-#include "variables/variable.hpp"
-#include "constraints/constraint.hpp"
-#include "domains/domain.hpp"
+#include "variable.hpp"
+#include "constraint.hpp"
+#include "domain.hpp"
 #include "misc/random.hpp"
-#include "objectives/objective.hpp"
+#include "objective.hpp"
 
 using namespace std;
 

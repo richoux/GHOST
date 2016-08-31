@@ -39,8 +39,8 @@
 #include <numeric>
 
 #include "wallinObjective.hpp"
-#include "../variables/building.hpp"
-#include "../constraints/wallinConstraint.hpp"
+#include "building.hpp"
+#include "wallinConstraint.hpp"
 
 using namespace std;
 

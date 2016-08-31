@@ -40,8 +40,8 @@
 #include <iomanip>
 
 #include "buildorderObjective.hpp"
-#include "../variables/action.hpp"
-#include "../misc/actionMap.hpp"
+#include "action.hpp"
+#include "actionMap.hpp"
 
 using namespace std;
 

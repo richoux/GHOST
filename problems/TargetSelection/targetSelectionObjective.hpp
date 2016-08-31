@@ -30,62 +30,58 @@
 
 #pragma once
 
-#include "variable.hpp"
-#include "../misc/races.hpp"
+#include <vector>
+#include <map>
+#include <memory>
+
+#include "../../src/objective.hpp"
+#include "unit.hpp"
+#include "unitMap.hpp"
+#include "targetSelectionDomain.hpp"
 
 using namespace std;
 
 namespace ghost
 {
-  class Building : public Variable
+  /****************************/
+  /* TargetSelectionObjective */
+  /****************************/
+  class TargetSelectionObjective : public Objective<Unit, TargetSelectionDomain>
   {
   public:
-    Building();
-    Building(int, int, int, int, int, int, Race, int, string, string, int = -1);
-    Building(const Building&);
-    Building& operator=(Building);
+    TargetSelectionObjective( const string &name );
 
-    
-    inline int getLength()	const	{ return length; }
-    inline int getHeight()	const	{ return height; }
-    inline int getSurface()	const	{ return height * length; }
-
-    inline int getGapTop()	const	{ return gapTop; }
-    inline int getGapRight()	const	{ return gapRight; }
-    inline int getGapBottom()	const	{ return gapBottom; }
-    inline int getGapLeft()	const	{ return gapLeft; }
-
-    inline bool	isSelected()	const	{ return value != -1; }
-
-    inline Race getRace()	const	{ return race; }
-    inline string getRaceString()	const	
-    { 
-      switch( race ) 
-      {
-      case Terran: return "Terran";
-      case Protoss: return "Protoss";
-      case Zerg: return "Zerg";
-      default: return "Unknown";
-      }
-    }
-    
-    inline int getTreedepth()	const	{ return treedepth; }
-    
-    friend ostream& operator<<( ostream&, const Building& );
-
-  private:
-    void swap(Building&);
-
-    
-    int length;
-    int height;
-
-    int gapTop;
-    int gapRight;
-    int gapBottom;
-    int gapLeft;
-
-    Race race;
-    int treedepth;
+  protected:
+    int v_heuristicVariable( const vector< int > &vecId, const vector< Unit > *vecVariables, TargetSelectionDomain *domain );
+    double v_postprocessSatisfaction( vector< Unit > *vecBuildings,
+				      TargetSelectionDomain *domain,
+				      double &bestCost,
+				      vector< Unit > &bestSolution,
+				      double sat_timeout ) const;
   };
+  
+  
+  /*************/
+  /* MaxDamage */
+  /*************/
+  class MaxDamage : public TargetSelectionObjective
+  {
+  public:
+    MaxDamage();
+    double v_cost( vector< Unit > *vecVariables, TargetSelectionDomain *domain ) const;
+    void v_setHelper( const Unit &u, const vector< Unit > *vecVariables, const TargetSelectionDomain *domain );
+  };
+
+
+  /***********/
+  /* MaxKill */
+  /***********/
+  class MaxKill : public TargetSelectionObjective
+  {
+  public:
+    MaxKill();
+    double v_cost( vector< Unit > *vecVariables, TargetSelectionDomain *domain ) const;
+    void v_setHelper( const Unit &u, const vector< Unit > *vecVariables, const TargetSelectionDomain *domain );
+  };
+
 }

@@ -30,31 +30,12 @@
 
 #pragma once
 
-#include <vector>
-
-#include "domain.hpp"
-#include "../variables/unit.hpp"
-
-using namespace std;
-
 namespace ghost
 {
-  class TargetSelectionDomain : public Domain<Unit>
-  {
-  public:
-    TargetSelectionDomain( int, vector<UnitEnemy>* );
-
-    vector<UnitEnemy> getEnemiesInRange( const Unit& );
-    vector<UnitEnemy> getLivingEnemiesInRange( const Unit& );
-    
-    inline UnitEnemy getEnemyData( int i )	const { return enemies->at( i ); }
-    inline vector<UnitEnemy>* getAllEnemies()	const { return enemies; }
-    
-    friend ostream& operator<<( ostream&, const TargetSelectionDomain& );
-        
-  private:
-    void v_restart( vector<Unit>* );
-
-    vector<UnitEnemy> *enemies;
-  };
+  /*!
+   * \enum Race
+   * The enumeration type containing all StarCraft races, ie, 
+   * Terran, Protoss, Zerg and Unknown.
+   */ 
+  enum Race{ Terran, Protoss, Zerg, Unknown };
 }

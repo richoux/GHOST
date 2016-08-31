@@ -34,9 +34,9 @@
 #include <memory>
 #include <string>
 
-#include "../variables/building.hpp"
-#include "../constraints/wallinConstraint.hpp"
-#include "../domains/wallinDomain.hpp"
+#include "../../src/building.hpp"
+#include "wallinConstraint.hpp"
+#include "wallinDomain.hpp"
 
 using namespace std;
 

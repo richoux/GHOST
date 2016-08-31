@@ -30,11 +30,12 @@
 
 #pragma once
 
-#include <map>
-
-#include "../variables/action.hpp"
-
 namespace ghost
 {
-  extern map<string, const ActionData> actionOf;
+  /*!
+   * \enum Race
+   * The enumeration type containing all StarCraft races, ie, 
+   * Terran, Protoss, Zerg and Unknown.
+   */ 
+  enum Race{ Terran, Protoss, Zerg, Unknown };
 }

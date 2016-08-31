@@ -33,10 +33,10 @@
 #include <vector>
 #include <cmath>
 
-#include "variable.hpp"
-#include "../misc/races.hpp"
-#include "../misc/sizes.hpp"
-#include "../misc/damageTypes.hpp"
+#include "../../src/variable.hpp"
+#include "races.hpp"
+#include "sizes.hpp"
+#include "damageTypes.hpp"
 
 using namespace std;
 

@@ -31,57 +31,33 @@
 #pragma once
 
 #include <vector>
-#include <map>
+#include <iostream>
 #include <memory>
+#include <algorithm>
+#include <string>
 
+#include "../../src/constraint.hpp"
+#include "unit.hpp"
+#include "targetSelectionDomain.hpp"
 #include "objective.hpp"
-#include "../variables/unit.hpp"
-#include "../misc/unitMap.hpp"
-#include "../domains/targetSelectionDomain.hpp"
+#include "unitMap.hpp"
 
 using namespace std;
 
 namespace ghost
 {
-  /****************************/
-  /* TargetSelectionObjective */
-  /****************************/
-  class TargetSelectionObjective : public Objective<Unit, TargetSelectionDomain>
+  class TargetSelectionConstraint : public Constraint<Unit, TargetSelectionDomain>
   {
   public:
-    TargetSelectionObjective( const string &name );
-
-  protected:
-    int v_heuristicVariable( const vector< int > &vecId, const vector< Unit > *vecVariables, TargetSelectionDomain *domain );
-    double v_postprocessSatisfaction( vector< Unit > *vecBuildings,
-				      TargetSelectionDomain *domain,
-				      double &bestCost,
-				      vector< Unit > &bestSolution,
-				      double sat_timeout ) const;
-  };
-  
-  
-  /*************/
-  /* MaxDamage */
-  /*************/
-  class MaxDamage : public TargetSelectionObjective
-  {
-  public:
-    MaxDamage();
-    double v_cost( vector< Unit > *vecVariables, TargetSelectionDomain *domain ) const;
-    void v_setHelper( const Unit &u, const vector< Unit > *vecVariables, const TargetSelectionDomain *domain );
-  };
+    TargetSelectionConstraint( const vector< Unit >*, const TargetSelectionDomain* );
 
 
-  /***********/
-  /* MaxKill */
-  /***********/
-  class MaxKill : public TargetSelectionObjective
-  {
-  public:
-    MaxKill();
-    double v_cost( vector< Unit > *vecVariables, TargetSelectionDomain *domain ) const;
-    void v_setHelper( const Unit &u, const vector< Unit > *vecVariables, const TargetSelectionDomain *domain );
-  };
+  private:
+    double		v_cost	      ( vector<double> &varCost ) const;
 
+    vector<double>	v_simulateCost( Unit &currentUnit,
+					const vector<int> &newTarget,
+					vector< vector<double> > &vecVarSimCosts,
+					shared_ptr< Objective< Unit, TargetSelectionDomain > > objective );
+  };  
 }

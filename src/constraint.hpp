@@ -35,7 +35,7 @@
 #include <memory>
 #include <typeinfo>
 
-#include "../objectives/objective.hpp"
+#include "objective.hpp"
 
 using namespace std;
 

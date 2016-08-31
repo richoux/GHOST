@@ -2,7 +2,7 @@
 EXEC=ghost
 
 # Compiler
-IDIR=src src/constraints src/domains src/misc src/objectives src/variables
+IDIR=src src/misc
 IDIRFLAG=$(foreach idir, $(IDIR), -I$(idir))
 CXXFLAGS=-std=c++0x -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(IDIRFLAG)
 
@@ -10,7 +10,7 @@ CXXFLAGS=-std=c++0x -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unu
 LFLAGS=$(IDIRFLAG)
 
 # Directories
-SRCDIR=src src/constraints src/domains src/misc src/objectives src/variables
+SRCDIR=src src/misc
 OBJDIR=obj
 BINDIR=bin
 

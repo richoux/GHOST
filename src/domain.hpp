@@ -36,7 +36,7 @@
 #include <algorithm>
 #include <numeric>
 
-#include "../misc/random.hpp"
+#include "misc/random.hpp"
 
 using namespace std;
 
