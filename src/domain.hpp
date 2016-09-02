@@ -44,74 +44,36 @@ namespace ghost
 {
   //! Domain is the class encoding the domain of your CSP/COP.
   /*! 
-   * In GHOST, only one domain object should be instanciate. At least,
-   * the solver is only taking one domain object in parameter.
-   *
-   * The Domain class is a template class, waiting for the type of
-   * variable. Thus, you must instanciate a domain by specifying the
-   * class of your variable objects, like for instance
-   * Domain<Variable> or Domain<MyCustomVariable>, if MyCustomVariable
-   * inherits from the ghost::Variable class.
-   *
-   * Since in GHOST, variables can only take integer values, a domain
-   * object would contain the possible integer values for each
-   * variable of the CSP/COP.
-   *
-   * To encode your CSP/COP domain, you can either directly use this
-   * class Domain (there are no pure virtual functions here),
-   * or inherit from it to make your own domain class.
-   *
-   * \sa Variable
    */
-  template <typename TypeVariable>
   class Domain
   {
   public:
-    //! First Domain constructor.
+    //! Domain constructor.
     /*!
-     * In this constructor, the domain of each variable is built to be
-     * equals to the range [start, start + size[
-     *
-     * \param size An integer to specify the size of the domain.
-     * \param numberVariables An integer to specify the number of variables in the CSP/COP.
-     * \param start The starting value of the domain. If not given, the default value is 0.
+     * Constructor taking the outside-the-scope value and a vector of integer values, to 
+     * make both the initial and current possible variable values. The outside-the-scope value
+     * must not belong to this list, or an ArgumentException is raised.
      */
-    Domain( int size, int numberVariables, int start = 0 )
-      : size(size),
-	domains(vector< vector<int> >( numberVariables )),
-	initialDomain(vector<int>( size ))
-    {
-      std::iota( begin(initialDomain), end(initialDomain), start );
-      for( int i = 0; i < numberVariables; ++i )
-      {
-	// domains[i] = vector<int>( size );
-	// std::iota( begin(domains[i]), end(domains[i]), start );
+    Domain( const vector< int > &domain, int outsideScope = -1 )
+      : currentDomain(domain),
+	initialDomain(domain),
+	outsideScope(outsideScope)
+    { }
 
-	domains[i] = initialDomain;
-      }
+    //! Domain constructor.
+    /*!
+     * Constructor taking the domain size N and a starting value x, and creating a domain
+     * with all values in [x, x + N]. The outside-the-scope value is set to x-1.
+     */
+    Domain( int size, int startValue )
+      : currentDomain(vector<int>(size)),
+	initialDomain(vector<int>(size)),
+	outsideScope(startValue-1)
+    {
+      std::iota( begin( currentDomain ), end( currentDomain ), startValue );
+      std::iota( begin( initialDomain ), end( initialDomain ), startValue );
     }
 
-    //! Second and last Domain constructor.
-    /*!
-     * In this constructor, the domain of each variable is given as a
-     * parameter.
-     *
-     * \param size An integer to specify the size of the domain.
-     * \param numberVariables An integer to specify the number of variables in the CSP/COP.
-     * \param initialDomain A constant reference to an vector of integer, representing the inital domain for each variable.
-     */
-    Domain( int size, int numberVariables, const vector< int > &initialDomain )
-      : size(size),
-	domains(vector< vector<int> >( numberVariables )),
-	initialDomain(initialDomain)
-    {
-      for( int i = 0; i < numberVariables; ++i )
-      {
-	domains[i] = vector<int>( size );	  
-	std::copy( begin(initialDomain), end(initialDomain), domains[i].begin() );
-      }
-    }
-        
     //! Inline function following the NVI idiom. Calling v_restart.
     inline void restart( vector<TypeVariable> *variables ) { v_restart( variables ); }
 
@@ -238,9 +200,9 @@ namespace ghost
 	variables->at(i).setValue( best[i].getValue() );
     }
 
-    int size;				//!< An integer to specify the size of the domain.
-    vector< vector< int > > domains;	//!< The vector of vector of integers, containing the domain of each variables. Thus, domains[i] is the domain of the variable i.
-    vector< int > initialDomain;	//!< The initial domain, created or given according to the constructor which has been called. 
-    Random random;			//!< The random generator used by the function randomValue. 
+    vector< int > currentDomain;	//!< Vector of integers containing the current values of the domain.
+    vector< int > initialDomain;	//!< Vector of integers containing the initial values of the domain.
+    int outsideScope;			//!< Value representing all values outside the scope of the domain
+    Random random;			//!< A random generator used by the function randomValue. 
   };
 }
