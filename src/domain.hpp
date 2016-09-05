@@ -35,6 +35,8 @@
 #include <typeinfo>
 #include <algorithm>
 #include <numeric>
+#include <iterator>
+#include <exception>
 
 #include "misc/random.hpp"
 
@@ -44,21 +46,129 @@ namespace ghost
 {
   //! Domain is the class encoding the domain of your CSP/COP.
   /*! 
+   * Domain is the class implementing variables' domains, ie, the set of possible values a variable can take.
+   * In GHOST, such values must be integers.
+   * 
+   * A domain contains:
+   * 1. the vector of current possible values of the variable it belongs to, 
+   * 2. the vector of initial values (if one wants to reset the domain, since values in the current domain may change),
+   * 3. an integer representing values outside the domain scope
+   * 4. finally, a pseudo-random number generator.
    */
   class Domain
   {
+    vector< int > currentDomain;	//!< Vector of integers containing the current values of the domain.
+    vector< int > initialDomain;	//!< Vector of integers containing the initial values of the domain.
+    int outsideScope;			//!< Value representing all values outside the scope of the domain
+    Random random;			//!< A random generator used by the function randomValue. 
+
+    virtual bool v_isInitialized()
+    {
+      return !currentDomain.empty();
+    }
+    
+    virtual void v_resetToInitial()
+    {
+      std::copy( begin( currentDomain ), end( currentDomain ), initialDomain );
+    }
+    
+    virtual bool v_removeValue( int value )
+    {
+      int index = indexOf( value );
+      if( index == -1 )
+	return false;
+      else
+      {
+	currentDomain.erase( begin( currentDomain ) + index );
+	return true;
+      }
+      
+      // auto& it = std::find( begin( currentDomain ), end( currentDomain ), value );
+      // if( it == end( currentDomain ) )
+      // 	return false;
+      // else
+      // {
+      // 	currentDomain.erase( it );
+      // 	return true;
+      // }
+    }
+    
+    virtual int v_randomValue()
+    {
+      return currentDomain[ random.getRandNum( currentDomain.size() ) ];
+    }
+    
+    virtual int v_getSize()
+    {
+      return currentDomain.size();
+    }
+    
+    virtual int v_getInitialSize()
+    {
+      return initialDomain.size();
+    }
+    
+    virtual int v_maxValue()
+    {
+      return std::max_element( begin( currentDomain ), end( currentDomain ) );
+    }
+    
+    virtual int v_minValue()
+    {
+      return std::min_element( begin( currentDomain ), end( currentDomain ) );
+    }
+    
+    virtual int v_maxInitialValue()
+    {
+      return std::max_element( begin( initialDomain ), end( initialDomain ) );
+    }
+    
+    virtual int v_minInitialValue()
+    {
+      return std::min_element( begin( initialDomain ), end( initialDomain ) );
+    }
+    
+    virtual int v_getValue( int index )
+    {
+      if( index >=0 && index < currentDomain.size() )
+	return currentDomain[ index ];
+      else
+	return outsideScope;
+    }
+    
+    virtual int v_indexOf( int value )
+    {
+      auto& it = std::find( begin( currentDomain ), end( currentDomain ), value );
+      int index = it - begin( currentDomain );
+      if( index < 0 )
+	return -1;
+      else
+	return index;
+    }
+    
   public:
     //! Domain constructor.
     /*!
-     * Constructor taking the outside-the-scope value and a vector of integer values, to 
-     * make both the initial and current possible variable values. The outside-the-scope value
-     * must not belong to this list, or an ArgumentException is raised.
+     * Basic constructor taking the outside-the-scope value (-1 by default).
+     */
+    Domain( int outsideScope = -1 )
+      : outsideScope(outsideScope)
+    { }
+    
+    //! Domain constructor.
+    /*!
+     * Constructor taking a vector of integer values the outside-the-scope value (-1 by default), to 
+     * initialize both the initial and current possible variable values. The outside-the-scope value
+     * must not belong to this list, or an exception is raised (throw 0).
      */
     Domain( const vector< int > &domain, int outsideScope = -1 )
       : currentDomain(domain),
 	initialDomain(domain),
 	outsideScope(outsideScope)
-    { }
+    {
+      if( std::find( begin( domain ), end( domain ), outsideScope ) != end( domain ) )
+	throw 0;
+    }
 
     //! Domain constructor.
     /*!
@@ -74,135 +184,96 @@ namespace ghost
       std::iota( begin( initialDomain ), end( initialDomain ), startValue );
     }
 
-    //! Inline function following the NVI idiom. Calling v_restart.
-    inline void restart( vector<TypeVariable> *variables ) { v_restart( variables ); }
-
-    //! Inline function following the NVI idiom. Calling v_wipe.
-    inline void wipe( vector<TypeVariable> *variables ) { v_wipe( variables ); }
-
-    //! Inline function following the NVI idiom. Calling v_rebuild.
-    inline void rebuild( vector<TypeVariable> *variables ) { v_rebuild( variables ); }
-
-    //! Inline function following the NVI idiom. Calling v_copyBest.
-    inline void copyBest( vector<TypeVariable> &best, vector<TypeVariable> *variables ) { v_copyBest( best, variables ); }
-
-    //! Inline function to get a random value among the possible values of a given variable.
+    //! Inline function following the NVI idiom, calling v_isInitialized.
     /*!
-     * \param variable A constant reference to a variable.
-     * \return A random value among the possible values of variable.
-     * \sa Random
+     * Used to know if the Domain object is just an empty shell or a properly 
+     * initialized domain. In some cases, it can be convenient to instanciate 
+     * a domain object first and to fill it up with values latter.
+     * \return True if and only if the domain has been initialized (i.e., the current domain is not empty).
      */
-    inline int randomValue( const TypeVariable& variable )
-    {
-      vector<int> possibilities = domains[ variable.getId() ];
-      return possibilities[ random.getRandNum( possibilities.size() ) ];
-    }
-      
-    //! Inline function to get the vector of the possible values of a given variable.
-    /*!
-     * \param variable A constant reference to a variable.
-     * \return The vector of integers of all possible values of variable.
-     */
-    inline vector<int> valuesOf( const TypeVariable& variable ) const
-    {
-      return domains[ variable.getId() ];
-    }
-      
-    //! Inline function to reset the domain of a given variable to the
-    //! initial domain.
-    /*!
-     * The domain of the given variable will be reset to the initial
-     * domain created or given while the domain object has been
-     * instanciated.
-     *
-     * \param variable A constant reference to a variable.
-     */
-    inline void	resetDomain( const TypeVariable& variable )
-    {
-      domains[ variable.getId() ] = initialDomain;
-    }
-      
-    //! Inline function to reset all variable domains to the initial
-    //! domain. 
-    /*!
-     * All variable domains will be reset to the initial domain
-     * created or given while the domain object has been instanciated.
-     */
-    inline void	resetAllDomains()
-    {
-      for( auto& d : domains )
-	d = initialDomain;
-    }
+    inline bool isInitialized() { return v_isInitialized(); }
 
-    //! Inline accessor to get the size of the domain.
-    inline int getSize() const { return size; }
-
-    //! Inline function to add something into the domain.
+    //! Inline function following the NVI idiom, calling v_resetToInitial.
     /*!
-     * The implementation by default does nothing. This function has
-     * been declared because it could be useful for some custom domain
-     * classes to add a value from the given variable into a custom
-     * data structure. This function is called into the solver three times:
-     * - during a move (Solver::move), ie, when the solver assigns a new value to a given variable.
-     * - during a reset (Solver::reset).
-     * - just between the end of the optimization run and the beginning of the optimization post-processing, in Solver::solve.
-     *
-     * \param variable A constant reference to a variable.
+     * Resets the set of current values to the set of initial values. 
+     * Allow the recover all values in the domain if we filtered some of them. 
      */
-    inline void add( const TypeVariable& variable ) { }      
+    inline void resetToInitial() { v_resetToInitial(); }
 
-    //! Inline function to clear (or remove) something into the domain.
+    //! Inline function following the NVI idiom, calling v_removeValue.
     /*!
-     * The implementation by default does nothing. This function has
-     * been declared because it could be useful for some custom domain
-     * classes to clear/remove a value from the given variable into a custom
-     * data structure. This function is called into the solver three times:
-     * - during a move (Solver::move), ie, when the solver assigns a new value to a given variable.
-     * - during a reset (Solver::reset).
-     * - just between the end of the optimization run and the beginning of the optimization post-processing, in Solver::solve.
-     *
-     * \param variable A constant reference to a variable.
+     * Deletes a given value from the set of current domain values.
+     * \param value is the value to remove from the domain
+     * \return True if the value has been removed. False if the value to remove was not in the current domain.
      */
-    inline void	clear( const TypeVariable& variable ) { }
+    inline bool removeValue( int value ) { return v_removeValue( value ); }
+
+    //! Inline function following the NVI idiom, calling v_randomValue.
+    /*!
+     * Returns a random value from the domain.
+     */
+    inline int randomValue() { return v_randomValue(); }
+
+    //! Inline function following the NVI idiom, calling v_getSize.
+    /*!
+     * Get the number of values currently contained by the domain.
+     */
+    inline int getSize() { return v_getSize(); }
+
+    //! Inline function following the NVI idiom, calling v_getInitialSize.
+    /*!
+     * Get the number of values initially contained by the domain.
+     */    
+    inline int getInitialSize() { return v_getInitialSize(); }
+
+    //! Inline function following the NVI idiom, calling v_maxValue.
+    /*!
+     * Get the highest value in the current domain. 
+     */
+    inline int maxValue() { return v_maxValue(); }
+
+    //! Inline function following the NVI idiom, calling v_minValue.
+    /*!
+     * Get the lowest value in the current domain. 
+     */
+    inline int minValue() { return v_minValue(); }
+
+    //! Inline function following the NVI idiom, calling v_maxInitialValue.
+    /*!
+     * Get the highest value in the initial domain. 
+     */
+    inline int maxInitialValue() { return v_maxInitialValue(); }
+
+    //! Inline function following the NVI idiom, calling v_minInitialValue.
+    /*!
+     * Get the lowest value in the initial domain. 
+     */
+    inline int minInitialValue() { return v_minInitialValue(); }
+
+    //! Inline function following the NVI idiom, calling v_getValue.
+    /*!
+     * Get the value at the given index
+     * \param index is the index of the desired value.
+     * \return The value at the given index if this one is in the range of the domain, otherwise the outside-the-scope value.
+     */    
+    inline int getValue( int index ) { return v_getValue( index ); }
+
+    //! Inline function following the NVI idiom, calling v_indexOf.
+    /*!
+     * Get the index of a given value.
+     * \return If the given value is in the domain, it returns its index, and -1 otherwise.
+     */ 
+    inline int indexOf( int value ) { return v_indexOf( value ); }
 
     //! friend override of operator<<
-    friend ostream& operator<<( ostream& os, const Domain<TypeVariable>& domain )
-    {
-      os << "Domain type: " <<  typeid(domain).name() << endl
-	 << "Size: " <<  domain.size << endl;
-      return os;
-    }
-
-  protected:
-    //! Pure virtual function restarting the
-    //! search process from a fresh and randomly generated
-    //! configuration.
-    virtual void v_restart( vector<TypeVariable> *variables ) = 0;
-
-    //! Empty virtual function called in Sovler::solve before
-    //! postprocessingOptimization. Can be use to flush variables
-    //! in the domain.
-    virtual void v_wipe( vector<TypeVariable> *variables ) { }
-
-    //! Empty virtual function called in Sovler::solve before
-    //! postprocessingOptimization. Can be use to rebuild the domain.
-    virtual void v_rebuild( vector<TypeVariable> *variables ) { }
-
-    //! virtual function called in Sovler::solve before
-    //! postprocessingOptimization. By default, copy only the value of best[i] into variables[i].
     /*!
-     * \param best The vector of best configuration found by the solver.
-     * \param variables The regular vector used to describe the vector of variables.
-     */
-    virtual void v_copyBest( vector<TypeVariable> &best, vector<TypeVariable> *variables )
+     * Prints on the standard output the current domain size and content.
+     */ 
+    friend ostream& operator<<( ostream& os, const Domain& domain )
     {
-      for( int i = 0 ; i < best.size() ; ++i )
-	variables->at(i).setValue( best[i].getValue() );
+      os << "Size: " <<  domain.getSize() << "\nCurrent domain: ";
+      std::copy( begin( domain.currentDomain ), end( domain.currentDomain ), std::ostream_iterator<int>( os, " " ) );
+      return os << "\n";
     }
-
-    vector< int > currentDomain;	//!< Vector of integers containing the current values of the domain.
-    vector< int > initialDomain;	//!< Vector of integers containing the initial values of the domain.
-    int outsideScope;			//!< Value representing all values outside the scope of the domain
-    Random random;			//!< A random generator used by the function randomValue. 
   };
 }
