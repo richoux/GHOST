@@ -1,20 +1,13 @@
 # Compiled Object files
-obj/*.o
+obj
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+# Compiled libraries
+lib
 
 # Executables
 bin/ghost
 
 # Doxygen files
-html/
+doc/html
+doc/latex
 
