@@ -34,8 +34,17 @@ test: clean
 test: CXX=g++
 test: LINKER=g++ -o
 test: CXXFLAGS += -DNDEBUG
+test: LIBGTEST=$(LIBDIR)/libgtest.a
 test: $(BINDIR)/$(EXECS)
 test: rm -f $(OBJECTS) 
+
+travistest: CXX=g++
+travistest: LINKER=g++ -o
+travistest: CXXFLAGS += -DNDEBUG
+travistest: LIBGTEST=
+travistest: LFLAGS += -lgtest
+travistest: $(BINDIR)/$(EXECS)
+travistest: rm -f $(OBJECTS) 
 
 $(BINDIR)/$(EXECS): $(OBJECTS)
 	@$(LINKER) $@ $(LFLAGS) $^ $(LIBDIR)/libgtest.a
@@ -43,7 +52,7 @@ $(BINDIR)/$(EXECS): $(OBJECTS)
 $(OBJDIR)/%.o: %.cpp
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
-.PHONY: test clean 
+.PHONY: test travistest clean 
 
 clean:
 	rm -fr core *~ $(BINDIR)/$(EXECS) $(OBJECTS) $(SOURCESTILDE)

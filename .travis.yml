@@ -1,9 +1,18 @@
 sudo: false
+
 language: cpp
+
 compiler:
   - gcc
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install libgtest-dev
+  - "cd /usr/src/gtest && sudo cmake . && sudo cmake --build . && sudo mv libg* /usr/local/lib/ ; cd -"
+
 install:
 - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
+
 addons:
   apt:
     sources:
@@ -15,7 +24,7 @@ addons:
 script: 
   - $CXX --version
   - mkdir test/bin test/obj
-  - make test
+  - make travistest
   - ls test/*
   - cd bin && for i in $(ls); do ./$i; done
   # - valgrind --leak-check=full --show-reachable=yes bin/ghost --auto

@@ -60,13 +60,16 @@ $(BINDIR)/$(EXEC): $(OBJECTS)
 $(OBJDIR)/%.o: %.cpp
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
-.PHONY: gcc gcc-debug clang clang-debug clean test doc
+.PHONY: gcc gcc-debug clang clang-debug clean test travistest doc
 
 clean:
 	rm -fr core *~ $(OBJDIR)/*.o $(BINDIR)/$(EXEC) $(SOURCESTILDE) $(INCLUDESTILDE)
 
 test:
 	cd test && $(MAKE) test
+
+travistest:
+	cd test && $(MAKE) travistest
 
 doc:
 	doxygen doc/Doxyfile
