@@ -14,8 +14,8 @@ addons:
 
 script: 
   - $CXX --version
+  - mkdir test/bin test/obj
   - make test
-  - cd test && ls *
   - cd bin && for i in $(ls); do ./$i; done
   # - valgrind --leak-check=full --show-reachable=yes bin/ghost --auto
   # - valgrind --tool=cachegrind bin/ghost --auto
