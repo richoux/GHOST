@@ -44,7 +44,6 @@ travistest: CXXFLAGS += -DNDEBUG
 travistest: LIBGTEST=/usr/local/lib/libgtest.a
 travistest: IDIRFLAGS=-I../include
 travistest: $(BINDIR)/$(EXECS)
-travistest: rm -f $(OBJECTS) 
 
 $(BINDIR)/$(EXECS): $(OBJECTS)
 	@$(LINKER) $@ $(LFLAGS) $^ $(LIBGTEST)
