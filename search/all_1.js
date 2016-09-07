@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['constraint',['Constraint',['../classghost_1_1Constraint.html',1,'ghost']]],
-  ['constraint',['Constraint',['../classghost_1_1Constraint.html#af2b5d5f541f64e548bc6c93bba1ba2b8',1,'ghost::Constraint']]],
-  ['constraint_2ehpp',['constraint.hpp',['../constraint_8hpp.html',1,'']]],
-  ['cost',['cost',['../classghost_1_1Constraint.html#a5051092934738b004fe848190a5aa9a5',1,'ghost::Constraint::cost()'],['../classghost_1_1Objective.html#a8ac8effdac4a09063fd680ed60b6a06f',1,'ghost::Objective::cost()']]],
-  ['currentdomain',['currentDomain',['../classghost_1_1Domain.html#adda74053affca47211fc8143942bf7a2',1,'ghost::Domain']]]
+  ['domain',['Domain',['../classghost_1_1Domain.html',1,'ghost']]],
+  ['domain',['domain',['../classghost_1_1Constraint.html#a0ea15d113ab23ddb6ad74be72f7ac90d',1,'ghost::Constraint::domain()'],['../classghost_1_1Domain.html#a48bfae90d7dbb6d8e1a3afdd8e471e4f',1,'ghost::Domain::Domain(int outsideScope=-1)'],['../classghost_1_1Domain.html#a5277f6bd2940a87b4784834e93cb53c9',1,'ghost::Domain::Domain(const vector&lt; int &gt; &amp;domain, int outsideScope=-1)'],['../classghost_1_1Domain.html#a6a9f7b0aec78acb0b0f4edefaea7a6e9',1,'ghost::Domain::Domain(int size, int startValue)']]],
+  ['domain_2ehpp',['domain.hpp',['../domain_8hpp.html',1,'']]]
 ];

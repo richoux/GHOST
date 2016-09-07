@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['loops',['loops',['../classghost_1_1Solver.html#aa6a77e14862a9be467e6c6c76124b526',1,'ghost::Solver']]]
+  ['randomvar',['randomVar',['../classghost_1_1Objective.html#a442da333edc70f47c33a15987c2a81b8',1,'ghost::Objective']]]
 ];

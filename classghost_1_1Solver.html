@@ -88,8 +88,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pri-methods">Private Member Functions</a> &#124;
-<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classghost_1_1Solver-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">ghost::Solver&lt; TypeVariable, TypeDomain, TypeConstraint &gt; Class Template Reference</div>  </div>
@@ -105,65 +103,20 @@ Collaboration diagram for ghost::Solver&lt; TypeVariable, TypeDomain, TypeConstr
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1Solver__coll__graph.png" border="0" usemap="#ghost_1_1Solver_3_01TypeVariable_00_01TypeDomain_00_01TypeConstraint_01_4_coll__map" alt="Collaboration graph"/></div>
 <map name="ghost_1_1Solver_3_01TypeVariable_00_01TypeDomain_00_01TypeConstraint_01_4_coll__map" id="ghost_1_1Solver_3_01TypeVariable_00_01TypeDomain_00_01TypeConstraint_01_4_coll__map">
-<area shape="rect" id="node2" href="classghost_1_1Random.html" title="Random is the class coding pseudo&#45;random generators used in GHOST. " alt="" coords="50,6,168,157"/></map>
+</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aee74bbdf00494dc209d4909bf9fcb544"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#aee74bbdf00494dc209d4909bf9fcb544">Solver</a> (vector&lt; TypeVariable &gt; *<a class="el" href="classghost_1_1Solver.html#a2d033a454234b2277aabdcc4d89eaba2">vecVariables</a>, TypeDomain *<a class="el" href="classghost_1_1Solver.html#ad9292e9219261ba8058fec05b453c0c9">domain</a>, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;<a class="el" href="classghost_1_1Solver.html#a170746edcfb777b12978444c2ab3962e">vecConstraints</a>, const shared_ptr&lt; <a class="el" href="classghost_1_1Objective.html">Objective</a>&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj=nullptr)</td></tr>
+<tr class="memitem:aee74bbdf00494dc209d4909bf9fcb544"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#aee74bbdf00494dc209d4909bf9fcb544">Solver</a> (vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; <a class="el" href="classghost_1_1Objective.html">Objective</a>&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj=nullptr)</td></tr>
 <tr class="memdesc:aee74bbdf00494dc209d4909bf9fcb544"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s regular constructor.  <a href="#aee74bbdf00494dc209d4909bf9fcb544">More...</a><br/></td></tr>
 <tr class="separator:aee74bbdf00494dc209d4909bf9fcb544"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a512335329b22a91700bdfa7870f053e9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a512335329b22a91700bdfa7870f053e9">Solver</a> (vector&lt; TypeVariable &gt; *<a class="el" href="classghost_1_1Solver.html#a2d033a454234b2277aabdcc4d89eaba2">vecVariables</a>, TypeDomain *<a class="el" href="classghost_1_1Solver.html#ad9292e9219261ba8058fec05b453c0c9">domain</a>, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;<a class="el" href="classghost_1_1Solver.html#a170746edcfb777b12978444c2ab3962e">vecConstraints</a>, const shared_ptr&lt; <a class="el" href="classghost_1_1Objective.html">Objective</a>&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj, const int <a class="el" href="classghost_1_1Solver.html#aa6a77e14862a9be467e6c6c76124b526">loops</a>)</td></tr>
+<tr class="memitem:a512335329b22a91700bdfa7870f053e9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a512335329b22a91700bdfa7870f053e9">Solver</a> (vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; <a class="el" href="classghost_1_1Objective.html">Objective</a>&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj, const int loops)</td></tr>
 <tr class="memdesc:a512335329b22a91700bdfa7870f053e9"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s constructor mostly used for tests.  <a href="#a512335329b22a91700bdfa7870f053e9">More...</a><br/></td></tr>
 <tr class="separator:a512335329b22a91700bdfa7870f053e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d15e316f5a4bb8a33c6781058ad0307"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a5d15e316f5a4bb8a33c6781058ad0307">solve</a> (double sat_timeout, double opt_timeout=0)</td></tr>
 <tr class="memdesc:a5d15e316f5a4bb8a33c6781058ad0307"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s main function, to solve the given CSP/COP.  <a href="#a5d15e316f5a4bb8a33c6781058ad0307">More...</a><br/></td></tr>
 <tr class="separator:a5d15e316f5a4bb8a33c6781058ad0307"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
-Private Member Functions</h2></td></tr>
-<tr class="memitem:a58d9540a9700be0e953ebdcf0660920f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a58d9540a9700be0e953ebdcf0660920f">move</a> (TypeVariable *building, int newValue)</td></tr>
-<tr class="separator:a58d9540a9700be0e953ebdcf0660920f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3489c7f10952a8a0a2a0895b9b1c8fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#ae3489c7f10952a8a0a2a0895b9b1c8fe">permut</a> (TypeVariable *building, int newValue)</td></tr>
-<tr class="separator:ae3489c7f10952a8a0a2a0895b9b1c8fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
-Private Attributes</h2></td></tr>
-<tr class="memitem:a2d033a454234b2277aabdcc4d89eaba2"><td class="memItemLeft" align="right" valign="top">vector&lt; TypeVariable &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a2d033a454234b2277aabdcc4d89eaba2">vecVariables</a></td></tr>
-<tr class="memdesc:a2d033a454234b2277aabdcc4d89eaba2"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to the vector of variable objects of the CSP/COP.  <a href="#a2d033a454234b2277aabdcc4d89eaba2">More...</a><br/></td></tr>
-<tr class="separator:a2d033a454234b2277aabdcc4d89eaba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9292e9219261ba8058fec05b453c0c9"><td class="memItemLeft" align="right" valign="top">TypeDomain *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#ad9292e9219261ba8058fec05b453c0c9">domain</a></td></tr>
-<tr class="memdesc:ad9292e9219261ba8058fec05b453c0c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to the domain object of the CSP/COP.  <a href="#ad9292e9219261ba8058fec05b453c0c9">More...</a><br/></td></tr>
-<tr class="separator:ad9292e9219261ba8058fec05b453c0c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a170746edcfb777b12978444c2ab3962e"><td class="memItemLeft" align="right" valign="top">vector&lt; shared_ptr<br class="typebreak"/>
-&lt; TypeConstraint &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a170746edcfb777b12978444c2ab3962e">vecConstraints</a></td></tr>
-<tr class="memdesc:a170746edcfb777b12978444c2ab3962e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The vector of (shared pointers of) constraints of the CSP/COP.  <a href="#a170746edcfb777b12978444c2ab3962e">More...</a><br/></td></tr>
-<tr class="separator:a170746edcfb777b12978444c2ab3962e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4fd74bd68d0ea253fd35adad697f964d"><td class="memItemLeft" align="right" valign="top">shared_ptr&lt; <a class="el" href="classghost_1_1Objective.html">Objective</a><br class="typebreak"/>
-&lt; TypeVariable, TypeDomain &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a4fd74bd68d0ea253fd35adad697f964d">objective</a></td></tr>
-<tr class="memdesc:a4fd74bd68d0ea253fd35adad697f964d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The shared pointer of the objective function.  <a href="#a4fd74bd68d0ea253fd35adad697f964d">More...</a><br/></td></tr>
-<tr class="separator:a4fd74bd68d0ea253fd35adad697f964d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76c1057367112ead0304b436b5f508f1"><td class="memItemLeft" align="right" valign="top">vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a76c1057367112ead0304b436b5f508f1">variableCost</a></td></tr>
-<tr class="memdesc:a76c1057367112ead0304b436b5f508f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The vector of projected costs on each variable.  <a href="#a76c1057367112ead0304b436b5f508f1">More...</a><br/></td></tr>
-<tr class="separator:a76c1057367112ead0304b436b5f508f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6a77e14862a9be467e6c6c76124b526"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#aa6a77e14862a9be467e6c6c76124b526">loops</a></td></tr>
-<tr class="memdesc:aa6a77e14862a9be467e6c6c76124b526"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of times we reiterate the satisfaction loop inside <a class="el" href="classghost_1_1Solver.html#a5d15e316f5a4bb8a33c6781058ad0307" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>.  <a href="#aa6a77e14862a9be467e6c6c76124b526">More...</a><br/></td></tr>
-<tr class="separator:aa6a77e14862a9be467e6c6c76124b526"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5c12894a6fbd524fb33906c8f3fbcae"><td class="memItemLeft" align="right" valign="top">vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#aa5c12894a6fbd524fb33906c8f3fbcae">tabuList</a></td></tr>
-<tr class="memdesc:aa5c12894a6fbd524fb33906c8f3fbcae"><td class="mdescLeft">&#160;</td><td class="mdescRight">The tabu list, frozing each used variable for tabu_length iterations.  <a href="#aa5c12894a6fbd524fb33906c8f3fbcae">More...</a><br/></td></tr>
-<tr class="separator:aa5c12894a6fbd524fb33906c8f3fbcae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acec87a0a0adcc3a8d794a1ff84718201"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classghost_1_1Random.html">Random</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#acec87a0a0adcc3a8d794a1ff84718201">randomVar</a></td></tr>
-<tr class="memdesc:acec87a0a0adcc3a8d794a1ff84718201"><td class="mdescLeft">&#160;</td><td class="mdescRight">The random generator used by the solver.  <a href="#acec87a0a0adcc3a8d794a1ff84718201">More...</a><br/></td></tr>
-<tr class="separator:acec87a0a0adcc3a8d794a1ff84718201"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2fa5cf25d3417e3046aad3c1123320ed"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a2fa5cf25d3417e3046aad3c1123320ed">bestCost</a></td></tr>
-<tr class="memdesc:a2fa5cf25d3417e3046aad3c1123320ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">The (satisfaction or optimization) cost of the best solution.  <a href="#a2fa5cf25d3417e3046aad3c1123320ed">More...</a><br/></td></tr>
-<tr class="separator:a2fa5cf25d3417e3046aad3c1123320ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa76ec90c418b23b261a0f3da63a9ee4a"><td class="memItemLeft" align="right" valign="top">vector&lt; TypeVariable &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#aa76ec90c418b23b261a0f3da63a9ee4a">bestSolution</a></td></tr>
-<tr class="memdesc:aa76ec90c418b23b261a0f3da63a9ee4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The best solution found by the solver.  <a href="#aa76ec90c418b23b261a0f3da63a9ee4a">More...</a><br/></td></tr>
-<tr class="separator:aa76ec90c418b23b261a0f3da63a9ee4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc1a01dfcbc918ce3ae77d4fc47f1ac9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#acc1a01dfcbc918ce3ae77d4fc47f1ac9">objOriginalNull</a></td></tr>
-<tr class="memdesc:acc1a01dfcbc918ce3ae77d4fc47f1ac9"><td class="mdescLeft">&#160;</td><td class="mdescRight">A boolean to know if it is a satisfaction or optimization run.  <a href="#acc1a01dfcbc918ce3ae77d4fc47f1ac9">More...</a><br/></td></tr>
-<tr class="separator:acc1a01dfcbc918ce3ae77d4fc47f1ac9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename TypeVariable, typename TypeDomain, typename TypeConstraint&gt;<br/>
@@ -303,80 +256,6 @@ template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstrain
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a58d9540a9700be0e953ebdcf0660920f"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstraint &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::move </td>
-          <td>(</td>
-          <td class="paramtype">TypeVariable *&#160;</td>
-          <td class="paramname"><em>building</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>newValue</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s function to make a local move, ie, to assign a given value to a given variable </p>
-
-</div>
-</div>
-<a class="anchor" id="ae3489c7f10952a8a0a2a0895b9b1c8fe"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstraint &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::permut </td>
-          <td>(</td>
-          <td class="paramtype">TypeVariable *&#160;</td>
-          <td class="paramname"><em>building</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>newValue</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s function to make a permutation move, ie, to assign a given variable to a new position </p>
-
-</div>
-</div>
 <a class="anchor" id="a5d15e316f5a4bb8a33c6781058ad0307"></a>
 <div class="memitem">
 <div class="memproto">
@@ -422,278 +301,13 @@ template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstrain
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a2fa5cf25d3417e3046aad3c1123320ed"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstraint &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">double <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::bestCost</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The (satisfaction or optimization) cost of the best solution. </p>
-
-</div>
-</div>
-<a class="anchor" id="aa76ec90c418b23b261a0f3da63a9ee4a"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstraint &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">vector&lt; TypeVariable &gt; <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::bestSolution</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The best solution found by the solver. </p>
-
-</div>
-</div>
-<a class="anchor" id="ad9292e9219261ba8058fec05b453c0c9"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstraint &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">TypeDomain* <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::domain</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>A pointer to the domain object of the CSP/COP. </p>
-
-</div>
-</div>
-<a class="anchor" id="aa6a77e14862a9be467e6c6c76124b526"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstraint &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::loops</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The number of times we reiterate the satisfaction loop inside <a class="el" href="classghost_1_1Solver.html#a5d15e316f5a4bb8a33c6781058ad0307" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>. </p>
-
-</div>
-</div>
-<a class="anchor" id="a4fd74bd68d0ea253fd35adad697f964d"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstraint &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">shared_ptr&lt; <a class="el" href="classghost_1_1Objective.html">Objective</a>&lt;TypeVariable, TypeDomain&gt; &gt; <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::objective</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The shared pointer of the objective function. </p>
-
-</div>
-</div>
-<a class="anchor" id="acc1a01dfcbc918ce3ae77d4fc47f1ac9"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstraint &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::objOriginalNull</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>A boolean to know if it is a satisfaction or optimization run. </p>
-
-</div>
-</div>
-<a class="anchor" id="acec87a0a0adcc3a8d794a1ff84718201"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstraint &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classghost_1_1Random.html">Random</a> <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::randomVar</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The random generator used by the solver. </p>
-
-</div>
-</div>
-<a class="anchor" id="aa5c12894a6fbd524fb33906c8f3fbcae"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstraint &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">vector&lt;int&gt; <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::tabuList</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The tabu list, frozing each used variable for tabu_length iterations. </p>
-
-</div>
-</div>
-<a class="anchor" id="a76c1057367112ead0304b436b5f508f1"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstraint &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">vector&lt;double&gt; <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::variableCost</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The vector of projected costs on each variable. </p>
-
-</div>
-</div>
-<a class="anchor" id="a170746edcfb777b12978444c2ab3962e"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstraint &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">vector&lt; shared_ptr&lt;TypeConstraint&gt; &gt; <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::vecConstraints</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The vector of (shared pointers of) constraints of the CSP/COP. </p>
-
-</div>
-</div>
-<a class="anchor" id="a2d033a454234b2277aabdcc4d89eaba2"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable , typename TypeDomain , typename TypeConstraint &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">vector&lt; TypeVariable &gt;* <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeDomain, TypeConstraint &gt;::vecVariables</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>A pointer to the vector of variable objects of the CSP/COP. </p>
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/<a class="el" href="solver_8hpp_source.html">solver.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Sep 7 2016 17:18:58 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Sep 7 2016 17:25:41 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

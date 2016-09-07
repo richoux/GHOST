@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['id',['id',['../classghost_1_1Variable.html#a3b1cd0e87cecbb58e115a9000be26f28',1,'ghost::Variable']]],
-  ['indexof',['indexOf',['../classghost_1_1Domain.html#ad82154e314a7f1029e5d1512047460fd',1,'ghost::Domain']]],
-  ['inithelper',['initHelper',['../classghost_1_1Objective.html#ad4432d190d227f7e67bd505f0b4b80e9',1,'ghost::Objective']]],
-  ['initialdomain',['initialDomain',['../classghost_1_1Domain.html#abbbc0aae802b0a2309c3cabe2c6f3aca',1,'ghost::Domain']]],
-  ['isinitialized',['isInitialized',['../classghost_1_1Domain.html#a1ead2b1ccee560dac9ddb68c15362511',1,'ghost::Domain']]],
-  ['ispermutation',['isPermutation',['../classghost_1_1Objective.html#a558991ad856cff48262e2848c6ab5796',1,'ghost::Objective']]]
+  ['mainpage_2edox',['mainpage.dox',['../mainpage_8dox.html',1,'']]],
+  ['maxinitialvalue',['maxInitialValue',['../classghost_1_1Domain.html#ac05fdbbd6124f557fd4806efedd0fc83',1,'ghost::Domain']]],
+  ['maxvalue',['maxValue',['../classghost_1_1Domain.html#a1c62e66fb56efc0586e81cc8ea203dc7',1,'ghost::Domain']]],
+  ['mininitialvalue',['minInitialValue',['../classghost_1_1Domain.html#a82507f2d7e9077e7bd00b88c5ff99c5f',1,'ghost::Domain']]],
+  ['minvalue',['minValue',['../classghost_1_1Domain.html#a3c407e59963930f82c17b04d784df0f6',1,'ghost::Domain']]]
 ];

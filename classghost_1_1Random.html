@@ -88,7 +88,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classghost_1_1Random-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">ghost::Random Class Reference</div>  </div>
@@ -103,6 +102,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Collaboration diagram for ghost::Random:</div>
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1Random__coll__graph.png" border="0" usemap="#ghost_1_1Random_coll__map" alt="Collaboration graph"/></div>
+<map name="ghost_1_1Random_coll__map" id="ghost_1_1Random_coll__map">
+</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -116,16 +117,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a26f7e445a05839bd89ca9c14f8b34fbc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Random.html#a26f7e445a05839bd89ca9c14f8b34fbc">getRandNum</a> (int limit)</td></tr>
 <tr class="memdesc:a26f7e445a05839bd89ca9c14f8b34fbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function to return a random value in [0, limit[.  <a href="#a26f7e445a05839bd89ca9c14f8b34fbc">More...</a><br/></td></tr>
 <tr class="separator:a26f7e445a05839bd89ca9c14f8b34fbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
-Private Attributes</h2></td></tr>
-<tr class="memitem:abb2a2b13a77bc4fb48486f7fd8993d05"><td class="memItemLeft" align="right" valign="top">std::random_device&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Random.html#abb2a2b13a77bc4fb48486f7fd8993d05">rd</a></td></tr>
-<tr class="separator:abb2a2b13a77bc4fb48486f7fd8993d05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a875f2ce3cba5e8d1bcf951e0f9d83d00"><td class="memItemLeft" align="right" valign="top">std::mt19937&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Random.html#a875f2ce3cba5e8d1bcf951e0f9d83d00">rng</a></td></tr>
-<tr class="separator:a875f2ce3cba5e8d1bcf951e0f9d83d00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac32393912fd8109be3f3f61097cec064"><td class="memItemLeft" align="right" valign="top">std::uniform_int_distribution<br class="typebreak"/>
-&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Random.html#ac32393912fd8109be3f3f61097cec064">numbers</a></td></tr>
-<tr class="separator:ac32393912fd8109be3f3f61097cec064"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="classghost_1_1Random.html" title="Random is the class coding pseudo-random generators used in GHOST. ">Random</a> is the class coding pseudo-random generators used in GHOST. </p>
@@ -238,74 +229,13 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="ac32393912fd8109be3f3f61097cec064"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uniform_int_distribution&lt;int&gt; ghost::Random::numbers</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="abb2a2b13a77bc4fb48486f7fd8993d05"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::random_device ghost::Random::rd</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a875f2ce3cba5e8d1bcf951e0f9d83d00"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::mt19937 ghost::Random::rng</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/misc/<a class="el" href="random_8hpp_source.html">random.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Sep 7 2016 17:18:58 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Sep 7 2016 17:25:42 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
