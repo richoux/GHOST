@@ -60,8 +60,10 @@ $(BINDIR)/$(EXEC): $(OBJECTS)
 $(OBJDIR)/%.o: %.cpp
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
-.PHONY: gcc gcc-debug clang clang-debug clean 
+.PHONY: gcc gcc-debug clang clang-debug clean test
 
 clean:
 	rm -fr core *~ $(OBJECTS) $(BINDIR)/$(EXEC) $(SOURCESTILDE) $(INCLUDESTILDE)
 
+test:
+	cd test && $(MAKE) test

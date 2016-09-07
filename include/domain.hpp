@@ -61,15 +61,15 @@ namespace ghost
     vector< int > initialDomain;	//!< Vector of integers containing the initial values of the domain.
     int outsideScope;			//!< Value representing all values outside the scope of the domain
     Random random;			//!< A random generator used by the function randomValue. 
-
-    virtual bool v_isInitialized()
+    
+    virtual bool v_isInitialized() const
     {
       return !currentDomain.empty();
     }
     
     virtual void v_resetToInitial()
     {
-      std::copy( begin( currentDomain ), end( currentDomain ), initialDomain );
+      std::copy( begin( currentDomain ), end( currentDomain ), begin( initialDomain ) );
     }
     
     virtual bool v_removeValue( int value )
@@ -98,37 +98,37 @@ namespace ghost
       return currentDomain[ random.getRandNum( currentDomain.size() ) ];
     }
     
-    virtual int v_getSize()
+    virtual size_t v_getSize() const
     {
       return currentDomain.size();
     }
     
-    virtual int v_getInitialSize()
+    virtual size_t v_getInitialSize() const
     {
       return initialDomain.size();
     }
     
-    virtual int v_maxValue()
+    virtual int v_maxValue() const
     {
-      return std::max_element( begin( currentDomain ), end( currentDomain ) );
+      return *std::max_element( begin( currentDomain ), end( currentDomain ) );
     }
     
-    virtual int v_minValue()
+    virtual int v_minValue() const
     {
-      return std::min_element( begin( currentDomain ), end( currentDomain ) );
+      return *std::min_element( begin( currentDomain ), end( currentDomain ) );
     }
     
-    virtual int v_maxInitialValue()
+    virtual int v_maxInitialValue() const
     {
-      return std::max_element( begin( initialDomain ), end( initialDomain ) );
+      return *std::max_element( begin( initialDomain ), end( initialDomain ) );
     }
     
-    virtual int v_minInitialValue()
+    virtual int v_minInitialValue() const
     {
-      return std::min_element( begin( initialDomain ), end( initialDomain ) );
+      return *std::min_element( begin( initialDomain ), end( initialDomain ) );
     }
     
-    virtual int v_getValue( int index )
+    virtual int v_getValue( int index ) const
     {
       if( index >=0 && index < currentDomain.size() )
 	return currentDomain[ index ];
@@ -136,9 +136,9 @@ namespace ghost
 	return outsideScope;
     }
     
-    virtual int v_indexOf( int value )
+    virtual int v_indexOf( int value ) const
     {
-      auto& it = std::find( begin( currentDomain ), end( currentDomain ), value );
+      auto it = std::find( begin( currentDomain ), end( currentDomain ), value );
       int index = it - begin( currentDomain );
       if( index < 0 )
 	return -1;
@@ -191,7 +191,7 @@ namespace ghost
      * a domain object first and to fill it up with values latter.
      * \return True if and only if the domain has been initialized (i.e., the current domain is not empty).
      */
-    inline bool isInitialized() { return v_isInitialized(); }
+    inline bool isInitialized() const { return v_isInitialized(); }
 
     //! Inline function following the NVI idiom, calling v_resetToInitial.
     /*!
@@ -217,38 +217,42 @@ namespace ghost
     //! Inline function following the NVI idiom, calling v_getSize.
     /*!
      * Get the number of values currently contained by the domain.
+     * \return A size_t corresponding to the size of currentDomain.
+     * \sa currentDomain
      */
-    inline int getSize() { return v_getSize(); }
+    inline size_t getSize() const { return v_getSize(); }
 
     //! Inline function following the NVI idiom, calling v_getInitialSize.
     /*!
      * Get the number of values initially contained by the domain.
+     * \return A size_t corresponding to the size of initialDomain.
+     * \sa initialDomain
      */    
-    inline int getInitialSize() { return v_getInitialSize(); }
+    inline size_t getInitialSize() const { return v_getInitialSize(); }
 
     //! Inline function following the NVI idiom, calling v_maxValue.
     /*!
      * Get the highest value in the current domain. 
      */
-    inline int maxValue() { return v_maxValue(); }
+    inline int maxValue() const { return v_maxValue(); }
 
     //! Inline function following the NVI idiom, calling v_minValue.
     /*!
      * Get the lowest value in the current domain. 
      */
-    inline int minValue() { return v_minValue(); }
+    inline int minValue() const { return v_minValue(); }
 
     //! Inline function following the NVI idiom, calling v_maxInitialValue.
     /*!
      * Get the highest value in the initial domain. 
      */
-    inline int maxInitialValue() { return v_maxInitialValue(); }
+    inline int maxInitialValue() const { return v_maxInitialValue(); }
 
     //! Inline function following the NVI idiom, calling v_minInitialValue.
     /*!
      * Get the lowest value in the initial domain. 
      */
-    inline int minInitialValue() { return v_minInitialValue(); }
+    inline int minInitialValue() const { return v_minInitialValue(); }
 
     //! Inline function following the NVI idiom, calling v_getValue.
     /*!
@@ -256,15 +260,22 @@ namespace ghost
      * \param index is the index of the desired value.
      * \return The value at the given index if this one is in the range of the domain, otherwise the outside-the-scope value.
      */    
-    inline int getValue( int index ) { return v_getValue( index ); }
+    inline int getValue( int index ) const { return v_getValue( index ); }
 
     //! Inline function following the NVI idiom, calling v_indexOf.
     /*!
      * Get the index of a given value.
      * \return If the given value is in the domain, it returns its index, and -1 otherwise.
      */ 
-    inline int indexOf( int value ) { return v_indexOf( value ); }
+    inline int indexOf( int value ) const { return v_indexOf( value ); }
 
+    //! Inline function returning the outside-scope value.
+    /*!
+     * Returns the value outsideScope.
+     * \sa outsideScope
+     */ 
+    inline int getOutsideScope() const { return outsideScope; }
+    
     //! friend override of operator<<
     /*!
      * Prints on the standard output the current domain size and content.
