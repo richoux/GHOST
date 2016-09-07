@@ -1,11 +1,14 @@
 # Compiled Object files
 obj
+test/obj
 
 # Compiled libraries
 lib
 
 # Executables
-bin/ghost
+bin
+test/bin
+
 
 # Doxygen files
 doc/html
