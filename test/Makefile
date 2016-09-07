@@ -36,7 +36,6 @@ test: LINKER=g++ -o
 test: CXXFLAGS += -DNDEBUG
 test: LIBGTEST=$(LIBDIR)/libgtest.a
 test: $(BINDIR)/$(EXECS)
-test: rm -f $(OBJECTS) 
 
 travistest: CXX=g++
 travistest: LINKER=g++ -o
@@ -55,4 +54,3 @@ $(OBJDIR)/%.o: %.cpp
 
 clean:
 	rm -fr core *~ $(BINDIR)/$(EXECS) $(OBJECTS) $(SOURCESTILDE)
-
