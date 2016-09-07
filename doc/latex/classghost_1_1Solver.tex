@@ -12,7 +12,8 @@
 
 
 
-Collaboration diagram for ghost\-:\-:Solver$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-:\nopagebreak
+Collaboration diagram for ghost\-:\-:Solver$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -22,46 +23,12 @@ Collaboration diagram for ghost\-:\-:Solver$<$ Type\-Variable, Type\-Domain, Typ
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classghost_1_1Solver_aee74bbdf00494dc209d4909bf9fcb544}{Solver} (vector$<$ Type\-Variable $>$ $\ast$\hyperlink{classghost_1_1Solver_a2d033a454234b2277aabdcc4d89eaba2}{vec\-Variables}, Type\-Domain $\ast$\hyperlink{classghost_1_1Solver_ad9292e9219261ba8058fec05b453c0c9}{domain}, const vector$<$ shared\-\_\-ptr$<$ Type\-Constraint $>$ $>$ \&\hyperlink{classghost_1_1Solver_a170746edcfb777b12978444c2ab3962e}{vec\-Constraints}, const shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Objective}{Objective}$<$ Type\-Variable, Type\-Domain $>$ $>$ \&obj=nullptr)
+\hyperlink{classghost_1_1Solver_aee74bbdf00494dc209d4909bf9fcb544}{Solver} (vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, Type\-Domain $\ast$domain, const vector$<$ shared\-\_\-ptr$<$ Type\-Constraint $>$ $>$ \&vec\-Constraints, const shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Objective}{Objective}$<$ Type\-Variable, Type\-Domain $>$ $>$ \&obj=nullptr)
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Solver}{Solver}'s regular constructor. \end{DoxyCompactList}\item 
-\hyperlink{classghost_1_1Solver_a512335329b22a91700bdfa7870f053e9}{Solver} (vector$<$ Type\-Variable $>$ $\ast$\hyperlink{classghost_1_1Solver_a2d033a454234b2277aabdcc4d89eaba2}{vec\-Variables}, Type\-Domain $\ast$\hyperlink{classghost_1_1Solver_ad9292e9219261ba8058fec05b453c0c9}{domain}, const vector$<$ shared\-\_\-ptr$<$ Type\-Constraint $>$ $>$ \&\hyperlink{classghost_1_1Solver_a170746edcfb777b12978444c2ab3962e}{vec\-Constraints}, const shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Objective}{Objective}$<$ Type\-Variable, Type\-Domain $>$ $>$ \&obj, const int \hyperlink{classghost_1_1Solver_aa6a77e14862a9be467e6c6c76124b526}{loops})
+\hyperlink{classghost_1_1Solver_a512335329b22a91700bdfa7870f053e9}{Solver} (vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, Type\-Domain $\ast$domain, const vector$<$ shared\-\_\-ptr$<$ Type\-Constraint $>$ $>$ \&vec\-Constraints, const shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Objective}{Objective}$<$ Type\-Variable, Type\-Domain $>$ $>$ \&obj, const int loops)
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Solver}{Solver}'s constructor mostly used for tests. \end{DoxyCompactList}\item 
 double \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{solve} (double sat\-\_\-timeout, double opt\-\_\-timeout=0)
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Solver}{Solver}'s main function, to solve the given C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\subsection*{Private Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-void \hyperlink{classghost_1_1Solver_a58d9540a9700be0e953ebdcf0660920f}{move} (Type\-Variable $\ast$building, int new\-Value)
-\item 
-void \hyperlink{classghost_1_1Solver_ae3489c7f10952a8a0a2a0895b9b1c8fe}{permut} (Type\-Variable $\ast$building, int new\-Value)
-\end{DoxyCompactItemize}
-\subsection*{Private Attributes}
-\begin{DoxyCompactItemize}
-\item 
-vector$<$ Type\-Variable $>$ $\ast$ \hyperlink{classghost_1_1Solver_a2d033a454234b2277aabdcc4d89eaba2}{vec\-Variables}
-\begin{DoxyCompactList}\small\item\em A pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\item 
-Type\-Domain $\ast$ \hyperlink{classghost_1_1Solver_ad9292e9219261ba8058fec05b453c0c9}{domain}
-\begin{DoxyCompactList}\small\item\em A pointer to the domain object of the C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\item 
-vector$<$ shared\-\_\-ptr\\*
-$<$ Type\-Constraint $>$ $>$ \hyperlink{classghost_1_1Solver_a170746edcfb777b12978444c2ab3962e}{vec\-Constraints}
-\begin{DoxyCompactList}\small\item\em The vector of (shared pointers of) constraints of the C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\item 
-shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Objective}{Objective}\\*
-$<$ Type\-Variable, Type\-Domain $>$ $>$ \hyperlink{classghost_1_1Solver_a4fd74bd68d0ea253fd35adad697f964d}{objective}
-\begin{DoxyCompactList}\small\item\em The shared pointer of the objective function. \end{DoxyCompactList}\item 
-vector$<$ double $>$ \hyperlink{classghost_1_1Solver_a76c1057367112ead0304b436b5f508f1}{variable\-Cost}
-\begin{DoxyCompactList}\small\item\em The vector of projected costs on each variable. \end{DoxyCompactList}\item 
-int \hyperlink{classghost_1_1Solver_aa6a77e14862a9be467e6c6c76124b526}{loops}
-\begin{DoxyCompactList}\small\item\em The number of times we reiterate the satisfaction loop inside \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{Solver\-::solve}. \end{DoxyCompactList}\item 
-vector$<$ int $>$ \hyperlink{classghost_1_1Solver_aa5c12894a6fbd524fb33906c8f3fbcae}{tabu\-List}
-\begin{DoxyCompactList}\small\item\em The tabu list, frozing each used variable for tabu\-\_\-length iterations. \end{DoxyCompactList}\item 
-\hyperlink{classghost_1_1Random}{Random} \hyperlink{classghost_1_1Solver_acec87a0a0adcc3a8d794a1ff84718201}{random\-Var}
-\begin{DoxyCompactList}\small\item\em The random generator used by the solver. \end{DoxyCompactList}\item 
-double \hyperlink{classghost_1_1Solver_a2fa5cf25d3417e3046aad3c1123320ed}{best\-Cost}
-\begin{DoxyCompactList}\small\item\em The (satisfaction or optimization) cost of the best solution. \end{DoxyCompactList}\item 
-vector$<$ Type\-Variable $>$ \hyperlink{classghost_1_1Solver_aa76ec90c418b23b261a0f3da63a9ee4a}{best\-Solution}
-\begin{DoxyCompactList}\small\item\em The best solution found by the solver. \end{DoxyCompactList}\item 
-bool \hyperlink{classghost_1_1Solver_acc1a01dfcbc918ce3ae77d4fc47f1ac9}{obj\-Original\-Null}
-\begin{DoxyCompactList}\small\item\em A boolean to know if it is a satisfaction or optimization run. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -141,23 +108,7 @@ Like the regular constructor, but take also a loops parameter to repeat loops ti
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classghost_1_1Solver_a58d9540a9700be0e953ebdcf0660920f}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!move@{move}}
-\index{move@{move}!ghost::Solver@{ghost\-::\-Solver}}
-\subsubsection[{move}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ void {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::move (
-\begin{DoxyParamCaption}
-\item[{Type\-Variable $\ast$}]{building, }
-\item[{int}]{new\-Value}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}}\label{classghost_1_1Solver_a58d9540a9700be0e953ebdcf0660920f}
-\hyperlink{classghost_1_1Solver}{Solver}'s function to make a local move, ie, to assign a given value to a given variable \hypertarget{classghost_1_1Solver_ae3489c7f10952a8a0a2a0895b9b1c8fe}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!permut@{permut}}
-\index{permut@{permut}!ghost::Solver@{ghost\-::\-Solver}}
-\subsubsection[{permut}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ void {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::permut (
-\begin{DoxyParamCaption}
-\item[{Type\-Variable $\ast$}]{building, }
-\item[{int}]{new\-Value}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}}\label{classghost_1_1Solver_ae3489c7f10952a8a0a2a0895b9b1c8fe}
-\hyperlink{classghost_1_1Solver}{Solver}'s function to make a permutation move, ie, to assign a given variable to a new position \hypertarget{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!solve@{solve}}
+\hypertarget{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!solve@{solve}}
 \index{solve@{solve}!ghost::Solver@{ghost\-::\-Solver}}
 \subsubsection[{solve}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ double {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::solve (
 \begin{DoxyParamCaption}
@@ -177,86 +128,6 @@ Like the regular constructor, but take also a loops parameter to repeat loops ti
 \begin{DoxyReturn}{Returns}
 The satisfaction or optimization cost of the best solution, respectively is the \hyperlink{classghost_1_1Solver}{Solver} object has been instanciate with a null \hyperlink{classghost_1_1Objective}{Objective} (pure satisfaction run) or an non-\/null \hyperlink{classghost_1_1Objective}{Objective} (optimization run). 
 \end{DoxyReturn}
-
-
-\subsection{Member Data Documentation}
-\hypertarget{classghost_1_1Solver_a2fa5cf25d3417e3046aad3c1123320ed}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!best\-Cost@{best\-Cost}}
-\index{best\-Cost@{best\-Cost}!ghost::Solver@{ghost\-::\-Solver}}
-\subsubsection[{best\-Cost}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ double {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::best\-Cost\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Solver_a2fa5cf25d3417e3046aad3c1123320ed}
-
-
-The (satisfaction or optimization) cost of the best solution. 
-
-\hypertarget{classghost_1_1Solver_aa76ec90c418b23b261a0f3da63a9ee4a}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!best\-Solution@{best\-Solution}}
-\index{best\-Solution@{best\-Solution}!ghost::Solver@{ghost\-::\-Solver}}
-\subsubsection[{best\-Solution}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ vector$<$ Type\-Variable $>$ {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::best\-Solution\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Solver_aa76ec90c418b23b261a0f3da63a9ee4a}
-
-
-The best solution found by the solver. 
-
-\hypertarget{classghost_1_1Solver_ad9292e9219261ba8058fec05b453c0c9}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!domain@{domain}}
-\index{domain@{domain}!ghost::Solver@{ghost\-::\-Solver}}
-\subsubsection[{domain}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ Type\-Domain$\ast$ {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::domain\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Solver_ad9292e9219261ba8058fec05b453c0c9}
-
-
-A pointer to the domain object of the C\-S\-P/\-C\-O\-P. 
-
-\hypertarget{classghost_1_1Solver_aa6a77e14862a9be467e6c6c76124b526}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!loops@{loops}}
-\index{loops@{loops}!ghost::Solver@{ghost\-::\-Solver}}
-\subsubsection[{loops}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ int {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::loops\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Solver_aa6a77e14862a9be467e6c6c76124b526}
-
-
-The number of times we reiterate the satisfaction loop inside \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{Solver\-::solve}. 
-
-\hypertarget{classghost_1_1Solver_a4fd74bd68d0ea253fd35adad697f964d}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!objective@{objective}}
-\index{objective@{objective}!ghost::Solver@{ghost\-::\-Solver}}
-\subsubsection[{objective}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ shared\-\_\-ptr$<$ {\bf Objective}$<$Type\-Variable, Type\-Domain$>$ $>$ {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::objective\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Solver_a4fd74bd68d0ea253fd35adad697f964d}
-
-
-The shared pointer of the objective function. 
-
-\hypertarget{classghost_1_1Solver_acc1a01dfcbc918ce3ae77d4fc47f1ac9}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!obj\-Original\-Null@{obj\-Original\-Null}}
-\index{obj\-Original\-Null@{obj\-Original\-Null}!ghost::Solver@{ghost\-::\-Solver}}
-\subsubsection[{obj\-Original\-Null}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ bool {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::obj\-Original\-Null\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Solver_acc1a01dfcbc918ce3ae77d4fc47f1ac9}
-
-
-A boolean to know if it is a satisfaction or optimization run. 
-
-\hypertarget{classghost_1_1Solver_acec87a0a0adcc3a8d794a1ff84718201}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!random\-Var@{random\-Var}}
-\index{random\-Var@{random\-Var}!ghost::Solver@{ghost\-::\-Solver}}
-\subsubsection[{random\-Var}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ {\bf Random} {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::random\-Var\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Solver_acec87a0a0adcc3a8d794a1ff84718201}
-
-
-The random generator used by the solver. 
-
-\hypertarget{classghost_1_1Solver_aa5c12894a6fbd524fb33906c8f3fbcae}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!tabu\-List@{tabu\-List}}
-\index{tabu\-List@{tabu\-List}!ghost::Solver@{ghost\-::\-Solver}}
-\subsubsection[{tabu\-List}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ vector$<$int$>$ {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::tabu\-List\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Solver_aa5c12894a6fbd524fb33906c8f3fbcae}
-
-
-The tabu list, frozing each used variable for tabu\-\_\-length iterations. 
-
-\hypertarget{classghost_1_1Solver_a76c1057367112ead0304b436b5f508f1}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!variable\-Cost@{variable\-Cost}}
-\index{variable\-Cost@{variable\-Cost}!ghost::Solver@{ghost\-::\-Solver}}
-\subsubsection[{variable\-Cost}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ vector$<$double$>$ {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::variable\-Cost\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Solver_a76c1057367112ead0304b436b5f508f1}
-
-
-The vector of projected costs on each variable. 
-
-\hypertarget{classghost_1_1Solver_a170746edcfb777b12978444c2ab3962e}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!vec\-Constraints@{vec\-Constraints}}
-\index{vec\-Constraints@{vec\-Constraints}!ghost::Solver@{ghost\-::\-Solver}}
-\subsubsection[{vec\-Constraints}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ vector$<$ shared\-\_\-ptr$<$Type\-Constraint$>$ $>$ {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::vec\-Constraints\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Solver_a170746edcfb777b12978444c2ab3962e}
-
-
-The vector of (shared pointers of) constraints of the C\-S\-P/\-C\-O\-P. 
-
-\hypertarget{classghost_1_1Solver_a2d033a454234b2277aabdcc4d89eaba2}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!vec\-Variables@{vec\-Variables}}
-\index{vec\-Variables@{vec\-Variables}!ghost::Solver@{ghost\-::\-Solver}}
-\subsubsection[{vec\-Variables}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ vector$<$ Type\-Variable $>$$\ast$ {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::vec\-Variables\hspace{0.3cm}{\ttfamily [private]}}}\label{classghost_1_1Solver_a2d033a454234b2277aabdcc4d89eaba2}
-
-
-A pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. 
-
 
 
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
