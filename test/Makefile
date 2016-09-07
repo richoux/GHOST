@@ -41,14 +41,13 @@ test: rm -f $(OBJECTS)
 travistest: CXX=g++
 travistest: LINKER=g++ -o
 travistest: CXXFLAGS += -DNDEBUG
-travistest: LIBGTEST=
+travistest: LIBGTEST=/usr/local/lib/libgtest.a
 travistest: IDIRFLAGS=-I../include
-travistest: LFLAGS += -lgtest
 travistest: $(BINDIR)/$(EXECS)
 travistest: rm -f $(OBJECTS) 
 
 $(BINDIR)/$(EXECS): $(OBJECTS)
-	@$(LINKER) $@ $(LFLAGS) $^ $(LIBDIR)/libgtest.a
+	@$(LINKER) $@ $(LFLAGS) $^ $(LIBGTEST)
 
 $(OBJDIR)/%.o: %.cpp
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
