@@ -46,9 +46,9 @@ namespace ghost
   {
   public:
     Random() : rng( rd() ) { }
-    Random( const Random &other ) : Random() { }
+    // Random( const Random &other ) : Random() { }
 
-    Random operator=( const Random &other ) { return Random(); }
+    // Random operator=( const Random &other ) { return Random(); }
 
     //! Inline function to return a random value in [0, limit[
     /*!
