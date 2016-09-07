@@ -63,7 +63,7 @@ $(OBJDIR)/%.o: %.cpp
 .PHONY: gcc gcc-debug clang clang-debug clean test doc
 
 clean:
-	rm -fr core *~ $(OBJECTS) $(BINDIR)/$(EXEC) $(SOURCESTILDE) $(INCLUDESTILDE)
+	rm -fr core *~ $(OBJDIR)/*.o $(BINDIR)/$(EXEC) $(SOURCESTILDE) $(INCLUDESTILDE)
 
 test:
 	cd test && $(MAKE) test

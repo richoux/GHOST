@@ -1,12 +1,12 @@
 # Compiled Object files
-obj
+./obj
 test/obj
 
 # Compiled libraries
-lib
+./lib
 
 # Executables
-bin
+./bin
 test/bin
 
 
