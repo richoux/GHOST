@@ -42,7 +42,7 @@ travistest: CXX=g++
 travistest: LINKER=g++ -o
 travistest: CXXFLAGS += -DNDEBUG
 travistest: LIBGTEST=
-travistest: IDIRFLAGS=../include
+travistest: IDIRFLAGS=-I../include
 travistest: LFLAGS += -lgtest
 travistest: $(BINDIR)/$(EXECS)
 travistest: rm -f $(OBJECTS) 
