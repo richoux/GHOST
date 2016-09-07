@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['clear',['clear',['../classghost_1_1Domain.html#ad3b39f88a7becd7c8c347c04963e3414',1,'ghost::Domain']]],
-  ['constraint',['Constraint',['../classghost_1_1Constraint.html#af2b5d5f541f64e548bc6c93bba1ba2b8',1,'ghost::Constraint']]],
-  ['copybest',['copyBest',['../classghost_1_1Domain.html#a41fb1e24ed9006a10a2eb14cc262b2d2',1,'ghost::Domain']]],
-  ['cost',['cost',['../classghost_1_1Constraint.html#a5051092934738b004fe848190a5aa9a5',1,'ghost::Constraint::cost()'],['../classghost_1_1Objective.html#a8ac8effdac4a09063fd680ed60b6a06f',1,'ghost::Objective::cost()']]]
+  ['domain',['Domain',['../classghost_1_1Domain.html#a48bfae90d7dbb6d8e1a3afdd8e471e4f',1,'ghost::Domain::Domain(int outsideScope=-1)'],['../classghost_1_1Domain.html#a5277f6bd2940a87b4784834e93cb53c9',1,'ghost::Domain::Domain(const vector&lt; int &gt; &amp;domain, int outsideScope=-1)'],['../classghost_1_1Domain.html#a6a9f7b0aec78acb0b0f4edefaea7a6e9',1,'ghost::Domain::Domain(int size, int startValue)']]]
 ];

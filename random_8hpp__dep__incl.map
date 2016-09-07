@@ -1,6 +1,6 @@
 <map id="include/misc/random.hpp" name="include/misc/random.hpp">
-<area shape="rect" id="node2" href="$objective_8hpp.html" title="include/objectives\l/objective.hpp" alt="" coords="59,81,185,122"/>
-<area shape="rect" id="node4" href="$solver_8hpp.html" title="include/solver.hpp" alt="" coords="135,261,261,288"/>
-<area shape="rect" id="node5" href="$domain_8hpp.html" title="include/domains/domain.hpp" alt="" coords="261,179,448,205"/>
-<area shape="rect" id="node3" href="$constraint_8hpp.html" title="include/constraints\l/constraint.hpp" alt="" coords="5,171,135,213"/>
+<area shape="rect" id="node2" href="$objective_8hpp.html" title="include/objective.hpp" alt="" coords="61,80,205,107"/>
+<area shape="rect" id="node4" href="$solver_8hpp.html" title="include/solver.hpp" alt="" coords="154,229,280,256"/>
+<area shape="rect" id="node5" href="$domain_8hpp.html" title="include/domain.hpp" alt="" coords="281,155,415,181"/>
+<area shape="rect" id="node3" href="$constraint_8hpp.html" title="include/constraint.hpp" alt="" coords="5,155,153,181"/>
 </map>

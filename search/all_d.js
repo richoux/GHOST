@@ -1,15 +1,13 @@
 var searchData=
 [
-  ['random',['Random',['../classghost_1_1Random.html',1,'ghost']]],
-  ['random',['random',['../classghost_1_1Domain.html#ab6a7a58f8a147f5b2b475e106627fad2',1,'ghost::Domain::random()'],['../classghost_1_1Random.html#a7c45efd1f7c522a68760104ba6084d89',1,'ghost::Random::Random()'],['../classghost_1_1Random.html#aa57a39ee45a9ba30d7f7ea2c4c17b539',1,'ghost::Random::Random(const Random &amp;other)']]],
-  ['random_2ehpp',['random.hpp',['../random_8hpp.html',1,'']]],
-  ['randomvalue',['randomValue',['../classghost_1_1Domain.html#abd3f0bd85c98e66c025e0ff3532af8dd',1,'ghost::Domain']]],
-  ['randomvar',['randomVar',['../classghost_1_1Solver.html#acec87a0a0adcc3a8d794a1ff84718201',1,'ghost::Solver::randomVar()'],['../classghost_1_1Objective.html#a442da333edc70f47c33a15987c2a81b8',1,'ghost::Objective::randomVar()']]],
-  ['rd',['rd',['../classghost_1_1Random.html#abb2a2b13a77bc4fb48486f7fd8993d05',1,'ghost::Random']]],
-  ['rebuild',['rebuild',['../classghost_1_1Domain.html#a557b4c89eaf8503c27e873a7dcff838d',1,'ghost::Domain']]],
-  ['resetalldomains',['resetAllDomains',['../classghost_1_1Domain.html#aa014a06ba46e4e057ed182d328a72e97',1,'ghost::Domain']]],
-  ['resetdomain',['resetDomain',['../classghost_1_1Domain.html#a2165237b435a5cb4dfd8584680fcfe05',1,'ghost::Domain']]],
-  ['resethelper',['resetHelper',['../classghost_1_1Objective.html#a76ca30dd5fc977963058f0c3abfe100a',1,'ghost::Objective']]],
-  ['restart',['restart',['../classghost_1_1Domain.html#a253f06705e99ff88c9da7ed0ad6855aa',1,'ghost::Domain']]],
-  ['rng',['rng',['../classghost_1_1Random.html#a875f2ce3cba5e8d1bcf951e0f9d83d00',1,'ghost::Random']]]
+  ['sethelper',['setHelper',['../classghost_1_1Objective.html#ab589c264cf391bab9005562f66a39797',1,'ghost::Objective']]],
+  ['setvalue',['setValue',['../classghost_1_1Variable.html#a6fe0abafde2231f18074ecab6d7325cd',1,'ghost::Variable']]],
+  ['shiftvalue',['shiftValue',['../classghost_1_1Variable.html#a8afe14b1858476bf4ef59a41a2947f93',1,'ghost::Variable']]],
+  ['simulatecost',['simulateCost',['../classghost_1_1Constraint.html#a173958081ed2cfad938cead81b684455',1,'ghost::Constraint::simulateCost(TypeVariable &amp;currentVar, const vector&lt; int &gt; &amp;possibleValues, vector&lt; vector&lt; double &gt; &gt; &amp;vecVarSimCosts, shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; objective)'],['../classghost_1_1Constraint.html#ae5312daf02d5a4147dd4b519f2355712',1,'ghost::Constraint::simulateCost(TypeVariable &amp;currentVar, const vector&lt; int &gt; &amp;possibleValues, vector&lt; vector&lt; double &gt; &gt; &amp;vecVarSimCosts)']]],
+  ['solve',['solve',['../classghost_1_1Solver.html#a5d15e316f5a4bb8a33c6781058ad0307',1,'ghost::Solver']]],
+  ['solver',['Solver',['../classghost_1_1Solver.html#aee74bbdf00494dc209d4909bf9fcb544',1,'ghost::Solver::Solver(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj=nullptr)'],['../classghost_1_1Solver.html#a512335329b22a91700bdfa7870f053e9',1,'ghost::Solver::Solver(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj, const int loops)']]],
+  ['solver',['Solver',['../classghost_1_1Solver.html',1,'ghost']]],
+  ['solver_2ehpp',['solver.hpp',['../solver_8hpp.html',1,'']]],
+  ['swap',['swap',['../classghost_1_1Variable.html#a01b3dfd2e865fed19b5edf0ced7d74bc',1,'ghost::Variable']]],
+  ['swapvalue',['swapValue',['../classghost_1_1Variable.html#a8186ea296b868d44656be01e94b9aa80',1,'ghost::Variable']]]
 ];

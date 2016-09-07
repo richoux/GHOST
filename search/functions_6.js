@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['move',['move',['../classghost_1_1Solver.html#a58d9540a9700be0e953ebdcf0660920f',1,'ghost::Solver']]]
+  ['nullobjective',['NullObjective',['../classghost_1_1NullObjective.html#acb468a9e5fd85d31c3afc805481919ed',1,'ghost::NullObjective']]]
 ];

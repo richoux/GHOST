@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>GHOST: ghost::Domain&lt; TypeVariable &gt; Class Template Reference</title>
+<title>GHOST: ghost::Domain Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -88,12 +88,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="classghost_1_1Domain-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">ghost::Domain&lt; TypeVariable &gt; Class Template Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">ghost::Domain Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -102,127 +102,136 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p><code>#include &lt;<a class="el" href="domain_8hpp_source.html">domain.hpp</a>&gt;</code></p>
 <div class="dynheader">
-Collaboration diagram for ghost::Domain&lt; TypeVariable &gt;:</div>
+Collaboration diagram for ghost::Domain:</div>
 <div class="dyncontent">
-<div class="center"><img src="classghost_1_1Domain__coll__graph.png" border="0" usemap="#ghost_1_1Domain_3_01TypeVariable_01_4_coll__map" alt="Collaboration graph"/></div>
-<map name="ghost_1_1Domain_3_01TypeVariable_01_4_coll__map" id="ghost_1_1Domain_3_01TypeVariable_01_4_coll__map">
-<area shape="rect" id="node2" href="classghost_1_1Random.html" title="Random is the class coding pseudo&#45;random generators used in GHOST. " alt="" coords="49,6,167,157"/></map>
+<div class="center"><img src="classghost_1_1Domain__coll__graph.png" border="0" usemap="#ghost_1_1Domain_coll__map" alt="Collaboration graph"/></div>
+<map name="ghost_1_1Domain_coll__map" id="ghost_1_1Domain_coll__map">
+<area shape="rect" id="node2" href="classghost_1_1Random.html" title="Random is the class coding pseudo&#45;random generators used in GHOST. " alt="" coords="15,6,133,157"/></map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8bf75e526b2ee95ccb32701175e3a43b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a8bf75e526b2ee95ccb32701175e3a43b">Domain</a> (int <a class="el" href="classghost_1_1Domain.html#a13e282f60c6c7cddf5b5716b45ad161c">size</a>, int numberVariables, int start=0)</td></tr>
-<tr class="memdesc:a8bf75e526b2ee95ccb32701175e3a43b"><td class="mdescLeft">&#160;</td><td class="mdescRight">First <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> constructor.  <a href="#a8bf75e526b2ee95ccb32701175e3a43b">More...</a><br/></td></tr>
-<tr class="separator:a8bf75e526b2ee95ccb32701175e3a43b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26d7b928aa7a0bc44a47f2f407402ed7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a26d7b928aa7a0bc44a47f2f407402ed7">Domain</a> (int <a class="el" href="classghost_1_1Domain.html#a13e282f60c6c7cddf5b5716b45ad161c">size</a>, int numberVariables, const vector&lt; int &gt; &amp;<a class="el" href="classghost_1_1Domain.html#a8890ca1323c293a4a1e2aa1830eff043">initialDomain</a>)</td></tr>
-<tr class="memdesc:a26d7b928aa7a0bc44a47f2f407402ed7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Second and last <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> constructor.  <a href="#a26d7b928aa7a0bc44a47f2f407402ed7">More...</a><br/></td></tr>
-<tr class="separator:a26d7b928aa7a0bc44a47f2f407402ed7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a253f06705e99ff88c9da7ed0ad6855aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a253f06705e99ff88c9da7ed0ad6855aa">restart</a> (vector&lt; TypeVariable &gt; *variables)</td></tr>
-<tr class="memdesc:a253f06705e99ff88c9da7ed0ad6855aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom. Calling v_restart.  <a href="#a253f06705e99ff88c9da7ed0ad6855aa">More...</a><br/></td></tr>
-<tr class="separator:a253f06705e99ff88c9da7ed0ad6855aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac26f73027a2b0abe86e5fef062ea177f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#ac26f73027a2b0abe86e5fef062ea177f">wipe</a> (vector&lt; TypeVariable &gt; *variables)</td></tr>
-<tr class="memdesc:ac26f73027a2b0abe86e5fef062ea177f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom. Calling v_wipe.  <a href="#ac26f73027a2b0abe86e5fef062ea177f">More...</a><br/></td></tr>
-<tr class="separator:ac26f73027a2b0abe86e5fef062ea177f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a557b4c89eaf8503c27e873a7dcff838d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a557b4c89eaf8503c27e873a7dcff838d">rebuild</a> (vector&lt; TypeVariable &gt; *variables)</td></tr>
-<tr class="memdesc:a557b4c89eaf8503c27e873a7dcff838d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom. Calling v_rebuild.  <a href="#a557b4c89eaf8503c27e873a7dcff838d">More...</a><br/></td></tr>
-<tr class="separator:a557b4c89eaf8503c27e873a7dcff838d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41fb1e24ed9006a10a2eb14cc262b2d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a41fb1e24ed9006a10a2eb14cc262b2d2">copyBest</a> (vector&lt; TypeVariable &gt; &amp;best, vector&lt; TypeVariable &gt; *variables)</td></tr>
-<tr class="memdesc:a41fb1e24ed9006a10a2eb14cc262b2d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom. Calling v_copyBest.  <a href="#a41fb1e24ed9006a10a2eb14cc262b2d2">More...</a><br/></td></tr>
-<tr class="separator:a41fb1e24ed9006a10a2eb14cc262b2d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd3f0bd85c98e66c025e0ff3532af8dd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#abd3f0bd85c98e66c025e0ff3532af8dd">randomValue</a> (const TypeVariable &amp;variable)</td></tr>
-<tr class="memdesc:abd3f0bd85c98e66c025e0ff3532af8dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function to get a random value among the possible values of a given variable.  <a href="#abd3f0bd85c98e66c025e0ff3532af8dd">More...</a><br/></td></tr>
-<tr class="separator:abd3f0bd85c98e66c025e0ff3532af8dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d4e6a323e4c3c14bc1da5ddbd5af55d"><td class="memItemLeft" align="right" valign="top">vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a5d4e6a323e4c3c14bc1da5ddbd5af55d">valuesOf</a> (const TypeVariable &amp;variable) const </td></tr>
-<tr class="memdesc:a5d4e6a323e4c3c14bc1da5ddbd5af55d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function to get the vector of the possible values of a given variable.  <a href="#a5d4e6a323e4c3c14bc1da5ddbd5af55d">More...</a><br/></td></tr>
-<tr class="separator:a5d4e6a323e4c3c14bc1da5ddbd5af55d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2165237b435a5cb4dfd8584680fcfe05"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a2165237b435a5cb4dfd8584680fcfe05">resetDomain</a> (const TypeVariable &amp;variable)</td></tr>
-<tr class="separator:a2165237b435a5cb4dfd8584680fcfe05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa014a06ba46e4e057ed182d328a72e97"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#aa014a06ba46e4e057ed182d328a72e97">resetAllDomains</a> ()</td></tr>
-<tr class="separator:aa014a06ba46e4e057ed182d328a72e97"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6950190ced9110a04bde5321337d14d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#af6950190ced9110a04bde5321337d14d">getSize</a> () const </td></tr>
-<tr class="memdesc:af6950190ced9110a04bde5321337d14d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline accessor to get the size of the domain.  <a href="#af6950190ced9110a04bde5321337d14d">More...</a><br/></td></tr>
-<tr class="separator:af6950190ced9110a04bde5321337d14d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9386317ee6ca064d1e2018acefaf8bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#aa9386317ee6ca064d1e2018acefaf8bb">add</a> (const TypeVariable &amp;variable)</td></tr>
-<tr class="memdesc:aa9386317ee6ca064d1e2018acefaf8bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function to add something into the domain.  <a href="#aa9386317ee6ca064d1e2018acefaf8bb">More...</a><br/></td></tr>
-<tr class="separator:aa9386317ee6ca064d1e2018acefaf8bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3b39f88a7becd7c8c347c04963e3414"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#ad3b39f88a7becd7c8c347c04963e3414">clear</a> (const TypeVariable &amp;variable)</td></tr>
-<tr class="memdesc:ad3b39f88a7becd7c8c347c04963e3414"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function to clear (or remove) something into the domain.  <a href="#ad3b39f88a7becd7c8c347c04963e3414">More...</a><br/></td></tr>
-<tr class="separator:ad3b39f88a7becd7c8c347c04963e3414"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48bfae90d7dbb6d8e1a3afdd8e471e4f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a48bfae90d7dbb6d8e1a3afdd8e471e4f">Domain</a> (int <a class="el" href="classghost_1_1Domain.html#a057618072bec63bce85321dd413eb957">outsideScope</a>=-1)</td></tr>
+<tr class="memdesc:a48bfae90d7dbb6d8e1a3afdd8e471e4f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> constructor.  <a href="#a48bfae90d7dbb6d8e1a3afdd8e471e4f">More...</a><br/></td></tr>
+<tr class="separator:a48bfae90d7dbb6d8e1a3afdd8e471e4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5277f6bd2940a87b4784834e93cb53c9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a5277f6bd2940a87b4784834e93cb53c9">Domain</a> (const vector&lt; int &gt; &amp;domain, int <a class="el" href="classghost_1_1Domain.html#a057618072bec63bce85321dd413eb957">outsideScope</a>=-1)</td></tr>
+<tr class="memdesc:a5277f6bd2940a87b4784834e93cb53c9"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> constructor.  <a href="#a5277f6bd2940a87b4784834e93cb53c9">More...</a><br/></td></tr>
+<tr class="separator:a5277f6bd2940a87b4784834e93cb53c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a9f7b0aec78acb0b0f4edefaea7a6e9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a6a9f7b0aec78acb0b0f4edefaea7a6e9">Domain</a> (int size, int startValue)</td></tr>
+<tr class="memdesc:a6a9f7b0aec78acb0b0f4edefaea7a6e9"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> constructor.  <a href="#a6a9f7b0aec78acb0b0f4edefaea7a6e9">More...</a><br/></td></tr>
+<tr class="separator:a6a9f7b0aec78acb0b0f4edefaea7a6e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ead2b1ccee560dac9ddb68c15362511"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a1ead2b1ccee560dac9ddb68c15362511">isInitialized</a> () const </td></tr>
+<tr class="memdesc:a1ead2b1ccee560dac9ddb68c15362511"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom, calling v_isInitialized.  <a href="#a1ead2b1ccee560dac9ddb68c15362511">More...</a><br/></td></tr>
+<tr class="separator:a1ead2b1ccee560dac9ddb68c15362511"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a434b4c4fd270ee9be6853b330af9bad4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a434b4c4fd270ee9be6853b330af9bad4">resetToInitial</a> ()</td></tr>
+<tr class="memdesc:a434b4c4fd270ee9be6853b330af9bad4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom, calling v_resetToInitial.  <a href="#a434b4c4fd270ee9be6853b330af9bad4">More...</a><br/></td></tr>
+<tr class="separator:a434b4c4fd270ee9be6853b330af9bad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78a9ea39322c0a5984d62331c3c18756"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a78a9ea39322c0a5984d62331c3c18756">removeValue</a> (int value)</td></tr>
+<tr class="memdesc:a78a9ea39322c0a5984d62331c3c18756"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom, calling v_removeValue.  <a href="#a78a9ea39322c0a5984d62331c3c18756">More...</a><br/></td></tr>
+<tr class="separator:a78a9ea39322c0a5984d62331c3c18756"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2ab236c8382d3f541d0f4db44d2b625"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#ae2ab236c8382d3f541d0f4db44d2b625">randomValue</a> ()</td></tr>
+<tr class="memdesc:ae2ab236c8382d3f541d0f4db44d2b625"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom, calling v_randomValue.  <a href="#ae2ab236c8382d3f541d0f4db44d2b625">More...</a><br/></td></tr>
+<tr class="separator:ae2ab236c8382d3f541d0f4db44d2b625"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac84d289fcf22d1d67e545389e7a9de84"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#ac84d289fcf22d1d67e545389e7a9de84">getSize</a> () const </td></tr>
+<tr class="memdesc:ac84d289fcf22d1d67e545389e7a9de84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom, calling v_getSize.  <a href="#ac84d289fcf22d1d67e545389e7a9de84">More...</a><br/></td></tr>
+<tr class="separator:ac84d289fcf22d1d67e545389e7a9de84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ecdf5fbb8fb13e3b4c74f51aecf38f5"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a4ecdf5fbb8fb13e3b4c74f51aecf38f5">getInitialSize</a> () const </td></tr>
+<tr class="memdesc:a4ecdf5fbb8fb13e3b4c74f51aecf38f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom, calling v_getInitialSize.  <a href="#a4ecdf5fbb8fb13e3b4c74f51aecf38f5">More...</a><br/></td></tr>
+<tr class="separator:a4ecdf5fbb8fb13e3b4c74f51aecf38f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c62e66fb56efc0586e81cc8ea203dc7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a1c62e66fb56efc0586e81cc8ea203dc7">maxValue</a> () const </td></tr>
+<tr class="memdesc:a1c62e66fb56efc0586e81cc8ea203dc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom, calling v_maxValue.  <a href="#a1c62e66fb56efc0586e81cc8ea203dc7">More...</a><br/></td></tr>
+<tr class="separator:a1c62e66fb56efc0586e81cc8ea203dc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c407e59963930f82c17b04d784df0f6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a3c407e59963930f82c17b04d784df0f6">minValue</a> () const </td></tr>
+<tr class="memdesc:a3c407e59963930f82c17b04d784df0f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom, calling v_minValue.  <a href="#a3c407e59963930f82c17b04d784df0f6">More...</a><br/></td></tr>
+<tr class="separator:a3c407e59963930f82c17b04d784df0f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac05fdbbd6124f557fd4806efedd0fc83"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#ac05fdbbd6124f557fd4806efedd0fc83">maxInitialValue</a> () const </td></tr>
+<tr class="memdesc:ac05fdbbd6124f557fd4806efedd0fc83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom, calling v_maxInitialValue.  <a href="#ac05fdbbd6124f557fd4806efedd0fc83">More...</a><br/></td></tr>
+<tr class="separator:ac05fdbbd6124f557fd4806efedd0fc83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82507f2d7e9077e7bd00b88c5ff99c5f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a82507f2d7e9077e7bd00b88c5ff99c5f">minInitialValue</a> () const </td></tr>
+<tr class="memdesc:a82507f2d7e9077e7bd00b88c5ff99c5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom, calling v_minInitialValue.  <a href="#a82507f2d7e9077e7bd00b88c5ff99c5f">More...</a><br/></td></tr>
+<tr class="separator:a82507f2d7e9077e7bd00b88c5ff99c5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf7b253ca1c490f90b8f80b5077f9b9c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#acf7b253ca1c490f90b8f80b5077f9b9c">getValue</a> (int index) const </td></tr>
+<tr class="memdesc:acf7b253ca1c490f90b8f80b5077f9b9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom, calling v_getValue.  <a href="#acf7b253ca1c490f90b8f80b5077f9b9c">More...</a><br/></td></tr>
+<tr class="separator:acf7b253ca1c490f90b8f80b5077f9b9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad82154e314a7f1029e5d1512047460fd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#ad82154e314a7f1029e5d1512047460fd">indexOf</a> (int value) const </td></tr>
+<tr class="memdesc:ad82154e314a7f1029e5d1512047460fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom, calling v_indexOf.  <a href="#ad82154e314a7f1029e5d1512047460fd">More...</a><br/></td></tr>
+<tr class="separator:ad82154e314a7f1029e5d1512047460fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08e1adce30f095a352a3c1a6937e7660"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a08e1adce30f095a352a3c1a6937e7660">getOutsideScope</a> () const </td></tr>
+<tr class="memdesc:a08e1adce30f095a352a3c1a6937e7660"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function returning the outside-scope value.  <a href="#a08e1adce30f095a352a3c1a6937e7660">More...</a><br/></td></tr>
+<tr class="separator:a08e1adce30f095a352a3c1a6937e7660"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:aee3a6ae1de917ffb936c978633ac2663"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#aee3a6ae1de917ffb936c978633ac2663">v_restart</a> (vector&lt; TypeVariable &gt; *variables)=0</td></tr>
-<tr class="separator:aee3a6ae1de917ffb936c978633ac2663"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0adb4cc8b6c9d2b9aec3f20e7fde1ef"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#ad0adb4cc8b6c9d2b9aec3f20e7fde1ef">v_wipe</a> (vector&lt; TypeVariable &gt; *variables)</td></tr>
-<tr class="separator:ad0adb4cc8b6c9d2b9aec3f20e7fde1ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef5aef1cb394b5093e9a68c653c54ce5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#aef5aef1cb394b5093e9a68c653c54ce5">v_rebuild</a> (vector&lt; TypeVariable &gt; *variables)</td></tr>
-<tr class="separator:aef5aef1cb394b5093e9a68c653c54ce5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7762faaf0884425e46ac6609bc347c63"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a7762faaf0884425e46ac6609bc347c63">v_copyBest</a> (vector&lt; TypeVariable &gt; &amp;best, vector&lt; TypeVariable &gt; *variables)</td></tr>
-<tr class="separator:a7762faaf0884425e46ac6609bc347c63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a646bf5f075136019f7293a2eb579961c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a646bf5f075136019f7293a2eb579961c">v_isInitialized</a> () const </td></tr>
+<tr class="separator:a646bf5f075136019f7293a2eb579961c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f89336bd9e896cfd1a2370e046ff306"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a0f89336bd9e896cfd1a2370e046ff306">v_resetToInitial</a> ()</td></tr>
+<tr class="separator:a0f89336bd9e896cfd1a2370e046ff306"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7eb3a5a063d0ef5f3d9a34ea94c60ca2"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a7eb3a5a063d0ef5f3d9a34ea94c60ca2">v_removeValue</a> (int value)</td></tr>
+<tr class="separator:a7eb3a5a063d0ef5f3d9a34ea94c60ca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a754e6fb46c257e3afca5526f1f53726a"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a754e6fb46c257e3afca5526f1f53726a">v_randomValue</a> ()</td></tr>
+<tr class="separator:a754e6fb46c257e3afca5526f1f53726a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada08a724a7f7577b28827d8dc59f266c"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#ada08a724a7f7577b28827d8dc59f266c">v_getSize</a> () const </td></tr>
+<tr class="separator:ada08a724a7f7577b28827d8dc59f266c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a6d7cb6ad3bc2da4bdcd0b4c6fdb5c5"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a4a6d7cb6ad3bc2da4bdcd0b4c6fdb5c5">v_getInitialSize</a> () const </td></tr>
+<tr class="separator:a4a6d7cb6ad3bc2da4bdcd0b4c6fdb5c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d441a1d7089a3bc625ceb9d9c07a3ca"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a5d441a1d7089a3bc625ceb9d9c07a3ca">v_maxValue</a> () const </td></tr>
+<tr class="separator:a5d441a1d7089a3bc625ceb9d9c07a3ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac95854fb6558052c5f4a3a7d41969765"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#ac95854fb6558052c5f4a3a7d41969765">v_minValue</a> () const </td></tr>
+<tr class="separator:ac95854fb6558052c5f4a3a7d41969765"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a395d5db933ee17ddba2e6ba33d839863"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a395d5db933ee17ddba2e6ba33d839863">v_maxInitialValue</a> () const </td></tr>
+<tr class="separator:a395d5db933ee17ddba2e6ba33d839863"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13fca53c9bab9f73ebf027eee0fbc319"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a13fca53c9bab9f73ebf027eee0fbc319">v_minInitialValue</a> () const </td></tr>
+<tr class="separator:a13fca53c9bab9f73ebf027eee0fbc319"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72fa6a9c0634bfa70ea03c8508b098a6"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a72fa6a9c0634bfa70ea03c8508b098a6">v_getValue</a> (int index) const </td></tr>
+<tr class="separator:a72fa6a9c0634bfa70ea03c8508b098a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa11386635cf4100b36c92a64eb613ddb"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#aa11386635cf4100b36c92a64eb613ddb">v_indexOf</a> (int value) const </td></tr>
+<tr class="separator:aa11386635cf4100b36c92a64eb613ddb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
-<tr class="memitem:a13e282f60c6c7cddf5b5716b45ad161c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a13e282f60c6c7cddf5b5716b45ad161c">size</a></td></tr>
-<tr class="memdesc:a13e282f60c6c7cddf5b5716b45ad161c"><td class="mdescLeft">&#160;</td><td class="mdescRight">An integer to specify the size of the domain.  <a href="#a13e282f60c6c7cddf5b5716b45ad161c">More...</a><br/></td></tr>
-<tr class="separator:a13e282f60c6c7cddf5b5716b45ad161c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6940f37aa773c6c94cff18cfe1e6a7f7"><td class="memItemLeft" align="right" valign="top">vector&lt; vector&lt; int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a6940f37aa773c6c94cff18cfe1e6a7f7">domains</a></td></tr>
-<tr class="memdesc:a6940f37aa773c6c94cff18cfe1e6a7f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The vector of vector of integers, containing the domain of each variables. Thus, domains[i] is the domain of the variable i.  <a href="#a6940f37aa773c6c94cff18cfe1e6a7f7">More...</a><br/></td></tr>
-<tr class="separator:a6940f37aa773c6c94cff18cfe1e6a7f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8890ca1323c293a4a1e2aa1830eff043"><td class="memItemLeft" align="right" valign="top">vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a8890ca1323c293a4a1e2aa1830eff043">initialDomain</a></td></tr>
-<tr class="memdesc:a8890ca1323c293a4a1e2aa1830eff043"><td class="mdescLeft">&#160;</td><td class="mdescRight">The initial domain, created or given according to the constructor which has been called.  <a href="#a8890ca1323c293a4a1e2aa1830eff043">More...</a><br/></td></tr>
-<tr class="separator:a8890ca1323c293a4a1e2aa1830eff043"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6a7a58f8a147f5b2b475e106627fad2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classghost_1_1Random.html">Random</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#ab6a7a58f8a147f5b2b475e106627fad2">random</a></td></tr>
-<tr class="memdesc:ab6a7a58f8a147f5b2b475e106627fad2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The random generator used by the function randomValue.  <a href="#ab6a7a58f8a147f5b2b475e106627fad2">More...</a><br/></td></tr>
-<tr class="separator:ab6a7a58f8a147f5b2b475e106627fad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:adda74053affca47211fc8143942bf7a2"><td class="memItemLeft" align="right" valign="top">vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#adda74053affca47211fc8143942bf7a2">currentDomain</a></td></tr>
+<tr class="memdesc:adda74053affca47211fc8143942bf7a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector of integers containing the current values of the domain.  <a href="#adda74053affca47211fc8143942bf7a2">More...</a><br/></td></tr>
+<tr class="separator:adda74053affca47211fc8143942bf7a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbbc0aae802b0a2309c3cabe2c6f3aca"><td class="memItemLeft" align="right" valign="top">vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#abbbc0aae802b0a2309c3cabe2c6f3aca">initialDomain</a></td></tr>
+<tr class="memdesc:abbbc0aae802b0a2309c3cabe2c6f3aca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector of integers containing the initial values of the domain.  <a href="#abbbc0aae802b0a2309c3cabe2c6f3aca">More...</a><br/></td></tr>
+<tr class="separator:abbbc0aae802b0a2309c3cabe2c6f3aca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a057618072bec63bce85321dd413eb957"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a057618072bec63bce85321dd413eb957">outsideScope</a></td></tr>
+<tr class="memdesc:a057618072bec63bce85321dd413eb957"><td class="mdescLeft">&#160;</td><td class="mdescRight">Value representing all values outside the scope of the domain.  <a href="#a057618072bec63bce85321dd413eb957">More...</a><br/></td></tr>
+<tr class="separator:a057618072bec63bce85321dd413eb957"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a124992c8a2807afb606d0d27b34fba1a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classghost_1_1Random.html">Random</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a124992c8a2807afb606d0d27b34fba1a">random</a></td></tr>
+<tr class="memdesc:a124992c8a2807afb606d0d27b34fba1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">A random generator used by the function randomValue.  <a href="#a124992c8a2807afb606d0d27b34fba1a">More...</a><br/></td></tr>
+<tr class="separator:a124992c8a2807afb606d0d27b34fba1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
-<tr class="memitem:a73846a35a1024305520654677c9beb02"><td class="memItemLeft" align="right" valign="top">ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a73846a35a1024305520654677c9beb02">operator&lt;&lt;</a> (ostream &amp;os, const <a class="el" href="classghost_1_1Domain.html">Domain</a>&lt; TypeVariable &gt; &amp;domain)</td></tr>
-<tr class="memdesc:a73846a35a1024305520654677c9beb02"><td class="mdescLeft">&#160;</td><td class="mdescRight">friend override of operator&lt;&lt;  <a href="#a73846a35a1024305520654677c9beb02">More...</a><br/></td></tr>
-<tr class="separator:a73846a35a1024305520654677c9beb02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a608c9910828eb2983efb65ff4c297a4e"><td class="memItemLeft" align="right" valign="top">ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Domain.html#a608c9910828eb2983efb65ff4c297a4e">operator&lt;&lt;</a> (ostream &amp;os, const <a class="el" href="classghost_1_1Domain.html">Domain</a> &amp;domain)</td></tr>
+<tr class="memdesc:a608c9910828eb2983efb65ff4c297a4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">friend override of operator&lt;&lt;  <a href="#a608c9910828eb2983efb65ff4c297a4e">More...</a><br/></td></tr>
+<tr class="separator:a608c9910828eb2983efb65ff4c297a4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename TypeVariable&gt;<br/>
-class ghost::Domain&lt; TypeVariable &gt;</h3>
-
-<p><a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> is the class encoding the domain of your CSP/COP. </p>
-<p>In GHOST, only one domain object should be instanciate. At least, the solver is only taking one domain object in parameter.</p>
-<p>The <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> class is a template class, waiting for the type of variable. Thus, you must instanciate a domain by specifying the class of your variable objects, like for instance Domain&lt;Variable&gt; or Domain&lt;MyCustomVariable&gt;, if MyCustomVariable inherits from the <a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">ghost::Variable</a> class.</p>
-<p>Since in GHOST, variables can only take integer values, a domain object would contain the possible integer values for each variable of the CSP/COP.</p>
-<p>To encode your CSP/COP domain, you can either directly use this class <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> (there are no pure virtual functions here), or inherit from it to make your own domain class.</p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">Variable</a> </dd></dl>
+<div class="textblock"><p><a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> is the class encoding the domain of your CSP/COP. </p>
+<p><a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> is the class implementing variables' domains, ie, the set of possible values a variable can take. In GHOST, such values must be integers.</p>
+<p>A domain contains:</p>
+<ol type="1">
+<li>the vector of current possible values of the variable it belongs to,</li>
+<li>the vector of initial values (if one wants to reset the domain, since values in the current domain may change),</li>
+<li>an integer representing values outside the domain scope</li>
+<li>finally, a pseudo-random number generator. </li>
+</ol>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a8bf75e526b2ee95ccb32701175e3a43b"></a>
+<a class="anchor" id="a48bfae90d7dbb6d8e1a3afdd8e471e4f"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::<a class="el" href="classghost_1_1Domain.html">Domain</a> </td>
+          <td class="memname">ghost::Domain::Domain </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>outsideScope</em> = <code>-1</code></td><td>)</td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>numberVariables</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>start</em> = <code>0</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -232,45 +241,29 @@ template&lt;typename TypeVariable &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>First <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> constructor. </p>
-<p>In this constructor, the domain of each variable is built to be equals to the range [start, start + size[</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">size</td><td>An integer to specify the size of the domain. </td></tr>
-    <tr><td class="paramname">numberVariables</td><td>An integer to specify the number of variables in the CSP/COP. </td></tr>
-    <tr><td class="paramname">start</td><td>The starting value of the domain. If not given, the default value is 0. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p><a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> constructor. </p>
+<p>Basic constructor taking the outside-the-scope value (-1 by default). </p>
 
 </div>
 </div>
-<a class="anchor" id="a26d7b928aa7a0bc44a47f2f407402ed7"></a>
+<a class="anchor" id="a5277f6bd2940a87b4784834e93cb53c9"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::<a class="el" href="classghost_1_1Domain.html">Domain</a> </td>
+          <td class="memname">ghost::Domain::Domain </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>numberVariables</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">const vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>initialDomain</em>&#160;</td>
+          <td class="paramname"><em>domain</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>outsideScope</em> = <code>-1</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -285,149 +278,58 @@ template&lt;typename TypeVariable &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Second and last <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> constructor. </p>
-<p>In this constructor, the domain of each variable is given as a parameter.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">size</td><td>An integer to specify the size of the domain. </td></tr>
-    <tr><td class="paramname">numberVariables</td><td>An integer to specify the number of variables in the CSP/COP. </td></tr>
-    <tr><td class="paramname">initialDomain</td><td>A constant reference to an vector of integer, representing the inital domain for each variable. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p><a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> constructor. </p>
+<p>Constructor taking a vector of integer values the outside-the-scope value (-1 by default), to initialize both the initial and current possible variable values. The outside-the-scope value must not belong to this list, or an exception is raised (throw 0). </p>
+
+</div>
+</div>
+<a class="anchor" id="a6a9f7b0aec78acb0b0f4edefaea7a6e9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ghost::Domain::Domain </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>startValue</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> constructor. </p>
+<p>Constructor taking the domain size N and a starting value x, and creating a domain with all values in [x, x + N]. The outside-the-scope value is set to x-1. </p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aa9386317ee6ca064d1e2018acefaf8bb"></a>
+<a class="anchor" id="a4ecdf5fbb8fb13e3b4c74f51aecf38f5"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::add </td>
-          <td>(</td>
-          <td class="paramtype">const TypeVariable &amp;&#160;</td>
-          <td class="paramname"><em>variable</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Inline function to add something into the domain. </p>
-<p>The implementation by default does nothing. This function has been declared because it could be useful for some custom domain classes to add a value from the given variable into a custom data structure. This function is called into the solver three times:</p>
-<ul>
-<li>during a move (<a class="el" href="classghost_1_1Solver.html#a58d9540a9700be0e953ebdcf0660920f">Solver::move</a>), ie, when the solver assigns a new value to a given variable.</li>
-<li>during a reset (Solver::reset).</li>
-<li>just between the end of the optimization run and the beginning of the optimization post-processing, in <a class="el" href="classghost_1_1Solver.html#a5d15e316f5a4bb8a33c6781058ad0307" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>.</li>
-</ul>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">variable</td><td>A constant reference to a variable. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="ad3b39f88a7becd7c8c347c04963e3414"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::clear </td>
-          <td>(</td>
-          <td class="paramtype">const TypeVariable &amp;&#160;</td>
-          <td class="paramname"><em>variable</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Inline function to clear (or remove) something into the domain. </p>
-<p>The implementation by default does nothing. This function has been declared because it could be useful for some custom domain classes to clear/remove a value from the given variable into a custom data structure. This function is called into the solver three times:</p>
-<ul>
-<li>during a move (<a class="el" href="classghost_1_1Solver.html#a58d9540a9700be0e953ebdcf0660920f">Solver::move</a>), ie, when the solver assigns a new value to a given variable.</li>
-<li>during a reset (Solver::reset).</li>
-<li>just between the end of the optimization run and the beginning of the optimization post-processing, in <a class="el" href="classghost_1_1Solver.html#a5d15e316f5a4bb8a33c6781058ad0307" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>.</li>
-</ul>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">variable</td><td>A constant reference to a variable. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a41fb1e24ed9006a10a2eb14cc262b2d2"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::copyBest </td>
-          <td>(</td>
-          <td class="paramtype">vector&lt; TypeVariable &gt; &amp;&#160;</td>
-          <td class="paramname"><em>best</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; TypeVariable &gt; *&#160;</td>
-          <td class="paramname"><em>variables</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Inline function following the NVI idiom. Calling v_copyBest. </p>
-
-</div>
-</div>
-<a class="anchor" id="af6950190ced9110a04bde5321337d14d"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::getSize </td>
+          <td class="memname">size_t ghost::Domain::getInitialSize </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -440,25 +342,25 @@ template&lt;typename TypeVariable &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Inline accessor to get the size of the domain. </p>
+<p>Inline function following the NVI idiom, calling v_getInitialSize. </p>
+<p>Get the number of values initially contained by the domain. </p>
+<dl class="section return"><dt>Returns</dt><dd>A size_t corresponding to the size of initialDomain. </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Domain.html#abbbc0aae802b0a2309c3cabe2c6f3aca" title="Vector of integers containing the initial values of the domain. ">initialDomain</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="abd3f0bd85c98e66c025e0ff3532af8dd"></a>
+<a class="anchor" id="a08e1adce30f095a352a3c1a6937e7660"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::randomValue </td>
+          <td class="memname">int ghost::Domain::getOutsideScope </td>
           <td>(</td>
-          <td class="paramtype">const TypeVariable &amp;&#160;</td>
-          <td class="paramname"><em>variable</em></td><td>)</td>
-          <td></td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -468,33 +370,87 @@ template&lt;typename TypeVariable &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Inline function to get a random value among the possible values of a given variable. </p>
+<p>Inline function returning the outside-scope value. </p>
+<p>Returns the value outsideScope. </p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Domain.html#a057618072bec63bce85321dd413eb957" title="Value representing all values outside the scope of the domain. ">outsideScope</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ac84d289fcf22d1d67e545389e7a9de84"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t ghost::Domain::getSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inline function following the NVI idiom, calling v_getSize. </p>
+<p>Get the number of values currently contained by the domain. </p>
+<dl class="section return"><dt>Returns</dt><dd>A size_t corresponding to the size of currentDomain. </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Domain.html#adda74053affca47211fc8143942bf7a2" title="Vector of integers containing the current values of the domain. ">currentDomain</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="acf7b253ca1c490f90b8f80b5077f9b9c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ghost::Domain::getValue </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inline function following the NVI idiom, calling v_getValue. </p>
+<p>Get the value at the given index </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">variable</td><td>A constant reference to a variable. </td></tr>
+    <tr><td class="paramname">index</td><td>is the index of the desired value. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A random value among the possible values of variable. </dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Random.html" title="Random is the class coding pseudo-random generators used in GHOST. ">Random</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The value at the given index if this one is in the range of the domain, otherwise the outside-the-scope value. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a557b4c89eaf8503c27e873a7dcff838d"></a>
+<a class="anchor" id="ad82154e314a7f1029e5d1512047460fd"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::rebuild </td>
+          <td class="memname">int ghost::Domain::indexOf </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; TypeVariable &gt; *&#160;</td>
-          <td class="paramname"><em>variables</em></td><td>)</td>
-          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -504,21 +460,152 @@ template&lt;typename TypeVariable &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Inline function following the NVI idiom. Calling v_rebuild. </p>
+<p>Inline function following the NVI idiom, calling v_indexOf. </p>
+<p>Get the index of a given value. </p>
+<dl class="section return"><dt>Returns</dt><dd>If the given value is in the domain, it returns its index, and -1 otherwise. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="aa014a06ba46e4e057ed182d328a72e97"></a>
+<a class="anchor" id="a1ead2b1ccee560dac9ddb68c15362511"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::resetAllDomains </td>
+          <td class="memname">bool ghost::Domain::isInitialized </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inline function following the NVI idiom, calling v_isInitialized. </p>
+<p>Used to know if the <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">Domain</a> object is just an empty shell or a properly initialized domain. In some cases, it can be convenient to instanciate a domain object first and to fill it up with values latter. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if and only if the domain has been initialized (i.e., the current domain is not empty). </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ac05fdbbd6124f557fd4806efedd0fc83"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ghost::Domain::maxInitialValue </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inline function following the NVI idiom, calling v_maxInitialValue. </p>
+<p>Get the highest value in the initial domain. </p>
+
+</div>
+</div>
+<a class="anchor" id="a1c62e66fb56efc0586e81cc8ea203dc7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ghost::Domain::maxValue </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inline function following the NVI idiom, calling v_maxValue. </p>
+<p>Get the highest value in the current domain. </p>
+
+</div>
+</div>
+<a class="anchor" id="a82507f2d7e9077e7bd00b88c5ff99c5f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ghost::Domain::minInitialValue </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inline function following the NVI idiom, calling v_minInitialValue. </p>
+<p>Get the lowest value in the initial domain. </p>
+
+</div>
+</div>
+<a class="anchor" id="a3c407e59963930f82c17b04d784df0f6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ghost::Domain::minValue </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inline function following the NVI idiom, calling v_minValue. </p>
+<p>Get the lowest value in the current domain. </p>
+
+</div>
+</div>
+<a class="anchor" id="ae2ab236c8382d3f541d0f4db44d2b625"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ghost::Domain::randomValue </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -530,59 +617,24 @@ template&lt;typename TypeVariable &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Inline function to reset all variable domains to the initial domain.</p>
-<p>All variable domains will be reset to the initial domain created or given while the domain object has been instanciated. </p>
+
+<p>Inline function following the NVI idiom, calling v_randomValue. </p>
+<p>Returns a random value from the domain. </p>
 
 </div>
 </div>
-<a class="anchor" id="a2165237b435a5cb4dfd8584680fcfe05"></a>
+<a class="anchor" id="a78a9ea39322c0a5984d62331c3c18756"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::resetDomain </td>
+          <td class="memname">bool ghost::Domain::removeValue </td>
           <td>(</td>
-          <td class="paramtype">const TypeVariable &amp;&#160;</td>
-          <td class="paramname"><em>variable</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Inline function to reset the domain of a given variable to the initial domain.</p>
-<p>The domain of the given variable will be reset to the initial domain created or given while the domain object has been instanciated.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">variable</td><td>A constant reference to a variable. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a253f06705e99ff88c9da7ed0ad6855aa"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::restart </td>
-          <td>(</td>
-          <td class="paramtype">vector&lt; TypeVariable &gt; *&#160;</td>
-          <td class="paramname"><em>variables</em></td><td>)</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -593,204 +645,327 @@ template&lt;typename TypeVariable &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Inline function following the NVI idiom. Calling v_restart. </p>
-
-</div>
-</div>
-<a class="anchor" id="a7762faaf0884425e46ac6609bc347c63"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::v_copyBest </td>
-          <td>(</td>
-          <td class="paramtype">vector&lt; TypeVariable &gt; &amp;&#160;</td>
-          <td class="paramname"><em>best</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; TypeVariable &gt; *&#160;</td>
-          <td class="paramname"><em>variables</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>virtual function called in Sovler::solve before postprocessingOptimization. By default, copy only the value of best[i] into variables[i].</p>
+<p>Inline function following the NVI idiom, calling v_removeValue. </p>
+<p>Deletes a given value from the set of current domain values. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">best</td><td>The vector of best configuration found by the solver. </td></tr>
-    <tr><td class="paramname">variables</td><td>The regular vector used to describe the vector of variables. </td></tr>
+    <tr><td class="paramname">value</td><td>is the value to remove from the domain </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the value has been removed. False if the value to remove was not in the current domain. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="aef5aef1cb394b5093e9a68c653c54ce5"></a>
+<a class="anchor" id="a434b4c4fd270ee9be6853b330af9bad4"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::v_rebuild </td>
+          <td class="memname">void ghost::Domain::resetToInitial </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; TypeVariable &gt; *&#160;</td>
-          <td class="paramname"><em>variables</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Empty virtual function called in Sovler::solve before postprocessingOptimization. Can be use to rebuild the domain. </p>
+
+<p>Inline function following the NVI idiom, calling v_resetToInitial. </p>
+<p>Resets the set of current values to the set of initial values. Allow the recover all values in the domain if we filtered some of them. </p>
 
 </div>
 </div>
-<a class="anchor" id="aee3a6ae1de917ffb936c978633ac2663"></a>
+<a class="anchor" id="a4a6d7cb6ad3bc2da4bdcd0b4c6fdb5c5"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::v_restart </td>
+          <td class="memname">virtual size_t ghost::Domain::v_getInitialSize </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; TypeVariable &gt; *&#160;</td>
-          <td class="paramname"><em>variables</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Pure virtual function restarting the search process from a fresh and randomly generated configuration. </p>
-
-</div>
-</div>
-<a class="anchor" id="ad0adb4cc8b6c9d2b9aec3f20e7fde1ef"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::v_wipe </td>
-          <td>(</td>
-          <td class="paramtype">vector&lt; TypeVariable &gt; *&#160;</td>
-          <td class="paramname"><em>variables</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Empty virtual function called in Sovler::solve before postprocessingOptimization. Can be use to flush variables in the domain. </p>
-
-</div>
-</div>
-<a class="anchor" id="a5d4e6a323e4c3c14bc1da5ddbd5af55d"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">vector&lt;int&gt; <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::valuesOf </td>
-          <td>(</td>
-          <td class="paramtype">const TypeVariable &amp;&#160;</td>
-          <td class="paramname"><em>variable</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Inline function to get the vector of the possible values of a given variable. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">variable</td><td>A constant reference to a variable. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The vector of integers of all possible values of variable. </dd></dl>
-
 </div>
 </div>
-<a class="anchor" id="ac26f73027a2b0abe86e5fef062ea177f"></a>
+<a class="anchor" id="ada08a724a7f7577b28827d8dc59f266c"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::wipe </td>
+          <td class="memname">virtual size_t ghost::Domain::v_getSize </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; TypeVariable &gt; *&#160;</td>
-          <td class="paramname"><em>variables</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a72fa6a9c0634bfa70ea03c8508b098a6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int ghost::Domain::v_getValue </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aa11386635cf4100b36c92a64eb613ddb"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int ghost::Domain::v_indexOf </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a646bf5f075136019f7293a2eb579961c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool ghost::Domain::v_isInitialized </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a395d5db933ee17ddba2e6ba33d839863"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int ghost::Domain::v_maxInitialValue </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a5d441a1d7089a3bc625ceb9d9c07a3ca"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int ghost::Domain::v_maxValue </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a13fca53c9bab9f73ebf027eee0fbc319"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int ghost::Domain::v_minInitialValue </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ac95854fb6558052c5f4a3a7d41969765"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int ghost::Domain::v_minValue </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a754e6fb46c257e3afca5526f1f53726a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int ghost::Domain::v_randomValue </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Inline function following the NVI idiom. Calling v_wipe. </p>
+</div>
+</div>
+<a class="anchor" id="a7eb3a5a063d0ef5f3d9a34ea94c60ca2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool ghost::Domain::v_removeValue </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a0f89336bd9e896cfd1a2370e046ff306"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void ghost::Domain::v_resetToInitial </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a class="anchor" id="a73846a35a1024305520654677c9beb02"></a>
+<a class="anchor" id="a608c9910828eb2983efb65ff4c297a4e"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -804,7 +979,7 @@ template&lt;typename TypeVariable &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classghost_1_1Domain.html">Domain</a>&lt; TypeVariable &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classghost_1_1Domain.html">Domain</a> &amp;&#160;</td>
           <td class="paramname"><em>domain</em>&#160;</td>
         </tr>
         <tr>
@@ -821,113 +996,106 @@ template&lt;typename TypeVariable &gt; </div>
 </div><div class="memdoc">
 
 <p>friend override of operator&lt;&lt; </p>
+<p>Prints on the standard output the current domain size and content. </p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a6940f37aa773c6c94cff18cfe1e6a7f7"></a>
+<a class="anchor" id="adda74053affca47211fc8143942bf7a2"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">vector&lt; vector&lt; int &gt; &gt; <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::domains</td>
+          <td class="memname">vector&lt; int &gt; ghost::Domain::currentDomain</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>The vector of vector of integers, containing the domain of each variables. Thus, domains[i] is the domain of the variable i. </p>
+<p>Vector of integers containing the current values of the domain. </p>
 
 </div>
 </div>
-<a class="anchor" id="a8890ca1323c293a4a1e2aa1830eff043"></a>
+<a class="anchor" id="abbbc0aae802b0a2309c3cabe2c6f3aca"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">vector&lt; int &gt; <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::initialDomain</td>
+          <td class="memname">vector&lt; int &gt; ghost::Domain::initialDomain</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>The initial domain, created or given according to the constructor which has been called. </p>
+<p>Vector of integers containing the initial values of the domain. </p>
 
 </div>
 </div>
-<a class="anchor" id="ab6a7a58f8a147f5b2b475e106627fad2"></a>
+<a class="anchor" id="a057618072bec63bce85321dd413eb957"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classghost_1_1Random.html">Random</a> <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::random</td>
+          <td class="memname">int ghost::Domain::outsideScope</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>The random generator used by the function randomValue. </p>
+<p>Value representing all values outside the scope of the domain. </p>
 
 </div>
 </div>
-<a class="anchor" id="a13e282f60c6c7cddf5b5716b45ad161c"></a>
+<a class="anchor" id="a124992c8a2807afb606d0d27b34fba1a"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int <a class="el" href="classghost_1_1Domain.html">ghost::Domain</a>&lt; TypeVariable &gt;::size</td>
+          <td class="memname"><a class="el" href="classghost_1_1Random.html">Random</a> ghost::Domain::random</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>An integer to specify the size of the domain. </p>
+<p>A random generator used by the function randomValue. </p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>include/domains/<a class="el" href="domain_8hpp_source.html">domain.hpp</a></li>
+<li>include/<a class="el" href="domain_8hpp_source.html">domain.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 16 2014 15:59:30 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Sep 7 2016 17:18:58 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['add',['add',['../classghost_1_1Domain.html#aa9386317ee6ca064d1e2018acefaf8bb',1,'ghost::Domain']]]
+  ['constraint',['Constraint',['../classghost_1_1Constraint.html#af2b5d5f541f64e548bc6c93bba1ba2b8',1,'ghost::Constraint']]],
+  ['cost',['cost',['../classghost_1_1Constraint.html#a5051092934738b004fe848190a5aa9a5',1,'ghost::Constraint::cost()'],['../classghost_1_1Objective.html#a8ac8effdac4a09063fd680ed60b6a06f',1,'ghost::Objective::cost()']]]
 ];
