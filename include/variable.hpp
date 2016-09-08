@@ -89,7 +89,7 @@ namespace ghost
       // std::swap(this->domain, other.domain);
       domain = std::move( other.domain );
       std::swap(this->index, other.index);
-      std::swap(this->projectedCost. other.projectedCost);
+      std::swap(this->projectedCost_, other.projectedCost_);
     }  
     
   public:
@@ -117,10 +117,10 @@ namespace ghost
      * \param shortName A string to give a shorten name to the variable (for instance, "B").
      * \param index The domain's index corresponding to the variable initial value.
      * \param size The size of the domain to create.
-     * \param startingValue An integer representing the first value of the domain. The creating domain will then be the interval [startingValue, startingValue + size], with startingValue-1 corresponding to the outside-the-scope value.
+     * \param startValue An integer representing the first value of the domain. The creating domain will then be the interval [startValue, startValue + size], with startValue-1 corresponding to the outside-the-scope value.
      * \sa Domain
      */
-    Variable( string name, string shortName, int index, int size, int startingValue )
+    Variable( string name, string shortName, int index, int size, int startValue )
       : Variable( name, shortName, make_unique<Domain>( size, startValue ), index )
     { }
 
@@ -152,11 +152,23 @@ namespace ghost
       return *this;
     }
 
+    //! Inline function to know if the domain has been initialized.
+    /*!
+     * \return True if and only if the domain variable is initialized.
+     */
+    inline bool hasInitializedDomain()
+    {
+      if( !domain )
+	return false;
+      else
+	return domain->isInitialized();
+    }
+    
     //! Inline function reseting the domain with its initial values.
     /*!
      * \sa domain::resetToInitial()
      */
-    inline void resetDomain() { domain.resetToInitial(); }
+    inline void resetDomain() { domain->resetToInitial(); }
     
     //! Shifting to the next domain value.
     /*!
@@ -166,7 +178,7 @@ namespace ghost
     void shiftValue()
     {
       if( index >= 0 )
-	index = index < domain.getSize() - 1 ? index + 1 : 0;
+	index = index < domain->getSize() - 1 ? index + 1 : 0;
     }
 
     //! Shifting to the previous domain value.
@@ -177,28 +189,28 @@ namespace ghost
     void unshiftValue()
     {
       if( index >= 0 )
-	index = index > 0 ? index - 1 : domain.getSize() - 1;
+	index = index > 0 ? index - 1 : domain->getSize() - 1;
     }
 
     //! Inline function to get the current value of the variable.
-    inline int getValue() const	{ return domain.getValue( index ); }
+    inline int getValue() const	{ return domain->getValue( index ); }
     
     //! Inline function to set the value of the variable.
     /*! 
      * If the given value is not in the variable domain, then the variable value is set to the outsideScope value of the domain.
      * \param value An integer representing the new value to set.
      */
-    inline void	setValue( int value ) { index = domain.indexOf( value ); }
+    inline void	setValue( int value ) { index = domain->indexOf( value ); }
 
     /*! Function returning what values are in the current domain.
      * \return a vector<int> of values belonging to the variable domain.
      */
     vector< int > possibleValues()
     {
-      auto possibleValues = new vector<int>;
+      vector< int > possibleValues;
 
-      for( int i = 0 ; i < domain.getSize() ; ++i )
-	possibleValues.push_back( domain.getValue( i ) );
+      for( int i = 0 ; i < domain->getSize() ; ++i )
+	possibleValues.push_back( domain->getValue( i ) );
 
       return possibleValues;
     }    
@@ -215,7 +227,7 @@ namespace ghost
       return os
 	<< "Variable name: " << v.name
 	<< "\nShort name: " << v.shortName
-	<< "\nValue: " <<  v.domain.getValue( v.index )
+	<< "\nValue: " <<  v.domain->getValue( v.index )
 	<< "\n-------";
     }
   };

@@ -1,6 +1,3 @@
-# Project name
-EXECS=test_domain
-
 # Directories
 SRCDIR=src
 IDIR=include ../include
@@ -10,7 +7,7 @@ LIBDIR=lib
 
 # Compiler flags
 IDIRFLAGS=$(foreach idir, $(IDIR), -I$(idir))
-CXXFLAGS=-std=c++11 -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(IDIRFLAGS)
+CXXFLAGS=-std=c++14 -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(IDIRFLAGS)
 
 # Linker flags
 LFLAGS=-pthread
@@ -18,6 +15,9 @@ LFLAGS=-pthread
 # Files
 SOURCES=$(foreach sdir, $(SRCDIR), $(wildcard $(sdir)/*.cpp))
 OBJECTS=$(patsubst %.cpp, $(OBJDIR)/%.o, $(notdir $(SOURCES)))
+
+# Binaries name
+EXECS=$(patsubst %.cpp, $(BINDIR)/%, $(notdir $(SOURCES)))
 
 # For rm
 SOURCESTILDE=$(foreach sdir, $(SRCDIR), $(wildcard $(sdir)/*.cpp~))
@@ -35,16 +35,16 @@ test: CXX=g++
 test: LINKER=g++ -o
 test: CXXFLAGS += -DNDEBUG
 test: LIBGTEST=$(LIBDIR)/libgtest.a
-test: $(BINDIR)/$(EXECS)
+test: $(EXECS)
 
 # travistest: CXX=g++
 travistest: LINKER=g++ -o
 travistest: CXXFLAGS += -DNDEBUG
 travistest: LIBGTEST=/usr/local/lib/libgtest.a
 travistest: IDIRFLAGS=-I../include
-travistest: $(BINDIR)/$(EXECS)
+travistest: $(EXECS)
 
-$(BINDIR)/$(EXECS): $(OBJECTS)
+$(EXECS): $(OBJECTS)
 	@$(LINKER) $@ $(LFLAGS) $^ $(LIBGTEST)
 
 $(OBJDIR)/%.o: %.cpp
@@ -53,4 +53,4 @@ $(OBJDIR)/%.o: %.cpp
 .PHONY: test travistest clean 
 
 clean:
-	rm -fr core *~ $(BINDIR)/$(EXECS) $(OBJECTS) $(SOURCESTILDE)
+	rm -fr core *~ $(EXECS) $(OBJECTS) $(SOURCESTILDE)
