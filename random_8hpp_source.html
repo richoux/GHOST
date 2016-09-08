@@ -129,9 +129,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  {</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="classghost_1_1Random.html#a7c45efd1f7c522a68760104ba6084d89">   48</a></span>&#160;    <a class="code" href="classghost_1_1Random.html#a7c45efd1f7c522a68760104ba6084d89">Random</a>() : rng( rd() ) { }</div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classghost_1_1Random.html#aa57a39ee45a9ba30d7f7ea2c4c17b539">   49</a></span>&#160;    <a class="code" href="classghost_1_1Random.html#aa57a39ee45a9ba30d7f7ea2c4c17b539">Random</a>( <span class="keyword">const</span> <a class="code" href="classghost_1_1Random.html">Random</a> &amp;other ) : <a class="code" href="classghost_1_1Random.html">Random</a>() { }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">// Random( const Random &amp;other ) : Random() { }</span></div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="classghost_1_1Random.html#a6e5cb2eeaee9846a1ca8fe1ee6749c00">   51</a></span>&#160;    <a class="code" href="classghost_1_1Random.html">Random</a> <a class="code" href="classghost_1_1Random.html#a6e5cb2eeaee9846a1ca8fe1ee6749c00">operator=</a>( <span class="keyword">const</span> <a class="code" href="classghost_1_1Random.html">Random</a> &amp;other ) { <span class="keywordflow">return</span> <a class="code" href="classghost_1_1Random.html#a7c45efd1f7c522a68760104ba6084d89">Random</a>(); }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">// Random operator=( const Random &amp;other ) { return Random(); }</span></div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
 <div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="classghost_1_1Random.html#a26f7e445a05839bd89ca9c14f8b34fbc">   61</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code" href="classghost_1_1Random.html#a26f7e445a05839bd89ca9c14f8b34fbc">getRandNum</a>( <span class="keywordtype">int</span> limit ) { <span class="keywordflow">return</span> ( numbers(rng) % limit ); } </div>
@@ -144,13 +144,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}</div>
 <div class="ttc" id="classghost_1_1Random_html"><div class="ttname"><a href="classghost_1_1Random.html">ghost::Random</a></div><div class="ttdoc">Random is the class coding pseudo-random generators used in GHOST. </div><div class="ttdef"><b>Definition:</b> random.hpp:45</div></div>
 <div class="ttc" id="classghost_1_1Random_html_a26f7e445a05839bd89ca9c14f8b34fbc"><div class="ttname"><a href="classghost_1_1Random.html#a26f7e445a05839bd89ca9c14f8b34fbc">ghost::Random::getRandNum</a></div><div class="ttdeci">int getRandNum(int limit)</div><div class="ttdoc">Inline function to return a random value in [0, limit[. </div><div class="ttdef"><b>Definition:</b> random.hpp:61</div></div>
-<div class="ttc" id="classghost_1_1Random_html_a6e5cb2eeaee9846a1ca8fe1ee6749c00"><div class="ttname"><a href="classghost_1_1Random.html#a6e5cb2eeaee9846a1ca8fe1ee6749c00">ghost::Random::operator=</a></div><div class="ttdeci">Random operator=(const Random &amp;other)</div><div class="ttdef"><b>Definition:</b> random.hpp:51</div></div>
 <div class="ttc" id="classghost_1_1Random_html_a7c45efd1f7c522a68760104ba6084d89"><div class="ttname"><a href="classghost_1_1Random.html#a7c45efd1f7c522a68760104ba6084d89">ghost::Random::Random</a></div><div class="ttdeci">Random()</div><div class="ttdef"><b>Definition:</b> random.hpp:48</div></div>
-<div class="ttc" id="classghost_1_1Random_html_aa57a39ee45a9ba30d7f7ea2c4c17b539"><div class="ttname"><a href="classghost_1_1Random.html#aa57a39ee45a9ba30d7f7ea2c4c17b539">ghost::Random::Random</a></div><div class="ttdeci">Random(const Random &amp;other)</div><div class="ttdef"><b>Definition:</b> random.hpp:49</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Sep 7 2016 17:25:41 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 8 2016 13:53:51 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
