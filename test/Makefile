@@ -10,7 +10,7 @@ LIBDIR=lib
 
 # Compiler flags
 IDIRFLAGS=$(foreach idir, $(IDIR), -I$(idir))
-CXXFLAGS=-Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(IDIRFLAGS)
+CXXFLAGS=-std=c++11 -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(IDIRFLAGS)
 
 # Linker flags
 LFLAGS=-pthread
@@ -33,13 +33,13 @@ vpath %.cpp $(SRCDIR)
 test: clean
 test: CXX=g++
 test: LINKER=g++ -o
-test: CXXFLAGS += -std=c++11 -DNDEBUG
+test: CXXFLAGS += -DNDEBUG
 test: LIBGTEST=$(LIBDIR)/libgtest.a
 test: $(BINDIR)/$(EXECS)
 
 # travistest: CXX=g++
 travistest: LINKER=g++ -o
-travistest: CXXFLAGS += -std=c++11 -DNDEBUG
+travistest: CXXFLAGS += -DNDEBUG
 travistest: LIBGTEST=/usr/local/lib/libgtest.a
 travistest: IDIRFLAGS=-I../include
 travistest: $(BINDIR)/$(EXECS)
