@@ -27,7 +27,7 @@ class DomainCtor2Test : public ::testing::Test
 public:
   ghost::Domain *domainDefault;
   ghost::Domain *domainOS4;
-  std::vector< int > v {1,3,5,7,9};
+  std::vector< int > v = {1,3,5,7,9};
   
   DomainCtor2Test()
   {
@@ -59,7 +59,7 @@ TEST_F(DomainCtor1Test, isInitialized)
 TEST(DomainCtor2ThrowTest, ThrowException)
 {
   std::vector< int > v {1,3,5,7,9};  
-  EXPECT_ANY_THROW( auto *d = new ghost::Domain( v, 5 ) );
+  EXPECT_ANY_THROW( new ghost::Domain( v, 5 ) );
 }
 
 TEST_F(DomainCtor2Test, isInitialized)
