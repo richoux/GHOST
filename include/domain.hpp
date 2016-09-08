@@ -50,8 +50,8 @@ namespace ghost
    * In GHOST, such values must be integers.
    * 
    * A domain contains:
-   * 1. the vector of current possible values of the variable it belongs to, 
-   * 2. the vector of initial values (if one wants to reset the domain, since values in the current domain may change),
+   * 1. the container of current possible values of the variable it belongs to, 
+   * 2. the container of initial values (if one wants to reset the domain, since values in the current domain may change),
    * 3. an integer representing values outside the domain scope
    * 4. finally, a pseudo-random number generator.
    */
@@ -69,7 +69,8 @@ namespace ghost
     
     virtual void v_resetToInitial()
     {
-      std::copy( begin( currentDomain ), end( currentDomain ), begin( initialDomain ) );
+      currentDomain.resize( initialDomain.size() );
+      std::copy( begin( initialDomain ), end( initialDomain ), begin( currentDomain ) );
     }
     
     virtual bool v_removeValue( int value )
@@ -139,11 +140,10 @@ namespace ghost
     virtual int v_indexOf( int value ) const
     {
       auto it = std::find( begin( currentDomain ), end( currentDomain ), value );
-      int index = it - begin( currentDomain );
-      if( index < 0 )
+      if( it == end( currentDomain ) )
 	return -1;
       else
-	return index;
+	return it - begin( currentDomain );
     }
     
   public:
@@ -218,7 +218,6 @@ namespace ghost
     /*!
      * Get the number of values currently contained by the domain.
      * \return A size_t corresponding to the size of currentDomain.
-     * \sa currentDomain
      */
     inline size_t getSize() const { return v_getSize(); }
 
@@ -226,7 +225,6 @@ namespace ghost
     /*!
      * Get the number of values initially contained by the domain.
      * \return A size_t corresponding to the size of initialDomain.
-     * \sa initialDomain
      */    
     inline size_t getInitialSize() const { return v_getInitialSize(); }
 
@@ -272,7 +270,6 @@ namespace ghost
     //! Inline function returning the outside-scope value.
     /*!
      * Returns the value outsideScope.
-     * \sa outsideScope
      */ 
     inline int getOutsideScope() const { return outsideScope; }
     
