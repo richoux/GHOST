@@ -33,11 +33,11 @@ vpath %.cpp $(SRCDIR)
 test: clean
 test: CXX=g++
 test: LINKER=g++ -o
-test: CXXFLAGS += -std=c++0x -DNDEBUG
+test: CXXFLAGS += -std=c++11 -DNDEBUG
 test: LIBGTEST=$(LIBDIR)/libgtest.a
 test: $(BINDIR)/$(EXECS)
 
-travistest: CXX=g++
+# travistest: CXX=g++
 travistest: LINKER=g++ -o
 travistest: CXXFLAGS += -std=c++11 -DNDEBUG
 travistest: LIBGTEST=/usr/local/lib/libgtest.a
