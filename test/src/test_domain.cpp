@@ -1,6 +1,8 @@
 #include "domain.hpp"
 #include "gtest/gtest.h"
 
+#include <vector>
+
 class DomainCtor1Test : public ::testing::Test
 {
 public:
