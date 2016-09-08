@@ -27,8 +27,8 @@ class DomainCtor2Test : public ::testing::Test
 public:
   ghost::Domain *domainDefault;
   ghost::Domain *domainOS4;
-  std::vector< int > v = {1,3,5,7,9};
-  
+  std::vector< int > v {1,3,5,7,9};
+
   DomainCtor2Test()
   {
     domainDefault = new ghost::Domain( v );
@@ -149,6 +149,15 @@ TEST_F(DomainCtor2Test, randomValue)
   EXPECT_TRUE( CanFind( domainOS4->randomValue() ) );
   EXPECT_TRUE( CanFind( domainOS4->randomValue() ) );
   EXPECT_TRUE( CanFind( domainOS4->randomValue() ) );
+
+  std::vector<int> count(5);
+  for( int i = 0 ; i < 10000 ; ++i )
+    ++count[ domainDefault->indexOf( domainDefault->randomValue() ) ];
+  std::cout << (double)count[0] / 100 << "% "
+	    << (double)count[1] / 100 << "% "
+	    << (double)count[2] / 100 << "% "
+	    << (double)count[3] / 100 << "% "
+	    << (double)count[4] / 100 << "%\n";
 }
 
 TEST_F(DomainCtor2Test, RemoveAndReset)
@@ -215,6 +224,8 @@ TEST_F(DomainCtor2Test, RemoveAndReset)
   EXPECT_EQ( domainOS4->getValue( 0 ), 1 );
   EXPECT_EQ( domainOS4->getValue( 4 ), 9 );
 }
+
+
 
 int main(int argc, char **argv)
 {
