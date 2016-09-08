@@ -33,6 +33,10 @@
 #include <algorithm>
 #include <iostream>
 #include <typeinfo>
+#include <memory>
+#include <vector>
+
+#include "domain.hpp"
 
 using namespace std;
 
@@ -50,105 +54,30 @@ namespace ghost
    */
   class Variable
   {
-  public:
-    //! Empty Variable constructor by default, doing nothing.
-    Variable() { }
+  private:
+    double projectedCost_; //!< The cost of the variable. This is for inner mecanisms, no need to worry about that.  
 
-    //! The regular Variable constructor
+    //! The private Variable constructor
     /*!
-     * When this constructor is called, the class variable
-     * numberVariables is automatically incremented.
-     * 
-     * \param name A string to give a shorten name to the variable (for instance, "B").
-     * \param fullName A string to give a full name to the variable (for instance, "Barracks").
-     * \param value The initial value of the variable, -1 by default.
-     * \sa numberVariables
+     * \param name A string to give a full name to the variable (for instance, "Barracks").
+     * \param shortName A string to give a shorten name to the variable (for instance, "B").
+     * \param domain A unique smart pointer to a Domain object.
+     * \param index The domain's index corresponding to the variable initial value.
+     * \sa Domain
      */
-    Variable( string name, string fullName, int value = -1 )
+    Variable( string name, string shortName, unique_ptr<Domain> domain, int index )
       : name(name),
-	fullName(fullName),
-	id(Variable::numberVariables++),
-	value(value)
+	shortName(shortName),
+	domain(std::move( domain )),
+	index(index)
     { }
 
-    //! Variable's copy constructor, designed to NOT increment numberVariables
-    /*!
-     * \param other A reference to a Variable object.
-     * \sa numberVariables
-     */
-    Variable( const Variable &other )
-      : name(other.name),
-	fullName(other.fullName),
-	id(other.id),
-	value(other.value)
-    { }
-
-    //! Variable's copy assignment operator, designed to NOT increment numberVariables
-    /*!
-     * The copy-and-swap idiom is applyed here.
-     * 
-     * \param other A Variable object.
-     * \sa numberVariables
-     */
-    Variable& operator=( Variable other )
-    {
-      this->swap( other );
-      return *this;
-    }
-
-    //! Inline function to compare (less-than operator) two Variable objects.
-    //! In this class, operator< is implemented to compare two Variable objects regarding their id.
-    inline bool		operator<( const Variable& other )	const	{ return id < other.id; }
-
-    //! Inline function to shift the object value.
-    //! In this class, shiftValue is implemented to increment the value (++value).
-    inline void		shiftValue()					{ ++value; }
-
-    //! Inline function to unshift the object value.
-    //! In this class, unshiftValue is implemented to decrement the value (--value).
-    inline void		unshiftValue()					{ --value; }
-
-    //! Inline function to swap the value of two objects.
-    /*! 
-     * In this class, swapValue calls std::swap between this->value and other.value.
-     *
-     * \param other A reference to a Variable object.
-     */
-    inline void		swapValue( Variable &other )			{ std::swap(this->value, other.value); }
-
-    //! Inline mutator to set the object's value.
-    /*! 
-     * In this class, setValue is a mere value = v
-     *
-     * \param v An integer representing the new value to set.
-     */
-    inline void		setValue( int v )			{ value = v; }
-
-    //! Inline accessor to get the object's value.
-    inline int		getValue()			const	{ return value; }
-
-    //! Inline accessor to get the object's id.
-    inline int		getId()				const	{ return id; }
-
-    //! Inline accessor to get the object's name.
-    inline string	getName()			const	{ return name; }
-
-    //! Inline accessor to get the object's full name.
-    inline string	getFullName()			const	{ return fullName; }
-
-    //! friend override of operator<<
-    friend std::ostream& operator<<( std::ostream& os, const Variable& v )
-    {
-      return os
-	<< "Variable type: " <<  typeid(v).name() << std::endl
-	<< "Name: " << v.name << std::endl
-	<< "Full name: " << v.fullName << std::endl
-	<< "Id num: " << v.id << std::endl
-	<< "Value: " <<  v.value << std::endl
-	<< "-------" << std::endl;
-    }
-    
   protected:
+    string		name;		//!< A string to give a full name to the variable (for instance, "Barracks").
+    string		shortName;	//!< A string to give a shorten name to the variable (for instance, "B").
+    unique_ptr<Domain>	domain;		//!< A unique smart pointer on the variable domain.
+    int			index;		//!< The domain's index corresponding to the current value of the variable.
+    
     //! Inline function used for the copy-and-swap idiom.
     /*!
      * \param other A reference to a Variable object.
@@ -156,17 +85,138 @@ namespace ghost
     inline void swap( Variable &other )
     {
       std::swap(this->name, other.name);
-      std::swap(this->fullName, other.fullName);
-      std::swap(this->id, other.id);
-      std::swap(this->value, other.value);
-    }
-  
-    string	name;		//!< A string to give a shorten name to the variable (for instance, "B").
-    string	fullName;	//!< A string to give a full name to the variable (for instance, "Barracks").
-    int		id;		//!< An integer to stamp the object. Its value must be unique among all Variable objects.
-    int		value;		//!< The value of the variable. Must be an integer (it can take negative values).
+      std::swap(this->shortName, other.shortName);
+      // std::swap(this->domain, other.domain);
+      domain = std::move( other.domain );
+      std::swap(this->index, other.index);
+      std::swap(this->projectedCost. other.projectedCost);
+    }  
     
-  private:
-    static int numberVariables; //!< A static integer to make sure the object's id is unique. Incremented by calling the regular constructor.
+  public:
+    //! Short Variable constructor initializing the name and short name only.
+    Variable( string name, string shortName )
+      : Variable( name, shortName, nullptr, -1 )
+    { }
+
+    //! First Variable constructor, with the vector of domain values and the outside-the-scope value.
+    /*!
+     * \param name A string to give a full name to the variable (for instance, "Barracks").
+     * \param shortName A string to give a shorten name to the variable (for instance, "B").
+     * \param index The domain's index corresponding to the variable initial value.
+     * \param domain A vector of integers composing the domain to create.
+     * \param outsideScope An integer representing all values outside the domain scope (-1 by default).
+     * \sa Domain
+     */
+    Variable( string name, string shortName, int index, vector<int> domain, int outsideScope = -1 )
+      : Variable( name, shortName, make_unique<Domain>( domain, outsideScope ), index )
+    { }
+    
+    //! Second Variable constructor, with a size and a starting value for the domain.
+    /*!
+     * \param name A string to give a full name to the variable (for instance, "Barracks").
+     * \param shortName A string to give a shorten name to the variable (for instance, "B").
+     * \param index The domain's index corresponding to the variable initial value.
+     * \param size The size of the domain to create.
+     * \param startingValue An integer representing the first value of the domain. The creating domain will then be the interval [startingValue, startingValue + size], with startingValue-1 corresponding to the outside-the-scope value.
+     * \sa Domain
+     */
+    Variable( string name, string shortName, int index, int size, int startingValue )
+      : Variable( name, shortName, make_unique<Domain>( size, startValue ), index )
+    { }
+
+    virtual ~Variable()
+    {
+      domain.release();
+    }
+
+    //! Variable copy constructor
+    /*!
+     * \param other A reference to a Variable object.
+     */
+    Variable( const Variable &other )
+      : name(other.name),
+	shortName(other.shortName),
+	domain(make_unique<Domain>(other.domain.get())),
+	index(other.index)
+    { }
+
+    //! Variable's copy assignment operator
+    /*!
+     * The copy-and-swap idiom is applyed here.
+     * 
+     * \param other A Variable object.
+     */
+    Variable& operator=( Variable other )
+    {
+      this->swap( other );
+      return *this;
+    }
+
+    //! Inline function reseting the domain with its initial values.
+    /*!
+     * \sa domain::resetToInitial()
+     */
+    inline void resetDomain() { domain.resetToInitial(); }
+    
+    //! Shifting to the next domain value.
+    /*!
+     * Set the current value to the next value in the domain, 
+     * or to the first one if we reach the domain upper bound.
+     */
+    void shiftValue()
+    {
+      if( index >= 0 )
+	index = index < domain.getSize() - 1 ? index + 1 : 0;
+    }
+
+    //! Shifting to the previous domain value.
+    /*!
+     * Set the current value to the previous value in the domain, 
+     * or to the last one if we reach the domain lower bound.
+     */
+    void unshiftValue()
+    {
+      if( index >= 0 )
+	index = index > 0 ? index - 1 : domain.getSize() - 1;
+    }
+
+    //! Inline function to get the current value of the variable.
+    inline int getValue() const	{ return domain.getValue( index ); }
+    
+    //! Inline function to set the value of the variable.
+    /*! 
+     * If the given value is not in the variable domain, then the variable value is set to the outsideScope value of the domain.
+     * \param value An integer representing the new value to set.
+     */
+    inline void	setValue( int value ) { index = domain.indexOf( value ); }
+
+    /*! Function returning what values are in the current domain.
+     * \return a vector<int> of values belonging to the variable domain.
+     */
+    vector< int > possibleValues()
+    {
+      auto possibleValues = new vector<int>;
+
+      for( int i = 0 ; i < domain.getSize() ; ++i )
+	possibleValues.push_back( domain.getValue( i ) );
+
+      return possibleValues;
+    }    
+    
+    //! Inline function to get the variable name.
+    inline string getName() const { return name; }
+
+    //! Inline function to get the variable short name.
+    inline string getShortName() const { return shortName; }
+
+    //! friend override of operator<<
+    friend std::ostream& operator<<( std::ostream& os, const Variable& v )
+    {
+      return os
+	<< "Variable name: " << v.name
+	<< "\nShort name: " << v.shortName
+	<< "\nValue: " <<  v.domain.getValue( v.index )
+	<< "\n-------";
+    }
   };
 }
