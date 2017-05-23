@@ -167,29 +167,29 @@ namespace ghost
       return _initialDomain.size();
     }
 
-    //! Inline function to get the highest value in the current domain.
-    inline int maxValue() const
-    {
-      return *std::max_element( begin( _currentDomain ), end( _currentDomain ) );
-    }
+    // //! Inline function to get the highest value in the current domain.
+    // inline int maxValue() const
+    // {
+    //   return *std::max_element( begin( _currentDomain ), end( _currentDomain ) );
+    // }
 
-    //! Inline function to get the lowest value in the current domain.
-    inline int minValue() const
-    {
-      return *std::min_element( begin( _currentDomain ), end( _currentDomain ) );
-    }
+    // //! Inline function to get the lowest value in the current domain.
+    // inline int minValue() const
+    // {
+    //   return *std::min_element( begin( _currentDomain ), end( _currentDomain ) );
+    // }
 
-    //! Inline function to get the highest value in the initial domain.
-    inline int maxInitialValue() const
-    {
-      return *std::max_element( begin( _initialDomain ), end( _initialDomain ) );
-    }
+    // //! Inline function to get the highest value in the initial domain.
+    // inline int maxInitialValue() const
+    // {
+    //   return *std::max_element( begin( _initialDomain ), end( _initialDomain ) );
+    // }
 
-    //! Inline function to get the lowest value in the initial domain.
-    inline int minInitialValue() const
-    {
-      return *std::min_element( begin( _initialDomain ), end( _initialDomain ) );
-    }
+    // //! Inline function to get the lowest value in the initial domain.
+    // inline int minInitialValue() const
+    // {
+    //   return *std::min_element( begin( _initialDomain ), end( _initialDomain ) );
+    // }
 
     //! Get the value at the given index
     /*!
