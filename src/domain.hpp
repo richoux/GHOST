@@ -58,7 +58,7 @@ namespace ghost
   class Domain
   {
     vector< int > _currentDomain;	//!< Vector of integers containing the current values of the domain.
-    vector< int > _initialDomain;	//!< Vector of integers containing the initial values of the domain.
+    // vector< int > _initialDomain;	//!< Vector of integers containing the initial values of the domain.
     int _outsideScope;			//!< Value representing all values outside the scope of the domain
     Random _random;			//!< A random generator used by the function randomValue. 
         
@@ -79,7 +79,7 @@ namespace ghost
      */
     Domain( const vector< int > &domain, int outsideScope = -1 )
       : _currentDomain(domain),
-	_initialDomain(domain),
+	// _initialDomain(domain),
 	_outsideScope(outsideScope)
     {
       if( std::find( begin( domain ), end( domain ), _outsideScope ) != end( domain ) )
@@ -93,11 +93,11 @@ namespace ghost
      */
     Domain( int size, int startValue )
       : _currentDomain(vector<int>(size)),
-	_initialDomain(vector<int>(size)),
+	// _initialDomain(vector<int>(size)),
 	_outsideScope(startValue-1)
     {
       std::iota( begin( _currentDomain ), end( _currentDomain ), startValue );
-      std::iota( begin( _initialDomain ), end( _initialDomain ), startValue );
+      // std::iota( begin( _initialDomain ), end( _initialDomain ), startValue );
     }
 
     //! Inline function to know if the domain has been initialized.
@@ -112,34 +112,34 @@ namespace ghost
       return !_currentDomain.empty();
     }
 
-    //! Inline function to reset the current domain, ie to make it correspond to the initial domain.
-    /*!
-     * Resets the set of current values to the set of initial values. 
-     * Allow the recover all values in the domain if we filtered some of them. 
-     */
-    inline void resetToInitial()
-    {
-      _currentDomain.resize( _initialDomain.size() );
-      std::copy( begin( _initialDomain ), end( _initialDomain ), begin( _currentDomain ) );
-    }
+    // //! Inline function to reset the current domain, ie to make it correspond to the initial domain.
+    // /*!
+    //  * Resets the set of current values to the set of initial values. 
+    //  * Allow the recover all values in the domain if we filtered some of them. 
+    //  */
+    // inline void resetToInitial()
+    // {
+    //   _currentDomain.resize( _initialDomain.size() );
+    //   std::copy( begin( _initialDomain ), end( _initialDomain ), begin( _currentDomain ) );
+    // }
     
-    //! Function to remove a value in the current domain.
-    /*!
-     * Deletes a given value among the current domain values.
-     * \param value is the value to remove from the domain
-     * \return True if the value has been removed. False if the value to remove was not in the current domain.
-     */
-    bool removeValue( int value )
-    {
-      int index = indexOf( value );
-      if( index == _outsideScope )
-	return false;
-      else
-      {
-	_currentDomain.erase( begin( _currentDomain ) + index );
-	return true;
-      }
-    }
+    // //! Function to remove a value in the current domain.
+    // /*!
+    //  * Deletes a given value among the current domain values.
+    //  * \param value is the value to remove from the domain
+    //  * \return True if the value has been removed. False if the value to remove was not in the current domain.
+    //  */
+    // bool removeValue( int value )
+    // {
+    //   int index = indexOf( value );
+    //   if( index == _outsideScope )
+    // 	return false;
+    //   else
+    //   {
+    // 	_currentDomain.erase( begin( _currentDomain ) + index );
+    // 	return true;
+    //   }
+    // }
 
     //! Inline function returning a random value from the domain.
     inline int randomValue()
@@ -157,15 +157,15 @@ namespace ghost
       return _currentDomain.size();
     }
 
-    //! Inline function to get the size of the initial domain.
-    /*!
-     * Get the number of values initially contained by the domain.
-     * \return A size_t corresponding to the size of _initialDomain.
-     */    
-    inline size_t getInitialSize() const
-    {
-      return _initialDomain.size();
-    }
+    // //! Inline function to get the size of the initial domain.
+    // /*!
+    //  * Get the number of values initially contained by the domain.
+    //  * \return A size_t corresponding to the size of _initialDomain.
+    //  */    
+    // inline size_t getInitialSize() const
+    // {
+    //   return _initialDomain.size();
+    // }
 
     // //! Inline function to get the highest value in the current domain.
     // inline int maxValue() const

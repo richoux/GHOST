@@ -165,11 +165,11 @@ namespace ghost
 	return domain->isInitialized();
     }
     
-    //! Inline function reseting the domain with its initial values.
-    /*!
-     * \sa domain::resetToInitial()
-     */
-    inline void resetDomain() { domain->resetToInitial(); }
+    // //! Inline function reseting the domain with its initial values.
+    // /*!
+    //  * \sa domain::resetToInitial()
+    //  */
+    // inline void resetDomain() { domain->resetToInitial(); }
     
     //! Shifting to the next domain value.
     /*!
