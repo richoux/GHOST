@@ -57,10 +57,10 @@ namespace ghost
    */
   class Domain
   {
-    vector< int > currentDomain_;	//!< Vector of integers containing the current values of the domain.
-    vector< int > initialDomain_;	//!< Vector of integers containing the initial values of the domain.
-    int outsideScope_;			//!< Value representing all values outside the scope of the domain
-    Random random_;			//!< A random generator used by the function randomValue. 
+    vector< int > _currentDomain;	//!< Vector of integers containing the current values of the domain.
+    vector< int > _initialDomain;	//!< Vector of integers containing the initial values of the domain.
+    int _outsideScope;			//!< Value representing all values outside the scope of the domain
+    Random _random;			//!< A random generator used by the function randomValue. 
         
   public:
     //! Domain constructor.
@@ -68,7 +68,7 @@ namespace ghost
      * Basic constructor taking the outside-the-scope value (-1 by default).
      */
     Domain( int outsideScope = -1 )
-      : outsideScope_(outsideScope)
+      : _outsideScope(outsideScope)
     { }
     
     //! First Domain constructor.
@@ -78,11 +78,11 @@ namespace ghost
      * must not belong to this list, or an exception is raised (throw 0).
      */
     Domain( const vector< int > &domain, int outsideScope = -1 )
-      : currentDomain_(domain),
-	initialDomain_(domain),
-	outsideScope_(outsideScope)
+      : _currentDomain(domain),
+	_initialDomain(domain),
+	_outsideScope(outsideScope)
     {
-      if( std::find( begin( domain ), end( domain ), outsideScope_ ) != end( domain ) )
+      if( std::find( begin( domain ), end( domain ), _outsideScope ) != end( domain ) )
 	throw 0;
     }
 
@@ -92,12 +92,12 @@ namespace ghost
      * with all values in [x, x + N]. The outside-the-scope value is set to x-1.
      */
     Domain( int size, int startValue )
-      : currentDomain_(vector<int>(size)),
-	initialDomain_(vector<int>(size)),
-	outsideScope_(startValue-1)
+      : _currentDomain(vector<int>(size)),
+	_initialDomain(vector<int>(size)),
+	_outsideScope(startValue-1)
     {
-      std::iota( begin( currentDomain_ ), end( currentDomain_ ), startValue );
-      std::iota( begin( initialDomain_ ), end( initialDomain_ ), startValue );
+      std::iota( begin( _currentDomain ), end( _currentDomain ), startValue );
+      std::iota( begin( _initialDomain ), end( _initialDomain ), startValue );
     }
 
     //! Inline function to know if the domain has been initialized.
@@ -109,7 +109,7 @@ namespace ghost
      */
     inline bool isInitialized() const
     {
-      return !currentDomain_.empty();
+      return !_currentDomain.empty();
     }
 
     //! Inline function to reset the current domain, ie to make it correspond to the initial domain.
@@ -119,8 +119,8 @@ namespace ghost
      */
     inline void resetToInitial()
     {
-      currentDomain_.resize( initialDomain_.size() );
-      std::copy( begin( initialDomain_ ), end( initialDomain_ ), begin( currentDomain_ ) );
+      _currentDomain.resize( _initialDomain.size() );
+      std::copy( begin( _initialDomain ), end( _initialDomain ), begin( _currentDomain ) );
     }
     
     //! Function to remove a value in the current domain.
@@ -132,11 +132,11 @@ namespace ghost
     bool removeValue( int value )
     {
       int index = indexOf( value );
-      if( index == -1 )
+      if( index == _outsideScope )
 	return false;
       else
       {
-	currentDomain_.erase( begin( currentDomain_ ) + index );
+	_currentDomain.erase( begin( _currentDomain ) + index );
 	return true;
       }
     }
@@ -144,51 +144,51 @@ namespace ghost
     //! Inline function returning a random value from the domain.
     inline int randomValue()
     {
-      return currentDomain_[ random_.getRandNum( currentDomain_.size() ) ];
+      return _currentDomain[ _random.getRandNum( _currentDomain.size() ) ];
     }
 
     //! Inline function to get the size of the current domain.
     /*!
      * Get the number of values currently contained by the domain.
-     * \return A size_t corresponding to the size of currentDomain_.
+     * \return A size_t corresponding to the size of _currentDomain.
      */
     inline size_t getSize() const
     {
-      return currentDomain_.size();
+      return _currentDomain.size();
     }
 
     //! Inline function to get the size of the initial domain.
     /*!
      * Get the number of values initially contained by the domain.
-     * \return A size_t corresponding to the size of initialDomain_.
+     * \return A size_t corresponding to the size of _initialDomain.
      */    
     inline size_t getInitialSize() const
     {
-      return initialDomain_.size();
+      return _initialDomain.size();
     }
 
     //! Inline function to get the highest value in the current domain.
     inline int maxValue() const
     {
-      return *std::max_element( begin( currentDomain_ ), end( currentDomain_ ) );
+      return *std::max_element( begin( _currentDomain ), end( _currentDomain ) );
     }
 
     //! Inline function to get the lowest value in the current domain.
     inline int minValue() const
     {
-      return *std::min_element( begin( currentDomain_ ), end( currentDomain_ ) );
+      return *std::min_element( begin( _currentDomain ), end( _currentDomain ) );
     }
 
     //! Inline function to get the highest value in the initial domain.
     inline int maxInitialValue() const
     {
-      return *std::max_element( begin( initialDomain_ ), end( initialDomain_ ) );
+      return *std::max_element( begin( _initialDomain ), end( _initialDomain ) );
     }
 
     //! Inline function to get the lowest value in the initial domain.
     inline int minInitialValue() const
     {
-      return *std::min_element( begin( initialDomain_ ), end( initialDomain_ ) );
+      return *std::min_element( begin( _initialDomain ), end( _initialDomain ) );
     }
 
     //! Get the value at the given index
@@ -198,10 +198,10 @@ namespace ghost
      */    
     int getValue( int index ) const
     {
-      if( index >=0 && index < currentDomain_.size() )
-	return currentDomain_[ index ];
+      if( index >=0 && index < _currentDomain.size() )
+	return _currentDomain[ index ];
       else
-	return outsideScope_;
+	return _outsideScope;
     }
 
     //! Get the index of a given value.
@@ -210,20 +210,20 @@ namespace ghost
      */ 
     int indexOf( int value ) const
     {
-      auto it = std::find( begin( currentDomain_ ), end( currentDomain_ ), value );
-      if( it == end( currentDomain_ ) )
-	return -1;
+      auto it = std::find( begin( _currentDomain ), end( _currentDomain ), value );
+      if( it == end( _currentDomain ) )
+	return _outsideScope ;
       else
-	return it - begin( currentDomain_ );
+	return it - begin( _currentDomain );
     }
 
     //! Inline function returning the outside-scope value.
     /*!
-     * Returns the value outsideScope_.
+     * Returns the value _outsideScope.
      */ 
     inline int getOutsideScope() const
     {
-      return outsideScope_;
+      return _outsideScope;
     }
     
     //! friend override of operator<<
@@ -233,7 +233,7 @@ namespace ghost
     friend ostream& operator<<( ostream& os, const Domain& domain )
     {
       os << "Size: " <<  domain.getSize() << "\nCurrent domain: ";
-      std::copy( begin( domain.currentDomain_ ), end( domain.currentDomain_ ), std::ostream_iterator<int>( os, " " ) );
+      std::copy( begin( domain._currentDomain ), end( domain._currentDomain ), std::ostream_iterator<int>( os, " " ) );
       return os << "\n";
     }
   };

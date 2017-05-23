@@ -46,7 +46,8 @@ namespace ghost
   /*! 
    * In GHOST, all variable objects must be instanciate from the same
    * concrete class. Be careful to model your CSP/COP in order to use one
-   * kind of variable only.
+   * kind of variable only, ie., all variable objects in the implementation 
+   * of your CSP/COP must be instanciated from the same Variable (sub)class.
    *
    * To encode your CSP/COP variables, you can either directly use this
    * class Variable (there are no pure virtual functions here),
@@ -55,7 +56,7 @@ namespace ghost
   class Variable
   {
   private:
-    double projectedCost_; //!< The cost of the variable. This is for inner mecanisms, no need to worry about that.  
+    double _projectedCost; //!< The cost of the variable. This is for inner mecanisms, no need to worry about that.  
 
     //! The private Variable constructor
     /*!
@@ -89,7 +90,7 @@ namespace ghost
       // std::swap(this->domain, other.domain);
       domain = std::move( other.domain );
       std::swap(this->index, other.index);
-      std::swap(this->projectedCost_, other.projectedCost_);
+      std::swap(this->_projectedCost, other._projectedCost);
     }  
     
   public:
