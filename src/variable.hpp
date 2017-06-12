@@ -52,6 +52,8 @@ namespace ghost
    * To encode your CSP/COP variables, you can either directly use this
    * class Variable (there are no pure virtual functions here),
    * or inherit from it to make your own variable class.
+   *
+   * \sa Domain
    */
   class Variable
   {

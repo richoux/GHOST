@@ -1,64 +1,64 @@
-G\-H\-O\-S\-T documentation \begin{DoxyAuthor}{Author}
+G\+H\+O\+ST documentation \begin{DoxyAuthor}{Author}
 Florian Richoux
 \end{DoxyAuthor}
 \section*{Introduction }
 
-G\-H\-O\-S\-T (General meta-\/\-Heuristic Optimization Solving Tool) is a template C++11 library designed for Star\-Craft\-: Brood war. G\-H\-O\-S\-T implements a meta-\/heuristic solver aiming to solve any kind of combinatorial and optimization R\-T\-S-\/related problems represented by a C\-S\-P. It is an generalization of the Wall-\/in project (see \href{https://github.com/richoux/Wall-in}{\tt github.\-com/richoux/\-Wall-\/in}).
+G\+H\+O\+ST (General meta-\/\+Heuristic Optimization Solving Tool) is a template C++11 library designed for Star\+Craft\+: Brood war. G\+H\+O\+ST implements a meta-\/heuristic solver aiming to solve any kind of combinatorial and optimization R\+T\+S-\/related problems represented by a C\+SP. It is an generalization of the Wall-\/in project (see \href{https://github.com/richoux/Wall-in}{\tt github.\+com/richoux/\+Wall-\/in}).
 
-The source code is available at \href{https://github.com/richoux/GHOST}{\tt github.\-com/richoux/\-G\-H\-O\-S\-T}, and the documentation pages at \href{http://richoux.github.io/GHOST}{\tt richoux.\-github.\-io/\-G\-H\-O\-S\-T}. G\-H\-O\-S\-T is under the terms of the G\-N\-U G\-P\-L v3 licence.
+The source code is available at \href{https://github.com/richoux/GHOST}{\tt github.\+com/richoux/\+G\+H\+O\+ST}, and the documentation pages at \href{http://richoux.github.io/GHOST}{\tt richoux.\+github.\+io/\+G\+H\+O\+ST}. G\+H\+O\+ST is under the terms of the G\+NU G\+PL v3 licence.
 
-\subsection*{Scientific papers\-: }
+\subsection*{Scientific papers\+: }
 
 
 \begin{DoxyItemize}
-\item Florian Richoux, Jean-\/\-François Baffier and Alberto Uriarte, G\-H\-O\-S\-T\-: A Combinatorial Optimization Solver for R\-T\-S-\/related Problems (to appear).
-\item Florian Richoux, Alberto Uriarte and Santiago Ontañón, Walling in Strategy Games via Constraint Optimization (to appear in A\-I\-I\-D\-E 2014 proceedings).
-\item Santiago Ontañón, Gabriel Synnaeve, Alberto Uriarte, Florian Richoux, David Churchill and Mike Preuss, \href{http://pagesperso.lina.univ-nantes.fr/~richoux-f/publications/tciaig13.pdf}{\tt A Survey of Real-\/\-Time Strategy Game A\-I Research and Competition in Star\-Craft}, Transactions on Computational Intelligence and A\-I in Games, I\-E\-E\-E, 2013.
+\item Florian Richoux, Jean-\/\+François Baffier and Alberto Uriarte, G\+H\+O\+ST\+: A Combinatorial Optimization Solver for R\+T\+S-\/related Problems (to appear).
+\item Florian Richoux, Alberto Uriarte and Santiago Ontañón, Walling in Strategy Games via Constraint Optimization (to appear in A\+I\+I\+DE 2014 proceedings).
+\item Santiago Ontañón, Gabriel Synnaeve, Alberto Uriarte, Florian Richoux, David Churchill and Mike Preuss, \href{http://pagesperso.lina.univ-nantes.fr/~richoux-f/publications/tciaig13.pdf}{\tt A Survey of Real-\/\+Time Strategy Game AI Research and Competition in Star\+Craft}, Transactions on Computational Intelligence and AI in Games, I\+E\+EE, 2013.
 \end{DoxyItemize}
 
-\section*{A short C\-S\-P/\-C\-O\-P tutorial }
+\section*{A short C\+S\+P/\+C\+OP tutorial }
 
-\subsection*{Intuition behind C\-S\-P and C\-O\-P }
+\subsection*{Intuition behind C\+SP and C\+OP }
 
-Constraint Satisfaction Problems (C\-S\-P) and Constraint Optimization Problems (C\-O\-P) are two close formalisms intensively used in Artificial Intelligence to solve combinatorial and optimization problems. They allow you to easily express what your problem is, and offer you a uniform way to solve all problems you can describe by a C\-S\-P or a C\-O\-P.
+Constraint Satisfaction Problems (C\+SP) and Constraint Optimization Problems (C\+OP) are two close formalisms intensively used in Artificial Intelligence to solve combinatorial and optimization problems. They allow you to easily express what your problem is, and offer you a uniform way to solve all problems you can describe by a C\+SP or a C\+OP.
 
-The difference between a C\-S\-P and a C\-O\-P is simple\-:
+The difference between a C\+SP and a C\+OP is simple\+:
 
 
 \begin{DoxyItemize}
-\item A C\-S\-P models a satisfaction problem, that is to say, a problem where all solutions are equivalent, so you just want to find one of them. Example\-: find a solution of a Sudoku grid. Several solutions may exist, but finding one is sufficient, and no solutions seem better than another one.
-\item A C\-O\-P models an optimization problem, where some solutions are better than others. Example\-: you may have several paths from your home to your workplace, but some of them are shorter.
+\item A C\+SP models a satisfaction problem, that is to say, a problem where all solutions are equivalent, so you just want to find one of them. Example\+: find a solution of a Sudoku grid. Several solutions may exist, but finding one is sufficient, and no solutions seem better than another one.
+\item A C\+OP models an optimization problem, where some solutions are better than others. Example\+: you may have several paths from your home to your workplace, but some of them are shorter.
 \end{DoxyItemize}
 
-Let start by defining a C\-S\-P. To model your problem by a C\-S\-P, you need to define three things\-:
+Let start by defining a C\+SP. To model your problem by a C\+SP, you need to define three things\+:
 
 
 \begin{DoxyItemize}
-\item V, the set of variables of your C\-S\-P.
-\item D, the domain of your C\-S\-P, that is to say, the set of values your variable can take.
-\item C, the set of constraint symbols of your C\-S\-P.
+\item V, the set of variables of your C\+SP.
+\item D, the domain of your C\+SP, that is to say, the set of values your variable can take.
+\item C, the set of constraint symbols of your C\+SP.
 \end{DoxyItemize}
 
-Let's take a simple example\-:
+Let\textquotesingle{}s take a simple example\+:
 
 
 \begin{DoxyItemize}
-\item V = \{x, y, z\}. The variables of our C\-S\-P would be {\itshape x}, {\itshape y} and {\itshape z}.
+\item V = \{x, y, z\}. The variables of our C\+SP would be {\itshape x}, {\itshape y} and {\itshape z}.
 \item D = \{0, 1, 2\}. Our variable x, y and z can take a value from D, ie, be either equals to {\itshape 0}, {\itshape 1} or {\itshape 2}. We can have for instance x = 1, y = 1 and z = 0.
-\item C = \{ =, {$\ne$}, $<$ \}. We have three types of constraint symbols here\-: {\itshape equal}, {\itshape different} and {\itshape less than}.
+\item C = \{ =, {$\ne$}, $<$ \}. We have three types of constraint symbols here\+: {\itshape equal}, {\itshape different} and {\itshape less than}.
 \end{DoxyItemize}
 
-Ok, now what? Well, to describe our problem, we have to build a formula from our C\-S\-P. This is a bit like playing to Lego\-: you combine blocks to build bigger blocks, then you combien your bigger blocks to create an object.
+Ok, now what? Well, to describe our problem, we have to build a formula from our C\+SP. This is a bit like playing to Lego\+: you combine blocks to build bigger blocks, then you combien your bigger blocks to create an object.
 
 Here, your blocks are your variables. You can combine them with a constraint symbol to build a bigger block, ie, a constraint. For instance, we can build the constraint (x=z), or the constraint (z{$\ne$}y), etc.
 
-Then, we can build a formula by combining constraints. Combining means here we have a conjuction, ie a \char`\"{}and\char`\"{}-\/operator linking two constraints. A formula with the C\-S\-P describe above could be for instance
+Then, we can build a formula by combining constraints. Combining means here we have a conjuction, ie a \char`\"{}and\char`\"{}-\/operator linking two constraints. A formula with the C\+SP describe above could be for instance
 
-(z=y) A\-N\-D (y{$\ne$}x) A\-N\-D (x$<$z)
+(z=y) A\+ND (y{$\ne$}x) A\+ND (x$<$z)
 
-\subsection*{A first example of a C\-S\-P formula }
+\subsection*{A first example of a C\+SP formula }
 
-Concider the following C\-S\-P\-:
+Concider the following C\+SP\+:
 
 
 \begin{DoxyItemize}
@@ -69,7 +69,7 @@ Concider the following C\-S\-P\-:
 
 and suppose our problem is modeled by the formula
 
-(a=b) A\-N\-D (b{$\ne$}d) A\-N\-D (d$<$c) A\-N\-D (b$<$c)
+(a=b) A\+ND (b{$\ne$}d) A\+ND (d$<$c) A\+ND (b$<$c)
 
 A solution of our problem is a good evaluation of each variable to a value of the domain D. In other words, if we find a way to give a value from D to each variable of V such that all constraints are true (we also say, are satisfyed), then we have a solution to our problem.
 
@@ -77,30 +77,30 @@ For instance, the evaluation a=1, b=1, c=2 and d=1 is not a solution of the form
 
 However, the evaluation a=1, b=1, c=2 and d=0 satisfies all constraints of the formula, and is then a solution to our problem.
 
-\subsection*{A concrete problem modeled by a C\-S\-P formula }
+\subsection*{A concrete problem modeled by a C\+SP formula }
 
-Ok, now how to model a problem through a C\-S\-P formula? This is not always trivial and require some experience. Let see how to model two famous graph problems with the C\-S\-P formalism.
+Ok, now how to model a problem through a C\+SP formula? This is not always trivial and require some experience. Let see how to model two famous graph problems with the C\+SP formalism.
 
-I assume the reader know what a graph is; otherwise here is the main idea\-: it is a set of vertices where some of them are linked by an edge. See the picture below, an example of graph with four vertices (named A, B, C and D). Graphs are simple mathematical objects but expresive enough to model complex problems, like finding the shortest path between two cities (your G\-P\-S use graphs!).
+I assume the reader know what a graph is; otherwise here is the main idea\+: it is a set of vertices where some of them are linked by an edge. See the picture below, an example of graph with four vertices (named A, B, C and D). Graphs are simple mathematical objects but expresive enough to model complex problems, like finding the shortest path between two cities (your G\+PS use graphs!).
 
 
 
-Let consider the 3-\/\-C\-O\-L\-O\-R problem\-: Given a graph, is it possible to colorize each vertex with one of the three available colors (say, red, blue and green) such that there is no couple of vertices linked by an edge sharing the same color?
+Let consider the 3-\/\+C\+O\+L\+OR problem\+: Given a graph, is it possible to colorize each vertex with one of the three available colors (say, red, blue and green) such that there is no couple of vertices linked by an edge sharing the same color?
 
-Before continuing, think about\-:
+Before continuing, think about\+:
 
 
 \begin{DoxyItemize}
-\item How could you define a C\-S\-P modelling the 3-\/\-C\-O\-L\-O\-R problem?
-\item If I give you the graph above, how could you built a C\-S\-P formula to solve the 3-\/\-C\-O\-L\-O\-R problem for this graph?
+\item How could you define a C\+SP modelling the 3-\/\+C\+O\+L\+OR problem?
+\item If I give you the graph above, how could you built a C\+SP formula to solve the 3-\/\+C\+O\+L\+OR problem for this graph?
 \end{DoxyItemize}
 
-T\-O C\-O\-N\-T\-I\-N\-U\-E
+TO C\+O\+N\+T\+I\+N\+UE
 
-\section*{How to use G\-H\-O\-S\-T? }
+\section*{How to use G\+H\+O\+ST? }
 
-T\-O\-D\-O
+T\+O\+DO
 
-\section*{How to define and solve my own C\-S\-P problem with G\-H\-O\-S\-T? }
+\section*{How to define and solve my own C\+SP problem with G\+H\+O\+ST? }
 
-T\-O\-D\-O 
+T\+O\+DO 

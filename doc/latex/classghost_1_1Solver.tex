@@ -1,6 +1,5 @@
-\hypertarget{classghost_1_1Solver}{\section{ghost\-:\-:Solver$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$ Class Template Reference}
-\label{classghost_1_1Solver}\index{ghost\-::\-Solver$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$@{ghost\-::\-Solver$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$}}
-}
+\hypertarget{classghost_1_1Solver}{}\section{ghost\+:\+:Solver$<$ Type\+Variable, Type\+Domain, Type\+Constraint $>$ Class Template Reference}
+\label{classghost_1_1Solver}\index{ghost\+::\+Solver$<$ Type\+Variable, Type\+Domain, Type\+Constraint $>$@{ghost\+::\+Solver$<$ Type\+Variable, Type\+Domain, Type\+Constraint $>$}}
 
 
 \hyperlink{classghost_1_1Solver}{Solver} is the class coding the solver itself.  
@@ -8,116 +7,118 @@
 
 
 
-{\ttfamily \#include $<$solver.\-hpp$>$}
+{\ttfamily \#include $<$solver.\+hpp$>$}
 
 
 
-Collaboration diagram for ghost\-:\-:Solver$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-:\nopagebreak
+Collaboration diagram for ghost\+:\+:Solver$<$ Type\+Variable, Type\+Domain, Type\+Constraint $>$\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=236pt]{classghost_1_1Solver__coll__graph}
+\includegraphics[width=237pt]{classghost_1_1Solver__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classghost_1_1Solver_aee74bbdf00494dc209d4909bf9fcb544}{Solver} (vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, Type\-Domain $\ast$domain, const vector$<$ shared\-\_\-ptr$<$ Type\-Constraint $>$ $>$ \&vec\-Constraints, const shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Objective}{Objective}$<$ Type\-Variable, Type\-Domain $>$ $>$ \&obj=nullptr)
-\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Solver}{Solver}'s regular constructor. \end{DoxyCompactList}\item 
-\hyperlink{classghost_1_1Solver_a512335329b22a91700bdfa7870f053e9}{Solver} (vector$<$ Type\-Variable $>$ $\ast$vec\-Variables, Type\-Domain $\ast$domain, const vector$<$ shared\-\_\-ptr$<$ Type\-Constraint $>$ $>$ \&vec\-Constraints, const shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Objective}{Objective}$<$ Type\-Variable, Type\-Domain $>$ $>$ \&obj, const int loops)
-\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Solver}{Solver}'s constructor mostly used for tests. \end{DoxyCompactList}\item 
-double \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{solve} (double sat\-\_\-timeout, double opt\-\_\-timeout=0)
-\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Solver}{Solver}'s main function, to solve the given C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\hyperlink{classghost_1_1Solver_aee74bbdf00494dc209d4909bf9fcb544}{Solver} (vector$<$ Type\+Variable $>$ $\ast$vec\+Variables, Type\+Domain $\ast$domain, const vector$<$ shared\+\_\+ptr$<$ Type\+Constraint $>$ $>$ \&vec\+Constraints, const shared\+\_\+ptr$<$ \hyperlink{classghost_1_1Objective}{Objective}$<$ Type\+Variable, Type\+Domain $>$ $>$ \&obj=nullptr)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Solver}{Solver}\textquotesingle{}s regular constructor. \end{DoxyCompactList}\item 
+\hyperlink{classghost_1_1Solver_a512335329b22a91700bdfa7870f053e9}{Solver} (vector$<$ Type\+Variable $>$ $\ast$vec\+Variables, Type\+Domain $\ast$domain, const vector$<$ shared\+\_\+ptr$<$ Type\+Constraint $>$ $>$ \&vec\+Constraints, const shared\+\_\+ptr$<$ \hyperlink{classghost_1_1Objective}{Objective}$<$ Type\+Variable, Type\+Domain $>$ $>$ \&obj, const int loops)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Solver}{Solver}\textquotesingle{}s constructor mostly used for tests. \end{DoxyCompactList}\item 
+double \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{solve} (double sat\+\_\+timeout, double opt\+\_\+timeout=0)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Solver}{Solver}\textquotesingle{}s main function, to solve the given C\+S\+P/\+C\+OP. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-\subsubsection*{template$<$typename Type\-Variable, typename Type\-Domain, typename Type\-Constraint$>$class ghost\-::\-Solver$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$}
+\subsubsection*{template$<$typename Type\+Variable, typename Type\+Domain, typename Type\+Constraint$>$\\*
+class ghost\+::\+Solver$<$ Type\+Variable, Type\+Domain, Type\+Constraint $>$}
 
 \hyperlink{classghost_1_1Solver}{Solver} is the class coding the solver itself. 
 
 You just need to instanciate one \hyperlink{classghost_1_1Solver}{Solver} object.
 
-The \hyperlink{classghost_1_1Solver}{Solver} class is a template class, waiting for both the type of variable, the type of domain and the type of constraint. Thus, you must instanciate a solver by specifying the class of your variable objects, the class of your domain object and the class of your constraint objects, like for instance \hyperlink{classghost_1_1Solver}{Solver}$<$\hyperlink{classghost_1_1Variable}{Variable}, \hyperlink{classghost_1_1Domain}{Domain}, \hyperlink{classghost_1_1Constraint}{Constraint}$>$ or \hyperlink{classghost_1_1Solver}{Solver}$<$My\-Custom\-Variable, My\-Custom\-Domain, My\-Custom\-Constraint$>$, if My\-Custom\-Variable inherits from the \hyperlink{classghost_1_1Variable}{ghost\-::\-Variable} class, My\-Custom\-Domain inherits from the \hyperlink{classghost_1_1Domain}{ghost\-::\-Domain} class and My\-Custom\-Constraint inherits from the \hyperlink{classghost_1_1Constraint}{ghost\-::\-Constraint} class.
+The \hyperlink{classghost_1_1Solver}{Solver} class is a template class, waiting for both the type of variable, the type of domain and the type of constraint. Thus, you must instanciate a solver by specifying the class of your variable objects, the class of your domain object and the class of your constraint objects, like for instance \hyperlink{classghost_1_1Solver}{Solver}$<$\hyperlink{classghost_1_1Variable}{Variable}, \hyperlink{classghost_1_1Domain}{Domain}, \hyperlink{classghost_1_1Constraint}{Constraint}$>$ or \hyperlink{classghost_1_1Solver}{Solver}$<$My\+Custom\+Variable, My\+Custom\+Domain, My\+Custom\+Constraint$>$, if My\+Custom\+Variable inherits from the \hyperlink{classghost_1_1Variable}{ghost\+::\+Variable} class, My\+Custom\+Domain inherits from the \hyperlink{classghost_1_1Domain}{ghost\+::\+Domain} class and My\+Custom\+Constraint inherits from the \hyperlink{classghost_1_1Constraint}{ghost\+::\+Constraint} class.
 
-\hyperlink{classghost_1_1Solver}{Solver}'s constructor also need a shared pointer of an \hyperlink{classghost_1_1Objective}{Objective} object (nullptr by default). The reason why \hyperlink{classghost_1_1Objective}{Objective} is not a template parameter of \hyperlink{classghost_1_1Solver}{Solver} but a pointer is to allow a dynamic modification of the objective function.
+\hyperlink{classghost_1_1Solver}{Solver}\textquotesingle{}s constructor also need a shared pointer of an \hyperlink{classghost_1_1Objective}{Objective} object (nullptr by default). The reason why \hyperlink{classghost_1_1Objective}{Objective} is not a template parameter of \hyperlink{classghost_1_1Solver}{Solver} but a pointer is to allow a dynamic modification of the objective function.
 
-\begin{DoxySeeAlso}{See Also}
+\begin{DoxySeeAlso}{See also}
 \hyperlink{classghost_1_1Variable}{Variable}, \hyperlink{classghost_1_1Domain}{Domain}, \hyperlink{classghost_1_1Constraint}{Constraint}, \hyperlink{classghost_1_1Objective}{Objective} 
 \end{DoxySeeAlso}
 
 
 \subsection{Constructor \& Destructor Documentation}
-\hypertarget{classghost_1_1Solver_aee74bbdf00494dc209d4909bf9fcb544}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!Solver@{Solver}}
-\index{Solver@{Solver}!ghost::Solver@{ghost\-::\-Solver}}
-\subsubsection[{Solver}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::{\bf Solver} (
+\index{ghost\+::\+Solver@{ghost\+::\+Solver}!Solver@{Solver}}
+\index{Solver@{Solver}!ghost\+::\+Solver@{ghost\+::\+Solver}}
+\subsubsection[{\texorpdfstring{Solver(vector$<$ Type\+Variable $>$ $\ast$vec\+Variables, Type\+Domain $\ast$domain, const vector$<$ shared\+\_\+ptr$<$ Type\+Constraint $>$ $>$ \&vec\+Constraints, const shared\+\_\+ptr$<$ Objective$<$ Type\+Variable, Type\+Domain $>$ $>$ \&obj=nullptr)}{Solver(vector< TypeVariable > *vecVariables, TypeDomain *domain, const vector< shared_ptr< TypeConstraint > > &vecConstraints, const shared_ptr< Objective< TypeVariable, TypeDomain > > &obj=nullptr)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\+Variable , typename Type\+Domain , typename Type\+Constraint $>$ {\bf ghost\+::\+Solver}$<$ Type\+Variable, Type\+Domain, Type\+Constraint $>$\+::{\bf Solver} (
 \begin{DoxyParamCaption}
-\item[{vector$<$ Type\-Variable $>$ $\ast$}]{vec\-Variables, }
-\item[{Type\-Domain $\ast$}]{domain, }
-\item[{const vector$<$ shared\-\_\-ptr$<$ Type\-Constraint $>$ $>$ \&}]{vec\-Constraints, }
-\item[{const shared\-\_\-ptr$<$ {\bf Objective}$<$ Type\-Variable, Type\-Domain $>$ $>$ \&}]{obj = {\ttfamily nullptr}}
+\item[{vector$<$ Type\+Variable $>$ $\ast$}]{vec\+Variables, }
+\item[{Type\+Domain $\ast$}]{domain, }
+\item[{const vector$<$ shared\+\_\+ptr$<$ Type\+Constraint $>$ $>$ \&}]{vec\+Constraints, }
+\item[{const shared\+\_\+ptr$<$ {\bf Objective}$<$ Type\+Variable, Type\+Domain $>$ $>$ \&}]{obj = {\ttfamily nullptr}}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Solver_aee74bbdf00494dc209d4909bf9fcb544}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Solver_aee74bbdf00494dc209d4909bf9fcb544}{}\label{classghost_1_1Solver_aee74bbdf00494dc209d4909bf9fcb544}
 
 
-\hyperlink{classghost_1_1Solver}{Solver}'s regular constructor. 
+\hyperlink{classghost_1_1Solver}{Solver}\textquotesingle{}s regular constructor. 
 
-The solver is calling Solver(vec\-Variables, domain, vec\-Constraints, obj, 0)
+The solver is calling Solver(vec\+Variables, domain, vec\+Constraints, obj, 0)
 
 
 \begin{DoxyParams}{Parameters}
-{\em vec\-Variables} & A pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
+{\em vec\+Variables} & A pointer to the vector of variable objects of the C\+S\+P/\+C\+OP. \\
 \hline
-{\em domain} & A pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
+{\em domain} & A pointer to the domain object of the C\+S\+P/\+C\+OP. \\
 \hline
-{\em vec\-Constraints} & A constant reference to the vector of shared pointers of \hyperlink{classghost_1_1Constraint}{Constraint} \\
+{\em vec\+Constraints} & A constant reference to the vector of shared pointers of \hyperlink{classghost_1_1Constraint}{Constraint} \\
 \hline
 {\em obj} & A reference to the shared pointer of an \hyperlink{classghost_1_1Objective}{Objective} object. Default value is nullptr. \\
 \hline
 \end{DoxyParams}
-\hypertarget{classghost_1_1Solver_a512335329b22a91700bdfa7870f053e9}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!Solver@{Solver}}
-\index{Solver@{Solver}!ghost::Solver@{ghost\-::\-Solver}}
-\subsubsection[{Solver}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::{\bf Solver} (
+\index{ghost\+::\+Solver@{ghost\+::\+Solver}!Solver@{Solver}}
+\index{Solver@{Solver}!ghost\+::\+Solver@{ghost\+::\+Solver}}
+\subsubsection[{\texorpdfstring{Solver(vector$<$ Type\+Variable $>$ $\ast$vec\+Variables, Type\+Domain $\ast$domain, const vector$<$ shared\+\_\+ptr$<$ Type\+Constraint $>$ $>$ \&vec\+Constraints, const shared\+\_\+ptr$<$ Objective$<$ Type\+Variable, Type\+Domain $>$ $>$ \&obj, const int loops)}{Solver(vector< TypeVariable > *vecVariables, TypeDomain *domain, const vector< shared_ptr< TypeConstraint > > &vecConstraints, const shared_ptr< Objective< TypeVariable, TypeDomain > > &obj, const int loops)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\+Variable , typename Type\+Domain , typename Type\+Constraint $>$ {\bf ghost\+::\+Solver}$<$ Type\+Variable, Type\+Domain, Type\+Constraint $>$\+::{\bf Solver} (
 \begin{DoxyParamCaption}
-\item[{vector$<$ Type\-Variable $>$ $\ast$}]{vec\-Variables, }
-\item[{Type\-Domain $\ast$}]{domain, }
-\item[{const vector$<$ shared\-\_\-ptr$<$ Type\-Constraint $>$ $>$ \&}]{vec\-Constraints, }
-\item[{const shared\-\_\-ptr$<$ {\bf Objective}$<$ Type\-Variable, Type\-Domain $>$ $>$ \&}]{obj, }
+\item[{vector$<$ Type\+Variable $>$ $\ast$}]{vec\+Variables, }
+\item[{Type\+Domain $\ast$}]{domain, }
+\item[{const vector$<$ shared\+\_\+ptr$<$ Type\+Constraint $>$ $>$ \&}]{vec\+Constraints, }
+\item[{const shared\+\_\+ptr$<$ {\bf Objective}$<$ Type\+Variable, Type\+Domain $>$ $>$ \&}]{obj, }
 \item[{const int}]{loops}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Solver_a512335329b22a91700bdfa7870f053e9}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Solver_a512335329b22a91700bdfa7870f053e9}{}\label{classghost_1_1Solver_a512335329b22a91700bdfa7870f053e9}
 
 
-\hyperlink{classghost_1_1Solver}{Solver}'s constructor mostly used for tests. 
+\hyperlink{classghost_1_1Solver}{Solver}\textquotesingle{}s constructor mostly used for tests. 
 
-Like the regular constructor, but take also a loops parameter to repeat loops times to satisfaction loop inside \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{Solver\-::solve}. This is mostly used for tests and runtime performance measures.
+Like the regular constructor, but take also a loops parameter to repeat loops times to satisfaction loop inside \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{Solver\+::solve}. This is mostly used for tests and runtime performance measures.
 
 
 \begin{DoxyParams}{Parameters}
-{\em vec\-Variables} & A pointer to the vector of variable objects of the C\-S\-P/\-C\-O\-P. \\
+{\em vec\+Variables} & A pointer to the vector of variable objects of the C\+S\+P/\+C\+OP. \\
 \hline
-{\em domain} & A pointer to the domain object of the C\-S\-P/\-C\-O\-P. \\
+{\em domain} & A pointer to the domain object of the C\+S\+P/\+C\+OP. \\
 \hline
-{\em vec\-Constraints} & A constant reference to the vector of shared pointers of \hyperlink{classghost_1_1Constraint}{Constraint} \\
+{\em vec\+Constraints} & A constant reference to the vector of shared pointers of \hyperlink{classghost_1_1Constraint}{Constraint} \\
 \hline
 {\em obj} & A reference to the shared pointer of an \hyperlink{classghost_1_1Objective}{Objective} object. Default value is nullptr. \\
 \hline
-{\em loops} & The number of times we want to repeat the satisaction loop inside \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{Solver\-::solve}. \\
+{\em loops} & The number of times we want to repeat the satisaction loop inside \hyperlink{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{Solver\+::solve}. \\
 \hline
 \end{DoxyParams}
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{\index{ghost\-::\-Solver@{ghost\-::\-Solver}!solve@{solve}}
-\index{solve@{solve}!ghost::Solver@{ghost\-::\-Solver}}
-\subsubsection[{solve}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\-Variable , typename Type\-Domain , typename Type\-Constraint $>$ double {\bf ghost\-::\-Solver}$<$ Type\-Variable, Type\-Domain, Type\-Constraint $>$\-::solve (
+\index{ghost\+::\+Solver@{ghost\+::\+Solver}!solve@{solve}}
+\index{solve@{solve}!ghost\+::\+Solver@{ghost\+::\+Solver}}
+\subsubsection[{\texorpdfstring{solve(double sat\+\_\+timeout, double opt\+\_\+timeout=0)}{solve(double sat_timeout, double opt_timeout=0)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\+Variable , typename Type\+Domain , typename Type\+Constraint $>$ double {\bf ghost\+::\+Solver}$<$ Type\+Variable, Type\+Domain, Type\+Constraint $>$\+::solve (
 \begin{DoxyParamCaption}
-\item[{double}]{sat\-\_\-timeout, }
-\item[{double}]{opt\-\_\-timeout = {\ttfamily 0}}
+\item[{double}]{sat\+\_\+timeout, }
+\item[{double}]{opt\+\_\+timeout = {\ttfamily 0}}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}{}\label{classghost_1_1Solver_a5d15e316f5a4bb8a33c6781058ad0307}
 
 
-\hyperlink{classghost_1_1Solver}{Solver}'s main function, to solve the given C\-S\-P/\-C\-O\-P. 
+\hyperlink{classghost_1_1Solver}{Solver}\textquotesingle{}s main function, to solve the given C\+S\+P/\+C\+OP. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -129,6 +130,6 @@ The satisfaction or optimization cost of the best solution, respectively is the 
 \end{DoxyReturn}
 
 
-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-include/\hyperlink{solver_8hpp}{solver.\-hpp}\end{DoxyCompactItemize}
+src/\hyperlink{solver_8hpp}{solver.\+hpp}\end{DoxyCompactItemize}

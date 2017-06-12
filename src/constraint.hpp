@@ -59,13 +59,11 @@ namespace ghost
    * pure virtual functions below). Thus, you must write your own
    * constraint class inheriting from ghost::Constraint.
    *
-   * Pure virtual Constraint functions:
-   * - cost
-   * - simulateCost
+   * The only pure virtual Constraint function is cost
    *
-   * \sa Variable, Domain
+   * \sa Variable
    */
-  template <typename TypeVariable, typename TypeDomain>
+  template <typename TypeVariable>
   class Constraint
   {
   public:
@@ -74,28 +72,28 @@ namespace ghost
      * \param variables A constant pointer toward the vector of variable objects of the CSP/COP.
      * \param domain A constant pointer toward the domain object of the CSP/COP.
      */
-    Constraint( const vector< TypeVariable > *variables, const TypeDomain *domain )
-      : variables( const_cast< vector< TypeVariable >* >(variables) ), domain( const_cast<TypeDomain*>(domain) ) { }
+    Constraint( const vector< TypeVariable > *variables )
+      : variables( const_cast< vector< TypeVariable >* >(variables) ) { }
 
 
     //! Inline function following the NVI idiom. Calling v_cost.
     //! \sa v_cost
     inline double cost( vector<double> &varCost ) const { return v_cost( varCost ); }
 
-    //! Inline function following the NVI idiom. Calling v_simulteCost.
-    //! \sa v_simulteCost
-    inline vector<double> simulateCost( TypeVariable &currentVar,
-					const vector<int> &possibleValues,
-					vector< vector<double> > &vecVarSimCosts,
-					shared_ptr< Objective< TypeVariable, TypeDomain > > objective )
-    { return v_simulateCost( currentVar, possibleValues, vecVarSimCosts, objective ); }
+    // //! Inline function following the NVI idiom. Calling v_simulteCost.
+    // //! \sa v_simulteCost
+    // inline vector<double> simulateCost( TypeVariable &currentVar,
+    // 					const vector<int> &possibleValues,
+    // 					vector< vector<double> > &vecVarSimCosts,
+    // 					shared_ptr< Objective< TypeVariable, TypeDomain > > objective )
+    // { return v_simulateCost( currentVar, possibleValues, vecVarSimCosts, objective ); }
 
-    //! Inline function following the NVI idiom, with objective = nullptr. Calling v_simulteCost.
-    //! \sa v_simulteCost
-    inline vector<double> simulateCost( TypeVariable &currentVar,
-					const vector<int> &possibleValues,
-					vector< vector<double> > &vecVarSimCosts )
-    { return v_simulateCost( currentVar, possibleValues, vecVarSimCosts, nullptr ); }
+    // //! Inline function following the NVI idiom, with objective = nullptr. Calling v_simulteCost.
+    // //! \sa v_simulteCost
+    // inline vector<double> simulateCost( TypeVariable &currentVar,
+    // 					const vector<int> &possibleValues,
+    // 					vector< vector<double> > &vecVarSimCosts )
+    // { return v_simulateCost( currentVar, possibleValues, vecVarSimCosts, nullptr ); }
 
     //! friend override of operator<<
     friend ostream& operator<<( ostream& os, const Constraint<TypeVariable, TypeDomain>& c )
@@ -116,27 +114,26 @@ namespace ghost
      */    
     virtual double v_cost( vector<double> &varCost ) const = 0;
 
-    //! Pure virtual function to simulate the cost of the constraint on all possible values of the given variable. 
-    /*!
-     * In v_simulatesCost, the parameter vecVarSimCosts is not given to be used
-     * by the function, but to store into vecVarSimCosts the projected
-     * cost of currentVar on all possible values. This must be
-     * computed INSIDE the simulateCost function.
-     *
-     * \param currentVar A reference to the variable we want to change the current value.
-     * \param possibleValues A reference to a constant vector of the possible values for currentVar.
-     * \param vecVarSimCosts A reference to the vector of vector of double in order to store the projected cost of currentVar on all possible values.
-     * \param objective The (plausibly null) current objective object. This parameter is necessary to update the heuristic value helper.
-     * \return The vector of the cost of the constraint for each possible value of currentVar.
-     * \sa simulateCost v_cost
-     */    
-    virtual vector<double> v_simulateCost( TypeVariable &currentVar,
-					   const vector<int> &possibleValues,
-					   vector< vector<double> > &vecVarSimCosts,
-					   shared_ptr< Objective< TypeVariable, TypeDomain > > objective ) = 0;
+    // //! Pure virtual function to simulate the cost of the constraint on all possible values of the given variable. 
+    // /*!
+    //  * In v_simulatesCost, the parameter vecVarSimCosts is not given to be used
+    //  * by the function, but to store into vecVarSimCosts the projected
+    //  * cost of currentVar on all possible values. This must be
+    //  * computed INSIDE the simulateCost function.
+    //  *
+    //  * \param currentVar A reference to the variable we want to change the current value.
+    //  * \param possibleValues A reference to a constant vector of the possible values for currentVar.
+    //  * \param vecVarSimCosts A reference to the vector of vector of double in order to store the projected cost of currentVar on all possible values.
+    //  * \param objective The (plausibly null) current objective object. This parameter is necessary to update the heuristic value helper.
+    //  * \return The vector of the cost of the constraint for each possible value of currentVar.
+    //  * \sa simulateCost v_cost
+    //  */    
+    // virtual vector<double> v_simulateCost( TypeVariable &currentVar,
+    // 					   const vector<int> &possibleValues,
+    // 					   vector< vector<double> > &vecVarSimCosts,
+    // 					   shared_ptr< Objective< TypeVariable, TypeDomain > > objective ) = 0;
 
     
     vector< TypeVariable > *variables;	//!< A pointer to the vector of variable objects of the CSP/COP.
-    TypeDomain *domain;			//!< A pointer to the domain object of the CSP/COP.
   };  
 }
