@@ -3,7 +3,7 @@
 
 #include <vector>
 
-class DomainCtorTest : public ::testing::Test
+class DomainTest : public ::testing::Test
 {
 public:
   ghost::Domain *domain_default;
@@ -13,7 +13,7 @@ public:
   ghost::Domain *domain_from1to3;
   std::vector< int > v {1,3,5,7,9};
 
-  DomainCtorTest()
+  DomainTest()
   {
     domain_default = new ghost::Domain();
     domainOS5 = new ghost::Domain( 5 );
@@ -22,7 +22,7 @@ public:
     domain_from1to3 = new ghost::Domain( 3, 1 );
   }
 
-  ~DomainCtorTest()
+  ~DomainTest()
   {
     delete domain_default;
     delete domainOS5;
@@ -40,7 +40,7 @@ public:
   }
 };
 
-TEST_F(DomainCtorTest, isInitialized)
+TEST_F(DomainTest, isInitialized)
 {
   EXPECT_FALSE( domain_default->isInitialized() );
   EXPECT_FALSE( domainOS5->isInitialized() );
@@ -49,13 +49,13 @@ TEST_F(DomainCtorTest, isInitialized)
   EXPECT_TRUE( domain_from1to3->isInitialized() );
 }
 
-TEST(DomainCtorThrowTest, ThrowException)
+TEST(DomainThrowTest, ThrowException)
 {
   std::vector< int > v {1,3,5,7,9};  
   EXPECT_ANY_THROW( new ghost::Domain( v, 5 ) );
 }
 
-TEST_F(DomainCtorTest, getOutsideScope)
+TEST_F(DomainTest, getOutsideScope)
 {
   EXPECT_EQ( domain_default->getOutsideScope(), -1 );
   EXPECT_EQ( domainOS5->getOutsideScope(), 5 );
@@ -64,14 +64,14 @@ TEST_F(DomainCtorTest, getOutsideScope)
   EXPECT_EQ( domain_from1to3->getOutsideScope(), 0 );
 }
 
-TEST_F(DomainCtorTest, getSize)
+TEST_F(DomainTest, getSize)
 {
   EXPECT_EQ( domainOS4->getSize(), 5 );
   EXPECT_EQ( domain_size5->getSize(), 5 );
   EXPECT_EQ( domain_from1to3->getSize(), 3 );
 }
 
-// TEST_F(DomainCtorTest, maxValues_maxInitialValue)
+// TEST_F(DomainTest, maxValues_maxInitialValue)
 // {
 //   EXPECT_EQ( domain_default->maxValue(), 9 );
 //   EXPECT_EQ( domainOS4->maxValue(), 9 );
@@ -79,7 +79,7 @@ TEST_F(DomainCtorTest, getSize)
 //   EXPECT_EQ( domainOS4->maxInitialValue(), 9 );
 // }
 
-// TEST_F(DomainCtorTest, minValues_minInitialValue)
+// TEST_F(DomainTest, minValues_minInitialValue)
 // {
 //   EXPECT_EQ( domain_default->minValue(), 1 );
 //   EXPECT_EQ( domainOS4->minValue(), 1 );
@@ -87,7 +87,7 @@ TEST_F(DomainCtorTest, getSize)
 //   EXPECT_EQ( domainOS4->minInitialValue(), 1 );
 // }
 
-TEST_F(DomainCtorTest, getValue)
+TEST_F(DomainTest, getValue)
 {
   EXPECT_EQ( domainOS4->getValue( -1 ), 4 );
   EXPECT_EQ( domainOS4->getValue( 0 ), 1 );
@@ -112,7 +112,7 @@ TEST_F(DomainCtorTest, getValue)
   EXPECT_EQ( domain_from1to3->getValue( 3 ), 0 );
 }
 
-TEST_F(DomainCtorTest, indexOf)
+TEST_F(DomainTest, indexOf)
 {
   EXPECT_EQ( domainOS4->indexOf( -1 ), -1 );
   EXPECT_EQ( domainOS4->indexOf( 1 ), 0 );
@@ -137,7 +137,7 @@ TEST_F(DomainCtorTest, indexOf)
   EXPECT_EQ( domain_from1to3->indexOf( 42 ), -1 );
 }
 
-TEST_F(DomainCtorTest, randomValue)
+TEST_F(DomainTest, randomValue)
 {
   EXPECT_TRUE( CanFind( domainOS4->randomValue() ) );
   EXPECT_TRUE( CanFind( domainOS4->randomValue() ) );
@@ -167,7 +167,7 @@ TEST_F(DomainCtorTest, randomValue)
 	    << (double)count[4] / 100 << "%\n";
 }
 
-// TEST_F(DomainCtorTest, RemoveAndReset)
+// TEST_F(DomainTest, RemoveAndReset)
 // {
 //   EXPECT_TRUE( domain_size5->removeValue(3) );
 //   EXPECT_FALSE( domain_size5->removeValue(3) );

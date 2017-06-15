@@ -2,12 +2,13 @@
 EXEC=libghost.so
 
 # Compiler
+CXX=g++
 SRCDIR=src src/misc
 SRCDIRFLAG=$(foreach sdir, $(SRCDIR), -I$(sdir))
 CXXFLAGS=-std=c++14 -fPIC -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(SRCDIRFLAG)
 
 # Linker
-LFLAGS=-shared $(SRCDIRFLAG)
+LDFLAGS=-shared $(SRCDIRFLAG)
 
 # Directories
 OBJDIR=obj
@@ -28,50 +29,26 @@ vpath %.cpp $(SRCDIR)
 # $< is the first item in the dependencies list
 
 # Rules
-gcc: clean
-gcc: CXX=g++
-gcc: LINKER=g++ -o
-gcc: CXXFLAGS += -DNDEBUG
-gcc: $(BINDIR)/$(EXEC)
 
-gcc-debug: clean
-gcc-debug: CXX=g++
-gcc-debug: LINKER=g++ -o
-gcc-debug: CXXFLAGS += -g
-gcc-debug: $(BINDIR)/$(EXEC)
+all: CXXFLAGS += -DNDEBUG
+all: $(BINDIR)/$(EXEC)	
 
-clang: clean
-clang: CXX=clang++
-clang: LINKER=clang++ -o
-clang: CXXFLAGS += -DNDEBUG -stdlib=libc++
-clang: $(BINDIR)/$(EXEC)
+debug: CXXFLAGS += -g
+debug: $(BINDIR)/$(EXEC)	
 
-clang-debug: clean
-clang-debug: CXX=clang++
-clang-debug: LINKER=clang++ -o
-clang-debug: CXXFLAGS += -g -stdlib=libc++
-clang-debug: $(BINDIR)/$(EXEC)
-
-$(BINDIR)/$(EXEC): $(OBJECTS)
-	@$(LINKER) $@ $(LFLAGS) $^
+$(BINDIR)/$(EXEC): $(OBJDIR)/domain.o $(OBJDIR)/variable.o #$(OBJECTS)
+	@$(CXX) -o $@ $(LDFLAGS) $^
 
 $(OBJDIR)/%.o: %.cpp
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
-.PHONY: gcc gcc-debug clang clang-debug clean test travistest doc
+.PHONY: debug clean test doc
 
 clean:
-	rm -fr core *~ $(OBJDIR)/*.o $(BINDIR)/$(EXEC) $(SOURCESTILDE)
-
-# test:
-# 	$(MAKE)
-# 	cd test && $(MAKE) test
+	@rm -fr core *~ $(OBJDIR)/*.o $(BINDIR)/$(EXEC) $(SOURCESTILDE)
 
 test:
-	cd test && $(MAKE) test
-
-travistest:
-	cd test && $(MAKE) travistest
+	@(cd test && $(MAKE))
 
 doc:
-	doxygen doc/Doxyfile
+	@doxygen doc/Doxyfile

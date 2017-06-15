@@ -4,12 +4,15 @@ IDIR=include ../src
 OBJDIR=obj
 BINDIR=bin
 
+# Compiler
+CXX=g++
+
 # Compiler flags
 IDIRFLAGS=$(foreach idir, $(IDIR), -I$(idir))
-CXXFLAGS=-std=c++14 -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(IDIRFLAGS)
+CXXFLAGS=-std=c++14 -Ofast -DNDEBUG -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(IDIRFLAGS)
 
 # Linker flags
-LFLAGS=-pthread -lgtest -lghost
+LDFLAGS=-Llib/ -L../bin/ -pthread -lgtest -lghost
 
 # Files
 SOURCES=$(foreach sdir, $(SRCDIR), $(wildcard $(sdir)/*.cpp))
@@ -29,27 +32,19 @@ vpath %.cpp $(SRCDIR)
 # $< is the first item in the dependencies list
 
 # Rules
-test: clean
-test: CXX=g++
-test: LINKER=g++ -o
-test: CXXFLAGS += -DNDEBUG
-test: LIBGTEST=-Llib/ -L../bin/
-test: $(EXECS)
+all: $(EXECS)
 
-# travistest: CXX=g++
-travistest: LINKER=g++ -o
-travistest: CXXFLAGS += -DNDEBUG
-travistest: LIBGTEST=-L/usr/local/lib/ -L../bin/
-travistest: IDIRFLAGS=-I../src
-travistest: $(EXECS)
+$(BINDIR)/test_domain: $(OBJDIR)/test_domain.o
+	@$(CXX) -o $@ $^ $(LDFLAGS)
 
-$(EXECS): $(OBJECTS)
-	@$(LINKER) $@ $^ $(LIBGTEST) $(LFLAGS)
+$(BINDIR)/test_variable: $(OBJDIR)/test_variable.o
+	@$(CXX) -o $@ $^ $(LDFLAGS)
+
 
 $(OBJDIR)/%.o: %.cpp
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
-.PHONY: test travistest clean 
+.PHONY: clean 
 
 clean:
 	rm -fr core *~ $(EXECS) $(OBJECTS) $(SOURCESTILDE)
