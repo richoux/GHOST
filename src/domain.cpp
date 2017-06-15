@@ -31,7 +31,6 @@
 #include <typeinfo>
 #include <algorithm>
 #include <numeric>
-#include <iterator>
 #include <exception>
 
 #include "domain.hpp"
@@ -42,19 +41,19 @@ Domain::Domain( int outsideScope )
   : _outsideScope(outsideScope)
 { }
 
-Domain::Domain( const vector< int > &domain, int outsideScope )
+Domain::Domain( const std::vector< int > &domain, int outsideScope )
   : _currentDomain(domain),
     _outsideScope(outsideScope)
 {
-  if( std::find( begin( domain ), end( domain ), _outsideScope ) != end( domain ) )
+  if( std::find( std::begin( domain ), std::end( domain ), _outsideScope ) != std::end( domain ) )
     throw 0;
 }
 
 Domain::Domain( int size, int startValue )
-  : _currentDomain(vector<int>(size)),
+  : _currentDomain(std::vector<int>(size)),
     _outsideScope(startValue-1)
 {
-  std::iota( begin( _currentDomain ), end( _currentDomain ), startValue );
+  std::iota( std::begin( _currentDomain ), std::end( _currentDomain ), startValue );
 }
 
 int Domain::getValue( int index ) const
@@ -67,9 +66,9 @@ int Domain::getValue( int index ) const
 
 int Domain::indexOf( int value ) const
 {
-  auto it = std::find( begin( _currentDomain ), end( _currentDomain ), value );
-  if( it == end( _currentDomain ) )
+  auto it = std::find( std::begin( _currentDomain ), std::end( _currentDomain ), value );
+  if( it == std::end( _currentDomain ) )
     return _outsideScope ;
   else
-    return it - begin( _currentDomain );
+    return it - std::begin( _currentDomain );
 }

@@ -32,10 +32,9 @@
 
 #include <vector>
 #include <iostream>
+#include <iterator>
 
 #include "misc/random.hpp"
-
-using namespace std;
 
 namespace ghost
 {
@@ -52,7 +51,7 @@ namespace ghost
    */
   class Domain
   {
-    vector< int > _currentDomain;	//!< Vector of integers containing the current values of the domain.
+    std::vector< int > _currentDomain;	//!< Vector of integers containing the current values of the domain.
     int _outsideScope;			//!< Value representing all values outside the scope of the domain
     Random _random;			//!< A random generator used by the function randomValue. 
         
@@ -69,7 +68,7 @@ namespace ghost
      * initialize both the initial and current possible variable values. The outside-the-scope value
      * must not belong to this list, or an exception is raised (throw 0).
      */
-    Domain( const vector< int > &domain, int outsideScope = -1 );
+    Domain( const std::vector< int > &domain, int outsideScope = -1 );
 
     //! Second Domain constructor.
     /*!
@@ -132,10 +131,10 @@ namespace ghost
     /*!
      * Prints on the standard output the current domain size and content.
      */ 
-    friend ostream& operator<<( ostream& os, const Domain& domain )
+    friend std::ostream& operator<<( std::ostream& os, const Domain& domain )
     {
       os << "Size: " <<  domain.getSize() << "\nCurrent domain: ";
-      std::copy( begin( domain._currentDomain ), end( domain._currentDomain ), std::ostream_iterator<int>( os, " " ) );
+      std::copy( std::begin( domain._currentDomain ), std::end( domain._currentDomain ), std::ostream_iterator<int>( os, " " ) );
       return os << "\n";
     }
   };
