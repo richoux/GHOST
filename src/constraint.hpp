@@ -59,7 +59,7 @@ namespace ghost
    * pure virtual functions below). Thus, you must write your own
    * constraint class inheriting from ghost::Constraint.
    *
-   * The only pure virtual Constraint function is cost
+   * The only pure virtual Constraint function is v_cost
    *
    * \sa Variable
    */
