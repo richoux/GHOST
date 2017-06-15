@@ -54,20 +54,16 @@ namespace ghost
    * ghost::Domain class.
    *
    * You cannot directly use this class Objective to encode your
-   * objective functions, since this is an abstract class (see the
-   * list of pure virtual functions below). Thus, you must write your
-   * own objective class inheriting from ghost::Objective.
+   * objective functions since this is an abstract class. Thus, you
+   * must write your own objective class inheriting from ghost::Objective.
    *
-   * In this class, each virtual function follows the Non-Virtual Interface
-   * Idiom (see http://www.gotw.ca/publications/mill18.htm). The list
-   * of all Objective pure virtual functions is below:
-   * - v_cost 
-   * - v_heuristicVariable
-   * - v_setHelper
+   * In this class, each virtual function follows the Non-Virtual
+   * Interface Idiom (see http://www.gotw.ca/publications/mill18.htm).
+   * The only pure virtual function is v_cost.
    *
-   * \sa Variable, Domain
+   * \sa Variable
    */
-  template <typename TypeVariable, typename TypeDomain>
+  template <typename TypeVariable>
   class Objective
   {
   public:
@@ -163,7 +159,10 @@ namespace ghost
      */
     virtual int	v_heuristicVariable( const vector< int > &vecVarId,
 				     const vector< TypeVariable > *vecVariables,
-				     TypeDomain *domain ) = 0;
+				     TypeDomain *domain )
+    {
+
+    }
 
     //! Pure virtual function to set heuristicValueHelper[currentVar.getValue()].
     /*! 
@@ -301,14 +300,14 @@ namespace ghost
   };
 
   //! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 
-  template <typename TypeVariable, typename TypeDomain>
-  class NullObjective : public Objective<TypeVariable, TypeDomain>
+  template <typename TypeVariable>
+  class NullObjective : public Objective<TypeVariable>
   {
-    using Objective<TypeVariable, TypeDomain>::randomVar;
-    using Objective<TypeVariable, TypeDomain>::heuristicValueHelper;
+    using Objective<TypeVariable>::randomVar;
+    using Objective<TypeVariable>::heuristicValueHelper;
     
   public:
-    NullObjective() : Objective<TypeVariable, TypeDomain>("nullObjective") { }
+    NullObjective() : Objective<TypeVariable>("nullObjective") { }
 
   private:
     virtual double v_cost( vector< TypeVariable > *vecVariables,
