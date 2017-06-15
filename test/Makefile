@@ -1,16 +1,15 @@
 # Directories
 SRCDIR=src
-IDIR=include ../include
+IDIR=include ../src
 OBJDIR=obj
 BINDIR=bin
-LIBDIR=lib
 
 # Compiler flags
 IDIRFLAGS=$(foreach idir, $(IDIR), -I$(idir))
 CXXFLAGS=-std=c++14 -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(IDIRFLAGS)
 
 # Linker flags
-LFLAGS=-pthread
+LFLAGS=-pthread -lgtest -lghost
 
 # Files
 SOURCES=$(foreach sdir, $(SRCDIR), $(wildcard $(sdir)/*.cpp))
@@ -34,18 +33,18 @@ test: clean
 test: CXX=g++
 test: LINKER=g++ -o
 test: CXXFLAGS += -DNDEBUG
-test: LIBGTEST=$(LIBDIR)/libgtest.a
+test: LIBGTEST=-Llib/ -L../bin/
 test: $(EXECS)
 
 # travistest: CXX=g++
 travistest: LINKER=g++ -o
 travistest: CXXFLAGS += -DNDEBUG
-travistest: LIBGTEST=/usr/local/lib/libgtest.a
-travistest: IDIRFLAGS=-I../include
+travistest: LIBGTEST=-L/usr/local/lib/ -L../bin/
+travistest: IDIRFLAGS=-I../src
 travistest: $(EXECS)
 
 $(EXECS): $(OBJECTS)
-	@$(LINKER) $@ $(LFLAGS) $^ $(LIBGTEST)
+	@$(LINKER) $@ $^ $(LIBGTEST) $(LFLAGS)
 
 $(OBJDIR)/%.o: %.cpp
 	@$(CXX) $(CXXFLAGS) -c $< -o $@

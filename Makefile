@@ -63,6 +63,10 @@ $(OBJDIR)/%.o: %.cpp
 clean:
 	rm -fr core *~ $(OBJDIR)/*.o $(BINDIR)/$(EXEC) $(SOURCESTILDE)
 
+# test:
+# 	$(MAKE)
+# 	cd test && $(MAKE) test
+
 test:
 	cd test && $(MAKE) test
 

@@ -1,16 +1,6 @@
 # Tiled source files
 ./src/*~
-
-# Compiled Object files
-./obj
-test/obj
-
-# Compiled libraries
-./bin
-
-# Test executables
-test/bin
-
+test/src/*~
 
 # Doxygen files
 doc/html
