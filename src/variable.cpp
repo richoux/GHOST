@@ -27,6 +27,86 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
+#include <algorithm>
+#include <typeinfo>
+
 #include "variable.hpp"
 
-int ghost::Variable::numberVariables = 0;
+using namespace std;
+using namespace ghost;
+
+Variable::Variable( string name, string shortName, unique_ptr<Domain> domain, int index )
+  : name(name),
+    shortName(shortName),
+    domain(std::move( domain )),
+    index(index)
+{ }
+
+Variable::Variable( string name, string shortName )
+  : Variable( name, shortName, nullptr, -1 )
+{ }
+
+Variable::Variable( string name, string shortName, int index, vector<int> domain, int outsideScope )
+  : Variable( name, shortName, make_unique<Domain>( domain, outsideScope ), index )
+{ }
+
+Variable::Variable( string name, string shortName, int index, int size, int startValue )
+  : Variable( name, shortName, make_unique<Domain>( size, startValue ), index )
+{ }
+
+// Variable::Variable( const Variable &other )
+//   : name(other.name),
+//     shortName(other.shortName),
+//     domain(std::move( other.domain )),
+//     index(other.index)
+// { }
+
+// Variable& Variable::operator=( Variable other )
+// {
+//   this->swap( other );
+//   return *this;
+// }
+
+// Variable::~Variable()
+// {
+//   domain.release();
+// }
+
+// void Variable::swap( Variable &other )
+// {
+//   std::swap(this->name, other.name);
+//   std::swap(this->shortName, other.shortName);
+//   domain = std::move( other.domain );
+//   std::swap(this->index, other.index);
+//   std::swap(this->_projectedCost, other._projectedCost);
+// }  
+
+bool Variable::hasInitializedDomain()
+{
+  if( !domain )
+    return false;
+  else
+    return domain->isInitialized();
+}
+
+void Variable::shiftValue()
+{
+  if( index >= 0 )
+    index = index < domain->getSize() - 1 ? index + 1 : 0;
+}
+
+void Variable::unshiftValue()
+{
+  if( index >= 0 )
+    index = index > 0 ? index - 1 : domain->getSize() - 1;
+}
+
+std::vector<int> Variable::possibleValues()
+{
+  std::vector<int> possibleValues;
+  
+  for( int i = 0 ; i < domain->getSize() ; ++i )
+    possibleValues.push_back( domain->getValue( i ) );
+  
+  return possibleValues;
+}    
