@@ -1,12 +1,14 @@
+# Tiled source files
+./src/*~
+
 # Compiled Object files
 ./obj
 test/obj
 
 # Compiled libraries
-./lib
-
-# Executables
 ./bin
+
+# Test executables
 test/bin
 
 
