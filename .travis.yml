@@ -24,9 +24,8 @@ script:
   - make
   - sudo cp bin/libghost.so /usr/local/lib/
   - sudo cp test/lib/libgtest.a /usr/local/lib/
+  - export LD_LIBRARY_PATH=/usr/local/lib/
   - sudo ldconfig
-  - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/
-  - echo $LD_LIBRARY_PATH
   - make test
   - cd test/bin && for i in $(ls); do ./$i; done
   # - valgrind --leak-check=full --show-reachable=yes bin/ghost --auto
