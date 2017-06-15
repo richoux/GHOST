@@ -1,16 +1,15 @@
 # Project name
-EXEC=ghost
+EXEC=libghost.so
 
 # Compiler
-IDIR=src src/misc
-IDIRFLAG=$(foreach idir, $(IDIR), -I$(idir))
-CXXFLAGS=-std=c++14 -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(IDIRFLAG)
+SRCDIR=src src/misc
+SRCDIRFLAG=$(foreach sdir, $(SRCDIR), -I$(sdir))
+CXXFLAGS=-std=c++14 -fPIC -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(SRCDIRFLAG)
 
 # Linker
-LFLAGS=$(IDIRFLAG)
+LFLAGS=-shared $(SRCDIRFLAG)
 
 # Directories
-SRCDIR=src src/misc
 OBJDIR=obj
 BINDIR=bin
 
@@ -20,7 +19,6 @@ OBJECTS=$(patsubst %.cpp, $(OBJDIR)/%.o, $(notdir $(SOURCES)))
 
 # For rm
 SOURCESTILDE=$(foreach sdir, $(SRCDIR), $(wildcard $(sdir)/*.cpp~))
-INCLUDESTILDE=$(foreach idir, $(IDIR), $(wildcard $(idir)/*.hpp~))
 
 vpath %.cpp $(SRCDIR)
 
@@ -63,7 +61,7 @@ $(OBJDIR)/%.o: %.cpp
 .PHONY: gcc gcc-debug clang clang-debug clean test travistest doc
 
 clean:
-	rm -fr core *~ $(OBJDIR)/*.o $(BINDIR)/$(EXEC) $(SOURCESTILDE) $(INCLUDESTILDE)
+	rm -fr core *~ $(OBJDIR)/*.o $(BINDIR)/$(EXEC) $(SOURCESTILDE)
 
 test:
 	cd test && $(MAKE) test
