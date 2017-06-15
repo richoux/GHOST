@@ -5,11 +5,11 @@ OBJDIR=obj
 BINDIR=bin
 
 # Compiler
-CXX=g++
+CXX=g++-5
 
 # Compiler flags
 IDIRFLAGS=$(foreach idir, $(IDIR), -I$(idir))
-CXXFLAGS=-std=c++1y -Ofast -DNDEBUG -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(IDIRFLAGS)
+CXXFLAGS=-std=c++14 -O2 -DNDEBUG -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(IDIRFLAGS)
 
 # Linker flags
 LDFLAGS=-Llib/ -L../bin/ -pthread -lgtest -lghost

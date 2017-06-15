@@ -2,10 +2,10 @@
 EXEC=libghost.so
 
 # Compiler
-CXX=g++
+CXX=g++-5
 SRCDIR=src src/misc
 SRCDIRFLAG=$(foreach sdir, $(SRCDIR), -I$(sdir))
-CXXFLAGS=-std=c++1y -fPIC -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(SRCDIRFLAG)
+CXXFLAGS=-std=c++14 -fPIC -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(SRCDIRFLAG)
 
 # Linker
 LDFLAGS=-shared $(SRCDIRFLAG)
