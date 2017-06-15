@@ -68,7 +68,7 @@ int Domain::indexOf( int value ) const
 {
   auto it = std::find( std::begin( _currentDomain ), std::end( _currentDomain ), value );
   if( it == std::end( _currentDomain ) )
-    return _outsideScope ;
+    return -1;
   else
     return it - std::begin( _currentDomain );
 }
