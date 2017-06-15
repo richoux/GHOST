@@ -5,8 +5,8 @@ compiler:
 
 before_install:
   - sudo apt-get update
-  - sudo apt-get install libgtest-dev
-  - "cd /usr/src/gtest && sudo cmake . && sudo cmake --build . && sudo mv libg* /usr/local/lib/ ; cd -"
+  # - sudo apt-get install libgtest-dev
+  # - "cd /usr/src/gtest && sudo cmake . && sudo cmake --build . && sudo mv libg* /usr/local/lib/ ; cd -"
 
 install:
 - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
@@ -16,13 +16,14 @@ addons:
     sources:
     - ubuntu-toolchain-r-test
     packages:
-    - gcc-5
+    # - gcc-5
     - g++-5
 
 script: 
   - $CXX --version
   - make
   - sudo cp bin/libghost.so /usr/local/lib/
+  - sudo cp test/lib/libgtest.a /usr/local/lib/
   - sudo ldconfig
   - make test
   - cd test/bin && for i in $(ls); do ./$i; done

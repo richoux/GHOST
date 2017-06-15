@@ -35,14 +35,14 @@ vpath %.cpp $(SRCDIR)
 all: $(EXECS)
 
 $(BINDIR)/test_domain: $(OBJDIR)/test_domain.o
-	@$(CXX) -o $@ $^ $(LDFLAGS)
+	$(CXX) -o $@ $^ $(LDFLAGS)
 
 $(BINDIR)/test_variable: $(OBJDIR)/test_variable.o
-	@$(CXX) -o $@ $^ $(LDFLAGS)
+	$(CXX) -o $@ $^ $(LDFLAGS)
 
 
 $(OBJDIR)/%.o: %.cpp
-	@$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 .PHONY: clean 
 
