@@ -32,11 +32,6 @@
 
 #include <vector>
 #include <iostream>
-#include <typeinfo>
-#include <algorithm>
-#include <numeric>
-#include <iterator>
-#include <exception>
 
 #include "misc/random.hpp"
 
@@ -67,9 +62,7 @@ namespace ghost
     /*!
      * Basic constructor taking the outside-the-scope value (-1 by default).
      */
-    Domain( int outsideScope = -1 )
-      : _outsideScope(outsideScope)
-    { }
+    Domain( int outsideScope = -1 );
     
     //! First Domain constructor.
     /*!
@@ -77,28 +70,14 @@ namespace ghost
      * initialize both the initial and current possible variable values. The outside-the-scope value
      * must not belong to this list, or an exception is raised (throw 0).
      */
-    Domain( const vector< int > &domain, int outsideScope = -1 )
-      : _currentDomain(domain),
-	// _initialDomain(domain),
-	_outsideScope(outsideScope)
-    {
-      if( std::find( begin( domain ), end( domain ), _outsideScope ) != end( domain ) )
-	throw 0;
-    }
+    Domain( const vector< int > &domain, int outsideScope = -1 );
 
     //! Second Domain constructor.
     /*!
      * Constructor taking the domain size N and a starting value x, and creating a domain
      * with all values in [x, x + N]. The outside-the-scope value is set to x-1.
      */
-    Domain( int size, int startValue )
-      : _currentDomain(vector<int>(size)),
-	// _initialDomain(vector<int>(size)),
-	_outsideScope(startValue-1)
-    {
-      std::iota( begin( _currentDomain ), end( _currentDomain ), startValue );
-      // std::iota( begin( _initialDomain ), end( _initialDomain ), startValue );
-    }
+    Domain( int size, int startValue );
 
     //! Inline function to know if the domain has been initialized.
     /*!
@@ -157,6 +136,15 @@ namespace ghost
       return _currentDomain.size();
     }
 
+    //! Inline function returning the outside-scope value.
+    /*!
+     * Returns the value _outsideScope.
+     */ 
+    inline int getOutsideScope() const
+    {
+      return _outsideScope;
+    }
+
     // //! Inline function to get the size of the initial domain.
     // /*!
     //  * Get the number of values initially contained by the domain.
@@ -196,45 +184,18 @@ namespace ghost
      * \param index is the index of the desired value.
      * \return The value at the given index if this one is in the range of the domain, otherwise the outside-the-scope value.
      */    
-    int getValue( int index ) const
-    {
-      if( index >=0 && index < _currentDomain.size() )
-	return _currentDomain[ index ];
-      else
-	return _outsideScope;
-    }
+    int getValue( int index ) const;
 
     //! Get the index of a given value.
     /*!
      * \return If the given value is in the domain, it returns its index, and -1 otherwise.
      */ 
-    int indexOf( int value ) const
-    {
-      auto it = std::find( begin( _currentDomain ), end( _currentDomain ), value );
-      if( it == end( _currentDomain ) )
-	return _outsideScope ;
-      else
-	return it - begin( _currentDomain );
-    }
+    int indexOf( int value ) const;
 
-    //! Inline function returning the outside-scope value.
-    /*!
-     * Returns the value _outsideScope.
-     */ 
-    inline int getOutsideScope() const
-    {
-      return _outsideScope;
-    }
-    
     //! friend override of operator<<
     /*!
      * Prints on the standard output the current domain size and content.
      */ 
-    friend ostream& operator<<( ostream& os, const Domain& domain )
-    {
-      os << "Size: " <<  domain.getSize() << "\nCurrent domain: ";
-      std::copy( begin( domain._currentDomain ), end( domain._currentDomain ), std::ostream_iterator<int>( os, " " ) );
-      return os << "\n";
-    }
+    friend ostream& operator<<( ostream& os, const Domain& domain );
   };
 }
