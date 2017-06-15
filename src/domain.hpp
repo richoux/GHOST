@@ -196,6 +196,11 @@ namespace ghost
     /*!
      * Prints on the standard output the current domain size and content.
      */ 
-    friend ostream& operator<<( ostream& os, const Domain& domain );
+    friend ostream& operator<<( ostream& os, const Domain& domain )
+    {
+      os << "Size: " <<  domain.getSize() << "\nCurrent domain: ";
+      std::copy( begin( domain._currentDomain ), end( domain._currentDomain ), std::ostream_iterator<int>( os, " " ) );
+      return os << "\n";
+    }
   };
 }

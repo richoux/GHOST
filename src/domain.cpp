@@ -36,50 +36,40 @@
 
 #include "domain.hpp"
 
-using namespace std;
+using namespace ghost;
 
-namespace ghost
+Domain::Domain( int outsideScope )
+  : _outsideScope(outsideScope)
+{ }
+
+Domain::Domain( const vector< int > &domain, int outsideScope )
+  : _currentDomain(domain),
+    _outsideScope(outsideScope)
 {
-  Domain::Domain( int outsideScope = -1 )
-    : _outsideScope(outsideScope)
-  { }
-  
-  Domain::Domain( const vector< int > &domain, int outsideScope = -1 )
-    : _currentDomain(domain),
-      _outsideScope(outsideScope)
-  {
-    if( std::find( begin( domain ), end( domain ), _outsideScope ) != end( domain ) )
-      throw 0;
-  }
-  
-  Domain::Domain( int size, int startValue )
-    : _currentDomain(vector<int>(size)),
-      _outsideScope(startValue-1)
-  {
-    std::iota( begin( _currentDomain ), end( _currentDomain ), startValue );
-  }
-  
-  int Domain::getValue( int index ) const
-  {
-    if( index >=0 && index < _currentDomain.size() )
-      return _currentDomain[ index ];
-    else
-      return _outsideScope;
-  }
-  
-  int Domain::indexOf( int value ) const
-  {
-    auto it = std::find( begin( _currentDomain ), end( _currentDomain ), value );
-    if( it == end( _currentDomain ) )
-      return _outsideScope ;
-    else
-      return it - begin( _currentDomain );
-  }
-  
-  friend ostream& Domain::operator<<( ostream& os, const Domain& domain )
-  {
-    os << "Size: " <<  domain.getSize() << "\nCurrent domain: ";
-    std::copy( begin( domain._currentDomain ), end( domain._currentDomain ), std::ostream_iterator<int>( os, " " ) );
-    return os << "\n";
-  }
+  if( std::find( begin( domain ), end( domain ), _outsideScope ) != end( domain ) )
+    throw 0;
+}
+
+Domain::Domain( int size, int startValue )
+  : _currentDomain(vector<int>(size)),
+    _outsideScope(startValue-1)
+{
+  std::iota( begin( _currentDomain ), end( _currentDomain ), startValue );
+}
+
+int Domain::getValue( int index ) const
+{
+  if( index >=0 && index < _currentDomain.size() )
+    return _currentDomain[ index ];
+  else
+    return _outsideScope;
+}
+
+int Domain::indexOf( int value ) const
+{
+  auto it = std::find( begin( _currentDomain ), end( _currentDomain ), value );
+  if( it == end( _currentDomain ) )
+    return _outsideScope ;
+  else
+    return it - begin( _currentDomain );
 }
