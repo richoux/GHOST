@@ -38,8 +38,7 @@ script:
   - cp libg*a ../../../test/lib/
   - cd ../../..  
   - make
-  - sudo cp bin/libghost.so /usr/local/lib/
-  # - sudo cp test/lib/libg*.a /usr/local/lib/
+  - sudo make install
   - export LD_LIBRARY_PATH=/usr/local/lib/
   - sudo ldconfig
   - make test
