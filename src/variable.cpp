@@ -89,6 +89,11 @@ bool Variable::hasInitializedDomain()
     return domain->isInitialized();
 }
 
+void Variable::do_random_initialization()
+{
+  setValue( domain->randomValue() );
+}
+
 void Variable::shiftValue()
 {
   if( index >= 0 )

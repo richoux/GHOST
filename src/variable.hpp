@@ -137,7 +137,10 @@ namespace ghost
      * \return True if and only if the domain variable is initialized.
      */
     bool hasInitializedDomain();
-    
+
+    //! Function initializing the variable to one random values of its domain.
+    void do_random_initialization();
+
     // //! Inline function reseting the domain with its initial values.
     // /*!
     //  * \sa domain::resetToInitial()
