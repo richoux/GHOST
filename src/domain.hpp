@@ -84,15 +84,15 @@ namespace ghost
      * a domain object first and to fill it up with values latter.
      * \return True if and only if the domain has been initialized (i.e., the current domain is not empty).
      */
-    inline bool isInitialized() const
+    inline bool is_initialized() const
     {
       return !_currentDomain.empty();
     }
 
     //! Inline function returning a random value from the domain.
-    inline int randomValue()
+    inline int random_value()
     {
-      return _currentDomain[ _random.getRandNum( _currentDomain.size() ) ];
+      return _currentDomain[ _random.get_random_number( _currentDomain.size() ) ];
     }
 
     //! Inline function to get the size of the current domain.
@@ -100,7 +100,7 @@ namespace ghost
      * Get the number of values currently contained by the domain.
      * \return A size_t corresponding to the size of _currentDomain.
      */
-    inline size_t getSize() const
+    inline size_t get_size() const
     {
       return _currentDomain.size();
     }
@@ -109,7 +109,7 @@ namespace ghost
     /*!
      * Returns the value _outsideScope.
      */ 
-    inline int getOutsideScope() const
+    inline int get_outside_scope() const
     {
       return _outsideScope;
     }
@@ -119,13 +119,13 @@ namespace ghost
      * \param index is the index of the desired value.
      * \return The value at the given index if this one is in the range of the domain, otherwise the outside-the-scope value.
      */    
-    int getValue( int index ) const;
+    int get_value( int index ) const;
 
     //! Get the index of a given value.
     /*!
      * \return If the given value is in the domain, it returns its index, and -1 otherwise.
      */ 
-    int indexOf( int value ) const;
+    int index_of( int value ) const;
 
     //! friend override of operator<<
     /*!
@@ -133,7 +133,7 @@ namespace ghost
      */ 
     friend std::ostream& operator<<( std::ostream& os, const Domain& domain )
     {
-      os << "Size: " <<  domain.getSize() << "\nCurrent domain: ";
+      os << "Size: " <<  domain.get_size() << "\nCurrent domain: ";
       std::copy( std::begin( domain._currentDomain ), std::end( domain._currentDomain ), std::ostream_iterator<int>( os, " " ) );
       return os << "\n";
     }

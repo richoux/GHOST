@@ -136,7 +136,7 @@ namespace ghost
     /*!
      * \return True if and only if the domain variable is initialized.
      */
-    bool hasInitializedDomain();
+    bool has_initialized_domain();
 
     //! Function initializing the variable to one random values of its domain.
     void do_random_initialization();
@@ -152,35 +152,35 @@ namespace ghost
      * Set the current value to the next value in the domain, 
      * or to the first one if we reach the domain upper bound.
      */
-    void shiftValue();
+    void shift_value();
 
     //! Shifting to the previous domain value.
     /*!
      * Set the current value to the previous value in the domain, 
      * or to the last one if we reach the domain lower bound.
      */
-    void unshiftValue();
+    void unshift_value();
 
     /*! Function returning what values are in the current domain.
      * \return a vector<int> of values belonging to the variable domain.
      */
-    std::vector<int> possibleValues();
+    std::vector<int> possible_values();
 
     //! Inline function to get the current value of the variable.
-    inline int getValue() const	{ return domain->getValue( index ); }
+    inline int get_value() const	{ return domain->get_value( index ); }
     
     //! Inline function to set the value of the variable.
     /*! 
      * If the given value is not in the variable domain, then the variable value is set to the outsideScope value of the domain.
      * \param value An integer representing the new value to set.
      */
-    inline void	setValue( int value ) { index = domain->indexOf( value ); }
+    inline void	set_value( int value ) { index = domain->index_of( value ); }
     
     //! Inline function to get the variable name.
-    inline std::string getName() const { return name; }
+    inline std::string get_name() const { return name; }
 
     //! Inline function to get the variable short name.
-    inline std::string getShortName() const { return shortName; }
+    inline std::string get_short_name() const { return shortName; }
 
     //! friend override of operator<<
     friend std::ostream& operator<<( std::ostream& os, const Variable& v )
@@ -188,7 +188,7 @@ namespace ghost
       return os
 	<< "Variable name: " << v.name
 	<< "\nShort name: " << v.shortName
-	<< "\nValue: " <<  v.domain->getValue( v.index )
+	<< "\nValue: " <<  v.domain->get_value( v.index )
 	<< "\n-------";
     }
   };

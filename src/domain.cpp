@@ -56,7 +56,7 @@ Domain::Domain( int size, int startValue )
   std::iota( std::begin( _currentDomain ), std::end( _currentDomain ), startValue );
 }
 
-int Domain::getValue( int index ) const
+int Domain::get_value( int index ) const
 {
   if( index >=0 && index < _currentDomain.size() )
     return _currentDomain[ index ];
@@ -64,7 +64,7 @@ int Domain::getValue( int index ) const
     return _outsideScope;
 }
 
-int Domain::indexOf( int value ) const
+int Domain::index_of( int value ) const
 {
   auto it = std::find( std::begin( _currentDomain ), std::end( _currentDomain ), value );
   if( it == std::end( _currentDomain ) )

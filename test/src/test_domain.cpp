@@ -42,11 +42,11 @@ public:
 
 TEST_F(DomainTest, isInitialized)
 {
-  EXPECT_FALSE( domain_default->isInitialized() );
-  EXPECT_FALSE( domainOS5->isInitialized() );
-  EXPECT_TRUE( domainOS4->isInitialized() );
-  EXPECT_TRUE( domain_size5->isInitialized() );
-  EXPECT_TRUE( domain_from1to3->isInitialized() );
+  EXPECT_FALSE( domain_default->is_initialized() );
+  EXPECT_FALSE( domainOS5->is_initialized() );
+  EXPECT_TRUE( domainOS4->is_initialized() );
+  EXPECT_TRUE( domain_size5->is_initialized() );
+  EXPECT_TRUE( domain_from1to3->is_initialized() );
 }
 
 TEST(DomainThrowTest, ThrowException)
@@ -57,18 +57,18 @@ TEST(DomainThrowTest, ThrowException)
 
 TEST_F(DomainTest, getOutsideScope)
 {
-  EXPECT_EQ( domain_default->getOutsideScope(), -1 );
-  EXPECT_EQ( domainOS5->getOutsideScope(), 5 );
-  EXPECT_EQ( domainOS4->getOutsideScope(), 4 );
-  EXPECT_EQ( domain_size5->getOutsideScope(), -1 );
-  EXPECT_EQ( domain_from1to3->getOutsideScope(), 0 );
+  EXPECT_EQ( domain_default->get_outside_scope(), -1 );
+  EXPECT_EQ( domainOS5->get_outside_scope(), 5 );
+  EXPECT_EQ( domainOS4->get_outside_scope(), 4 );
+  EXPECT_EQ( domain_size5->get_outside_scope(), -1 );
+  EXPECT_EQ( domain_from1to3->get_outside_scope(), 0 );
 }
 
 TEST_F(DomainTest, getSize)
 {
-  EXPECT_EQ( domainOS4->getSize(), 5 );
-  EXPECT_EQ( domain_size5->getSize(), 5 );
-  EXPECT_EQ( domain_from1to3->getSize(), 3 );
+  EXPECT_EQ( domainOS4->get_size(), 5 );
+  EXPECT_EQ( domain_size5->get_size(), 5 );
+  EXPECT_EQ( domain_from1to3->get_size(), 3 );
 }
 
 // TEST_F(DomainTest, maxValues_maxInitialValue)
@@ -89,77 +89,77 @@ TEST_F(DomainTest, getSize)
 
 TEST_F(DomainTest, getValue)
 {
-  EXPECT_EQ( domainOS4->getValue( -1 ), 4 );
-  EXPECT_EQ( domainOS4->getValue( 0 ), 1 );
-  EXPECT_EQ( domainOS4->getValue( 1 ), 3 );
-  EXPECT_EQ( domainOS4->getValue( 2 ), 5 );
-  EXPECT_EQ( domainOS4->getValue( 3 ), 7 );
-  EXPECT_EQ( domainOS4->getValue( 4 ), 9 );
-  EXPECT_EQ( domainOS4->getValue( 5 ), 4 );
+  EXPECT_EQ( domainOS4->get_value( -1 ), 4 );
+  EXPECT_EQ( domainOS4->get_value( 0 ), 1 );
+  EXPECT_EQ( domainOS4->get_value( 1 ), 3 );
+  EXPECT_EQ( domainOS4->get_value( 2 ), 5 );
+  EXPECT_EQ( domainOS4->get_value( 3 ), 7 );
+  EXPECT_EQ( domainOS4->get_value( 4 ), 9 );
+  EXPECT_EQ( domainOS4->get_value( 5 ), 4 );
 
-  EXPECT_EQ( domain_size5->getValue( -1 ), -1 );
-  EXPECT_EQ( domain_size5->getValue( 0 ), 1 );
-  EXPECT_EQ( domain_size5->getValue( 1 ), 3 );
-  EXPECT_EQ( domain_size5->getValue( 2 ), 5 );
-  EXPECT_EQ( domain_size5->getValue( 3 ), 7 );
-  EXPECT_EQ( domain_size5->getValue( 4 ), 9 );
-  EXPECT_EQ( domain_size5->getValue( 5 ), -1 );
+  EXPECT_EQ( domain_size5->get_value( -1 ), -1 );
+  EXPECT_EQ( domain_size5->get_value( 0 ), 1 );
+  EXPECT_EQ( domain_size5->get_value( 1 ), 3 );
+  EXPECT_EQ( domain_size5->get_value( 2 ), 5 );
+  EXPECT_EQ( domain_size5->get_value( 3 ), 7 );
+  EXPECT_EQ( domain_size5->get_value( 4 ), 9 );
+  EXPECT_EQ( domain_size5->get_value( 5 ), -1 );
 
-  EXPECT_EQ( domain_from1to3->getValue( -1 ), 0 );
-  EXPECT_EQ( domain_from1to3->getValue( 0 ), 1 );
-  EXPECT_EQ( domain_from1to3->getValue( 1 ), 2 );
-  EXPECT_EQ( domain_from1to3->getValue( 2 ), 3 );
-  EXPECT_EQ( domain_from1to3->getValue( 3 ), 0 );
+  EXPECT_EQ( domain_from1to3->get_value( -1 ), 0 );
+  EXPECT_EQ( domain_from1to3->get_value( 0 ), 1 );
+  EXPECT_EQ( domain_from1to3->get_value( 1 ), 2 );
+  EXPECT_EQ( domain_from1to3->get_value( 2 ), 3 );
+  EXPECT_EQ( domain_from1to3->get_value( 3 ), 0 );
 }
 
 TEST_F(DomainTest, indexOf)
 {
-  EXPECT_EQ( domainOS4->indexOf( -1 ), -1 );
-  EXPECT_EQ( domainOS4->indexOf( 1 ), 0 );
-  EXPECT_EQ( domainOS4->indexOf( 3 ), 1 );
-  EXPECT_EQ( domainOS4->indexOf( 5 ), 2 );
-  EXPECT_EQ( domainOS4->indexOf( 7 ), 3 );
-  EXPECT_EQ( domainOS4->indexOf( 9 ), 4 );
-  EXPECT_EQ( domainOS4->indexOf( 42 ), -1 );
+  EXPECT_EQ( domainOS4->index_of( -1 ), -1 );
+  EXPECT_EQ( domainOS4->index_of( 1 ), 0 );
+  EXPECT_EQ( domainOS4->index_of( 3 ), 1 );
+  EXPECT_EQ( domainOS4->index_of( 5 ), 2 );
+  EXPECT_EQ( domainOS4->index_of( 7 ), 3 );
+  EXPECT_EQ( domainOS4->index_of( 9 ), 4 );
+  EXPECT_EQ( domainOS4->index_of( 42 ), -1 );
 
-  EXPECT_EQ( domain_size5->indexOf( -1 ), -1 );
-  EXPECT_EQ( domain_size5->indexOf( 1 ), 0 );
-  EXPECT_EQ( domain_size5->indexOf( 3 ), 1 );
-  EXPECT_EQ( domain_size5->indexOf( 5 ), 2 );
-  EXPECT_EQ( domain_size5->indexOf( 7 ), 3 );
-  EXPECT_EQ( domain_size5->indexOf( 9 ), 4 );
-  EXPECT_EQ( domain_size5->indexOf( 42 ), -1 );
+  EXPECT_EQ( domain_size5->index_of( -1 ), -1 );
+  EXPECT_EQ( domain_size5->index_of( 1 ), 0 );
+  EXPECT_EQ( domain_size5->index_of( 3 ), 1 );
+  EXPECT_EQ( domain_size5->index_of( 5 ), 2 );
+  EXPECT_EQ( domain_size5->index_of( 7 ), 3 );
+  EXPECT_EQ( domain_size5->index_of( 9 ), 4 );
+  EXPECT_EQ( domain_size5->index_of( 42 ), -1 );
 
-  EXPECT_EQ( domain_from1to3->indexOf( -1 ), -1 );
-  EXPECT_EQ( domain_from1to3->indexOf( 1 ), 0 );
-  EXPECT_EQ( domain_from1to3->indexOf( 2 ), 1 );
-  EXPECT_EQ( domain_from1to3->indexOf( 3 ), 2 );
-  EXPECT_EQ( domain_from1to3->indexOf( 42 ), -1 );
+  EXPECT_EQ( domain_from1to3->index_of( -1 ), -1 );
+  EXPECT_EQ( domain_from1to3->index_of( 1 ), 0 );
+  EXPECT_EQ( domain_from1to3->index_of( 2 ), 1 );
+  EXPECT_EQ( domain_from1to3->index_of( 3 ), 2 );
+  EXPECT_EQ( domain_from1to3->index_of( 42 ), -1 );
 }
 
 TEST_F(DomainTest, randomValue)
 {
-  EXPECT_TRUE( CanFind( domainOS4->randomValue() ) );
-  EXPECT_TRUE( CanFind( domainOS4->randomValue() ) );
-  EXPECT_TRUE( CanFind( domainOS4->randomValue() ) );
-  EXPECT_TRUE( CanFind( domainOS4->randomValue() ) );
-  EXPECT_TRUE( CanFind( domainOS4->randomValue() ) );
+  EXPECT_TRUE( CanFind( domainOS4->random_value() ) );
+  EXPECT_TRUE( CanFind( domainOS4->random_value() ) );
+  EXPECT_TRUE( CanFind( domainOS4->random_value() ) );
+  EXPECT_TRUE( CanFind( domainOS4->random_value() ) );
+  EXPECT_TRUE( CanFind( domainOS4->random_value() ) );
 
-  EXPECT_TRUE( CanFind( domain_size5->randomValue() ) );
-  EXPECT_TRUE( CanFind( domain_size5->randomValue() ) );
-  EXPECT_TRUE( CanFind( domain_size5->randomValue() ) );
-  EXPECT_TRUE( CanFind( domain_size5->randomValue() ) );
-  EXPECT_TRUE( CanFind( domain_size5->randomValue() ) );
+  EXPECT_TRUE( CanFind( domain_size5->random_value() ) );
+  EXPECT_TRUE( CanFind( domain_size5->random_value() ) );
+  EXPECT_TRUE( CanFind( domain_size5->random_value() ) );
+  EXPECT_TRUE( CanFind( domain_size5->random_value() ) );
+  EXPECT_TRUE( CanFind( domain_size5->random_value() ) );
 
-  // EXPECT_TRUE( CanFind( domain_from1to3->randomValue() ) );
-  // EXPECT_TRUE( CanFind( domain_from1to3->randomValue() ) );
-  // EXPECT_TRUE( CanFind( domain_from1to3->randomValue() ) );
-  // EXPECT_TRUE( CanFind( domain_from1to3->randomValue() ) );
-  // EXPECT_TRUE( CanFind( domain_from1to3->randomValue() ) );
+  // EXPECT_TRUE( CanFind( domain_from1to3->random_value() ) );
+  // EXPECT_TRUE( CanFind( domain_from1to3->random_value() ) );
+  // EXPECT_TRUE( CanFind( domain_from1to3->random_value() ) );
+  // EXPECT_TRUE( CanFind( domain_from1to3->random_value() ) );
+  // EXPECT_TRUE( CanFind( domain_from1to3->random_value() ) );
 
   std::vector<int> count(5);
   for( int i = 0 ; i < 10000 ; ++i )
-    ++count[ domain_size5->indexOf( domain_size5->randomValue() ) ];
+    ++count[ domain_size5->index_of( domain_size5->random_value() ) ];
   std::cout << (double)count[0] / 100 << "% "
 	    << (double)count[1] / 100 << "% "
 	    << (double)count[2] / 100 << "% "
@@ -172,64 +172,64 @@ TEST_F(DomainTest, randomValue)
 //   EXPECT_TRUE( domain_size5->removeValue(3) );
 //   EXPECT_FALSE( domain_size5->removeValue(3) );
 //   EXPECT_FALSE( domain_size5->removeValue(2) );
-//   EXPECT_EQ( domain_size5->getSize(), 4 );
+//   EXPECT_EQ( domain_size5->get_size(), 4 );
 //   EXPECT_EQ( domain_size5->getInitialSize(), 5 );
-//   EXPECT_EQ( domain_size5->indexOf( 3 ), -1 );
-//   EXPECT_EQ( domain_size5->indexOf( 1 ), 0 );
-//   EXPECT_EQ( domain_size5->indexOf( 5 ), 1 );
-//   EXPECT_EQ( domain_size5->getValue( 1 ), 5 );
+//   EXPECT_EQ( domain_size5->index_of( 3 ), -1 );
+//   EXPECT_EQ( domain_size5->index_of( 1 ), 0 );
+//   EXPECT_EQ( domain_size5->index_of( 5 ), 1 );
+//   EXPECT_EQ( domain_size5->get_value( 1 ), 5 );
 //   EXPECT_TRUE( domain_size5->removeValue(1) );
 //   EXPECT_TRUE( domain_size5->removeValue(9) );
-//   EXPECT_EQ( domain_size5->indexOf( 1 ), -1 );
-//   EXPECT_EQ( domain_size5->indexOf( 9 ), -1 );
+//   EXPECT_EQ( domain_size5->index_of( 1 ), -1 );
+//   EXPECT_EQ( domain_size5->index_of( 9 ), -1 );
 //   EXPECT_EQ( domain_size5->maxValue(), 7 );
 //   EXPECT_EQ( domain_size5->minValue(), 5 );
 //   EXPECT_EQ( domain_size5->maxInitialValue(), 9 );
 //   EXPECT_EQ( domain_size5->minInitialValue(), 1 );
-//   EXPECT_EQ( domain_size5->getSize(), 2 );
+//   EXPECT_EQ( domain_size5->get_size(), 2 );
 //   EXPECT_EQ( domain_size5->getInitialSize(), 5 );
 //   domain_size5->resetToInitial();
-//   EXPECT_EQ( domain_size5->getSize(), 5 );
+//   EXPECT_EQ( domain_size5->get_size(), 5 );
 //   EXPECT_EQ( domain_size5->getInitialSize(), 5 );
 //   EXPECT_EQ( domain_size5->maxValue(), 9 );
 //   EXPECT_EQ( domain_size5->minValue(), 1 );
 //   EXPECT_EQ( domain_size5->maxInitialValue(), 9 );
 //   EXPECT_EQ( domain_size5->minInitialValue(), 1 );
-//   EXPECT_EQ( domain_size5->indexOf( 1 ), 0 );
-//   EXPECT_EQ( domain_size5->indexOf( 9 ), 4 );
-//   EXPECT_EQ( domain_size5->getValue( 0 ), 1 );
-//   EXPECT_EQ( domain_size5->getValue( 4 ), 9 );
+//   EXPECT_EQ( domain_size5->index_of( 1 ), 0 );
+//   EXPECT_EQ( domain_size5->index_of( 9 ), 4 );
+//   EXPECT_EQ( domain_size5->get_value( 0 ), 1 );
+//   EXPECT_EQ( domain_size5->get_value( 4 ), 9 );
 
 //   EXPECT_TRUE( domainOS4->removeValue(3) );
 //   EXPECT_FALSE( domainOS4->removeValue(3) );
 //   EXPECT_FALSE( domainOS4->removeValue(2) );
-//   EXPECT_EQ( domainOS4->getSize(), 4 );
+//   EXPECT_EQ( domainOS4->get_size(), 4 );
 //   EXPECT_EQ( domainOS4->getInitialSize(), 5 );
-//   EXPECT_EQ( domainOS4->indexOf( 3 ), -1 );
-//   EXPECT_EQ( domainOS4->indexOf( 1 ), 0 );
-//   EXPECT_EQ( domainOS4->indexOf( 5 ), 1 );
-//   EXPECT_EQ( domainOS4->getValue( 1 ), 5 );
+//   EXPECT_EQ( domainOS4->index_of( 3 ), -1 );
+//   EXPECT_EQ( domainOS4->index_of( 1 ), 0 );
+//   EXPECT_EQ( domainOS4->index_of( 5 ), 1 );
+//   EXPECT_EQ( domainOS4->get_value( 1 ), 5 );
 //   EXPECT_TRUE( domainOS4->removeValue(1) );
 //   EXPECT_TRUE( domainOS4->removeValue(9) );
-//   EXPECT_EQ( domainOS4->indexOf( 1 ), -1 );
-//   EXPECT_EQ( domainOS4->indexOf( 9 ), -1 );
+//   EXPECT_EQ( domainOS4->index_of( 1 ), -1 );
+//   EXPECT_EQ( domainOS4->index_of( 9 ), -1 );
 //   EXPECT_EQ( domainOS4->maxValue(), 7 );
 //   EXPECT_EQ( domainOS4->minValue(), 5 );
 //   EXPECT_EQ( domainOS4->maxInitialValue(), 9 );
 //   EXPECT_EQ( domainOS4->minInitialValue(), 1 );
-//   EXPECT_EQ( domainOS4->getSize(), 2 );
+//   EXPECT_EQ( domainOS4->get_size(), 2 );
 //   EXPECT_EQ( domainOS4->getInitialSize(), 5 );
 //   domainOS4->resetToInitial();
-//   EXPECT_EQ( domainOS4->getSize(), 5 );
+//   EXPECT_EQ( domainOS4->get_size(), 5 );
 //   EXPECT_EQ( domainOS4->getInitialSize(), 5 );
 //   EXPECT_EQ( domainOS4->maxValue(), 9 );
 //   EXPECT_EQ( domainOS4->minValue(), 1 );
 //   EXPECT_EQ( domainOS4->maxInitialValue(), 9 );
 //   EXPECT_EQ( domainOS4->minInitialValue(), 1 );
-//   EXPECT_EQ( domainOS4->indexOf( 1 ), 0 );
-//   EXPECT_EQ( domainOS4->indexOf( 9 ), 4 );
-//   EXPECT_EQ( domainOS4->getValue( 0 ), 1 );
-//   EXPECT_EQ( domainOS4->getValue( 4 ), 9 );
+//   EXPECT_EQ( domainOS4->index_of( 1 ), 0 );
+//   EXPECT_EQ( domainOS4->index_of( 9 ), 4 );
+//   EXPECT_EQ( domainOS4->get_value( 0 ), 1 );
+//   EXPECT_EQ( domainOS4->get_value( 4 ), 9 );
 // }
 
 

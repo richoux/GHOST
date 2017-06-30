@@ -81,37 +81,37 @@ Variable::Variable( string name, string shortName, int index, int size, int star
 //   std::swap(this->_projectedCost, other._projectedCost);
 // }  
 
-bool Variable::hasInitializedDomain()
+bool Variable::has_initialized_domain()
 {
   if( !domain )
     return false;
   else
-    return domain->isInitialized();
+    return domain->is_initialized();
 }
 
 void Variable::do_random_initialization()
 {
-  setValue( domain->randomValue() );
+  setValue( domain->random_value() );
 }
 
-void Variable::shiftValue()
+void Variable::shift_value()
 {
   if( index >= 0 )
-    index = index < domain->getSize() - 1 ? index + 1 : 0;
+    index = index < domain->get_size() - 1 ? index + 1 : 0;
 }
 
-void Variable::unshiftValue()
+void Variable::unshift_value()
 {
   if( index >= 0 )
-    index = index > 0 ? index - 1 : domain->getSize() - 1;
+    index = index > 0 ? index - 1 : domain->get_size() - 1;
 }
 
-std::vector<int> Variable::possibleValues()
+std::vector<int> Variable::possible_values()
 {
   std::vector<int> possibleValues;
   
-  for( int i = 0 ; i < domain->getSize() ; ++i )
-    possibleValues.push_back( domain->getValue( i ) );
+  for( int i = 0 ; i < domain->get_size() ; ++i )
+    possibleValues.push_back( domain->get_value( i ) );
   
   return possibleValues;
 }    

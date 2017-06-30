@@ -29,74 +29,74 @@ public:
 
 TEST_F(VariableTest, isInitialized)
 {
-  EXPECT_FALSE( var_ctor1->hasInitializedDomain() );
-  EXPECT_TRUE( var_ctor2->hasInitializedDomain() );
-  EXPECT_TRUE( var_ctor2_bis->hasInitializedDomain() );
-  EXPECT_TRUE( var_ctor3->hasInitializedDomain() );
+  EXPECT_FALSE( var_ctor1->has_initialized_domain() );
+  EXPECT_TRUE( var_ctor2->has_initialized_domain() );
+  EXPECT_TRUE( var_ctor2_bis->has_initialized_domain() );
+  EXPECT_TRUE( var_ctor3->has_initialized_domain() );
 }
 
 TEST_F(VariableTest, Names)
 {
-  EXPECT_EQ( var_ctor1->getName(), "Thomas" );
-  EXPECT_EQ( var_ctor2->getName(), "Leo" );
-  EXPECT_EQ( var_ctor2_bis->getName(), "Leo_b" );
-  EXPECT_EQ( var_ctor3->getName(), "Julie" );
+  EXPECT_EQ( var_ctor1->get_name(), "Thomas" );
+  EXPECT_EQ( var_ctor2->get_name(), "Leo" );
+  EXPECT_EQ( var_ctor2_bis->get_name(), "Leo_b" );
+  EXPECT_EQ( var_ctor3->get_name(), "Julie" );
 
-  EXPECT_EQ( var_ctor1->getShortName(), "T" );
-  EXPECT_EQ( var_ctor2->getShortName(), "L" );
-  EXPECT_EQ( var_ctor2_bis->getShortName(), "L_b" );
-  EXPECT_EQ( var_ctor3->getShortName(), "J" );
+  EXPECT_EQ( var_ctor1->get_short_name(), "T" );
+  EXPECT_EQ( var_ctor2->get_short_name(), "L" );
+  EXPECT_EQ( var_ctor2_bis->get_short_name(), "L_b" );
+  EXPECT_EQ( var_ctor3->get_short_name(), "J" );
 }
 
 TEST_F(VariableTest, Values)
 {
-  EXPECT_EQ( var_ctor2->getValue(), 1 );
-  EXPECT_EQ( var_ctor2_bis->getValue(), 1 );
-  EXPECT_EQ( var_ctor3->getValue(), 8 );
+  EXPECT_EQ( var_ctor2->get_value(), 1 );
+  EXPECT_EQ( var_ctor2_bis->get_value(), 1 );
+  EXPECT_EQ( var_ctor3->get_value(), 8 );
 
-  var_ctor2->shiftValue();
-  var_ctor2_bis->shiftValue();
-  var_ctor3->shiftValue();
+  var_ctor2->shift_value();
+  var_ctor2_bis->shift_value();
+  var_ctor3->shift_value();
 
-  EXPECT_EQ( var_ctor2->getValue(), 3 );
-  EXPECT_EQ( var_ctor2_bis->getValue(), 3 );
-  EXPECT_EQ( var_ctor3->getValue(), 9 );
+  EXPECT_EQ( var_ctor2->get_value(), 3 );
+  EXPECT_EQ( var_ctor2_bis->get_value(), 3 );
+  EXPECT_EQ( var_ctor3->get_value(), 9 );
 
-  var_ctor2->shiftValue();
-  var_ctor2_bis->shiftValue();
-  var_ctor3->shiftValue();
+  var_ctor2->shift_value();
+  var_ctor2_bis->shift_value();
+  var_ctor3->shift_value();
 
-  EXPECT_EQ( var_ctor2->getValue(), 5 );
-  EXPECT_EQ( var_ctor2_bis->getValue(), 5 );
-  EXPECT_EQ( var_ctor3->getValue(), 7 );
+  EXPECT_EQ( var_ctor2->get_value(), 5 );
+  EXPECT_EQ( var_ctor2_bis->get_value(), 5 );
+  EXPECT_EQ( var_ctor3->get_value(), 7 );
 
-  var_ctor2->unshiftValue();
-  var_ctor2_bis->unshiftValue();
-  var_ctor3->unshiftValue();
+  var_ctor2->unshift_value();
+  var_ctor2_bis->unshift_value();
+  var_ctor3->unshift_value();
 
-  EXPECT_EQ( var_ctor2->getValue(), 3 );
-  EXPECT_EQ( var_ctor2_bis->getValue(), 3 );
-  EXPECT_EQ( var_ctor3->getValue(), 9 );
+  EXPECT_EQ( var_ctor2->get_value(), 3 );
+  EXPECT_EQ( var_ctor2_bis->get_value(), 3 );
+  EXPECT_EQ( var_ctor3->get_value(), 9 );
 
-  var_ctor2->setValue( 7 );
-  var_ctor2_bis->setValue( 8 );
-  var_ctor3->setValue( 8 );
+  var_ctor2->set_value( 7 );
+  var_ctor2_bis->set_value( 8 );
+  var_ctor3->set_value( 8 );
 
-  EXPECT_EQ( var_ctor2->getValue(), 7 );
-  EXPECT_EQ( var_ctor2_bis->getValue(), -1 );
-  EXPECT_EQ( var_ctor3->getValue(), 8 );
+  EXPECT_EQ( var_ctor2->get_value(), 7 );
+  EXPECT_EQ( var_ctor2_bis->get_value(), -1 );
+  EXPECT_EQ( var_ctor3->get_value(), 8 );
 
-  var_ctor2->setValue( 8 );
-  var_ctor2_bis->setValue( 7 );
-  var_ctor3->setValue( 4 );
+  var_ctor2->set_value( 8 );
+  var_ctor2_bis->set_value( 7 );
+  var_ctor3->set_value( 4 );
 
-  EXPECT_EQ( var_ctor2->getValue(), 0 );
-  EXPECT_EQ( var_ctor2_bis->getValue(), 7 );
-  EXPECT_EQ( var_ctor3->getValue(), 6 );
+  EXPECT_EQ( var_ctor2->get_value(), 0 );
+  EXPECT_EQ( var_ctor2_bis->get_value(), 7 );
+  EXPECT_EQ( var_ctor3->get_value(), 6 );
 
-  EXPECT_THAT( var_ctor2->possibleValues(), ::testing::ElementsAre( 1,3,5,7,9 ) );
-  EXPECT_THAT( var_ctor2_bis->possibleValues(), ::testing::ElementsAre( 1,3,5,7,9 ) );
-  EXPECT_THAT( var_ctor3->possibleValues(), ::testing::ElementsAre( 7,8,9 ) );  
+  EXPECT_THAT( var_ctor2->possible_values(), ::testing::ElementsAre( 1,3,5,7,9 ) );
+  EXPECT_THAT( var_ctor2_bis->possible_values(), ::testing::ElementsAre( 1,3,5,7,9 ) );
+  EXPECT_THAT( var_ctor3->possible_values(), ::testing::ElementsAre( 7,8,9 ) );  
 }
 
 int main(int argc, char **argv)

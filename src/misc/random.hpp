@@ -58,7 +58,7 @@ namespace ghost
      * \param limit The upper bound of the range [0, limit[ from where a random value is computed.
      * \return A pseudo-random value in the range [0, limit[
      */
-    inline int getRandNum( int limit ) { return ( numbers(rng) % limit ); } 
+    inline int get_random_number( int limit ) { return ( numbers(rng) % limit ); } 
 
   private:
     std::random_device			rd;
