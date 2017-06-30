@@ -27,6 +27,8 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
+#include <cassert>
+
 #include "solver.hpp"
 
 using namespace ghost;
@@ -103,19 +105,16 @@ double Solver::solve( double sat_timeout, double opt_timeout )
 	  
       if( globalCost == numeric_limits<int>::max() )
       {
-	domain->restart( vecVariables );
+	for( auto& v : vecVariables )
+	  v.do_random_initialization();
+
 	currentCost = 0.;
 
 	for( const auto &c : vecConstraints )
-	  currentCost += c->cost( variableCost );
+	  currentCost += c->cost();
 
-	if( currentCost < globalCost )
-	  globalCost = currentCost;
-	else
-	{
-	  domain->restart( vecVariables );
-	  continue;
-	}
+	globalCost = currentCost;
+	assert( globalCost < numeric_limits<int>::max() );
       }
 
       // make sure there is at least one untabu variable
