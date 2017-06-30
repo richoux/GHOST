@@ -22,12 +22,12 @@ addons:
 script: 
   - $CXX --version
   - git clone https://github.com/google/googletest.git
-  - cd googletest/gtest
+  - cd googletest/googletest
   - mkdir build ; cd build
   - cmake ..
   - make
   - sudo make install
-  - cd ../../gmock
+  - cd ../../googlemock
   - mkdir build ; cd build
   - cmake ..
   - make
