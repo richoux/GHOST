@@ -1,6 +1,8 @@
 GHOST
 =====
 
+[![Build Status](https://travis-ci.org/richoux/GHOST.svg?branch=master)](https://travis-ci.org/richoux/GHOST)
+
 GHOST (General meta-Heuristic Optimization Solving Tool) is a template C++11 library designed for StarCraft: Brood war, under the terms of the GNU GPL v3 licence.  GHOST implements a meta-heuristic solver aiming to solve any kind of combinatorial and optimization RTS-related problems represented by a CSP/COP.  It is an generalization of the Wall-in project (see [github.com/richoux/Wall-in](https://github.com/richoux/Wall-in)).
 
 Please visit [richoux.github.io/GHOST](http://richoux.github.io/GHOST) for:
