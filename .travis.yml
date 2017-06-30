@@ -27,11 +27,15 @@ script:
   - cmake ..
   - make
   - sudo make install
+  - cp -r ../include/* ../../../test/include/
+  - cp libg*a ../../../test/lib/
   - cd ../../googlemock
   - mkdir build ; cd build
   - cmake ..
   - make
   - sudo make install
+  - cp -r ../include/* ../../../test/include/
+  - cp libg*a ../../../test/lib/
   - cd ../../..  
   - make
   - sudo cp bin/libghost.so /usr/local/lib/
