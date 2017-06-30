@@ -91,7 +91,7 @@ bool Variable::has_initialized_domain()
 
 void Variable::do_random_initialization()
 {
-  setValue( domain->random_value() );
+  set_value( domain->random_value() );
 }
 
 void Variable::shift_value()
