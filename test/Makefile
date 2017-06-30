@@ -12,7 +12,7 @@ IDIRFLAGS=$(foreach idir, $(IDIR), -I$(idir))
 CXXFLAGS=-std=c++14 -O2 -DNDEBUG -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(IDIRFLAGS)
 
 # Linker flags
-LDFLAGS=-Llib/ -L../bin/ -pthread -lgtest -lghost
+LDFLAGS=-Llib/ -L../bin/ -pthread -lgtest -lgmock -lghost
 
 # Files
 SOURCES=$(foreach sdir, $(SRCDIR), $(wildcard $(sdir)/*.cpp))
