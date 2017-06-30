@@ -21,9 +21,21 @@ addons:
 
 script: 
   - $CXX --version
+  - git clone https://github.com/google/googletest.git
+  - cd googletest/gtest
+  - mkdir build ; cd build
+  - cmake ..
+  - make
+  - sudo make install
+  - cd ../../gmock
+  - mkdir build ; cd build
+  - cmake ..
+  - make
+  - sudo make install
+  - cd ../../..  
   - make
   - sudo cp bin/libghost.so /usr/local/lib/
-  - sudo cp test/lib/libg*.a /usr/local/lib/
+  # - sudo cp test/lib/libg*.a /usr/local/lib/
   - export LD_LIBRARY_PATH=/usr/local/lib/
   - sudo ldconfig
   - make test
