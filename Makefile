@@ -37,18 +37,21 @@ debug: CXXFLAGS += -g
 debug: $(BINDIR)/$(EXEC)	
 
 $(BINDIR)/$(EXEC): $(OBJDIR)/domain.o $(OBJDIR)/variable.o #$(OBJECTS)
-	@$(CXX) -o $@ $(LDFLAGS) $^
+	$(CXX) -o $@ $(LDFLAGS) $^
 
 $(OBJDIR)/%.o: %.cpp
-	@$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-.PHONY: debug clean test doc
+.PHONY: debug clean test doc install
 
 clean:
-	@rm -fr core *~ $(OBJDIR)/*.o $(BINDIR)/$(EXEC) $(SOURCESTILDE)
+	rm -fr core *~ $(OBJDIR)/*.o $(BINDIR)/$(EXEC) $(SOURCESTILDE)
 
 test:
-	@(cd test && $(MAKE))
+	(cd test && $(MAKE))
 
 doc:
-	@doxygen doc/Doxyfile
+	doxygen doc/Doxyfile
+
+install:
+	cp bin/libghost.so /usr/local/lib
