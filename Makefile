@@ -57,7 +57,7 @@ doc:
 	doxygen doc/Doxyfile
 
 install:
-	sudo cp bin/libghost.so /usr/local/lib
-	sudo ldconfig
-	sudo mkdir /usr/local/include/ghost
-	sudo cp -r include/* /usr/local/include/ghost/
+	cp bin/libghost.so /usr/local/lib
+	ldconfig
+	mkdir /usr/local/include/ghost
+	cp -r include/* /usr/local/include/ghost/
