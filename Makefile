@@ -14,7 +14,7 @@ LDFLAGS=-shared $(INCDIRFLAG)
 
 # Directories
 OBJDIR=obj
-BINDIR=bin
+BINDIR=lib
 
 # Files
 SOURCES=$(foreach sdir, $(SRCDIR), $(wildcard $(sdir)/*.cpp))
@@ -57,7 +57,7 @@ doc:
 	doxygen doc/Doxyfile
 
 install:
-	cp bin/libghost.so /usr/local/lib
+	cp lib/libghost.so /usr/local/lib
 	ldconfig
 	rm -fr /usr/local/include/ghost
 	cp -r include /usr/local/include/ghost
