@@ -1,4 +1,4 @@
-#include "variable.hpp"
+#include <ghost/variable.hpp>
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
 

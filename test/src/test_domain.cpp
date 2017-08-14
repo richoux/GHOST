@@ -1,4 +1,4 @@
-#include "domain.hpp"
+#include <ghost/domain.hpp>
 #include "gtest/gtest.h"
 
 #include <vector>

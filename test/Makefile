@@ -1,6 +1,6 @@
 # Directories
 SRCDIR=src
-IDIR=include /usr/local/include/ghost
+IDIR=include
 OBJDIR=obj
 BINDIR=bin
 
