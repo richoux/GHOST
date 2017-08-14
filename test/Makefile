@@ -1,18 +1,18 @@
 # Directories
 SRCDIR=src
-IDIR=include ../src
+IDIR=include /usr/local/include/ghost
 OBJDIR=obj
 BINDIR=bin
 
 # Compiler
-CXX=g++-5
+CXX=g++
 
 # Compiler flags
 IDIRFLAGS=$(foreach idir, $(IDIR), -I$(idir))
 CXXFLAGS=-std=c++14 -O2 -DNDEBUG -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(IDIRFLAGS)
 
 # Linker flags
-LDFLAGS=-Llib/ -L../bin/ -pthread -lgtest -lgmock -lghost
+LDFLAGS=-Llib -pthread -lgtest -lgmock -lghost
 
 # Files
 SOURCES=$(foreach sdir, $(SRCDIR), $(wildcard $(sdir)/*.cpp))

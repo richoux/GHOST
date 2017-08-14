@@ -2,13 +2,15 @@
 EXEC=libghost.so
 
 # Compiler
-CXX=g++-5
-SRCDIR=src src/misc
-SRCDIRFLAG=$(foreach sdir, $(SRCDIR), -I$(sdir))
-CXXFLAGS=-std=c++14 -fPIC -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(SRCDIRFLAG)
+CXX=g++
+SRCDIR=src
+INCDIR=include include/misc
+INCDIRFLAG=$(foreach idir, $(INCDIR), -I$(idir))
+CXXFLAGS=-std=c++14 -fPIC -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(INCDIRFLAG)
 
 # Linker
-LDFLAGS=-shared $(SRCDIRFLAG)
+LDFLAGS=-shared $(INCDIRFLAG)
+#LDFLAGS=-shared $(INCDIRFLAG)
 
 # Directories
 OBJDIR=obj
@@ -20,6 +22,7 @@ OBJECTS=$(patsubst %.cpp, $(OBJDIR)/%.o, $(notdir $(SOURCES)))
 
 # For rm
 SOURCESTILDE=$(foreach sdir, $(SRCDIR), $(wildcard $(sdir)/*.cpp~))
+INCLUDETILDE=$(foreach idir, $(INCDIR), $(wildcard $(idir)/*.hpp~))
 
 vpath %.cpp $(SRCDIR)
 
@@ -45,7 +48,7 @@ $(OBJDIR)/%.o: %.cpp
 .PHONY: debug clean test doc install
 
 clean:
-	rm -fr core *~ $(OBJDIR)/*.o $(BINDIR)/$(EXEC) $(SOURCESTILDE)
+	rm -fr core *~ $(OBJDIR)/*.o $(BINDIR)/$(EXEC) $(SOURCESTILDE) $(INCLUDETILDE)
 
 test:
 	(cd test && $(MAKE))
@@ -54,4 +57,7 @@ doc:
 	doxygen doc/Doxyfile
 
 install:
-	cp bin/libghost.so /usr/local/lib
+	sudo cp bin/libghost.so /usr/local/lib
+	sudo ldconfig
+	sudo mkdir /usr/local/include/ghost
+	sudo cp -r include/* /usr/local/include/ghost/
