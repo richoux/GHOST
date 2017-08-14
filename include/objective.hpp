@@ -1,9 +1,9 @@
 /*
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library 
  * designed to help developers to model and implement optimization problem 
- * solving. 
- * GHOST is a meta-heuristic solver aiming to solve any kind of combinatorial 
- * and optimization real-time problems represented by a CSP/COP. 
+ * solving. It contains a meta-heuristic solver aiming to solve any kind of 
+ * combinatorial and optimization real-time problems represented by a CSP/COP. 
+ *
  * GHOST has been first developped to help making AI for the RTS game
  * StarCraft: Brood war, but can be used for any kind of applications where 
  * solving combinatorial and optimization problems within some tenth of 
