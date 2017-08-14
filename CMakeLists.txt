@@ -6,15 +6,21 @@ set(CMAKE_BUILD_TYPE Release)
 # require a C++14-capable compiler
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
-CHECK_CXX_COMPILER_FLAG("-std=c++0y" COMPILER_SUPPORTS_CXX0Y)
+CHECK_CXX_COMPILER_FLAG("-std=c++1y" COMPILER_SUPPORTS_CXX1Y)
 if(COMPILER_SUPPORTS_CXX14)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
-elseif(COMPILER_SUPPORTS_CXX0Y)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0y")
+elseif(COMPILER_SUPPORTS_CXX1Y)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y")
 else()
-        message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++14 support. Please use a different C++ compiler.")
+  message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++14 support. Please use a different C++ compiler.")
 endif()
 
+# compilation options
+set(CMAKE_CXX_FLAGS "-Ofast -Wall")
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")  
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+endif()
+  
 # add the binary tree to the search path for include files
 # so that we will find headers
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -22,8 +28,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 # add the targets
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
-# compilation options
-set(CMAKE_CXX_FLAGS "-std=c++14 -Ofast -Wall")
 
 # add the library
 add_library(ghost SHARED src/variable.cpp src/domain.cpp)
