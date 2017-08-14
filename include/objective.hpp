@@ -75,16 +75,14 @@ namespace ghost
 
     //! Inline function following the NVI idiom. Calling v_cost.
     //! \sa v_cost
-    inline double cost( vector< TypeVariable > *vecVariables,
-			TypeDomain *domain ) const
-    { return v_cost( vecVariables, domain ); }
+    inline double cost( vector< TypeVariable > *vecVariables ) const
+    { return v_cost( vecVariables ); }
 
     //! Inline function following the NVI idiom. Calling v_heuristicVariable.
     //! \sa v_heuristicVariable
     inline int heuristicVariable( const vector< int >& vecVarId,
-				  vector< TypeVariable > *vecVariables,
-				  TypeDomain *domain )
-    { return v_heuristicVariable( vecVarId, vecVariables, domain ); }
+				  vector< TypeVariable > *vecVariables )
+    { return v_heuristicVariable( vecVarId, vecVariables ); }
     
     //! Inline function following the NVI idiom. Calling v_heuristicValue.
     //! \sa v_heuristicValue
@@ -96,26 +94,23 @@ namespace ghost
     //! Inline function following the NVI idiom. Calling v_setHelper.
     //! \sa v_setHelper
     inline void setHelper( const TypeVariable& variable,
-			   vector< TypeVariable > *vecVariables,
-			   TypeDomain *domain )
-    { v_setHelper( variable, vecVariables, domain ); }
+			   vector< TypeVariable > *vecVariables )
+    { v_setHelper( variable, vecVariables ); }
 
     //! Inline function following the NVI idiom. Calling v_postprocessSatisfaction.
     //! \sa v_postprocessSatisfaction
     inline double postprocessSatisfaction( vector< TypeVariable > *vecVariables,
-					   TypeDomain *domain,
 					   double& bestCost,
 					   vector< TypeVariable >& bestSolution,
 					   double sat_timeout )
-    { return v_postprocessSatisfaction( vecVariables, domain, bestCost, bestSolution, sat_timeout ); }
+    { return v_postprocessSatisfaction( vecVariables, bestCost, bestSolution, sat_timeout ); }
 
     //! Inline function following the NVI idiom. Calling v_postprocessOptimization.
     //! \sa v_postprocessOptimization
     inline double postprocessOptimization( vector< TypeVariable > *vecVariables,
-					   TypeDomain *domain,
 					   double& bestCost,
 					   double opt_timeout )
-    { return v_postprocessOptimization( vecVariables, domain, bestCost, opt_timeout ); }
+    { return v_postprocessOptimization( vecVariables, bestCost, opt_timeout ); }
 
     //! Inline accessor to get the name of the objective object.
     inline string getName() const { return name; }
@@ -142,24 +137,20 @@ namespace ghost
     //! Pure virtual function to compute the value of the objective function on the current configuration.
     /*! 
      * \param vecVariables A pointer to the vector of variable objects of the CSP/COP.
-     * \param domain A pointer to the domain object of the CSP/COP.
      * \return The value of the objective function on the current configuration.
      * \sa cost
      */
-    virtual double v_cost( vector< TypeVariable > *vecVariables,
-			   TypeDomain *domain ) const = 0;
+    virtual double v_cost( vector< TypeVariable > *vecVariables ) const = 0;
 
     //! Pure virtual function to apply the variable heuristic used by the solver.
     /*! 
      * \param vecVarId A constant reference to the vector of variable ID objects of the CSP/COP.
      * \param vecVariables A pointer to the vector of variable objects of the CSP/COP.
-     * \param domain A constant pointer to the domain object of the CSP/COP.
      * \return The ID of the selected variable according to the heuristic.
      * \sa heuristicVariable
      */
     virtual int	v_heuristicVariable( const vector< int >& vecVarId,
-				     vector< TypeVariable > *vecVariables,
-				     TypeDomain *domain )
+				     vector< TypeVariable > *vecVariables )
     {
 
     }
@@ -168,12 +159,10 @@ namespace ghost
     /*! 
      * \param currentVar A constant reference to a variable object.
      * \param vecVariables A pointer to the vector of variable objects of the CSP/COP.
-     * \param domain A pointer to the domain object of the CSP/COP.
      * \sa setHelper, heuristicValueHelper
      */
     virtual void v_setHelper( const TypeVariable& currentVar,
-			      vector< TypeVariable > *vecVariables,
-			      TypeDomain *domain ) = 0;
+			      vector< TypeVariable > *vecVariables ) = 0;
 
     //! Virtual function to perform satisfaction post-processing.
     /*! 
@@ -184,7 +173,6 @@ namespace ghost
      * This implementation by default does nothing.
      * 
      * \param vecVariables A constant pointer to the vector of variable objects of the CSP/COP.
-     * \param domain A constant pointer to the domain object of the CSP/COP.
      * \param bestCost A reference the double representing the best global cost found by the solver so far.
      * \param solution A reference to the vector of variables of the solution found by the solver.
      * \param sat_timeout The satisfaction timeout given in argument of Solver::solve
@@ -192,7 +180,6 @@ namespace ghost
      * \sa postprocessSatisfaction
      */
     virtual double v_postprocessSatisfaction( vector< TypeVariable > *vecVariables,
-					      TypeDomain *domain,
 					      double& bestCost,
 					      vector< TypeVariable > &solution,
 					      double sat_timeout) const
@@ -210,14 +197,12 @@ namespace ghost
      * This implementation by default does nothing.
      * 
      * \param vecVariables A constant pointer to the vector of variable objects of the CSP/COP.
-     * \param domain A constant pointer to the domain object of the CSP/COP.
      * \param bestCost A reference the double representing the best optimization cost found by the solver so far.
      * \param opt_timeout The optimization timeout given in argument of Solver::solve
      * \return The function runtime in milliseconds.
      * \sa postprocessOptimization
      */
     virtual double v_postprocessOptimization( vector< TypeVariable > *vecVariables,
-					      TypeDomain *domain,
 					      double& bestCost,
 					      double opt_timeout)
     {
@@ -310,20 +295,16 @@ namespace ghost
     NullObjective() : Objective<TypeVariable>("nullObjective") { }
 
   private:
-    virtual double v_cost( vector< TypeVariable > *vecVariables,
-			   TypeDomain *domain ) const
-    { return 0.; }
+    double v_cost( vector< TypeVariable > *vecVariables ) const override { return 0.; }
     
-    virtual int	v_heuristicVariable( const vector< int >& vecId,
-				     vector< TypeVariable > *vecVariables,
-				     TypeDomain *domain )
+    int	v_heuristicVariable( const vector< int >& vecId,
+			     vector< TypeVariable > *vecVariables ) override
     {
       return vecId[ randomVar.getRandNum( vecId.size() ) ];
     }
     
-    virtual void v_setHelper( const TypeVariable& b,
-			      vector< TypeVariable > *vecVariables,
-			      TypeDomain *domain )
+    void v_setHelper( const TypeVariable& b,
+		      vector< TypeVariable > *vecVariables ) override
     {
       heuristicValueHelper.at( b.getValue() ) = 0;
     }
