@@ -68,7 +68,7 @@ namespace ghost
      * initialize both the initial and current possible variable values. The outside-the-scope value
      * must not belong to this list, or an exception is raised (throw 0).
      */
-    Domain( const std::vector< int > &domain, int outsideScope = -1 );
+    Domain( const std::vector< int >& domain, int outsideScope = -1 );
 
     //! Second Domain constructor.
     /*!
@@ -90,7 +90,7 @@ namespace ghost
     }
 
     //! Inline function returning a random value from the domain.
-    inline int random_value()
+    inline int random_value() const
     {
       return _currentDomain[ _random.get_random_number( _currentDomain.size() ) ];
     }

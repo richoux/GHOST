@@ -44,8 +44,12 @@ namespace ghost
    */
   class Random
   {
+    std::random_device				_rd;
+    mutable std::mt19937			_rng;
+    mutable std::uniform_int_distribution<int>  _numbers;
+    
   public:
-    Random() : rng( rd() ) { }
+    Random() : _rng( _rd() ) { }
     // Random( const Random &other ) : Random() { }
 
     // Random operator=( const Random &other ) { return Random(); }
@@ -58,11 +62,6 @@ namespace ghost
      * \param limit The upper bound of the range [0, limit[ from where a random value is computed.
      * \return A pseudo-random value in the range [0, limit[
      */
-    inline int get_random_number( int limit ) { return ( numbers(rng) % limit ); } 
-
-  private:
-    std::random_device			rd;
-    std::mt19937			rng;
-    std::uniform_int_distribution<int>  numbers;
+    inline int get_random_number( int limit ) const { return ( _numbers( _rng ) % limit ); } 
   };
 }

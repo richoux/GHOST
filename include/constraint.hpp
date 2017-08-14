@@ -69,16 +69,15 @@ namespace ghost
   public:
     //! The unique Constraint constructor
     /*!
-     * \param variables A constant pointer toward the vector of variable objects of the CSP/COP.
-     * \param domain A constant pointer toward the domain object of the CSP/COP.
+     * \param variables A pointer toward the vector of variable objects of the CSP/COP.
      */
-    Constraint( const vector< TypeVariable > *variables )
-      : variables( const_cast< vector< TypeVariable >* >(variables) ) { }
+    Constraint( vector< TypeVariable > *variables )
+      : variables( variables ) { }
 
 
     //! Inline function following the NVI idiom. Calling v_cost.
     //! \sa v_cost
-    inline double cost( vector<double> &varCost ) const { return v_cost( varCost ); }
+    inline double cost( vector<double>& varCost ) const { return v_cost( varCost ); }
 
     // //! Inline function following the NVI idiom. Calling v_simulteCost.
     // //! \sa v_simulteCost

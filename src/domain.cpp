@@ -41,7 +41,7 @@ Domain::Domain( int outsideScope )
   : _outsideScope(outsideScope)
 { }
 
-Domain::Domain( const std::vector< int > &domain, int outsideScope )
+Domain::Domain( const std::vector< int >& domain, int outsideScope )
   : _currentDomain(domain),
     _outsideScope(outsideScope)
 {

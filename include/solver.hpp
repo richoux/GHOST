@@ -76,6 +76,24 @@ namespace ghost
    */
   class Solver
   {
+    //! Solver's function to make a local move, ie, to assign a given
+    //! value to a given variable
+    void move( Variable& variable, int newValue );
+
+    //! Solver's function to make a permutation move, ie, to assign a given
+    //! variable to a new position
+    void permut( Variable& variable, int newValue );
+
+    vector< Variable >			vecVariables;	//!< A pointer to the vector of variable objects of the CSP/COP.
+    vector< shared_ptr< Constraint > >	vecConstraints; //!< The vector of (shared pointers of) constraints of the CSP/COP.
+    shared_ptr< Objective >		objective;	//!< The shared pointer of the objective function.
+
+    vector<int>					tabuList;		//!< The tabu list, frozing each used variable for tabu_length iterations 
+    Random					randomVar;		//!< The random generator used by the solver.
+    double					bestCost;		//!< The (satisfaction or optimization) cost of the best solution.
+    vector< shared_ptr< Variable > >		bestSolution;		//!< The best solution found by the solver.
+    bool					objOriginalNull;	//!< A boolean to know if it is a satisfaction or optimization run.
+
   public:
     //! Solver's regular constructor
     /*!
@@ -98,24 +116,5 @@ namespace ghost
      * non-null Objective (optimization run).
      */
     double solve( double sat_timeout, double opt_timeout = 0 );
-
-  private:
-    //! Solver's function to make a local move, ie, to assign a given
-    //! value to a given variable
-    void move( Variable &variable, int newValue );
-
-    //! Solver's function to make a permutation move, ie, to assign a given
-    //! variable to a new position
-    void permut( Variable &variable, int newValue );
-
-    vector< Variable >			vecVariables;	//!< A pointer to the vector of variable objects of the CSP/COP.
-    vector< shared_ptr< Constraint > >	vecConstraints; //!< The vector of (shared pointers of) constraints of the CSP/COP.
-    shared_ptr< Objective >		objective;	//!< The shared pointer of the objective function.
-
-    vector<int>					tabuList;		//!< The tabu list, frozing each used variable for tabu_length iterations 
-    Random					randomVar;		//!< The random generator used by the solver.
-    double					bestCost;		//!< The (satisfaction or optimization) cost of the best solution.
-    vector< shared_ptr< Variable > >		bestSolution;		//!< The best solution found by the solver.
-    bool					objOriginalNull;	//!< A boolean to know if it is a satisfaction or optimization run.
   };
 }

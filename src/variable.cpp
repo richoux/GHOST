@@ -46,7 +46,7 @@ Variable::Variable( string name, string shortName )
   : Variable( name, shortName, nullptr, -1 )
 { }
 
-Variable::Variable( string name, string shortName, int index, vector<int> domain, int outsideScope )
+Variable::Variable( string name, string shortName, int index, const vector<int>& domain, int outsideScope )
   : Variable( name, shortName, make_unique<Domain>( domain, outsideScope ), index )
 { }
 
@@ -81,7 +81,7 @@ Variable::Variable( string name, string shortName, int index, int size, int star
 //   std::swap(this->_projectedCost, other._projectedCost);
 // }  
 
-bool Variable::has_initialized_domain()
+bool Variable::has_initialized_domain() const
 {
   if( !domain )
     return false;
@@ -106,7 +106,7 @@ void Variable::unshift_value()
     index = index > 0 ? index - 1 : domain->get_size() - 1;
 }
 
-std::vector<int> Variable::possible_values()
+std::vector<int> Variable::possible_values() const
 {
   std::vector<int> possibleValues;
   

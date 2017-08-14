@@ -53,7 +53,6 @@ namespace ghost
    */
   class Variable
   {
-  private:
     double _projectedCost; //!< The cost of the variable. This is for inner mecanisms, no need to worry about that.  
 
     //! The private Variable constructor
@@ -97,7 +96,7 @@ namespace ghost
     Variable( std::string name,
 	      std::string shortName,
 	      int index,
-	      std::vector<int> domain,
+	      const std::vector<int>& domain,
 	      int outsideScope = -1 );
     
     //! Second Variable constructor, with a size and a starting value for the domain.
@@ -136,7 +135,7 @@ namespace ghost
     /*!
      * \return True if and only if the domain variable is initialized.
      */
-    bool has_initialized_domain();
+    bool has_initialized_domain() const;
 
     //! Function initializing the variable to one random values of its domain.
     void do_random_initialization();
@@ -164,7 +163,7 @@ namespace ghost
     /*! Function returning what values are in the current domain.
      * \return a vector<int> of values belonging to the variable domain.
      */
-    std::vector<int> possible_values();
+    std::vector<int> possible_values() const;
 
     //! Inline function to get the current value of the variable.
     inline int get_value() const	{ return domain->get_value( index ); }
