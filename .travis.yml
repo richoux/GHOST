@@ -37,10 +37,9 @@ script:
   - cp -r ../include/* ../../../test/include/
   - cp libg*a ../../../test/lib/
   - cd ../../..  
-  - make
-  - sudo make install
+  - make CXX=g++-5
   - export LD_LIBRARY_PATH=/usr/local/lib/
-  - sudo ldconfig
+  - sudo make install
   - make test
   - cd test/bin && for i in $(ls); do ./$i; done
   # - valgrind --leak-check=full --show-reachable=yes bin/ghost --auto
