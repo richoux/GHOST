@@ -6,3 +6,5 @@ test/src/*~
 doc/html
 doc/latex
 
+# CMake build
+build/
