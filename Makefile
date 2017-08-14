@@ -59,5 +59,5 @@ doc:
 install:
 	cp bin/libghost.so /usr/local/lib
 	ldconfig
-	mkdir /usr/local/include/ghost
-	cp -r include/* /usr/local/include/ghost/
+	rm -fr /usr/local/include/ghost
+	cp -r include /usr/local/include/ghost
