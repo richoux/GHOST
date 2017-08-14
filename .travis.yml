@@ -5,12 +5,12 @@ compiler:
   - gcc
 
 before_install:
-  # - sudo apt-get update
+  - sudo apt-get update
   # - sudo apt-get install libgtest-dev
   # - "cd /usr/src/gtest && sudo cmake . && sudo cmake --build . && sudo mv libg* /usr/local/lib/ ; cd -"
 
 install:
-# - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
+- if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
 
 addons:
   apt:
@@ -18,7 +18,7 @@ addons:
     # - ubuntu-toolchain-r-test
     packages:
     # - gcc-5
-    # - g++-5
+    - g++-5
 
 script: 
   - $CXX --version
@@ -27,14 +27,12 @@ script:
   - mkdir build ; cd build
   - cmake ..
   - make
-  # - sudo make install
   - cp -r ../include/* ../../../test/include/
   - cp libg*a ../../../test/lib/
   - cd ../../googlemock
   - mkdir build ; cd build
   - cmake ..
   - make
-  # - sudo make install
   - cp -r ../include/* ../../../test/include/
   - cp libg*a ../../../test/lib/
   - cd ../../..  
