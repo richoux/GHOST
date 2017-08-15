@@ -22,9 +22,6 @@ matrix:
       compiler: clang
       env: COMPILER=clang++-3.9
 
-before_install:
-#    - if [ "$TRAVIS_OS_NAME" = "linux"  ]; then sudo apt-get -qq update;    fi
-
 before_script:
     - if [ "$COMPILER" = "g++-6"        ]; then export CXX="g++-6" CC="gcc-6";              fi
     - if [ "$COMPILER" = "clang++-3.9" ]; then export CXX="clang++" CC="clang";    fi
