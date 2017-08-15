@@ -35,6 +35,8 @@
 using namespace std;
 using namespace ghost;
 
+int Variable::NBER_VAR = 0;
+
 Variable::Variable( string name, string shortName, unique_ptr<Domain> domain, int index )
   : name(name),
     shortName(shortName),

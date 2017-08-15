@@ -35,6 +35,16 @@ TEST_F(VariableTest, isInitialized)
   EXPECT_TRUE( var_ctor3->has_initialized_domain() );
 }
 
+TEST_F(VariableTest, IDs)
+{
+  // The isInitialized test already creates 4 variables
+  // So our first variable here starts with id=4 instead of 0
+  EXPECT_EQ( var_ctor1->get_id(), 4 );
+  EXPECT_EQ( var_ctor2->get_id(), 5 );
+  EXPECT_EQ( var_ctor2_bis->get_id(), 6 );
+  EXPECT_EQ( var_ctor3->get_id(), 7 );
+}
+
 TEST_F(VariableTest, Names)
 {
   EXPECT_EQ( var_ctor1->get_name(), "Thomas" );
@@ -46,14 +56,6 @@ TEST_F(VariableTest, Names)
   EXPECT_EQ( var_ctor2->get_short_name(), "L" );
   EXPECT_EQ( var_ctor2_bis->get_short_name(), "L_b" );
   EXPECT_EQ( var_ctor3->get_short_name(), "J" );
-}
-
-TEST_F(VariableTest, IDs)
-{
-  EXPECT_EQ( var_ctor1->get_id(), 0 );
-  EXPECT_EQ( var_ctor2->get_id(), 1 );
-  EXPECT_EQ( var_ctor2_bis->get_id(), 2 );
-  EXPECT_EQ( var_ctor3->get_id(), 3 );
 }
 
 TEST_F(VariableTest, Values)

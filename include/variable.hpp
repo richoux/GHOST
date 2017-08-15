@@ -53,7 +53,7 @@ namespace ghost
    */
   class Variable
   {
-    static int NBER_VAR = 0;
+    static int NBER_VAR;
     
     double _projectedCost; //!< The cost of the variable. This is for inner mecanisms, no need to worry about that.  
     int _id; //! Unique ID integer
