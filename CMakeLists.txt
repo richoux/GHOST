@@ -16,7 +16,7 @@ else()
 endif()
 
 # compilation options
-set(CMAKE_CXX_FLAGS "-Ofast -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Ofast -Wall")
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")  
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
 endif()

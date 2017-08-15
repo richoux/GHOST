@@ -13,7 +13,7 @@ compiler:
   - clang
   
 install:
-- if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
+- if [ ${CXX} = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
 
 addons:
   apt:
@@ -56,7 +56,8 @@ script:
   # - sudo make install
 
   # make and run tests
-  - make test CXX=g++-5
+  # - make test CXX=g++-5
+  - make test
   - cd test/bin && for i in $(ls); do ./$i; done
 
   # - valgrind --leak-check=full --show-reachable=yes bin/ghost --auto
