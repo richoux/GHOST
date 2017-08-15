@@ -1,3 +1,5 @@
+language: cpp
+
 addons:
   apt:
     sources:
@@ -6,24 +8,24 @@ addons:
     packages:
       - g++-6
       - clang-3.9
-      - valgrind
-
-os:
-  - linux
-  - osx
-
-language: cpp
-
-compiler:
-  - gcc
-  - clang
 
 matrix:
   include:
-    - compiler: gcc
+    - os: linux
+      dist: trusty
+      sudo: required
+      compiler: gcc
       env: COMPILER=g++-6
 
-    - compiler: clang
+    - os: linux
+      dist: trusty
+      sudo: required
+      compiler: clang
+      env: COMPILER=clang++-3.9
+
+    - os: osx
+      osx_image: xcode8
+      compiler: clang
       env: COMPILER=clang++-3.9
 
 before_install:
@@ -69,7 +71,7 @@ script:
 # - sudo make install
 
 # make and run tests
-  - make test
+  - make test CXX=$CXX
   - cd test/bin && for i in $(ls); do ./$i; done
 
 # - valgrind --leak-check=full --show-reachable=yes bin/ghost --auto
