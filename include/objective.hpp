@@ -34,6 +34,7 @@
 #include <limits>
 #include <vector>
 
+#include "variable.hpp"
 #include "misc/random.hpp"
 
 using namespace std;
@@ -63,7 +64,6 @@ namespace ghost
    *
    * \sa Variable
    */
-  template <typename TypeVariable>
   class Objective
   {
   public:
@@ -80,9 +80,8 @@ namespace ghost
 
     //! Inline function following the NVI idiom. Calling v_heuristicVariable.
     //! \sa v_heuristicVariable
-    inline int heuristicVariable( const vector< int >& vecVarId,
-				  vector< TypeVariable > *vecVariables )
-    { return v_heuristicVariable( vecVarId, vecVariables ); }
+    inline Variable* heuristicVariable( const vector< Variable >& vecVariables ) const
+    { return v_heuristicVariable( vecVariables ); }
     
     //! Inline function following the NVI idiom. Calling v_heuristicValue.
     //! \sa v_heuristicValue
@@ -90,12 +89,6 @@ namespace ghost
 				double& bestEstimatedCost,
 				int& bestValue ) const
     { return v_heuristicValue( vecGlobalCosts, bestEstimatedCost, bestValue ); }
-
-    //! Inline function following the NVI idiom. Calling v_setHelper.
-    //! \sa v_setHelper
-    inline void setHelper( const TypeVariable& variable,
-			   vector< TypeVariable > *vecVariables )
-    { v_setHelper( variable, vecVariables ); }
 
     //! Inline function following the NVI idiom. Calling v_postprocessSatisfaction.
     //! \sa v_postprocessSatisfaction
@@ -115,20 +108,6 @@ namespace ghost
     //! Inline accessor to get the name of the objective object.
     inline string getName() const { return name; }
 
-    //! Inline function to initialize heuristicValueHelper to a vector of MAX_INT values.  
-    //! \sa heuristicValueHelper
-    inline void initHelper( int size )
-    {
-      heuristicValueHelper = std::vector<double>( size, numeric_limits<int>::max() );
-    }
-
-    //! Inline function to reset heuristicValueHelper with MAX_INT values.  
-    //! \sa heuristicValueHelper
-    inline void resetHelper()
-    {
-      std::fill( heuristicValueHelper.begin(), heuristicValueHelper.end(), numeric_limits<int>::max() );
-    }
-
     //! Inline function returning permutation.
     //! \sa permutation
     inline bool isPermutation() const { return permutation; }
@@ -142,72 +121,15 @@ namespace ghost
      */
     virtual double v_cost( vector< TypeVariable > *vecVariables ) const = 0;
 
-    //! Pure virtual function to apply the variable heuristic used by the solver.
+    //! Virtual function to apply the variable heuristic used by the solver.
     /*! 
-     * \param vecVarId A constant reference to the vector of variable ID objects of the CSP/COP.
-     * \param vecVariables A pointer to the vector of variable objects of the CSP/COP.
-     * \return The ID of the selected variable according to the heuristic.
+     * \param vecVariables The vector of variable objects of the CSP/COP.
+     * \return The address of a random variable in vecVariables
      * \sa heuristicVariable
      */
-    virtual int	v_heuristicVariable( const vector< int >& vecVarId,
-				     vector< TypeVariable > *vecVariables )
+    virtual Variable* v_heuristicVariable( const vector< Variable >& vecVariables ) const
     {
-
-    }
-
-    //! Pure virtual function to set heuristicValueHelper[currentVar.getValue()].
-    /*! 
-     * \param currentVar A constant reference to a variable object.
-     * \param vecVariables A pointer to the vector of variable objects of the CSP/COP.
-     * \sa setHelper, heuristicValueHelper
-     */
-    virtual void v_setHelper( const TypeVariable& currentVar,
-			      vector< TypeVariable > *vecVariables ) = 0;
-
-    //! Virtual function to perform satisfaction post-processing.
-    /*! 
-     * This function is called by the solver after a satisfaction run,
-     * if the solver was able to find a solution, to apply
-     * human-knowledge in order to "clean-up" the proposed solution.
-     *
-     * This implementation by default does nothing.
-     * 
-     * \param vecVariables A constant pointer to the vector of variable objects of the CSP/COP.
-     * \param bestCost A reference the double representing the best global cost found by the solver so far.
-     * \param solution A reference to the vector of variables of the solution found by the solver.
-     * \param sat_timeout The satisfaction timeout given in argument of Solver::solve
-     * \return The function runtime in milliseconds.
-     * \sa postprocessSatisfaction
-     */
-    virtual double v_postprocessSatisfaction( vector< TypeVariable > *vecVariables,
-					      double& bestCost,
-					      vector< TypeVariable > &solution,
-					      double sat_timeout) const
-    {
-      bestCost = 0.;
-      return 0.;
-    }
-
-    //! Virtual function to perform optimization post-processing.
-    /*! 
-     * This function is called by the solver after all optimization
-     * runs to apply human-knowledge optimization, allowing to improve
-     * the optimization cost.
-     *
-     * This implementation by default does nothing.
-     * 
-     * \param vecVariables A constant pointer to the vector of variable objects of the CSP/COP.
-     * \param bestCost A reference the double representing the best optimization cost found by the solver so far.
-     * \param opt_timeout The optimization timeout given in argument of Solver::solve
-     * \return The function runtime in milliseconds.
-     * \sa postprocessOptimization
-     */
-    virtual double v_postprocessOptimization( vector< TypeVariable > *vecVariables,
-					      double& bestCost,
-					      double opt_timeout)
-    {
-      bestCost = 0.;
-      return 0.;
+      return &vecVariables[ random.getRandNum( vecVariables.size() ) ];
     }
 
     //! Virtual function to apply the value heuristic used by the solver.
@@ -262,7 +184,7 @@ namespace ghost
 
       if( draw.size() > 1 )
       {
-	int i = draw[ const_cast<Objective*>(this)->randomVar.getRandNum( draw.size() ) ];
+	int i = draw[ const_cast<Objective*>(this)->random.getRandNum( draw.size() ) ];
 	  
 	bestEstimatedCost = vecGlobalCosts[i];
 	
@@ -277,10 +199,55 @@ namespace ghost
       return best;
     }
 
+    //! Virtual function to perform satisfaction post-processing.
+    /*! 
+     * This function is called by the solver after a satisfaction run,
+     * if the solver was able to find a solution, to apply
+     * human-knowledge in order to "clean-up" the proposed solution.
+     *
+     * This implementation by default does nothing.
+     * 
+     * \param vecVariables A constant pointer to the vector of variable objects of the CSP/COP.
+     * \param bestCost A reference the double representing the best global cost found by the solver so far.
+     * \param solution A reference to the vector of variables of the solution found by the solver.
+     * \param sat_timeout The satisfaction timeout given in argument of Solver::solve
+     * \return The function runtime in milliseconds.
+     * \sa postprocessSatisfaction
+     */
+    virtual double v_postprocessSatisfaction( vector< TypeVariable > *vecVariables,
+					      double& bestCost,
+					      vector< TypeVariable > &solution,
+					      double sat_timeout) const
+    {
+      bestCost = 0.;
+      return 0.;
+    }
 
-    Random randomVar;				//!< Random generator used by the function heuristicValue.
+    //! Virtual function to perform optimization post-processing.
+    /*! 
+     * This function is called by the solver after all optimization
+     * runs to apply human-knowledge optimization, allowing to improve
+     * the optimization cost.
+     *
+     * This implementation by default does nothing.
+     * 
+     * \param vecVariables A constant pointer to the vector of variable objects of the CSP/COP.
+     * \param bestCost A reference the double representing the best optimization cost found by the solver so far.
+     * \param opt_timeout The optimization timeout given in argument of Solver::solve
+     * \return The function runtime in milliseconds.
+     * \sa postprocessOptimization
+     */
+    virtual double v_postprocessOptimization( vector< TypeVariable > *vecVariables,
+					      double& bestCost,
+					      double opt_timeout)
+    {
+      bestCost = 0.;
+      return 0.;
+    }
+
+
+    Random random;				//!< Random generator used by the function heuristicValue.
     string name;				//!< String for the name of the objective object.
-    vector<double> heuristicValueHelper;	//!< Vector of local costs used by the value heuristic. Represent the cost for each possible value of a given variable. Used to tie-break equivalent configuration costs.
     bool   permutation;				//!< Boolean telling is the problem is a permutation problem or not.
   };
 
@@ -288,25 +255,12 @@ namespace ghost
   template <typename TypeVariable>
   class NullObjective : public Objective<TypeVariable>
   {
-    using Objective<TypeVariable>::randomVar;
-    using Objective<TypeVariable>::heuristicValueHelper;
+    using Objective<TypeVariable>::random;
     
   public:
     NullObjective() : Objective<TypeVariable>("nullObjective") { }
 
   private:
     double v_cost( vector< TypeVariable > *vecVariables ) const override { return 0.; }
-    
-    int	v_heuristicVariable( const vector< int >& vecId,
-			     vector< TypeVariable > *vecVariables ) override
-    {
-      return vecId[ randomVar.getRandNum( vecId.size() ) ];
-    }
-    
-    void v_setHelper( const TypeVariable& b,
-		      vector< TypeVariable > *vecVariables ) override
-    {
-      heuristicValueHelper.at( b.getValue() ) = 0;
-    }
   };
 }
