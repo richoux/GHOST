@@ -9,7 +9,7 @@ IDIRFLAGS=$(foreach idir, $(IDIR), -I$(idir))
 CXXFIRSTFLAGS= -O2 -DNDEBUG -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(IDIRFLAGS)
 
 # Compiler
-ifeq (,$(findstring g++,$(CXX)))
+ifneq (,$(findstring g++,$(CXX)))
 	CXXFLAGS= -std=c++14 $(CXXFIRSTFLAGS)
 else
 	CXXFLAGS= -std=c++1y -stdlib=libc++ $(CXXFIRSTFLAGS)
