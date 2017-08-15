@@ -7,9 +7,8 @@ addons:
       - llvm-toolchain-precise-3.9
     packages:
       - g++-6
-      - clang-3.5
       - clang-3.9
-
+      
 matrix:
   include:
     - os: linux
@@ -17,12 +16,6 @@ matrix:
       sudo: required
       compiler: gcc
       env: COMPILER=g++-6
-
-    - os: linux
-      dist: trusty
-      sudo: required
-      compiler: clang
-      env: COMPILER=clang++-3.5
 
     - os: osx
       osx_image: xcode8
@@ -34,7 +27,7 @@ before_install:
 
 before_script:
     - if [ "$COMPILER" = "g++-6"        ]; then export CXX="g++-6" CC="gcc-6";              fi
-    - if [ "$COMPILER" = "clang++-3.9" || "$COMPILER" = "clang++-3.5" ]; then export CXX="clang++" CC="clang";    fi
+    - if [ "$COMPILER" = "clang++-3.9" ]; then export CXX="clang++" CC="clang";    fi
   
 script:
   - echo $CXX
@@ -71,6 +64,3 @@ script:
 # make and run tests
   - make test
   - cd test/bin && for i in $(ls); do ./$i; done
-
-# - valgrind --leak-check=full --show-reachable=yes bin/ghost --auto
-# - valgrind --tool=cachegrind bin/ghost --auto
