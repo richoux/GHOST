@@ -4,7 +4,8 @@
 language: c++
 compiler: clang
 os: linux
-sudo: false
+dist: trusty
+sudo: required
 
 # Do not build branches of the form "pr/*". By prefixing pull requests coming
 # from branches inside the repository with pr/, this avoids building both the
@@ -124,7 +125,7 @@ matrix:
           sources: *sources
 
     # GCC 4.9 with 14
-    - env: UNIT_TESTS=true CPP=11 GCC_VERSION=4.9 STDLIB=libstdc++ BOOST_VERSION=default
+    - env: UNIT_TESTS=true CPP=14 GCC_VERSION=4.9 STDLIB=libstdc++ BOOST_VERSION=default
       os: linux
       dist: trusty
       compiler: g++
