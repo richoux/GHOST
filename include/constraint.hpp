@@ -35,7 +35,7 @@
 #include <memory>
 #include <typeinfo>
 
-#include "objective.hpp"
+#include "variable.hpp"
 
 using namespace std;
 
@@ -63,15 +63,14 @@ namespace ghost
    *
    * \sa Variable
    */
-  template <typename TypeVariable>
   class Constraint
   {
   public:
     //! The unique Constraint constructor
     /*!
-     * \param variables A pointer toward the vector of variable objects of the CSP/COP.
+     * \param variables The vector of variable pointers composition the CSP/COP.
      */
-    Constraint( vector< TypeVariable > *variables )
+    Constraint( const vector< Variable* >& variables )
       : variables( variables ) { }
 
 
@@ -79,6 +78,11 @@ namespace ghost
     //! \sa v_cost
     inline double cost( vector<double>& varCost ) const { return v_cost( varCost ); }
 
+    //! Given a variable, does this variable composes the constraint?
+    //! \param var A variable.
+    //! \return True iff the constraint contains var 
+    bool hasVariable( const Variable& var ) const;
+    
     // //! Inline function following the NVI idiom. Calling v_simulteCost.
     // //! \sa v_simulteCost
     // inline vector<double> simulateCost( TypeVariable &currentVar,
@@ -95,7 +99,7 @@ namespace ghost
     // { return v_simulateCost( currentVar, possibleValues, vecVarSimCosts, nullptr ); }
 
     //! friend override of operator<<
-    friend ostream& operator<<( ostream& os, const Constraint<TypeVariable, TypeDomain>& c )
+    friend ostream& operator<<( ostream& os, const Constraint& c )
     {
       return os << "Constraint type: " <<  typeid(c).name() << std::endl;
     }
@@ -133,6 +137,6 @@ namespace ghost
     // 					   shared_ptr< Objective< TypeVariable, TypeDomain > > objective ) = 0;
 
     
-    vector< TypeVariable > *variables;	//!< A pointer to the vector of variable objects of the CSP/COP.
+    vector< Variable* > variables;	//!< The vector of variable pointers compositing the CSP/COP.
   };  
 }

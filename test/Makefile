@@ -45,6 +45,8 @@ $(BINDIR)/test_domain: $(OBJDIR)/test_domain.o
 $(BINDIR)/test_variable: $(OBJDIR)/test_variable.o
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
+$(BINDIR)/test_constraint: $(OBJDIR)/test_constraint.o
+	$(CXX) -o $@ $^ $(LDFLAGS)
 
 $(OBJDIR)/%.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@

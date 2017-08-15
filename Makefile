@@ -12,7 +12,6 @@ CXXFLAGS=-std=c++14 -fPIC -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -W
 
 # Linker
 LDFLAGS=-shared $(INCDIRFLAG)
-#LDFLAGS=-shared $(INCDIRFLAG)
 
 # Directories
 OBJDIR=obj
@@ -41,7 +40,7 @@ all: $(BINDIR)/$(EXEC)
 debug: CXXFLAGS += -g
 debug: $(BINDIR)/$(EXEC)	
 
-$(BINDIR)/$(EXEC): $(OBJDIR)/domain.o $(OBJDIR)/variable.o #$(OBJECTS)
+$(BINDIR)/$(EXEC): $(OBJDIR)/constraint.o $(OBJDIR)/domain.o $(OBJDIR)/variable.o #$(OBJECTS)
 	$(CXX) -o $@ $(LDFLAGS) $^
 
 $(OBJDIR)/%.o: %.cpp
@@ -61,5 +60,4 @@ doc:
 install:
 	cp lib/libghost.so /usr/local/lib
 	ldconfig
-	rm -fr /usr/local/include/ghost
-	cp -r include /usr/local/include/ghost
+	cp -fr include /usr/local/include/ghost

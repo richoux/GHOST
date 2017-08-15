@@ -122,6 +122,7 @@ namespace ghost
     //  * \param other A reference to a Variable object.
     //  */
     // Variable( const Variable &other );
+    Variable( const Variable& ) = delete;
 
     // //! Variable's copy assignment operator
     // /*!
