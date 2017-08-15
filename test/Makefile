@@ -6,14 +6,14 @@ BINDIR=bin
 
 # Compiler flags
 IDIRFLAGS=$(foreach idir, $(IDIR), -I$(idir))
-CXXFLAGS= -O2 -DNDEBUG -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(IDIRFLAGS)
+CXXFIRSTFLAGS= -O2 -DNDEBUG -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(IDIRFLAGS)
 
 # Compiler
 ifeq ($(CXX),g++-5)
-	CXXFLAGS=$(CXXFLAGS) -std=c++14
+	CXXFLAGS= -std=c++14 $(CXXFIRSTFLAGS)
 else
 	CXX=clang++-3.4
-	CXXFLAGS=$(CXXFLAGS) -std=c++1y -stdlib=libc++
+	CXXFLAGS= -std=c++1y -stdlib=libc++ $(CXXFIRSTFLAGS)
 endif
 
 
