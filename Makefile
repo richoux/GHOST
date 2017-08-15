@@ -2,7 +2,9 @@
 EXEC=libghost.so
 
 # Compiler
-# CXX=g++
+ifeq ($(CXX),)
+  CXX=g++
+endif
 SRCDIR=src
 INCDIR=include include/misc
 INCDIRFLAG=$(foreach idir, $(INCDIR), -I$(idir))
