@@ -291,14 +291,10 @@ before_script:
   # Set the git identity (for pushing the documentation and the benchmarks)
   ############################################################################
   - git config --global user.name "Travis bot"
-
-  - $CXX --version
-  - git clone https://github.com/google/googletest.git
-
+  
   ############################################################################
   # Build Google Test
   ############################################################################
-  - rm -fr googletest
   - git clone https://github.com/google/googletest.git
 
   # install GTest
@@ -334,6 +330,9 @@ script:
 ############################################################################
 # Build and run the unit tests and examples.
 ############################################################################
+
+  - echo $CXX
+  - $CXX --version
 
   - cd ${TRAVIS_BUILD_DIR}
   - cd test/bin && for i in $(ls); do ./$i; done
