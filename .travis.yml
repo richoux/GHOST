@@ -298,6 +298,7 @@ before_script:
   ############################################################################
   # Build Google Test
   ############################################################################
+  - rm -fr googletest
   - git clone https://github.com/google/googletest.git
 
   # install GTest
@@ -315,7 +316,6 @@ before_script:
   - make
   - cp -r ../include/* ../../../test/include/
   - cp libg*a ../../../test/lib/
-  - cd ../../..  
   
   ############################################################################
   # Go back to the root of the project and setup the build directory
