@@ -1,5 +1,8 @@
 #!/usr/bin/env sh
 
+echo $CXX
+$CXX --version
+
 git clone https://github.com/google/googletest.git
 
 # install GTest
