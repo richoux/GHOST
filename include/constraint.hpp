@@ -76,7 +76,7 @@ namespace ghost
 
     //! Inline function following the NVI idiom. Calling v_cost.
     //! \sa v_cost
-    inline double cost( vector<double>& varCost ) const { return v_cost( varCost ); }
+    inline double cost() const { return v_cost(); }
 
     //! Given a variable, does this variable composes the constraint?
     //! \param var A variable.
@@ -106,16 +106,7 @@ namespace ghost
     
   protected:
     //! Pure virtual function to compute the current cost of the constraint. 
-    /*!
-     * In cost, the parameter varCost is not given to be used by the
-     * function, but to store into varCost the projected cost of each
-     * variable. This must be computed INSIDE the cost function.
-     *
-     * \param varCost A reference to a vector of double in order to store the projected cost of each variable.
-     * \return A double representing the cost of the constraint on the current configuration.
-     * \sa cost v_simulateCost
-     */    
-    virtual double v_cost( vector<double> &varCost ) const = 0;
+    virtual double v_cost() const = 0;
 
     // //! Pure virtual function to simulate the cost of the constraint on all possible values of the given variable. 
     // /*!
