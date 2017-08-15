@@ -1,23 +1,12 @@
-install:
-# /usr/bin/gcc is 4.6 always, but gcc-X.Y is available.
-- if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
-# /usr/bin/clang is 3.4, lets override with modern one.
-- if [ "$CXX" = "clang++" ] && [ "$TRAVIS_OS_NAME" = "linux" ]; then export CXX="clang++-3.7" CC="clang-3.7"; fi
-
 addons:
   apt:
-    # List of whitelisted in travis packages for ubuntu-precise can be found here:
-    #   https://github.com/travis-ci/apt-package-whitelist/blob/master/ubuntu-precise
-    # List of whitelisted in travis apt-sources:
-    #   https://github.com/travis-ci/apt-source-whitelist/blob/master/ubuntu.json
     sources:
-    - ubuntu-toolchain-r-test
-    - llvm-toolchain-precise-3.7
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-precise-3.9
     packages:
-    - gcc-4.8
-    - g++-4.8
-    - clang-3.7
-    - valgrind
+      - g++-6
+      - clang-3.9
+      - valgrind
 
 os:
   - linux
@@ -29,4 +18,59 @@ compiler:
   - gcc
   - clang
 
-script: ./travis.sh
+matrix:
+  include:
+    - compiler: gcc
+      env: COMPILER=g++-6
+
+    - compiler: clang
+      env: COMPILER=clang++-3.9
+
+before_install:
+    - if [ "$TRAVIS_OS_NAME" = "linux"  ]; then sudo apt-get -qq update;    fi
+
+before_script:
+    - if [ "$COMPILER" = "g++-6"        ]; then export CXX="g++-6" CC="gcc-6";              fi
+    - if [ "$COMPILER" = "clang++-3.9"  ]; then export CXX="clang++-3.9" CC="clang-3.9";    fi
+  
+script:
+  - echo $CXX
+  - $CXX --version
+
+  - git clone https://github.com/google/googletest.git
+
+# install GTest
+  - cd googletest/googletest
+  - mkdir build ; cd build
+  - cmake ..
+  - make
+  - cp -r ../include/* ../../../test/include/
+  - cp libg*a ../../../test/lib/
+
+# install GMock
+  - cd ../../googlemock
+  - mkdir build ; cd build
+  - cmake ..
+  - make
+  - cp -r ../include/* ../../../test/include/
+  - cp libg*a ../../../test/lib/
+  - cd ../../..  
+
+# install GHOST
+  - export LD_LIBRARY_PATH=/usr/local/lib/
+  - mkdir build
+  - cd build
+  - cmake ..
+  - make VERBOSE=1
+  - sudo make install
+  - cd ..
+
+# - make CXX=g++-5
+# - sudo make install
+
+# make and run tests
+  - make test
+  - cd test/bin && for i in $(ls); do ./$i; done
+
+# - valgrind --leak-check=full --show-reachable=yes bin/ghost --auto
+# - valgrind --tool=cachegrind bin/ghost --auto
