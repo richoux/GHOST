@@ -48,6 +48,14 @@ TEST_F(VariableTest, Names)
   EXPECT_EQ( var_ctor3->get_short_name(), "J" );
 }
 
+TEST_F(VariableTest, IDs)
+{
+  EXPECT_EQ( var_ctor1->get_id(), 0 );
+  EXPECT_EQ( var_ctor2->get_id(), 1 );
+  EXPECT_EQ( var_ctor2_bis->get_id(), 2 );
+  EXPECT_EQ( var_ctor3->get_id(), 3 );
+}
+
 TEST_F(VariableTest, Values)
 {
   EXPECT_EQ( var_ctor2->get_value(), 1 );

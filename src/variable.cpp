@@ -39,7 +39,8 @@ Variable::Variable( string name, string shortName, unique_ptr<Domain> domain, in
   : name(name),
     shortName(shortName),
     domain(std::move( domain )),
-    index(index)
+    index(index),
+    _id(NBER_VAR++)
 { }
 
 Variable::Variable( string name, string shortName )

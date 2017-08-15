@@ -53,8 +53,11 @@ namespace ghost
    */
   class Variable
   {
+    static int NBER_VAR = 0;
+    
     double _projectedCost; //!< The cost of the variable. This is for inner mecanisms, no need to worry about that.  
-
+    int _id; //! Unique ID integer
+    
     //! The private Variable constructor
     /*!
      * \param name A string to give a full name to the variable (for instance, "Barracks").
@@ -181,6 +184,9 @@ namespace ghost
     //! Inline function to get the variable short name.
     inline std::string get_short_name() const { return shortName; }
 
+    //! Inline function to get the unique id of the Variable object.
+    inline int get_id() const { return _id; }
+    
     //! friend override of operator<<
     friend std::ostream& operator<<( std::ostream& os, const Variable& v )
     {
