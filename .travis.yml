@@ -245,11 +245,26 @@ install:
   ############################################################################
   # Build Google Test
   ############################################################################
-  - sudo apt-get install libgtest-dev
-  - cd /usr/src/gtest
-  - sudo cmake .
-  - sudo make
-  - sudo mv libgtest* /usr/lib/
+  - |
+    if [[ "${LLVM_VERSION}" != "" ]]; then
+      git clone https://github.com/google/googletest.git
+      cd googletest/googletest
+      mkdir build ; cd build
+      cmake ..
+      make
+      cp -r ../include/* ../../../test/include/
+      cp libg*a ../../../test/lib/
+
+      cd ../../googlemock
+      mkdir build ; cd build
+      cmake ..
+      make
+      cp -r ../include/* ../../../test/include/
+      cp libg*a ../../../test/lib/
+    else
+      sudo cp test/lib/* /usr/lib/
+      sudo ldconfig
+    fi
 
 before_script:
   ############################################################################
