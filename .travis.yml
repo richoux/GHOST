@@ -244,12 +244,11 @@ install:
   ############################################################################
   # Build Google Test
   ############################################################################
-   - sudo apt-get install libgtest-dev
-   - cd /usr/src/gtest
-   - sudo cmake .
-   - sudo make
-   - sudo mv libgtest* /usr/lib/
-   - cd "${TRAVIS_BUILD_DIR}"
+  - sudo apt-get install libgtest-dev
+  - cd /usr/src/gtest
+  - sudo cmake .
+  - sudo make
+  - sudo mv libgtest* /usr/lib/
 
 before_script:
   ############################################################################
@@ -271,10 +270,9 @@ before_script:
   - make test
   
 script:
-
-############################################################################
-# Build and run the unit tests and examples.
-############################################################################
+  ############################################################################
+  # Build and run the unit tests and examples.
+  ############################################################################
 
   - echo $CXX
   - $CXX --version
