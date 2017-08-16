@@ -31,6 +31,30 @@
 
 using namespace ghost;
 
+int Constraint::NBER_CTR = 0;
+
+Constraint::Constraint( const vector< Variable* >& variables )
+  : variables	( variables ),
+    id		( NBER_CTR++ )
+{ }
+
+Constraint::Constraint( const Constraint &other )
+  : variables	( other.variables ),
+    id		( other.id )
+{ }
+
+// Constraint& Constraint::operator=( Constraint other )
+// {
+//   this->swap( other );
+//   return *this;
+// }
+
+// void Constraint::swap( Constraint &other )
+// {
+//   std::swap( this->variables, other.variables );
+//   std::swap( this->id, other.id );
+// }
+
 bool Constraint::hasVariable( const Variable& var ) const
 {
   for( auto& v : variables )

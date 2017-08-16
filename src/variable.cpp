@@ -37,12 +37,12 @@ using namespace ghost;
 
 int Variable::NBER_VAR = 0;
 
-Variable::Variable( string name, string shortName, unique_ptr<Domain> domain, int index )
-  : name(name),
-    shortName(shortName),
-    domain(std::move( domain )),
-    index(index),
-    _id(NBER_VAR++)
+Variable::Variable( string name, string shortName, shared_ptr<Domain> domain, int index )
+  : _id		( NBER_VAR++ ),
+    name	( name ),
+    shortName	( shortName ),
+    domain	( domain ),
+    index	( index )
 { }
 
 Variable::Variable( string name, string shortName )
@@ -50,39 +50,35 @@ Variable::Variable( string name, string shortName )
 { }
 
 Variable::Variable( string name, string shortName, int index, const vector<int>& domain, int outsideScope )
-  : Variable( name, shortName, make_unique<Domain>( domain, outsideScope ), index )
+  : Variable( name, shortName, make_shared<Domain>( domain, outsideScope ), index )
 { }
 
 Variable::Variable( string name, string shortName, int index, int size, int startValue )
-  : Variable( name, shortName, make_unique<Domain>( size, startValue ), index )
+  : Variable( name, shortName, make_shared<Domain>( size, startValue ), index )
 { }
 
-// Variable::Variable( const Variable &other )
-//   : name(other.name),
-//     shortName(other.shortName),
-//     domain(std::move( other.domain )),
-//     index(other.index)
-// { }
+Variable::Variable( const Variable &other )
+  : _id		( other._id ),
+    name	( other.name ),
+    shortName	( other.shortName ),
+    domain	( other.domain ),
+    index	( other.index )
+{ }
 
-// Variable& Variable::operator=( Variable other )
-// {
-//   this->swap( other );
-//   return *this;
-// }
+Variable& Variable::operator=( Variable other )
+{
+  this->swap( other );
+  return *this;
+}
 
-// Variable::~Variable()
-// {
-//   domain.release();
-// }
-
-// void Variable::swap( Variable &other )
-// {
-//   std::swap(this->name, other.name);
-//   std::swap(this->shortName, other.shortName);
-//   domain = std::move( other.domain );
-//   std::swap(this->index, other.index);
-//   std::swap(this->_projectedCost, other._projectedCost);
-// }  
+void Variable::swap( Variable &other )
+{
+  std::swap( this->_id, other._id );
+  std::swap( this->name, other.name );
+  std::swap( this->shortName, other.shortName );
+  domain = std::move( other.domain );
+  std::swap( this->index, other.index );
+}  
 
 bool Variable::has_initialized_domain() const
 {

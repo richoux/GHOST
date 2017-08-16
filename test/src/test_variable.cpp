@@ -45,6 +45,31 @@ TEST_F(VariableTest, IDs)
   EXPECT_EQ( var_ctor3->get_id(), 7 );
 }
 
+TEST_F(VariableTest, Copy)
+{
+  ghost::Variable var_copy1( *var_ctor1 );
+  ghost::Variable var_copy2;
+  var_copy2 = *var_ctor2;
+  
+  EXPECT_EQ( var_copy1.get_id(), 8 );
+  EXPECT_EQ( var_copy2.get_id(), 9 );
+  EXPECT_EQ( var_ctor1->get_id(), 8 );
+  EXPECT_EQ( var_ctor2->get_id(), 9 );
+
+  EXPECT_EQ( var_copy1.get_name(), "Thomas" );
+  EXPECT_EQ( var_copy2.get_name(), "Leo" );
+
+  EXPECT_EQ( var_copy1.get_short_name(), "T" );
+  EXPECT_EQ( var_copy2.get_short_name(), "L" );
+
+  EXPECT_FALSE( var_copy1.has_initialized_domain() );
+  EXPECT_TRUE( var_copy2.has_initialized_domain() );
+  EXPECT_EQ( var_copy2.get_value(), 1 );
+  var_copy2.shift_value();
+  EXPECT_EQ( var_copy2.get_value(), 3 );
+  EXPECT_EQ( var_ctor2->get_value(), 1 );
+}
+
 TEST_F(VariableTest, Names)
 {
   EXPECT_EQ( var_ctor1->get_name(), "Thomas" );

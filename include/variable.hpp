@@ -55,35 +55,33 @@ namespace ghost
   {
     static int NBER_VAR;
     
-    double _projectedCost; //!< The cost of the variable. This is for inner mecanisms, no need to worry about that.  
-    int _id; //! Unique ID integer
+    int _id; //!< Unique ID integer
     
     //! The private Variable constructor
     /*!
      * \param name A string to give a full name to the variable (for instance, "Barracks").
      * \param shortName A string to give a shorten name to the variable (for instance, "B").
-     * \param domain A unique smart pointer to a Domain object.
+     * \param domain A shared pointer to a Domain object.
      * \param index The domain's index corresponding to the variable initial value.
      * \sa Domain
      */
     Variable( std::string name,
 	      std::string shortName,
-	      std::unique_ptr<Domain> domain,
+	      std::shared_ptr<Domain> domain,
 	      int index );
+    
+    //! For the copy-and-swap idiom
+    void swap( Variable &other );
 
   protected:
     std::string			name;		//!< A string to give a full name to the variable (for instance, "Barracks").
     std::string			shortName;	//!< A string to give a shorten name to the variable (for instance, "B").
-    std::unique_ptr<Domain>	domain;		//!< A unique smart pointer on the variable domain.
+    std::shared_ptr<Domain>	domain;		//!< A shared pointer on the variable domain.
     int				index;		//!< The domain's index corresponding to the current value of the variable.
     
-    // //! Function used for the copy-and-swap idiom.
-    // /*!
-    //  * \param other A reference to a Variable object.
-    //  */
-    // void swap( Variable &other );
-    
   public:
+    Variable() = default;
+
     //! Short Variable constructor initializing the name and short name only.
     Variable( std::string name, std::string shortName );
 
@@ -117,23 +115,22 @@ namespace ghost
 	      int size,
 	      int startValue );
 
-    // //! Variable copy constructor
-    // /*!
-    //  * \param other A reference to a Variable object.
-    //  */
-    // Variable( const Variable &other );
-    Variable( const Variable& ) = delete;
+    //! Variable copy constructor
+    /*!
+     * \param other A reference to a Variable object.
+     */
+    Variable( const Variable &other );
 
-    // //! Variable's copy assignment operator
-    // /*!
-    //  * The copy-and-swap idiom is applyed here.
-    //  * 
-    //  * \param other A Variable object.
-    //  */
-    // Variable& operator=( Variable other );
+    //! Variable's copy assignment operator
+    /*!
+     * The copy-and-swap idiom is applyed here.
+     * 
+     * \param other A Variable object.
+     */
+    Variable& operator=( Variable other );
 
-    // //! Usual destructor
-    // virtual ~Variable();
+    //! Default Variable destructor.
+    ~Variable() = default;
 
     //! Function to know if the domain has been initialized.
     /*!
@@ -143,12 +140,6 @@ namespace ghost
 
     //! Function initializing the variable to one random values of its domain.
     void do_random_initialization();
-
-    // //! Inline function reseting the domain with its initial values.
-    // /*!
-    //  * \sa domain::resetToInitial()
-    //  */
-    // inline void resetDomain() { domain->resetToInitial(); }
     
     //! Shifting to the next domain value.
     /*!
@@ -170,7 +161,7 @@ namespace ghost
     std::vector<int> possible_values() const;
 
     //! Inline function to get the current value of the variable.
-    inline int get_value() const	{ return domain->get_value( index ); }
+    inline int get_value() const { return domain->get_value( index ); }
     
     //! Inline function to set the value of the variable.
     /*! 

@@ -65,14 +65,43 @@ namespace ghost
    */
   class Constraint
   {
+    static int NBER_CTR;
+
+    // //! For the copy-and-swap idiom
+    // void swap( Constraint &other );
+
+  protected:
+    vector< Variable* > variables;	//!< The vector of variable pointers compositing the CSP/COP.
+    int			id;		//!< Unique ID integer
+
+    //! Pure virtual function to compute the current cost of the constraint. 
+    virtual double v_cost() const = 0;
+
   public:
+    Constraint() = default;
+    
     //! The unique Constraint constructor
     /*!
      * \param variables The vector of variable pointers composition the CSP/COP.
      */
-    Constraint( const vector< Variable* >& variables )
-      : variables( variables ) { }
+    Constraint( const vector< Variable* >& variables );
 
+    //! Constraint copy constructor
+    /*!
+     * \param other A reference to a Variable object.
+     */
+    Constraint( const Constraint &other );
+
+    // //! Constraint's copy assignment operator
+    // /*!
+    //  * The copy-and-swap idiom is applyed here.
+    //  * 
+    //  * \param other A Constraint object.
+    //  */
+    // Constraint& operator=( Constraint other );
+    
+    //! Default Constraint destructor.
+    virtual ~Constraint() = default;
 
     //! Inline function following the NVI idiom. Calling v_cost.
     //! \sa v_cost
@@ -82,52 +111,14 @@ namespace ghost
     //! \param var A variable.
     //! \return True iff the constraint contains var 
     bool hasVariable( const Variable& var ) const;
-    
-    // //! Inline function following the NVI idiom. Calling v_simulteCost.
-    // //! \sa v_simulteCost
-    // inline vector<double> simulateCost( TypeVariable &currentVar,
-    // 					const vector<int> &possibleValues,
-    // 					vector< vector<double> > &vecVarSimCosts,
-    // 					shared_ptr< Objective< TypeVariable, TypeDomain > > objective )
-    // { return v_simulateCost( currentVar, possibleValues, vecVarSimCosts, objective ); }
 
-    // //! Inline function following the NVI idiom, with objective = nullptr. Calling v_simulteCost.
-    // //! \sa v_simulteCost
-    // inline vector<double> simulateCost( TypeVariable &currentVar,
-    // 					const vector<int> &possibleValues,
-    // 					vector< vector<double> > &vecVarSimCosts )
-    // { return v_simulateCost( currentVar, possibleValues, vecVarSimCosts, nullptr ); }
+    //! Inline function to get the unique id of the Constraint object.
+    inline int get_id() const { return id; }
 
     //! friend override of operator<<
     friend ostream& operator<<( ostream& os, const Constraint& c )
     {
       return os << "Constraint type: " <<  typeid(c).name() << std::endl;
     }
-    
-  protected:
-    //! Pure virtual function to compute the current cost of the constraint. 
-    virtual double v_cost() const = 0;
-
-    // //! Pure virtual function to simulate the cost of the constraint on all possible values of the given variable. 
-    // /*!
-    //  * In v_simulatesCost, the parameter vecVarSimCosts is not given to be used
-    //  * by the function, but to store into vecVarSimCosts the projected
-    //  * cost of currentVar on all possible values. This must be
-    //  * computed INSIDE the simulateCost function.
-    //  *
-    //  * \param currentVar A reference to the variable we want to change the current value.
-    //  * \param possibleValues A reference to a constant vector of the possible values for currentVar.
-    //  * \param vecVarSimCosts A reference to the vector of vector of double in order to store the projected cost of currentVar on all possible values.
-    //  * \param objective The (plausibly null) current objective object. This parameter is necessary to update the heuristic value helper.
-    //  * \return The vector of the cost of the constraint for each possible value of currentVar.
-    //  * \sa simulateCost v_cost
-    //  */    
-    // virtual vector<double> v_simulateCost( TypeVariable &currentVar,
-    // 					   const vector<int> &possibleValues,
-    // 					   vector< vector<double> > &vecVarSimCosts,
-    // 					   shared_ptr< Objective< TypeVariable, TypeDomain > > objective ) = 0;
-
-    
-    vector< Variable* > variables;	//!< The vector of variable pointers compositing the CSP/COP.
   };  
 }
