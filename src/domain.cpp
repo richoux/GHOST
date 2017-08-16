@@ -38,20 +38,20 @@
 using namespace ghost;
 
 Domain::Domain( int outsideScope )
-  : _outsideScope(outsideScope)
+  : _outsideScope	( outsideScope )
 { }
 
 Domain::Domain( const std::vector< int >& domain, int outsideScope )
-  : _currentDomain(domain),
-    _outsideScope(outsideScope)
+  : _currentDomain	( domain ),
+    _outsideScope	( outsideScope )
 {
   if( std::find( std::begin( domain ), std::end( domain ), _outsideScope ) != std::end( domain ) )
     throw 0;
 }
 
 Domain::Domain( int size, int startValue )
-  : _currentDomain(std::vector<int>(size)),
-    _outsideScope(startValue-1)
+  : _currentDomain	( std::vector<int>( size ) ),
+    _outsideScope	( startValue - 1 )
 {
   std::iota( std::begin( _currentDomain ), std::end( _currentDomain ), startValue );
 }

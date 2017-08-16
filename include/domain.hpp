@@ -51,9 +51,9 @@ namespace ghost
    */
   class Domain
   {
-    std::vector< int > _currentDomain;	//!< Vector of integers containing the current values of the domain.
-    int _outsideScope;			//!< Value representing all values outside the scope of the domain
-    Random _random;			//!< A random generator used by the function randomValue. 
+    std::vector< int >	_currentDomain;	//!< Vector of integers containing the current values of the domain.
+    int			_outsideScope;	//!< Value representing all values outside the scope of the domain
+    Random		_random;	//!< A random generator used by the function randomValue. 
         
   public:
     //! Domain constructor.
