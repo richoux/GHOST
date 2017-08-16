@@ -60,4 +60,5 @@ doc:
 install:
 	cp lib/libghost.so /usr/local/lib
 	ldconfig
-	cp -fr include /usr/local/include/ghost
+	rm -fr /usr/local/include/ghost
+	cp -r include /usr/local/include/ghost
