@@ -27,6 +27,8 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
+#include <algorithm>
+
 #include "constraint.hpp"
 
 using namespace ghost;
@@ -55,11 +57,14 @@ Constraint::Constraint( const Constraint &other )
 //   std::swap( this->id, other.id );
 // }
 
-bool Constraint::hasVariable( const Variable& var ) const
+bool Constraint::has_variable( const Variable& var ) const
 {
-  for( auto& v : variables )
-    if( v->get_id() == var.get_id() )
-      return true;
+  return get_variable_iterator( var ) != variables.end();
+}
 
-  return false;
+vector< Variable* >::const_iterator Constraint::get_variable_iterator( const Variable& var ) const
+{
+  return std::find_if( variables.begin(),
+  		       variables.end(),
+  		       [&]( auto& v ){ return v->get_id() == var.get_id(); } );
 }

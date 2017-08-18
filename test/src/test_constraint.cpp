@@ -64,13 +64,13 @@ TEST_F(ConstraintTest, Copy)
   EXPECT_EQ( ctr_copy1.get_id(), 2 );
   EXPECT_EQ( ctr_copy2.get_id(), 3 );
 
-  EXPECT_TRUE( ctr_copy1.hasVariable( var1 ) );
-  EXPECT_TRUE( ctr_copy1.hasVariable( var2 ) );
-  EXPECT_FALSE( ctr_copy1.hasVariable( var3 ) );
+  EXPECT_TRUE( ctr_copy1.has_variable( var1 ) );
+  EXPECT_TRUE( ctr_copy1.has_variable( var2 ) );
+  EXPECT_FALSE( ctr_copy1.has_variable( var3 ) );
 
-  EXPECT_TRUE( ctr_copy2.hasVariable( var1 ) );
-  EXPECT_TRUE( ctr_copy2.hasVariable( var3 ) );
-  EXPECT_FALSE( ctr_copy2.hasVariable( var2 ) );
+  EXPECT_TRUE( ctr_copy2.has_variable( var1 ) );
+  EXPECT_TRUE( ctr_copy2.has_variable( var3 ) );
+  EXPECT_FALSE( ctr_copy2.has_variable( var2 ) );
 
   EXPECT_EQ( ctr1->get_var(0)->get_id(), ctr_copy1.get_var(0)->get_id() );
   EXPECT_EQ( ctr1->get_var(0)->get_value(), ctr_copy1.get_var(0)->get_value() );
@@ -80,15 +80,15 @@ TEST_F(ConstraintTest, Copy)
   EXPECT_EQ( ctr_copy1.get_var(0)->get_value(), 3 );
 }
 
-TEST_F(ConstraintTest, hasVariable)
+TEST_F(ConstraintTest, has_variable)
 {
-  EXPECT_TRUE( ctr1->hasVariable( var1 ) );
-  EXPECT_TRUE( ctr1->hasVariable( var2 ) );
-  EXPECT_FALSE( ctr1->hasVariable( var3 ) );
+  EXPECT_TRUE( ctr1->has_variable( var1 ) );
+  EXPECT_TRUE( ctr1->has_variable( var2 ) );
+  EXPECT_FALSE( ctr1->has_variable( var3 ) );
 
-  EXPECT_TRUE( ctr2->hasVariable( var1 ) );
-  EXPECT_TRUE( ctr2->hasVariable( var3 ) );
-  EXPECT_FALSE( ctr2->hasVariable( var2 ) );
+  EXPECT_TRUE( ctr2->has_variable( var1 ) );
+  EXPECT_TRUE( ctr2->has_variable( var3 ) );
+  EXPECT_FALSE( ctr2->has_variable( var2 ) );
 }
 
 

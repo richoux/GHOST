@@ -74,8 +74,10 @@ namespace ghost
     vector< Variable* > variables;	//!< The vector of variable pointers compositing the CSP/COP.
     int			id;		//!< Unique ID integer
 
-    //! Pure virtual function to compute the current cost of the constraint. 
-    virtual double v_cost() const = 0;
+    //! Pure virtual function to compute the current cost of the constraint.
+    //! WARNING: do not implement side effect in this function. It will be called by the solver
+    //! to compute the constraint cost but also for some cost simulations.
+    virtual double required_cost() const = 0;
 
   public:
     Constraint() = default;
@@ -104,13 +106,18 @@ namespace ghost
     virtual ~Constraint() = default;
 
     //! Inline function following the NVI idiom. Calling v_cost.
-    //! \sa v_cost
-    inline double cost() const { return v_cost(); }
+    //! \sa required_cost
+    inline double cost() const { return required_cost(); }
 
     //! Given a variable, does this variable composes the constraint?
     //! \param var A variable.
     //! \return True iff the constraint contains var 
-    bool hasVariable( const Variable& var ) const;
+    bool has_variable( const Variable& var ) const;
+
+    //! Given a variable, does this variable composes the constraint?
+    //! \param var A variable.
+    //! \return True iff the constraint contains var 
+    vector< Variable* >::const_iterator get_variable_iterator( const Variable& var ) const;
 
     //! Inline function to get the unique id of the Constraint object.
     inline int get_id() const { return id; }
@@ -118,7 +125,7 @@ namespace ghost
     //! friend override of operator<<
     friend ostream& operator<<( ostream& os, const Constraint& c )
     {
-      return os << "Constraint type: " <<  typeid(c).name() << std::endl;
+      return os << "Constraint type: " <<  typeid(c).name() << endl;
     }
   };  
 }

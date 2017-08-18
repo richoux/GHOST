@@ -80,48 +80,55 @@ namespace ghost
     vector< shared_ptr< Constraint > >	_vecConstraints; //!< The vector of (shared pointers of) constraints of the CSP/COP.
     shared_ptr< Objective >		_objective;	//!< The shared pointer of the objective function.
 
-    vector<int>					_tabuList;		//!< The tabu list, frozing each used variable for tabu_length iterations 
-    Random					_randomVar;		//!< The random generator used by the solver.
-    double					_bestSatCost;		//!< The satisfaction cost of the best solution.
-    double					_bestOptCost;		//!< The optimization cost of the best solution.
-    vector< shared_ptr< Variable > >		_bestSolution;		//!< The best solution found by the solver.
-    bool					_objOriginalNull;	//!< A boolean to know if it is a satisfaction or optimization run.
-    bool					_permutationProblem;	//!< A boolean to know if it is a satisfaction or optimization run.
+    vector<int>	_weakTabuList;		//!< The weak tabu list, frozing used variables for tabuTime iterations. 
+    Random	_randomVar;		//!< The random generator used by the solver.
+    double	_bestSatCost;		//!< The satisfaction cost of the best solution.
+    double	_bestOptCost;		//!< The optimization cost of the best solution.
+    bool	_isOptimization;	//!< A boolean to know if it is a satisfaction or optimization run.
+    bool	_permutationProblem;	//!< A boolean to know if it is a permutation problem or not.
+
+    map<Variable, vector< shared_ptr< Constraint > > _mapVarCtr;	//!< Map to know in which constraints are each variable.
+    // map<Variable, vector< pair< shared_ptr< Constraint >, vector< Variable* >::iterator> >
+    // _mapVarCtr;	//!< Map to know in which constraints are each variable.
 
     //! Decreasing values in tabuList
     //! \param freeVariables A boolean set to true if there is at least one free variable, ie, untabu.
-    //! \sa _tabuList
-    void decay_tabu_list( bool& freeVariables ); 
+    //! \sa _weakTabuList
+    void decay_weak_tabu_list( bool& freeVariables );
 
     //! Compute and return the vector containing worst variables,
     //! ie, variables with the highest variable cost.
     //! \return A vector of worst variables
-    vector< Variable> compute_worst_variables( bool freeVariables );
+    vector< Variable> compute_worst_variables( bool freeVariables ) const;
 
     //! Compute the cost of each constraints
     //! \param costConstraints The vector to be filled by this function.
     //! \return The sum of constraints costs, ie, the global cost of the current configuration.
-    double compute_constraints_costs( vector<double>& costConstraints );
+    double compute_constraints_costs( vector<double>& costConstraints ) const;
 
     //! Compute the variable cost of each variables
     //! \param costConstraints The vector containing the cost of each constraint.
     //! \param costVariables The vector to be filled by this function.
-    void compute_variables_costs( const vector<double>& costConstraints, vector<double>& costVariables );
+    void compute_variables_costs( const vector<double>& costConstraints, vector<double>& costVariables ) const;
+
+    // Compute incrementally the now global cost IF we change the value of 'variable' by 'value' with a local move.
+    double simulate_local_move_cost( Variable *variable, double value, vector<double>& costConstraints ) const;
+
+    // Compute incrementally the now global cost IF we swap values of 'variable' with another variable.
+    double simulate_permutation_cost( Variable *worstVariable, Variable& otherVariable, vector<double>& costConstraints ) const;
 
     //! Function to make a local move, ie, to assign a given
     //! value to a given variable
-    void local_move( Variable* variable );
+    void local_move( Variable* variable, vector<double>& costConstraints, vector<double>& costVariables, double& currentSatCost );
 
     //! Function to make a permutation move, ie, to assign a given
     //! variable to a new position
-    void permutation_move( Variable* variable );
+    void permutation_move( Variable* variable, vector<double>& costConstraints, vector<double>& costVariables, double& currentSatCost );
 
 
   public:
     //! Solver's regular constructor
     /*!
-     * The solver is calling Solver(vecVariables, domain, vecConstraints, obj, 0)
-     *
      * \param vecVariables A pointer to the vector of variable objects of the CSP/COP.
      * \param vecConstraints A constant reference to the vector of shared pointers of Constraint
      * \param obj A reference to the shared pointer of an Objective object. Default value is nullptr.
@@ -129,17 +136,29 @@ namespace ghost
      */
     Solver( vector< Variable >& vecVariables, 
 	    vector< shared_ptr<Constraint> > vecConstraints,
-	    shared_ptr< Objective > obj = nullptr,
+	    shared_ptr< Objective > obj,
+	    bool permutationProblem = false );
+
+    //! Second Solver's constructor
+    /*!
+     * The solver is calling Solver(vecVariables, vecConstraints, nullptr, permutationProblem)
+     *
+     * \param vecVariables A pointer to the vector of variable objects of the CSP/COP.
+     * \param vecConstraints A constant reference to the vector of shared pointers of Constraint
+     * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
+     */
+    Solver( vector< Variable >& vecVariables, 
+	    vector< shared_ptr<Constraint> > vecConstraints,
 	    bool permutationProblem = false );
 
     //! Solver's main function, to solve the given CSP/COP.
     /*!
-     * \param timeout The satisfaction run timeout in milliseconds
-     * \return The satisfaction or optimization cost of the best
-     * solution, respectively is the Solver object has been
-     * instanciate with a null Objective (pure satisfaction run) or an
-     * non-null Objective (optimization run).
+     * \param finalCost The double of the sum of constraints cost for satisfaction problems, or the value of the objective function for optimization problems. For satisfaction problems, a cost of zero means a solution has been found.
+     * \param finalSolution The configuration of the best solution found, ie, the vector of assignements of each variable.
+     * \param sat_timeout The satisfaction timeout in milliseconds.
+     * \param opt_timeout The optimization timeout in milliseconds (optionnal, equals to 10 times sat_timeout is not set).
+     * \return True iff a solution has been found.
      */
-    double solve( double sat_timeout, double opt_timeout = 0. );
+    bool solve( double& finalCost, vector<int>& finalSolution, double sat_timeout, double opt_timeout = 0. );
   };
 }

@@ -42,12 +42,23 @@ Solver::Solver( vector< Variable >& vecVariables,
     _vecConstraints(vecConstraints),
     _objective(objective),
     _permutationProblem(permutationProblem),
-    _tabuList(vecVariables.size()),
-    _bestSolution(vecVariables.size()),
-    _objOriginalNull(false)
+    _weakTabuList(vecVariables.size()),
+    _isOptimization(objective == nullptr ? false : true)
+{
+  for( auto& var : vecVariables )
+    for( auto& ctr : vecConstraints )
+      if( ctr->hasVariable( var ) )
+	_mapVarCtr[ var ].push_back( ctr );
+  // _mapVarCtr[ var ].push_back( make_pair( ctr, ctr->get_variable_iterator( var ) ) );
+}
+
+Solver::Solver( vector< Variable >& vecVariables, 
+		vector< shared_ptr<Constraint> > vecConstraints,
+		bool permutationProblem )
+  : Solver( vecVariables, vecConstraints, nullptr, permutationProblem )
 { }
 
-double Solver::solve( double satTimeout, double optTimeout )
+bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTimeout, double optTimeout )
 {
   satTimeout *= 1000; // timeouts in microseconds
   if( optTimeout == 0 )
@@ -62,20 +73,18 @@ double Solver::solve( double satTimeout, double optTimeout )
   chrono::duration<double,micro> elapsedTimeTour(0);
   chrono::time_point<chrono::steady_clock> start;
   chrono::time_point<chrono::steady_clock> startTour;
+  chrono::time_point<chrono::steady_clock> startPostprocess;
   start = chrono::steady_clock::now();
 
   // To time cost functions
   chrono::duration<double,micro> timeSimCost(0);
   chrono::time_point<chrono::steady_clock> startSimCost; 
 
-  // double timerPostProcessSat = 0;
-  double timerPostProcessOpt = 0;
+  chrono::duration<double,micro> timerPostProcessSat(0);
+  chrono::duration<double,micro> timerPostProcessOpt(0);
       
   if( _objective == nullptr )
-  {
     _objective = make_shared< NullObjective >();
-    _objOriginalNull = true;
-  }
       
   int optLoop = 0;
   int satLoop = 0;
@@ -86,15 +95,25 @@ double Solver::solve( double satTimeout, double optTimeout )
   double currentOptCost;
   vector< double > costConstraints( _vecConstraints.size(), 0. );
   vector< double > costVariables( _vecVariables.size(), 0. );
+
+  // In case finalSolution is not a vector of the correct size,
+  // ie, equals to the number of variables.
+  finalSolution.clear();
+  finalSolution.reshape( _vecVariables.size() );
+  
+  _bestOptCost = std::numeric_limits<double>::max();
   
   do // optimization loop
   {
     startOptLoop = chrono::steady_clock::now();
     ++optLoop;
 
-    // Reset tabu list
-    std::fill( tabuList.begin(), tabuList.end(), 0 );
+    // Reset weak tabu list
+    std::fill( _weakTabuList.begin(), _weakTabuList.end(), 0 );
 
+    // Reset the best satisfaction cost
+    _bestSatCost = std::numeric_limits<double>::max();
+    
     do // satisfaction loop 
     {
       ++satLoop;
@@ -107,198 +126,304 @@ double Solver::solve( double satTimeout, double optTimeout )
       compute_variables_costs( costConstraints, costVariables );
       
       bool freeVariables = false;
-      decay_tabu_list( freeVariables );
+      decay_weak_tabu_list( freeVariables );
       worstVariableList = compute_worst_variables( freeVariables );
 
       // If several variables share the same worst variable cost,
-      // call Objective::heuristicVariable has a tie-break.
-      // By default, Objective::heuristicVariable returns a random variable
+      // call Objective::heuristic_variable has a tie-break.
+      // By default, Objective::heuristic_variable returns a random variable
       // among the vector of Variables given in argument.
       if( worstVariableList.size() > 1 )
-	worstVariable = _objective->heuristicVariable( worstVariableList );
+	worstVariable = _objective->heuristic_variable( worstVariableList );
       else
 	worstVariable = &worstVariableList[0];
 
       if( _permutationProblem )
-	permutation_move( worstVariable );
+	permutation_move( worstVariable, costConstraints, costVariables, currentSatCost );
       else
-	local_move( worstVariable );
+	local_move( worstVariable, costConstraints, costVariables, currentSatCost );
 
+      if( _bestSatCost > currentSatCost )
+      {
+	_bestSatCost = currentSatCost;
+	// see the right <algorithm> function
+	for( auto& v : _vecVariables )
+	  finalSolution[ v.get_id() ] = v.get_value();
+	// std::fill( finalSolution.begin(), finalSolution.end(), [](){})
+      }
+      else // local minima
+	// Mark worstVariable as weak tabu for tabuTime iterations.
+	_weakTabuList[ worstVariable->get_id() ] = tabuTime;
       
       timeSimCost += chrono::steady_clock::now() - startSimCost;
 
-      else // local minima
-	tabuList[ worstVariableId ] = tabuTime;
-
       elapsedTimeOptLoop = chrono::steady_clock::now() - startOptLoop;
       elapsedTime = chrono::steady_clock::now() - start;
-    } while( globalCost != 0. && elapsedTimeOptLoop.count() < satTimeout && elapsedTime.count() < optTimeout );
+    } // satisfaction loop
+    while( _bestSatCost > 0. && elapsedTimeOptLoop.count() < satTimeout && elapsedTime.count() < optTimeout );
 
     // remove useless variables
-    if( globalCost == 0 )
-      objective->postprocessSatisfaction( vecVariables, domain, bestCost, bestSolution, satTimeout );
-
+    if( _bestSatCost == 0. )
+    {
+      startPostprocess = chrono::steady_clock::now();
+      _objective->postprocess_satisfaction( _vecVariables, _bestOptCost, finalSolution );
+      timerPostProcessSat = chrono::steady_clock::now() - startPostprocess;							     
+    }
+    
     elapsedTime = chrono::steady_clock::now() - start;
+  } // optimization loop
+  while( elapsedTime.count() < optTimeout && _isOptimization );
+
+  if( _bestSatCost == 0. && _isOptimization )
+  {
+    startPostprocess = chrono::steady_clock::now();
+    _objective->postprocess_optimization( _vecVariables, _bestOptCost, finalSolution );
+    timerPostProcessOpt = chrono::steady_clock::now() - startPostprocess;							     
   }
-  while( elapsedTime.count() < optTimeout );
-
-
-  
-  if( bestGlobalCost == 0 )
-    timerPostProcessOpt = objective->postprocessOptimization( vecVariables, domain, bestCost, optTimeout );
-
-
   
 #ifndef NDEBUG
   cout << "############" << endl;
       
-  if( objOriginalNull )
+  if( !_isOptimization )
     cout << "SATISFACTION run" << endl;
   else
-    cout << "OPTIMIZATION run with objective " << objective->getName() << endl;
+    cout << "OPTIMIZATION run with objective " << _objective->getName() << endl;
       
   cout << "Elapsed time: " << elapsedTime.count() / 1000 << endl
        << "Global cost: " << bestGlobalCost << endl
        << "Number of optization loops: " << optLoop << endl
        << "Number of satisfaction loops: " << satLoop << endl;
 
-  if( !objOriginalNull )
+  if( _isOptimization )
   {
     cout << "Optimization cost: " << bestCost << endl
 	 << "Opt Cost BEFORE post-processing: " << beforePostProc << endl;
   }
       
-  if( timerPostProcessOpt != 0 )
-    cout << "Post-processing time: " << timerPostProcessOpt / 1000 << endl; 
+  if( timerPostProcessSat > 0 )
+    cout << "Satisfaction post-processing time: " << timerPostProcessSat.cout() / 1000 << end; 
+
+  if( timerPostProcessOpt > 0 )
+    cout << "Optimization post-processing time: " << timerPostProcessOpt.cout() / 1000 << end; 
 
   cout << endl;
 #endif
       
-  if( objOriginalNull )
-    return bestGlobalCost;
+  if( _isOptimization )
+    finalCost = _bestOptCost;
   else
-    return bestCost;
+    finalCost = _bestSatCost;
+
+  // Set the variables to the best solution values.
+  // Useful if the user prefer to directly use the vector of Variables
+  // to manipulate and exploit the solution.
+  for( auto& v : _vecVariables )
+    v.set_value( finalSolution[ v.get_id() ] );
+  
+  return _bestSatCost == 0.;
 }
 
-void Solver::decay_tabu_list( bool& freeVariables ) 
+double Solver::compute_constraints_costs( vector<double>& costConstraints ) const
 {
-  for( int i = 0 ; i < tabuList.size() ; ++i )
+  double globalCost = 0.;
+  double cost;
+  
+  for( auto& c : _vecConstraints )
   {
-    if( tabuList[i] <= 1 )
+    cost = c->cost();
+    costConstraints[ c->get_id() ] = cost;
+    globalCost += cost;    
+  }
+
+  return globalCost;
+}
+
+void Solver::compute_variables_costs( const vector<double>& costConstraints, vector<double>& costVariables ) const
+{
+  for( auto& v : _vecVariables )
+    for( auto& c : _mapVarCtr[ v ] )
+      costVariables[ v.get_id() ] += costConstraints[ c.get_id() ];
+}
+
+void Solver::decay_weak_tabu_list( bool& freeVariables ) 
+{
+  for( auto& tabu : weakTabuList )
+  {
+    if( tabu <= 1 )
     {
-      tabuList[i] = 0;
+      tabu = 0;
       if( !freeVariables )
 	freeVariables = true;      
     }
     else
-      --tabuList[i];
+      --tabu;
   }
 }
 
-vector< Variable> Solver::compute_worst_variables( bool freeVariables, const vector<double>& costVariables )
+vector< Variable> Solver::compute_worst_variables( bool freeVariables, const vector<double>& costVariables ) const
 {
   // Here, we look at neighbor configurations with the lowest cost.
   vector< Variable> worstVariableList;
   double worstVariableCost = 0.;
-
-  for( int i = 0; i < _vecVariables.size(); ++i )
+  int id;
+  
+  for( auto& v : _vecVariables )
   {
-    if( !freeVariables || tabuList[i] == 0 )
+    id = v.get_id();
+    if( !freeVariables || _weakTabuList[ id ] == 0 )
     {
-      if( worstVariableCost < costVariables[i] )
+      if( worstVariableCost < costVariables[ id ] )
       {
-	worstVariableCost = costVariables[i];
+	worstVariableCost = costVariables[ id ];
 	worstVariableList.clear();
-	worstVariableList.push_back( i );
+	worstVariableList.push_back( v );
       }
       else 
-	if( worstVariableCost == costVariables[i] )
-	  worstVariableList.push_back( i );	  
+	if( worstVariableCost == costVariables[ id ] )
+	  worstVariableList.push_back( v );	  
     }
   }
 
   return worstVariableList;
 }
 
-double Solver::compute_constraints_costs( vector<double>& costConstraints )
+// NO VALUE BACKED-UP!
+double Solver::simulate_local_move_cost( Variable *variable, double value, vector<double>& costConstraints, double& currentSatCost ) const
 {
-  double globalCost = 0.;
+  double newCurrentSatCost = currentSatCost;
+
+  variable->set_value( value );
+  for( auto& c : _mapVarCtr[ *variable ] )
+    newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() ] );
+
+  return newCurrentSatCost;
+}
+
+double Solver::simulate_permutation_cost( Variable *worstVariable, Variable& otherVariable, vector<double>& costConstraints ) const
+{
+  double newCurrentSatCost = currentSatCost;
+  int tmp = worstVariable->get_value();
+  worstVariable->set_value( otherVariable.get_value() );
+  otherVariable.set_value( tmp );
+
+  vector<bool> compted( costConstraints.size(), false );
   
-  for( int i = 0 ; i < _vecConstraints.size() ; ++i )
+  for( auto& c : _mapVarCtr[ *worstVariable ] )
   {
-    costConstraints[i] = _vecConstraints[i]->cost();
-    globalCost += costConstraints[i];
+    newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() ] );
+    compted[ c->get_id() ] = true;
   }
-
-  return globalCost;
-}
-
-void Solver::compute_variables_costs( const vector<double>& costConstraints, vector<double>& costVariables )
-{
-  for( int v = 0 ; v < _vecVariables.size() ; ++v )
-    for( int c = 0 ; c < _vecConstraints.size() ; ++c )
-      if( _vecConstraints[c]->hasVariable( _vecVariables[v] ) )
-	costVariables[v] += costConstraints[c];
-}
   
-void Solver::local_move( Variable *variable )
-{
-  auto domainOfWV = worstVariable->possible_values();
+  for( auto& c : _mapVarCtr[ otherVariable ] )
+    if( !compted[ c->get_id() ] )
+      newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() ] );
 
+  // We must roll back to the previous state before returning the new cost value. 
+  tmp = worstVariable->get_value();
+  worstVariable->set_value( otherVariable.get_value() );
+  otherVariable.set_value( tmp );
+
+  return newCurrentSatCost;
+}
+
+void Solver::local_move( Variable *variable, vector<double>& costConstraints, vector<double>& costVariables, double& currentSatCost )
+{
   // Here, we look at values in the variable domain
   // leading to the lowest global cost.
-  vector< Variable> bestValuesList;
-  int bestValue = std::numeric_limits<int>::max();
-
-  ////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////
-  // must compute global cost while value changed here
-  ////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////
+  vector< int > bestValuesList;
+  int backupValue = variable->get_value();
+  int bestValue;
+  double bestCost = std::numeric_limits<double>::max();
+  double currentCost;
   
-  for( int i = 0; i < domainOfWV.size(); ++i )
+  for( auto& val : variable->possible_values() )
   {
-    if( bestValue > costVariables[i] )
+    newCurrentSatCost = simulate_local_move_cost( variable, val, costConstraints, currentSatCost );
+    if( bestCost > newCurrentSatCost )
     {
-      worstVariableCost = costVariables[i];
-      worstVariableList.clear();
-      worstVariableList.push_back( i );
+      bestCost = newCurrentSatCost;
+      bestValuesList.clear();
+      bestValuesList.push_back( val );
     }
     else 
-      if( worstVariableCost == costVariables[i] )
-	worstVariableList.push_back( i );	  
+      if( bestCost == newCurrentSatCost )
+	bestValuesList.push_back( val );	  
   }
+
+  // If several values lead to the same best global cost,
+  // call Objective::heuristic_value has a tie-break.
+  // By default, Objective::heuristic_value returns the value
+  // improving the most the objective function, or a random value
+  // among values improving the most the objective function if there
+  // are some ties.
+  if( bestValuesList.size() > 1 )
+    bestValue = _objective->heuristic_value( bestValuesList );
+  else
+    bestValue = &bestValuesList[0];
+
+  variable->set_value( value );
+  currentSatCost = bestCost;
+  for( auto& c : _mapVarCtr[ *variable ] )
+    costConstraints[ c->get_id() ] = c->cost();
+
+  compute_variables_costs( costConstraints, costVariables );
 }
 
-void Solver::permutation_move( Variable *variable )
+void Solver::permutation_move( Variable *variable, vector<double>& costConstraints, vector<double>& costVariables, double& currentSatCost )
 {
-  auto domainOfWV = worstVariable->possible_values();
-
-  int backup = variable->getValue();
-
-  if( backup == newValue )
-    return;
-      
-  if( backup > newValue )
+  // Here, we look at values in the variable domain
+  // leading to the lowest global cost.
+  vector< Variable > bestVarToSwapList;
+  int backupValue = variable->get_value();
+  Variable bestVarToSwap;
+  double bestCost = std::numeric_limits<double>::max();
+  double currentCost;
+  
+  for( auto& otherVariable : _vecVariables )
   {
-    for( int i = backup ; i > newValue ; --i )
+    if( otherVariable.get_id() == variable->get_id() )
+      continue;
+    
+    newCurrentSatCost = simulate_permutation_cost( variable, otherVariable, costConstraints, currentSatCost );
+    if( bestCost > newCurrentSatCost )
     {
-      std::swap( vecVariables.at(i-1), vecVariables.at(i) );
-      vecVariables.at(i).shiftValue();
+      bestCost = newCurrentSatCost;
+      bestVarToSwapList.clear();
+      bestVarToSwapList.push_back( otherVariable );
     }
-
-    vecVariables.at(newValue).setValue( newValue );	
+    else 
+      if( bestCost == newCurrentSatCost )
+	bestVarToSwapList.push_back( otherVariable );	  
   }
+
+  // If several values lead to the same best global cost,
+  // call Objective::heuristic_value has a tie-break.
+  // By default, Objective::heuristic_value returns the value
+  // improving the most the objective function, or a random value
+  // among values improving the most the objective function if there
+  // are some ties.
+
+  if( bestVarToSwapList.size() > 1 )
+    bestVarToSwap = _objective->heuristic_value( bestVarToSwapList );
   else
-  {
-    for( int i = backup ; i < newValue ; ++i )
-    {
-      std::swap( vecVariables.at(i), vecVariables.at(i+1) );
-      vecVariables.at(i).unshiftValue();
-    }
+    bestVarToSwap = &bestVarToSwapList[0];
 
-    vecVariables.at(newValue).setValue( newValue );	
+  int tmp = variable->get_value();
+  variable->set_value( bestVarToSwap.get_value() );
+  bestVarToSwap.set_value( tmp );
+
+  currentSatCost = bestCost;
+  vector<bool> compted( costConstraints.size(), false );
+  
+  for( auto& c : _mapVarCtr[ *variable ] )
+  {
+    newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() ] );
+    compted[ c->get_id() ] = true;
   }
+  
+  for( auto& c : _mapVarCtr[ bestVarToSwap ] )
+    if( !compted[ c->get_id() ] )
+      newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() ] );
+
+  compute_variables_costs( costConstraints, costVariables );
 }
