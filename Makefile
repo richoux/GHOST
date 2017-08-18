@@ -40,7 +40,7 @@ all: $(BINDIR)/$(EXEC)
 debug: CXXFLAGS += -g
 debug: $(BINDIR)/$(EXEC)	
 
-$(BINDIR)/$(EXEC): $(OBJDIR)/objective.o $(OBJDIR)/constraint.o $(OBJDIR)/domain.o $(OBJDIR)/variable.o #$(OBJECTS)
+$(BINDIR)/$(EXEC): $(OBJECTS)
 	$(CXX) -o $@ $(LDFLAGS) $^
 
 $(OBJDIR)/%.o: %.cpp

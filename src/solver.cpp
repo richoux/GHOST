@@ -38,16 +38,16 @@ Solver::Solver( vector< Variable >& vecVariables,
 		vector< shared_ptr<Constraint> > vecConstraints,
 		shared_ptr< Objective > objective,
 		bool permutationProblem )
-  : _vecVariables(vecVariables), 
-    _vecConstraints(vecConstraints),
-    _objective(objective),
-    _permutationProblem(permutationProblem),
-    _weakTabuList(vecVariables.size()),
-    _isOptimization(objective == nullptr ? false : true)
+  : _vecVariables	( vecVariables ), 
+    _vecConstraints	( vecConstraints ),
+    _objective		( objective ),
+    _weakTabuList	( vecVariables.size() ),
+    _isOptimization	( objective == nullptr ? false : true ),
+    _permutationProblem	( permutationProblem )
 {
   for( auto& var : vecVariables )
     for( auto& ctr : vecConstraints )
-      if( ctr->hasVariable( var ) )
+      if( ctr->has_variable( var ) )
 	_mapVarCtr[ var ].push_back( ctr );
   // _mapVarCtr[ var ].push_back( make_pair( ctr, ctr->get_variable_iterator( var ) ) );
 }
@@ -70,15 +70,11 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
   int tabuTime = _vecVariables.size() - 1;
 
   chrono::duration<double,micro> elapsedTime(0);
-  chrono::duration<double,micro> elapsedTimeTour(0);
+  chrono::duration<double,micro> elapsedTimeOptLoop(0);
   chrono::time_point<chrono::steady_clock> start;
-  chrono::time_point<chrono::steady_clock> startTour;
+  chrono::time_point<chrono::steady_clock> startOptLoop;
   chrono::time_point<chrono::steady_clock> startPostprocess;
   start = chrono::steady_clock::now();
-
-  // To time cost functions
-  chrono::duration<double,micro> timeSimCost(0);
-  chrono::time_point<chrono::steady_clock> startSimCost; 
 
   chrono::duration<double,micro> timerPostProcessSat(0);
   chrono::duration<double,micro> timerPostProcessOpt(0);
@@ -92,14 +88,12 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
   vector< Variable > worstVariableList;
   Variable* worstVariable;
   double currentSatCost;
-  double currentOptCost;
   vector< double > costConstraints( _vecConstraints.size(), 0. );
   vector< double > costVariables( _vecVariables.size(), 0. );
 
   // In case finalSolution is not a vector of the correct size,
   // ie, equals to the number of variables.
-  finalSolution.clear();
-  finalSolution.reshape( _vecVariables.size() );
+  finalSolution.resize( _vecVariables.size() );
   
   _bestOptCost = std::numeric_limits<double>::max();
   
@@ -155,8 +149,6 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
 	// Mark worstVariable as weak tabu for tabuTime iterations.
 	_weakTabuList[ worstVariable->get_id() ] = tabuTime;
       
-      timeSimCost += chrono::steady_clock::now() - startSimCost;
-
       elapsedTimeOptLoop = chrono::steady_clock::now() - startOptLoop;
       elapsedTime = chrono::steady_clock::now() - start;
     } // satisfaction loop
@@ -242,12 +234,12 @@ void Solver::compute_variables_costs( const vector<double>& costConstraints, vec
 {
   for( auto& v : _vecVariables )
     for( auto& c : _mapVarCtr[ v ] )
-      costVariables[ v.get_id() ] += costConstraints[ c.get_id() ];
+      costVariables[ v.get_id() ] += costConstraints[ c->get_id() ];
 }
 
 void Solver::decay_weak_tabu_list( bool& freeVariables ) 
 {
-  for( auto& tabu : weakTabuList )
+  for( auto& tabu : _weakTabuList )
   {
     if( tabu <= 1 )
     {
@@ -288,7 +280,7 @@ vector< Variable> Solver::compute_worst_variables( bool freeVariables, const vec
 }
 
 // NO VALUE BACKED-UP!
-double Solver::simulate_local_move_cost( Variable *variable, double value, vector<double>& costConstraints, double& currentSatCost ) const
+double Solver::simulate_local_move_cost( Variable *variable, double value, vector<double>& costConstraints, double currentSatCost ) const
 {
   double newCurrentSatCost = currentSatCost;
 
@@ -299,7 +291,10 @@ double Solver::simulate_local_move_cost( Variable *variable, double value, vecto
   return newCurrentSatCost;
 }
 
-double Solver::simulate_permutation_cost( Variable *worstVariable, Variable& otherVariable, vector<double>& costConstraints ) const
+double Solver::simulate_permutation_cost( Variable *worstVariable,
+					  Variable& otherVariable,
+					  vector<double>& costConstraints,
+					  double currentSatCost ) const
 {
   double newCurrentSatCost = currentSatCost;
   int tmp = worstVariable->get_value();
@@ -330,11 +325,10 @@ void Solver::local_move( Variable *variable, vector<double>& costConstraints, ve
 {
   // Here, we look at values in the variable domain
   // leading to the lowest global cost.
+  double newCurrentSatCost;
   vector< int > bestValuesList;
-  int backupValue = variable->get_value();
   int bestValue;
   double bestCost = std::numeric_limits<double>::max();
-  double currentCost;
   
   for( auto& val : variable->possible_values() )
   {
@@ -373,11 +367,10 @@ void Solver::permutation_move( Variable *variable, vector<double>& costConstrain
 {
   // Here, we look at values in the variable domain
   // leading to the lowest global cost.
+  double newCurrentSatCost;
   vector< Variable > bestVarToSwapList;
-  int backupValue = variable->get_value();
   Variable bestVarToSwap;
   double bestCost = std::numeric_limits<double>::max();
-  double currentCost;
   
   for( auto& otherVariable : _vecVariables )
   {
@@ -406,7 +399,7 @@ void Solver::permutation_move( Variable *variable, vector<double>& costConstrain
   if( bestVarToSwapList.size() > 1 )
     bestVarToSwap = _objective->heuristic_value( bestVarToSwapList );
   else
-    bestVarToSwap = &bestVarToSwapList[0];
+    bestVarToSwap = bestVarToSwapList[0];
 
   int tmp = variable->get_value();
   variable->set_value( bestVarToSwap.get_value() );
