@@ -58,7 +58,7 @@ Domain::Domain( int size, int startValue )
 
 int Domain::get_value( int index ) const
 {
-  if( index >=0 && index < _currentDomain.size() )
+  if( index >=0 && index < (int)_currentDomain.size() )
     return _currentDomain[ index ];
   else
     return _outsideScope;

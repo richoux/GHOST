@@ -96,7 +96,7 @@ void Variable::do_random_initialization()
 void Variable::shift_value()
 {
   if( index >= 0 )
-    index = index < domain->get_size() - 1 ? index + 1 : 0;
+    index = index < (int)domain->get_size() - 1 ? index + 1 : 0;
 }
 
 void Variable::unshift_value()
@@ -109,7 +109,7 @@ std::vector<int> Variable::possible_values() const
 {
   std::vector<int> possibleValues;
   
-  for( int i = 0 ; i < domain->get_size() ; ++i )
+  for( int i = 0 ; i < (int)domain->get_size() ; ++i )
     possibleValues.push_back( domain->get_value( i ) );
   
   return possibleValues;

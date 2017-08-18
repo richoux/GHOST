@@ -146,53 +146,6 @@ namespace ghost
     virtual int	expert_heuristic_value( vector< int >& valuesList ) const
     {
       return valuesList[ random.get_random_number( valuesList.size() ) ];
-
-      // int best = 0;
-      // double bestHelp = numeric_limits<int>::max();
-
-      // vector<int> draw;
-	
-      // for( int i = 0; i < vecGlobalCosts.size(); ++i )
-      // {
-      // 	if( vecGlobalCosts[i] == bestEstimatedCost
-      // 	    && vecGlobalCosts[i] < numeric_limits<int>::max()
-      // 	    && heuristicValueHelper.at( i ) == bestHelp )
-      // 	{
-      // 	  draw.push_back(i);
-      // 	}
-      // 	else
-      // 	  if( vecGlobalCosts[i] < bestEstimatedCost
-      // 	      || ( vecGlobalCosts[i] == bestEstimatedCost
-      // 		   && vecGlobalCosts[i] < numeric_limits<int>::max()
-      // 		   && heuristicValueHelper.at( i ) < bestHelp ) )
-      // 	  {
-      // 	    draw.clear();
-      // 	    bestEstimatedCost = vecGlobalCosts[i];
-
-      // 	    // WARNING! This line implies we start our domain by the value -1
-      // 	    // which is not necessarily the case. TOFIX
-      // 	    bestValue = i - 1;
-      // 	    if( heuristicValueHelper.at( i ) < bestHelp )
-      // 	      bestHelp = heuristicValueHelper.at( i );
-      // 	    best = i;
-      // 	  }
-      // }
-
-      // if( draw.size() > 1 )
-      // {
-      // 	int i = draw[ const_cast<Objective*>(this)->random.getRandNum( draw.size() ) ];
-	  
-      // 	bestEstimatedCost = vecGlobalCosts[i];
-	
-      // 	// WARNING! This line implies we start our domain by the value -1
-      // 	// which is not necessarily the case. TOFIX
-      // 	bestValue = i - 1;
-      // 	if( heuristicValueHelper.at( i ) < bestHelp )
-      // 	  bestHelp = heuristicValueHelper.at( i );
-      // 	best = i;
-      // }
-
-      // return best;
     }
 
     //! Virtual function to apply the value heuristic used by the solver.

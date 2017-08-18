@@ -5,7 +5,7 @@
 
 class MyConstraint : public ghost::Constraint
 {
-  double v_cost() const override
+  double required_cost() const override
   {
     return 0.;
   }
