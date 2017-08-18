@@ -71,46 +71,44 @@ namespace ghost
     /*!
      * \param name A string to give the Objective object a specific name.
      */
-    Objective( const string& name, bool permut = false ) : name(name), permutation(permut) { }
+    Objective( const string& name );
 
     //! Inline function following the NVI idiom. Calling v_cost.
-    //! \sa v_cost
-    inline double cost( vector< TypeVariable > *vecVariables ) const
-    { return v_cost( vecVariables ); }
+    //! \sa required_cost
+    inline double cost( vector< Variable > *vecVariables ) const
+    { return required_cost( vecVariables ); }
 
-    //! Inline function following the NVI idiom. Calling v_heuristicVariable.
-    //! \sa v_heuristicVariable
-    inline Variable* heuristicVariable( const vector< Variable >& vecVariables ) const
-    { return v_heuristicVariable( vecVariables ); }
+    //! Inline function following the NVI idiom. Calling expert_heuristicVariable.
+    //! \sa expert_heuristic_variable
+    inline Variable heuristic_variable( const vector< Variable >& vecVariables ) const
+    { return expert_heuristic_variable( vecVariables ); }
     
-    //! Inline function following the NVI idiom. Calling v_heuristicValue.
-    //! \sa v_heuristicValue
-    inline int heuristicValue( const std::vector< double >& vecGlobalCosts, 
-				double& bestEstimatedCost,
-				int& bestValue ) const
-    { return v_heuristicValue( vecGlobalCosts, bestEstimatedCost, bestValue ); }
+    //! Inline function following the NVI idiom. Calling expert_heuristicValue.
+    //! \sa expert_heuristic_value
+    inline int heuristic_value( vector< int >& valuesList ) const
+    { return expert_heuristic_value( valuesList ); }
 
-    //! Inline function following the NVI idiom. Calling v_postprocessSatisfaction.
-    //! \sa v_postprocessSatisfaction
-    inline double postprocessSatisfaction( vector< TypeVariable > *vecVariables,
-					   double& bestCost,
-					   vector< TypeVariable >& bestSolution,
-					   double sat_timeout )
-    { return v_postprocessSatisfaction( vecVariables, bestCost, bestSolution, sat_timeout ); }
+    //! Inline function following the NVI idiom. Calling expert_heuristicValue.
+    //! \sa expert_heuristic_value
+    inline Variable heuristic_value( vector< Variable >& variablesList ) const
+    { return expert_heuristic_value( variablesList ); }
 
-    //! Inline function following the NVI idiom. Calling v_postprocessOptimization.
-    //! \sa v_postprocessOptimization
-    inline double postprocessOptimization( vector< TypeVariable > *vecVariables,
-					   double& bestCost,
-					   double opt_timeout )
-    { return v_postprocessOptimization( vecVariables, bestCost, opt_timeout ); }
+    //! Inline function following the NVI idiom. Calling expert_postprocessSatisfaction.
+    //! \sa expert_postprocess_satisfaction
+    inline void postprocess_satisfaction( vector< Variable >& vecVariables,
+					  double& bestCost,
+					  vector< int >& bestSolution ) const
+    { expert_postprocess_satisfaction( vecVariables, bestCost, bestSolution ); }
+
+    //! Inline function following the NVI idiom. Calling expert_postprocessOptimization.
+    //! \sa expert_postprocess_optimization
+    inline void postprocess_optimization( vector< Variable >& vecVariables,
+					  double& bestCost,
+					  vector< int >& bestSolution ) const
+    { expert_postprocess_optimization( vecVariables, bestCost, bestSolution ); }
 
     //! Inline accessor to get the name of the objective object.
-    inline string getName() const { return name; }
-
-    //! Inline function returning permutation.
-    //! \sa permutation
-    inline bool isPermutation() const { return permutation; }
+    inline string get_name() const { return name; }
 
   protected:
     //! Pure virtual function to compute the value of the objective function on the current configuration.
@@ -119,17 +117,17 @@ namespace ghost
      * \return The value of the objective function on the current configuration.
      * \sa cost
      */
-    virtual double v_cost( vector< TypeVariable > *vecVariables ) const = 0;
+    virtual double required_cost( vector< Variable > *vecVariables ) const = 0;
 
     //! Virtual function to apply the variable heuristic used by the solver.
     /*! 
      * \param vecVariables The vector of variable objects of the CSP/COP.
      * \return The address of a random variable in vecVariables
-     * \sa heuristicVariable
+     * \sa heuristic_variable
      */
-    virtual Variable* v_heuristicVariable( const vector< Variable >& vecVariables ) const
+    virtual Variable expert_heuristic_variable( const vector< Variable >& vecVariables ) const
     {
-      return &vecVariables[ random.getRandNum( vecVariables.size() ) ];
+      return vecVariables[ random.get_random_number( vecVariables.size() ) ];
     }
 
     //! Virtual function to apply the value heuristic used by the solver.
@@ -142,61 +140,77 @@ namespace ghost
      * selected.
      *
      * \param 
-     * \param 
+     * \return The selected value according to the heuristic.
+     * \sa heuristic_value, Random
+     */
+    virtual int	expert_heuristic_value( vector< int >& valuesList ) const
+    {
+      return valuesList[ random.get_random_number( valuesList.size() ) ];
+
+      // int best = 0;
+      // double bestHelp = numeric_limits<int>::max();
+
+      // vector<int> draw;
+	
+      // for( int i = 0; i < vecGlobalCosts.size(); ++i )
+      // {
+      // 	if( vecGlobalCosts[i] == bestEstimatedCost
+      // 	    && vecGlobalCosts[i] < numeric_limits<int>::max()
+      // 	    && heuristicValueHelper.at( i ) == bestHelp )
+      // 	{
+      // 	  draw.push_back(i);
+      // 	}
+      // 	else
+      // 	  if( vecGlobalCosts[i] < bestEstimatedCost
+      // 	      || ( vecGlobalCosts[i] == bestEstimatedCost
+      // 		   && vecGlobalCosts[i] < numeric_limits<int>::max()
+      // 		   && heuristicValueHelper.at( i ) < bestHelp ) )
+      // 	  {
+      // 	    draw.clear();
+      // 	    bestEstimatedCost = vecGlobalCosts[i];
+
+      // 	    // WARNING! This line implies we start our domain by the value -1
+      // 	    // which is not necessarily the case. TOFIX
+      // 	    bestValue = i - 1;
+      // 	    if( heuristicValueHelper.at( i ) < bestHelp )
+      // 	      bestHelp = heuristicValueHelper.at( i );
+      // 	    best = i;
+      // 	  }
+      // }
+
+      // if( draw.size() > 1 )
+      // {
+      // 	int i = draw[ const_cast<Objective*>(this)->random.getRandNum( draw.size() ) ];
+	  
+      // 	bestEstimatedCost = vecGlobalCosts[i];
+	
+      // 	// WARNING! This line implies we start our domain by the value -1
+      // 	// which is not necessarily the case. TOFIX
+      // 	bestValue = i - 1;
+      // 	if( heuristicValueHelper.at( i ) < bestHelp )
+      // 	  bestHelp = heuristicValueHelper.at( i );
+      // 	best = i;
+      // }
+
+      // return best;
+    }
+
+    //! Virtual function to apply the value heuristic used by the solver.
+    /*! 
+     * This default implementation outputs the value leading to the
+     * lowest global cost. It uses heuristicValueHelper as a
+     * tiebreaker, if two or more values lead to configurations with
+     * the same lowest global cost. If two or more values cannot be
+     * tiebreak by heuristicValueHelper, one of them is randomly
+     * selected.
+     *
      * \param 
      * \return The selected value according to the heuristic.
-     * \sa heuristicValue, heuristicValueHelper, Random
+     * \sa heuristic_value, Random
      */
-    virtual int	v_heuristicValue( const std::vector< double >& vecGlobalCosts, 
-				  double& bestEstimatedCost,
-				  int& bestValue ) const
+    virtual Variable expert_heuristic_value( vector< Variable >& variablesList ) const
     {
-      int best = 0;
-      double bestHelp = numeric_limits<int>::max();
-
-      vector<int> draw;
-	
-      for( int i = 0; i < vecGlobalCosts.size(); ++i )
-      {
-	if( vecGlobalCosts[i] == bestEstimatedCost
-	    && vecGlobalCosts[i] < numeric_limits<int>::max()
-	    && heuristicValueHelper.at( i ) == bestHelp )
-	{
-	  draw.push_back(i);
-	}
-	else
-	  if( vecGlobalCosts[i] < bestEstimatedCost
-	      || ( vecGlobalCosts[i] == bestEstimatedCost
-		   && vecGlobalCosts[i] < numeric_limits<int>::max()
-		   && heuristicValueHelper.at( i ) < bestHelp ) )
-	  {
-	    draw.clear();
-	    bestEstimatedCost = vecGlobalCosts[i];
-
-	    // WARNING! This line implies we start our domain by the value -1
-	    // which is not necessarily the case. TOFIX
-	    bestValue = i - 1;
-	    if( heuristicValueHelper.at( i ) < bestHelp )
-	      bestHelp = heuristicValueHelper.at( i );
-	    best = i;
-	  }
-      }
-
-      if( draw.size() > 1 )
-      {
-	int i = draw[ const_cast<Objective*>(this)->random.getRandNum( draw.size() ) ];
-	  
-	bestEstimatedCost = vecGlobalCosts[i];
-	
-	// WARNING! This line implies we start our domain by the value -1
-	// which is not necessarily the case. TOFIX
-	bestValue = i - 1;
-	if( heuristicValueHelper.at( i ) < bestHelp )
-	  bestHelp = heuristicValueHelper.at( i );
-	best = i;
-      }
-
-      return best;
+      return variablesList[ random.get_random_number( variablesList.size() ) ];
     }
 
     //! Virtual function to perform satisfaction post-processing.
@@ -210,18 +224,12 @@ namespace ghost
      * \param vecVariables A constant pointer to the vector of variable objects of the CSP/COP.
      * \param bestCost A reference the double representing the best global cost found by the solver so far.
      * \param solution A reference to the vector of variables of the solution found by the solver.
-     * \param sat_timeout The satisfaction timeout given in argument of Solver::solve
-     * \return The function runtime in milliseconds.
-     * \sa postprocessSatisfaction
+     * \sa postprocess_satisfaction
      */
-    virtual double v_postprocessSatisfaction( vector< TypeVariable > *vecVariables,
-					      double& bestCost,
-					      vector< TypeVariable > &solution,
-					      double sat_timeout) const
-    {
-      bestCost = 0.;
-      return 0.;
-    }
+    virtual void expert_postprocess_satisfaction( vector< Variable >& vecVariables,
+						  double& bestCost,
+						  vector< int >& solution ) const
+    { }
 
     //! Virtual function to perform optimization post-processing.
     /*! 
@@ -230,37 +238,33 @@ namespace ghost
      * the optimization cost.
      *
      * This implementation by default does nothing.
+     *
+     * WARNING: The computation spantime of this function is not taken into account by timeouts given to the solver. 
+     * If you override this function, be sure its computation time is neglictable compare to the optimization timeout
+     * you give to Solver::solve.  
      * 
      * \param vecVariables A constant pointer to the vector of variable objects of the CSP/COP.
      * \param bestCost A reference the double representing the best optimization cost found by the solver so far.
-     * \param opt_timeout The optimization timeout given in argument of Solver::solve
-     * \return The function runtime in milliseconds.
-     * \sa postprocessOptimization
+     * \sa postprocess_optimization
      */
-    virtual double v_postprocessOptimization( vector< TypeVariable > *vecVariables,
-					      double& bestCost,
-					      double opt_timeout)
-    {
-      bestCost = 0.;
-      return 0.;
-    }
-
+    virtual void expert_postprocess_optimization( vector< Variable >& vecVariables,
+						  double& bestCost,
+						  vector< int >& bestSolution ) const
+    { }
 
     Random random;				//!< Random generator used by the function heuristicValue.
     string name;				//!< String for the name of the objective object.
-    bool   permutation;				//!< Boolean telling is the problem is a permutation problem or not.
   };
 
   //! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 
-  template <typename TypeVariable>
-  class NullObjective : public Objective<TypeVariable>
+  class NullObjective : public Objective
   {
-    using Objective<TypeVariable>::random;
+    using Objective::random;
     
   public:
-    NullObjective() : Objective<TypeVariable>("nullObjective") { }
+    NullObjective() : Objective("nullObjective") { }
 
   private:
-    double v_cost( vector< TypeVariable > *vecVariables ) const override { return 0.; }
+    double required_cost( vector< Variable > *vecVariables ) const override { return 0.; }
   };
 }
