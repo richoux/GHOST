@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['heuristicvalue',['heuristicValue',['../classghost_1_1Objective.html#ac9d6c8e05cca99cd797d302b3755b6b5',1,'ghost::Objective']]],
-  ['heuristicvaluehelper',['heuristicValueHelper',['../classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27',1,'ghost::Objective']]],
-  ['heuristicvariable',['heuristicVariable',['../classghost_1_1Objective.html#af68c07a226162ea7f9ee01a0b00d3ae4',1,'ghost::Objective']]]
+  ['index',['index',['../classghost_1_1Variable.html#a934efa463fb1897b4266040e321dbc41',1,'ghost::Variable']]],
+  ['indexof',['indexOf',['../classghost_1_1Domain.html#ad82154e314a7f1029e5d1512047460fd',1,'ghost::Domain']]],
+  ['inithelper',['initHelper',['../classghost_1_1Objective.html#ad4432d190d227f7e67bd505f0b4b80e9',1,'ghost::Objective']]],
+  ['isinitialized',['isInitialized',['../classghost_1_1Domain.html#a1ead2b1ccee560dac9ddb68c15362511',1,'ghost::Domain']]],
+  ['ispermutation',['isPermutation',['../classghost_1_1Objective.html#a558991ad856cff48262e2848c6ab5796',1,'ghost::Objective']]]
 ];

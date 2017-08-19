@@ -1,3 +1,5 @@
-<map id="include/domain.hpp" name="include/domain.hpp">
-<area shape="rect" id="node2" href="$solver_8hpp.html" title="include/solver.hpp" alt="" coords="9,80,135,107"/>
+<map id="src/domain.hpp" name="src/domain.hpp">
+<area shape="rect" id="node2" href="$variable_8hpp.html" title="src/variable.hpp" alt="" coords="95,80,209,107"/>
+<area shape="rect" id="node3" href="$solver_8hpp.html" title="src/solver.hpp" alt="" coords="5,155,109,181"/>
+<area shape="rect" id="node4" href="$variable_8cpp.html" title="src/variable.cpp" alt="" coords="133,155,248,181"/>
 </map>

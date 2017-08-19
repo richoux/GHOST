@@ -7,26 +7,16 @@
 
 var indexSectionsWithContent =
 {
-  0: "cdfghimnoprsuv",
-  1: "cdnorsv",
-  2: "g",
-  3: "cdmorsv",
-  4: "cdghimnoprsuv",
-  5: "dfhinprv",
-  6: "o",
-  7: "g"
+  0: "gmv",
+  1: "mv",
+  2: "g"
 };
 
 var indexSectionNames =
 {
   0: "all",
-  1: "classes",
-  2: "namespaces",
-  3: "files",
-  4: "functions",
-  5: "variables",
-  6: "related",
-  7: "pages"
+  1: "files",
+  2: "pages"
 };
 
 function convertToId(search)

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['fullname',['fullName',['../classghost_1_1Variable.html#a87dc1fa73726f887a7ecbd5b9bfa7cab',1,'ghost::Variable']]]
+  ['heuristicvaluehelper',['heuristicValueHelper',['../classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27',1,'ghost::Objective']]]
 ];

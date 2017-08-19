@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['objective',['Objective',['../classghost_1_1Objective.html',1,'ghost']]],
-  ['objective',['Objective',['../classghost_1_1Objective.html#ae8f0c0e859244a5acf8e6f9a609b8e12',1,'ghost::Objective']]],
-  ['objective_2ehpp',['objective.hpp',['../objective_8hpp.html',1,'']]],
-  ['operator_3c',['operator&lt;',['../classghost_1_1Variable.html#aeea921ab89e0f175037ce8c81845905c',1,'ghost::Variable']]],
-  ['operator_3c_3c',['operator&lt;&lt;',['../classghost_1_1Variable.html#aab05ab0693334e9e9a39f43903a37cb7',1,'ghost::Variable::operator&lt;&lt;()'],['../classghost_1_1Domain.html#a608c9910828eb2983efb65ff4c297a4e',1,'ghost::Domain::operator&lt;&lt;()'],['../classghost_1_1Constraint.html#a5fb3db9a0881ff7aae65d680386277f0',1,'ghost::Constraint::operator&lt;&lt;()']]],
-  ['operator_3d',['operator=',['../classghost_1_1Variable.html#ad82b892892c3531cc3d54d6b5d048bf6',1,'ghost::Variable']]]
+  ['permutation',['permutation',['../classghost_1_1Objective.html#aae8345f4b7981f4b386eb58e447e0286',1,'ghost::Objective']]],
+  ['possiblevalues',['possibleValues',['../classghost_1_1Variable.html#aef68abc32c9402ed77913dce9412f621',1,'ghost::Variable']]],
+  ['postprocessoptimization',['postprocessOptimization',['../classghost_1_1Objective.html#adbaff57012dd756d87dc5151d9718296',1,'ghost::Objective']]],
+  ['postprocesssatisfaction',['postprocessSatisfaction',['../classghost_1_1Objective.html#aa79835aa61f6680e78912ecaee6f7fbc',1,'ghost::Objective']]]
 ];

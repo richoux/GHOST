@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['mainpage_2edox',['mainpage.dox',['../mainpage_8dox.html',1,'']]],
-  ['maxinitialvalue',['maxInitialValue',['../classghost_1_1Domain.html#ac05fdbbd6124f557fd4806efedd0fc83',1,'ghost::Domain']]],
-  ['maxvalue',['maxValue',['../classghost_1_1Domain.html#a1c62e66fb56efc0586e81cc8ea203dc7',1,'ghost::Domain']]],
-  ['mininitialvalue',['minInitialValue',['../classghost_1_1Domain.html#a82507f2d7e9077e7bd00b88c5ff99c5f',1,'ghost::Domain']]],
-  ['minvalue',['minValue',['../classghost_1_1Domain.html#a3c407e59963930f82c17b04d784df0f6',1,'ghost::Domain']]]
+  ['name',['name',['../classghost_1_1Variable.html#a05cf4a4cd3a5c033028e0b0f11d1dafd',1,'ghost::Variable::name()'],['../classghost_1_1Objective.html#ae9533a52b3600c826df6e20c65db1e7a',1,'ghost::Objective::name()']]],
+  ['nullobjective',['NullObjective',['../classghost_1_1NullObjective.html#acb468a9e5fd85d31c3afc805481919ed',1,'ghost::NullObjective']]],
+  ['nullobjective',['NullObjective',['../classghost_1_1NullObjective.html',1,'ghost']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['randomvar',['randomVar',['../classghost_1_1Objective.html#a442da333edc70f47c33a15987c2a81b8',1,'ghost::Objective']]]
+  ['shortname',['shortName',['../classghost_1_1Variable.html#afb5eb79a7f6351b4305fe082699b6d7d',1,'ghost::Variable']]]
 ];
