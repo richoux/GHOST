@@ -1,12 +1,8 @@
 var searchData=
 [
-  ['sethelper',['setHelper',['../classghost_1_1Objective.html#ab589c264cf391bab9005562f66a39797',1,'ghost::Objective']]],
-  ['setvalue',['setValue',['../classghost_1_1Variable.html#aadbc00de3ee4cb0f51a306b2639f1ea9',1,'ghost::Variable']]],
-  ['shiftvalue',['shiftValue',['../classghost_1_1Variable.html#a8afe14b1858476bf4ef59a41a2947f93',1,'ghost::Variable']]],
-  ['shortname',['shortName',['../classghost_1_1Variable.html#afb5eb79a7f6351b4305fe082699b6d7d',1,'ghost::Variable']]],
-  ['solve',['solve',['../classghost_1_1Solver.html#a5d15e316f5a4bb8a33c6781058ad0307',1,'ghost::Solver']]],
-  ['solver',['Solver',['../classghost_1_1Solver.html#aee74bbdf00494dc209d4909bf9fcb544',1,'ghost::Solver::Solver(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj=nullptr)'],['../classghost_1_1Solver.html#a512335329b22a91700bdfa7870f053e9',1,'ghost::Solver::Solver(vector&lt; TypeVariable &gt; *vecVariables, TypeDomain *domain, const vector&lt; shared_ptr&lt; TypeConstraint &gt; &gt; &amp;vecConstraints, const shared_ptr&lt; Objective&lt; TypeVariable, TypeDomain &gt; &gt; &amp;obj, const int loops)']]],
-  ['solver',['Solver',['../classghost_1_1Solver.html',1,'ghost']]],
-  ['solver_2ehpp',['solver.hpp',['../solver_8hpp.html',1,'']]],
-  ['swap',['swap',['../classghost_1_1Variable.html#a01b3dfd2e865fed19b5edf0ced7d74bc',1,'ghost::Variable']]]
+  ['random',['Random',['../classghost_1_1Random.html',1,'ghost']]],
+  ['random',['random',['../classghost_1_1Objective.html#a86081d1ebbab1fe6f781841d9ac8d546',1,'ghost::Objective::random()'],['../classghost_1_1Random.html#a7c45efd1f7c522a68760104ba6084d89',1,'ghost::Random::Random()']]],
+  ['random_2ehpp',['random.hpp',['../random_8hpp.html',1,'']]],
+  ['random_5fvalue',['random_value',['../classghost_1_1Domain.html#a5d12f840be7a0ddd673c85d70426a75e',1,'ghost::Domain']]],
+  ['required_5fcost',['required_cost',['../classghost_1_1Constraint.html#a6ef4cd03a4dc864a8d308e55044c615d',1,'ghost::Constraint::required_cost()'],['../classghost_1_1Objective.html#acec1affc6bdee383ce13768173a002ac',1,'ghost::Objective::required_cost()']]]
 ];

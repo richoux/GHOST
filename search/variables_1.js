@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['heuristicvaluehelper',['heuristicValueHelper',['../classghost_1_1Objective.html#a9bfe64f13de15bba7f2fa3a662c02e27',1,'ghost::Objective']]]
+  ['id',['id',['../classghost_1_1Constraint.html#a5215df3cd5269adb4c5f6168191b9d47',1,'ghost::Constraint']]],
+  ['index',['index',['../classghost_1_1Variable.html#a934efa463fb1897b4266040e321dbc41',1,'ghost::Variable']]]
 ];

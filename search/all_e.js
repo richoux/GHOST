@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['tabulist',['tabuList',['../classghost_1_1Solver.html#aa5c12894a6fbd524fb33906c8f3fbcae',1,'ghost::Solver']]]
+  ['_7econstraint',['~Constraint',['../classghost_1_1Constraint.html#aebea8263c24d0c3a5328c20ee0006f32',1,'ghost::Constraint']]],
+  ['_7evariable',['~Variable',['../classghost_1_1Variable.html#a06aa85e69ddf9a887dcc31c61dca70ab',1,'ghost::Variable']]]
 ];

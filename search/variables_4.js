@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['permutation',['permutation',['../classghost_1_1Objective.html#aae8345f4b7981f4b386eb58e447e0286',1,'ghost::Objective']]]
+  ['shortname',['shortName',['../classghost_1_1Variable.html#af0a8a6632b981ae0ff22cf4dc62495d3',1,'ghost::Variable']]]
 ];
