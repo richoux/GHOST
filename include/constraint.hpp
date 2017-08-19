@@ -71,8 +71,8 @@ namespace ghost
     // void swap( Constraint &other );
 
   protected:
-    vector< Variable* > variables;	//!< The vector of variable pointers compositing the CSP/COP.
-    int			id;		//!< Unique ID integer
+    vector< shared_ptr< Variable > >	variables;	//!< The vector of variable pointers compositing the CSP/COP.
+    int					id;		//!< Unique ID integer
 
     //! Pure virtual function to compute the current cost of the constraint.
     //! WARNING: do not implement side effect in this function. It will be called by the solver
@@ -86,7 +86,7 @@ namespace ghost
     /*!
      * \param variables The vector of variable pointers composition the CSP/COP.
      */
-    Constraint( const vector< Variable* >& variables );
+    Constraint( const vector< shared_ptr< Variable > >& variables );
 
     //! Constraint copy constructor
     /*!
@@ -112,12 +112,12 @@ namespace ghost
     //! Given a variable, does this variable composes the constraint?
     //! \param var A variable.
     //! \return True iff the constraint contains var 
-    bool has_variable( const Variable& var ) const;
+    bool has_variable( const shared_ptr< Variable > var ) const;
 
     //! Given a variable, does this variable composes the constraint?
     //! \param var A variable.
     //! \return True iff the constraint contains var 
-    vector< Variable* >::const_iterator get_variable_iterator( const Variable& var ) const;
+    vector< shared_ptr< Variable > >::const_iterator get_variable_iterator( const shared_ptr< Variable > var ) const;
 
     //! Inline function to get the unique id of the Constraint object.
     inline int get_id() const { return id; }

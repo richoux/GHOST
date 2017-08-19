@@ -76,7 +76,7 @@ namespace ghost
    */
   class Solver
   {
-    vector< Variable >			_vecVariables;	//!< Vector of variable objects of the CSP/COP.
+    vector< shared_ptr< Variable > >	_vecVariables;	//!< Vector of (shared pointers of) variable of the CSP/COP.
     vector< shared_ptr< Constraint > >	_vecConstraints; //!< The vector of (shared pointers of) constraints of the CSP/COP.
     shared_ptr< Objective >		_objective;	//!< The shared pointer of the objective function.
 
@@ -87,7 +87,7 @@ namespace ghost
     bool	_isOptimization;	//!< A boolean to know if it is a satisfaction or optimization run.
     bool	_permutationProblem;	//!< A boolean to know if it is a permutation problem or not.
 
-    map<Variable, vector< shared_ptr< Constraint > > > _mapVarCtr;	//!< Map to know in which constraints are each variable.
+    mutable map< shared_ptr< Variable >, vector< shared_ptr< Constraint > > > _mapVarCtr;	//!< Map to know in which constraints are each variable.
     // map<Variable, vector< pair< shared_ptr< Constraint >, vector< Variable* >::iterator> >
     // _mapVarCtr;	//!< Map to know in which constraints are each variable.
 
@@ -99,7 +99,7 @@ namespace ghost
     //! Compute and return the vector containing worst variables,
     //! ie, variables with the highest variable cost.
     //! \return A vector of worst variables
-    vector< Variable> compute_worst_variables( bool freeVariables, const vector<double>& costVariables ) const;
+    vector< shared_ptr< Variable > > compute_worst_variables( bool freeVariables, const vector<double>& costVariables ) const;
 
     //! Compute the cost of each constraints
     //! \param costConstraints The vector to be filled by this function.
@@ -112,21 +112,30 @@ namespace ghost
     void compute_variables_costs( const vector<double>& costConstraints, vector<double>& costVariables ) const;
 
     // Compute incrementally the now global cost IF we change the value of 'variable' by 'value' with a local move.
-    double simulate_local_move_cost( Variable *variable, double value, vector<double>& costConstraints, double currentSatCost ) const;
+    double simulate_local_move_cost( shared_ptr< Variable > variable,
+				     double value,
+				     vector<double>& costConstraints,
+				     double currentSatCost ) const;
 
     // Compute incrementally the now global cost IF we swap values of 'variable' with another variable.
-    double simulate_permutation_cost( Variable *worstVariable,
-				      Variable& otherVariable,
+    double simulate_permutation_cost( shared_ptr< Variable > worstVariable,
+				      shared_ptr< Variable > otherVariable,
 				      vector<double>& costConstraints,
 				      double currentSatCost ) const;
 
     //! Function to make a local move, ie, to assign a given
     //! value to a given variable
-    void local_move( Variable* variable, vector<double>& costConstraints, vector<double>& costVariables, double& currentSatCost );
+    void local_move( shared_ptr< Variable > variable,
+		     vector<double>& costConstraints,
+		     vector<double>& costVariables,
+		     double& currentSatCost );
 
     //! Function to make a permutation move, ie, to assign a given
     //! variable to a new position
-    void permutation_move( Variable* variable, vector<double>& costConstraints, vector<double>& costVariables, double& currentSatCost );
+    void permutation_move( shared_ptr< Variable > variable,
+			   vector<double>& costConstraints,
+			   vector<double>& costVariables,
+			   double& currentSatCost );
 
 
   public:
@@ -137,8 +146,8 @@ namespace ghost
      * \param obj A reference to the shared pointer of an Objective object. Default value is nullptr.
      * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
      */
-    Solver( vector< Variable >& vecVariables, 
-	    vector< shared_ptr<Constraint> > vecConstraints,
+    Solver( const vector< shared_ptr< Variable > >& vecVariables, 
+	    const vector< shared_ptr< Constraint > >& vecConstraints,
 	    shared_ptr< Objective > obj,
 	    bool permutationProblem = false );
 
@@ -150,8 +159,8 @@ namespace ghost
      * \param vecConstraints A constant reference to the vector of shared pointers of Constraint
      * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
      */
-    Solver( vector< Variable >& vecVariables, 
-	    vector< shared_ptr<Constraint> > vecConstraints,
+    Solver( const vector< shared_ptr< Variable > >& vecVariables, 
+	    const vector< shared_ptr< Constraint > >& vecConstraints,
 	    bool permutationProblem = false );
 
     //! Solver's main function, to solve the given CSP/COP.

@@ -75,34 +75,34 @@ namespace ghost
 
     //! Inline function following the NVI idiom. Calling v_cost.
     //! \sa required_cost
-    inline double cost( vector< Variable > *vecVariables ) const
+    inline double cost( const vector< shared_ptr< Variable > >& vecVariables ) const
     { return required_cost( vecVariables ); }
 
     //! Inline function following the NVI idiom. Calling expert_heuristicVariable.
     //! \sa expert_heuristic_variable
-    inline Variable heuristic_variable( const vector< Variable >& vecVariables ) const
+    inline shared_ptr< Variable > heuristic_variable( const vector< shared_ptr< Variable > >& vecVariables ) const
     { return expert_heuristic_variable( vecVariables ); }
     
     //! Inline function following the NVI idiom. Calling expert_heuristicValue.
     //! \sa expert_heuristic_value
-    inline int heuristic_value( vector< int >& valuesList ) const
+    inline int heuristic_value( const vector< int >& valuesList ) const
     { return expert_heuristic_value( valuesList ); }
 
     //! Inline function following the NVI idiom. Calling expert_heuristicValue.
     //! \sa expert_heuristic_value
-    inline Variable heuristic_value( vector< Variable >& variablesList ) const
+    inline shared_ptr< Variable > heuristic_value( const vector< shared_ptr< Variable > >& variablesList ) const
     { return expert_heuristic_value( variablesList ); }
 
     //! Inline function following the NVI idiom. Calling expert_postprocessSatisfaction.
     //! \sa expert_postprocess_satisfaction
-    inline void postprocess_satisfaction( vector< Variable >& vecVariables,
+    inline void postprocess_satisfaction( const vector< shared_ptr< Variable > >& vecVariables,
 					  double& bestCost,
 					  vector< int >& bestSolution ) const
     { expert_postprocess_satisfaction( vecVariables, bestCost, bestSolution ); }
 
     //! Inline function following the NVI idiom. Calling expert_postprocessOptimization.
     //! \sa expert_postprocess_optimization
-    inline void postprocess_optimization( vector< Variable >& vecVariables,
+    inline void postprocess_optimization( const vector< shared_ptr< Variable > >& vecVariables,
 					  double& bestCost,
 					  vector< int >& bestSolution ) const
     { expert_postprocess_optimization( vecVariables, bestCost, bestSolution ); }
@@ -117,7 +117,7 @@ namespace ghost
      * \return The value of the objective function on the current configuration.
      * \sa cost
      */
-    virtual double required_cost( vector< Variable > *vecVariables ) const = 0;
+    virtual double required_cost( const vector< shared_ptr< Variable > >& vecVariables ) const = 0;
 
     //! Virtual function to apply the variable heuristic used by the solver.
     /*! 
@@ -125,7 +125,7 @@ namespace ghost
      * \return The address of a random variable in vecVariables
      * \sa heuristic_variable
      */
-    virtual Variable expert_heuristic_variable( const vector< Variable >& vecVariables ) const
+    virtual shared_ptr< Variable > expert_heuristic_variable( const vector< shared_ptr< Variable > >& vecVariables ) const
     {
       return vecVariables[ random.get_random_number( vecVariables.size() ) ];
     }
@@ -143,7 +143,7 @@ namespace ghost
      * \return The selected value according to the heuristic.
      * \sa heuristic_value, Random
      */
-    virtual int	expert_heuristic_value( vector< int >& valuesList ) const
+    virtual int	expert_heuristic_value( const vector< int >& valuesList ) const
     {
       return valuesList[ random.get_random_number( valuesList.size() ) ];
     }
@@ -161,7 +161,7 @@ namespace ghost
      * \return The selected value according to the heuristic.
      * \sa heuristic_value, Random
      */
-    virtual Variable expert_heuristic_value( vector< Variable >& variablesList ) const
+    virtual shared_ptr< Variable > expert_heuristic_value( const vector< shared_ptr< Variable > >& variablesList ) const
     {
       return variablesList[ random.get_random_number( variablesList.size() ) ];
     }
@@ -179,7 +179,7 @@ namespace ghost
      * \param solution A reference to the vector of variables of the solution found by the solver.
      * \sa postprocess_satisfaction
      */
-    virtual void expert_postprocess_satisfaction( vector< Variable >& vecVariables,
+    virtual void expert_postprocess_satisfaction( const vector< shared_ptr< Variable > >& vecVariables,
 						  double& bestCost,
 						  vector< int >& solution ) const
     { }
@@ -200,7 +200,7 @@ namespace ghost
      * \param bestCost A reference the double representing the best optimization cost found by the solver so far.
      * \sa postprocess_optimization
      */
-    virtual void expert_postprocess_optimization( vector< Variable >& vecVariables,
+    virtual void expert_postprocess_optimization( const vector< shared_ptr< Variable > >& vecVariables,
 						  double& bestCost,
 						  vector< int >& bestSolution ) const
     { }
@@ -218,6 +218,6 @@ namespace ghost
     NullObjective() : Objective("nullObjective") { }
 
   private:
-    double required_cost( vector< Variable > *vecVariables ) const override { return 0.; }
+    double required_cost( const vector< shared_ptr< Variable > >& vecVariables ) const override { return 0.; }
   };
 }

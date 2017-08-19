@@ -35,7 +35,7 @@ using namespace ghost;
 
 int Constraint::NBER_CTR = 0;
 
-Constraint::Constraint( const vector< Variable* >& variables )
+Constraint::Constraint( const vector< shared_ptr< Variable > >& variables )
   : variables	( variables ),
     id		( NBER_CTR++ )
 { }
@@ -57,14 +57,14 @@ Constraint::Constraint( const Constraint &other )
 //   std::swap( this->id, other.id );
 // }
 
-bool Constraint::has_variable( const Variable& var ) const
+bool Constraint::has_variable( const shared_ptr< Variable > var ) const
 {
-  return get_variable_iterator( var ) != variables.end();
+  return get_variable_iterator( var ) != variables.cend();
 }
 
-vector< Variable* >::const_iterator Constraint::get_variable_iterator( const Variable& var ) const
+vector< shared_ptr< Variable > >::const_iterator Constraint::get_variable_iterator( const shared_ptr< Variable > var ) const
 {
-  return std::find_if( variables.begin(),
-  		       variables.end(),
-  		       [&]( auto& v ){ return v->get_id() == var.get_id(); } );
+  return std::find_if( variables.cbegin(),
+  		       variables.cend(),
+  		       [&]( auto& v ){ return v->get_id() == var->get_id(); } );
 }
