@@ -1,134 +1,210 @@
-\hypertarget{classghost_1_1Constraint}{}\section{ghost\+:\+:Constraint$<$ Type\+Variable $>$ Class Template Reference}
-\label{classghost_1_1Constraint}\index{ghost\+::\+Constraint$<$ Type\+Variable $>$@{ghost\+::\+Constraint$<$ Type\+Variable $>$}}
+\hypertarget{classghost_1_1Constraint}{\section{ghost\-:\-:Constraint Class Reference}
+\label{classghost_1_1Constraint}\index{ghost\-::\-Constraint@{ghost\-::\-Constraint}}
+}
 
 
-\hyperlink{classghost_1_1Constraint}{Constraint} is the class encoding constraints of your C\+S\+P/\+C\+OP.  
-
-
-
-
-{\ttfamily \#include $<$constraint.\+hpp$>$}
+\hyperlink{classghost_1_1Constraint}{Constraint} is the class encoding constraints of your C\-S\-P/\-C\-O\-P.  
 
 
 
-Collaboration diagram for ghost\+:\+:Constraint$<$ Type\+Variable $>$\+:
+
+{\ttfamily \#include $<$constraint.\-hpp$>$}
+
+
+
+Collaboration diagram for ghost\-:\-:Constraint\-:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=178pt]{classghost_1_1Constraint__coll__graph}
+\includegraphics[width=198pt]{classghost_1_1Constraint__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classghost_1_1Constraint_aa500115c399ec8f250416903bb85e526}{Constraint} (const vector$<$ Type\+Variable $>$ $\ast$\hyperlink{classghost_1_1Constraint_a83305933e19440f42428da0726261c4a}{variables})
+\hyperlink{classghost_1_1Constraint_a9632dde3e9486686466f1692706af5d9}{Constraint} ()=default
+\item 
+\hyperlink{classghost_1_1Constraint_afdc25eb190a7a0ec4171337fc80888f4}{Constraint} (const vector$<$ shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ $>$ \&\hyperlink{classghost_1_1Constraint_a14585a4765af0acb14a14788929726c3}{variables})
 \begin{DoxyCompactList}\small\item\em The unique \hyperlink{classghost_1_1Constraint}{Constraint} constructor. \end{DoxyCompactList}\item 
-double \hyperlink{classghost_1_1Constraint_a9ca5281e18d0141400773e36e7b1633b}{cost} (vector$<$ double $>$ \&var\+Cost) const 
-\end{DoxyCompactItemize}
+\hyperlink{classghost_1_1Constraint_a65ed5eb7814f9bc07750886cb2e7dbaa}{Constraint} (const \hyperlink{classghost_1_1Constraint}{Constraint} \&other)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Constraint}{Constraint} copy constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{classghost_1_1Constraint_aebea8263c24d0c3a5328c20ee0006f32}{$\sim$\-Constraint} ()=default
+\begin{DoxyCompactList}\small\item\em Default \hyperlink{classghost_1_1Constraint}{Constraint} destructor. \end{DoxyCompactList}\item 
+double \hyperlink{classghost_1_1Constraint_adfa4826bcaea9e4a692fb0c4630ca214}{cost} () const 
+\item 
+bool \hyperlink{classghost_1_1Constraint_a070d5d68a1291b99f178aa98440186bc}{has\-\_\-variable} (const shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ var) const 
+\item 
+vector$<$ shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$\\*
+ $>$\-::const\-\_\-iterator \hyperlink{classghost_1_1Constraint_a9a894b4700d26e59c48739c4292efc8a}{get\-\_\-variable\-\_\-iterator} (const shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ var) const 
+\item 
+int \hyperlink{classghost_1_1Constraint_af483429a319284503ff634105cadbe08}{get\-\_\-id} () const 
+\begin{DoxyCompactList}\small\item\em Inline function to get the unique id of the \hyperlink{classghost_1_1Constraint}{Constraint} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-virtual double \hyperlink{classghost_1_1Constraint_a945f30a69e837136803ce722dffb30db}{v\+\_\+cost} (vector$<$ double $>$ \&var\+Cost) const =0
-\begin{DoxyCompactList}\small\item\em Pure virtual function to compute the current cost of the constraint. \end{DoxyCompactList}\end{DoxyCompactItemize}
+virtual double \hyperlink{classghost_1_1Constraint_a6ef4cd03a4dc864a8d308e55044c615d}{required\-\_\-cost} () const =0
+\end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-vector$<$ Type\+Variable $>$ $\ast$ \hyperlink{classghost_1_1Constraint_a83305933e19440f42428da0726261c4a}{variables}
-\begin{DoxyCompactList}\small\item\em A pointer to the vector of variable objects of the C\+S\+P/\+C\+OP. \end{DoxyCompactList}\end{DoxyCompactItemize}
+vector$<$ shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ $>$ \hyperlink{classghost_1_1Constraint_a14585a4765af0acb14a14788929726c3}{variables}
+\begin{DoxyCompactList}\small\item\em The vector of variable pointers compositing the C\-S\-P/\-C\-O\-P. \end{DoxyCompactList}\item 
+int \hyperlink{classghost_1_1Constraint_a5215df3cd5269adb4c5f6168191b9d47}{id}
+\begin{DoxyCompactList}\small\item\em Unique I\-D integer. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
-ostream \& \hyperlink{classghost_1_1Constraint_a5fb3db9a0881ff7aae65d680386277f0}{operator$<$$<$} (ostream \&os, const \hyperlink{classghost_1_1Constraint}{Constraint}$<$ Type\+Variable, Type\+Domain $>$ \&c)
+ostream \& \hyperlink{classghost_1_1Constraint_a7233f9b589a413e310991431039b05b6}{operator$<$$<$} (ostream \&os, const \hyperlink{classghost_1_1Constraint}{Constraint} \&c)
 \begin{DoxyCompactList}\small\item\em friend override of operator$<$$<$ \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-\subsubsection*{template$<$typename Type\+Variable$>$\\*
-class ghost\+::\+Constraint$<$ Type\+Variable $>$}
+\hyperlink{classghost_1_1Constraint}{Constraint} is the class encoding constraints of your C\-S\-P/\-C\-O\-P. 
 
-\hyperlink{classghost_1_1Constraint}{Constraint} is the class encoding constraints of your C\+S\+P/\+C\+OP. 
+In G\-H\-O\-S\-T, many different constraint objects can be instanciate.
 
-In G\+H\+O\+ST, many different constraint objects can be instanciate.
+The \hyperlink{classghost_1_1Constraint}{Constraint} class is a template class, waiting for both the type of variable and the type of domain. Thus, you must instanciate a constraint by specifying the class of your variable objects and the class of your domain object, like for instance Constraint$<$\-Variable, Domain$>$ or \hyperlink{classghost_1_1Constraint}{Constraint}$<$My\-Custom\-Variable, My\-Custom\-Domain$>$, if My\-Custom\-Variable inherits from the \hyperlink{classghost_1_1Variable}{ghost\-::\-Variable} class and My\-Custom\-Domain inherits from the \hyperlink{classghost_1_1Domain}{ghost\-::\-Domain} class.
 
-The \hyperlink{classghost_1_1Constraint}{Constraint} class is a template class, waiting for both the type of variable and the type of domain. Thus, you must instanciate a constraint by specifying the class of your variable objects and the class of your domain object, like for instance Constraint$<$\+Variable, Domain$>$ or \hyperlink{classghost_1_1Constraint}{Constraint}$<$My\+Custom\+Variable, My\+Custom\+Domain$>$, if My\+Custom\+Variable inherits from the \hyperlink{classghost_1_1Variable}{ghost\+::\+Variable} class and My\+Custom\+Domain inherits from the \hyperlink{classghost_1_1Domain}{ghost\+::\+Domain} class.
+You cannot directly use this class \hyperlink{classghost_1_1Constraint}{Constraint} to encode your C\-S\-P/\-C\-O\-P constraints, since this is an abstract class (see the list of pure virtual functions below). Thus, you must write your own constraint class inheriting from \hyperlink{classghost_1_1Constraint}{ghost\-::\-Constraint}.
 
-You cannot directly use this class \hyperlink{classghost_1_1Constraint}{Constraint} to encode your C\+S\+P/\+C\+OP constraints, since this is an abstract class (see the list of pure virtual functions below). Thus, you must write your own constraint class inheriting from \hyperlink{classghost_1_1Constraint}{ghost\+::\+Constraint}.
+The only pure virtual \hyperlink{classghost_1_1Constraint}{Constraint} function is v\-\_\-cost
 
-The only pure virtual \hyperlink{classghost_1_1Constraint}{Constraint} function is cost
-
-\begin{DoxySeeAlso}{See also}
+\begin{DoxySeeAlso}{See Also}
 \hyperlink{classghost_1_1Variable}{Variable} 
 \end{DoxySeeAlso}
 
 
 \subsection{Constructor \& Destructor Documentation}
-\index{ghost\+::\+Constraint@{ghost\+::\+Constraint}!Constraint@{Constraint}}
-\index{Constraint@{Constraint}!ghost\+::\+Constraint@{ghost\+::\+Constraint}}
-\subsubsection[{\texorpdfstring{Constraint(const vector$<$ Type\+Variable $>$ $\ast$variables)}{Constraint(const vector< TypeVariable > *variables)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\+Variable $>$ {\bf ghost\+::\+Constraint}$<$ Type\+Variable $>$\+::{\bf Constraint} (
+\hypertarget{classghost_1_1Constraint_a9632dde3e9486686466f1692706af5d9}{\index{ghost\-::\-Constraint@{ghost\-::\-Constraint}!Constraint@{Constraint}}
+\index{Constraint@{Constraint}!ghost::Constraint@{ghost\-::\-Constraint}}
+\subsubsection[{Constraint}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Constraint\-::\-Constraint (
 \begin{DoxyParamCaption}
-\item[{const vector$<$ Type\+Variable $>$ $\ast$}]{variables}
+{}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Constraint_aa500115c399ec8f250416903bb85e526}{}\label{classghost_1_1Constraint_aa500115c399ec8f250416903bb85e526}
+)\hspace{0.3cm}{\ttfamily [default]}}}\label{classghost_1_1Constraint_a9632dde3e9486686466f1692706af5d9}
+\hypertarget{classghost_1_1Constraint_afdc25eb190a7a0ec4171337fc80888f4}{\index{ghost\-::\-Constraint@{ghost\-::\-Constraint}!Constraint@{Constraint}}
+\index{Constraint@{Constraint}!ghost::Constraint@{ghost\-::\-Constraint}}
+\subsubsection[{Constraint}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Constraint\-::\-Constraint (
+\begin{DoxyParamCaption}
+\item[{const vector$<$ shared\-\_\-ptr$<$ {\bf Variable} $>$ $>$ \&}]{variables}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1Constraint_afdc25eb190a7a0ec4171337fc80888f4}
 
 
 The unique \hyperlink{classghost_1_1Constraint}{Constraint} constructor. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em variables} & A constant pointer toward the vector of variable objects of the C\+S\+P/\+C\+OP. \\
+{\em variables} & The vector of variable pointers composition the C\-S\-P/\-C\-O\-P. \\
 \hline
-{\em domain} & A constant pointer toward the domain object of the C\+S\+P/\+C\+OP. \\
+\end{DoxyParams}
+\hypertarget{classghost_1_1Constraint_a65ed5eb7814f9bc07750886cb2e7dbaa}{\index{ghost\-::\-Constraint@{ghost\-::\-Constraint}!Constraint@{Constraint}}
+\index{Constraint@{Constraint}!ghost::Constraint@{ghost\-::\-Constraint}}
+\subsubsection[{Constraint}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Constraint\-::\-Constraint (
+\begin{DoxyParamCaption}
+\item[{const {\bf Constraint} \&}]{other}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1Constraint_a65ed5eb7814f9bc07750886cb2e7dbaa}
+
+
+\hyperlink{classghost_1_1Constraint}{Constraint} copy constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & A reference to a \hyperlink{classghost_1_1Variable}{Variable} object. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classghost_1_1Constraint_aebea8263c24d0c3a5328c20ee0006f32}{\index{ghost\-::\-Constraint@{ghost\-::\-Constraint}!$\sim$\-Constraint@{$\sim$\-Constraint}}
+\index{$\sim$\-Constraint@{$\sim$\-Constraint}!ghost::Constraint@{ghost\-::\-Constraint}}
+\subsubsection[{$\sim$\-Constraint}]{\setlength{\rightskip}{0pt plus 5cm}virtual ghost\-::\-Constraint\-::$\sim$\-Constraint (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [default]}}}\label{classghost_1_1Constraint_aebea8263c24d0c3a5328c20ee0006f32}
+
+
+Default \hyperlink{classghost_1_1Constraint}{Constraint} destructor. 
+
+The copy-\/and-\/swap idiom is applyed here.
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & A \hyperlink{classghost_1_1Constraint}{Constraint} object. \\
 \hline
 \end{DoxyParams}
 
 
 \subsection{Member Function Documentation}
-\index{ghost\+::\+Constraint@{ghost\+::\+Constraint}!cost@{cost}}
-\index{cost@{cost}!ghost\+::\+Constraint@{ghost\+::\+Constraint}}
-\subsubsection[{\texorpdfstring{cost(vector$<$ double $>$ \&var\+Cost) const }{cost(vector< double > &varCost) const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\+Variable $>$ double {\bf ghost\+::\+Constraint}$<$ Type\+Variable $>$\+::cost (
+\hypertarget{classghost_1_1Constraint_adfa4826bcaea9e4a692fb0c4630ca214}{\index{ghost\-::\-Constraint@{ghost\-::\-Constraint}!cost@{cost}}
+\index{cost@{cost}!ghost::Constraint@{ghost\-::\-Constraint}}
+\subsubsection[{cost}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\-::\-Constraint\-::cost (
 \begin{DoxyParamCaption}
-\item[{vector$<$ double $>$ \&}]{var\+Cost}
+{}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Constraint_a9ca5281e18d0141400773e36e7b1633b}{}\label{classghost_1_1Constraint_a9ca5281e18d0141400773e36e7b1633b}
-Inline function following the N\+VI idiom. Calling v\+\_\+cost. \begin{DoxySeeAlso}{See also}
-\hyperlink{classghost_1_1Constraint_a945f30a69e837136803ce722dffb30db}{v\+\_\+cost} 
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Constraint_adfa4826bcaea9e4a692fb0c4630ca214}
+Inline function following the N\-V\-I idiom. Calling v\-\_\-cost. \begin{DoxySeeAlso}{See Also}
+\hyperlink{classghost_1_1Constraint_a6ef4cd03a4dc864a8d308e55044c615d}{required\-\_\-cost} 
 \end{DoxySeeAlso}
-\index{ghost\+::\+Constraint@{ghost\+::\+Constraint}!v\+\_\+cost@{v\+\_\+cost}}
-\index{v\+\_\+cost@{v\+\_\+cost}!ghost\+::\+Constraint@{ghost\+::\+Constraint}}
-\subsubsection[{\texorpdfstring{v\+\_\+cost(vector$<$ double $>$ \&var\+Cost) const =0}{v_cost(vector< double > &varCost) const =0}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\+Variable $>$ virtual double {\bf ghost\+::\+Constraint}$<$ Type\+Variable $>$\+::v\+\_\+cost (
+\hypertarget{classghost_1_1Constraint_af483429a319284503ff634105cadbe08}{\index{ghost\-::\-Constraint@{ghost\-::\-Constraint}!get\-\_\-id@{get\-\_\-id}}
+\index{get\-\_\-id@{get\-\_\-id}!ghost::Constraint@{ghost\-::\-Constraint}}
+\subsubsection[{get\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Constraint\-::get\-\_\-id (
 \begin{DoxyParamCaption}
-\item[{vector$<$ double $>$ \&}]{var\+Cost}
+{}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}\hypertarget{classghost_1_1Constraint_a945f30a69e837136803ce722dffb30db}{}\label{classghost_1_1Constraint_a945f30a69e837136803ce722dffb30db}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Constraint_af483429a319284503ff634105cadbe08}
 
 
-Pure virtual function to compute the current cost of the constraint. 
+Inline function to get the unique id of the \hyperlink{classghost_1_1Constraint}{Constraint} object. 
 
-In cost, the parameter var\+Cost is not given to be used by the function, but to store into var\+Cost the projected cost of each variable. This must be computed I\+N\+S\+I\+DE the cost function.
-
-
+\hypertarget{classghost_1_1Constraint_a9a894b4700d26e59c48739c4292efc8a}{\index{ghost\-::\-Constraint@{ghost\-::\-Constraint}!get\-\_\-variable\-\_\-iterator@{get\-\_\-variable\-\_\-iterator}}
+\index{get\-\_\-variable\-\_\-iterator@{get\-\_\-variable\-\_\-iterator}!ghost::Constraint@{ghost\-::\-Constraint}}
+\subsubsection[{get\-\_\-variable\-\_\-iterator}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ shared\-\_\-ptr$<$ {\bf Variable} $>$ $>$\-::const\-\_\-iterator ghost\-::\-Constraint\-::get\-\_\-variable\-\_\-iterator (
+\begin{DoxyParamCaption}
+\item[{const shared\-\_\-ptr$<$ {\bf Variable} $>$}]{var}
+\end{DoxyParamCaption}
+) const}}\label{classghost_1_1Constraint_a9a894b4700d26e59c48739c4292efc8a}
+Given a variable, does this variable composes the constraint? 
 \begin{DoxyParams}{Parameters}
-{\em var\+Cost} & A reference to a vector of double in order to store the projected cost of each variable. \\
+{\em var} & A variable. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-A double representing the cost of the constraint on the current configuration. 
+True iff the constraint contains var 
 \end{DoxyReturn}
-\begin{DoxySeeAlso}{See also}
-\hyperlink{classghost_1_1Constraint_a9ca5281e18d0141400773e36e7b1633b}{cost} v\+\_\+simulate\+Cost 
-\end{DoxySeeAlso}
-
+\hypertarget{classghost_1_1Constraint_a070d5d68a1291b99f178aa98440186bc}{\index{ghost\-::\-Constraint@{ghost\-::\-Constraint}!has\-\_\-variable@{has\-\_\-variable}}
+\index{has\-\_\-variable@{has\-\_\-variable}!ghost::Constraint@{ghost\-::\-Constraint}}
+\subsubsection[{has\-\_\-variable}]{\setlength{\rightskip}{0pt plus 5cm}bool ghost\-::\-Constraint\-::has\-\_\-variable (
+\begin{DoxyParamCaption}
+\item[{const shared\-\_\-ptr$<$ {\bf Variable} $>$}]{var}
+\end{DoxyParamCaption}
+) const}}\label{classghost_1_1Constraint_a070d5d68a1291b99f178aa98440186bc}
+Given a variable, does this variable composes the constraint? 
+\begin{DoxyParams}{Parameters}
+{\em var} & A variable. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True iff the constraint contains var 
+\end{DoxyReturn}
+\hypertarget{classghost_1_1Constraint_a6ef4cd03a4dc864a8d308e55044c615d}{\index{ghost\-::\-Constraint@{ghost\-::\-Constraint}!required\-\_\-cost@{required\-\_\-cost}}
+\index{required\-\_\-cost@{required\-\_\-cost}!ghost::Constraint@{ghost\-::\-Constraint}}
+\subsubsection[{required\-\_\-cost}]{\setlength{\rightskip}{0pt plus 5cm}virtual double ghost\-::\-Constraint\-::required\-\_\-cost (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}}\label{classghost_1_1Constraint_a6ef4cd03a4dc864a8d308e55044c615d}
+Pure virtual function to compute the current cost of the constraint. W\-A\-R\-N\-I\-N\-G\-: do not implement side effect in this function. It will be called by the solver to compute the constraint cost but also for some cost simulations. 
 
 \subsection{Friends And Related Function Documentation}
-\index{ghost\+::\+Constraint@{ghost\+::\+Constraint}!operator$<$$<$@{operator$<$$<$}}
-\index{operator$<$$<$@{operator$<$$<$}!ghost\+::\+Constraint@{ghost\+::\+Constraint}}
-\subsubsection[{\texorpdfstring{operator$<$$<$}{operator<<}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\+Variable $>$ ostream\& operator$<$$<$ (
+\hypertarget{classghost_1_1Constraint_a7233f9b589a413e310991431039b05b6}{\index{ghost\-::\-Constraint@{ghost\-::\-Constraint}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ghost::Constraint@{ghost\-::\-Constraint}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}ostream\& operator$<$$<$ (
 \begin{DoxyParamCaption}
 \item[{ostream \&}]{os, }
-\item[{const {\bf Constraint}$<$ Type\+Variable, Type\+Domain $>$ \&}]{c}
+\item[{const {\bf Constraint} \&}]{c}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [friend]}}\hypertarget{classghost_1_1Constraint_a5fb3db9a0881ff7aae65d680386277f0}{}\label{classghost_1_1Constraint_a5fb3db9a0881ff7aae65d680386277f0}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{classghost_1_1Constraint_a7233f9b589a413e310991431039b05b6}
 
 
 friend override of operator$<$$<$ 
@@ -136,34 +212,22 @@ friend override of operator$<$$<$
 
 
 \subsection{Member Data Documentation}
-\index{ghost\+::\+Constraint@{ghost\+::\+Constraint}!variables@{variables}}
-\index{variables@{variables}!ghost\+::\+Constraint@{ghost\+::\+Constraint}}
-\subsubsection[{\texorpdfstring{variables}{variables}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type\+Variable $>$ vector$<$ Type\+Variable $>$$\ast$ {\bf ghost\+::\+Constraint}$<$ Type\+Variable $>$\+::variables\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classghost_1_1Constraint_a83305933e19440f42428da0726261c4a}{}\label{classghost_1_1Constraint_a83305933e19440f42428da0726261c4a}
+\hypertarget{classghost_1_1Constraint_a5215df3cd5269adb4c5f6168191b9d47}{\index{ghost\-::\-Constraint@{ghost\-::\-Constraint}!id@{id}}
+\index{id@{id}!ghost::Constraint@{ghost\-::\-Constraint}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Constraint\-::id\hspace{0.3cm}{\ttfamily [protected]}}}\label{classghost_1_1Constraint_a5215df3cd5269adb4c5f6168191b9d47}
 
 
-A pointer to the vector of variable objects of the C\+S\+P/\+C\+OP. 
+Unique I\-D integer. 
 
-In v\+\_\+simulates\+Cost, the parameter vec\+Var\+Sim\+Costs is not given to be used by the function, but to store into vec\+Var\+Sim\+Costs the projected cost of current\+Var on all possible values. This must be computed I\+N\+S\+I\+DE the simulate\+Cost function.
-
-
-\begin{DoxyParams}{Parameters}
-{\em current\+Var} & A reference to the variable we want to change the current value. \\
-\hline
-{\em possible\+Values} & A reference to a constant vector of the possible values for current\+Var. \\
-\hline
-{\em vec\+Var\+Sim\+Costs} & A reference to the vector of vector of double in order to store the projected cost of current\+Var on all possible values. \\
-\hline
-{\em objective} & The (plausibly null) current objective object. This parameter is necessary to update the heuristic value helper. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-The vector of the cost of the constraint for each possible value of current\+Var. 
-\end{DoxyReturn}
-\begin{DoxySeeAlso}{See also}
-simulate\+Cost \hyperlink{classghost_1_1Constraint_a945f30a69e837136803ce722dffb30db}{v\+\_\+cost} 
-\end{DoxySeeAlso}
+\hypertarget{classghost_1_1Constraint_a14585a4765af0acb14a14788929726c3}{\index{ghost\-::\-Constraint@{ghost\-::\-Constraint}!variables@{variables}}
+\index{variables@{variables}!ghost::Constraint@{ghost\-::\-Constraint}}
+\subsubsection[{variables}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ shared\-\_\-ptr$<$ {\bf Variable} $>$ $>$ ghost\-::\-Constraint\-::variables\hspace{0.3cm}{\ttfamily [protected]}}}\label{classghost_1_1Constraint_a14585a4765af0acb14a14788929726c3}
 
 
-The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+The vector of variable pointers compositing the C\-S\-P/\-C\-O\-P. 
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-src/\hyperlink{constraint_8hpp}{constraint.\+hpp}\end{DoxyCompactItemize}
+include/\hyperlink{constraint_8hpp}{constraint.\-hpp}\end{DoxyCompactItemize}

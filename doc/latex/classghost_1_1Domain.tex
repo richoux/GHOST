@@ -1,58 +1,59 @@
-\hypertarget{classghost_1_1Domain}{}\section{ghost\+:\+:Domain Class Reference}
-\label{classghost_1_1Domain}\index{ghost\+::\+Domain@{ghost\+::\+Domain}}
+\hypertarget{classghost_1_1Domain}{\section{ghost\-:\-:Domain Class Reference}
+\label{classghost_1_1Domain}\index{ghost\-::\-Domain@{ghost\-::\-Domain}}
+}
 
 
-\hyperlink{classghost_1_1Domain}{Domain} is the class encoding the domain of your C\+S\+P/\+C\+OP.  
-
-
-
-
-{\ttfamily \#include $<$domain.\+hpp$>$}
+\hyperlink{classghost_1_1Domain}{Domain} is the class encoding the domain of your C\-S\-P/\-C\-O\-P.  
 
 
 
-Collaboration diagram for ghost\+:\+:Domain\+:
+
+{\ttfamily \#include $<$domain.\-hpp$>$}
+
+
+
+Collaboration diagram for ghost\-:\-:Domain\-:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=187pt]{classghost_1_1Domain__coll__graph}
+\includegraphics[width=192pt]{classghost_1_1Domain__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classghost_1_1Domain_a48bfae90d7dbb6d8e1a3afdd8e471e4f}{Domain} (int outside\+Scope=-\/1)
+\hyperlink{classghost_1_1Domain_a48bfae90d7dbb6d8e1a3afdd8e471e4f}{Domain} (int outside\-Scope=-\/1)
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Domain}{Domain} constructor. \end{DoxyCompactList}\item 
-\hyperlink{classghost_1_1Domain_a5277f6bd2940a87b4784834e93cb53c9}{Domain} (const vector$<$ int $>$ \&domain, int outside\+Scope=-\/1)
+\hyperlink{classghost_1_1Domain_ab531002617c586474bb5571dedc28ecc}{Domain} (const std\-::vector$<$ int $>$ \&domain, int outside\-Scope=-\/1)
 \begin{DoxyCompactList}\small\item\em First \hyperlink{classghost_1_1Domain}{Domain} constructor. \end{DoxyCompactList}\item 
-\hyperlink{classghost_1_1Domain_a6a9f7b0aec78acb0b0f4edefaea7a6e9}{Domain} (int size, int start\+Value)
+\hyperlink{classghost_1_1Domain_a6a9f7b0aec78acb0b0f4edefaea7a6e9}{Domain} (int size, int start\-Value)
 \begin{DoxyCompactList}\small\item\em Second \hyperlink{classghost_1_1Domain}{Domain} constructor. \end{DoxyCompactList}\item 
-bool \hyperlink{classghost_1_1Domain_a1ead2b1ccee560dac9ddb68c15362511}{is\+Initialized} () const 
+bool \hyperlink{classghost_1_1Domain_a3190b9f6968e00831434f8d241991353}{is\-\_\-initialized} () const 
 \begin{DoxyCompactList}\small\item\em Inline function to know if the domain has been initialized. \end{DoxyCompactList}\item 
-int \hyperlink{classghost_1_1Domain_ae2ab236c8382d3f541d0f4db44d2b625}{random\+Value} ()
+int \hyperlink{classghost_1_1Domain_a5d12f840be7a0ddd673c85d70426a75e}{random\-\_\-value} () const 
 \begin{DoxyCompactList}\small\item\em Inline function returning a random value from the domain. \end{DoxyCompactList}\item 
-size\+\_\+t \hyperlink{classghost_1_1Domain_ac84d289fcf22d1d67e545389e7a9de84}{get\+Size} () const 
+size\-\_\-t \hyperlink{classghost_1_1Domain_a222990a926a5313aef33025d48b41712}{get\-\_\-size} () const 
 \begin{DoxyCompactList}\small\item\em Inline function to get the size of the current domain. \end{DoxyCompactList}\item 
-int \hyperlink{classghost_1_1Domain_acf7b253ca1c490f90b8f80b5077f9b9c}{get\+Value} (int index) const 
+int \hyperlink{classghost_1_1Domain_aaf4831cb947caf490c6133343cd3e569}{get\-\_\-outside\-\_\-scope} () const 
+\begin{DoxyCompactList}\small\item\em Inline function returning the outside-\/scope value. \end{DoxyCompactList}\item 
+int \hyperlink{classghost_1_1Domain_a6e50fc11a5ed2857fccb69f12c0fa07d}{get\-\_\-value} (int index) const 
 \begin{DoxyCompactList}\small\item\em Get the value at the given index. \end{DoxyCompactList}\item 
-int \hyperlink{classghost_1_1Domain_ad82154e314a7f1029e5d1512047460fd}{index\+Of} (int value) const 
-\begin{DoxyCompactList}\small\item\em Get the index of a given value. \end{DoxyCompactList}\item 
-int \hyperlink{classghost_1_1Domain_a08e1adce30f095a352a3c1a6937e7660}{get\+Outside\+Scope} () const 
-\begin{DoxyCompactList}\small\item\em Inline function returning the outside-\/scope value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+int \hyperlink{classghost_1_1Domain_a1201d3b7c15381d19510a131d8823ff0}{index\-\_\-of} (int value) const 
+\begin{DoxyCompactList}\small\item\em Get the index of a given value. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
-ostream \& \hyperlink{classghost_1_1Domain_a608c9910828eb2983efb65ff4c297a4e}{operator$<$$<$} (ostream \&os, const \hyperlink{classghost_1_1Domain}{Domain} \&domain)
+std\-::ostream \& \hyperlink{classghost_1_1Domain_a1d679b36c8b64bf39dc77d69d2349b7f}{operator$<$$<$} (std\-::ostream \&os, const \hyperlink{classghost_1_1Domain}{Domain} \&domain)
 \begin{DoxyCompactList}\small\item\em friend override of operator$<$$<$ \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-\hyperlink{classghost_1_1Domain}{Domain} is the class encoding the domain of your C\+S\+P/\+C\+OP. 
+\hyperlink{classghost_1_1Domain}{Domain} is the class encoding the domain of your C\-S\-P/\-C\-O\-P. 
 
-\hyperlink{classghost_1_1Domain}{Domain} is the class implementing variables\textquotesingle{} domains, ie, the set of possible values a variable can take. In G\+H\+O\+ST, such values must be integers.
+\hyperlink{classghost_1_1Domain}{Domain} is the class implementing variables' domains, ie, the set of possible values a variable can take. In G\-H\-O\-S\-T, such values must be integers.
 
-A domain contains\+:
+A domain contains\-:
 \begin{DoxyEnumerate}
 \item the container of current possible values of the variable it belongs to,
 \item the container of initial values (if one wants to reset the domain, since values in the current domain may change),
@@ -61,37 +62,37 @@ A domain contains\+:
 \end{DoxyEnumerate}
 
 \subsection{Constructor \& Destructor Documentation}
-\index{ghost\+::\+Domain@{ghost\+::\+Domain}!Domain@{Domain}}
-\index{Domain@{Domain}!ghost\+::\+Domain@{ghost\+::\+Domain}}
-\subsubsection[{\texorpdfstring{Domain(int outside\+Scope=-\/1)}{Domain(int outsideScope=-1)}}]{\setlength{\rightskip}{0pt plus 5cm}ghost\+::\+Domain\+::\+Domain (
+\hypertarget{classghost_1_1Domain_a48bfae90d7dbb6d8e1a3afdd8e471e4f}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!Domain@{Domain}}
+\index{Domain@{Domain}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{Domain}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Domain\-::\-Domain (
 \begin{DoxyParamCaption}
-\item[{int}]{outside\+Scope = {\ttfamily -\/1}}
+\item[{int}]{outside\-Scope = {\ttfamily -\/1}}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Domain_a48bfae90d7dbb6d8e1a3afdd8e471e4f}{}\label{classghost_1_1Domain_a48bfae90d7dbb6d8e1a3afdd8e471e4f}
+)}}\label{classghost_1_1Domain_a48bfae90d7dbb6d8e1a3afdd8e471e4f}
 
 
 \hyperlink{classghost_1_1Domain}{Domain} constructor. 
 
-Basic constructor taking the outside-\/the-\/scope value (-\/1 by default). \index{ghost\+::\+Domain@{ghost\+::\+Domain}!Domain@{Domain}}
-\index{Domain@{Domain}!ghost\+::\+Domain@{ghost\+::\+Domain}}
-\subsubsection[{\texorpdfstring{Domain(const vector$<$ int $>$ \&domain, int outside\+Scope=-\/1)}{Domain(const vector< int > &domain, int outsideScope=-1)}}]{\setlength{\rightskip}{0pt plus 5cm}ghost\+::\+Domain\+::\+Domain (
+Basic constructor taking the outside-\/the-\/scope value (-\/1 by default). \hypertarget{classghost_1_1Domain_ab531002617c586474bb5571dedc28ecc}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!Domain@{Domain}}
+\index{Domain@{Domain}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{Domain}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Domain\-::\-Domain (
 \begin{DoxyParamCaption}
-\item[{const vector$<$ int $>$ \&}]{domain, }
-\item[{int}]{outside\+Scope = {\ttfamily -\/1}}
+\item[{const std\-::vector$<$ int $>$ \&}]{domain, }
+\item[{int}]{outside\-Scope = {\ttfamily -\/1}}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Domain_a5277f6bd2940a87b4784834e93cb53c9}{}\label{classghost_1_1Domain_a5277f6bd2940a87b4784834e93cb53c9}
+)}}\label{classghost_1_1Domain_ab531002617c586474bb5571dedc28ecc}
 
 
 First \hyperlink{classghost_1_1Domain}{Domain} constructor. 
 
-Constructor taking a vector of integer values the outside-\/the-\/scope value (-\/1 by default), to initialize both the initial and current possible variable values. The outside-\/the-\/scope value must not belong to this list, or an exception is raised (throw 0). \index{ghost\+::\+Domain@{ghost\+::\+Domain}!Domain@{Domain}}
-\index{Domain@{Domain}!ghost\+::\+Domain@{ghost\+::\+Domain}}
-\subsubsection[{\texorpdfstring{Domain(int size, int start\+Value)}{Domain(int size, int startValue)}}]{\setlength{\rightskip}{0pt plus 5cm}ghost\+::\+Domain\+::\+Domain (
+Constructor taking a vector of integer values the outside-\/the-\/scope value (-\/1 by default), to initialize both the initial and current possible variable values. The outside-\/the-\/scope value must not belong to this list, or an exception is raised (throw 0). \hypertarget{classghost_1_1Domain_a6a9f7b0aec78acb0b0f4edefaea7a6e9}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!Domain@{Domain}}
+\index{Domain@{Domain}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{Domain}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Domain\-::\-Domain (
 \begin{DoxyParamCaption}
 \item[{int}]{size, }
-\item[{int}]{start\+Value}
+\item[{int}]{start\-Value}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Domain_a6a9f7b0aec78acb0b0f4edefaea7a6e9}{}\label{classghost_1_1Domain_a6a9f7b0aec78acb0b0f4edefaea7a6e9}
+)}}\label{classghost_1_1Domain_a6a9f7b0aec78acb0b0f4edefaea7a6e9}
 
 
 Second \hyperlink{classghost_1_1Domain}{Domain} constructor. 
@@ -99,45 +100,42 @@ Second \hyperlink{classghost_1_1Domain}{Domain} constructor.
 Constructor taking the domain size N and a starting value x, and creating a domain with all values in \mbox{[}x, x + N\mbox{]}. The outside-\/the-\/scope value is set to x-\/1. 
 
 \subsection{Member Function Documentation}
-\index{ghost\+::\+Domain@{ghost\+::\+Domain}!get\+Outside\+Scope@{get\+Outside\+Scope}}
-\index{get\+Outside\+Scope@{get\+Outside\+Scope}!ghost\+::\+Domain@{ghost\+::\+Domain}}
-\subsubsection[{\texorpdfstring{get\+Outside\+Scope() const }{getOutsideScope() const }}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\+::\+Domain\+::get\+Outside\+Scope (
+\hypertarget{classghost_1_1Domain_aaf4831cb947caf490c6133343cd3e569}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!get\-\_\-outside\-\_\-scope@{get\-\_\-outside\-\_\-scope}}
+\index{get\-\_\-outside\-\_\-scope@{get\-\_\-outside\-\_\-scope}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{get\-\_\-outside\-\_\-scope}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Domain\-::get\-\_\-outside\-\_\-scope (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Domain_a08e1adce30f095a352a3c1a6937e7660}{}\label{classghost_1_1Domain_a08e1adce30f095a352a3c1a6937e7660}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Domain_aaf4831cb947caf490c6133343cd3e569}
 
 
 Inline function returning the outside-\/scope value. 
 
-Returns the value \+\_\+outside\+Scope. \index{ghost\+::\+Domain@{ghost\+::\+Domain}!get\+Size@{get\+Size}}
-\index{get\+Size@{get\+Size}!ghost\+::\+Domain@{ghost\+::\+Domain}}
-\subsubsection[{\texorpdfstring{get\+Size() const }{getSize() const }}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t ghost\+::\+Domain\+::get\+Size (
+Returns the value \-\_\-outside\-Scope. \hypertarget{classghost_1_1Domain_a222990a926a5313aef33025d48b41712}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!get\-\_\-size@{get\-\_\-size}}
+\index{get\-\_\-size@{get\-\_\-size}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{get\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t ghost\-::\-Domain\-::get\-\_\-size (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Domain_ac84d289fcf22d1d67e545389e7a9de84}{}\label{classghost_1_1Domain_ac84d289fcf22d1d67e545389e7a9de84}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Domain_a222990a926a5313aef33025d48b41712}
 
 
 Inline function to get the size of the current domain. 
 
 Get the number of values currently contained by the domain. \begin{DoxyReturn}{Returns}
-A size\+\_\+t corresponding to the size of \+\_\+current\+Domain. 
+A size\-\_\-t corresponding to the size of \-\_\-current\-Domain. 
 \end{DoxyReturn}
-\index{ghost\+::\+Domain@{ghost\+::\+Domain}!get\+Value@{get\+Value}}
-\index{get\+Value@{get\+Value}!ghost\+::\+Domain@{ghost\+::\+Domain}}
-\subsubsection[{\texorpdfstring{get\+Value(int index) const }{getValue(int index) const }}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\+::\+Domain\+::get\+Value (
+\hypertarget{classghost_1_1Domain_a6e50fc11a5ed2857fccb69f12c0fa07d}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!get\-\_\-value@{get\-\_\-value}}
+\index{get\-\_\-value@{get\-\_\-value}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{get\-\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Domain\-::get\-\_\-value (
 \begin{DoxyParamCaption}
 \item[{int}]{index}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Domain_acf7b253ca1c490f90b8f80b5077f9b9c}{}\label{classghost_1_1Domain_acf7b253ca1c490f90b8f80b5077f9b9c}
+) const}}\label{classghost_1_1Domain_a6e50fc11a5ed2857fccb69f12c0fa07d}
 
 
 Get the value at the given index. 
 
-Get the number of values initially contained by the domain. \begin{DoxyReturn}{Returns}
-A size\+\_\+t corresponding to the size of \+\_\+initial\+Domain.
-\end{DoxyReturn}
 
 \begin{DoxyParams}{Parameters}
 {\em index} & is the index of the desired value. \\
@@ -146,13 +144,13 @@ A size\+\_\+t corresponding to the size of \+\_\+initial\+Domain.
 \begin{DoxyReturn}{Returns}
 The value at the given index if this one is in the range of the domain, otherwise the outside-\/the-\/scope value. 
 \end{DoxyReturn}
-\index{ghost\+::\+Domain@{ghost\+::\+Domain}!index\+Of@{index\+Of}}
-\index{index\+Of@{index\+Of}!ghost\+::\+Domain@{ghost\+::\+Domain}}
-\subsubsection[{\texorpdfstring{index\+Of(int value) const }{indexOf(int value) const }}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\+::\+Domain\+::index\+Of (
+\hypertarget{classghost_1_1Domain_a1201d3b7c15381d19510a131d8823ff0}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!index\-\_\-of@{index\-\_\-of}}
+\index{index\-\_\-of@{index\-\_\-of}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{index\-\_\-of}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Domain\-::index\-\_\-of (
 \begin{DoxyParamCaption}
 \item[{int}]{value}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Domain_ad82154e314a7f1029e5d1512047460fd}{}\label{classghost_1_1Domain_ad82154e314a7f1029e5d1512047460fd}
+) const}}\label{classghost_1_1Domain_a1201d3b7c15381d19510a131d8823ff0}
 
 
 Get the index of a given value. 
@@ -160,58 +158,48 @@ Get the index of a given value.
 \begin{DoxyReturn}{Returns}
 If the given value is in the domain, it returns its index, and -\/1 otherwise. 
 \end{DoxyReturn}
-\index{ghost\+::\+Domain@{ghost\+::\+Domain}!is\+Initialized@{is\+Initialized}}
-\index{is\+Initialized@{is\+Initialized}!ghost\+::\+Domain@{ghost\+::\+Domain}}
-\subsubsection[{\texorpdfstring{is\+Initialized() const }{isInitialized() const }}]{\setlength{\rightskip}{0pt plus 5cm}bool ghost\+::\+Domain\+::is\+Initialized (
+\hypertarget{classghost_1_1Domain_a3190b9f6968e00831434f8d241991353}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!is\-\_\-initialized@{is\-\_\-initialized}}
+\index{is\-\_\-initialized@{is\-\_\-initialized}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{is\-\_\-initialized}]{\setlength{\rightskip}{0pt plus 5cm}bool ghost\-::\-Domain\-::is\-\_\-initialized (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Domain_a1ead2b1ccee560dac9ddb68c15362511}{}\label{classghost_1_1Domain_a1ead2b1ccee560dac9ddb68c15362511}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Domain_a3190b9f6968e00831434f8d241991353}
 
 
 Inline function to know if the domain has been initialized. 
 
 Used to know if the \hyperlink{classghost_1_1Domain}{Domain} object is just an empty shell or a properly initialized domain. In some cases, it can be convenient to instanciate a domain object first and to fill it up with values latter. \begin{DoxyReturn}{Returns}
-True if and only if the domain has been initialized (i.\+e., the current domain is not empty). 
+True if and only if the domain has been initialized (i.\-e., the current domain is not empty). 
 \end{DoxyReturn}
-\index{ghost\+::\+Domain@{ghost\+::\+Domain}!random\+Value@{random\+Value}}
-\index{random\+Value@{random\+Value}!ghost\+::\+Domain@{ghost\+::\+Domain}}
-\subsubsection[{\texorpdfstring{random\+Value()}{randomValue()}}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\+::\+Domain\+::random\+Value (
+\hypertarget{classghost_1_1Domain_a5d12f840be7a0ddd673c85d70426a75e}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!random\-\_\-value@{random\-\_\-value}}
+\index{random\-\_\-value@{random\-\_\-value}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{random\-\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Domain\-::random\-\_\-value (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Domain_ae2ab236c8382d3f541d0f4db44d2b625}{}\label{classghost_1_1Domain_ae2ab236c8382d3f541d0f4db44d2b625}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Domain_a5d12f840be7a0ddd673c85d70426a75e}
 
 
 Inline function returning a random value from the domain. 
 
-Resets the set of current values to the set of initial values. Allow the recover all values in the domain if we filtered some of them.
-
-Deletes a given value among the current domain values. 
-\begin{DoxyParams}{Parameters}
-{\em value} & is the value to remove from the domain \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-True if the value has been removed. False if the value to remove was not in the current domain. 
-\end{DoxyReturn}
 
 
 \subsection{Friends And Related Function Documentation}
-\index{ghost\+::\+Domain@{ghost\+::\+Domain}!operator$<$$<$@{operator$<$$<$}}
-\index{operator$<$$<$@{operator$<$$<$}!ghost\+::\+Domain@{ghost\+::\+Domain}}
-\subsubsection[{\texorpdfstring{operator$<$$<$}{operator<<}}]{\setlength{\rightskip}{0pt plus 5cm}ostream\& operator$<$$<$ (
+\hypertarget{classghost_1_1Domain_a1d679b36c8b64bf39dc77d69d2349b7f}{\index{ghost\-::\-Domain@{ghost\-::\-Domain}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ghost::Domain@{ghost\-::\-Domain}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}std\-::ostream\& operator$<$$<$ (
 \begin{DoxyParamCaption}
-\item[{ostream \&}]{os, }
+\item[{std\-::ostream \&}]{os, }
 \item[{const {\bf Domain} \&}]{domain}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [friend]}}\hypertarget{classghost_1_1Domain_a608c9910828eb2983efb65ff4c297a4e}{}\label{classghost_1_1Domain_a608c9910828eb2983efb65ff4c297a4e}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{classghost_1_1Domain_a1d679b36c8b64bf39dc77d69d2349b7f}
 
 
 friend override of operator$<$$<$ 
 
 Prints on the standard output the current domain size and content. 
 
-The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-src/\hyperlink{domain_8hpp}{domain.\+hpp}\end{DoxyCompactItemize}
+include/\hyperlink{domain_8hpp}{domain.\-hpp}\end{DoxyCompactItemize}

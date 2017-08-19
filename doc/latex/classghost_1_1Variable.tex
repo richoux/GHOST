@@ -1,179 +1,181 @@
-\hypertarget{classghost_1_1Variable}{}\section{ghost\+:\+:Variable Class Reference}
-\label{classghost_1_1Variable}\index{ghost\+::\+Variable@{ghost\+::\+Variable}}
+\hypertarget{classghost_1_1Variable}{\section{ghost\-:\-:Variable Class Reference}
+\label{classghost_1_1Variable}\index{ghost\-::\-Variable@{ghost\-::\-Variable}}
+}
 
 
-\hyperlink{classghost_1_1Variable}{Variable} is the class encoding the variables of your C\+S\+P/\+C\+OP.  
-
-
-
-
-{\ttfamily \#include $<$variable.\+hpp$>$}
+\hyperlink{classghost_1_1Variable}{Variable} is the class encoding the variables of your C\-S\-P/\-C\-O\-P.  
 
 
 
-Collaboration diagram for ghost\+:\+:Variable\+:
+
+{\ttfamily \#include $<$variable.\-hpp$>$}
+
+
+
+Collaboration diagram for ghost\-:\-:Variable\-:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=202pt]{classghost_1_1Variable__coll__graph}
+\includegraphics[width=216pt]{classghost_1_1Variable__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classghost_1_1Variable_aafa0f9dc2f424822ffb3bb3114f906bf}{Variable} (string \hyperlink{classghost_1_1Variable_a05cf4a4cd3a5c033028e0b0f11d1dafd}{name}, string \hyperlink{classghost_1_1Variable_afb5eb79a7f6351b4305fe082699b6d7d}{short\+Name})
-\begin{DoxyCompactList}\small\item\em Short \hyperlink{classghost_1_1Variable}{Variable} constructor initializing the name and short name only. \end{DoxyCompactList}\item 
-\hyperlink{classghost_1_1Variable_a5168fd9c37c246e1edd905ddb3da0c61}{Variable} (string \hyperlink{classghost_1_1Variable_a05cf4a4cd3a5c033028e0b0f11d1dafd}{name}, string \hyperlink{classghost_1_1Variable_afb5eb79a7f6351b4305fe082699b6d7d}{short\+Name}, int \hyperlink{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}{index}, vector$<$ int $>$ \hyperlink{classghost_1_1Variable_a9dbda868fa47e4353f30461e89ff8020}{domain}, int outside\+Scope=-\/1)
-\begin{DoxyCompactList}\small\item\em First \hyperlink{classghost_1_1Variable}{Variable} constructor, with the vector of domain values and the outside-\/the-\/scope value. \end{DoxyCompactList}\item 
-\hyperlink{classghost_1_1Variable_a1657c8e21fb8ef1b8f9b0a0c3132192b}{Variable} (string \hyperlink{classghost_1_1Variable_a05cf4a4cd3a5c033028e0b0f11d1dafd}{name}, string \hyperlink{classghost_1_1Variable_afb5eb79a7f6351b4305fe082699b6d7d}{short\+Name}, int \hyperlink{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}{index}, int size, int start\+Value)
-\begin{DoxyCompactList}\small\item\em Second \hyperlink{classghost_1_1Variable}{Variable} constructor, with a size and a starting value for the domain. \end{DoxyCompactList}\item 
-virtual \hyperlink{classghost_1_1Variable_ab556bb79ef92364bd820022394c967dd}{$\sim$\+Variable} ()
+\hyperlink{classghost_1_1Variable_af68388a15c2b19251381dc5599a959bb}{Variable} ()=default
 \item 
+\hyperlink{classghost_1_1Variable_a6930aa1207effb3483b39b7dbceccd0a}{Variable} (std\-::string \hyperlink{classghost_1_1Variable_a0f9fbecc12e22224c65ed6d8ce4cb507}{name}, std\-::string \hyperlink{classghost_1_1Variable_af0a8a6632b981ae0ff22cf4dc62495d3}{short\-Name})
+\begin{DoxyCompactList}\small\item\em Short \hyperlink{classghost_1_1Variable}{Variable} constructor initializing the name and short name only. \end{DoxyCompactList}\item 
+\hyperlink{classghost_1_1Variable_acc4e6e1165210a30c59ae820fd6e95d5}{Variable} (std\-::string \hyperlink{classghost_1_1Variable_a0f9fbecc12e22224c65ed6d8ce4cb507}{name}, std\-::string \hyperlink{classghost_1_1Variable_af0a8a6632b981ae0ff22cf4dc62495d3}{short\-Name}, int \hyperlink{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}{index}, const std\-::vector$<$ int $>$ \&\hyperlink{classghost_1_1Variable_a59a5fc42a83c3dd5504daa72f5191469}{domain}, int outside\-Scope=-\/1)
+\begin{DoxyCompactList}\small\item\em First \hyperlink{classghost_1_1Variable}{Variable} constructor, with the vector of domain values and the outside-\/the-\/scope value. \end{DoxyCompactList}\item 
+\hyperlink{classghost_1_1Variable_a3edfe1cde7f5958c841eacb6fa347ca4}{Variable} (std\-::string \hyperlink{classghost_1_1Variable_a0f9fbecc12e22224c65ed6d8ce4cb507}{name}, std\-::string \hyperlink{classghost_1_1Variable_af0a8a6632b981ae0ff22cf4dc62495d3}{short\-Name}, int \hyperlink{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}{index}, int size, int start\-Value)
+\begin{DoxyCompactList}\small\item\em Second \hyperlink{classghost_1_1Variable}{Variable} constructor, with a size and a starting value for the domain. \end{DoxyCompactList}\item 
 \hyperlink{classghost_1_1Variable_ac9fb0513e1d15a047816821e034589ea}{Variable} (const \hyperlink{classghost_1_1Variable}{Variable} \&other)
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Variable}{Variable} copy constructor. \end{DoxyCompactList}\item 
 \hyperlink{classghost_1_1Variable}{Variable} \& \hyperlink{classghost_1_1Variable_ad82b892892c3531cc3d54d6b5d048bf6}{operator=} (\hyperlink{classghost_1_1Variable}{Variable} other)
-\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Variable}{Variable}\textquotesingle{}s copy assignment operator. \end{DoxyCompactList}\item 
-bool \hyperlink{classghost_1_1Variable_abd6ccef9baff609eb4fadaeca2f2bceb}{has\+Initialized\+Domain} ()
-\begin{DoxyCompactList}\small\item\em Inline function to know if the domain has been initialized. \end{DoxyCompactList}\item 
-void \hyperlink{classghost_1_1Variable_a8afe14b1858476bf4ef59a41a2947f93}{shift\+Value} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Variable}{Variable}'s copy assignment operator. \end{DoxyCompactList}\item 
+\hyperlink{classghost_1_1Variable_a06aa85e69ddf9a887dcc31c61dca70ab}{$\sim$\-Variable} ()=default
+\begin{DoxyCompactList}\small\item\em Default \hyperlink{classghost_1_1Variable}{Variable} destructor. \end{DoxyCompactList}\item 
+bool \hyperlink{classghost_1_1Variable_a3c858960deefe1fd3d685bf0440e50c5}{has\-\_\-initialized\-\_\-domain} () const 
+\begin{DoxyCompactList}\small\item\em Function to know if the domain has been initialized. \end{DoxyCompactList}\item 
+void \hyperlink{classghost_1_1Variable_a37018e24ee21e12649599409d7ac3640}{do\-\_\-random\-\_\-initialization} ()
+\begin{DoxyCompactList}\small\item\em Function initializing the variable to one random values of its domain. \end{DoxyCompactList}\item 
+void \hyperlink{classghost_1_1Variable_accb4028c4ea4c1108aac7900dfa223fc}{shift\-\_\-value} ()
 \begin{DoxyCompactList}\small\item\em Shifting to the next domain value. \end{DoxyCompactList}\item 
-void \hyperlink{classghost_1_1Variable_a3bebc2cc15609a5280a4949d63f7405d}{unshift\+Value} ()
+void \hyperlink{classghost_1_1Variable_a7815ce9c582316082e88c2bb3137a914}{unshift\-\_\-value} ()
 \begin{DoxyCompactList}\small\item\em Shifting to the previous domain value. \end{DoxyCompactList}\item 
-int \hyperlink{classghost_1_1Variable_ae6dcadf662fc318265a9741d91a0e56e}{get\+Value} () const 
+std\-::vector$<$ int $>$ \hyperlink{classghost_1_1Variable_a71586778e7a059a3ea9aded506e3a952}{possible\-\_\-values} () const 
+\item 
+int \hyperlink{classghost_1_1Variable_a7bdebf8b2a369f337690ac38ece31793}{get\-\_\-value} () const 
 \begin{DoxyCompactList}\small\item\em Inline function to get the current value of the variable. \end{DoxyCompactList}\item 
-void \hyperlink{classghost_1_1Variable_aadbc00de3ee4cb0f51a306b2639f1ea9}{set\+Value} (int value)
+void \hyperlink{classghost_1_1Variable_a06f6c296986a017e1713961b4d763b0c}{set\-\_\-value} (int value)
 \begin{DoxyCompactList}\small\item\em Inline function to set the value of the variable. \end{DoxyCompactList}\item 
-vector$<$ int $>$ \hyperlink{classghost_1_1Variable_aef68abc32c9402ed77913dce9412f621}{possible\+Values} ()
-\item 
-string \hyperlink{classghost_1_1Variable_a89050a5f0798151d4b0a369339be9287}{get\+Name} () const 
+std\-::string \hyperlink{classghost_1_1Variable_a394384e5e7f93364f9299448c03957b4}{get\-\_\-name} () const 
 \begin{DoxyCompactList}\small\item\em Inline function to get the variable name. \end{DoxyCompactList}\item 
-string \hyperlink{classghost_1_1Variable_add76ede3e7bc07d0a6949a500768578b}{get\+Short\+Name} () const 
-\begin{DoxyCompactList}\small\item\em Inline function to get the variable short name. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\subsection*{Protected Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-void \hyperlink{classghost_1_1Variable_a01b3dfd2e865fed19b5edf0ced7d74bc}{swap} (\hyperlink{classghost_1_1Variable}{Variable} \&other)
-\begin{DoxyCompactList}\small\item\em Inline function used for the copy-\/and-\/swap idiom. \end{DoxyCompactList}\end{DoxyCompactItemize}
+std\-::string \hyperlink{classghost_1_1Variable_a05b2b4bd59ce9afa1a156bb0d5b83063}{get\-\_\-short\-\_\-name} () const 
+\begin{DoxyCompactList}\small\item\em Inline function to get the variable short name. \end{DoxyCompactList}\item 
+int \hyperlink{classghost_1_1Variable_adc5da5dedaa3d47a5eb4092b08c3f77c}{get\-\_\-id} () const 
+\begin{DoxyCompactList}\small\item\em Inline function to get the unique id of the \hyperlink{classghost_1_1Variable}{Variable} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-string \hyperlink{classghost_1_1Variable_a05cf4a4cd3a5c033028e0b0f11d1dafd}{name}
-\begin{DoxyCompactList}\small\item\em A string to give a full name to the variable (for instance, \char`\"{}\+Barracks\char`\"{}). \end{DoxyCompactList}\item 
-string \hyperlink{classghost_1_1Variable_afb5eb79a7f6351b4305fe082699b6d7d}{short\+Name}
-\begin{DoxyCompactList}\small\item\em A string to give a shorten name to the variable (for instance, \char`\"{}\+B\char`\"{}). \end{DoxyCompactList}\item 
-unique\+\_\+ptr$<$ \hyperlink{classghost_1_1Domain}{Domain} $>$ \hyperlink{classghost_1_1Variable_a9dbda868fa47e4353f30461e89ff8020}{domain}
-\begin{DoxyCompactList}\small\item\em A unique smart pointer on the variable domain. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classghost_1_1Variable_a0f9fbecc12e22224c65ed6d8ce4cb507}{name}
+\begin{DoxyCompactList}\small\item\em A string to give a full name to the variable (for instance, \char`\"{}\-Barracks\char`\"{}). \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classghost_1_1Variable_af0a8a6632b981ae0ff22cf4dc62495d3}{short\-Name}
+\begin{DoxyCompactList}\small\item\em A string to give a shorten name to the variable (for instance, \char`\"{}\-B\char`\"{}). \end{DoxyCompactList}\item 
+std\-::shared\-\_\-ptr$<$ \hyperlink{classghost_1_1Domain}{Domain} $>$ \hyperlink{classghost_1_1Variable_a59a5fc42a83c3dd5504daa72f5191469}{domain}
+\begin{DoxyCompactList}\small\item\em A shared pointer on the variable domain. \end{DoxyCompactList}\item 
 int \hyperlink{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}{index}
-\begin{DoxyCompactList}\small\item\em The domain\textquotesingle{}s index corresponding to the current value of the variable. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em The domain's index corresponding to the current value of the variable. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
-std\+::ostream \& \hyperlink{classghost_1_1Variable_aab05ab0693334e9e9a39f43903a37cb7}{operator$<$$<$} (std\+::ostream \&os, const \hyperlink{classghost_1_1Variable}{Variable} \&v)
+std\-::ostream \& \hyperlink{classghost_1_1Variable_aab05ab0693334e9e9a39f43903a37cb7}{operator$<$$<$} (std\-::ostream \&os, const \hyperlink{classghost_1_1Variable}{Variable} \&v)
 \begin{DoxyCompactList}\small\item\em friend override of operator$<$$<$ \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-\hyperlink{classghost_1_1Variable}{Variable} is the class encoding the variables of your C\+S\+P/\+C\+OP. 
+\hyperlink{classghost_1_1Variable}{Variable} is the class encoding the variables of your C\-S\-P/\-C\-O\-P. 
 
-In G\+H\+O\+ST, all variable objects must be instanciate from the same concrete class. Be careful to model your C\+S\+P/\+C\+OP in order to use one kind of variable only, ie., all variable objects in the implementation of your C\+S\+P/\+C\+OP must be instanciated from the same \hyperlink{classghost_1_1Variable}{Variable} (sub)class.
+In G\-H\-O\-S\-T, all variable objects must be instanciate from the same concrete class. Be careful to model your C\-S\-P/\-C\-O\-P in order to use one kind of variable only, ie., all variable objects in the implementation of your C\-S\-P/\-C\-O\-P must be instanciated from the same \hyperlink{classghost_1_1Variable}{Variable} (sub)class.
 
-To encode your C\+S\+P/\+C\+OP variables, you can either directly use this class \hyperlink{classghost_1_1Variable}{Variable} (there are no pure virtual functions here), or inherit from it to make your own variable class.
+To encode your C\-S\-P/\-C\-O\-P variables, you can either directly use this class \hyperlink{classghost_1_1Variable}{Variable} (there are no pure virtual functions here), or inherit from it to make your own variable class.
 
-\begin{DoxySeeAlso}{See also}
+\begin{DoxySeeAlso}{See Also}
 \hyperlink{classghost_1_1Domain}{Domain} 
 \end{DoxySeeAlso}
 
 
 \subsection{Constructor \& Destructor Documentation}
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!Variable@{Variable}}
-\index{Variable@{Variable}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{Variable(string name, string short\+Name)}{Variable(string name, string shortName)}}]{\setlength{\rightskip}{0pt plus 5cm}ghost\+::\+Variable\+::\+Variable (
+\hypertarget{classghost_1_1Variable_af68388a15c2b19251381dc5599a959bb}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!Variable@{Variable}}
+\index{Variable@{Variable}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{Variable}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Variable\-::\-Variable (
 \begin{DoxyParamCaption}
-\item[{string}]{name, }
-\item[{string}]{short\+Name}
+{}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Variable_aafa0f9dc2f424822ffb3bb3114f906bf}{}\label{classghost_1_1Variable_aafa0f9dc2f424822ffb3bb3114f906bf}
+)\hspace{0.3cm}{\ttfamily [default]}}}\label{classghost_1_1Variable_af68388a15c2b19251381dc5599a959bb}
+\hypertarget{classghost_1_1Variable_a6930aa1207effb3483b39b7dbceccd0a}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!Variable@{Variable}}
+\index{Variable@{Variable}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{Variable}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Variable\-::\-Variable (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{name, }
+\item[{std\-::string}]{short\-Name}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1Variable_a6930aa1207effb3483b39b7dbceccd0a}
 
 
 Short \hyperlink{classghost_1_1Variable}{Variable} constructor initializing the name and short name only. 
 
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!Variable@{Variable}}
-\index{Variable@{Variable}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{Variable(string name, string short\+Name, int index, vector$<$ int $>$ domain, int outside\+Scope=-\/1)}{Variable(string name, string shortName, int index, vector< int > domain, int outsideScope=-1)}}]{\setlength{\rightskip}{0pt plus 5cm}ghost\+::\+Variable\+::\+Variable (
+\hypertarget{classghost_1_1Variable_acc4e6e1165210a30c59ae820fd6e95d5}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!Variable@{Variable}}
+\index{Variable@{Variable}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{Variable}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Variable\-::\-Variable (
 \begin{DoxyParamCaption}
-\item[{string}]{name, }
-\item[{string}]{short\+Name, }
+\item[{std\-::string}]{name, }
+\item[{std\-::string}]{short\-Name, }
 \item[{int}]{index, }
-\item[{vector$<$ int $>$}]{domain, }
-\item[{int}]{outside\+Scope = {\ttfamily -\/1}}
+\item[{const std\-::vector$<$ int $>$ \&}]{domain, }
+\item[{int}]{outside\-Scope = {\ttfamily -\/1}}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Variable_a5168fd9c37c246e1edd905ddb3da0c61}{}\label{classghost_1_1Variable_a5168fd9c37c246e1edd905ddb3da0c61}
+)}}\label{classghost_1_1Variable_acc4e6e1165210a30c59ae820fd6e95d5}
 
 
 First \hyperlink{classghost_1_1Variable}{Variable} constructor, with the vector of domain values and the outside-\/the-\/scope value. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em name} & A string to give a full name to the variable (for instance, \char`\"{}\+Barracks\char`\"{}). \\
+{\em name} & A string to give a full name to the variable (for instance, \char`\"{}\-Barracks\char`\"{}). \\
 \hline
-{\em short\+Name} & A string to give a shorten name to the variable (for instance, \char`\"{}\+B\char`\"{}). \\
+{\em short\-Name} & A string to give a shorten name to the variable (for instance, \char`\"{}\-B\char`\"{}). \\
 \hline
-{\em index} & The domain\textquotesingle{}s index corresponding to the variable initial value. \\
+{\em index} & The domain's index corresponding to the variable initial value. \\
 \hline
 {\em domain} & A vector of integers composing the domain to create. \\
 \hline
-{\em outside\+Scope} & An integer representing all values outside the domain scope (-\/1 by default). \\
+{\em outside\-Scope} & An integer representing all values outside the domain scope (-\/1 by default). \\
 \hline
 \end{DoxyParams}
-\begin{DoxySeeAlso}{See also}
+\begin{DoxySeeAlso}{See Also}
 \hyperlink{classghost_1_1Domain}{Domain} 
 \end{DoxySeeAlso}
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!Variable@{Variable}}
-\index{Variable@{Variable}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{Variable(string name, string short\+Name, int index, int size, int start\+Value)}{Variable(string name, string shortName, int index, int size, int startValue)}}]{\setlength{\rightskip}{0pt plus 5cm}ghost\+::\+Variable\+::\+Variable (
+\hypertarget{classghost_1_1Variable_a3edfe1cde7f5958c841eacb6fa347ca4}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!Variable@{Variable}}
+\index{Variable@{Variable}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{Variable}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Variable\-::\-Variable (
 \begin{DoxyParamCaption}
-\item[{string}]{name, }
-\item[{string}]{short\+Name, }
+\item[{std\-::string}]{name, }
+\item[{std\-::string}]{short\-Name, }
 \item[{int}]{index, }
 \item[{int}]{size, }
-\item[{int}]{start\+Value}
+\item[{int}]{start\-Value}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Variable_a1657c8e21fb8ef1b8f9b0a0c3132192b}{}\label{classghost_1_1Variable_a1657c8e21fb8ef1b8f9b0a0c3132192b}
+)}}\label{classghost_1_1Variable_a3edfe1cde7f5958c841eacb6fa347ca4}
 
 
 Second \hyperlink{classghost_1_1Variable}{Variable} constructor, with a size and a starting value for the domain. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em name} & A string to give a full name to the variable (for instance, \char`\"{}\+Barracks\char`\"{}). \\
+{\em name} & A string to give a full name to the variable (for instance, \char`\"{}\-Barracks\char`\"{}). \\
 \hline
-{\em short\+Name} & A string to give a shorten name to the variable (for instance, \char`\"{}\+B\char`\"{}). \\
+{\em short\-Name} & A string to give a shorten name to the variable (for instance, \char`\"{}\-B\char`\"{}). \\
 \hline
-{\em index} & The domain\textquotesingle{}s index corresponding to the variable initial value. \\
+{\em index} & The domain's index corresponding to the variable initial value. \\
 \hline
 {\em size} & The size of the domain to create. \\
 \hline
-{\em start\+Value} & An integer representing the first value of the domain. The creating domain will then be the interval \mbox{[}start\+Value, start\+Value + size\mbox{]}, with start\+Value-\/1 corresponding to the outside-\/the-\/scope value. \\
+{\em start\-Value} & An integer representing the first value of the domain. The creating domain will then be the interval \mbox{[}start\-Value, start\-Value + size\mbox{]}, with start\-Value-\/1 corresponding to the outside-\/the-\/scope value. \\
 \hline
 \end{DoxyParams}
-\begin{DoxySeeAlso}{See also}
+\begin{DoxySeeAlso}{See Also}
 \hyperlink{classghost_1_1Domain}{Domain} 
 \end{DoxySeeAlso}
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!````~Variable@{$\sim$\+Variable}}
-\index{````~Variable@{$\sim$\+Variable}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{$\sim$\+Variable()}{~Variable()}}]{\setlength{\rightskip}{0pt plus 5cm}virtual ghost\+::\+Variable\+::$\sim$\+Variable (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classghost_1_1Variable_ab556bb79ef92364bd820022394c967dd}{}\label{classghost_1_1Variable_ab556bb79ef92364bd820022394c967dd}
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!Variable@{Variable}}
-\index{Variable@{Variable}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{Variable(const Variable \&other)}{Variable(const Variable &other)}}]{\setlength{\rightskip}{0pt plus 5cm}ghost\+::\+Variable\+::\+Variable (
+\hypertarget{classghost_1_1Variable_ac9fb0513e1d15a047816821e034589ea}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!Variable@{Variable}}
+\index{Variable@{Variable}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{Variable}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Variable\-::\-Variable (
 \begin{DoxyParamCaption}
 \item[{const {\bf Variable} \&}]{other}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Variable_ac9fb0513e1d15a047816821e034589ea}{}\label{classghost_1_1Variable_ac9fb0513e1d15a047816821e034589ea}
+)}}\label{classghost_1_1Variable_ac9fb0513e1d15a047816821e034589ea}
 
 
 \hyperlink{classghost_1_1Variable}{Variable} copy constructor. 
@@ -183,66 +185,99 @@ Second \hyperlink{classghost_1_1Variable}{Variable} constructor, with a size and
 {\em other} & A reference to a \hyperlink{classghost_1_1Variable}{Variable} object. \\
 \hline
 \end{DoxyParams}
-
-
-\subsection{Member Function Documentation}
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!get\+Name@{get\+Name}}
-\index{get\+Name@{get\+Name}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{get\+Name() const }{getName() const }}]{\setlength{\rightskip}{0pt plus 5cm}string ghost\+::\+Variable\+::get\+Name (
+\hypertarget{classghost_1_1Variable_a06aa85e69ddf9a887dcc31c61dca70ab}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!$\sim$\-Variable@{$\sim$\-Variable}}
+\index{$\sim$\-Variable@{$\sim$\-Variable}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{$\sim$\-Variable}]{\setlength{\rightskip}{0pt plus 5cm}ghost\-::\-Variable\-::$\sim$\-Variable (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Variable_a89050a5f0798151d4b0a369339be9287}{}\label{classghost_1_1Variable_a89050a5f0798151d4b0a369339be9287}
+)\hspace{0.3cm}{\ttfamily [default]}}}\label{classghost_1_1Variable_a06aa85e69ddf9a887dcc31c61dca70ab}
+
+
+Default \hyperlink{classghost_1_1Variable}{Variable} destructor. 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classghost_1_1Variable_a37018e24ee21e12649599409d7ac3640}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!do\-\_\-random\-\_\-initialization@{do\-\_\-random\-\_\-initialization}}
+\index{do\-\_\-random\-\_\-initialization@{do\-\_\-random\-\_\-initialization}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{do\-\_\-random\-\_\-initialization}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Variable\-::do\-\_\-random\-\_\-initialization (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classghost_1_1Variable_a37018e24ee21e12649599409d7ac3640}
+
+
+Function initializing the variable to one random values of its domain. 
+
+\hypertarget{classghost_1_1Variable_adc5da5dedaa3d47a5eb4092b08c3f77c}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!get\-\_\-id@{get\-\_\-id}}
+\index{get\-\_\-id@{get\-\_\-id}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{get\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Variable\-::get\-\_\-id (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Variable_adc5da5dedaa3d47a5eb4092b08c3f77c}
+
+
+Inline function to get the unique id of the \hyperlink{classghost_1_1Variable}{Variable} object. 
+
+\hypertarget{classghost_1_1Variable_a394384e5e7f93364f9299448c03957b4}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!get\-\_\-name@{get\-\_\-name}}
+\index{get\-\_\-name@{get\-\_\-name}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{get\-\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string ghost\-::\-Variable\-::get\-\_\-name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Variable_a394384e5e7f93364f9299448c03957b4}
 
 
 Inline function to get the variable name. 
 
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!get\+Short\+Name@{get\+Short\+Name}}
-\index{get\+Short\+Name@{get\+Short\+Name}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{get\+Short\+Name() const }{getShortName() const }}]{\setlength{\rightskip}{0pt plus 5cm}string ghost\+::\+Variable\+::get\+Short\+Name (
+\hypertarget{classghost_1_1Variable_a05b2b4bd59ce9afa1a156bb0d5b83063}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!get\-\_\-short\-\_\-name@{get\-\_\-short\-\_\-name}}
+\index{get\-\_\-short\-\_\-name@{get\-\_\-short\-\_\-name}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{get\-\_\-short\-\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string ghost\-::\-Variable\-::get\-\_\-short\-\_\-name (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Variable_add76ede3e7bc07d0a6949a500768578b}{}\label{classghost_1_1Variable_add76ede3e7bc07d0a6949a500768578b}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Variable_a05b2b4bd59ce9afa1a156bb0d5b83063}
 
 
 Inline function to get the variable short name. 
 
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!get\+Value@{get\+Value}}
-\index{get\+Value@{get\+Value}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{get\+Value() const }{getValue() const }}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\+::\+Variable\+::get\+Value (
+\hypertarget{classghost_1_1Variable_a7bdebf8b2a369f337690ac38ece31793}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!get\-\_\-value@{get\-\_\-value}}
+\index{get\-\_\-value@{get\-\_\-value}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{get\-\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Variable\-::get\-\_\-value (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Variable_ae6dcadf662fc318265a9741d91a0e56e}{}\label{classghost_1_1Variable_ae6dcadf662fc318265a9741d91a0e56e}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Variable_a7bdebf8b2a369f337690ac38ece31793}
 
 
 Inline function to get the current value of the variable. 
 
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!has\+Initialized\+Domain@{has\+Initialized\+Domain}}
-\index{has\+Initialized\+Domain@{has\+Initialized\+Domain}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{has\+Initialized\+Domain()}{hasInitializedDomain()}}]{\setlength{\rightskip}{0pt plus 5cm}bool ghost\+::\+Variable\+::has\+Initialized\+Domain (
+\hypertarget{classghost_1_1Variable_a3c858960deefe1fd3d685bf0440e50c5}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!has\-\_\-initialized\-\_\-domain@{has\-\_\-initialized\-\_\-domain}}
+\index{has\-\_\-initialized\-\_\-domain@{has\-\_\-initialized\-\_\-domain}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{has\-\_\-initialized\-\_\-domain}]{\setlength{\rightskip}{0pt plus 5cm}bool ghost\-::\-Variable\-::has\-\_\-initialized\-\_\-domain (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Variable_abd6ccef9baff609eb4fadaeca2f2bceb}{}\label{classghost_1_1Variable_abd6ccef9baff609eb4fadaeca2f2bceb}
+) const}}\label{classghost_1_1Variable_a3c858960deefe1fd3d685bf0440e50c5}
 
 
-Inline function to know if the domain has been initialized. 
+Function to know if the domain has been initialized. 
 
 \begin{DoxyReturn}{Returns}
 True if and only if the domain variable is initialized. 
 \end{DoxyReturn}
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!operator=@{operator=}}
-\index{operator=@{operator=}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{operator=(\+Variable other)}{operator=(Variable other)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Variable}\& ghost\+::\+Variable\+::operator= (
+\hypertarget{classghost_1_1Variable_ad82b892892c3531cc3d54d6b5d048bf6}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!operator=@{operator=}}
+\index{operator=@{operator=}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Variable}\& ghost\-::\-Variable\-::operator= (
 \begin{DoxyParamCaption}
 \item[{{\bf Variable}}]{other}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Variable_ad82b892892c3531cc3d54d6b5d048bf6}{}\label{classghost_1_1Variable_ad82b892892c3531cc3d54d6b5d048bf6}
+)}}\label{classghost_1_1Variable_ad82b892892c3531cc3d54d6b5d048bf6}
 
 
-\hyperlink{classghost_1_1Variable}{Variable}\textquotesingle{}s copy assignment operator. 
+\hyperlink{classghost_1_1Variable}{Variable}'s copy assignment operator. 
 
 The copy-\/and-\/swap idiom is applyed here.
 
@@ -251,69 +286,50 @@ The copy-\/and-\/swap idiom is applyed here.
 {\em other} & A \hyperlink{classghost_1_1Variable}{Variable} object. \\
 \hline
 \end{DoxyParams}
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!possible\+Values@{possible\+Values}}
-\index{possible\+Values@{possible\+Values}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{possible\+Values()}{possibleValues()}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ int $>$ ghost\+::\+Variable\+::possible\+Values (
+\hypertarget{classghost_1_1Variable_a71586778e7a059a3ea9aded506e3a952}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!possible\-\_\-values@{possible\-\_\-values}}
+\index{possible\-\_\-values@{possible\-\_\-values}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{possible\-\_\-values}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$int$>$ ghost\-::\-Variable\-::possible\-\_\-values (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Variable_aef68abc32c9402ed77913dce9412f621}{}\label{classghost_1_1Variable_aef68abc32c9402ed77913dce9412f621}
+) const}}\label{classghost_1_1Variable_a71586778e7a059a3ea9aded506e3a952}
 Function returning what values are in the current domain. \begin{DoxyReturn}{Returns}
 a vector$<$int$>$ of values belonging to the variable domain. 
 \end{DoxyReturn}
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!set\+Value@{set\+Value}}
-\index{set\+Value@{set\+Value}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{set\+Value(int value)}{setValue(int value)}}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\+::\+Variable\+::set\+Value (
+\hypertarget{classghost_1_1Variable_a06f6c296986a017e1713961b4d763b0c}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!set\-\_\-value@{set\-\_\-value}}
+\index{set\-\_\-value@{set\-\_\-value}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{set\-\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Variable\-::set\-\_\-value (
 \begin{DoxyParamCaption}
 \item[{int}]{value}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Variable_aadbc00de3ee4cb0f51a306b2639f1ea9}{}\label{classghost_1_1Variable_aadbc00de3ee4cb0f51a306b2639f1ea9}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classghost_1_1Variable_a06f6c296986a017e1713961b4d763b0c}
 
 
 Inline function to set the value of the variable. 
 
-If the given value is not in the variable domain, then the variable value is set to the outside\+Scope value of the domain. 
+If the given value is not in the variable domain, then the variable value is set to the outside\-Scope value of the domain. 
 \begin{DoxyParams}{Parameters}
 {\em value} & An integer representing the new value to set. \\
 \hline
 \end{DoxyParams}
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!shift\+Value@{shift\+Value}}
-\index{shift\+Value@{shift\+Value}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{shift\+Value()}{shiftValue()}}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\+::\+Variable\+::shift\+Value (
+\hypertarget{classghost_1_1Variable_accb4028c4ea4c1108aac7900dfa223fc}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!shift\-\_\-value@{shift\-\_\-value}}
+\index{shift\-\_\-value@{shift\-\_\-value}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{shift\-\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Variable\-::shift\-\_\-value (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Variable_a8afe14b1858476bf4ef59a41a2947f93}{}\label{classghost_1_1Variable_a8afe14b1858476bf4ef59a41a2947f93}
+)}}\label{classghost_1_1Variable_accb4028c4ea4c1108aac7900dfa223fc}
 
 
 Shifting to the next domain value. 
 
-\begin{DoxySeeAlso}{See also}
-domain\+::reset\+To\+Initial()
-\end{DoxySeeAlso}
-Set the current value to the next value in the domain, or to the first one if we reach the domain upper bound. \index{ghost\+::\+Variable@{ghost\+::\+Variable}!swap@{swap}}
-\index{swap@{swap}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{swap(\+Variable \&other)}{swap(Variable &other)}}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\+::\+Variable\+::swap (
-\begin{DoxyParamCaption}
-\item[{{\bf Variable} \&}]{other}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}\hypertarget{classghost_1_1Variable_a01b3dfd2e865fed19b5edf0ced7d74bc}{}\label{classghost_1_1Variable_a01b3dfd2e865fed19b5edf0ced7d74bc}
-
-
-Inline function used for the copy-\/and-\/swap idiom. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em other} & A reference to a \hyperlink{classghost_1_1Variable}{Variable} object. \\
-\hline
-\end{DoxyParams}
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!unshift\+Value@{unshift\+Value}}
-\index{unshift\+Value@{unshift\+Value}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{unshift\+Value()}{unshiftValue()}}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\+::\+Variable\+::unshift\+Value (
+Set the current value to the next value in the domain, or to the first one if we reach the domain upper bound. \hypertarget{classghost_1_1Variable_a7815ce9c582316082e88c2bb3137a914}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!unshift\-\_\-value@{unshift\-\_\-value}}
+\index{unshift\-\_\-value@{unshift\-\_\-value}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{unshift\-\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\-::\-Variable\-::unshift\-\_\-value (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Variable_a3bebc2cc15609a5280a4949d63f7405d}{}\label{classghost_1_1Variable_a3bebc2cc15609a5280a4949d63f7405d}
+)}}\label{classghost_1_1Variable_a7815ce9c582316082e88c2bb3137a914}
 
 
 Shifting to the previous domain value. 
@@ -321,14 +337,14 @@ Shifting to the previous domain value.
 Set the current value to the previous value in the domain, or to the last one if we reach the domain lower bound. 
 
 \subsection{Friends And Related Function Documentation}
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!operator$<$$<$@{operator$<$$<$}}
-\index{operator$<$$<$@{operator$<$$<$}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{operator$<$$<$}{operator<<}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::ostream\& operator$<$$<$ (
+\hypertarget{classghost_1_1Variable_aab05ab0693334e9e9a39f43903a37cb7}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}std\-::ostream\& operator$<$$<$ (
 \begin{DoxyParamCaption}
-\item[{std\+::ostream \&}]{os, }
+\item[{std\-::ostream \&}]{os, }
 \item[{const {\bf Variable} \&}]{v}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [friend]}}\hypertarget{classghost_1_1Variable_aab05ab0693334e9e9a39f43903a37cb7}{}\label{classghost_1_1Variable_aab05ab0693334e9e9a39f43903a37cb7}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{classghost_1_1Variable_aab05ab0693334e9e9a39f43903a37cb7}
 
 
 friend override of operator$<$$<$ 
@@ -336,36 +352,36 @@ friend override of operator$<$$<$
 
 
 \subsection{Member Data Documentation}
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!domain@{domain}}
-\index{domain@{domain}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{domain}{domain}}]{\setlength{\rightskip}{0pt plus 5cm}unique\+\_\+ptr$<${\bf Domain}$>$ ghost\+::\+Variable\+::domain\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classghost_1_1Variable_a9dbda868fa47e4353f30461e89ff8020}{}\label{classghost_1_1Variable_a9dbda868fa47e4353f30461e89ff8020}
+\hypertarget{classghost_1_1Variable_a59a5fc42a83c3dd5504daa72f5191469}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!domain@{domain}}
+\index{domain@{domain}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{domain}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<${\bf Domain}$>$ ghost\-::\-Variable\-::domain\hspace{0.3cm}{\ttfamily [protected]}}}\label{classghost_1_1Variable_a59a5fc42a83c3dd5504daa72f5191469}
 
 
-A unique smart pointer on the variable domain. 
+A shared pointer on the variable domain. 
 
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!index@{index}}
-\index{index@{index}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{index}{index}}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\+::\+Variable\+::index\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}{}\label{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}
-
-
-The domain\textquotesingle{}s index corresponding to the current value of the variable. 
-
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!name@{name}}
-\index{name@{name}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{name}{name}}]{\setlength{\rightskip}{0pt plus 5cm}string ghost\+::\+Variable\+::name\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classghost_1_1Variable_a05cf4a4cd3a5c033028e0b0f11d1dafd}{}\label{classghost_1_1Variable_a05cf4a4cd3a5c033028e0b0f11d1dafd}
+\hypertarget{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!index@{index}}
+\index{index@{index}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{index}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\-::\-Variable\-::index\hspace{0.3cm}{\ttfamily [protected]}}}\label{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}
 
 
-A string to give a full name to the variable (for instance, \char`\"{}\+Barracks\char`\"{}). 
+The domain's index corresponding to the current value of the variable. 
 
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!short\+Name@{short\+Name}}
-\index{short\+Name@{short\+Name}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{short\+Name}{shortName}}]{\setlength{\rightskip}{0pt plus 5cm}string ghost\+::\+Variable\+::short\+Name\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classghost_1_1Variable_afb5eb79a7f6351b4305fe082699b6d7d}{}\label{classghost_1_1Variable_afb5eb79a7f6351b4305fe082699b6d7d}
-
-
-A string to give a shorten name to the variable (for instance, \char`\"{}\+B\char`\"{}). 
+\hypertarget{classghost_1_1Variable_a0f9fbecc12e22224c65ed6d8ce4cb507}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!name@{name}}
+\index{name@{name}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string ghost\-::\-Variable\-::name\hspace{0.3cm}{\ttfamily [protected]}}}\label{classghost_1_1Variable_a0f9fbecc12e22224c65ed6d8ce4cb507}
 
 
+A string to give a full name to the variable (for instance, \char`\"{}\-Barracks\char`\"{}). 
 
-The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\hypertarget{classghost_1_1Variable_af0a8a6632b981ae0ff22cf4dc62495d3}{\index{ghost\-::\-Variable@{ghost\-::\-Variable}!short\-Name@{short\-Name}}
+\index{short\-Name@{short\-Name}!ghost::Variable@{ghost\-::\-Variable}}
+\subsubsection[{short\-Name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string ghost\-::\-Variable\-::short\-Name\hspace{0.3cm}{\ttfamily [protected]}}}\label{classghost_1_1Variable_af0a8a6632b981ae0ff22cf4dc62495d3}
+
+
+A string to give a shorten name to the variable (for instance, \char`\"{}\-B\char`\"{}). 
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-src/\hyperlink{variable_8hpp}{variable.\+hpp}\end{DoxyCompactItemize}
+include/\hyperlink{variable_8hpp}{variable.\-hpp}\end{DoxyCompactItemize}
