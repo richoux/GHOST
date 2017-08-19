@@ -2,6 +2,7 @@
 #include "gtest/gtest.h"
 
 #include <vector>
+#include <memory>
 
 class MyConstraint : public ghost::Constraint
 {
@@ -13,29 +14,29 @@ class MyConstraint : public ghost::Constraint
 public:
   MyConstraint() = default;
   
-  MyConstraint( const std::vector< ghost::Variable* >& variables )
+  MyConstraint( const std::vector< shared_ptr< ghost::Variable > >& variables )
     : Constraint( variables ) {}
 
-    ghost::Variable* get_var( int index ) const { return variables[index]; }
+  shared_ptr< ghost::Variable > get_var( int index ) const { return variables[index]; }
 };
 
 class ConstraintTest : public ::testing::Test
 {
 public:
-  ghost::Variable var1;
-  ghost::Variable var2;
-  ghost::Variable var3;
+  shared_ptr< ghost::Variable > var1;
+  shared_ptr< ghost::Variable > var2;
+  shared_ptr< ghost::Variable > var3;
   
   MyConstraint *ctr1;
   MyConstraint *ctr2;
 
   ConstraintTest()
-    : var1 { "v1", "v1", 0, std::vector<int>{1,3,5,7,9}, 0 },
-      var2 { "v2", "v2", 0, std::vector<int>{2,4,6,8}, 0 },
-      var3 { "v3", "v3", 0, std::vector<int>{1,2,3,4,5,6,7,8,9}, 0 }
+    : var1 ( make_shared<ghost::Variable>( "v1", "v1", 0, std::vector<int>{1,3,5,7,9}, 0 ) ),
+      var2 ( make_shared<ghost::Variable>( "v2", "v2", 0, std::vector<int>{2,4,6,8}, 0 ) ),
+      var3 ( make_shared<ghost::Variable>( "v3", "v3", 0, std::vector<int>{1,2,3,4,5,6,7,8,9}, 0 ) )
   {
-    ctr1 = new MyConstraint( std::vector< ghost::Variable* >{ &var1, &var2 } );
-    ctr2 = new MyConstraint( std::vector< ghost::Variable* >{ &var1, &var3 } );
+    ctr1 = new MyConstraint( std::vector< shared_ptr< ghost::Variable > >{ var1, var2 } );
+    ctr2 = new MyConstraint( std::vector< shared_ptr< ghost::Variable > >{ var1, var3 } );
   }
 
   ~ConstraintTest()
