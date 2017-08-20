@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['domain',['domain',['../classghost_1_1Variable.html#a59a5fc42a83c3dd5504daa72f5191469',1,'ghost::Variable']]]
+  ['domain',['domain',['../classghost_1_1Variable.html#a78be8576a9911272d521132a2e860514',1,'ghost::Variable']]]
 ];
