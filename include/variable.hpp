@@ -130,7 +130,7 @@ namespace ghost
     Variable& operator=( Variable other );
 
     //! Default Variable destructor.
-    ~Variable() = default;
+    virtual ~Variable() = default;
 
     //! Function to know if the domain has been initialized.
     /*!
@@ -160,8 +160,16 @@ namespace ghost
      */
     std::vector<int> possible_values() const;
 
+    
+    /////////////////////////
+    // Bonne idée de récupérer outsideScope ici ? Ça demande de savoir comment est fait Domain.
+
     //! Inline function to get the current value of the variable.
     inline int get_value() const { return domain->get_value( index ); }
+
+    
+    /////////////////////////
+    // Bonne idée de permettre l'affectation d'une valeur hors domaine ?
     
     //! Inline function to set the value of the variable.
     /*! 

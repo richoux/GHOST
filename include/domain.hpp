@@ -114,6 +114,10 @@ namespace ghost
       return _outsideScope;
     }
 
+
+    /////////////////////////
+    // Bonne idée de retourner outsideScope si on ne trouve pas la valeur ? 
+    
     //! Get the value at the given index
     /*!
      * \param index is the index of the desired value.
