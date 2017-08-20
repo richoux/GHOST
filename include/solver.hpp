@@ -87,6 +87,8 @@ namespace ghost
     bool	_isOptimization;	//!< A boolean to know if it is a satisfaction or optimization run.
     bool	_permutationProblem;	//!< A boolean to know if it is a permutation problem or not.
 
+    /////////////////////////
+    // Bonne idée de mettre mutable ici ? On peut s'en débarasser ?
     mutable map< shared_ptr< Variable >, vector< shared_ptr< Constraint > > > _mapVarCtr;	//!< Map to know in which constraints are each variable.
     // map<Variable, vector< pair< shared_ptr< Constraint >, vector< Variable* >::iterator> >
     // _mapVarCtr;	//!< Map to know in which constraints are each variable.
