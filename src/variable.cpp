@@ -37,7 +37,7 @@ using namespace ghost;
 
 int Variable::NBER_VAR = 0;
 
-Variable::Variable( string name, string shortName, shared_ptr<Domain> domain, int index )
+Variable::Variable( const string& name, const string& shortName, shared_ptr<Domain> domain, int index )
   : _id		( NBER_VAR++ ),
     name	( name ),
     shortName	( shortName ),
@@ -45,15 +45,15 @@ Variable::Variable( string name, string shortName, shared_ptr<Domain> domain, in
     index	( index )
 { }
 
-Variable::Variable( string name, string shortName )
+Variable::Variable( const string& name, const string& shortName )
   : Variable( name, shortName, nullptr, -1 )
 { }
 
-Variable::Variable( string name, string shortName, int index, const vector<int>& domain, int outsideScope )
+Variable::Variable( const string& name, const string& shortName, int index, const vector<int>& domain, int outsideScope )
   : Variable( name, shortName, make_shared<Domain>( domain, outsideScope ), index )
 { }
 
-Variable::Variable( string name, string shortName, int index, int size, int startValue )
+Variable::Variable( const string& name, const string& shortName, int index, int size, int startValue )
   : Variable( name, shortName, make_shared<Domain>( size, startValue ), index )
 { }
 
@@ -105,9 +105,9 @@ void Variable::unshift_value()
     index = index > 0 ? index - 1 : domain->get_size() - 1;
 }
 
-std::vector<int> Variable::possible_values() const
+vector<int> Variable::possible_values() const
 {
-  std::vector<int> possibleValues;
+  vector<int> possibleValues;
   
   for( int i = 0 ; i < (int)domain->get_size() ; ++i )
     possibleValues.push_back( domain->get_value( i ) );

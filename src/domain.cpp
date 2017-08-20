@@ -35,25 +35,26 @@
 
 #include "domain.hpp"
 
+using namespace std;
 using namespace ghost;
 
 Domain::Domain( int outsideScope )
   : _outsideScope	( outsideScope )
 { }
 
-Domain::Domain( const std::vector< int >& domain, int outsideScope )
+Domain::Domain( const vector< int >& domain, int outsideScope )
   : _currentDomain	( domain ),
     _outsideScope	( outsideScope )
 {
-  if( std::find( std::begin( domain ), std::end( domain ), _outsideScope ) != std::end( domain ) )
+  if( find( begin( domain ), end( domain ), _outsideScope ) != end( domain ) )
     throw 0;
 }
 
 Domain::Domain( int size, int startValue )
-  : _currentDomain	( std::vector<int>( size ) ),
+  : _currentDomain	( vector<int>( size ) ),
     _outsideScope	( startValue - 1 )
 {
-  std::iota( std::begin( _currentDomain ), std::end( _currentDomain ), startValue );
+  iota( begin( _currentDomain ), end( _currentDomain ), startValue );
 }
 
 int Domain::get_value( int index ) const
@@ -66,9 +67,9 @@ int Domain::get_value( int index ) const
 
 int Domain::index_of( int value ) const
 {
-  auto it = std::find( std::begin( _currentDomain ), std::end( _currentDomain ), value );
-  if( it == std::end( _currentDomain ) )
+  auto it = find( begin( _currentDomain ), end( _currentDomain ), value );
+  if( it == end( _currentDomain ) )
     return -1;
   else
-    return it - std::begin( _currentDomain );
+    return it - begin( _currentDomain );
 }

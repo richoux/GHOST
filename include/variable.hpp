@@ -36,6 +36,8 @@
 
 #include "domain.hpp"
 
+using namespace std;
+
 namespace ghost
 {
   //! Variable is the class encoding the variables of your CSP/COP.
@@ -65,25 +67,25 @@ namespace ghost
      * \param index The domain's index corresponding to the variable initial value.
      * \sa Domain
      */
-    Variable( std::string name,
-	      std::string shortName,
-	      std::shared_ptr<Domain> domain,
+    Variable( string name,
+	      string shortName,
+	      shared_ptr<Domain> domain,
 	      int index );
     
     //! For the copy-and-swap idiom
     void swap( Variable &other );
 
   protected:
-    std::string			name;		//!< A string to give a full name to the variable (for instance, "Barracks").
-    std::string			shortName;	//!< A string to give a shorten name to the variable (for instance, "B").
-    std::shared_ptr<Domain>	domain;		//!< A shared pointer on the variable domain.
+    string			name;		//!< A string to give a full name to the variable (for instance, "Barracks").
+    string			shortName;	//!< A string to give a shorten name to the variable (for instance, "B").
+    shared_ptr<Domain>	domain;		//!< A shared pointer on the variable domain.
     int				index;		//!< The domain's index corresponding to the current value of the variable.
     
   public:
     Variable() = default;
 
     //! Short Variable constructor initializing the name and short name only.
-    Variable( std::string name, std::string shortName );
+    Variable( const string& name, const string& shortName );
 
     //! First Variable constructor, with the vector of domain values and the outside-the-scope value.
     /*!
@@ -94,11 +96,11 @@ namespace ghost
      * \param outsideScope An integer representing all values outside the domain scope (-1 by default).
      * \sa Domain
      */
-    Variable( std::string name,
-	      std::string shortName,
-	      int index,
-	      const std::vector<int>& domain,
-	      int outsideScope = -1 );
+    Variable( const string&	name,
+	      const string&	shortName,
+	      int			index,
+	      const vector<int>&	domain,
+	      int			outsideScope = -1 );
     
     //! Second Variable constructor, with a size and a starting value for the domain.
     /*!
@@ -109,11 +111,11 @@ namespace ghost
      * \param startValue An integer representing the first value of the domain. The creating domain will then be the interval [startValue, startValue + size], with startValue-1 corresponding to the outside-the-scope value.
      * \sa Domain
      */
-    Variable( std::string name,
-	      std::string shortName,
-	      int index,
-	      int size,
-	      int startValue );
+    Variable( const string&	name,
+	      const string&	shortName,
+	      int			index,
+	      int			size,
+	      int			startValue );
 
     //! Variable copy constructor
     /*!
@@ -158,7 +160,7 @@ namespace ghost
     /*! Function returning what values are in the current domain.
      * \return a vector<int> of values belonging to the variable domain.
      */
-    std::vector<int> possible_values() const;
+    vector<int> possible_values() const;
 
     
     /////////////////////////
@@ -186,16 +188,16 @@ namespace ghost
     bool is_assigned() const;
 
     //! Inline function to get the variable name.
-    inline std::string get_name() const { return name; }
+    inline string get_name() const { return name; }
 
     //! Inline function to get the variable short name.
-    inline std::string get_short_name() const { return shortName; }
+    inline string get_short_name() const { return shortName; }
 
     //! Inline function to get the unique id of the Variable object.
     inline int get_id() const { return _id; }
     
     //! friend override of operator<<
-    friend std::ostream& operator<<( std::ostream& os, const Variable& v )
+    friend ostream& operator<<( ostream& os, const Variable& v )
     {
       return os
 	<< "Variable name: " << v.name

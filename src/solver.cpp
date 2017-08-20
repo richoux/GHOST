@@ -32,6 +32,7 @@
 
 #include "solver.hpp"
 
+using namespace std;
 using namespace ghost;
 
 Solver::Solver( const vector< shared_ptr< Variable > >& vecVariables, 
@@ -95,7 +96,7 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
   // ie, equals to the number of variables.
   finalSolution.resize( _vecVariables.size() );
   
-  _bestOptCost = std::numeric_limits<double>::max();
+  _bestOptCost = numeric_limits<double>::max();
   
   do // optimization loop
   {
@@ -103,18 +104,18 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
     ++optLoop;
 
     // Reset weak tabu list
-    std::fill( _weakTabuList.begin(), _weakTabuList.end(), 0 );
+    fill( _weakTabuList.begin(), _weakTabuList.end(), 0 );
 
     // Reset the best satisfaction cost
-    _bestSatCost = std::numeric_limits<double>::max();
+    _bestSatCost = numeric_limits<double>::max();
     
     do // satisfaction loop 
     {
       ++satLoop;
 
       // Reset variables and constraints costs
-      std::fill( costConstraints.begin(), costConstraints.end(), 0. );
-      std::fill( costVariables.begin(), costVariables.end(), 0. );
+      fill( costConstraints.begin(), costConstraints.end(), 0. );
+      fill( costVariables.begin(), costVariables.end(), 0. );
 
       currentSatCost = compute_constraints_costs( costConstraints );
       compute_variables_costs( costConstraints, costVariables );
@@ -143,7 +144,7 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
 	// see the right <algorithm> function
 	for( auto& v : _vecVariables )
 	  finalSolution[ v->get_id() ] = v->get_value();
-	// std::fill( finalSolution.begin(), finalSolution.end(), [](){})
+	// fill( finalSolution.begin(), finalSolution.end(), [](){})
       }
       else // local minima
 	// Mark worstVariable as weak tabu for tabuTime iterations.
@@ -334,7 +335,7 @@ void Solver::local_move( shared_ptr< Variable > variable,
   double newCurrentSatCost;
   vector< int > bestValuesList;
   int bestValue;
-  double bestCost = std::numeric_limits<double>::max();
+  double bestCost = numeric_limits<double>::max();
   
   for( auto& val : variable->possible_values() )
   {
@@ -379,7 +380,7 @@ void Solver::permutation_move( shared_ptr< Variable > variable,
   double newCurrentSatCost;
   vector< shared_ptr< Variable > > bestVarToSwapList;
   shared_ptr< Variable > bestVarToSwap;
-  double bestCost = std::numeric_limits<double>::max();
+  double bestCost = numeric_limits<double>::max();
   
   for( auto& otherVariable : _vecVariables )
   {

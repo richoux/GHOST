@@ -29,6 +29,7 @@
 
 #include "objective.hpp"
 
+using namespace std;
 using namespace ghost;
 
 Objective::Objective( const string& name )

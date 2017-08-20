@@ -31,6 +31,7 @@
 
 #include "constraint.hpp"
 
+using namespace std;
 using namespace ghost;
 
 int Constraint::NBER_CTR = 0;
@@ -53,8 +54,8 @@ Constraint::Constraint( const Constraint &other )
 
 // void Constraint::swap( Constraint &other )
 // {
-//   std::swap( this->variables, other.variables );
-//   std::swap( this->id, other.id );
+//   swap( this->variables, other.variables );
+//   swap( this->id, other.id );
 // }
 
 bool Constraint::has_variable( const shared_ptr< Variable > var ) const
@@ -64,7 +65,7 @@ bool Constraint::has_variable( const shared_ptr< Variable > var ) const
 
 vector< shared_ptr< Variable > >::const_iterator Constraint::get_variable_iterator( const shared_ptr< Variable > var ) const
 {
-  return std::find_if( variables.cbegin(),
-  		       variables.cend(),
-  		       [&]( auto& v ){ return v->get_id() == var->get_id(); } );
+  return find_if( variables.cbegin(),
+		  variables.cend(),
+		  [&]( auto& v ){ return v->get_id() == var->get_id(); } );
 }
