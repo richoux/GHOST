@@ -169,7 +169,14 @@ namespace ghost
      * \param value An integer representing the new value to set.
      */
     inline void	set_value( int value ) { index = domain->index_of( value ); }
-    
+
+    //! Function to know if the variable has been assigned to a value of its domain or not.
+    /*! 
+     * Returns true if the variable has been assigned to a value of its domain. 
+     * Returns false otherwise.
+     */
+    bool is_assigned() const;
+
     //! Inline function to get the variable name.
     inline std::string get_name() const { return name; }
 

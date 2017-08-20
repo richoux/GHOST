@@ -114,3 +114,8 @@ std::vector<int> Variable::possible_values() const
   
   return possibleValues;
 }    
+
+bool Variable::is_assigned() const
+{
+  return get_value() != domain->get_outside_scope();
+}
