@@ -78,7 +78,7 @@ namespace ghost
   protected:
     string			name;		//!< A string to give a full name to the variable (for instance, "Barracks").
     string			shortName;	//!< A string to give a shorten name to the variable (for instance, "B").
-    shared_ptr<Domain>	domain;		//!< A shared pointer on the variable domain.
+    shared_ptr<Domain>		domain;		//!< A shared pointer on the variable domain.
     int				index;		//!< The domain's index corresponding to the current value of the variable.
     
   public:
@@ -96,8 +96,8 @@ namespace ghost
      * \param outsideScope An integer representing all values outside the domain scope (-1 by default).
      * \sa Domain
      */
-    Variable( const string&	name,
-	      const string&	shortName,
+    Variable( const string&		name,
+	      const string&		shortName,
 	      int			index,
 	      const vector<int>&	domain,
 	      int			outsideScope = -1 );
@@ -113,9 +113,9 @@ namespace ghost
      */
     Variable( const string&	name,
 	      const string&	shortName,
-	      int			index,
-	      int			size,
-	      int			startValue );
+	      int		index,
+	      int		size,
+	      int		startValue );
 
     //! Variable copy constructor
     /*!
