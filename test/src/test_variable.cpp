@@ -85,6 +85,10 @@ TEST_F(VariableTest, Names)
 
 TEST_F(VariableTest, Values)
 {
+  EXPECT_TRUE( var_ctor2->is_assigned() );
+  EXPECT_TRUE( var_ctor2_bis->is_assigned() );
+  EXPECT_TRUE( var_ctor3->is_assigned() );
+  
   EXPECT_EQ( var_ctor2->get_value(), 1 );
   EXPECT_EQ( var_ctor2_bis->get_value(), 1 );
   EXPECT_EQ( var_ctor3->get_value(), 8 );
@@ -129,9 +133,13 @@ TEST_F(VariableTest, Values)
   EXPECT_EQ( var_ctor2_bis->get_value(), 7 );
   EXPECT_EQ( var_ctor3->get_value(), 6 );
 
+  EXPECT_FALSE( var_ctor2->is_assigned() );
+  EXPECT_TRUE( var_ctor2_bis->is_assigned() );
+  EXPECT_FALSE( var_ctor3->is_assigned() );
+
   EXPECT_THAT( var_ctor2->possible_values(), ::testing::ElementsAre( 1,3,5,7,9 ) );
   EXPECT_THAT( var_ctor2_bis->possible_values(), ::testing::ElementsAre( 1,3,5,7,9 ) );
-  EXPECT_THAT( var_ctor3->possible_values(), ::testing::ElementsAre( 7,8,9 ) );  
+  EXPECT_THAT( var_ctor3->possible_values(), ::testing::ElementsAre( 7,8,9 ) );
 }
 
 int main(int argc, char **argv)
