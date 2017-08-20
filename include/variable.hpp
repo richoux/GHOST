@@ -67,8 +67,8 @@ namespace ghost
      * \param index The domain's index corresponding to the variable initial value.
      * \sa Domain
      */
-    Variable( string name,
-	      string shortName,
+    Variable( const string& name,
+	      const string& shortName,
 	      shared_ptr<Domain> domain,
 	      int index );
     
