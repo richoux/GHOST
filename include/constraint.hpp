@@ -63,6 +63,9 @@ namespace ghost
    *
    * \sa Variable
    */
+
+  /////////////////////////
+  // Bonne idée de faire sans template ?
   class Constraint
   {
     static int NBER_CTR;
