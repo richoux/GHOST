@@ -86,6 +86,8 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
   int optLoop = 0;
   int satLoop = 0;
 
+  double costBeforePostProc = numeric_limits<double>::max();
+  
   vector< shared_ptr< Variable > > worstVariableList;
   shared_ptr< Variable > worstVariable;
   double currentSatCost;
@@ -169,6 +171,7 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
 
   if( _bestSatCost == 0. && _isOptimization )
   {
+    costBeforePostProc = _bestOptCost;
     startPostprocess = chrono::steady_clock::now();
     _objective->postprocess_optimization( _vecVariables, _bestOptCost, finalSolution );
     timerPostProcessOpt = chrono::steady_clock::now() - startPostprocess;							     
@@ -180,24 +183,24 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
   if( !_isOptimization )
     cout << "SATISFACTION run" << endl;
   else
-    cout << "OPTIMIZATION run with objective " << _objective->getName() << endl;
+    cout << "OPTIMIZATION run with objective " << _objective->get_name() << endl;
       
   cout << "Elapsed time: " << elapsedTime.count() / 1000 << endl
-       << "Global cost: " << bestGlobalCost << endl
+       << "Global cost: " << _bestSatCost << endl
        << "Number of optization loops: " << optLoop << endl
        << "Number of satisfaction loops: " << satLoop << endl;
 
   if( _isOptimization )
   {
-    cout << "Optimization cost: " << bestCost << endl
-	 << "Opt Cost BEFORE post-processing: " << beforePostProc << endl;
+    cout << "Optimization cost: " << _bestOptCost << endl
+	 << "Opt Cost BEFORE post-processing: " << costBeforePostProc << endl;
   }
       
-  if( timerPostProcessSat > 0 )
-    cout << "Satisfaction post-processing time: " << timerPostProcessSat.cout() / 1000 << end; 
+  if( timerPostProcessSat.count() > 0 )
+    cout << "Satisfaction post-processing time: " << timerPostProcessSat.count() / 1000 << endl; 
 
-  if( timerPostProcessOpt > 0 )
-    cout << "Optimization post-processing time: " << timerPostProcessOpt.cout() / 1000 << end; 
+  if( timerPostProcessOpt.count() > 0 )
+    cout << "Optimization post-processing time: " << timerPostProcessOpt.count() / 1000 << endl; 
 
   cout << endl;
 #endif
