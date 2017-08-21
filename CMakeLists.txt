@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.6)
 project (ghost)
 
-set(CMAKE_BUILD_TYPE Release)
+# set(CMAKE_BUILD_TYPE Release)
 
 # require a C++14-capable compiler
 include(CheckCXXCompilerFlag)
