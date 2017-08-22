@@ -91,6 +91,7 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
   vector< shared_ptr< Variable > > worstVariableList;
   shared_ptr< Variable > worstVariable;
   double currentSatCost;
+  double currentOptCost;
   vector< double > costConstraints( _vecConstraints.size(), 0. );
   vector< double > costVariables( _vecVariables.size(), 0. );
 
@@ -110,7 +111,7 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
 
     // Reset the best satisfaction cost
     _bestSatCost = numeric_limits<double>::max();
-    
+
     do // satisfaction loop 
     {
       ++satLoop;
@@ -157,12 +158,19 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
     } // satisfaction loop
     while( _bestSatCost > 0. && elapsedTimeOptLoop.count() < satTimeout && elapsedTime.count() < optTimeout );
 
-    // remove useless variables
     if( _bestSatCost == 0. )
     {
-      startPostprocess = chrono::steady_clock::now();
-      _objective->postprocess_satisfaction( _vecVariables, _bestOptCost, finalSolution );
-      timerPostProcessSat = chrono::steady_clock::now() - startPostprocess;							     
+      currentOptCost = _objective->cost( _vecVariables );
+      if( _bestOptCost > currentOptCost )
+      {
+	_bestOptCost = currentOptCost;
+	for( auto& v : _vecVariables )
+	  finalSolution[ v->get_id() ] = v->get_value();
+
+	startPostprocess = chrono::steady_clock::now();
+	_objective->postprocess_satisfaction( _vecVariables, _bestOptCost, finalSolution );
+	timerPostProcessSat = chrono::steady_clock::now() - startPostprocess;
+      }
     }
     
     elapsedTime = chrono::steady_clock::now() - start;
@@ -172,6 +180,7 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
   if( _bestSatCost == 0. && _isOptimization )
   {
     costBeforePostProc = _bestOptCost;
+
     startPostprocess = chrono::steady_clock::now();
     _objective->postprocess_optimization( _vecVariables, _bestOptCost, finalSolution );
     timerPostProcessOpt = chrono::steady_clock::now() - startPostprocess;							     
@@ -184,7 +193,7 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
     cout << "SATISFACTION run" << endl;
   else
     cout << "OPTIMIZATION run with objective " << _objective->get_name() << endl;
-      
+
   cout << "Elapsed time: " << elapsedTime.count() / 1000 << endl
        << "Global cost: " << _bestSatCost << endl
        << "Number of optization loops: " << optLoop << endl
@@ -192,6 +201,12 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
 
   if( _isOptimization )
   {
+    if( _bestOptCost < 0 )
+    {
+      _bestOptCost = -_bestOptCost;
+      costBeforePostProc = -costBeforePostProc;
+    }
+
     cout << "Optimization cost: " << _bestOptCost << endl
 	 << "Opt Cost BEFORE post-processing: " << costBeforePostProc << endl;
   }
