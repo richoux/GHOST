@@ -219,11 +219,9 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
        << "Number of satisfaction loops: " << satLoop << endl;
 
   if( _isOptimization )
-  {
     cout << "Optimization cost: " << _bestOptCost << endl
 	 << "Opt Cost BEFORE post-processing: " << costBeforePostProc << endl;
-  }
-      
+  
   if( timerPostProcessSat.count() > 0 )
     cout << "Satisfaction post-processing time: " << timerPostProcessSat.count() / 1000 << endl; 
 
@@ -362,6 +360,7 @@ void Solver::local_move( shared_ptr< Variable > variable,
     newCurrentSatCost = simulate_local_move_cost( variable, val, costConstraints, currentSatCost );
     if( bestCost > newCurrentSatCost )
     {
+      cout << variable->get_name() << " <- " << val << "\n";
       bestCost = newCurrentSatCost;
       bestValuesList.clear();
       bestValuesList.push_back( val );
@@ -378,7 +377,7 @@ void Solver::local_move( shared_ptr< Variable > variable,
   // among values improving the most the objective function if there
   // are some ties.
   if( bestValuesList.size() > 1 )
-    bestValue = _objective->heuristic_value( bestValuesList );
+    bestValue = _objective->heuristic_value( _vecVariables, variable, bestValuesList );
   else
     bestValue = bestValuesList[0];
 

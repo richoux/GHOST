@@ -85,8 +85,10 @@ namespace ghost
     
     //! Inline function following the NVI idiom. Calling expert_heuristicValue.
     //! \sa expert_heuristic_value
-    inline int heuristic_value( const vector< int >& valuesList ) const
-    { return expert_heuristic_value( valuesList ); }
+    inline int heuristic_value( const vector< shared_ptr< Variable > >& vecVariables,
+				shared_ptr< Variable > var,
+				const vector< int >& valuesList ) const
+    { return expert_heuristic_value( vecVariables, var, valuesList ); }
 
     //! Inline function following the NVI idiom. Calling expert_heuristicValue.
     //! \sa expert_heuristic_value
@@ -125,10 +127,7 @@ namespace ghost
      * \return The address of a random variable in vecVariables
      * \sa heuristic_variable
      */
-    virtual shared_ptr< Variable > expert_heuristic_variable( const vector< shared_ptr< Variable > >& vecVariables ) const
-    {
-      return vecVariables[ random.get_random_number( vecVariables.size() ) ];
-    }
+    virtual shared_ptr< Variable > expert_heuristic_variable( const vector< shared_ptr< Variable > >& vecVariables ) const;
 
     //! Virtual function to apply the value heuristic used by the solver.
     /*! 
@@ -143,10 +142,9 @@ namespace ghost
      * \return The selected value according to the heuristic.
      * \sa heuristic_value, Random
      */
-    virtual int	expert_heuristic_value( const vector< int >& valuesList ) const
-    {
-      return valuesList[ random.get_random_number( valuesList.size() ) ];
-    }
+    virtual int	expert_heuristic_value( const vector< shared_ptr< Variable > >& vecVariables,
+					shared_ptr< Variable > var,
+					const vector< int >& valuesList ) const;
 
     //! Virtual function to apply the value heuristic used by the solver.
     /*! 
@@ -161,10 +159,7 @@ namespace ghost
      * \return The selected value according to the heuristic.
      * \sa heuristic_value, Random
      */
-    virtual shared_ptr< Variable > expert_heuristic_value( const vector< shared_ptr< Variable > >& variablesList ) const
-    {
-      return variablesList[ random.get_random_number( variablesList.size() ) ];
-    }
+    virtual shared_ptr< Variable > expert_heuristic_value( const vector< shared_ptr< Variable > >& variablesList ) const;
 
     //! Virtual function to perform satisfaction post-processing.
     /*! 

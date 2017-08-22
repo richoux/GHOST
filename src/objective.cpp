@@ -27,6 +27,9 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
+#include <numeric>
+#include <iostream>
+
 #include "objective.hpp"
 
 using namespace std;
@@ -35,3 +38,46 @@ using namespace ghost;
 Objective::Objective( const string& name )
   : name(name)
 { }
+
+shared_ptr< Variable > Objective::expert_heuristic_variable( const vector< shared_ptr< Variable > >& vecVariables ) const
+{
+  return vecVariables[ random.get_random_number( vecVariables.size() ) ];
+}
+
+int Objective::expert_heuristic_value( const vector< shared_ptr< Variable > >& vecVariables,
+				       shared_ptr< Variable > var,
+				       const vector< int >& valuesList ) const
+{
+  double minCost = numeric_limits<double>::max();
+  double simulatedCost;
+
+  vector<int> bestValues;
+  int backup = var->get_value();
+  
+  for( auto& v : valuesList )
+  {
+    var->set_value( v );
+    simulatedCost = cost( vecVariables );
+
+    cout << simulatedCost << "\n";
+    
+    if( minCost > simulatedCost )
+    {
+      minCost = simulatedCost;
+      bestValues.clear();
+      bestValues.push_back( v );
+    }
+    else
+      if( minCost == simulatedCost )
+	bestValues.push_back( v );
+  }
+  
+  var->set_value( backup );
+  return bestValues[0];
+  //  return bestValues[ random.get_random_number( bestValues.size() ) ];
+}
+
+shared_ptr< Variable > Objective::expert_heuristic_value( const vector< shared_ptr< Variable > >& variablesList ) const
+{
+  return variablesList[ random.get_random_number( variablesList.size() ) ];
+}
