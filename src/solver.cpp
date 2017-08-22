@@ -185,7 +185,26 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
     _objective->postprocess_optimization( _vecVariables, _bestOptCost, finalSolution );
     timerPostProcessOpt = chrono::steady_clock::now() - startPostprocess;							     
   }
-  
+
+  if( _isOptimization )
+  {
+    if( _bestOptCost < 0 )
+    {
+      _bestOptCost = -_bestOptCost;
+      costBeforePostProc = -costBeforePostProc;
+    }
+    
+    finalCost = _bestOptCost;
+  }
+  else
+    finalCost = _bestSatCost;
+
+  // Set the variables to the best solution values.
+  // Useful if the user prefer to directly use the vector of Variables
+  // to manipulate and exploit the solution.
+  for( auto& v : _vecVariables )
+    v->set_value( finalSolution[ v->get_id() ] );
+
 #ifndef NDEBUG
   cout << "############" << endl;
       
@@ -201,12 +220,6 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
 
   if( _isOptimization )
   {
-    if( _bestOptCost < 0 )
-    {
-      _bestOptCost = -_bestOptCost;
-      costBeforePostProc = -costBeforePostProc;
-    }
-
     cout << "Optimization cost: " << _bestOptCost << endl
 	 << "Opt Cost BEFORE post-processing: " << costBeforePostProc << endl;
   }
@@ -219,18 +232,7 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
 
   cout << endl;
 #endif
-      
-  if( _isOptimization )
-    finalCost = _bestOptCost;
-  else
-    finalCost = _bestSatCost;
-
-  // Set the variables to the best solution values.
-  // Useful if the user prefer to directly use the vector of Variables
-  // to manipulate and exploit the solution.
-  for( auto& v : _vecVariables )
-    v->set_value( finalSolution[ v->get_id() ] );
-  
+          
   return _bestSatCost == 0.;
 }
 
