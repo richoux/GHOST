@@ -29,6 +29,7 @@
 
 #include <cassert>
 #include <limits>
+#include <random>
 
 #include "solver.hpp"
 
@@ -79,7 +80,10 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
 
   chrono::duration<double,micro> timerPostProcessSat(0);
   chrono::duration<double,micro> timerPostProcessOpt(0);
-      
+
+  random_device	rd;
+  mt19937	rng( rd() );
+
   if( _objective == nullptr )
     _objective = make_shared< NullObjective >();
       
@@ -94,6 +98,7 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
   double currentOptCost;
   vector< double > costConstraints( _vecConstraints.size(), 0. );
   vector< double > costVariables( _vecVariables.size(), 0. );
+  vector< double > costNonTabuVariables( _vecVariables.size(), 0. );
 
   // In case finalSolution is not a vector of the correct size,
   // ie, equals to the number of variables.
@@ -121,25 +126,37 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
       fill( costVariables.begin(), costVariables.end(), 0. );
 
       currentSatCost = compute_constraints_costs( costConstraints );
-      compute_variables_costs( costConstraints, costVariables );
+      compute_variables_costs( costConstraints, costVariables, costNonTabuVariables );
       
       bool freeVariables = false;
       decay_weak_tabu_list( freeVariables );
-      worstVariableList = compute_worst_variables( freeVariables, costVariables );
+      // Change the following by discrete distribution 
+      // worstVariableList = compute_worst_variables( freeVariables, costVariables );
 
-      // If several variables share the same worst variable cost,
-      // call Objective::heuristic_variable has a tie-break.
-      // By default, Objective::heuristic_variable returns a random variable
-      // among the vector of Variables given in argument.
-      if( worstVariableList.size() > 1 )
-	worstVariable = _objective->heuristic_variable( worstVariableList );
+      // // If several variables share the same worst variable cost,
+      // // call Objective::heuristic_variable has a tie-break.
+      // // By default, Objective::heuristic_variable returns a random variable
+      // // among the vector of Variables given in argument.
+      // if( worstVariableList.size() > 1 )
+      // 	worstVariable = _objective->heuristic_variable( worstVariableList );
+      // else
+      // 	worstVariable = worstVariableList[0];
+
+      if( freeVariables )
+      {
+	discrete_distribution<int> distribution { costNonTabuVariables.begin(), costNonTabuVariables.end() };
+	worstVariable = _vecVariables[ distribution( rng ) ];
+      }
       else
-	worstVariable = worstVariableList[0];
-
+      {
+	discrete_distribution<int> distribution { costVariables.begin(), costVariables.end() };
+	worstVariable = _vecVariables[ distribution( rng ) ];
+      }
+      
       if( _permutationProblem )
-	permutation_move( worstVariable, costConstraints, costVariables, currentSatCost );
+	permutation_move( worstVariable, costConstraints, costVariables, costNonTabuVariables, currentSatCost );
       else
-	local_move( worstVariable, costConstraints, costVariables, currentSatCost );
+	local_move( worstVariable, costConstraints, costVariables, costNonTabuVariables, currentSatCost );
 
       if( _bestSatCost > currentSatCost )
       {
@@ -249,11 +266,24 @@ double Solver::compute_constraints_costs( vector<double>& costConstraints ) cons
   return globalCost;
 }
 
-void Solver::compute_variables_costs( const vector<double>& costConstraints, vector<double>& costVariables ) const
+void Solver::compute_variables_costs( const vector<double>& costConstraints,
+				      vector<double>& costVariables,
+				      vector<double>& costNonTabuVariables ) const
 {
+  int id;
+
+  fill( costNonTabuVariables.begin(), costNonTabuVariables.end(), 0. );
+
   for( auto& v : _vecVariables )
+  {
+    id = v->get_id();
+    
     for( auto& c : _mapVarCtr[ v ] )
-      costVariables[ v->get_id() ] += costConstraints[ c->get_id() ];
+      costVariables[ id ] += costConstraints[ c->get_id() ];
+
+    if( _weakTabuList[ id ] == 0 )
+      costNonTabuVariables[ id ] = costVariables[ id ];
+  }
 }
 
 void Solver::decay_weak_tabu_list( bool& freeVariables ) 
@@ -346,6 +376,7 @@ double Solver::simulate_permutation_cost( shared_ptr< Variable > worstVariable,
 void Solver::local_move( shared_ptr< Variable > variable,
 			 vector<double>& costConstraints,
 			 vector<double>& costVariables,
+			 vector<double>& costNonTabuVariables,
 			 double& currentSatCost )
 {
   // Here, we look at values in the variable domain
@@ -385,12 +416,13 @@ void Solver::local_move( shared_ptr< Variable > variable,
   for( auto& c : _mapVarCtr[ variable ] )
     costConstraints[ c->get_id() ] = c->cost();
 
-  compute_variables_costs( costConstraints, costVariables );
+  compute_variables_costs( costConstraints, costVariables, costNonTabuVariables );
 }
 
 void Solver::permutation_move( shared_ptr< Variable > variable,
 			       vector<double>& costConstraints,
 			       vector<double>& costVariables,
+			       vector<double>& costNonTabuVariables,
 			       double& currentSatCost )
 {
   // Here, we look at values in the variable domain
@@ -446,5 +478,5 @@ void Solver::permutation_move( shared_ptr< Variable > variable,
     if( !compted[ c->get_id() ] )
       newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() ] );
 
-  compute_variables_costs( costConstraints, costVariables );
+  compute_variables_costs( costConstraints, costVariables, costNonTabuVariables );
 }

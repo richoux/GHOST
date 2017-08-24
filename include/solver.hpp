@@ -110,8 +110,11 @@ namespace ghost
 
     //! Compute the variable cost of each variables
     //! \param costConstraints The vector containing the cost of each constraint.
-    //! \param costVariables The vector to be filled by this function.
-    void compute_variables_costs( const vector<double>& costConstraints, vector<double>& costVariables ) const;
+    //! \param costVariables The vector of the cost of each variable, filled by this function.
+    //! \param costNonTabuVariables The vector of the cost of non-tabu variables only, filled by this function.
+    void compute_variables_costs( const vector<double>& costConstraints,
+				  vector<double>& costVariables,
+				  vector<double>& costNonTabuVariables ) const;
 
     // Compute incrementally the now global cost IF we change the value of 'variable' by 'value' with a local move.
     double simulate_local_move_cost( shared_ptr< Variable > variable,
@@ -130,6 +133,7 @@ namespace ghost
     void local_move( shared_ptr< Variable > variable,
 		     vector<double>& costConstraints,
 		     vector<double>& costVariables,
+		     vector<double>& costNonTabuVariables,
 		     double& currentSatCost );
 
     //! Function to make a permutation move, ie, to assign a given
@@ -137,6 +141,7 @@ namespace ghost
     void permutation_move( shared_ptr< Variable > variable,
 			   vector<double>& costConstraints,
 			   vector<double>& costVariables,
+			   vector<double>& costNonTabuVariables,
 			   double& currentSatCost );
 
 

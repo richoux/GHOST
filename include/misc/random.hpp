@@ -31,7 +31,6 @@
 #pragma once
 
 #include <random>
-#include <unistd.h>
 
 using namespace std;
 
@@ -48,13 +47,10 @@ namespace ghost
   {
     random_device				_rd;
     mutable mt19937				_rng;
-    mutable uniform_int_distribution<int>	_numbers;
+    mutable uniform_int_distribution<int>	_unif_dist;
     
   public:
     Random() : _rng( _rd() ) { }
-    // Random( const Random &other ) : Random() { }
-
-    // Random operator=( const Random &other ) { return Random(); }
 
     //! Inline function to return a random value in [0, limit[
     /*!
@@ -64,6 +60,6 @@ namespace ghost
      * \param limit The upper bound of the range [0, limit[ from where a random value is computed.
      * \return A pseudo-random value in the range [0, limit[
      */
-    inline int get_random_number( int limit ) const { return ( _numbers( _rng ) % limit ); } 
+    inline int get_random_number( int limit ) const { return ( _unif_dist( _rng ) % limit ); }
   };
 }
