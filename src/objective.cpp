@@ -59,8 +59,6 @@ int Objective::expert_heuristic_value( const vector< shared_ptr< Variable > >& v
     var->set_value( v );
     simulatedCost = cost( vecVariables );
 
-    cout << simulatedCost << "\n";
-    
     if( minCost > simulatedCost )
     {
       minCost = simulatedCost;
@@ -73,8 +71,8 @@ int Objective::expert_heuristic_value( const vector< shared_ptr< Variable > >& v
   }
   
   var->set_value( backup );
-  return bestValues[0];
-  //  return bestValues[ random.get_random_number( bestValues.size() ) ];
+
+  return bestValues[ random.get_random_number( bestValues.size() ) ];
 }
 
 shared_ptr< Variable > Objective::expert_heuristic_value( const vector< shared_ptr< Variable > >& variablesList ) const

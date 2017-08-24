@@ -360,7 +360,6 @@ void Solver::local_move( shared_ptr< Variable > variable,
     newCurrentSatCost = simulate_local_move_cost( variable, val, costConstraints, currentSatCost );
     if( bestCost > newCurrentSatCost )
     {
-      cout << variable->get_name() << " <- " << val << "\n";
       bestCost = newCurrentSatCost;
       bestValuesList.clear();
       bestValuesList.push_back( val );
