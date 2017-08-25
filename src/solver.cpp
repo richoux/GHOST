@@ -30,6 +30,7 @@
 #include <cassert>
 #include <limits>
 #include <random>
+#include <algorithm>
 
 #include "solver.hpp"
 
@@ -104,6 +105,7 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
   // ie, equals to the number of variables.
   finalSolution.resize( _vecVariables.size() );
   
+  _bestSatCost = numeric_limits<double>::max();
   _bestOptCost = numeric_limits<double>::max();
   
   do // optimization loop
@@ -111,11 +113,14 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
     startOptLoop = chrono::steady_clock::now();
     ++optLoop;
 
+    // start from a random configuration
+    set_initial_configuration( 100 );
+    
     // Reset weak tabu list
     fill( _weakTabuList.begin(), _weakTabuList.end(), 0 );
 
     // Reset the best satisfaction cost
-    _bestSatCost = numeric_limits<double>::max();
+    _bestSatCostTour = numeric_limits<double>::max();
 
     do // satisfaction loop 
     {
@@ -158,13 +163,23 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
       else
 	local_move( worstVariable, costConstraints, costVariables, costNonTabuVariables, currentSatCost );
 
-      if( _bestSatCost > currentSatCost )
+      if( _bestSatCostTour > currentSatCost )
       {
-	_bestSatCost = currentSatCost;
-	// see the right <algorithm> function
-	for( auto& v : _vecVariables )
-	  finalSolution[ v->get_id() ] = v->get_value();
-	// fill( finalSolution.begin(), finalSolution.end(), [](){})
+	_bestSatCostTour = currentSatCost;
+
+	if( _bestSatCost >= _bestSatCostTour )
+	{
+	  _bestSatCost = _bestSatCostTour;
+	  // see the right <algorithm> function
+	  cout << "Change SAT (" << _bestSatCost << ")\n";
+	  for( auto& v : _vecVariables )
+	  {
+	    finalSolution[ v->get_id() ] = v->get_value();
+	    cout << v->get_name() << ": " << v->get_value() << "\n";
+	  }
+	  cout << "\n";
+	  // fill( finalSolution.begin(), finalSolution.end(), [](){})
+	}
       }
       else // local minima
 	// Mark worstVariable as weak tabu for tabuTime iterations.
@@ -173,17 +188,22 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
       elapsedTimeOptLoop = chrono::steady_clock::now() - startOptLoop;
       elapsedTime = chrono::steady_clock::now() - start;
     } // satisfaction loop
-    while( _bestSatCost > 0. && elapsedTimeOptLoop.count() < satTimeout && elapsedTime.count() < optTimeout );
+    while( _bestSatCostTour > 0. && elapsedTimeOptLoop.count() < satTimeout && elapsedTime.count() < optTimeout );
 
-    if( _bestSatCost == 0. )
+    if( _bestSatCostTour == 0. )
     {
       currentOptCost = _objective->cost( _vecVariables );
       if( _bestOptCost > currentOptCost )
       {
 	_bestOptCost = currentOptCost;
+	cout << "Change OPT (" << _bestOptCost << ")\n";
 	for( auto& v : _vecVariables )
+	{
 	  finalSolution[ v->get_id() ] = v->get_value();
-
+	  cout << v->get_name() << ": " << v->get_value() << "\n";
+	}
+	cout << "\n";
+	
 	startPostprocess = chrono::steady_clock::now();
 	_objective->postprocess_satisfaction( _vecVariables, _bestOptCost, finalSolution );
 	timerPostProcessSat = chrono::steady_clock::now() - startPostprocess;
@@ -281,9 +301,81 @@ void Solver::compute_variables_costs( const vector<double>& costConstraints,
     for( auto& c : _mapVarCtr[ v ] )
       costVariables[ id ] += costConstraints[ c->get_id() ];
 
+    if( _isOptimization )
+    {
+      
+    }
+    
     if( _weakTabuList[ id ] == 0 )
       costNonTabuVariables[ id ] = costVariables[ id ];
   }
+}
+
+void Solver::set_initial_configuration( int samplings )
+{
+  if( samplings == 1 )
+  {
+    monte_carlo_sampling();
+  }
+  else
+  {
+    // To avoid weird samplings numbers like 0 or -1
+    samplings = std::max( 2, samplings );
+    
+    double bestSatCost = numeric_limits<double>::max();
+    double bestObjCost = numeric_limits<double>::max();
+    
+    double currentSatCost;
+    double currentObjCost;
+
+    vector<int> bestValues( _vecVariables.size(), 0 );
+    
+    for( int i = 0 ; i < samplings ; ++i )
+    {
+      monte_carlo_sampling();
+      currentSatCost = 0.;
+      for( auto& c : _vecConstraints )
+	currentSatCost += c->cost();
+
+      // cout << "currentSatCost: " << currentSatCost << "\n";
+      
+      if( bestSatCost > currentSatCost )
+      {
+	bestSatCost = currentSatCost;
+	// cout << "bestSatCost: " << bestSatCost << "\n";
+	for( auto& v : _vecVariables )
+	  bestValues[ v->get_id() ] = v->get_value();
+      }
+      else
+	if( currentSatCost == 0 )
+	  if( _isOptimization )
+	  {
+	    currentObjCost = _objective->cost( _vecVariables );
+	    // cout << "currentObjCost: " << currentObjCost << "\n";
+	    if( bestObjCost > currentObjCost )
+	    {
+	      bestObjCost = currentObjCost;
+	      // cout << "bestObjCost: " << bestObjCost << "\n";
+	      for( auto& v : _vecVariables )
+		bestValues[ v->get_id() ] = v->get_value();
+	    }	    
+	  }
+    }
+
+    // cout << "Best values: ";
+    for( auto& v : _vecVariables )
+    {
+      // cout << bestValues[ v->get_id() ] << " ";
+      v->set_value( bestValues[ v->get_id() ] );
+    }
+    // cout << "\n\n";
+  }
+}
+
+void Solver::monte_carlo_sampling()
+{
+  for( auto& v : _vecVariables )
+    v->do_random_initialization();
 }
 
 void Solver::decay_weak_tabu_list( bool& freeVariables ) 
@@ -406,6 +498,7 @@ void Solver::local_move( shared_ptr< Variable > variable,
   // improving the most the objective function, or a random value
   // among values improving the most the objective function if there
   // are some ties.
+
   if( bestValuesList.size() > 1 )
     bestValue = _objective->heuristic_value( _vecVariables, variable, bestValuesList );
   else
