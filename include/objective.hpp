@@ -78,10 +78,10 @@ namespace ghost
     inline double cost( const vector< shared_ptr< Variable > >& vecVariables ) const
     { return required_cost( vecVariables ); }
 
-    //! Inline function following the NVI idiom. Calling expert_heuristicVariable.
-    //! \sa expert_heuristic_variable
-    inline shared_ptr< Variable > heuristic_variable( const vector< shared_ptr< Variable > >& vecVariables ) const
-    { return expert_heuristic_variable( vecVariables ); }
+    // //! Inline function following the NVI idiom. Calling expert_heuristicVariable.
+    // //! \sa expert_heuristic_variable
+    // inline shared_ptr< Variable > heuristic_variable( const vector< shared_ptr< Variable > >& vecVariables ) const
+    // { return expert_heuristic_variable( vecVariables ); }
     
     //! Inline function following the NVI idiom. Calling expert_heuristicValue.
     //! \sa expert_heuristic_value
@@ -121,13 +121,13 @@ namespace ghost
      */
     virtual double required_cost( const vector< shared_ptr< Variable > >& vecVariables ) const = 0;
 
-    //! Virtual function to apply the variable heuristic used by the solver.
-    /*! 
-     * \param vecVariables The vector of variable objects of the CSP/COP.
-     * \return The address of a random variable in vecVariables
-     * \sa heuristic_variable
-     */
-    virtual shared_ptr< Variable > expert_heuristic_variable( const vector< shared_ptr< Variable > >& vecVariables ) const;
+    // //! Virtual function to apply the variable heuristic used by the solver.
+    // /*! 
+    //  * \param vecVariables The vector of variable objects of the CSP/COP.
+    //  * \return The address of a random variable in vecVariables
+    //  * \sa heuristic_variable
+    //  */
+    // virtual shared_ptr< Variable > expert_heuristic_variable( const vector< shared_ptr< Variable > >& vecVariables ) const;
 
     //! Virtual function to apply the value heuristic used by the solver.
     /*! 
@@ -215,10 +215,10 @@ namespace ghost
   private:
     double required_cost( const vector< shared_ptr< Variable > >& vecVariables ) const override { return 0.; }
 
-    shared_ptr< Variable > expert_heuristic_variable( const vector< shared_ptr< Variable > >& vecVariables ) const override
-    {
-      return vecVariables[ random.get_random_number( vecVariables.size() ) ];
-    }
+    // shared_ptr< Variable > expert_heuristic_variable( const vector< shared_ptr< Variable > >& vecVariables ) const override
+    // {
+    //   return vecVariables[ random.get_random_number( vecVariables.size() ) ];
+    // }
 
     int expert_heuristic_value( const vector< shared_ptr< Variable > >& vecVariables,
 				shared_ptr< Variable > var,

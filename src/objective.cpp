@@ -39,10 +39,10 @@ Objective::Objective( const string& name )
   : name(name)
 { }
 
-shared_ptr< Variable > Objective::expert_heuristic_variable( const vector< shared_ptr< Variable > >& vecVariables ) const
-{
-  return vecVariables[ random.get_random_number( vecVariables.size() ) ];
-}
+// shared_ptr< Variable > Objective::expert_heuristic_variable( const vector< shared_ptr< Variable > >& vecVariables ) const
+// {
+//   return vecVariables[ random.get_random_number( vecVariables.size() ) ];
+// }
 
 int Objective::expert_heuristic_value( const vector< shared_ptr< Variable > >& vecVariables,
 				       shared_ptr< Variable > var,
