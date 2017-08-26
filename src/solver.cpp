@@ -135,28 +135,28 @@ bool Solver::solve( double& finalCost, vector<int>& finalSolution, double satTim
       
       bool freeVariables = false;
       decay_weak_tabu_list( freeVariables );
-      // Change the following by discrete distribution 
-      // worstVariableList = compute_worst_variables( freeVariables, costVariables );
 
-      // // If several variables share the same worst variable cost,
-      // // call Objective::heuristic_variable has a tie-break.
-      // // By default, Objective::heuristic_variable returns a random variable
-      // // among the vector of Variables given in argument.
-      // if( worstVariableList.size() > 1 )
-      // 	worstVariable = _objective->heuristic_variable( worstVariableList );
-      // else
-      // 	worstVariable = worstVariableList[0];
+      worstVariableList = compute_worst_variables( freeVariables, costVariables );
 
-      if( freeVariables )
-      {
-	discrete_distribution<int> distribution { costNonTabuVariables.begin(), costNonTabuVariables.end() };
-	worstVariable = _vecVariables[ distribution( rng ) ];
-      }
+      // If several variables share the same worst variable cost,
+      // call Objective::heuristic_variable has a tie-break.
+      // By default, Objective::heuristic_variable returns a random variable
+      // among the vector of Variables given in argument.
+      if( worstVariableList.size() > 1 )
+      	worstVariable = _objective->heuristic_variable( worstVariableList );
       else
-      {
-	discrete_distribution<int> distribution { costVariables.begin(), costVariables.end() };
-	worstVariable = _vecVariables[ distribution( rng ) ];
-      }
+      	worstVariable = worstVariableList[0];
+
+      // if( freeVariables )
+      // {
+      // 	discrete_distribution<int> distribution { costNonTabuVariables.begin(), costNonTabuVariables.end() };
+      // 	worstVariable = _vecVariables[ distribution( rng ) ];
+      // }
+      // else
+      // {
+      // 	discrete_distribution<int> distribution { costVariables.begin(), costVariables.end() };
+      // 	worstVariable = _vecVariables[ distribution( rng ) ];
+      // }
       
       if( _permutationProblem )
 	permutation_move( worstVariable, costConstraints, costVariables, costNonTabuVariables, currentSatCost );
