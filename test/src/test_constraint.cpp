@@ -2,9 +2,8 @@
 #include "gtest/gtest.h"
 
 #include <vector>
-#include <memory>
 
-class MyConstraint : public ghost::Constraint
+class MyConstraint : public ghost::Constraint<ghost::Variable>
 {
   double required_cost() const override
   {
@@ -14,29 +13,29 @@ class MyConstraint : public ghost::Constraint
 public:
   MyConstraint() = default;
   
-  MyConstraint( const std::vector< shared_ptr< ghost::Variable > >& variables )
+  MyConstraint( const std::vector< ghost::Variable >& variables )
     : Constraint( variables ) {}
 
-  shared_ptr< ghost::Variable > get_var( int index ) const { return variables[index]; }
+  ghost::Variable get_var( int index ) const { return variables[index]; }
 };
 
 class ConstraintTest : public ::testing::Test
 {
 public:
-  shared_ptr< ghost::Variable > var1;
-  shared_ptr< ghost::Variable > var2;
-  shared_ptr< ghost::Variable > var3;
+  ghost::Variable var1;
+  ghost::Variable var2;
+  ghost::Variable var3;
   
   MyConstraint *ctr1;
   MyConstraint *ctr2;
 
   ConstraintTest()
-    : var1 ( make_shared<ghost::Variable>( "v1", "v1", 0, std::vector<int>{1,3,5,7,9}, 0 ) ),
-      var2 ( make_shared<ghost::Variable>( "v2", "v2", 0, std::vector<int>{2,4,6,8}, 0 ) ),
-      var3 ( make_shared<ghost::Variable>( "v3", "v3", 0, std::vector<int>{1,2,3,4,5,6,7,8,9}, 0 ) )
+    : var1 ( { "v1", "v1", 0, std::vector<int>{1,3,5,7,9}, 0 } ),
+      var2 ( { "v2", "v2", 0, std::vector<int>{2,4,6,8}, 0 } ),
+      var3 ( { "v3", "v3", 0, std::vector<int>{1,2,3,4,5,6,7,8,9}, 0 } )
   {
-    ctr1 = new MyConstraint( std::vector< shared_ptr< ghost::Variable > >{ var1, var2 } );
-    ctr2 = new MyConstraint( std::vector< shared_ptr< ghost::Variable > >{ var1, var3 } );
+    ctr1 = new MyConstraint( { var1, var2 } );
+    ctr2 = new MyConstraint( { var1, var3 } );
   }
 
   ~ConstraintTest()
@@ -73,12 +72,12 @@ TEST_F(ConstraintTest, Copy)
   EXPECT_TRUE( ctr_copy2.has_variable( var3 ) );
   EXPECT_FALSE( ctr_copy2.has_variable( var2 ) );
 
-  EXPECT_EQ( ctr1->get_var(0)->get_id(), ctr_copy1.get_var(0)->get_id() );
-  EXPECT_EQ( ctr1->get_var(0)->get_value(), ctr_copy1.get_var(0)->get_value() );
-  ctr1->get_var(0)->set_value( 1 );
-  ctr_copy1.get_var(0)->set_value( 3 );
-  EXPECT_EQ( ctr1->get_var(0)->get_value(), 3 );
-  EXPECT_EQ( ctr_copy1.get_var(0)->get_value(), 3 );
+  EXPECT_EQ( ctr1->get_var(0).get_id(), ctr_copy1.get_var(0).get_id() );
+  EXPECT_EQ( ctr1->get_var(0).get_value(), ctr_copy1.get_var(0).get_value() );
+  ctr1->get_var(0).set_value( 1 );
+  ctr_copy1.get_var(0).set_value( 3 );
+  EXPECT_EQ( ctr1->get_var(0).get_value(), 3 );
+  EXPECT_EQ( ctr_copy1.get_var(0).get_value(), 3 );
 }
 
 TEST_F(ConstraintTest, has_variable)
