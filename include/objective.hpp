@@ -209,7 +209,7 @@ namespace ghost
   template <typename TypeVariable>
   class NullObjective : public Objective<TypeVariable>
   {
-    // using Objective<TypeVariable>::random;
+    using Objective<TypeVariable>::random;
     
   public:
     NullObjective() : Objective<TypeVariable>("nullObjective") { }

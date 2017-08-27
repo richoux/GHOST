@@ -36,7 +36,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 
 # add the library
-add_library(ghost SHARED src/variable.cpp src/domain.cpp src/constraint.cpp src/objective.cpp src/solver.cpp)
+add_library(ghost SHARED src/variable.cpp src/domain.cpp src/constraint.cpp src/solver.cpp)
 
 #gather headers list
 file(GLOB libHeadersList
