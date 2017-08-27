@@ -123,5 +123,42 @@ namespace ghost
     {
       return os << "Constraint type: " <<  typeid(c).name() << endl;
     }
-  };  
+  };
+
+  ////////////////////
+  // Implementation //
+  ////////////////////
+
+  template <typename TypeVariable>
+  Constraint<TypeVariable>::Constraint( const vector< TypeVariable >& variables )
+    : variables	( variables ),
+      id		( NBER_CTR++ )
+  { }
+  
+  template <typename TypeVariable>
+  Constraint<TypeVariable>::Constraint( const Constraint<TypeVariable> &other )
+    : variables	( other.variables ),
+      id		( other.id )
+  { }
+  
+  // Constraint& Constraint::operator=( Constraint other )
+  // {
+  //   this->swap( other );
+  //   return *this;
+  // }
+  
+  // void Constraint::swap( Constraint &other )
+  // {
+  //   swap( this->variables, other.variables );
+  //   swap( this->id, other.id );
+  // }
+  
+  template <typename TypeVariable>
+  bool Constraint<TypeVariable>::has_variable( const TypeVariable& var ) const
+  {
+    auto it = find_if( variables.cbegin(),
+		       variables.cend(),
+		       [&]( auto& v ){ return v.get_id() == var.get_id(); } );
+    return it != variables.cend();
+  }  
 }
