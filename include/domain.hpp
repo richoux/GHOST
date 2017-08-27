@@ -58,12 +58,6 @@ namespace ghost
     Random		_random;	//!< A random generator used by the function randomValue. 
         
   public:
-    //! Domain constructor.
-    /*!
-     * Basic constructor taking the outside-the-scope value (-1 by default).
-     */
-    Domain( int outsideScope = -1 );
-    
     //! First Domain constructor.
     /*!
      * Constructor taking a vector of integer values the outside-the-scope value (-1 by default), to 
