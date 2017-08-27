@@ -92,11 +92,11 @@ namespace ghost
      * \param outsideScope An integer representing all values outside the domain scope (-1 by default).
      * \sa Domain
      */
-    Variable( const string&		name,
-	      const string&		shortName,
-	      int			index,
-	      const vector<int>&	domain,
-	      int			outsideScope = -1 );
+    Variable( const string&	name,
+	      const string&	shortName,
+	      int		index,
+	      vector<int>	domain,
+	      int		outsideScope = -1 );
     
     //! Second Variable constructor, with a size and a starting value for the domain.
     /*!

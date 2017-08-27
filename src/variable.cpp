@@ -45,7 +45,7 @@ Variable::Variable( const string& name, const string& shortName, const Domain& d
     index	( index )
 { }
 
-Variable::Variable( const string& name, const string& shortName, int index, const vector<int>& domain, int outsideScope )
+Variable::Variable( const string& name, const string& shortName, int index, vector<int> domain, int outsideScope )
   : Variable( name, shortName, { domain, outsideScope }, index )
 { }
 
