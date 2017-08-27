@@ -54,10 +54,11 @@ Domain::Domain( int size, int startValue )
 }
 
 Domain::Domain( const Domain &other )
-  : _currentDomain( other._currentDomain ),
-    _outsideScope( other._outsideScope ),
+  : _outsideScope( other._outsideScope ),
     _random( other._random )
-{ }
+{
+  std::copy( other._currentDomain.begin(), other._currentDomain.end(), _currentDomain.begin() );
+}
 
 Domain& Domain::operator=( Domain other )
 {

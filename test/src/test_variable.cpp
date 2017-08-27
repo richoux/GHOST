@@ -34,19 +34,19 @@ TEST_F(VariableTest, IDs)
 TEST_F(VariableTest, Copy)
 {
   ghost::Variable var_copy1( *var_ctor3 );
-  ghost::Variable var_copy2;
+  ghost::Variable var_copy2( *var_ctor3 );
   var_copy2 = *var_ctor2;
   
-  EXPECT_EQ( var_copy1.get_id(), 3 );
-  EXPECT_EQ( var_copy2.get_id(), 4 );
-  EXPECT_EQ( var_ctor1->get_id(), 3 );
-  EXPECT_EQ( var_ctor2->get_id(), 4 );
+  EXPECT_EQ( var_copy1.get_id(), 5 );
+  EXPECT_EQ( var_copy2.get_id(), 3 );
+  EXPECT_EQ( var_ctor3->get_id(), 5 );
+  EXPECT_EQ( var_ctor2->get_id(), 3 );
 
   EXPECT_EQ( var_copy1.get_name(), "Julie" );
   EXPECT_EQ( var_copy2.get_name(), "Leo" );
 
-  EXPECT_EQ( var_copy1.get_short_name(), "T" );
-  EXPECT_EQ( var_copy2.get_short_name(), "J" );
+  EXPECT_EQ( var_copy1.get_short_name(), "J" );
+  EXPECT_EQ( var_copy2.get_short_name(), "L" );
 
   EXPECT_EQ( var_copy2.get_value(), 1 );
   var_copy2.shift_value();

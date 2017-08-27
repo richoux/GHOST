@@ -14,7 +14,6 @@ public:
 
   DomainTest()
   {
-    domainOS5 = new ghost::Domain( 5 );
     domainOS4 = new ghost::Domain( v, 4 );
     domain_size5 = new ghost::Domain( v );
     domain_from1to3 = new ghost::Domain( 3, 1 );
@@ -22,7 +21,6 @@ public:
 
   ~DomainTest()
   {
-    delete domainOS5;
     delete domainOS4;
     delete domain_size5;
     delete domain_from1to3;     
@@ -37,14 +35,6 @@ public:
   }
 };
 
-TEST_F(DomainTest, isInitialized)
-{
-  EXPECT_FALSE( domainOS5->is_initialized() );
-  EXPECT_TRUE( domainOS4->is_initialized() );
-  EXPECT_TRUE( domain_size5->is_initialized() );
-  EXPECT_TRUE( domain_from1to3->is_initialized() );
-}
-
 TEST(DomainThrowTest, ThrowException)
 {
   std::vector< int > v {1,3,5,7,9};  
@@ -53,7 +43,6 @@ TEST(DomainThrowTest, ThrowException)
 
 TEST_F(DomainTest, getOutsideScope)
 {
-  EXPECT_EQ( domainOS5->get_outside_scope(), 5 );
   EXPECT_EQ( domainOS4->get_outside_scope(), 4 );
   EXPECT_EQ( domain_size5->get_outside_scope(), -1 );
   EXPECT_EQ( domain_from1to3->get_outside_scope(), 0 );

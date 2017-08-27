@@ -81,7 +81,7 @@ namespace ghost
     int		index;		//!< The domain's index corresponding to the current value of the variable.
     
   public:
-    Variable() = default;
+    Variable() = delete;
 
     //! First Variable constructor, with the vector of domain values and the outside-the-scope value.
     /*!

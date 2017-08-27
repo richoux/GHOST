@@ -89,23 +89,29 @@ namespace ghost
      */
     Constraint( const vector< TypeVariable >& variables );
 
-    //! Constraint copy constructor
-    /*!
-     * \param other A reference to a TypeVariable object.
-     */
-    Constraint( const Constraint<TypeVariable> &other );
+    // //! Constraint copy constructor
+    // /*!
+    //  * \param other A reference to a TypeVariable object.
+    //  */
+    // Constraint( const Constraint<TypeVariable> &other );
 
+    Constraint( const Constraint<TypeVariable> &other ) = delete;
+    
     // //! Constraint's copy assignment operator
     // /*!
     //  * The copy-and-swap idiom is applyed here.
     //  * 
     //  * \param other A Constraint object.
     //  */
-    // Constraint& operator=( Constraint other );
+    // Constraint<TypeVariable>& operator=( const Constraint<TypeVariable>& other );
+
+    Constraint<TypeVariable>& operator=( const Constraint<TypeVariable>& other ) = delete;
     
     //! Default Constraint destructor.
     virtual ~Constraint() = default;
 
+
+    
     //! Inline function following the NVI idiom. Calling v_cost.
     //! \sa required_cost
     inline double cost() const { return required_cost(); }
@@ -135,25 +141,22 @@ namespace ghost
   template <typename TypeVariable>
   Constraint<TypeVariable>::Constraint( const vector< TypeVariable >& variables )
     : variables	( variables ),
-      id		( NBER_CTR++ )
+      id	( NBER_CTR++ )
   { }
   
-  template <typename TypeVariable>
-  Constraint<TypeVariable>::Constraint( const Constraint<TypeVariable> &other )
-    : variables	( other.variables ),
-      id		( other.id )
-  { }
-  
-  // Constraint& Constraint::operator=( Constraint other )
+  // template <typename TypeVariable>
+  // Constraint<TypeVariable>::Constraint( const Constraint<TypeVariable> &other )
+  //   : id ( other.id )
   // {
-  //   this->swap( other );
-  //   return *this;
+  //   std::copy( other.variables.begin(), other.variables.end(), variables.begin() );
   // }
   
-  // void Constraint::swap( Constraint &other )
+  // template <typename TypeVariable>
+  // Constraint<TypeVariable>& Constraint<TypeVariable>::operator=( const Constraint<TypeVariable>& other )
   // {
-  //   swap( this->variables, other.variables );
-  //   swap( this->id, other.id );
+  //   id = other.id;
+  //   std::copy( other.variables.begin(), other.variables.end(), variables.begin() );
+  //   return *this;
   // }
   
   template <typename TypeVariable>

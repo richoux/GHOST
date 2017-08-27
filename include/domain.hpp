@@ -56,7 +56,10 @@ namespace ghost
     vector< int >	_currentDomain;	//!< Vector of integers containing the current values of the domain.
     int			_outsideScope;	//!< Value representing all values outside the scope of the domain
     Random		_random;	//!< A random generator used by the function randomValue. 
-        
+    
+    //! For the copy-and-swap idiom
+    void swap( Domain &other );
+
   public:
     //! First Domain constructor.
     /*!
@@ -80,9 +83,6 @@ namespace ghost
     Domain( const Domain &other );
 
     Domain& operator=( Domain other );
-
-    //! For the copy-and-swap idiom
-    void swap( Domain &other );
 
     //! Default Domain destructor.
     virtual ~Domain() = default;

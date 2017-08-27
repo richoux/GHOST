@@ -74,10 +74,15 @@ TEST_F(ConstraintTest, Copy)
 
   EXPECT_EQ( ctr1->get_var(0).get_id(), ctr_copy1.get_var(0).get_id() );
   EXPECT_EQ( ctr1->get_var(0).get_value(), ctr_copy1.get_var(0).get_value() );
+  ctr2->get_var(0).set_value( 5 );
   ctr1->get_var(0).set_value( 1 );
   ctr_copy1.get_var(0).set_value( 3 );
-  EXPECT_EQ( ctr1->get_var(0).get_value(), 3 );
+  EXPECT_EQ( ctr1->get_var(0).get_value(), 1 );
+  EXPECT_EQ( ctr2->get_var(0).get_value(), 1 );
   EXPECT_EQ( ctr_copy1.get_var(0).get_value(), 3 );
+
+  ctr_copy2.get_var(0).set_value( 7 );
+  EXPECT_EQ( ctr_copy2.get_var(0).get_value(), 7 );
 }
 
 TEST_F(ConstraintTest, has_variable)
