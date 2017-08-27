@@ -130,6 +130,9 @@ namespace ghost
   ////////////////////
 
   template <typename TypeVariable>
+  int Constraint<TypeVariable>::NBER_CTR = 0;
+
+  template <typename TypeVariable>
   Constraint<TypeVariable>::Constraint( const vector< TypeVariable >& variables )
     : variables	( variables ),
       id		( NBER_CTR++ )
