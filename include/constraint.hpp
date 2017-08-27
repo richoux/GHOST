@@ -32,7 +32,6 @@
 
 #include <vector>
 #include <iostream>
-#include <memory>
 #include <typeinfo>
 
 #include "variable.hpp"
@@ -64,8 +63,7 @@ namespace ghost
    * \sa Variable
    */
 
-  /////////////////////////
-  // Bonne idée de faire sans template ?
+  template <typename TypeVariable>
   class Constraint
   {
     static int NBER_CTR;
@@ -74,8 +72,8 @@ namespace ghost
     // void swap( Constraint &other );
 
   protected:
-    vector< shared_ptr< Variable > >	variables;	//!< The vector of variable pointers compositing the CSP/COP.
-    int					id;		//!< Unique ID integer
+    vector< TypeVariable >	variables;	//!< The vector of variable pointers compositing the CSP/COP.
+    int				id;		//!< Unique ID integer
 
     //! Pure virtual function to compute the current cost of the constraint.
     //! WARNING: do not implement side effect in this function. It will be called by the solver
@@ -89,13 +87,13 @@ namespace ghost
     /*!
      * \param variables The vector of variable pointers composition the CSP/COP.
      */
-    Constraint( const vector< shared_ptr< Variable > >& variables );
+    Constraint( const vector< TypeVariable >& variables );
 
     //! Constraint copy constructor
     /*!
-     * \param other A reference to a Variable object.
+     * \param other A reference to a TypeVariable object.
      */
-    Constraint( const Constraint &other );
+    Constraint( const Constraint<TypeVariable> &other );
 
     // //! Constraint's copy assignment operator
     // /*!
@@ -115,18 +113,13 @@ namespace ghost
     //! Given a variable, does this variable composes the constraint?
     //! \param var A variable.
     //! \return True iff the constraint contains var 
-    bool has_variable( const shared_ptr< Variable > var ) const;
-
-    //! Given a variable, does this variable composes the constraint?
-    //! \param var A variable.
-    //! \return True iff the constraint contains var 
-    vector< shared_ptr< Variable > >::const_iterator get_variable_iterator( const shared_ptr< Variable > var ) const;
+    bool has_variable( const TypeVariable& var ) const;
 
     //! Inline function to get the unique id of the Constraint object.
     inline int get_id() const { return id; }
 
     //! friend override of operator<<
-    friend ostream& operator<<( ostream& os, const Constraint& c )
+    friend ostream& operator<<( ostream& os, const Constraint<TypeVariable>& c )
     {
       return os << "Constraint type: " <<  typeid(c).name() << endl;
     }

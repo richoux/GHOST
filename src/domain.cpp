@@ -57,6 +57,25 @@ Domain::Domain( int size, int startValue )
   iota( begin( _currentDomain ), end( _currentDomain ), startValue );
 }
 
+Domain::Domain( const Domain &other )
+  : _currentDomain( other._currentDomain ),
+    _outsideScope( other._outsideScope ),
+    _random( other._random )
+{ }
+
+Domain& Domain::operator=( Domain other )
+{
+  this->swap( other );
+  return *this;
+}
+
+void Domain::swap( Domain &other )
+{
+  std::swap( this->_currentDomain, other._currentDomain );
+  std::swap( this->_outsideScope, other._outsideScope );
+  std::swap( this->_random, other._random );
+}  
+
 int Domain::get_value( int index ) const
 {
   if( index >=0 && index < (int)_currentDomain.size() )

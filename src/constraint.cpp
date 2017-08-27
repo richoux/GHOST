@@ -34,14 +34,17 @@
 using namespace std;
 using namespace ghost;
 
-int Constraint::NBER_CTR = 0;
+template <typename TypeVariable>
+int Constraint<TypeVariable>::NBER_CTR = 0;
 
-Constraint::Constraint( const vector< shared_ptr< Variable > >& variables )
+template <typename TypeVariable>
+Constraint<TypeVariable>::Constraint( const vector< TypeVariable >& variables )
   : variables	( variables ),
     id		( NBER_CTR++ )
 { }
 
-Constraint::Constraint( const Constraint &other )
+template <typename TypeVariable>
+Constraint<TypeVariable>::Constraint( const Constraint<TypeVariable> &other )
   : variables	( other.variables ),
     id		( other.id )
 { }
@@ -58,14 +61,11 @@ Constraint::Constraint( const Constraint &other )
 //   swap( this->id, other.id );
 // }
 
-bool Constraint::has_variable( const shared_ptr< Variable > var ) const
+template <typename TypeVariable>
+bool Constraint<TypeVariable>::has_variable( const TypeVariable& var ) const
 {
-  return get_variable_iterator( var ) != variables.cend();
-}
-
-vector< shared_ptr< Variable > >::const_iterator Constraint::get_variable_iterator( const shared_ptr< Variable > var ) const
-{
-  return find_if( variables.cbegin(),
-		  variables.cend(),
-		  [&]( auto& v ){ return v->get_id() == var->get_id(); } );
+  auto it = find_if( variables.cbegin(),
+		     variables.cend(),
+		     [&]( auto& v ){ return v.get_id() == var.get_id(); } );
+  return it != variables.cend();
 }

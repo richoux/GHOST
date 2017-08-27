@@ -31,6 +31,7 @@
 #pragma once
 
 #include <random>
+#include <algorithm>
 
 using namespace std;
 
@@ -51,6 +52,23 @@ namespace ghost
     
   public:
     Random() : _rng( _rd() ) { }
+
+    Random( const Random &other )
+      : _rng( _rd() )
+    { }
+    
+    Random& operator=( Random other )
+    {
+      this->swap( other );
+      return *this;
+    }
+
+    void swap( Random &other )
+    {
+      std::swap( this->_rng, other._rng );
+    }  
+
+    ~Random() = default;
 
     //! Inline function to return a random value in [0, limit[
     /*!

@@ -37,7 +37,7 @@ using namespace ghost;
 
 int Variable::NBER_VAR = 0;
 
-Variable::Variable( const string& name, const string& shortName, shared_ptr<Domain> domain, int index )
+Variable::Variable( const string& name, const string& shortName, const Domain& domain, int index )
   : _id		( NBER_VAR++ ),
     name	( name ),
     shortName	( shortName ),
@@ -45,16 +45,12 @@ Variable::Variable( const string& name, const string& shortName, shared_ptr<Doma
     index	( index )
 { }
 
-Variable::Variable( const string& name, const string& shortName )
-  : Variable( name, shortName, nullptr, -1 )
-{ }
-
 Variable::Variable( const string& name, const string& shortName, int index, const vector<int>& domain, int outsideScope )
-  : Variable( name, shortName, make_shared<Domain>( domain, outsideScope ), index )
+  : Variable( name, shortName, { domain, outsideScope }, index )
 { }
 
 Variable::Variable( const string& name, const string& shortName, int index, int size, int startValue )
-  : Variable( name, shortName, make_shared<Domain>( size, startValue ), index )
+  : Variable( name, shortName, { size, startValue }, index )
 { }
 
 Variable::Variable( const Variable &other )
@@ -76,46 +72,38 @@ void Variable::swap( Variable &other )
   std::swap( this->_id, other._id );
   std::swap( this->name, other.name );
   std::swap( this->shortName, other.shortName );
-  domain = std::move( other.domain );
+  std::swap( this->domain, other.domain );
   std::swap( this->index, other.index );
 }  
 
-bool Variable::has_initialized_domain() const
-{
-  if( !domain )
-    return false;
-  else
-    return domain->is_initialized();
-}
-
 void Variable::do_random_initialization()
 {
-  set_value( domain->random_value() );
+  set_value( domain.random_value() );
 }
 
 void Variable::shift_value()
 {
   if( index >= 0 )
-    index = index < (int)domain->get_size() - 1 ? index + 1 : 0;
+    index = index < (int)domain.get_size() - 1 ? index + 1 : 0;
 }
 
 void Variable::unshift_value()
 {
   if( index >= 0 )
-    index = index > 0 ? index - 1 : domain->get_size() - 1;
+    index = index > 0 ? index - 1 : domain.get_size() - 1;
 }
 
 vector<int> Variable::possible_values() const
 {
   vector<int> possibleValues;
   
-  for( int i = 0 ; i < (int)domain->get_size() ; ++i )
-    possibleValues.push_back( domain->get_value( i ) );
+  for( int i = 0 ; i < (int)domain.get_size() ; ++i )
+    possibleValues.push_back( domain.get_value( i ) );
   
   return possibleValues;
 }    
 
 bool Variable::is_assigned() const
 {
-  return get_value() != domain->get_outside_scope();
+  return get_value() != domain.get_outside_scope();
 }

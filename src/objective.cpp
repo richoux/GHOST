@@ -35,28 +35,31 @@
 using namespace std;
 using namespace ghost;
 
-Objective::Objective( const string& name )
+template <typename TypeVariable>
+Objective<TypeVariable>::Objective( const string& name )
   : name(name)
 { }
 
-shared_ptr< Variable > Objective::expert_heuristic_variable( const vector< shared_ptr< Variable > >& vecVariables ) const
+template <typename TypeVariable>
+TypeVariable Objective<TypeVariable>::expert_heuristic_variable( const vector< TypeVariable >& vecVariables ) const
 {
   return vecVariables[ random.get_random_number( vecVariables.size() ) ];
 }
 
-int Objective::expert_heuristic_value( const vector< shared_ptr< Variable > >& vecVariables,
-				       shared_ptr< Variable > var,
-				       const vector< int >& valuesList ) const
+template <typename TypeVariable>
+int Objective<TypeVariable>::expert_heuristic_value( const vector< TypeVariable >& vecVariables,
+						     TypeVariable& var,
+						     const vector< int >& valuesList ) const
 {
   double minCost = numeric_limits<double>::max();
   double simulatedCost;
 
+  int backup = var.get_value();
   vector<int> bestValues;
-  int backup = var->get_value();
   
   for( auto& v : valuesList )
   {
-    var->set_value( v );
+    var.set_value( v );
     simulatedCost = cost( vecVariables );
 
     if( minCost > simulatedCost )
@@ -69,13 +72,14 @@ int Objective::expert_heuristic_value( const vector< shared_ptr< Variable > >& v
       if( minCost == simulatedCost )
 	bestValues.push_back( v );
   }
-  
-  var->set_value( backup );
 
+  var.set_value( backup );
+  
   return bestValues[ random.get_random_number( bestValues.size() ) ];
 }
 
-shared_ptr< Variable > Objective::expert_heuristic_value( const vector< shared_ptr< Variable > >& variablesList ) const
+template <typename TypeVariable>
+TypeVariable Objective<TypeVariable>::expert_heuristic_value( const vector< TypeVariable >& variablesList ) const
 {
   return variablesList[ random.get_random_number( variablesList.size() ) ];
 }

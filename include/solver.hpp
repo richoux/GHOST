@@ -32,15 +32,6 @@
 
 #include <vector>
 #include <map>
-#include <memory>
-#include <cmath>
-#include <chrono>
-#include <ctime>
-#include <limits>
-#include <algorithm>
-#include <functional>
-#include <cassert>
-#include <typeinfo>
 
 #include "variable.hpp"
 #include "constraint.hpp"
@@ -74,11 +65,12 @@ namespace ghost
    *
    * \sa Variable, Domain, Constraint, Objective
    */
+  template <typename TypeVariable>
   class Solver
   {
-    vector< shared_ptr< Variable > >	_vecVariables;	//!< Vector of (shared pointers of) variable of the CSP/COP.
-    vector< shared_ptr< Constraint > >	_vecConstraints; //!< The vector of (shared pointers of) constraints of the CSP/COP.
-    shared_ptr< Objective >		_objective;	//!< The shared pointer of the objective function.
+    vector< TypeVariable >		_vecVariables;	//!< Vector of (shared pointers of) variable of the CSP/COP.
+    vector< Constraint<TypeVariable> >	_vecConstraints; //!< The vector of (shared pointers of) constraints of the CSP/COP.
+    Objective<TypeVariable>		_objective;	//!< The shared pointer of the objective function.
 
     vector<int>	_weakTabuList;		//!< The weak tabu list, frozing used variables for tabuTime iterations. 
     Random	_randomVar;		//!< The random generator used by the solver.
@@ -90,7 +82,7 @@ namespace ghost
 
     /////////////////////////
     // Bonne idée de mettre mutable ici ? On peut s'en débarasser ?
-    mutable map< shared_ptr< Variable >, vector< shared_ptr< Constraint > > > _mapVarCtr;	//!< Map to know in which constraints are each variable.
+    mutable map< TypeVariable, vector< Constraint<TypeVariable> > > _mapVarCtr;	//!< Map to know in which constraints are each variable.
     // map<Variable, vector< pair< shared_ptr< Constraint >, vector< Variable* >::iterator> >
     // _mapVarCtr;	//!< Map to know in which constraints are each variable.
 
@@ -115,7 +107,7 @@ namespace ghost
     //! Compute and return the vector containing worst variables,
     //! ie, variables with the highest variable cost.
     //! \return A vector of worst variables
-    vector< shared_ptr< Variable > > compute_worst_variables( bool freeVariables, const vector<double>& costVariables ) const;
+    vector< TypeVariable > compute_worst_variables( bool freeVariables, const vector<double>& costVariables ) const;
 
     //! Compute the cost of each constraints
     //! \param costConstraints The vector to be filled by this function.
@@ -131,20 +123,20 @@ namespace ghost
 				  vector<double>& costNonTabuVariables ) const;
 
     // Compute incrementally the now global cost IF we change the value of 'variable' by 'value' with a local move.
-    double simulate_local_move_cost( shared_ptr< Variable > variable,
+    double simulate_local_move_cost( TypeVariable& variable,
 				     double value,
 				     vector<double>& costConstraints,
 				     double currentSatCost ) const;
 
     // Compute incrementally the now global cost IF we swap values of 'variable' with another variable.
-    double simulate_permutation_cost( shared_ptr< Variable > worstVariable,
-				      shared_ptr< Variable > otherVariable,
+    double simulate_permutation_cost( TypeVariable& worstVariable,
+				      TypeVariable& otherVariable,
 				      vector<double>& costConstraints,
 				      double currentSatCost ) const;
 
     //! Function to make a local move, ie, to assign a given
     //! value to a given variable
-    void local_move( shared_ptr< Variable > variable,
+    void local_move( TypeVariable& variable,
 		     vector<double>& costConstraints,
 		     vector<double>& costVariables,
 		     vector<double>& costNonTabuVariables,
@@ -152,7 +144,7 @@ namespace ghost
 
     //! Function to make a permutation move, ie, to assign a given
     //! variable to a new position
-    void permutation_move( shared_ptr< Variable > variable,
+    void permutation_move( TypeVariable& variable,
 			   vector<double>& costConstraints,
 			   vector<double>& costVariables,
 			   vector<double>& costNonTabuVariables,
@@ -167,9 +159,9 @@ namespace ghost
      * \param obj A reference to the shared pointer of an Objective object. Default value is nullptr.
      * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
      */
-    Solver( const vector< shared_ptr< Variable > >& vecVariables, 
-	    const vector< shared_ptr< Constraint > >& vecConstraints,
-	    shared_ptr< Objective > obj,
+    Solver( const vector< TypeVariable >& vecVariables, 
+	    const vector< Constraint<TypeVariable> >& vecConstraints,
+	    Objective<TypeVariable> obj,
 	    bool permutationProblem = false );
 
     //! Second Solver's constructor
@@ -180,8 +172,8 @@ namespace ghost
      * \param vecConstraints A constant reference to the vector of shared pointers of Constraint
      * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
      */
-    Solver( const vector< shared_ptr< Variable > >& vecVariables, 
-	    const vector< shared_ptr< Constraint > >& vecConstraints,
+    Solver( const vector< TypeVariable >& vecVariables, 
+	    const vector< Constraint<TypeVariable> >& vecConstraints,
 	    bool permutationProblem = false );
 
     //! Solver's main function, to solve the given CSP/COP.

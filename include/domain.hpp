@@ -79,6 +79,20 @@ namespace ghost
      */
     Domain( int size, int startValue );
 
+    //! Domain copy constructor
+    /*!
+     * \param other A reference to a Domain object.
+     */
+    Domain( const Domain &other );
+
+    Domain& operator=( Domain other );
+
+    //! For the copy-and-swap idiom
+    void swap( Domain &other );
+
+    //! Default Domain destructor.
+    virtual ~Domain() = default;
+    
     //! Inline function to know if the domain has been initialized.
     /*!
      * Used to know if the Domain object is just an empty shell or a properly 

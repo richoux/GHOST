@@ -64,6 +64,7 @@ namespace ghost
    *
    * \sa Variable
    */
+  template <typename TypeVariable>
   class Objective
   {
   public:
@@ -75,36 +76,36 @@ namespace ghost
 
     //! Inline function following the NVI idiom. Calling v_cost.
     //! \sa required_cost
-    inline double cost( const vector< shared_ptr< Variable > >& vecVariables ) const
+    inline double cost( const vector< TypeVariable >& vecVariables ) const
     { return required_cost( vecVariables ); }
 
-    // //! Inline function following the NVI idiom. Calling expert_heuristicVariable.
+    // //! Inline function following the NVI idiom. Calling expert_heuristicTypeVariable.
     // //! \sa expert_heuristic_variable
-    inline shared_ptr< Variable > heuristic_variable( const vector< shared_ptr< Variable > >& vecVariables ) const
+    inline TypeVariable heuristic_variable( const vector< TypeVariable >& vecVariables ) const
     { return expert_heuristic_variable( vecVariables ); }
     
     //! Inline function following the NVI idiom. Calling expert_heuristicValue.
     //! \sa expert_heuristic_value
-    inline int heuristic_value( const vector< shared_ptr< Variable > >& vecVariables,
-				shared_ptr< Variable > var,
+    inline int heuristic_value( const vector< TypeVariable >& vecVariables,
+				TypeVariable& var,
 				const vector< int >& valuesList ) const
     { return expert_heuristic_value( vecVariables, var, valuesList ); }
 
     //! Inline function following the NVI idiom. Calling expert_heuristicValue.
     //! \sa expert_heuristic_value
-    inline shared_ptr< Variable > heuristic_value( const vector< shared_ptr< Variable > >& variablesList ) const
+    inline TypeVariable heuristic_value( const vector< TypeVariable >& variablesList ) const
     { return expert_heuristic_value( variablesList ); }
 
     //! Inline function following the NVI idiom. Calling expert_postprocessSatisfaction.
     //! \sa expert_postprocess_satisfaction
-    inline void postprocess_satisfaction( const vector< shared_ptr< Variable > >& vecVariables,
+    inline void postprocess_satisfaction( const vector< TypeVariable >& vecVariables,
 					  double& bestCost,
 					  vector< int >& bestSolution ) const
     { expert_postprocess_satisfaction( vecVariables, bestCost, bestSolution ); }
 
     //! Inline function following the NVI idiom. Calling expert_postprocessOptimization.
     //! \sa expert_postprocess_optimization
-    inline void postprocess_optimization( const vector< shared_ptr< Variable > >& vecVariables,
+    inline void postprocess_optimization( const vector< TypeVariable >& vecVariables,
 					  double& bestCost,
 					  vector< int >& bestSolution ) const
     { expert_postprocess_optimization( vecVariables, bestCost, bestSolution ); }
@@ -119,7 +120,7 @@ namespace ghost
      * \return The value of the objective function on the current configuration.
      * \sa cost
      */
-    virtual double required_cost( const vector< shared_ptr< Variable > >& vecVariables ) const = 0;
+    virtual double required_cost( const vector< TypeVariable >& vecVariables ) const = 0;
 
     //! Virtual function to apply the variable heuristic used by the solver.
     /*! 
@@ -127,7 +128,7 @@ namespace ghost
      * \return The address of a random variable in vecVariables
      * \sa heuristic_variable
      */
-    virtual shared_ptr< Variable > expert_heuristic_variable( const vector< shared_ptr< Variable > >& vecVariables ) const;
+    virtual TypeVariable expert_heuristic_variable( const vector< TypeVariable >& vecVariables ) const;
 
     //! Virtual function to apply the value heuristic used by the solver.
     /*! 
@@ -142,8 +143,8 @@ namespace ghost
      * \return The selected value according to the heuristic.
      * \sa heuristic_value, Random
      */
-    virtual int	expert_heuristic_value( const vector< shared_ptr< Variable > >& vecVariables,
-					shared_ptr< Variable > var,
+    virtual int	expert_heuristic_value( const vector< TypeVariable >& vecVariables,
+					TypeVariable& var,
 					const vector< int >& valuesList ) const;
 
     //! Virtual function to apply the value heuristic used by the solver.
@@ -159,7 +160,7 @@ namespace ghost
      * \return The selected value according to the heuristic.
      * \sa heuristic_value, Random
      */
-    virtual shared_ptr< Variable > expert_heuristic_value( const vector< shared_ptr< Variable > >& variablesList ) const;
+    virtual TypeVariable expert_heuristic_value( const vector< TypeVariable >& variablesList ) const;
 
     //! Virtual function to perform satisfaction post-processing.
     /*! 
@@ -174,7 +175,7 @@ namespace ghost
      * \param solution A reference to the vector of variables of the solution found by the solver.
      * \sa postprocess_satisfaction
      */
-    virtual void expert_postprocess_satisfaction( const vector< shared_ptr< Variable > >& vecVariables,
+    virtual void expert_postprocess_satisfaction( const vector< TypeVariable >& vecVariables,
 						  double& bestCost,
 						  vector< int >& solution ) const
     { }
@@ -195,7 +196,7 @@ namespace ghost
      * \param bestCost A reference the double representing the best optimization cost found by the solver so far.
      * \sa postprocess_optimization
      */
-    virtual void expert_postprocess_optimization( const vector< shared_ptr< Variable > >& vecVariables,
+    virtual void expert_postprocess_optimization( const vector< TypeVariable >& vecVariables,
 						  double& bestCost,
 						  vector< int >& bestSolution ) const
     { }
@@ -205,29 +206,30 @@ namespace ghost
   };
 
   //! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 
-  class NullObjective : public Objective
+  template <typename TypeVariable>
+  class NullObjective : public Objective<TypeVariable>
   {
-    using Objective::random;
+    using Objective<TypeVariable>::random;
     
   public:
-    NullObjective() : Objective("nullObjective") { }
+    NullObjective() : Objective<TypeVariable>("nullObjective") { }
 
   private:
-    double required_cost( const vector< shared_ptr< Variable > >& vecVariables ) const override { return 0.; }
+    double required_cost( const vector< TypeVariable >& vecVariables ) const override { return 0.; }
 
-    shared_ptr< Variable > expert_heuristic_variable( const vector< shared_ptr< Variable > >& vecVariables ) const override
+    TypeVariable expert_heuristic_variable( const vector< TypeVariable >& vecVariables ) const override
     {
       return vecVariables[ random.get_random_number( vecVariables.size() ) ];
     }
 
-    int expert_heuristic_value( const vector< shared_ptr< Variable > >& vecVariables,
-				shared_ptr< Variable > var,
+    int expert_heuristic_value( const vector< TypeVariable >& vecVariables,
+				TypeVariable& var,
 				const vector< int >& valuesList ) const override
     {
       return valuesList[ random.get_random_number( valuesList.size() ) ];
     }
 
-    shared_ptr< Variable > expert_heuristic_value( const vector< shared_ptr< Variable > >& variablesList ) const override
+    TypeVariable expert_heuristic_value( const vector< TypeVariable >& variablesList ) const override
     {
       return variablesList[ random.get_random_number( variablesList.size() ) ];
     }

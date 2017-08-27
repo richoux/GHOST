@@ -32,7 +32,6 @@
 
 #include <iostream>
 #include <vector>
-#include <memory>
 
 #include "domain.hpp"
 
@@ -69,23 +68,20 @@ namespace ghost
      */
     Variable( const string& name,
 	      const string& shortName,
-	      shared_ptr<Domain> domain,
+	      const Domain& domain,
 	      int index );
     
     //! For the copy-and-swap idiom
     void swap( Variable &other );
 
   protected:
-    string			name;		//!< A string to give a full name to the variable (for instance, "Barracks").
-    string			shortName;	//!< A string to give a shorten name to the variable (for instance, "B").
-    shared_ptr<Domain>		domain;		//!< A shared pointer on the variable domain.
-    int				index;		//!< The domain's index corresponding to the current value of the variable.
+    string	name;		//!< A string to give a full name to the variable (for instance, "Barracks").
+    string	shortName;	//!< A string to give a shorten name to the variable (for instance, "B").
+    Domain	domain;		//!< A shared pointer on the variable domain.
+    int		index;		//!< The domain's index corresponding to the current value of the variable.
     
   public:
     Variable() = default;
-
-    //! Short Variable constructor initializing the name and short name only.
-    Variable( const string& name, const string& shortName );
 
     //! First Variable constructor, with the vector of domain values and the outside-the-scope value.
     /*!
@@ -134,12 +130,6 @@ namespace ghost
     //! Default Variable destructor.
     virtual ~Variable() = default;
 
-    //! Function to know if the domain has been initialized.
-    /*!
-     * \return True if and only if the domain variable is initialized.
-     */
-    bool has_initialized_domain() const;
-
     //! Function initializing the variable to one random values of its domain.
     void do_random_initialization();
     
@@ -167,7 +157,7 @@ namespace ghost
     // Bonne idée de récupérer outsideScope ici ? Ça demande de savoir comment est fait Domain.
 
     //! Inline function to get the current value of the variable.
-    inline int get_value() const { return domain->get_value( index ); }
+    inline int get_value() const { return domain.get_value( index ); }
 
     
     /////////////////////////
@@ -178,7 +168,7 @@ namespace ghost
      * If the given value is not in the variable domain, then the variable value is set to the outsideScope value of the domain.
      * \param value An integer representing the new value to set.
      */
-    inline void	set_value( int value ) { index = domain->index_of( value ); }
+    inline void	set_value( int value ) { index = domain.index_of( value ); }
 
     //! Function to know if the variable has been assigned to a value of its domain or not.
     /*! 
@@ -202,7 +192,7 @@ namespace ghost
       return os
 	<< "Variable name: " << v.name
 	<< "\nShort name: " << v.shortName
-	<< "\nValue: " <<  v.domain->get_value( v.index )
+	<< "\nValue: " <<  v.domain.get_value( v.index )
 	<< "\n-------";
     }
   };
