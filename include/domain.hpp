@@ -1,3 +1,4 @@
+
 /*
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library 
  * designed to help developers to model and implement optimization problem 
@@ -57,7 +58,7 @@ namespace ghost
     int			_outsideScope;	//!< Value representing all values outside the scope of the domain
     Random		_random;	//!< A random generator used by the function randomValue. 
     
-    //! For the copy-and-swap idiom
+    // For the copy-and-swap idiom
     void swap( Domain &other );
 
   public:
@@ -82,23 +83,17 @@ namespace ghost
      */
     Domain( const Domain &other );
 
+    //! Domain's copy assignment operator
+    /*!
+     * The copy-and-swap idiom is applyed here.
+     * 
+     * \param other A Domain object.
+     */
     Domain& operator=( Domain other );
 
-    //! Default Domain destructor.
+    //! Virtual Domain destructor, in case one inherits from it.
     virtual ~Domain() = default;
     
-    //! Inline function to know if the domain has been initialized.
-    /*!
-     * Used to know if the Domain object is just an empty shell or a properly 
-     * initialized domain. In some cases, it can be convenient to instanciate 
-     * a domain object first and to fill it up with values latter.
-     * \return True if and only if the domain has been initialized (i.e., the current domain is not empty).
-     */
-    inline bool is_initialized() const
-    {
-      return !_currentDomain.empty();
-    }
-
     //! Inline function returning a random value from the domain.
     inline int random_value() const
     {
@@ -124,7 +119,6 @@ namespace ghost
       return _outsideScope;
     }
 
-
     /////////////////////////
     // Bonne idée de retourner outsideScope si on ne trouve pas la valeur ? 
     
@@ -141,10 +135,6 @@ namespace ghost
      */ 
     int index_of( int value ) const;
 
-    //! friend override of operator<<
-    /*!
-     * Prints on the standard output the current domain size and content.
-     */ 
     friend ostream& operator<<( ostream& os, const Domain& domain )
     {
       os << "Size: " <<  domain.get_size() << "\nCurrent domain: ";

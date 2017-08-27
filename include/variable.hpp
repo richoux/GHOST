@@ -56,22 +56,15 @@ namespace ghost
   {
     static int NBER_VAR;
     
-    int _id; //!< Unique ID integer
+    int _id; // Unique ID integer
     
-    //! The private Variable constructor
-    /*!
-     * \param name A string to give a full name to the variable (for instance, "Barracks").
-     * \param shortName A string to give a shorten name to the variable (for instance, "B").
-     * \param domain A shared pointer to a Domain object.
-     * \param index The domain's index corresponding to the variable initial value.
-     * \sa Domain
-     */
+    // The private Variable constructor
     Variable( const string& name,
 	      const string& shortName,
 	      const Domain& domain,
 	      int index );
     
-    //! For the copy-and-swap idiom
+    // For the copy-and-swap idiom
     void swap( Variable &other );
 
   protected:

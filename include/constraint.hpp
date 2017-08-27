@@ -66,10 +66,7 @@ namespace ghost
   template <typename TypeVariable>
   class Constraint
   {
-    static int NBER_CTR;
-
-    // //! For the copy-and-swap idiom
-    // void swap( Constraint &other );
+    static int NBER_CTR; 
 
   protected:
     vector< TypeVariable >	variables;	//!< The vector of variable pointers compositing the CSP/COP.
@@ -109,8 +106,6 @@ namespace ghost
     
     //! Default Constraint destructor.
     virtual ~Constraint() = default;
-
-
     
     //! Inline function following the NVI idiom. Calling v_cost.
     //! \sa required_cost
@@ -143,21 +138,6 @@ namespace ghost
     : variables	( variables ),
       id	( NBER_CTR++ )
   { }
-  
-  // template <typename TypeVariable>
-  // Constraint<TypeVariable>::Constraint( const Constraint<TypeVariable> &other )
-  //   : id ( other.id )
-  // {
-  //   std::copy( other.variables.begin(), other.variables.end(), variables.begin() );
-  // }
-  
-  // template <typename TypeVariable>
-  // Constraint<TypeVariable>& Constraint<TypeVariable>::operator=( const Constraint<TypeVariable>& other )
-  // {
-  //   id = other.id;
-  //   std::copy( other.variables.begin(), other.variables.end(), variables.begin() );
-  //   return *this;
-  // }
   
   template <typename TypeVariable>
   bool Constraint<TypeVariable>::has_variable( const TypeVariable& var ) const
