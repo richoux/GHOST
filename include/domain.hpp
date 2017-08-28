@@ -1,4 +1,3 @@
-
 /*
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library 
  * designed to help developers to model and implement optimization problem 
@@ -34,6 +33,7 @@
 #include <vector>
 #include <iostream>
 #include <iterator>
+#include <exception>
 
 #include "misc/random.hpp"
 
@@ -43,20 +43,13 @@ namespace ghost
 {
   //! Domain is the class encoding the domain of your CSP/COP.
   /*! 
-   * Domain is the class implementing variables' domains, ie, the set of possible values a variable can take.
+   * Domain is the class implementing variable domains, ie, the set of possible values a variable can take.
    * In GHOST, such values must be integers.
-   * 
-   * A domain contains:
-   * 1. the container of current possible values of the variable it belongs to, 
-   * 2. the container of initial values (if one wants to reset the domain, since values in the current domain may change),
-   * 3. an integer representing values outside the domain scope
-   * 4. finally, a pseudo-random number generator.
    */
   class Domain
   {
-    vector< int >	_currentDomain;	//!< Vector of integers containing the current values of the domain.
-    int			_outsideScope;	//!< Value representing all values outside the scope of the domain
-    Random		_random;	//!< A random generator used by the function randomValue. 
+    vector< int >	_domain;	// Vector of integers containing the current values of the domain.
+    Random		_random;	// A random generator used by the function randomValue. 
     
     // For the copy-and-swap idiom
     void swap( Domain &other );
@@ -64,26 +57,29 @@ namespace ghost
   public:
     //! First Domain constructor.
     /*!
-     * Constructor taking a vector of integer values the outside-the-scope value (-1 by default), to 
-     * initialize both the initial and current possible variable values. The outside-the-scope value
-     * must not belong to this list, or an exception is raised (throw 0).
+     * Constructor taking a vector of integer values.
+     *
+     * \param domain A vector of int corresponding to the variable domain.
      */
-    Domain( const vector< int >& domain, int outsideScope = -1 );
+    Domain( const vector< int >& domain );//, int outsideScope = -1 );
 
     //! Second Domain constructor.
     /*!
-     * Constructor taking the domain size N and a starting value x, and creating a domain
-     * with all values in [x, x + N]. The outside-the-scope value is set to x-1.
+     * Constructor taking the domain of size 'size' and a starting value 'starValue', 
+     * thus creating a domain with all integer values in [x, x + N].
+     *
+     * \param size An integer specifying the size of the domain.
+     * \param startValue An integer specifying what is the first value in the domain.
      */
     Domain( int size, int startValue );
 
-    //! Domain copy constructor
+    //! Domain copy constructor.
     /*!
-     * \param other A reference to a Domain object.
+     * \param other A const reference to a Domain object.
      */
     Domain( const Domain &other );
 
-    //! Domain's copy assignment operator
+    //! Domain's copy assignment operator.
     /*!
      * The copy-and-swap idiom is applyed here.
      * 
@@ -91,55 +87,53 @@ namespace ghost
      */
     Domain& operator=( Domain other );
 
-    //! Virtual Domain destructor, in case one inherits from it.
-    virtual ~Domain() = default;
+    //! Domain destructor.
+    ~Domain() = default;
     
-    //! Inline function returning a random value from the domain.
+    //! Inline function returning a random value from the domain, following a uniform distribution.
     inline int random_value() const
     {
-      return _currentDomain[ _random.get_random_number( _currentDomain.size() ) ];
+      return _domain[ _random.get_random_number( _domain.size() ) ];
     }
 
-    //! Inline function to get the size of the current domain.
+    //! Inline function to get the size of the domain.
     /*!
-     * Get the number of values currently contained by the domain.
-     * \return A size_t corresponding to the size of _currentDomain.
+     * Get the number of values currently composing the domain.
+     * \return A size_t corresponding to the size of the domain.
      */
     inline size_t get_size() const
     {
-      return _currentDomain.size();
+      return _domain.size();
     }
 
-    //! Inline function returning the outside-scope value.
-    /*!
-     * Returns the value _outsideScope.
-     */ 
-    inline int get_outside_scope() const
-    {
-      return _outsideScope;
-    }
-
-    /////////////////////////
-    // Bonne idée de retourner outsideScope si on ne trouve pas la valeur ? 
-    
     //! Get the value at the given index
     /*!
      * \param index is the index of the desired value.
-     * \return The value at the given index if this one is in the range of the domain, otherwise the outside-the-scope value.
+     * \return The value at the given index if this one is in the range of the domain, raises an indexException otherwise.
      */    
     int get_value( int index ) const;
 
     //! Get the index of a given value.
     /*!
-     * \return If the given value is in the domain, it returns its index, and -1 otherwise.
+     * \return Returns its index if the given value is in the domain, or raises a valueException otherwise.
      */ 
     int index_of( int value ) const;
 
     friend ostream& operator<<( ostream& os, const Domain& domain )
     {
-      os << "Size: " <<  domain.get_size() << "\nCurrent domain: ";
-      copy( begin( domain._currentDomain ), end( domain._currentDomain ), ostream_iterator<int>( os, " " ) );
+      os << "Size: " <<  domain.get_size() << "\nDomain: ";
+      copy( begin( domain._domain ), end( domain._domain ), ostream_iterator<int>( os, " " ) );
       return os << "\n";
     }
+  };
+
+  struct indexException : std::exception
+  {
+    const char* what() const noexcept { return "Wrong index passed to Domain::get_value.\n"; }
+  };
+
+  struct valueException : std::exception
+  {
+    const char* what() const noexcept { return "Wrong value passed to Domain::index_of.\n"; }
   };
 }

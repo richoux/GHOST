@@ -70,35 +70,32 @@ namespace ghost
   protected:
     string	name;		//!< A string to give a full name to the variable (for instance, "Barracks").
     string	shortName;	//!< A string to give a shorten name to the variable (for instance, "B").
-    Domain	domain;		//!< A shared pointer on the variable domain.
+    Domain	domain;		//!< The domain of the variable.
     int		index;		//!< The domain's index corresponding to the current value of the variable.
     
   public:
+    //! The default Variable constructor is disabled.
     Variable() = delete;
 
     //! First Variable constructor, with the vector of domain values and the outside-the-scope value.
     /*!
-     * \param name A string to give a full name to the variable (for instance, "Barracks").
-     * \param shortName A string to give a shorten name to the variable (for instance, "B").
+     * \param name A const reference of a string to give a full name to the variable (for instance, "Barracks").
+     * \param shortName A const reference of a string to give a shorten name to the variable (for instance, "B").
      * \param index The domain's index corresponding to the variable initial value.
      * \param domain A vector of integers composing the domain to create.
-     * \param outsideScope An integer representing all values outside the domain scope (-1 by default).
-     * \sa Domain
      */
     Variable( const string&	name,
 	      const string&	shortName,
 	      int		index,
-	      vector<int>	domain,
-	      int		outsideScope = -1 );
+	      vector<int>	domain );
     
     //! Second Variable constructor, with a size and a starting value for the domain.
     /*!
-     * \param name A string to give a full name to the variable (for instance, "Barracks").
-     * \param shortName A string to give a shorten name to the variable (for instance, "B").
+     * \param name A const reference of a string to give a full name to the variable (for instance, "Barracks").
+     * \param shortName A const reference of a string to give a shorten name to the variable (for instance, "B").
      * \param index The domain's index corresponding to the variable initial value.
      * \param size The size of the domain to create.
-     * \param startValue An integer representing the first value of the domain. The creating domain will then be the interval [startValue, startValue + size], with startValue-1 corresponding to the outside-the-scope value.
-     * \sa Domain
+     * \param startValue An integer representing the first value of the domain. The creating domain will then be the interval [startValue, startValue + size].
      */
     Variable( const string&	name,
 	      const string&	shortName,
@@ -108,7 +105,7 @@ namespace ghost
 
     //! Variable copy constructor
     /*!
-     * \param other A reference to a Variable object.
+     * \param other A const reference to a Variable object.
      */
     Variable( const Variable &other );
 
@@ -126,49 +123,27 @@ namespace ghost
     //! Function initializing the variable to one random values of its domain.
     void do_random_initialization();
     
-    //! Shifting to the next domain value.
-    /*!
-     * Set the current value to the next value in the domain, 
-     * or to the first one if we reach the domain upper bound.
-     */
-    void shift_value();
-
-    //! Shifting to the previous domain value.
-    /*!
-     * Set the current value to the previous value in the domain, 
-     * or to the last one if we reach the domain lower bound.
-     */
-    void unshift_value();
-
-    /*! Function returning what values are in the current domain.
+    /*! Function returning what values are in the domain.
      * \return a vector<int> of values belonging to the variable domain.
      */
     vector<int> possible_values() const;
 
     
-    /////////////////////////
-    // Bonne idée de récupérer outsideScope ici ? Ça demande de savoir comment est fait Domain.
-
     //! Inline function to get the current value of the variable.
+    /*! 
+     * If the index do not belong to the Domain range, raises an indexException.
+     * \sa Domain
+     */
     inline int get_value() const { return domain.get_value( index ); }
 
     
-    /////////////////////////
-    // Bonne idée de permettre l'affectation d'une valeur hors domaine ?
-    
     //! Inline function to set the value of the variable.
     /*! 
-     * If the given value is not in the variable domain, then the variable value is set to the outsideScope value of the domain.
+     * If the given value is not in the domain, raises a valueException.
      * \param value An integer representing the new value to set.
+     * \sa Domain
      */
     inline void	set_value( int value ) { index = domain.index_of( value ); }
-
-    //! Function to know if the variable has been assigned to a value of its domain or not.
-    /*! 
-     * Returns true if the variable has been assigned to a value of its domain. 
-     * Returns false otherwise.
-     */
-    bool is_assigned() const;
 
     //! Inline function to get the variable name.
     inline string get_name() const { return name; }
@@ -179,7 +154,6 @@ namespace ghost
     //! Inline function to get the unique id of the Variable object.
     inline int get_id() const { return _id; }
     
-    //! friend override of operator<<
     friend ostream& operator<<( ostream& os, const Variable& v )
     {
       return os

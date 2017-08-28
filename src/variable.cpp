@@ -45,8 +45,8 @@ Variable::Variable( const string& name, const string& shortName, const Domain& d
     index	( index )
 { }
 
-Variable::Variable( const string& name, const string& shortName, int index, vector<int> domain, int outsideScope )
-  : Variable( name, shortName, { domain, outsideScope }, index )
+Variable::Variable( const string& name, const string& shortName, int index, vector<int> domain )
+  : Variable( name, shortName, { domain }, index )
 { }
 
 Variable::Variable( const string& name, const string& shortName, int index, int size, int startValue )
@@ -81,18 +81,6 @@ void Variable::do_random_initialization()
   set_value( domain.random_value() );
 }
 
-void Variable::shift_value()
-{
-  if( index >= 0 )
-    index = index < (int)domain.get_size() - 1 ? index + 1 : 0;
-}
-
-void Variable::unshift_value()
-{
-  if( index >= 0 )
-    index = index > 0 ? index - 1 : domain.get_size() - 1;
-}
-
 vector<int> Variable::possible_values() const
 {
   vector<int> possibleValues;
@@ -102,8 +90,3 @@ vector<int> Variable::possible_values() const
   
   return possibleValues;
 }    
-
-bool Variable::is_assigned() const
-{
-  return get_value() != domain.get_outside_scope();
-}

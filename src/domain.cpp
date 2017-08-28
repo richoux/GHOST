@@ -38,24 +38,18 @@
 using namespace std;
 using namespace ghost;
 
-Domain::Domain( const vector< int >& domain, int outsideScope )
-  : _currentDomain	( domain ),
-    _outsideScope	( outsideScope )
-{
-  if( find( begin( domain ), end( domain ), _outsideScope ) != end( domain ) )
-    throw 0;
-}
+Domain::Domain( const vector< int >& domain )
+  : _domain ( domain )
+{ }
 
 Domain::Domain( int size, int startValue )
-  : _currentDomain	( vector<int>( size ) ),
-    _outsideScope	( startValue - 1 )
+  : _domain ( vector<int>( size ) )
 {
-  iota( begin( _currentDomain ), end( _currentDomain ), startValue );
+  iota( begin( _domain ), end( _domain ), startValue );
 }
 
 Domain::Domain( const Domain &other )
-  : _currentDomain( other._currentDomain ),
-    _outsideScope( other._outsideScope ),
+  : _domain( other._domain ),
     _random( other._random )
 { }
 
@@ -67,24 +61,23 @@ Domain& Domain::operator=( Domain other )
 
 void Domain::swap( Domain &other )
 {
-  std::swap( this->_currentDomain, other._currentDomain );
-  std::swap( this->_outsideScope, other._outsideScope );
+  std::swap( this->_domain, other._domain );
   std::swap( this->_random, other._random );
 }  
 
 int Domain::get_value( int index ) const
 {
-  if( index >=0 && index < (int)_currentDomain.size() )
-    return _currentDomain[ index ];
+  if( index >=0 && index < (int)_domain.size() )
+    return _domain[ index ];
   else
-    return _outsideScope;
+    throw indexException();
 }
 
 int Domain::index_of( int value ) const
 {
-  auto it = find( begin( _currentDomain ), end( _currentDomain ), value );
-  if( it == end( _currentDomain ) )
-    return -1;
+  auto it = find( begin( _domain ), end( _domain ), value );
+  if( it == end( _domain ) )
+    throw valueException();
   else
-    return it - begin( _currentDomain );
+    return it - begin( _domain );
 }
