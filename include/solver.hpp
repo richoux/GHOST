@@ -352,7 +352,8 @@ namespace ghost
 	  _bestSatCostTour = currentSatCost;
 
 	  if( _bestSatCost >= _bestSatCostTour )
-	    update_better_configuration( _bestSatCost, _bestSatCostTour, finalSolution );
+	    _bestSatCost = _bestSatCostTour;
+	    //update_better_configuration( _bestSatCost, _bestSatCostTour, finalSolution );
 
 	  // freeze the variable a bit
 	  _weakTabuList[ worstVariable->get_id() ] = (int)(tabuTime / 4);
@@ -372,7 +373,7 @@ namespace ghost
 	if( _bestOptCost > currentOptCost )
 	{
 	  update_better_configuration( _bestOptCost, currentOptCost, finalSolution );
-	
+
 	  startPostprocess = chrono::steady_clock::now();
 	  _objective->postprocess_satisfaction( _vecVariables, _bestOptCost, finalSolution );
 	  timerPostProcessSat = chrono::steady_clock::now() - startPostprocess;
@@ -410,31 +411,34 @@ namespace ghost
     // to manipulate and exploit the solution.
     for( auto& v : *_vecVariables )
       v.set_value( finalSolution[ v.get_id() ] );
+    
+    cout << "Number of optization loops: " << optLoop << "\n" 
+	 << "Number of satisfaction loops: " << satLoop << "\n";
 
 #ifndef NDEBUG
-    cout << "############" << endl;
+    cout << "############" << "\n";
       
     if( !_isOptimization )
-      cout << "SATISFACTION run" << endl;
+      cout << "SATISFACTION run" << "\n";
     else
-      cout << "OPTIMIZATION run with objective " << _objective->get_name() << endl;
+      cout << "OPTIMIZATION run with objective " << _objective->get_name() << "\n";
 
-    cout << "Elapsed time: " << elapsedTime.count() / 1000 << endl
-	 << "Global cost: " << _bestSatCost << endl
-	 << "Number of optization loops: " << optLoop << endl
-	 << "Number of satisfaction loops: " << satLoop << endl;
+    cout << "Elapsed time: " << elapsedTime.count() / 1000 << "\n"
+	 << "Global cost: " << _bestSatCost << "\n"
+	 << "Number of optization loops: " << optLoop << "\n"
+	 << "Number of satisfaction loops: " << satLoop << "\n";
 
     if( _isOptimization )
-      cout << "Optimization cost: " << _bestOptCost << endl
-	   << "Opt Cost BEFORE post-processing: " << costBeforePostProc << endl;
+      cout << "Optimization cost: " << _bestOptCost << "\n"
+	   << "Opt Cost BEFORE post-processing: " << costBeforePostProc << "\n";
   
     if( timerPostProcessSat.count() > 0 )
-      cout << "Satisfaction post-processing time: " << timerPostProcessSat.count() / 1000 << endl; 
+      cout << "Satisfaction post-processing time: " << timerPostProcessSat.count() / 1000 << "\n"; 
 
     if( timerPostProcessOpt.count() > 0 )
-      cout << "Optimization post-processing time: " << timerPostProcessOpt.count() / 1000 << endl; 
+      cout << "Optimization post-processing time: " << timerPostProcessOpt.count() / 1000 << "\n"; 
 
-    cout << endl;
+    cout << "\n";
 #endif
           
     return _bestSatCost == 0.;
