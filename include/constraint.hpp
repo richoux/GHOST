@@ -69,7 +69,7 @@ namespace ghost
     static int NBER_CTR; 
 
   protected:
-    vector< TypeVariable >	variables;	//!< The vector of variable pointers compositing the CSP/COP.
+    vector< TypeVariable >	*variables;	//!< Pointer to the vector of variable compositing the CSP/COP.
     int				id;		//!< Unique ID integer
 
     //! Pure virtual function to compute the current cost of the constraint.
@@ -84,15 +84,13 @@ namespace ghost
     /*!
      * \param variables The vector of variable pointers composition the CSP/COP.
      */
-    Constraint( const vector< TypeVariable >& variables );
+    Constraint( vector< TypeVariable >* variables );
 
-    // //! Constraint copy constructor
-    // /*!
-    //  * \param other A reference to a TypeVariable object.
-    //  */
-    // Constraint( const Constraint<TypeVariable> &other );
-
-    Constraint( const Constraint<TypeVariable> &other ) = delete;
+    //! Constraint copy constructor
+    /*!
+     * \param other A reference to a TypeVariable object.
+     */
+    Constraint( const Constraint<TypeVariable> &other );
     
     // //! Constraint's copy assignment operator
     // /*!
@@ -134,17 +132,23 @@ namespace ghost
   int Constraint<TypeVariable>::NBER_CTR = 0;
 
   template <typename TypeVariable>
-  Constraint<TypeVariable>::Constraint( const vector< TypeVariable >& variables )
+  Constraint<TypeVariable>::Constraint( vector< TypeVariable >* variables )
     : variables	( variables ),
       id	( NBER_CTR++ )
   { }
-  
+
+  template <typename TypeVariable>
+  Constraint<TypeVariable>::Constraint( const Constraint<TypeVariable> &other )
+    : variables	( other.variables ),
+      id	( other.id )
+  { }
+
   template <typename TypeVariable>
   bool Constraint<TypeVariable>::has_variable( const TypeVariable& var ) const
   {
-    auto it = find_if( variables.cbegin(),
-		       variables.cend(),
+    auto it = find_if( variables->cbegin(),
+		       variables->cend(),
 		       [&]( auto& v ){ return v.get_id() == var.get_id(); } );
-    return it != variables.cend();
+    return it != variables->cend();
   }  
 }
