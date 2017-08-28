@@ -44,21 +44,17 @@ namespace ghost
   /*! 
    * In GHOST, many different constraint objects can be instanciate.
    *
-   * The Constraint class is a template class, waiting for both the
-   * type of variable and the type of domain. Thus, you must
-   * instanciate a constraint by specifying the class of your variable
-   * objects and the class of your domain object, like for instance
-   * Constraint<Variable, Domain> or Constraint<MyCustomVariable,
-   * MyCustomDomain>, if MyCustomVariable inherits from the
-   * ghost::Variable class and MyCustomDomain inherits from the
-   * ghost::Domain class.
+   * The Constraint class is a template class, waiting for the type of variable 
+   * composing the constraint. Thus, you must instanciate a constraint by 
+   * specifying the class of your variable objects, like for instance
+   * Constraint<Variable> or Constraint<MyCustomVariable>, where MyCustomVariable 
+   * must inherits from ghost::Variable.
    *
    * You cannot directly use this class Constraint to encode your CSP/COP
-   * constraints, since this is an abstract class (see the list of
-   * pure virtual functions below). Thus, you must write your own
+   * constraints, since this is an abstract class. Thus, you must write your own
    * constraint class inheriting from ghost::Constraint.
    *
-   * The only pure virtual Constraint function is v_cost
+   * The only pure virtual Constraint function is required_cost.
    *
    * \sa Variable
    */
@@ -73,8 +69,10 @@ namespace ghost
     int				id;		//!< Unique ID integer
 
     //! Pure virtual function to compute the current cost of the constraint.
-    //! WARNING: do not implement side effect in this function. It will be called by the solver
-    //! to compute the constraint cost but also for some cost simulations.
+    /*!
+     * WARNING: do not implement side effect in this function. It is called by the solver 
+     * to compute the constraint cost but also for some cost simulations.
+     */
     virtual double required_cost() const = 0;
 
   public:
@@ -82,42 +80,37 @@ namespace ghost
     
     //! The unique Constraint constructor
     /*!
-     * \param variables The vector of variable pointers composition the CSP/COP.
+     * \param variables A pointer to the vector of variable composition the CSP/COP.
      */
-    Constraint( vector< TypeVariable >* variables );
+    Constraint( vector< TypeVariable > *variables );
 
-    //! Constraint copy constructor
-    /*!
-     * \param other A reference to a TypeVariable object.
-     */
-    Constraint( const Constraint<TypeVariable> &other );
+    //! Default copy and move contructors are explicitely declared.
+    Constraint( const Constraint& other ) = default;
+    Constraint( Constraint&& other ) = default;
     
-    // //! Constraint's copy assignment operator
-    // /*!
-    //  * The copy-and-swap idiom is applyed here.
-    //  * 
-    //  * \param other A Constraint object.
-    //  */
-    // Constraint<TypeVariable>& operator=( const Constraint<TypeVariable>& other );
-
-    Constraint<TypeVariable>& operator=( const Constraint<TypeVariable>& other ) = delete;
+    //! Copy and move assignment operators are disabled.
+    Constraint& operator=( const Constraint& other ) = delete;
+    Constraint& operator=( Constraint&& other ) = delete;
     
-    //! Default Constraint destructor.
+    //! Default virtual destructor.
     virtual ~Constraint() = default;
     
-    //! Inline function following the NVI idiom. Calling v_cost.
-    //! \sa required_cost
+    //! Inline function following the NVI idiom. Calling required_cost.
+    /*!
+     * \sa required_cost
+     */
     inline double cost() const { return required_cost(); }
 
     //! Given a variable, does this variable composes the constraint?
-    //! \param var A variable.
-    //! \return True iff the constraint contains var 
+    /*!
+     * \param var A variable.
+     * \return True iff the constraint contains var.
+     */ 
     bool has_variable( const TypeVariable& var ) const;
 
     //! Inline function to get the unique id of the Constraint object.
     inline int get_id() const { return id; }
 
-    //! friend override of operator<<
     friend ostream& operator<<( ostream& os, const Constraint<TypeVariable>& c )
     {
       return os << "Constraint type: " <<  typeid(c).name() << endl;
@@ -135,12 +128,6 @@ namespace ghost
   Constraint<TypeVariable>::Constraint( vector< TypeVariable >* variables )
     : variables	( variables ),
       id	( NBER_CTR++ )
-  { }
-
-  template <typename TypeVariable>
-  Constraint<TypeVariable>::Constraint( const Constraint<TypeVariable> &other )
-    : variables	( other.variables ),
-      id	( other.id )
   { }
 
   template <typename TypeVariable>

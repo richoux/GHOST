@@ -49,25 +49,30 @@ namespace ghost
     random_device				_rd;
     mutable mt19937				_rng;
     mutable uniform_int_distribution<int>	_unif_dist;
-    
+
+    // for the copy-and-swap idiom.
+    void swap( Random &other )
+    {
+      std::swap( this->_rng, other._rng );
+    }  
+
   public:
+    //! Default and unique construtor.
     Random() : _rng( _rd() ) { }
 
+    //! Default copy constructor.
     Random( const Random &other )
       : _rng( _rd() )
     { }
     
+    //! Copy assignment operator following the copy-and-swap idiom.
     Random& operator=( Random other )
     {
       this->swap( other );
       return *this;
     }
 
-    void swap( Random &other )
-    {
-      std::swap( this->_rng, other._rng );
-    }  
-
+    // Default destructor.
     ~Random() = default;
 
     //! Inline function to return a random value in [0, limit[
