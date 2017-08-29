@@ -453,7 +453,7 @@ namespace ghost
     for( auto& v : *_vecVariables )
     {
       id = v.get_id();
-      int ratio = std::max( 5, (int)v.get_domain_size()/50 );
+      int ratio = std::max( 5, (int)v.get_domain_size()/10 );
     
       for( auto& c : _mapVarCtr[ v ] )
 	costVariables[ id ] += costConstraints[ c.get_id() ];
@@ -466,7 +466,7 @@ namespace ghost
       {
 	TypeVariable *otherVariable;
 	
-	for( i = 0 ; i <= ratio; ++i )
+	for( i = 0 ; i < ratio; ++i )
 	{
 	  otherVariable = &(*_vecVariables)[ _random.get_random_number( _vecVariables->size() ) ];
 	  sum += simulate_permutation_cost( &v, *otherVariable, costConstraints, currentSatCost );
@@ -478,7 +478,7 @@ namespace ghost
 	int value;
 	auto domain = v.possible_values();
 	
-	for( i = 0 ; i <= ratio; ++i )
+	for( i = 0 ; i < ratio; ++i )
 	{
 	  value = domain[ _random.get_random_number( domain.size() ) ];
 	  sum += simulate_local_move_cost( &v, value, costConstraints, currentSatCost );
@@ -487,8 +487,8 @@ namespace ghost
 	v.set_value( backup );
       }
       
-      // sum / i is the mean 
-      costVariables[ id ] = fabs( costVariables[ id ] - ( sum / i ) );
+      // sum / i is the mean
+      costVariables[ id ] = fabs( costVariables[ id ] - ( sum / ratio ) );
       
       if( _weakTabuList[ id ] == 0 )
 	costNonTabuVariables[ id ] = costVariables[ id ];
