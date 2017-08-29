@@ -8,7 +8,7 @@ endif
 SRCDIR=src
 INCDIR=include include/misc
 INCDIRFLAG=$(foreach idir, $(INCDIR), -I$(idir))
-CXXFLAGS=-std=c++14 -fPIC -Ofast -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(INCDIRFLAG)
+CXXFLAGS=-std=c++14 -fPIC -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(INCDIRFLAG)
 
 # Linker
 LDFLAGS=-shared $(INCDIRFLAG)
@@ -34,10 +34,10 @@ vpath %.cpp $(SRCDIR)
 
 # Rules
 
-all: CXXFLAGS += -DNDEBUG
+all: CXXFLAGS += -DNDEBUG -Ofast 
 all: $(BINDIR)/$(EXEC)	
 
-debug: CXXFLAGS += -g
+debug: CXXFLAGS += -g -O0
 debug: $(BINDIR)/$(EXEC)	
 
 $(BINDIR)/$(EXEC): $(OBJECTS)
