@@ -62,7 +62,7 @@ namespace ghost
     Variable( const string& name,
 	      const string& shortName,
 	      const Domain& domain,
-	      int index );
+	      int index = 0);
     
     // For the copy-and-swap idiom
     void swap( Variable &other );
@@ -81,27 +81,27 @@ namespace ghost
     /*!
      * \param name A const reference of a string to give a full name to the variable (for instance, "Barracks").
      * \param shortName A const reference of a string to give a shorten name to the variable (for instance, "B").
-     * \param index The domain's index corresponding to the variable initial value.
-     * \param domain A vector of integers composing the domain to create.
+     * \param domain A const reference to the vector of integers composing the domain to create.
+     * \param index The domain's index corresponding to the variable initial value. Zero by default.
      */
-    Variable( const string&	name,
-	      const string&	shortName,
-	      int		index,
-	      vector<int>	domain );
+    Variable( const string&		name,
+	      const string&		shortName,
+	      const vector<int>&	domain,
+	      int			index = 0);
     
     //! Second Variable constructor, with a size and a starting value for the domain.
     /*!
      * \param name A const reference of a string to give a full name to the variable (for instance, "Barracks").
      * \param shortName A const reference of a string to give a shorten name to the variable (for instance, "B").
-     * \param index The domain's index corresponding to the variable initial value.
      * \param size The size of the domain to create.
      * \param startValue An integer representing the first value of the domain. The creating domain will then be the interval [startValue, startValue + size].
+     * \param index The domain's index corresponding to the variable initial value. Zero by default.
      */
     Variable( const string&	name,
 	      const string&	shortName,
-	      int		index,
 	      int		size,
-	      int		startValue );
+	      int		startValue,
+	      int		index = 0);
 
     //! Variable copy constructor
     /*!

@@ -11,9 +11,9 @@ public:
 
   VariableTest()
   {
-    var_ctor1 = new ghost::Variable( "Thomas", "T", 3, std::vector<int>{1,3,5,7,9} );
-    var_ctor2 = new ghost::Variable( "Leo", "L", 0, std::vector<int>{1,3,5,7,9} );
-    var_ctor3 = new ghost::Variable( "Julie", "J", 1, 3, 7 );
+    var_ctor1 = new ghost::Variable( "Thomas", "T", std::vector<int>{1,3,5,7,9}, 3 );
+    var_ctor2 = new ghost::Variable( "Leo", "L", std::vector<int>{1,3,5,7,9} );
+    var_ctor3 = new ghost::Variable( "Julie", "J", 3, 7, 1 );
   }
 
   ~VariableTest()
@@ -39,7 +39,7 @@ TEST_F(VariableTest, Copy)
   
   EXPECT_EQ( var_copy1.get_id(), 3 );
   EXPECT_EQ( var_copy2.get_id(), 4 );
-  EXPECT_EQ( var_ctor3->get_id(), 3 );
+  EXPECT_EQ( var_ctor1->get_id(), 3 );
   EXPECT_EQ( var_ctor2->get_id(), 4 );
 
   EXPECT_EQ( var_copy1.get_name(), "Thomas" );

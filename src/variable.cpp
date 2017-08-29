@@ -45,12 +45,12 @@ Variable::Variable( const string& name, const string& shortName, const Domain& d
     index	( index )
 { }
 
-Variable::Variable( const string& name, const string& shortName, int index, vector<int> domain )
-  : Variable( name, shortName, { domain }, index )
+Variable::Variable( const string& name, const string& shortName, const vector<int>& domain, int index )
+  : Variable( name, shortName, Domain{ domain }, index )
 { }
 
-Variable::Variable( const string& name, const string& shortName, int index, int size, int startValue )
-  : Variable( name, shortName, { size, startValue }, index )
+Variable::Variable( const string& name, const string& shortName, int size, int startValue, int index )
+  : Variable( name, shortName, Domain{ size, startValue }, index )
 { }
 
 Variable::Variable( const Variable &other )
