@@ -52,32 +52,32 @@ namespace ghost
 {
   //! Solver is the class coding the solver itself.
   /*! 
-   * You just need to instanciate one Solver object.
+   * You just need to instanciate one Solver object, then run its 'solve'
+   * function.
    *
-   * The Solver class is a template class, waiting for both the type
-   * of variable, the type of domain and the type of constraint. Thus,
+   * The Solver class is a template class, waiting for the type
+   * of variable, the type of constraint and the type of observer. Thus,
    * you must instanciate a solver by specifying the class of your
-   * variable objects, the class of your domain object and the class
-   * of your constraint objects, like for instance Solver<Variable,
-   * Domain, Constraint> or Solver<MyCustomVariable, MyCustomDomain,
-   * MyCustomConstraint>, if MyCustomVariable inherits from the
-   * ghost::Variable class, MyCustomDomain inherits from the
-   * ghost::Domain class and MyCustomConstraint inherits from the
-   * ghost::Constraint class.
+   * variable objects, the class of your constraint objects and the 
+   * class of your objective object, like for instance Solver<MyCustomVariable, 
+   * MyCustomConstraint, MyCustomObjective>, where MyCustomVariable 
+   * must inherits from ghost::Variable, MyCustomConstraint must inherits 
+   * from ghost::Constraint and MyCustomObjective must inherits from 
+   * ghost::Objective.
    *
    * Solver's constructor also need a shared pointer of an Objective
    * object (nullptr by default). The reason why Objective is not a
    * template parameter of Solver but a pointer is to allow a dynamic
    * modification of the objective function.
    *
-   * \sa Variable, Domain, Constraint, Objective
+   * \sa Variable, Constraint, Objective
    */  
   template <typename TypeVariable, typename TypeConstraint, typename TypeObjective>
   class Solver
   {
-    vector< TypeVariable >	*_vecVariables;	// Vector of variable of the CSP/COP.
-    vector< TypeConstraint >	*_vecConstraints; // The vector of constraints of the CSP/COP.
-    TypeObjective		*_objective;	// The shared pointer of the objective function.
+    vector< TypeVariable >	*_vecVariables;		// Pointer to the vector of variables.
+    vector< TypeConstraint >	*_vecConstraints;	// Pointer to the vector of constraints.
+    TypeObjective		*_objective;		// Pointer of the objective function.
 
     vector<int>	_weakTabuList;		// The weak tabu list, frozing used variables for tabuTime iterations. 
     Random	_randomVar;		// The random generator used by the solver.
@@ -99,15 +99,6 @@ namespace ghost
     mutable map< TypeVariable,
 		 vector< TypeConstraint >,
 		 VarComp > _mapVarCtr;	// Map to know in which constraints are each variable.
-
-#ifndef NDEBUG
-    void print_debug()
-    {
-      for( auto& v : *_vecVariables )
-	cout << v.get_name() << ": " << v.get_value() << "\n";
-      cout << "\n";
-    }
-#endif
 
     // Solver's regular constructor
     /*
@@ -135,8 +126,8 @@ namespace ghost
     // Set the initial configuration by calling monte_carlo_sampling() 'samplings' times.
     /*
      * After calling calling monte_carlo_sampling() 'samplings' times, the function keeps 
-     * the configuration wth the lowest global cost. If some of them reach 0, it keeps 
-     * the configuration with the best objective cost. 
+     * the configuration wth the lowest satisfaction cost. If some of them reach 0, it keeps 
+     * the configuration with the best optimization cost. 
      */
     void set_initial_configuration( int samplings = 1 );
 
@@ -162,13 +153,13 @@ namespace ghost
 				  vector<double>& costVariables,
 				  vector<double>& costNonTabuVariables ) const;
 
-    // Compute incrementally the now global cost IF we change the value of 'variable' by 'value' with a local move.
+    // Compute incrementally the now satisfaction cost IF we change the value of 'variable' by 'value' with a local move.
     double simulate_local_move_cost( TypeVariable* variable,
 				     double value,
 				     vector<double>& costConstraints,
 				     double currentSatCost ) const;
 
-    // Compute incrementally the now global cost IF we swap values of 'variable' with another variable.
+    // Compute incrementally the now satisfaction cost IF we swap values of 'variable' with another variable.
     double simulate_permutation_cost( TypeVariable* worstVariable,
 				      TypeVariable& otherVariable,
 				      vector<double>& costConstraints,
@@ -357,33 +348,11 @@ namespace ghost
 	else
 	  worstVariable = worstVariableList[0];
 
-	// if( freeVariables )
-	// {
-	// 	discrete_distribution<int> distribution { costNonTabuVariables.begin(), costNonTabuVariables.end() };
-	// 	worstVariable = &_vecVariables[ distribution( rng ) ];
-	// }
-	// else
-	// {
-	// 	discrete_distribution<int> distribution { costVariables.begin(), costVariables.end() };
-	// 	worstVariable = &_vecVariables[ distribution( rng ) ];
-	// }
-
-#ifndef NDEBUG
-	cout << "BEFORE move: currentSatCost=" << currentSatCost << "\n";
-	print_debug();
-	cout << "\n";
-#endif	
-	
 	if( _permutationProblem )
 	  permutation_move( worstVariable, costConstraints, costVariables, costNonTabuVariables, currentSatCost );
 	else
 	  local_move( worstVariable, costConstraints, costVariables, costNonTabuVariables, currentSatCost );
 
-#ifndef NDEBUG
-	cout << "AFTER move: currentSatCost=" << currentSatCost << "\n";
-	print_debug();
-	cout << "\n";
-#endif	
 	if( _bestSatCostTour > currentSatCost )
 	{
 	  _bestSatCostTour = currentSatCost;
@@ -461,7 +430,7 @@ namespace ghost
       cout << "OPTIMIZATION run with objective " << _objective->get_name() << "\n";
 
     cout << "Elapsed time: " << elapsedTime.count() / 1000 << "\n"
-	 << "Global cost: " << _bestSatCost << "\n"
+	 << "Satisfaction cost: " << _bestSatCost << "\n"
 	 << "Number of optization loops: " << optLoop << "\n"
 	 << "Number of satisfaction loops: " << satLoop << "\n";
 
@@ -484,17 +453,17 @@ namespace ghost
   template <typename TypeVariable, typename TypeConstraint, typename TypeObjective>
   double Solver<TypeVariable, TypeConstraint, TypeObjective>::compute_constraints_costs( vector<double>& costConstraints ) const
   {
-    double globalCost = 0.;
+    double satisfactionCost = 0.;
     double cost;
   
     for( auto& c : *_vecConstraints )
     {
       cost = c.cost();
       costConstraints[ c.get_id() ] = cost;
-      globalCost += cost;    
+      satisfactionCost += cost;    
     }
 
-    return globalCost;
+    return satisfactionCost;
   }
 
   template <typename TypeVariable, typename TypeConstraint, typename TypeObjective>
@@ -590,16 +559,9 @@ namespace ghost
 											 vector<int>& configuration )
   {
     best = current;
-// #ifndef NDEBUG
-//     cout << "\n*****************\nBetter cost: " << best << "\n";
-// #endif
+
     for( auto& v : *_vecVariables )
-    {
       configuration[ v.get_id() ] = v.get_value();
-// #ifndef NDEBUG
-//       cout << v << "\n";
-// #endif
-    }
   }
   
   template <typename TypeVariable, typename TypeConstraint, typename TypeObjective>
@@ -686,7 +648,7 @@ namespace ghost
 									double& currentSatCost )
   {
     // Here, we look at values in the variable domain
-    // leading to the lowest global cost.
+    // leading to the lowest satisfaction cost.
     double newCurrentSatCost;
     vector< int > bestValuesList;
     int bestValue;
@@ -706,11 +668,11 @@ namespace ghost
 	  bestValuesList.push_back( val );	  
     }
 
-    // If several values lead to the same best global cost,
+    // If several values lead to the same best satisfaction cost,
     // call Objective::heuristic_value has a tie-break.
     // By default, Objective::heuristic_value returns the value
-    // improving the most the objective function, or a random value
-    // among values improving the most the objective function if there
+    // improving the most the optimization cost, or a random value
+    // among values improving the most the optimization cost if there
     // are some ties.
     if( bestValuesList.size() > 1 )
       bestValue = _objective->heuristic_value( _vecVariables, variable, bestValuesList );
@@ -733,7 +695,7 @@ namespace ghost
 									      double& currentSatCost )
   {
     // Here, we look at values in the variable domain
-    // leading to the lowest global cost.
+    // leading to the lowest satisfaction cost.
     double newCurrentSatCost;
     vector< TypeVariable* > bestVarToSwapList;
     TypeVariable* bestVarToSwap;
@@ -756,11 +718,11 @@ namespace ghost
 	  bestVarToSwapList.push_back( &otherVariable );	  
     }
 
-    // If several values lead to the same best global cost,
+    // If several values lead to the same best satisfaction cost,
     // call Objective::heuristic_value has a tie-break.
     // By default, Objective::heuristic_value returns the value
-    // improving the most the objective function, or a random value
-    // among values improving the most the objective function if there
+    // improving the most the optimization cost, or a random value
+    // among values improving the most the optimization cost if there
     // are some ties.
     if( bestVarToSwapList.size() > 1 )
       bestVarToSwap = _objective->heuristic_value( bestVarToSwapList );
