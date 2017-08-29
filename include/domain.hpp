@@ -61,7 +61,7 @@ namespace ghost
      *
      * \param domain A vector of int corresponding to the variable domain.
      */
-    Domain( const vector< int >& domain );//, int outsideScope = -1 );
+    Domain( const vector< int >& domain );
 
     //! Second Domain constructor.
     /*!
