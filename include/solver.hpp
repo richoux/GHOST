@@ -78,7 +78,7 @@ namespace ghost
     shared_ptr<Objective<TypeVariable>>	_objective;		// Shared pointer of the objective function.
 
     vector<int>	_weakTabuList;		// The weak tabu list, frozing used variables for tabuTime iterations. 
-    Random	_randomVar;		// The random generator used by the solver.
+    Random	_random;		// The random generator used by the solver.
     double	_bestSatCost;		// The satisfaction cost of the best solution.
     double	_bestSatCostTour;	// The satisfaction cost of the best solution in the current optimization loop.
     double	_bestOptCost;		// The optimization cost of the best solution.
@@ -128,29 +128,26 @@ namespace ghost
     // To factorize code like if (best > current) then best=current and update configuration
     void update_better_configuration( double& best, const double current, vector<int>& configuration );
 
-    // Compute and return the vector containing worst variables,
-    // ie, variables with the highest variable cost.
-    vector< TypeVariable* > compute_worst_variables( bool freeVariables, const vector<double>& costVariables );
-
     // Compute the cost of each constraints and fill up the vector costConstraints
     double compute_constraints_costs( vector<double>& costConstraints ) const;
 
     // Compute the variable cost of each variables and fill up vectors costVariables and costNonTabuVariables 
     void compute_variables_costs( const vector<double>& costConstraints,
 				  vector<double>&	costVariables,
-				  vector<double>&	costNonTabuVariables ) const;
+				  vector<double>&	costNonTabuVariables,
+				  const double currentSatCost ) const;
 
     // Compute incrementally the now satisfaction cost IF we change the value of 'variable' by 'value' with a local move.
-    double simulate_local_move_cost( TypeVariable	*variable,
-				     double		value,
-				     vector<double>&	costConstraints,
-				     double		currentSatCost ) const;
+    double simulate_local_move_cost( TypeVariable		*variable,
+				     double			value,
+				     const vector<double>&	costConstraints,
+				     double			currentSatCost ) const;
 
     // Compute incrementally the now satisfaction cost IF we swap values of 'variable' with another variable.
-    double simulate_permutation_cost( TypeVariable	*worstVariable,
-				      TypeVariable&	otherVariable,
-				      vector<double>&	costConstraints,
-				      double		currentSatCost ) const;
+    double simulate_permutation_cost( TypeVariable		*worstVariable,
+				      TypeVariable&		otherVariable,
+				      const vector<double>&	costConstraints,
+				      double			currentSatCost ) const;
 
     // Function to make a local move, ie, to assign a given
     void local_move( TypeVariable	*variable,
@@ -265,7 +262,7 @@ namespace ghost
     chrono::duration<double,micro> timerPostProcessOpt(0);
 
     random_device	rd;
-    mt19937	rng( rd() );
+    mt19937		rng( rd() );
 
     if( _objective == nullptr )
       _objective = make_shared< NullObjective<TypeVariable> >();
@@ -275,7 +272,6 @@ namespace ghost
 
     double costBeforePostProc = numeric_limits<double>::max();
   
-    vector< TypeVariable* > worstVariableList;
     TypeVariable* worstVariable;
     double currentSatCost;
     double currentOptCost;
@@ -313,21 +309,21 @@ namespace ghost
 	fill( costVariables.begin(), costVariables.end(), 0. );
 
 	currentSatCost = compute_constraints_costs( costConstraints );
-	compute_variables_costs( costConstraints, costVariables, costNonTabuVariables );
+	compute_variables_costs( costConstraints, costVariables, costNonTabuVariables, currentSatCost );
       
 	bool freeVariables = false;
 	decay_weak_tabu_list( freeVariables );
 
-	worstVariableList = compute_worst_variables( freeVariables, costVariables );
-
-	// If several variables share the same worst variable cost,
-	// call Objective::heuristic_variable has a tie-break.
-	// By default, Objective::heuristic_variable returns a random variable
-	// among the vector of TypeVariables given in argument.
-	if( worstVariableList.size() > 1 )
-	  worstVariable = _objective->heuristic_variable( worstVariableList );
+	if( freeVariables )
+	{
+	  discrete_distribution<int> distribution { costNonTabuVariables.begin(), costNonTabuVariables.end() };
+	  worstVariable = &(*_vecVariables)[ distribution( rng ) ];
+	}
 	else
-	  worstVariable = worstVariableList[0];
+	{
+	  discrete_distribution<int> distribution { costVariables.begin(), costVariables.end() };
+	  worstVariable = &(*_vecVariables)[ distribution( rng ) ];
+	}
 
 	if( _permutationProblem )
 	  permutation_move( worstVariable, costConstraints, costVariables, costNonTabuVariables, currentSatCost );
@@ -340,7 +336,6 @@ namespace ghost
 
 	  if( _bestSatCost >= _bestSatCostTour )
 	    _bestSatCost = _bestSatCostTour;
-	    //update_better_configuration( _bestSatCost, _bestSatCostTour, finalSolution );
 
 	  // freeze the variable a bit
 	  _weakTabuList[ worstVariable->get_id() ] = (int)(tabuTime / 4);
@@ -450,7 +445,8 @@ namespace ghost
   template <typename TypeVariable, typename TypeConstraint>
   void Solver<TypeVariable, TypeConstraint>::compute_variables_costs( const vector<double>& costConstraints,
 								      vector<double>& costVariables,
-								      vector<double>& costNonTabuVariables ) const
+								      vector<double>& costNonTabuVariables,
+								      const double currentSatCost ) const
   {
     int id;
 
@@ -463,6 +459,38 @@ namespace ghost
       for( auto& c : _mapVarCtr[ v ] )
 	costVariables[ id ] += costConstraints[ c.get_id() ];
 
+      // i is initialized just not to be warned by compiler
+      int i = 1;
+      double sum = 0.;
+      
+      if( _permutationProblem )
+      {
+	TypeVariable *otherVariable;
+	
+	for( i = 0 ; i <= (int)v.get_domain_size() / 10; ++i )
+	{
+	  otherVariable = &(*_vecVariables)[ _random.get_random_number( _vecVariables->size() ) ];
+	  sum += simulate_permutation_cost( &v, *otherVariable, costConstraints, currentSatCost );
+	}
+      }
+      else
+      {
+	int backup = v.get_value();
+	int value;
+	auto domain = v.possible_values();
+	
+	for( i = 0 ; i <= (int)v.get_domain_size() / 10; ++i )
+	{
+	  value = domain[ _random.get_random_number( domain.size() ) ];
+	  sum += simulate_local_move_cost( &v, value, costConstraints, currentSatCost );
+	}
+	
+	v.set_value( backup );
+      }
+      
+      // sum / i is the mean 
+      costVariables[ id ] = fabs( costVariables[ id ] - ( sum / i ) );
+      
       if( _weakTabuList[ id ] == 0 )
 	costNonTabuVariables[ id ] = costVariables[ id ];
     }
@@ -545,40 +573,11 @@ namespace ghost
       configuration[ v.get_id() ] = v.get_value();
   }
   
-  template <typename TypeVariable, typename TypeConstraint>
-  vector< TypeVariable* > Solver<TypeVariable, TypeConstraint>::compute_worst_variables( bool freeVariables,
-											 const vector<double>& costVariables )
-  {
-    // Here, we look at neighbor configurations with the lowest cost.
-    vector< TypeVariable* > worstVariableList;
-    double worstVariableCost = 0.;
-    int id;
-  
-    for( auto& v : *_vecVariables )
-    {
-      id = v.get_id();
-      if( !freeVariables || _weakTabuList[ id ] == 0 )
-      {
-	if( worstVariableCost < costVariables[ id ] )
-	{
-	  worstVariableCost = costVariables[ id ];
-	  worstVariableList.clear();
-	  worstVariableList.push_back( &v );
-	}
-	else 
-	  if( worstVariableCost == costVariables[ id ] )
-	    worstVariableList.push_back( &v );	  
-      }
-    }
-
-    return worstVariableList;
-  }
-
   // NO VALUE BACKED-UP!
   template <typename TypeVariable, typename TypeConstraint>
   double Solver<TypeVariable, TypeConstraint>::simulate_local_move_cost( TypeVariable* variable,
 									 double value,
-									 vector<double>& costConstraints,
+									 const vector<double>& costConstraints,
 									 double currentSatCost ) const
   {
     double newCurrentSatCost = currentSatCost;
@@ -593,7 +592,7 @@ namespace ghost
   template <typename TypeVariable, typename TypeConstraint>
   double Solver<TypeVariable, TypeConstraint>::simulate_permutation_cost( TypeVariable* worstVariable,
 									  TypeVariable& otherVariable,
-									  vector<double>& costConstraints,
+									  const vector<double>& costConstraints,
 									  double currentSatCost ) const
   {
     double newCurrentSatCost = currentSatCost;
@@ -665,7 +664,7 @@ namespace ghost
     for( auto& c : _mapVarCtr[ *variable ] )
       costConstraints[ c.get_id() ] = c.cost();
 
-    compute_variables_costs( costConstraints, costVariables, costNonTabuVariables );
+    compute_variables_costs( costConstraints, costVariables, costNonTabuVariables, currentSatCost );
   }
 
   template <typename TypeVariable, typename TypeConstraint>
@@ -727,7 +726,7 @@ namespace ghost
       if( !compted[ c.get_id() ] )
 	newCurrentSatCost += ( c.cost() - costConstraints[ c.get_id() ] );
 
-    compute_variables_costs( costConstraints, costVariables, costNonTabuVariables );
+    compute_variables_costs( costConstraints, costVariables, costNonTabuVariables, newCurrentSatCost );
   }
 }
 

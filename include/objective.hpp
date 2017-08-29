@@ -91,13 +91,6 @@ namespace ghost
     inline double cost( vector< TypeVariable > *variables ) const
     { return required_cost( variables ); }
 
-    //! Inline function following the NVI idiom. Calling expert_heuristic_variable.
-    /*! 
-     * \sa expert_heuristic_variable
-     */
-    inline TypeVariable* heuristic_variable( vector< TypeVariable* > variables ) const
-    { return expert_heuristic_variable( variables ); }
-    
     //! Inline function following the NVI idiom. Calling expert_heuristic_value.
     /*! 
      * \sa expert_heuristic_value
@@ -147,16 +140,6 @@ namespace ghost
      * \sa cost
      */
     virtual double required_cost( vector< TypeVariable > *variables ) const = 0;
-
-    //! Virtual function to apply the variable heuristic used by the solver.
-    /*! 
-     * By default, returns a random variable among the vector in input.
-     *
-     * \param variables The vector of variable pointers of the CSP/COP.
-     * \return The address of a random variable in variables
-     * \sa heuristic_variable
-     */
-    virtual TypeVariable* expert_heuristic_variable( vector< TypeVariable* > variables ) const;
 
     //! Virtual function to apply the value heuristic used by the solver for non permutation problems.
     /*! 
@@ -253,12 +236,6 @@ namespace ghost
   Objective<TypeVariable>::Objective( const string& name )
     : name(name)
   { }
-  
-  template <typename TypeVariable>
-  TypeVariable* Objective<TypeVariable>::expert_heuristic_variable( vector< TypeVariable* > variables ) const
-  {
-    return variables[ random.get_random_number( variables.size() ) ];
-  }
   
   template <typename TypeVariable>
   int Objective<TypeVariable>::expert_heuristic_value( vector< TypeVariable > *variables,

@@ -145,6 +145,13 @@ namespace ghost
      */
     inline void	set_value( int value ) { index = domain.index_of( value ); }
 
+    //! Inline function returning the size of the domain of the variable.
+    /*! 
+     * \return a size_t equals to size of the domain of the variable.
+     * \sa Domain
+     */
+    inline size_t get_domain_size() { return domain.get_size(); }
+
     //! Inline function to get the variable name.
     inline string get_name() const { return name; }
 

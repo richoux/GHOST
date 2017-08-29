@@ -42,6 +42,9 @@ TEST_F(VariableTest, Copy)
   EXPECT_EQ( var_ctor1->get_id(), 3 );
   EXPECT_EQ( var_ctor2->get_id(), 4 );
 
+  EXPECT_EQ( var_copy1.get_domain_size(), 5 );
+  EXPECT_EQ( var_copy2.get_domain_size(), 5 );
+
   EXPECT_EQ( var_copy1.get_name(), "Thomas" );
   EXPECT_EQ( var_copy2.get_name(), "Leo" );
 
@@ -64,6 +67,13 @@ TEST_F(VariableTest, Exceptions)
 
   EXPECT_ANY_THROW( var_ctor3->set_value( 6 ) );
   EXPECT_ANY_THROW( var_ctor3->set_value( 10 ) );
+}
+
+TEST_F(VariableTest, DomainSize)
+{
+  EXPECT_EQ( var_ctor1->get_domain_size(), 5 );
+  EXPECT_EQ( var_ctor2->get_domain_size(), 5 );
+  EXPECT_EQ( var_ctor3->get_domain_size(), 3 );
 }
 
 TEST_F(VariableTest, Names)
