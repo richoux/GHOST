@@ -25,7 +25,7 @@ Troubleshooting:
 
 Got the error 'The compiler /usr/bin/c++ has no C++14 support. Please use a different C++ compiler.'?
 1. Make sure you have installed a C++14-capable compiler
-2. If you have such a compiler but still get the error, before typing the command  'cmake ..', type 'export CXX=/path/of/your/c++14/compiler'
+2. If you have such a compiler but still get the error, before typing the command  'cmake ..', type 'export CXX=/path/of/your/c++14/compiler/executable_name'
 
 If you stil have problems, you can still compile GHOST with the Makefile in the root directory, but it has been written to compile on GNU/Linux with g++.
 $> make
