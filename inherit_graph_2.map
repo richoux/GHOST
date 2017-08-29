@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. " alt="" coords="5,5,123,32"/>
-<area shape="rect" id="node2" href="$classghost_1_1NullObjective.html" title="NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). " alt="" coords="171,5,311,32"/>
+<area shape="rect" id="node2" href="$structghost_1_1indexException.html" title="ghost::indexException" alt="" coords="134,5,285,32"/>
+<area shape="rect" id="node3" href="$structghost_1_1valueException.html" title="ghost::valueException" alt="" coords="134,56,285,83"/>
 </map>

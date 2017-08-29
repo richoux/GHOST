@@ -90,17 +90,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">solver.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;vector&gt;</code><br/>
+<div class="textblock"><code>#include &lt;cassert&gt;</code><br/>
+<code>#include &lt;limits&gt;</code><br/>
+<code>#include &lt;random&gt;</code><br/>
+<code>#include &lt;algorithm&gt;</code><br/>
+<code>#include &lt;vector&gt;</code><br/>
 <code>#include &lt;map&gt;</code><br/>
-<code>#include &lt;memory&gt;</code><br/>
 <code>#include &lt;cmath&gt;</code><br/>
 <code>#include &lt;chrono&gt;</code><br/>
-<code>#include &lt;ctime&gt;</code><br/>
-<code>#include &lt;limits&gt;</code><br/>
-<code>#include &lt;algorithm&gt;</code><br/>
-<code>#include &lt;functional&gt;</code><br/>
-<code>#include &lt;cassert&gt;</code><br/>
-<code>#include &lt;typeinfo&gt;</code><br/>
+<code>#include &lt;memory&gt;</code><br/>
 <code>#include &quot;<a class="el" href="variable_8hpp_source.html">variable.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="constraint_8hpp_source.html">constraint.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="domain_8hpp_source.html">domain.hpp</a>&quot;</code><br/>
@@ -111,14 +109,14 @@ Include dependency graph for solver.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="solver_8hpp__incl.png" border="0" usemap="#include_2solver_8hpp" alt=""/></div>
 <map name="include_2solver_8hpp" id="include_2solver_8hpp">
-<area shape="rect" id="node13" href="variable_8hpp.html" title="variable.hpp" alt="" coords="745,155,836,181"/><area shape="rect" id="node15" href="domain_8hpp.html" title="domain.hpp" alt="" coords="595,229,684,256"/><area shape="rect" id="node17" href="random_8hpp.html" title="misc/random.hpp" alt="" coords="449,304,572,331"/><area shape="rect" id="node20" href="constraint_8hpp.html" title="constraint.hpp" alt="" coords="879,80,983,107"/><area shape="rect" id="node21" href="objective_8hpp.html" title="objective.hpp" alt="" coords="461,80,560,107"/></map>
+<area shape="rect" id="node11" href="variable_8hpp.html" title="variable.hpp" alt="" coords="805,155,896,181"/><area shape="rect" id="node13" href="domain_8hpp.html" title="domain.hpp" alt="" coords="714,229,803,256"/><area shape="rect" id="node16" href="random_8hpp.html" title="misc/random.hpp" alt="" coords="208,304,331,331"/><area shape="rect" id="node17" href="constraint_8hpp.html" title="constraint.hpp" alt="" coords="980,80,1084,107"/><area shape="rect" id="node19" href="objective_8hpp.html" title="objective.hpp" alt="" coords="247,80,345,107"/></map>
 </div>
 </div>
 <p><a href="solver_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html">ghost::Solver</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html">ghost::Solver&lt; TypeVariable, TypeConstraint &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a> is the class coding the solver itself.  <a href="classghost_1_1Solver.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -130,7 +128,7 @@ Namespaces</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Aug 20 2017 15:31:05 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Aug 29 2017 03:55:43 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

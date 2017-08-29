@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>GHOST: ghost::Constraint Class Reference</title>
+<title>GHOST: ghost::Constraint&lt; TypeVariable &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -93,7 +93,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#friends">Friends</a> &#124;
 <a href="classghost_1_1Constraint-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">ghost::Constraint Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">ghost::Constraint&lt; TypeVariable &gt; Class Template Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -102,72 +102,85 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p><code>#include &lt;<a class="el" href="constraint_8hpp_source.html">constraint.hpp</a>&gt;</code></p>
 <div class="dynheader">
-Collaboration diagram for ghost::Constraint:</div>
+Collaboration diagram for ghost::Constraint&lt; TypeVariable &gt;:</div>
 <div class="dyncontent">
-<div class="center"><img src="classghost_1_1Constraint__coll__graph.png" border="0" usemap="#ghost_1_1Constraint_coll__map" alt="Collaboration graph"/></div>
+<div class="center"><img src="classghost_1_1Constraint__coll__graph.png" border="0" usemap="#ghost_1_1Constraint_3_01TypeVariable_01_4_coll__map" alt="Collaboration graph"/></div>
+<map name="ghost_1_1Constraint_3_01TypeVariable_01_4_coll__map" id="ghost_1_1Constraint_3_01TypeVariable_01_4_coll__map">
+</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9632dde3e9486686466f1692706af5d9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a9632dde3e9486686466f1692706af5d9">Constraint</a> ()=default</td></tr>
-<tr class="separator:a9632dde3e9486686466f1692706af5d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afdc25eb190a7a0ec4171337fc80888f4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#afdc25eb190a7a0ec4171337fc80888f4">Constraint</a> (const vector&lt; shared_ptr&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; &gt; &amp;<a class="el" href="classghost_1_1Constraint.html#a14585a4765af0acb14a14788929726c3">variables</a>)</td></tr>
-<tr class="memdesc:afdc25eb190a7a0ec4171337fc80888f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The unique <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> constructor.  <a href="#afdc25eb190a7a0ec4171337fc80888f4">More...</a><br/></td></tr>
-<tr class="separator:afdc25eb190a7a0ec4171337fc80888f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65ed5eb7814f9bc07750886cb2e7dbaa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a65ed5eb7814f9bc07750886cb2e7dbaa">Constraint</a> (const <a class="el" href="classghost_1_1Constraint.html">Constraint</a> &amp;other)</td></tr>
-<tr class="memdesc:a65ed5eb7814f9bc07750886cb2e7dbaa"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> copy constructor.  <a href="#a65ed5eb7814f9bc07750886cb2e7dbaa">More...</a><br/></td></tr>
-<tr class="separator:a65ed5eb7814f9bc07750886cb2e7dbaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebea8263c24d0c3a5328c20ee0006f32"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#aebea8263c24d0c3a5328c20ee0006f32">~Constraint</a> ()=default</td></tr>
-<tr class="memdesc:aebea8263c24d0c3a5328c20ee0006f32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> destructor.  <a href="#aebea8263c24d0c3a5328c20ee0006f32">More...</a><br/></td></tr>
-<tr class="separator:aebea8263c24d0c3a5328c20ee0006f32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adfa4826bcaea9e4a692fb0c4630ca214"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#adfa4826bcaea9e4a692fb0c4630ca214">cost</a> () const </td></tr>
-<tr class="separator:adfa4826bcaea9e4a692fb0c4630ca214"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a070d5d68a1291b99f178aa98440186bc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a070d5d68a1291b99f178aa98440186bc">has_variable</a> (const shared_ptr&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; var) const </td></tr>
-<tr class="separator:a070d5d68a1291b99f178aa98440186bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a894b4700d26e59c48739c4292efc8a"><td class="memItemLeft" align="right" valign="top">vector&lt; shared_ptr&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt;<br class="typebreak"/>
- &gt;::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a9a894b4700d26e59c48739c4292efc8a">get_variable_iterator</a> (const shared_ptr&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; var) const </td></tr>
-<tr class="separator:a9a894b4700d26e59c48739c4292efc8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af483429a319284503ff634105cadbe08"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#af483429a319284503ff634105cadbe08">get_id</a> () const </td></tr>
-<tr class="memdesc:af483429a319284503ff634105cadbe08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function to get the unique id of the <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> object.  <a href="#af483429a319284503ff634105cadbe08">More...</a><br/></td></tr>
-<tr class="separator:af483429a319284503ff634105cadbe08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c214f85b51115ef3c32fb21ae90ec22"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a7c214f85b51115ef3c32fb21ae90ec22">Constraint</a> ()=default</td></tr>
+<tr class="separator:a7c214f85b51115ef3c32fb21ae90ec22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe18954dbdd6fb0524121dc0776eb7f4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#afe18954dbdd6fb0524121dc0776eb7f4">Constraint</a> (vector&lt; TypeVariable &gt; *<a class="el" href="classghost_1_1Constraint.html#a83305933e19440f42428da0726261c4a">variables</a>)</td></tr>
+<tr class="memdesc:afe18954dbdd6fb0524121dc0776eb7f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The unique <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> constructor.  <a href="#afe18954dbdd6fb0524121dc0776eb7f4">More...</a><br/></td></tr>
+<tr class="separator:afe18954dbdd6fb0524121dc0776eb7f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c45c0eb8fda1f9b6d807989ec4958d9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a6c45c0eb8fda1f9b6d807989ec4958d9">Constraint</a> (const <a class="el" href="classghost_1_1Constraint.html">Constraint</a> &amp;other)=default</td></tr>
+<tr class="memdesc:a6c45c0eb8fda1f9b6d807989ec4958d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default copy and move contructors are explicitely declared.  <a href="#a6c45c0eb8fda1f9b6d807989ec4958d9">More...</a><br/></td></tr>
+<tr class="separator:a6c45c0eb8fda1f9b6d807989ec4958d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c2a42013e220dd0de9418d1f45ab902"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a1c2a42013e220dd0de9418d1f45ab902">Constraint</a> (<a class="el" href="classghost_1_1Constraint.html">Constraint</a> &amp;&amp;other)=default</td></tr>
+<tr class="separator:a1c2a42013e220dd0de9418d1f45ab902"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f5c217b260439b27f2dd0d9b30bdbc7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classghost_1_1Constraint.html">Constraint</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a1f5c217b260439b27f2dd0d9b30bdbc7">operator=</a> (const <a class="el" href="classghost_1_1Constraint.html">Constraint</a> &amp;other)=delete</td></tr>
+<tr class="memdesc:a1f5c217b260439b27f2dd0d9b30bdbc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy and move assignment operators are disabled.  <a href="#a1f5c217b260439b27f2dd0d9b30bdbc7">More...</a><br/></td></tr>
+<tr class="separator:a1f5c217b260439b27f2dd0d9b30bdbc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0e96050c719fb50174e90ba14597d51"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classghost_1_1Constraint.html">Constraint</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#af0e96050c719fb50174e90ba14597d51">operator=</a> (<a class="el" href="classghost_1_1Constraint.html">Constraint</a> &amp;&amp;other)=delete</td></tr>
+<tr class="separator:af0e96050c719fb50174e90ba14597d51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5d5e4c15ad193621930156edf04bc5f"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#aa5d5e4c15ad193621930156edf04bc5f">~Constraint</a> ()=default</td></tr>
+<tr class="memdesc:aa5d5e4c15ad193621930156edf04bc5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default virtual destructor.  <a href="#aa5d5e4c15ad193621930156edf04bc5f">More...</a><br/></td></tr>
+<tr class="separator:aa5d5e4c15ad193621930156edf04bc5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17995c5c52621d159c155ee789dce62a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a17995c5c52621d159c155ee789dce62a">cost</a> () const </td></tr>
+<tr class="memdesc:a17995c5c52621d159c155ee789dce62a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function following the NVI idiom. Calling required_cost.  <a href="#a17995c5c52621d159c155ee789dce62a">More...</a><br/></td></tr>
+<tr class="separator:a17995c5c52621d159c155ee789dce62a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11376d095cb76243f9b832ecd682ed1e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a11376d095cb76243f9b832ecd682ed1e">has_variable</a> (const TypeVariable &amp;var) const </td></tr>
+<tr class="memdesc:a11376d095cb76243f9b832ecd682ed1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a variable, does this variable composes the constraint?  <a href="#a11376d095cb76243f9b832ecd682ed1e">More...</a><br/></td></tr>
+<tr class="separator:a11376d095cb76243f9b832ecd682ed1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0740fbf918c274ed99b4b186e859b83d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a0740fbf918c274ed99b4b186e859b83d">get_id</a> () const </td></tr>
+<tr class="memdesc:a0740fbf918c274ed99b4b186e859b83d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline function to get the unique id of the <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> object.  <a href="#a0740fbf918c274ed99b4b186e859b83d">More...</a><br/></td></tr>
+<tr class="separator:a0740fbf918c274ed99b4b186e859b83d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a6ef4cd03a4dc864a8d308e55044c615d"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a6ef4cd03a4dc864a8d308e55044c615d">required_cost</a> () const =0</td></tr>
-<tr class="separator:a6ef4cd03a4dc864a8d308e55044c615d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92cde60cfccb2e08f76cf7b70a2dd41c"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a92cde60cfccb2e08f76cf7b70a2dd41c">required_cost</a> () const =0</td></tr>
+<tr class="memdesc:a92cde60cfccb2e08f76cf7b70a2dd41c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure virtual function to compute the current cost of the constraint.  <a href="#a92cde60cfccb2e08f76cf7b70a2dd41c">More...</a><br/></td></tr>
+<tr class="separator:a92cde60cfccb2e08f76cf7b70a2dd41c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a14585a4765af0acb14a14788929726c3"><td class="memItemLeft" align="right" valign="top">vector&lt; shared_ptr&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a14585a4765af0acb14a14788929726c3">variables</a></td></tr>
-<tr class="memdesc:a14585a4765af0acb14a14788929726c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The vector of variable pointers compositing the CSP/COP.  <a href="#a14585a4765af0acb14a14788929726c3">More...</a><br/></td></tr>
-<tr class="separator:a14585a4765af0acb14a14788929726c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5215df3cd5269adb4c5f6168191b9d47"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a5215df3cd5269adb4c5f6168191b9d47">id</a></td></tr>
-<tr class="memdesc:a5215df3cd5269adb4c5f6168191b9d47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique ID integer.  <a href="#a5215df3cd5269adb4c5f6168191b9d47">More...</a><br/></td></tr>
-<tr class="separator:a5215df3cd5269adb4c5f6168191b9d47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83305933e19440f42428da0726261c4a"><td class="memItemLeft" align="right" valign="top">vector&lt; TypeVariable &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a83305933e19440f42428da0726261c4a">variables</a></td></tr>
+<tr class="memdesc:a83305933e19440f42428da0726261c4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to the vector of variable compositing the CSP/COP.  <a href="#a83305933e19440f42428da0726261c4a">More...</a><br/></td></tr>
+<tr class="separator:a83305933e19440f42428da0726261c4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afffa2a41da00f31eff2e1b69b25541dc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#afffa2a41da00f31eff2e1b69b25541dc">id</a></td></tr>
+<tr class="memdesc:afffa2a41da00f31eff2e1b69b25541dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique ID integer.  <a href="#afffa2a41da00f31eff2e1b69b25541dc">More...</a><br/></td></tr>
+<tr class="separator:afffa2a41da00f31eff2e1b69b25541dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
-<tr class="memitem:a7233f9b589a413e310991431039b05b6"><td class="memItemLeft" align="right" valign="top">ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a7233f9b589a413e310991431039b05b6">operator&lt;&lt;</a> (ostream &amp;os, const <a class="el" href="classghost_1_1Constraint.html">Constraint</a> &amp;c)</td></tr>
-<tr class="memdesc:a7233f9b589a413e310991431039b05b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">friend override of operator&lt;&lt;  <a href="#a7233f9b589a413e310991431039b05b6">More...</a><br/></td></tr>
-<tr class="separator:a7233f9b589a413e310991431039b05b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fa7c37883c5e8fc8dde355ecfe5f70d"><td class="memItemLeft" align="right" valign="top">ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a5fa7c37883c5e8fc8dde355ecfe5f70d">operator&lt;&lt;</a> (ostream &amp;os, const <a class="el" href="classghost_1_1Constraint.html">Constraint</a>&lt; TypeVariable &gt; &amp;c)</td></tr>
+<tr class="separator:a5fa7c37883c5e8fc8dde355ecfe5f70d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> is the class encoding constraints of your CSP/COP. </p>
+<div class="textblock"><h3>template&lt;typename TypeVariable&gt;<br/>
+class ghost::Constraint&lt; TypeVariable &gt;</h3>
+
+<p><a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> is the class encoding constraints of your CSP/COP. </p>
 <p>In GHOST, many different constraint objects can be instanciate.</p>
-<p>The <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> class is a template class, waiting for both the type of variable and the type of domain. Thus, you must instanciate a constraint by specifying the class of your variable objects and the class of your domain object, like for instance Constraint&lt;Variable, Domain&gt; or <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a>&lt;MyCustomVariable, MyCustomDomain&gt;, if MyCustomVariable inherits from the <a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">ghost::Variable</a> class and MyCustomDomain inherits from the <a class="el" href="classghost_1_1Domain.html" title="Domain is the class encoding the domain of your CSP/COP. ">ghost::Domain</a> class.</p>
-<p>You cannot directly use this class <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> to encode your CSP/COP constraints, since this is an abstract class (see the list of pure virtual functions below). Thus, you must write your own constraint class inheriting from <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">ghost::Constraint</a>.</p>
-<p>The only pure virtual <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> function is v_cost</p>
+<p>The <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> class is a template class, waiting for the type of variable composing the constraint. Thus, you must instanciate a constraint by specifying the class of your variable objects, like for instance Constraint&lt;Variable&gt; or Constraint&lt;MyCustomVariable&gt;, where MyCustomVariable must inherits from <a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">ghost::Variable</a>.</p>
+<p>You cannot directly use this class <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> to encode your CSP/COP constraints, since this is an abstract class. Thus, you must write your own constraint class inheriting from <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">ghost::Constraint</a>.</p>
+<p>The only pure virtual <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> function is required_cost.</p>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">Variable</a> </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a9632dde3e9486686466f1692706af5d9"></a>
+<a class="anchor" id="a7c214f85b51115ef3c32fb21ae90ec22"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ghost::Constraint::Constraint </td>
+          <td class="memname"><a class="el" href="classghost_1_1Constraint.html">ghost::Constraint</a>&lt; TypeVariable &gt;::<a class="el" href="classghost_1_1Constraint.html">Constraint</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -182,14 +195,16 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="afdc25eb190a7a0ec4171337fc80888f4"></a>
+<a class="anchor" id="afe18954dbdd6fb0524121dc0776eb7f4"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">ghost::Constraint::Constraint </td>
+          <td class="memname"><a class="el" href="classghost_1_1Constraint.html">ghost::Constraint</a>&lt; TypeVariable &gt;::<a class="el" href="classghost_1_1Constraint.html">Constraint</a> </td>
           <td>(</td>
-          <td class="paramtype">const vector&lt; shared_ptr&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; TypeVariable &gt; *&#160;</td>
           <td class="paramname"><em>variables</em></td><td>)</td>
           <td></td>
         </tr>
@@ -199,46 +214,78 @@ Friends</h2></td></tr>
 <p>The unique <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">variables</td><td>The vector of variable pointers composition the CSP/COP. </td></tr>
+    <tr><td class="paramname">variables</td><td>A pointer to the vector of variable composition the CSP/COP. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a class="anchor" id="a65ed5eb7814f9bc07750886cb2e7dbaa"></a>
+<a class="anchor" id="a6c45c0eb8fda1f9b6d807989ec4958d9"></a>
 <div class="memitem">
 <div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ghost::Constraint::Constraint </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classghost_1_1Constraint.html">Constraint</a> &amp;&#160;</td>
-          <td class="paramname"><em>other</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> copy constructor. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">other</td><td>A reference to a <a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">Variable</a> object. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="aebea8263c24d0c3a5328c20ee0006f32"></a>
-<div class="memitem">
-<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual ghost::Constraint::~Constraint </td>
+          <td class="memname"><a class="el" href="classghost_1_1Constraint.html">ghost::Constraint</a>&lt; TypeVariable &gt;::<a class="el" href="classghost_1_1Constraint.html">Constraint</a> </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classghost_1_1Constraint.html">Constraint</a>&lt; TypeVariable &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default copy and move contructors are explicitely declared. </p>
+
+</div>
+</div>
+<a class="anchor" id="a1c2a42013e220dd0de9418d1f45ab902"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classghost_1_1Constraint.html">ghost::Constraint</a>&lt; TypeVariable &gt;::<a class="el" href="classghost_1_1Constraint.html">Constraint</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classghost_1_1Constraint.html">Constraint</a>&lt; TypeVariable &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aa5d5e4c15ad193621930156edf04bc5f"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classghost_1_1Constraint.html">ghost::Constraint</a>&lt; TypeVariable &gt;::~<a class="el" href="classghost_1_1Constraint.html">Constraint</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -251,27 +298,22 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Default <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> destructor. </p>
-<p>The copy-and-swap idiom is applyed here.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">other</td><td>A <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> object. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Default virtual destructor. </p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="adfa4826bcaea9e4a692fb0c4630ca214"></a>
+<a class="anchor" id="a17995c5c52621d159c155ee789dce62a"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">double ghost::Constraint::cost </td>
+          <td class="memname">double <a class="el" href="classghost_1_1Constraint.html">ghost::Constraint</a>&lt; TypeVariable &gt;::cost </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -283,20 +325,23 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Inline function following the NVI idiom. Calling v_cost. </p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Constraint.html#a6ef4cd03a4dc864a8d308e55044c615d">required_cost</a> </dd></dl>
+
+<p>Inline function following the NVI idiom. Calling required_cost. </p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classghost_1_1Constraint.html#a92cde60cfccb2e08f76cf7b70a2dd41c" title="Pure virtual function to compute the current cost of the constraint. ">required_cost</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="af483429a319284503ff634105cadbe08"></a>
+<a class="anchor" id="a0740fbf918c274ed99b4b186e859b83d"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int ghost::Constraint::get_id </td>
+          <td class="memname">int <a class="el" href="classghost_1_1Constraint.html">ghost::Constraint</a>&lt; TypeVariable &gt;::get_id </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -313,19 +358,22 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a9a894b4700d26e59c48739c4292efc8a"></a>
+<a class="anchor" id="a11376d095cb76243f9b832ecd682ed1e"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">vector&lt; shared_ptr&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; &gt;::const_iterator ghost::Constraint::get_variable_iterator </td>
+          <td class="memname">bool <a class="el" href="classghost_1_1Constraint.html">ghost::Constraint</a>&lt; TypeVariable &gt;::has_variable </td>
           <td>(</td>
-          <td class="paramtype">const shared_ptr&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt;&#160;</td>
+          <td class="paramtype">const TypeVariable &amp;&#160;</td>
           <td class="paramname"><em>var</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
 <p>Given a variable, does this variable composes the constraint? </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -333,43 +381,75 @@ Friends</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True iff the constraint contains var </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True iff the constraint contains var. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a070d5d68a1291b99f178aa98440186bc"></a>
+<a class="anchor" id="a1f5c217b260439b27f2dd0d9b30bdbc7"></a>
 <div class="memitem">
 <div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool ghost::Constraint::has_variable </td>
-          <td>(</td>
-          <td class="paramtype">const shared_ptr&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt;&#160;</td>
-          <td class="paramname"><em>var</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Given a variable, does this variable composes the constraint? </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">var</td><td>A variable. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True iff the constraint contains var </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a6ef4cd03a4dc864a8d308e55044c615d"></a>
-<div class="memitem">
-<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual double ghost::Constraint::required_cost </td>
+          <td class="memname"><a class="el" href="classghost_1_1Constraint.html">Constraint</a>&amp; <a class="el" href="classghost_1_1Constraint.html">ghost::Constraint</a>&lt; TypeVariable &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classghost_1_1Constraint.html">Constraint</a>&lt; TypeVariable &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Copy and move assignment operators are disabled. </p>
+
+</div>
+</div>
+<a class="anchor" id="af0e96050c719fb50174e90ba14597d51"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classghost_1_1Constraint.html">Constraint</a>&amp; <a class="el" href="classghost_1_1Constraint.html">ghost::Constraint</a>&lt; TypeVariable &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classghost_1_1Constraint.html">Constraint</a>&lt; TypeVariable &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a92cde60cfccb2e08f76cf7b70a2dd41c"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual double <a class="el" href="classghost_1_1Constraint.html">ghost::Constraint</a>&lt; TypeVariable &gt;::required_cost </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -381,14 +461,18 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Pure virtual function to compute the current cost of the constraint. WARNING: do not implement side effect in this function. It will be called by the solver to compute the constraint cost but also for some cost simulations. </p>
+
+<p>Pure virtual function to compute the current cost of the constraint. </p>
+<p>WARNING: do not implement side effect in this function. It is called by the solver to compute the constraint cost but also for some cost simulations. </p>
 
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a class="anchor" id="a7233f9b589a413e310991431039b05b6"></a>
+<a class="anchor" id="a5fa7c37883c5e8fc8dde355ecfe5f70d"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -402,7 +486,7 @@ Friends</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classghost_1_1Constraint.html">Constraint</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classghost_1_1Constraint.html">Constraint</a>&lt; TypeVariable &gt; &amp;&#160;</td>
           <td class="paramname"><em>c</em>&#160;</td>
         </tr>
         <tr>
@@ -418,20 +502,20 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>friend override of operator&lt;&lt; </p>
-
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a5215df3cd5269adb4c5f6168191b9d47"></a>
+<a class="anchor" id="afffa2a41da00f31eff2e1b69b25541dc"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int ghost::Constraint::id</td>
+          <td class="memname">int <a class="el" href="classghost_1_1Constraint.html">ghost::Constraint</a>&lt; TypeVariable &gt;::id</td>
         </tr>
       </table>
   </td>
@@ -445,15 +529,17 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a14585a4765af0acb14a14788929726c3"></a>
+<a class="anchor" id="a83305933e19440f42428da0726261c4a"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename TypeVariable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">vector&lt; shared_ptr&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; &gt; ghost::Constraint::variables</td>
+          <td class="memname">vector&lt; TypeVariable &gt;* <a class="el" href="classghost_1_1Constraint.html">ghost::Constraint</a>&lt; TypeVariable &gt;::variables</td>
         </tr>
       </table>
   </td>
@@ -463,7 +549,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>The vector of variable pointers compositing the CSP/COP. </p>
+<p>Pointer to the vector of variable compositing the CSP/COP. </p>
 
 </div>
 </div>
@@ -473,7 +559,7 @@ Friends</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Aug 20 2017 15:31:05 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Aug 29 2017 03:55:43 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

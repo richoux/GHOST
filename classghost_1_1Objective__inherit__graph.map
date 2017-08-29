@@ -1,3 +1,3 @@
-<map id="ghost::Objective" name="ghost::Objective">
-<area shape="rect" id="node2" href="$classghost_1_1NullObjective.html" title="NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). " alt="" coords="30,365,169,443"/>
+<map id="ghost::Objective&lt; TypeVariable &gt;" name="ghost::Objective&lt; TypeVariable &gt;">
+<area shape="rect" id="node2" href="$classghost_1_1NullObjective.html" title="NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). " alt="" coords="43,441,183,533"/>
 </map>
