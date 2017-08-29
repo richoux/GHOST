@@ -109,6 +109,29 @@ namespace ghost
     }
 #endif
 
+    // Solver's regular constructor
+    /*
+     * \param vecVariables A pointer to the vector of Variables.
+     * \param vecConstraints A pointer to the vector of Constraints.
+     * \param obj A pointer to an Objective.
+     * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
+     */
+    Solver( vector< TypeVariable > *vecVariables, 
+	    vector< TypeConstraint > *vecConstraints,
+	    TypeObjective *obj,
+	    bool permutationProblem = false );
+
+    // Second Solver's constructor
+    /*
+     * \param vecVariables A pointer to the vector of Variables.
+     * \param vecConstraints A pointer to the vector of Constraints.
+     * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
+     */
+    Solver( vector< TypeVariable > *vecVariables, 
+	    vector< TypeConstraint > *vecConstraints,
+	    bool permutationProblem = false );
+
+    
     // Set the initial configuration by calling monte_carlo_sampling() 'samplings' times.
     /*
      * After calling calling monte_carlo_sampling() 'samplings' times, the function keeps 
@@ -169,32 +192,30 @@ namespace ghost
   public:
     //! Solver's regular constructor
     /*!
-     * \param vecVariables A pointer to the vector of variable objects of the CSP/COP.
-     * \param vecConstraints A constant reference to the vector of shared pointers of Constraint
-     * \param obj A reference to the shared pointer of an Objective object. Default value is nullptr.
+     * \param vecVariables A pointer to the vector of Variables.
+     * \param vecConstraints A reference to the vector of Constraints.
+     * \param obj A reference to the Objective.
      * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
      */
-    Solver( vector< TypeVariable > *vecVariables, 
-	    vector< TypeConstraint > *vecConstraints,
-	    TypeObjective *obj,
+    Solver( vector< TypeVariable >& vecVariables, 
+	    vector< TypeConstraint >& vecConstraints,
+	    TypeObjective& obj,
 	    bool permutationProblem = false );
 
     //! Second Solver's constructor
     /*!
-     * The solver is calling Solver(vecVariables, vecConstraints, nullptr, permutationProblem)
-     *
-     * \param vecVariables A pointer to the vector of variable objects of the CSP/COP.
-     * \param vecConstraints A constant reference to the vector of shared pointers of Constraint
+     * \param vecVariables A reference to the vector of Variables.
+     * \param vecConstraints A reference to the vector of Constraints.
      * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
      */
-    Solver( vector< TypeVariable > *vecVariables, 
-	    vector< TypeConstraint > *vecConstraints,
+    Solver( vector< TypeVariable >& vecVariables, 
+	    vector< TypeConstraint >& vecConstraints,
 	    bool permutationProblem = false );
     
     //! Solver's main function, to solve the given CSP/COP.
     /*!
-     * \param finalCost The double of the sum of constraints cost for satisfaction problems, or the value of the objective function for optimization problems. For satisfaction problems, a cost of zero means a solution has been found.
-     * \param finalSolution The configuration of the best solution found, ie, the vector of assignements of each variable.
+     * \param finalCost A reference to the double of the sum of constraints cost for satisfaction problems, or the value of the objective function for optimization problems. For satisfaction problems, a cost of zero means a solution has been found.
+     * \param finalSolution The configuration of the best solution found, ie, a reference to the vector of assignements of each variable.
      * \param sat_timeout The satisfaction timeout in milliseconds.
      * \param opt_timeout The optimization timeout in milliseconds (optionnal, equals to 10 times sat_timeout is not set).
      * \return True iff a solution has been found.
@@ -205,6 +226,22 @@ namespace ghost
   ////////////////////
   // Implementation //
   ////////////////////
+
+  template <typename TypeVariable, typename TypeConstraint, typename TypeObjective>
+  Solver<TypeVariable, TypeConstraint, TypeObjective>::Solver( vector< TypeVariable >& vecVariables, 
+							       vector< TypeConstraint >& vecConstraints,
+							       TypeObjective& objective,
+							       bool permutationProblem )
+    : Solver( &vecVariables, &vecConstraints, &objective, permutationProblem )
+  { }
+
+  template <typename TypeVariable, typename TypeConstraint, typename TypeObjective>
+  Solver<TypeVariable, TypeConstraint, TypeObjective>::Solver( vector< TypeVariable >& vecVariables, 
+							       vector< TypeConstraint >& vecConstraints,
+							       bool permutationProblem )
+    : Solver( &vecVariables, &vecConstraints, permutationProblem )
+  { }
+  
 
   template <typename TypeVariable, typename TypeConstraint, typename TypeObjective>
   Solver<TypeVariable, TypeConstraint, TypeObjective>::Solver( vector< TypeVariable > *vecVariables, 
@@ -316,7 +353,7 @@ namespace ghost
 	// By default, Objective::heuristic_variable returns a random variable
 	// among the vector of TypeVariables given in argument.
 	if( worstVariableList.size() > 1 )
-	  worstVariable = _objective->heuristic_variable( &worstVariableList );
+	  worstVariable = _objective->heuristic_variable( worstVariableList );
 	else
 	  worstVariable = worstVariableList[0];
 
@@ -675,7 +712,6 @@ namespace ghost
     // improving the most the objective function, or a random value
     // among values improving the most the objective function if there
     // are some ties.
-
     if( bestValuesList.size() > 1 )
       bestValue = _objective->heuristic_value( _vecVariables, variable, bestValuesList );
     else
@@ -726,9 +762,8 @@ namespace ghost
     // improving the most the objective function, or a random value
     // among values improving the most the objective function if there
     // are some ties.
-
     if( bestVarToSwapList.size() > 1 )
-      bestVarToSwap = _objective->heuristic_value( &bestVarToSwapList );
+      bestVarToSwap = _objective->heuristic_value( bestVarToSwapList );
     else
       bestVarToSwap = bestVarToSwapList[0];
 

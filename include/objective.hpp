@@ -95,7 +95,7 @@ namespace ghost
     /*! 
      * \sa expert_heuristic_variable
      */
-    inline TypeVariable* heuristic_variable( vector< TypeVariable* > *variables ) const
+    inline TypeVariable* heuristic_variable( vector< TypeVariable* > variables ) const
     { return expert_heuristic_variable( variables ); }
     
     //! Inline function following the NVI idiom. Calling expert_heuristic_value.
@@ -111,7 +111,7 @@ namespace ghost
     /*! 
      * \sa expert_heuristic_value
      */
-    inline TypeVariable* heuristic_value( vector< TypeVariable* > *bad_variables ) const
+    inline TypeVariable* heuristic_value( vector< TypeVariable* > bad_variables ) const
     { return expert_heuristic_value( bad_variables ); }
 
     //! Inline function following the NVI idiom. Calling expert_postprocess_satisfaction.
@@ -152,11 +152,11 @@ namespace ghost
     /*! 
      * By default, returns a random variable among the vector in input.
      *
-     * \param variables A pointer to the vector of variable pointers of the CSP/COP.
+     * \param variables The vector of variable pointers of the CSP/COP.
      * \return The address of a random variable in variables
      * \sa heuristic_variable
      */
-    virtual TypeVariable* expert_heuristic_variable( vector< TypeVariable* > *variables ) const;
+    virtual TypeVariable* expert_heuristic_variable( vector< TypeVariable* > variables ) const;
 
     //! Virtual function to apply the value heuristic used by the solver for non permutation problems.
     /*! 
@@ -178,11 +178,11 @@ namespace ghost
     /*! 
      * By default, returns a random variable among the vector in input.
      *
-     * \param bad_variables A pointer to the vector of variable pointers.
+     * \param bad_variables The vector of variable pointers.
      * \return The selected variable to swap with, according to the heuristic.
      * \sa heuristic_value, Random
      */
-    virtual TypeVariable* expert_heuristic_value( vector< TypeVariable* > *bad_variables ) const;
+    virtual TypeVariable* expert_heuristic_value( vector< TypeVariable* > bad_variables ) const;
 
     //! Virtual function to perform satisfaction post-processing.
     /*! 
@@ -255,9 +255,9 @@ namespace ghost
   { }
   
   template <typename TypeVariable>
-  TypeVariable* Objective<TypeVariable>::expert_heuristic_variable( vector< TypeVariable* > *variables ) const
+  TypeVariable* Objective<TypeVariable>::expert_heuristic_variable( vector< TypeVariable* > variables ) const
   {
-    return (*variables)[ random.get_random_number( variables->size() ) ];
+    return variables[ random.get_random_number( variables.size() ) ];
   }
   
   template <typename TypeVariable>
@@ -293,8 +293,8 @@ namespace ghost
   }
   
   template <typename TypeVariable>
-  TypeVariable* Objective<TypeVariable>::expert_heuristic_value( vector< TypeVariable* > *bad_variables ) const
+  TypeVariable* Objective<TypeVariable>::expert_heuristic_value( vector< TypeVariable* > bad_variables ) const
   {
-    return (*bad_variables)[ random.get_random_number( bad_variables->size() ) ];
+    return bad_variables[ random.get_random_number( bad_variables.size() ) ];
   } 
 }
