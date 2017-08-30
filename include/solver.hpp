@@ -462,7 +462,7 @@ namespace ghost
     for( auto& v : *_vecVariables )
     {
       id = v.get_id() - _varOffset;
-      int ratio = std::max( 5, (int)v.get_domain_size()/10 );
+      int ratio = 1;//std::max( 5, (int)v.get_domain_size()/100 );
     
       for( auto& c : _mapVarCtr[ v ] )
 	costVariables[ id ] += costConstraints[ c.get_id() - _ctrOffset ];
