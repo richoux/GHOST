@@ -252,12 +252,12 @@ namespace ghost
     int tabuTime = _vecVariables->size() - 1;
 
     _varOffset = (*_vecVariables)[0].get_id();
-    for( auto& v : (*_vecVariables) )
+    for( auto& v : *_vecVariables )
       if( v.get_id() < _varOffset )
 	_varOffset = v.get_id();
     
     _ctrOffset = (*_vecConstraints)[0].get_id();
-    for( auto& c : (*_vecConstraints) )
+    for( auto& c : *_vecConstraints )
       if( c.get_id() < _ctrOffset )
 	_ctrOffset = c.get_id();
     
