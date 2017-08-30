@@ -84,7 +84,7 @@ void Variable::do_random_initialization()
 vector<int> Variable::possible_values() const
 {
   vector<int> possibleValues;
-  
+
   for( int i = 0 ; i < (int)domain.get_size() ; ++i )
     possibleValues.push_back( domain.get_value( i ) );
   

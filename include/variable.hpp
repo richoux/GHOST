@@ -127,7 +127,6 @@ namespace ghost
      * \return a vector<int> of values belonging to the variable domain.
      */
     vector<int> possible_values() const;
-
     
     //! Inline function to get the current value of the variable.
     /*! 
@@ -136,7 +135,6 @@ namespace ghost
      */
     inline int get_value() const { return domain.get_value( index ); }
 
-    
     //! Inline function to set the value of the variable.
     /*! 
      * If the given value is not in the domain, raises a valueException.
