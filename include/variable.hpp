@@ -126,7 +126,7 @@ namespace ghost
     /*! Function returning what values are in the domain.
      * \return a vector<int> of values belonging to the variable domain.
      */
-    vector<int> possible_values() const;
+    const vector<int>& possible_values() const;
     
     //! Inline function to get the current value of the variable.
     /*! 

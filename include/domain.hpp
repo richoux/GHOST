@@ -109,6 +109,12 @@ namespace ghost
       return _domain.size();
     }
 
+    //! Inline function to get the full domain.
+    inline const vector<int>& get_domain() const
+    {
+      return _domain;
+    }
+
     //! Get the value at the given index
     /*!
      * \param index is the index of the desired value.
