@@ -356,14 +356,14 @@ namespace ghost
 	// Mark worstVariable as weak tabu for tabuTimeLocalMin iterations.
 	  _weakTabuList[ worstVariable->get_id() - _varOffset ] = tabuTimeLocalMin;
       
-	// cout << "Opt " << optLoop << " - Sat " << satLoop << "\n";
-	// cout << "Var " << worstVariable->get_name() << "\n";
-	// for( auto& v : *_vecVariables )
-	//   cout << v.get_name() << ": " << v.get_value()
-	//        << ", " << costVariables[v.get_id()]
-	//        << ", " << costNonTabuVariables[v.get_id()]
-	//        << ", " << _weakTabuList[v.get_id()] << "\n";
-	// cout << "\n";	  
+	cout << "Opt " << optLoop << " - Sat " << satLoop << "\n";
+	cout << "Var " << worstVariable->get_name() << "\n";
+	for( auto& v : *_vecVariables )
+	  cout << v.get_name() << ": " << v.get_value()
+	       << ", " << costVariables[v.get_id()]
+	       << ", " << costNonTabuVariables[v.get_id()]
+	       << ", " << _weakTabuList[v.get_id()] << "\n";
+	cout << "\n";	  
 	
 	elapsedTimeOptLoop = chrono::steady_clock::now() - startOptLoop;
 	elapsedTime = chrono::steady_clock::now() - start;
