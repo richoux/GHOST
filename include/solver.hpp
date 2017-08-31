@@ -30,6 +30,7 @@
 
 #pragma once
 
+#include <cassert>
 #include <limits>
 #include <random>
 #include <algorithm>
@@ -249,7 +250,8 @@ namespace ghost
       optTimeout *= 1000;
 
     // The only parameter of Solver<TypeVariable, TypeConstraint>::solve outside timeouts
-    int tabuTime = _vecVariables->size() - 1;
+    int tabuTimeLocalMin = _vecVariables->size() - 1;
+    int tabuTimeSelected = std::max( 1, tabuTimeLocalMin / 4);
 
     _varOffset = (*_vecVariables)[0].get_id();
     for( auto& v : *_vecVariables )
@@ -348,11 +350,11 @@ namespace ghost
 	    _bestSatCost = _bestSatCostTour;
 
 	  // freeze the variable a bit
-	  _weakTabuList[ worstVariable->get_id() - _varOffset ] = (int)(tabuTime / 4);
+	  _weakTabuList[ worstVariable->get_id() - _varOffset ] = tabuTimeSelected;
 	}
 	else // local minima
-	  // Mark worstVariable as weak tabu for tabuTime iterations.
-	  _weakTabuList[ worstVariable->get_id() - _varOffset ] = tabuTime;
+	  // Mark worstVariable as weak tabu for tabuTimeLocalMin iterations.
+	  _weakTabuList[ worstVariable->get_id() - _varOffset ] = tabuTimeLocalMin;
       
 	elapsedTimeOptLoop = chrono::steady_clock::now() - startOptLoop;
 	elapsedTime = chrono::steady_clock::now() - start;
@@ -560,13 +562,12 @@ namespace ghost
   {
     for( int i = 0 ; i < (int)_weakTabuList.size() ; ++i )
     {
-      if( _weakTabuList[i] <= 1 )
-      {
-	_weakTabuList[i] = 0;
-	freeVariables = true;      
-      }
+      if( _weakTabuList[i] == 0 )
+	freeVariables = true;
       else
-	--_weakTabuList[i];
+ 	--_weakTabuList[i];
+
+      assert( _weakTabuList[i] >= 0 );
     }
   }
 
