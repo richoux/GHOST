@@ -52,6 +52,7 @@ namespace ghost
     vector< int >	_indexes;	// Vector of integers containing the current values of the domain.
     int			_minValue;	// min value, used for indexes.
     int			_maxValue;	// max value.
+    int			_size;		// size of _domain
     Random		_random;	// A random generator used by the function randomValue. 
     
     // For the copy-and-swap idiom
@@ -96,7 +97,7 @@ namespace ghost
     //! Inline function returning a random value from the domain, following a uniform distribution.
     inline int random_value() const
     {
-      return _domain[ _random.get_random_number( _domain.size() ) ];
+      return _domain[ _random.get_random_number( _size ) ];
     }
 
     //! Inline function to get the size of the domain.
@@ -106,7 +107,7 @@ namespace ghost
      */
     inline size_t get_size() const
     {
-      return _domain.size();
+      return _size;
     }
 
     //! Inline function to get the full domain.
@@ -130,7 +131,7 @@ namespace ghost
 
     friend ostream& operator<<( ostream& os, const Domain& domain )
     {
-      os << "Size: " <<  domain.get_size() << "\nDomain: ";
+      os << "Size: " <<  domain._size << "\nDomain: ";
       copy( begin( domain._domain ), end( domain._domain ), ostream_iterator<int>( os, " " ) );
       return os << "\n";
     }

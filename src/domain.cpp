@@ -39,24 +39,26 @@ using namespace std;
 using namespace ghost;
 
 Domain::Domain( const vector< int >& domain )
-  : _domain ( domain ),
-    _minValue ( *std::min_element( _domain.begin(), _domain.end() ) ),
-    _maxValue ( *std::max_element( _domain.begin(), _domain.end() ) )
+  : _domain	( domain ),
+    _minValue	( *std::min_element( _domain.begin(), _domain.end() ) ),
+    _maxValue	( *std::max_element( _domain.begin(), _domain.end() ) ),
+    _size	( (int)domain.size() )
 {
   _indexes = vector<int>( _maxValue - _minValue + 1, -1 );
-  for( int i = 0 ; i < (int)_domain.size() ; ++i )
+  for( int i = 0 ; i < _size ; ++i )
     _indexes[ _domain[ i ] - _minValue ] = i ;
 }
 
 Domain::Domain( int size, int startValue )
-  : _domain ( vector<int>( size ) ),
-    _minValue ( startValue ),
-    _maxValue ( startValue + size - 1 )
+  : _domain	( vector<int>( size ) ),
+    _minValue	( startValue ),
+    _maxValue	( startValue + size - 1 ),
+    _size	( size )
 {
   iota( begin( _domain ), end( _domain ), startValue );
 
   _indexes = vector<int>( size, -1 );
-  for( int i = 0 ; i < (int)_domain.size() ; ++i )
+  for( int i = 0 ; i < _size ; ++i )
     _indexes[ _domain[ i ] - _minValue ] = i;
 }
 
@@ -65,6 +67,7 @@ Domain::Domain( const Domain &other )
     _indexes( other._indexes ),
     _minValue( other._minValue ),
     _maxValue( other._maxValue ),
+    _size( other._size ),
     _random( other._random )
 { }
 
@@ -80,12 +83,13 @@ void Domain::swap( Domain &other )
   std::swap( this->_indexes, other._indexes );
   std::swap( this->_minValue, other._minValue );
   std::swap( this->_maxValue, other._maxValue );
+  std::swap( this->_size, other._size );
   std::swap( this->_random, other._random );
 }  
 
 int Domain::get_value( int index ) const
 {
-  if( index >=0 && index < (int)_domain.size() )
+  if( index >=0 && index < _size )
     return _domain[ index ];
   else
     throw indexException();

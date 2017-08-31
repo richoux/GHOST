@@ -1,5 +1,5 @@
 # Project name
-EXEC=libghost.so
+# EXEC=libghost.so
 
 # Compiler
 ifeq ($(CXX),)
@@ -11,7 +11,7 @@ INCDIRFLAG=$(foreach idir, $(INCDIR), -I$(idir))
 CXXFLAGS=-std=c++14 -fPIC -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(INCDIRFLAG)
 
 # Linker
-LDFLAGS=-shared $(INCDIRFLAG)
+# LDFLAGS=-shared $(INCDIRFLAG)
 
 # Directories
 OBJDIR=obj
@@ -35,13 +35,17 @@ vpath %.cpp $(SRCDIR)
 # Rules
 
 all: CXXFLAGS += -DNDEBUG -Ofast 
-all: $(BINDIR)/$(EXEC)	
+all: $(OBJECTS)
+	ar cru $(BINDIR)/libghost.a $(OBJECTS)
+#all: $(BINDIR)/$(EXEC)	
 
 debug: CXXFLAGS += -DDEBUG -g -O0
-debug: $(BINDIR)/$(EXEC)	
+debug: $(OBJECTS)
+	ar cru $(BINDIR)/libghost.a $(OBJECTS)
+#debug: $(BINDIR)/$(EXEC)	
 
-$(BINDIR)/$(EXEC): $(OBJECTS)
-	$(CXX) -o $@ $(LDFLAGS) $^
+#$(BINDIR)/$(EXEC): $(OBJECTS)
+#	$(CXX) -o $@ $(LDFLAGS) $^
 
 $(OBJDIR)/%.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
@@ -58,7 +62,7 @@ doc:
 	doxygen doc/Doxyfile
 
 install:
-	cp lib/libghost.so /usr/local/lib
+	cp lib/libghost.a /usr/local/lib
 	ldconfig
 	rm -fr /usr/local/include/ghost
 	cp -r include /usr/local/include/ghost

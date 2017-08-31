@@ -304,7 +304,7 @@ namespace ghost
       ++optLoop;
 
       // start from a random configuration
-      set_initial_configuration( 100 );
+      set_initial_configuration( 10 );
     
       // Reset weak tabu list
       fill( _weakTabuList.begin(), _weakTabuList.end(), 0 );
