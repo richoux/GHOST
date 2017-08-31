@@ -251,7 +251,7 @@ namespace ghost
 
     // The only parameter of Solver<TypeVariable, TypeConstraint>::solve outside timeouts
     int tabuTimeLocalMin = _vecVariables->size() - 1;
-    int tabuTimeSelected = std::max( 1, tabuTimeLocalMin / 4);
+    int tabuTimeSelected = std::max( 1, tabuTimeLocalMin / 2);
 
     _varOffset = (*_vecVariables)[0].get_id();
     for( auto& v : *_vecVariables )
@@ -353,9 +353,18 @@ namespace ghost
 	  _weakTabuList[ worstVariable->get_id() - _varOffset ] = tabuTimeSelected;
 	}
 	else // local minima
-	  // Mark worstVariable as weak tabu for tabuTimeLocalMin iterations.
+	// Mark worstVariable as weak tabu for tabuTimeLocalMin iterations.
 	  _weakTabuList[ worstVariable->get_id() - _varOffset ] = tabuTimeLocalMin;
       
+	// cout << "Opt " << optLoop << " - Sat " << satLoop << "\n";
+	// cout << "Var " << worstVariable->get_name() << "\n";
+	// for( auto& v : *_vecVariables )
+	//   cout << v.get_name() << ": " << v.get_value()
+	//        << ", " << costVariables[v.get_id()]
+	//        << ", " << costNonTabuVariables[v.get_id()]
+	//        << ", " << _weakTabuList[v.get_id()] << "\n";
+	// cout << "\n";	  
+	
 	elapsedTimeOptLoop = chrono::steady_clock::now() - startOptLoop;
 	elapsedTime = chrono::steady_clock::now() - start;
       } // satisfaction loop
@@ -472,6 +481,9 @@ namespace ghost
       // i is initialized just not to be warned by compiler
       int i = 1;
       double sum = 0.;
+
+      // int below11 = 0;
+      // int above11 = 0;
       
       if( _permutationProblem )
       {
@@ -481,6 +493,10 @@ namespace ghost
 	{
 	  otherVariable = &(*_vecVariables)[ _random.get_random_number( _vecVariables->size() ) ];
 	  sum += simulate_permutation_cost( &v, *otherVariable, costConstraints, currentSatCost );
+	  // if( ( costVariables[ id ] / simulate_permutation_cost( &v, *otherVariable, costConstraints, currentSatCost ) ) < 1.1 )
+	  //   ++below11;
+	  // else
+	  //   ++above11;
 	}
       }
       else
@@ -493,6 +509,10 @@ namespace ghost
 	{
 	  value = domain[ _random.get_random_number( domain.size() ) ];
 	  sum += simulate_local_move_cost( &v, value, costConstraints, currentSatCost );
+	  // if( ( costVariables[ id ] / simulate_local_move_cost( &v, value, costConstraints, currentSatCost ) ) < 1.1 )
+	  //   ++below11;
+	  // else
+	  //   ++above11;
 	}
 	
 	v.set_value( backup );
@@ -500,6 +520,10 @@ namespace ghost
       
       // sum / i is the mean
       costVariables[ id ] = fabs( costVariables[ id ] - ( sum / ratio ) );
+      // costVariables[ id ] = std::max( 0., costVariables[ id ] * ( 1 - ( ( sum / ratio ) / costVariables[ id ] ) ) );
+      
+      // if( below11 > above11 )
+      // 	costVariables[ id ] = 0;
       
       if( _weakTabuList[ id ] == 0 )
 	costNonTabuVariables[ id ] = costVariables[ id ];

@@ -182,8 +182,7 @@ namespace ghost
      */
     virtual void expert_postprocess_satisfaction( vector< TypeVariable > *variables,
 						  double& bestCost,
-						  vector< int >& solution ) const
-    { }
+						  vector< int >& solution ) const;
 
     //! Virtual function to perform optimization post-processing.
     /*! 
@@ -204,8 +203,7 @@ namespace ghost
      */
     virtual void expert_postprocess_optimization( vector< TypeVariable > *variables,
 						  double& bestCost,
-						  vector< int >& solution ) const
-    { }
+						  vector< int >& solution ) const;
   };
 
   //! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 
@@ -273,5 +271,18 @@ namespace ghost
   TypeVariable* Objective<TypeVariable>::expert_heuristic_value( vector< TypeVariable* > bad_variables ) const
   {
     return bad_variables[ random.get_random_number( bad_variables.size() ) ];
-  } 
+  }
+ 
+  template <typename TypeVariable>
+  void Objective<TypeVariable>::expert_postprocess_satisfaction( vector< TypeVariable > *variables,
+								 double& bestCost,
+								 vector< int >& solution ) const
+  { }
+
+  template <typename TypeVariable>
+  void Objective<TypeVariable>::expert_postprocess_optimization( vector< TypeVariable > *variables,
+								 double& bestCost,
+								 vector< int >& solution ) const
+  { }
+
 }
