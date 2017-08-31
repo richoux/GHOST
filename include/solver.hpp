@@ -670,10 +670,10 @@ namespace ghost
 
     variable->set_value( bestValue );
     currentSatCost = bestCost;
-    for( auto& c : _mapVarCtr[ *variable ] )
-      costConstraints[ c.get_id() - _ctrOffset ] = c.cost();
+    // for( auto& c : _mapVarCtr[ *variable ] )
+    //   costConstraints[ c.get_id() - _ctrOffset ] = c.cost();
 
-    compute_variables_costs( costConstraints, costVariables, costNonTabuVariables, currentSatCost );
+    // compute_variables_costs( costConstraints, costVariables, costNonTabuVariables, currentSatCost );
   }
 
   template <typename TypeVariable, typename TypeConstraint>
