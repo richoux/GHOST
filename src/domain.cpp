@@ -101,9 +101,4 @@ int Domain::index_of( int value ) const
     throw valueException();
   else
     return index;
-  // auto it = find( begin( _domain ), end( _domain ), value );
-  // if( it == end( _domain ) )
-  //   throw valueException();
-  // else
-  //   return it - begin( _domain );
 }
