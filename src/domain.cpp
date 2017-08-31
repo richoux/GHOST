@@ -39,17 +39,32 @@ using namespace std;
 using namespace ghost;
 
 Domain::Domain( const vector< int >& domain )
-  : _domain ( domain )
-{ }
+  : _domain ( domain ),
+    _minValue ( *std::min_element( _domain.begin(), _domain.end() ) ),
+    _maxValue ( *std::max_element( _domain.begin(), _domain.end() ) )
+{
+  _indexes = vector<int>( _maxValue - _minValue + 1, -1 );
+  for( int i = 0 ; i < (int)_domain.size() ; ++i )
+    _indexes[ _domain[ i ] - _minValue ] = i ;
+}
 
 Domain::Domain( int size, int startValue )
-  : _domain ( vector<int>( size ) )
+  : _domain ( vector<int>( size ) ),
+    _minValue ( startValue ),
+    _maxValue ( startValue + size - 1 )
 {
   iota( begin( _domain ), end( _domain ), startValue );
+
+  _indexes = vector<int>( size, -1 );
+  for( int i = 0 ; i < (int)_domain.size() ; ++i )
+    _indexes[ _domain[ i ] - _minValue ] = i;
 }
 
 Domain::Domain( const Domain &other )
   : _domain( other._domain ),
+    _indexes( other._indexes ),
+    _minValue( other._minValue ),
+    _maxValue( other._maxValue ),
     _random( other._random )
 { }
 
@@ -62,6 +77,9 @@ Domain& Domain::operator=( Domain other )
 void Domain::swap( Domain &other )
 {
   std::swap( this->_domain, other._domain );
+  std::swap( this->_indexes, other._indexes );
+  std::swap( this->_minValue, other._minValue );
+  std::swap( this->_maxValue, other._maxValue );
   std::swap( this->_random, other._random );
 }  
 
@@ -75,9 +93,17 @@ int Domain::get_value( int index ) const
 
 int Domain::index_of( int value ) const
 {
-  auto it = find( begin( _domain ), end( _domain ), value );
-  if( it == end( _domain ) )
+  if( value < _minValue || value > _maxValue )
+    throw valueException();
+    
+  int index = _indexes[ value - _minValue ];
+  if( index == -1 )
     throw valueException();
   else
-    return it - begin( _domain );
+    return index;
+  // auto it = find( begin( _domain ), end( _domain ), value );
+  // if( it == end( _domain ) )
+  //   throw valueException();
+  // else
+  //   return it - begin( _domain );
 }

@@ -49,6 +49,9 @@ namespace ghost
   class Domain
   {
     vector< int >	_domain;	// Vector of integers containing the current values of the domain.
+    vector< int >	_indexes;	// Vector of integers containing the current values of the domain.
+    int			_minValue;	// min value, used for indexes.
+    int			_maxValue;	// max value.
     Random		_random;	// A random generator used by the function randomValue. 
     
     // For the copy-and-swap idiom
