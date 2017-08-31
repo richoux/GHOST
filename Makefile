@@ -1,5 +1,5 @@
 # Project name
-# EXEC=libghost.so
+EXEC=libghost.a
 
 # Compiler
 ifeq ($(CXX),)
@@ -53,7 +53,7 @@ $(OBJDIR)/%.o: %.cpp
 .PHONY: debug clean test doc install
 
 clean:
-	rm -fr core *~ $(OBJDIR)/*.o $(BINDIR)/$(EXEC) $(SOURCESTILDE) $(INCLUDETILDE)
+	rm -fr core *~ $(OBJDIR)/*.o $(SOURCESTILDE) $(INCLUDETILDE) $(BINDIR)/$(EXEC) 
 
 test:
 	(cd test && $(MAKE))
