@@ -62,6 +62,11 @@ namespace ghost
    * from ghost::Variable and MyCustomConstraint must inherits 
    * from ghost::Constraint.
    *
+   * Each variable modelling a problem must instanciate the same class. However,
+   * constraints of different type can exist within the same problem model.
+   * This is the reson why the vector of constraints is a vector of 
+   * (shared) pointers of Constraint. 
+   *
    * Solver's constructor also need a shared pointer of an Objective
    * object. The reason why Objective is not a template parameter of 
    * Solver but a pointer is to allow a dynamic modification of the 
@@ -73,7 +78,7 @@ namespace ghost
   class Solver
   {
     vector<TypeVariable>		*_vecVariables;		// Pointer to the vector of variables.
-    vector<TypeConstraint>		*_vecConstraints;	// Pointer to the vector of constraints.
+    vector<shared_ptr<TypeConstraint>>	*_vecConstraints;	// Pointer to the vector of shared pointer constraints.
     shared_ptr<Objective<TypeVariable>>	_objective;		// Shared pointer of the objective function.
 
     vector<int>	_weakTabuList;		// The weak tabu list, frozing used variables for tabuTime iterations. 
@@ -96,7 +101,7 @@ namespace ghost
     };
     
     mutable map< TypeVariable,
-		 vector<TypeConstraint>,
+		 vector< shared_ptr<TypeConstraint> >,
 		 VarComp > _mapVarCtr;	// Map to know in which constraints are each variable.
 
     // Solver's regular constructor
@@ -107,7 +112,7 @@ namespace ghost
      * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
      */
     Solver( vector<TypeVariable>		*vecVariables, 
-	    vector<TypeConstraint>		*vecConstraints,
+	    vector<shared_ptr<TypeConstraint>>	*vecConstraints,
 	    shared_ptr<Objective<TypeVariable>>	objective,
 	    bool				permutationProblem = false );
 
@@ -174,7 +179,7 @@ namespace ghost
      * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
      */
     Solver( vector<TypeVariable>&		vecVariables, 
-	    vector<TypeConstraint>&		vecConstraints,
+	    vector<shared_ptr<TypeConstraint>>&	vecConstraints,
 	    shared_ptr<Objective<TypeVariable>>	objecive,
 	    bool				permutationProblem = false );
 
@@ -184,9 +189,9 @@ namespace ghost
      * \param vecConstraints A reference to the vector of Constraints.
      * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
      */
-    Solver( vector< TypeVariable >&	vecVariables, 
-	    vector< TypeConstraint >&	vecConstraints,
-	    bool			permutationProblem = false );
+    Solver( vector<TypeVariable>&		vecVariables, 
+	    vector<shared_ptr<TypeConstraint>>&	vecConstraints,
+	    bool				permutationProblem = false );
     
     //! Solver's main function, to solve the given CSP/COP.
     /*!
@@ -205,7 +210,7 @@ namespace ghost
 
   template <typename TypeVariable, typename TypeConstraint>
   Solver<TypeVariable, TypeConstraint>::Solver( vector<TypeVariable>			*vecVariables, 
-						vector<TypeConstraint>			*vecConstraints,
+						vector<shared_ptr<TypeConstraint>>	*vecConstraints,
 						shared_ptr<Objective<TypeVariable>>	objective,
 						bool					permutationProblem )
     : _vecVariables		( vecVariables ), 
@@ -217,22 +222,22 @@ namespace ghost
   {
     for( auto& var : *vecVariables )
       for( auto& ctr : *vecConstraints )
-	if( ctr.has_variable( var ) )
+	if( ctr->has_variable( var ) )
 	  _mapVarCtr[ var ].push_back( ctr );
   }
 
   template <typename TypeVariable, typename TypeConstraint>
   Solver<TypeVariable, TypeConstraint>::Solver( vector<TypeVariable>&			vecVariables, 
-						vector<TypeConstraint>&			vecConstraints,
+						vector< shared_ptr<TypeConstraint>>&	vecConstraints,
 						shared_ptr<Objective<TypeVariable>>	objective,
 						bool					permutationProblem )
     : Solver( &vecVariables, &vecConstraints, objective, permutationProblem )
   { }
 
   template <typename TypeVariable, typename TypeConstraint>
-  Solver<TypeVariable, TypeConstraint>::Solver( vector<TypeVariable>&	vecVariables, 
-						vector<TypeConstraint>& vecConstraints,
-						bool			permutationProblem )
+  Solver<TypeVariable, TypeConstraint>::Solver( vector<TypeVariable>&			vecVariables, 
+						vector<shared_ptr<TypeConstraint>>&	vecConstraints,
+						bool					permutationProblem )
     : Solver( &vecVariables, &vecConstraints, nullptr, permutationProblem )
   { }
   
@@ -258,10 +263,10 @@ namespace ghost
       if( v.get_id() < _varOffset )
 	_varOffset = v.get_id();
     
-    _ctrOffset = (*_vecConstraints)[0].get_id();
+    _ctrOffset = (*_vecConstraints)[0]->get_id();
     for( auto& c : *_vecConstraints )
-      if( c.get_id() < _ctrOffset )
-	_ctrOffset = c.get_id();
+      if( c->get_id() < _ctrOffset )
+	_ctrOffset = c->get_id();
     
     chrono::duration<double,micro> elapsedTime(0);
     chrono::duration<double,micro> elapsedTimeOptLoop(0);
@@ -452,8 +457,8 @@ namespace ghost
   
     for( auto& c : *_vecConstraints )
     {
-      cost = c.cost();
-      costConstraints[ c.get_id() - _ctrOffset ] = cost;
+      cost = c->cost();
+      costConstraints[ c->get_id() - _ctrOffset ] = cost;
       satisfactionCost += cost;    
     }
 
@@ -476,7 +481,7 @@ namespace ghost
       int ratio = 1;//std::max( 5, (int)v.get_domain_size()/100 );
     
       for( auto& c : _mapVarCtr[ v ] )
-	costVariables[ id ] += costConstraints[ c.get_id() - _ctrOffset ];
+	costVariables[ id ] += costConstraints[ c->get_id() - _ctrOffset ];
 
       // i is initialized just not to be warned by compiler
       int i = 1;
@@ -555,7 +560,7 @@ namespace ghost
 	monte_carlo_sampling();
 	currentSatCost = 0.;
 	for( auto& c : *_vecConstraints )
-	  currentSatCost += c.cost();
+	  currentSatCost += c->cost();
       
 	if( bestSatCost > currentSatCost )
 	  update_better_configuration( bestSatCost, currentSatCost, bestValues );
@@ -617,7 +622,7 @@ namespace ghost
 
     variable->set_value( value );
     for( auto& c : _mapVarCtr[ *variable ] )
-      newCurrentSatCost += ( c.cost() - costConstraints[ c.get_id() - _ctrOffset ] );
+      newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() - _ctrOffset ] );
 
     return newCurrentSatCost;
   }
@@ -637,13 +642,13 @@ namespace ghost
   
     for( auto& c : _mapVarCtr[ *worstVariable ] )
     {
-      newCurrentSatCost += ( c.cost() - costConstraints[ c.get_id() - _ctrOffset ] );
-      compted[ c.get_id() - _ctrOffset ] = true;
+      newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() - _ctrOffset ] );
+      compted[ c->get_id() - _ctrOffset ] = true;
     }
   
     for( auto& c : _mapVarCtr[ otherVariable ] )
-      if( !compted[ c.get_id() - _ctrOffset ] )
-	newCurrentSatCost += ( c.cost() - costConstraints[ c.get_id() - _ctrOffset ] );
+      if( !compted[ c->get_id() - _ctrOffset ] )
+	newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() - _ctrOffset ] );
 
     // We must roll back to the previous state before returning the new cost value. 
     tmp = worstVariable->get_value();
@@ -695,7 +700,7 @@ namespace ghost
     variable->set_value( bestValue );
     currentSatCost = bestCost;
     // for( auto& c : _mapVarCtr[ *variable ] )
-    //   costConstraints[ c.get_id() - _ctrOffset ] = c.cost();
+    //   costConstraints[ c->get_id() - _ctrOffset ] = c->cost();
 
     // compute_variables_costs( costConstraints, costVariables, costNonTabuVariables, currentSatCost );
   }
@@ -751,13 +756,13 @@ namespace ghost
   
     for( auto& c : _mapVarCtr[ *variable ] )
     {
-      newCurrentSatCost += ( c.cost() - costConstraints[ c.get_id() - _ctrOffset ] );
-      compted[ c.get_id() - _ctrOffset ] = true;
+      newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() - _ctrOffset ] );
+      compted[ c->get_id() - _ctrOffset ] = true;
     }
   
     for( auto& c : _mapVarCtr[ *bestVarToSwap ] )
-      if( !compted[ c.get_id() - _ctrOffset ] )
-	newCurrentSatCost += ( c.cost() - costConstraints[ c.get_id() - _ctrOffset ] );
+      if( !compted[ c->get_id() - _ctrOffset ] )
+	newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() - _ctrOffset ] );
 
     compute_variables_costs( costConstraints, costVariables, costNonTabuVariables, newCurrentSatCost );
   }

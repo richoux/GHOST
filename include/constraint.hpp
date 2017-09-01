@@ -42,7 +42,8 @@ namespace ghost
 {
   //! Constraint is the class encoding constraints of your CSP/COP.
   /*! 
-   * In GHOST, many different constraint objects can be instanciate.
+   * In GHOST, constraints modelling a problem can be objects from different 
+   * sub-classes of Constraint.
    *
    * The Constraint class is a template class, waiting for the type of variable 
    * composing the constraint. Thus, you must instanciate a constraint by 
