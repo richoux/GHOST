@@ -1,3 +1,6 @@
+# Linux or MacOSX? TODO: use cmake
+UNAME_S := $(shell uname -s)
+
 # Directories
 SRCDIR=src
 IDIR=include
@@ -17,8 +20,13 @@ endif
 
 
 # Linker flags
-# LDFLAGS=-Llib -pthread -lgtest -lgmock -lghost
-LDFLAGS=-lgtest -lgmock -lghost
+
+
+ifeq ($(UNAME_S),Darwin) # if on MacOSC
+	LDFLAGS=-lgtest -lgmock -lghost
+else # else (Linux)
+	LDFLAGS=-Llib -pthread -lgtest -lgmock -lghost
+endif
 
 # Files
 SOURCES=$(foreach sdir, $(SRCDIR), $(wildcard $(sdir)/*.cpp))
