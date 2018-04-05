@@ -17,7 +17,8 @@ endif
 
 
 # Linker flags
-LDFLAGS=-Llib -pthread -lgtest -lgmock -lghost
+# LDFLAGS=-Llib -pthread -lgtest -lgmock -lghost
+LDFLAGS=-lgtest -lgmock -lghost
 
 # Files
 SOURCES=$(foreach sdir, $(SRCDIR), $(wildcard $(sdir)/*.cpp))
