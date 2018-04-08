@@ -36,6 +36,7 @@ script:
   - cd googletest/googletest
   - mkdir build ; cd build
   - cmake .. -DMAKE_INSTALL_PREFIX=../../../test/
+  - cat Makefile | grep install:
   - make
   - make install
 #  - cp -r ../include/* ../../../test/include/
@@ -45,6 +46,7 @@ script:
   - cd ../../googlemock
   - mkdir build ; cd build
   - cmake .. -DMAKE_INSTALL_PREFIX=../../../test/
+  - cat Makefile | grep install:
   - make
   - make install
 #  - cp -r ../include/* ../../../test/include/
