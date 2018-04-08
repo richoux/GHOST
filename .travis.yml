@@ -37,19 +37,17 @@ script:
   - mkdir build ; cd build
   - cmake ..
   - make
-  - cp -r ../include/* ../../../test/include/
-  - cp libg*a ../../../test/lib/
+  - sudo make install
 
 # install GMock
   - cd ../../googlemock
   - mkdir build ; cd build
   - cmake ..
   - make
-  - cp -r ../include/* ../../../test/include/
-  - cp libg*a ../../../test/lib/
-  - cd ../../..  
+  - sudo make install
 
 # install GHOST
+  - cd ../../..
   - export LD_LIBRARY_PATH=/usr/local/lib/
   - mkdir build
   - cd build
