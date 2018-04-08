@@ -35,21 +35,23 @@ script:
 # install GTest
   - cd googletest/googletest
   - mkdir build ; cd build
-  - cmake ..
+  - cmake .. -DMAKE_INSTALL_PREFIX=../../../test/
   - make
-  - cp -r ../include/* ../../../test/include/
-  - cp libg*a ../../../test/lib/
+  - make install
+#  - cp -r ../include/* ../../../test/include/
+#  - cp libg*a ../../../test/lib/
 
 # install GMock
   - cd ../../googlemock
   - mkdir build ; cd build
-  - cmake ..
+  - cmake .. -DMAKE_INSTALL_PREFIX=../../../test/
   - make
-  - cp -r ../include/* ../../../test/include/
-  - cp libg*a ../../../test/lib/
-  - cd ../../..  
+  - make install
+#  - cp -r ../include/* ../../../test/include/
+#  - cp libg*a ../../../test/lib/
 
 # install GHOST
+  - cd ../../..  
   - export LD_LIBRARY_PATH=/usr/local/lib/
   - mkdir build
   - cd build
