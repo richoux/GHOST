@@ -34,22 +34,22 @@ script:
 
 # install GTest
   - cd googletest/googletest
+  - ls .. ; ls
   - mkdir build ; cd build
-  - cmake .. -DMAKE_INSTALL_PREFIX=../../../test/
-  - cat Makefile | grep install:
+  - cmake ..
   - make
-  - sudo cp -a include/gtest /usr/include
+  - sudo cp -a ../include/gtest /usr/include
   - sudo cp -a libgtest_main.so libgtest.so /usr/lib/
   - cd ../..
 
 # install GMock
   - cd googlemock
+  - ls
   - mkdir build ; cd build
-  - cmake .. -DMAKE_INSTALL_PREFIX=../../../test/
-  - cat Makefile | grep install:
+  - cmake ..
   - make
   - sudo make install
-  - sudo cp -a include/gmock /usr/include
+  - sudo cp -a ../include/gmock /usr/include
   - sudo cp -a libgmock_main.so libgmock.so /usr/lib/
   - cd ../../..
 
