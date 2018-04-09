@@ -1,5 +1,5 @@
 #include <ghost/domain.hpp>
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 #include <vector>
 
