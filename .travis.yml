@@ -8,7 +8,8 @@ addons:
     packages:
       - g++-6
       - clang-3.9
-      
+
+
 matrix:
   include:
     - os: linux
@@ -22,15 +23,12 @@ matrix:
       compiler: clang
       env: COMPILER=clang++-3.9
 
-before_script:
-    - if [ "$COMPILER" = "g++-6"        ]; then export CXX="g++-6" CC="gcc-6";              fi
-    - if [ "$COMPILER" = "clang++-3.9" ]; then export CXX="clang++" CC="clang";    fi
-  
-script:
-  - echo $CXX
-  - $CXX --version
 
-  - git clone https://github.com/google/googletest.git
+before_install:
+  - if [ "$COMPILER" = "g++-6"        ]; then export CXX="g++-6" CC="gcc-6";     fi
+  - if [ "$COMPILER" = "clang++-3.9" ]; then export CXX="clang++" CC="clang";    fi
+
+- git clone https://github.com/google/googletest.git
 
 # install GTest
   - cd googletest/googletest
@@ -38,22 +36,27 @@ script:
   - cmake .. -DMAKE_INSTALL_PREFIX=../../../test/
   - cat Makefile | grep install:
   - make
-  - make install
-#  - cp -r ../include/* ../../../test/include/
-#  - cp libg*a ../../../test/lib/
+  - sudo cp -a include/gtest /usr/include
+  - sudo cp -a libgtest_main.so libgtest.so /usr/lib/
+  - cd ../..
 
 # install GMock
-  - cd ../../googlemock
+  - cd googlemock
   - mkdir build ; cd build
   - cmake .. -DMAKE_INSTALL_PREFIX=../../../test/
   - cat Makefile | grep install:
   - make
-  - make install
-#  - cp -r ../include/* ../../../test/include/
-#  - cp libg*a ../../../test/lib/
+  - sudo make install
+  - sudo cp -a include/gmock /usr/include
+  - sudo cp -a libgmock_main.so libgmock.so /usr/lib/
+  - cd ../../..
+
+
+script:
+  - echo $CXX
+  - $CXX --version
 
 # install GHOST
-  - cd ../../..  
   - export LD_LIBRARY_PATH=/usr/local/lib/
   - mkdir build
   - cd build
@@ -63,5 +66,15 @@ script:
   - cd ..
 
 # make and run tests
-  - make test
-  - cd test/bin && for i in $(ls); do ./$i; done
+  - cd test  
+  - mkdir build
+  - cd build
+  - cmake ..
+  - make
+  - cd ../bin && for i in $(ls); do ./$i; done
+
+
+branches:
+  only:
+    - master
+    - adaptive_search
