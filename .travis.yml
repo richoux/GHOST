@@ -34,23 +34,21 @@ script:
 
 # install GTest
   - cd googletest/googletest
-  - ls .. ; ls
   - mkdir build ; cd build
   - cmake ..
   - make
-  - sudo cp -a ../include/gtest /usr/include
-  - sudo cp -a libgtest_main.so libgtest.so /usr/lib/
+  - sudo cp -r ../include/gtest /usr/local/include
+  - sudo cp libgtest_main.a libgtest.a /usr/local/lib/
   - cd ../..
 
 # install GMock
   - cd googlemock
-  - ls
   - mkdir build ; cd build
   - cmake ..
   - make
   - sudo make install
-  - sudo cp -a ../include/gmock /usr/include
-  - sudo cp -a libgmock_main.so libgmock.so /usr/lib/
+  - sudo cp -r ../include/gmock /usr/local/include
+  - sudo cp libgmock_main.a libgmock.a /usr/local/lib/
   - cd ../../..
 
 # install GHOST
