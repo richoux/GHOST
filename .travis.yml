@@ -52,6 +52,11 @@ before_install:
   - cd ../../..
 
 
+before_script:
+  - if [ "$COMPILER" = "g++-6"        ]; then export CXX="g++-6" CC="gcc-6";     fi
+  - if [ "$COMPILER" = "clang++-3.9" ]; then export CXX="clang++" CC="clang";    fi
+
+
 script:
   - echo $CXX
   - $CXX --version
