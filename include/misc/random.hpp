@@ -81,7 +81,7 @@ namespace ghost
     ~Random() = default;
 
     /*!
-     * getRandNum is an inline function returning a pseudo-random value from the range [0, limit[, 
+     * Inline function returning a pseudo-random value from the range [0, limit[, 
      * according a near-uniform distribution, like discussed above.
      *
      * \param limit The upper bound of the range [0, limit[ from where a random value is computed.
