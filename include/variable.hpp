@@ -93,14 +93,14 @@ namespace ghost
     /*!
      * \param name A const reference of a string to give a full name to the variable (for instance, "Barracks").
      * \param shortName A const reference of a string to give a shorten name to the variable (for instance, "B").
-     * \param size The size of the domain to create.
      * \param startValue An integer representing the first value of the domain. The creating domain will then be the interval [startValue, startValue + size].
+     * \param size A size_t corresponding to the size of the domain to create.
      * \param index The domain's index corresponding to the variable initial value. Zero by default.
      */
     Variable( const string&	name,
 	      const string&	shortName,
-	      int		size,
 	      int		startValue,
+	      size_t		size,
 	      int		index = 0);
 
     //! Variable copy constructor
