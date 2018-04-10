@@ -49,20 +49,32 @@ namespace ghost
   class Domain final
   {
     vector< int >	_domain;	//!< Vector of integers containing the current values of the domain.
-    vector< int >	_indexes;	//!< Vector of integers containing indexes of the domain values.
     int			_minValue;	//!< Min value, used for indexes.
     int			_maxValue;	//!< Max value.
     size_t		_size;		//!< Size of _domain, ie, number of elements it contains.
     Random		_random;	//!< A random generator used by the function randomValue. 
 
+    /*
+      Why having both domain and indexes vectors?
+
+      The domain vector contains integers modelling possible values of a variable. Such values can be 
+      {7, -1, 3}. Then, your domain can be not canonically ordered and have 'holes', ie, non-contiguous integers.
+      Thus, it can be more convient for Variable objects to handle the index of their value in the domain rather 
+      than their value itself. Indead, taking the next value in the domain is just incrementing the current index, 
+      rather than searching for the next possible value in the domain.
+      However, it is necessary to know which index is associated to a value, for instance for seting a new value 
+      (in fact, a new index) to a variable. We had then two choices: searching for such an index in the domain vector
+      or storing all indexes in another vector. For speed sake, we chose this second option.
+     */
+    
     struct indexException : std::exception
-  {
-    const char* what() const noexcept { return "Wrong index passed to Domain::get_value.\n"; }
+    {
+      const char* what() const noexcept { return "Wrong index passed to Domain::get_value.\n"; }
     };
     
     struct valueException : std::exception
     {
-    const char* what() const noexcept { return "Wrong value passed to Domain::index_of.\n"; }
+      const char* what() const noexcept { return "Wrong value passed to Domain::index_of.\n"; }
     };
     
     //! For the copy-and-swap idiom

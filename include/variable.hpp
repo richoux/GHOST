@@ -39,26 +39,27 @@ using namespace std;
 
 namespace ghost
 {
-  //! Variable is the class encoding the variables of your CSP/COP.
+  //! This class encodes variables of your CSP/COP. You cannot inherits your own class from Variable.
   /*! 
-   * In GHOST, all variable objects must be instanciate from the same
-   * concrete class. Be careful to model your CSP/COP in order to use one
-   * kind of variable only, ie., all variable objects in the implementation 
-   * of your CSP/COP must be instanciated from the same Variable (sub)class.
+   * In GHOST, all variables are discrete variables with a Domain containing intergers only 
+   * (positive, negative or both). Since you cannot inherits from Variable, if your constraints 
+   * or your objective functions need specific details about your variables (for instance, each variable models 
+   * an agent with 2D coordinates), you must store these data on your own containers side by side with 
+   * the variables vector (\see Constraint and \see Objective).
    *
-   * To encode your CSP/COP variables, you can either directly use this
-   * class Variable (there are no pure virtual functions here),
-   * or inherit from it to make your own variable class.
+   * While modeling your probem with GHOST, make sure you understand the difference between your variable values 
+   * (stored in the variable's domain) and your variable additional data (such as 2D coordinates for instance). 
+   * You must manage additional data with your own data structures or classes.
    *
    * \sa Domain
    */
-  class Variable
+  class Variable final
   {
-    static int NBER_VAR;
+    static int NBER_VAR; //! Static counter that increases each time one instanciates a Variable object.
     
-    int _id; // Unique ID integer
+    int _id; //! Unique ID integer taking the current value of NBER_VAR
     
-    // The private Variable constructor
+    //! Private Variable constructor
     Variable( const string& name,
 	      const string& shortName,
 	      const Domain& domain,
@@ -118,7 +119,7 @@ namespace ghost
     Variable& operator=( Variable other );
 
     //! Default Variable destructor.
-    virtual ~Variable() = default;
+    ~Variable() = default;
 
     //! Function initializing the variable to one random values of its domain.
     void do_random_initialization();
