@@ -118,9 +118,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa5dc881b8a239206bf55d018cc4a2156"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Variable.html#aa5dc881b8a239206bf55d018cc4a2156">Variable</a> (const string &amp;<a class="el" href="classghost_1_1Variable.html#a05cf4a4cd3a5c033028e0b0f11d1dafd">name</a>, const string &amp;<a class="el" href="classghost_1_1Variable.html#afb5eb79a7f6351b4305fe082699b6d7d">shortName</a>, const vector&lt; int &gt; &amp;<a class="el" href="classghost_1_1Variable.html#ab3d7bfa2e8c2139473775a6b797d0991">domain</a>, int <a class="el" href="classghost_1_1Variable.html#a934efa463fb1897b4266040e321dbc41">index</a>=0)</td></tr>
 <tr class="memdesc:aa5dc881b8a239206bf55d018cc4a2156"><td class="mdescLeft">&#160;</td><td class="mdescRight">First <a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">Variable</a> constructor, with the vector of domain values and the outside-the-scope value.  <a href="#aa5dc881b8a239206bf55d018cc4a2156">More...</a><br /></td></tr>
 <tr class="separator:aa5dc881b8a239206bf55d018cc4a2156"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98be1149bd927b36a7914756641d6196"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Variable.html#a98be1149bd927b36a7914756641d6196">Variable</a> (const string &amp;<a class="el" href="classghost_1_1Variable.html#a05cf4a4cd3a5c033028e0b0f11d1dafd">name</a>, const string &amp;<a class="el" href="classghost_1_1Variable.html#afb5eb79a7f6351b4305fe082699b6d7d">shortName</a>, int size, int startValue, int <a class="el" href="classghost_1_1Variable.html#a934efa463fb1897b4266040e321dbc41">index</a>=0)</td></tr>
-<tr class="memdesc:a98be1149bd927b36a7914756641d6196"><td class="mdescLeft">&#160;</td><td class="mdescRight">Second <a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">Variable</a> constructor, with a size and a starting value for the domain.  <a href="#a98be1149bd927b36a7914756641d6196">More...</a><br /></td></tr>
-<tr class="separator:a98be1149bd927b36a7914756641d6196"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abae563e3f8ac3cc0f81b8736ae86d5b8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Variable.html#abae563e3f8ac3cc0f81b8736ae86d5b8">Variable</a> (const string &amp;<a class="el" href="classghost_1_1Variable.html#a05cf4a4cd3a5c033028e0b0f11d1dafd">name</a>, const string &amp;<a class="el" href="classghost_1_1Variable.html#afb5eb79a7f6351b4305fe082699b6d7d">shortName</a>, int startValue, size_t size, int <a class="el" href="classghost_1_1Variable.html#a934efa463fb1897b4266040e321dbc41">index</a>=0)</td></tr>
+<tr class="memdesc:abae563e3f8ac3cc0f81b8736ae86d5b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Second <a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">Variable</a> constructor, with a size and a starting value for the domain.  <a href="#abae563e3f8ac3cc0f81b8736ae86d5b8">More...</a><br /></td></tr>
+<tr class="separator:abae563e3f8ac3cc0f81b8736ae86d5b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9fb0513e1d15a047816821e034589ea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Variable.html#ac9fb0513e1d15a047816821e034589ea">Variable</a> (const <a class="el" href="classghost_1_1Variable.html">Variable</a> &amp;other)</td></tr>
 <tr class="memdesc:ac9fb0513e1d15a047816821e034589ea"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">Variable</a> copy constructor.  <a href="#ac9fb0513e1d15a047816821e034589ea">More...</a><br /></td></tr>
 <tr class="separator:ac9fb0513e1d15a047816821e034589ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -254,7 +254,7 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a98be1149bd927b36a7914756641d6196"></a>
+<a class="anchor" id="abae563e3f8ac3cc0f81b8736ae86d5b8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -274,13 +274,13 @@ Friends</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
+          <td class="paramname"><em>startValue</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>startValue</em>, </td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -301,8 +301,8 @@ Friends</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">name</td><td>A const reference of a string to give a full name to the variable (for instance, "Barracks"). </td></tr>
     <tr><td class="paramname">shortName</td><td>A const reference of a string to give a shorten name to the variable (for instance, "B"). </td></tr>
-    <tr><td class="paramname">size</td><td>The size of the domain to create. </td></tr>
     <tr><td class="paramname">startValue</td><td>An integer representing the first value of the domain. The creating domain will then be the interval [startValue, startValue + size]. </td></tr>
+    <tr><td class="paramname">size</td><td>A size_t corresponding to the size of the domain to create. </td></tr>
     <tr><td class="paramname">index</td><td>The domain's index corresponding to the variable initial value. Zero by default. </td></tr>
   </table>
   </dd>
@@ -709,7 +709,7 @@ Friends</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 10 2018 16:19:35 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Apr 10 2018 17:21:07 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>
