@@ -11,8 +11,7 @@
 
 
 
-Collaboration diagram for ghost\+:\+:Variable\+:
-\nopagebreak
+Collaboration diagram for ghost\+:\+:Variable\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -26,7 +25,7 @@ Collaboration diagram for ghost\+:\+:Variable\+:
 \begin{DoxyCompactList}\small\item\em The default \hyperlink{classghost_1_1Variable}{Variable} constructor is disabled. \end{DoxyCompactList}\item 
 \hyperlink{classghost_1_1Variable_aa5dc881b8a239206bf55d018cc4a2156}{Variable} (const string \&\hyperlink{classghost_1_1Variable_a05cf4a4cd3a5c033028e0b0f11d1dafd}{name}, const string \&\hyperlink{classghost_1_1Variable_afb5eb79a7f6351b4305fe082699b6d7d}{short\+Name}, const vector$<$ int $>$ \&\hyperlink{classghost_1_1Variable_ab3d7bfa2e8c2139473775a6b797d0991}{domain}, int \hyperlink{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}{index}=0)
 \begin{DoxyCompactList}\small\item\em First \hyperlink{classghost_1_1Variable}{Variable} constructor, with the vector of domain values and the outside-\/the-\/scope value. \end{DoxyCompactList}\item 
-\hyperlink{classghost_1_1Variable_a98be1149bd927b36a7914756641d6196}{Variable} (const string \&\hyperlink{classghost_1_1Variable_a05cf4a4cd3a5c033028e0b0f11d1dafd}{name}, const string \&\hyperlink{classghost_1_1Variable_afb5eb79a7f6351b4305fe082699b6d7d}{short\+Name}, int size, int start\+Value, int \hyperlink{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}{index}=0)
+\hyperlink{classghost_1_1Variable_abae563e3f8ac3cc0f81b8736ae86d5b8}{Variable} (const string \&\hyperlink{classghost_1_1Variable_a05cf4a4cd3a5c033028e0b0f11d1dafd}{name}, const string \&\hyperlink{classghost_1_1Variable_afb5eb79a7f6351b4305fe082699b6d7d}{short\+Name}, int start\+Value, size\+\_\+t size, int \hyperlink{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}{index}=0)
 \begin{DoxyCompactList}\small\item\em Second \hyperlink{classghost_1_1Variable}{Variable} constructor, with a size and a starting value for the domain. \end{DoxyCompactList}\item 
 \hyperlink{classghost_1_1Variable_ac9fb0513e1d15a047816821e034589ea}{Variable} (const \hyperlink{classghost_1_1Variable}{Variable} \&other)
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Variable}{Variable} copy constructor. \end{DoxyCompactList}\item 
@@ -119,15 +118,15 @@ First \hyperlink{classghost_1_1Variable}{Variable} constructor, with the vector 
 \end{DoxyParams}
 \index{ghost\+::\+Variable@{ghost\+::\+Variable}!Variable@{Variable}}
 \index{Variable@{Variable}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{Variable(const string \&name, const string \&short\+Name, int size, int start\+Value, int index=0)}{Variable(const string &name, const string &shortName, int size, int startValue, int index=0)}}]{\setlength{\rightskip}{0pt plus 5cm}ghost\+::\+Variable\+::\+Variable (
+\subsubsection[{\texorpdfstring{Variable(const string \&name, const string \&short\+Name, int start\+Value, size\+\_\+t size, int index=0)}{Variable(const string &name, const string &shortName, int startValue, size_t size, int index=0)}}]{\setlength{\rightskip}{0pt plus 5cm}ghost\+::\+Variable\+::\+Variable (
 \begin{DoxyParamCaption}
 \item[{const string \&}]{name, }
 \item[{const string \&}]{short\+Name, }
-\item[{int}]{size, }
 \item[{int}]{start\+Value, }
+\item[{size\+\_\+t}]{size, }
 \item[{int}]{index = {\ttfamily 0}}
 \end{DoxyParamCaption}
-)}\hypertarget{classghost_1_1Variable_a98be1149bd927b36a7914756641d6196}{}\label{classghost_1_1Variable_a98be1149bd927b36a7914756641d6196}
+)}\hypertarget{classghost_1_1Variable_abae563e3f8ac3cc0f81b8736ae86d5b8}{}\label{classghost_1_1Variable_abae563e3f8ac3cc0f81b8736ae86d5b8}
 
 
 Second \hyperlink{classghost_1_1Variable}{Variable} constructor, with a size and a starting value for the domain. 
@@ -138,9 +137,9 @@ Second \hyperlink{classghost_1_1Variable}{Variable} constructor, with a size and
 \hline
 {\em short\+Name} & A const reference of a string to give a shorten name to the variable (for instance, \char`\"{}\+B\char`\"{}). \\
 \hline
-{\em size} & The size of the domain to create. \\
-\hline
 {\em start\+Value} & An integer representing the first value of the domain. The creating domain will then be the interval \mbox{[}start\+Value, start\+Value + size\mbox{]}. \\
+\hline
+{\em size} & A size\+\_\+t corresponding to the size of the domain to create. \\
 \hline
 {\em index} & The domain\textquotesingle{}s index corresponding to the variable initial value. Zero by default. \\
 \hline

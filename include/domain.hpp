@@ -73,7 +73,7 @@ namespace ghost
      * Constructor taking a vector of integer values. Values in this vector will constitute the domain values. 
      * For instance, the code as follows
      * 
-     * std::vector<int> v{ 7, -1, 3 };
+     * std::vector<int> v{ 7, -1, 3 };\n
      * Domain d( v );
      * 
      * will create a domain with three values: 7, -1 and 3, in that order.
