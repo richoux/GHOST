@@ -41,68 +41,85 @@ using namespace std;
 
 namespace ghost
 {
-  //! Domain is the class encoding the domain of your CSP/COP.
   /*! 
    * Domain is the class implementing variable domains, ie, the set of possible values a variable can take.
-   * In GHOST, such values must be integers.
+   * In GHOST, such values must be integers, possibly positive, negative or both. 
    */
   class Domain
   {
-    vector< int >	_domain;	// Vector of integers containing the current values of the domain.
-    vector< int >	_indexes;	// Vector of integers containing the current values of the domain.
-    int			_minValue;	// min value, used for indexes.
-    int			_maxValue;	// max value.
-    int			_size;		// size of _domain
-    Random		_random;	// A random generator used by the function randomValue. 
+    vector< int >	_domain;	//!< Vector of integers containing the current values of the domain.
+    vector< int >	_indexes;	//!< Vector of integers containing indexes of the domain values.
+    int			_minValue;	//!< Min value, used for indexes.
+    int			_maxValue;	//!< Max value.
+    size_t		_size;		//!< Size of _domain, ie, number of elements it contains.
+    Random		_random;	//!< A random generator used by the function randomValue. 
+
+    struct indexException : std::exception
+  {
+    const char* what() const noexcept { return "Wrong index passed to Domain::get_value.\n"; }
+    };
     
-    // For the copy-and-swap idiom
+    struct valueException : std::exception
+    {
+    const char* what() const noexcept { return "Wrong value passed to Domain::index_of.\n"; }
+    };
+    
+    //! For the copy-and-swap idiom
     void swap( Domain &other );
 
   public:
-    //! First Domain constructor.
     /*!
-     * Constructor taking a vector of integer values.
+     * Constructor taking a vector of integer values. Values in this vector will constitute the domain values. 
+     * For instance, the code as follows
+     * 
+     * std::vector<int> v{ 7, -1, 3 };
+     * Domain d( v );
+     * 
+     * will create a domain with three values: 7, -1 and 3, in that order.
      *
      * \param domain A vector of int corresponding to the variable domain.
      */
     Domain( const vector< int >& domain );
 
-    //! Second Domain constructor.
     /*!
-     * Constructor taking the domain of size 'size' and a starting value 'starValue', 
-     * thus creating a domain with all integer values in [x, x + N].
+     * Constructor taking a starting value 'startValue' and the domain of size 'size', 
+     * thus creating a domain with all integers in [startValue, startValue + size].
      *
-     * \param size An integer specifying the size of the domain.
      * \param startValue An integer specifying what is the first value in the domain.
+     * \param size A size_t specifying the number of elements in the domain.
      */
-    Domain( int size, int startValue );
+    Domain( int startValue, size_t size );
 
-    //! Domain copy constructor.
     /*!
+     * Unique copy constructor.
+     *
      * \param other A const reference to a Domain object.
      */
     Domain( const Domain &other );
 
-    //! Domain's copy assignment operator.
     /*!
-     * The copy-and-swap idiom is applyed here.
+     * Copy assignment operator follwing the copy-and-swap idiom.
      * 
      * \param other A Domain object.
      */
     Domain& operator=( Domain other );
 
-    //! Domain destructor.
+    //! Default destructor.
     ~Domain() = default;
     
-    //! Inline function returning a random value from the domain, following a uniform distribution.
+    /*!
+     * Inline function returning a random value from the domain, following a near-uniform distribution.
+     * 
+     * \sa Random
+     */
     inline int random_value() const
     {
-      return _domain[ _random.get_random_number( _size ) ];
+      return _domain[ _random.get_random_number( (int)_size ) ];
     }
 
-    //! Inline function to get the size of the domain.
     /*!
-     * Get the number of values currently composing the domain.
+     * Return the number of values currently composing the domain.
+     * 
      * \return A size_t corresponding to the size of the domain.
      */
     inline size_t get_size() const
@@ -110,40 +127,37 @@ namespace ghost
       return _size;
     }
 
-    //! Inline function to get the full domain.
+    /*!
+     * Inline function to get the full domain.
+     *
+     * \return A const reference to the vector of integer within Domain representing the domain.
+     */
     inline const vector<int>& get_domain() const
     {
       return _domain;
     }
 
-    //! Get the value at the given index
     /*!
+     * Get the value at the given index. 
+     * 
      * \param index is the index of the desired value.
-     * \return The value at the given index if this one is in the range of the domain, raises an indexException otherwise.
+     * \return The value at the given index if this one is within the domain range, or raises an indexException otherwise.
      */    
     int get_value( int index ) const;
 
-    //! Get the index of a given value.
     /*!
-     * \return Returns its index if the given value is in the domain, or raises a valueException otherwise.
+     * Get the index of a given value.
+     * 
+     * \return If the given value is in the domain, returns its index; raises a valueException otherwise.
      */ 
     int index_of( int value ) const;
 
+    //! To have a nicer stream of Domain.
     friend ostream& operator<<( ostream& os, const Domain& domain )
     {
       os << "Size: " <<  domain._size << "\nDomain: ";
       copy( begin( domain._domain ), end( domain._domain ), ostream_iterator<int>( os, " " ) );
       return os << "\n";
     }
-  };
-
-  struct indexException : std::exception
-  {
-    const char* what() const noexcept { return "Wrong index passed to Domain::get_value.\n"; }
-  };
-
-  struct valueException : std::exception
-  {
-    const char* what() const noexcept { return "Wrong value passed to Domain::index_of.\n"; }
   };
 }

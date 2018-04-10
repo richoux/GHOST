@@ -42,23 +42,23 @@ Domain::Domain( const vector< int >& domain )
   : _domain	( domain ),
     _minValue	( *std::min_element( _domain.begin(), _domain.end() ) ),
     _maxValue	( *std::max_element( _domain.begin(), _domain.end() ) ),
-    _size	( (int)domain.size() )
+    _size	( domain.size() )
 {
   _indexes = vector<int>( _maxValue - _minValue + 1, -1 );
-  for( int i = 0 ; i < _size ; ++i )
+  for( int i = 0 ; i < (int)_size ; ++i )
     _indexes[ _domain[ i ] - _minValue ] = i ;
 }
 
-Domain::Domain( int size, int startValue )
+Domain::Domain( int startValue, size_t size )
   : _domain	( vector<int>( size ) ),
     _minValue	( startValue ),
-    _maxValue	( startValue + size - 1 ),
+    _maxValue	( startValue + (int)size - 1 ),
     _size	( size )
 {
   iota( begin( _domain ), end( _domain ), startValue );
 
   _indexes = vector<int>( size, -1 );
-  for( int i = 0 ; i < _size ; ++i )
+  for( int i = 0 ; i < (int)_size ; ++i )
     _indexes[ _domain[ i ] - _minValue ] = i;
 }
 
@@ -89,7 +89,7 @@ void Domain::swap( Domain &other )
 
 int Domain::get_value( int index ) const
 {
-  if( index >=0 && index < _size )
+  if( index >=0 && index < (int)_size )
     return _domain[ index ];
   else
     throw indexException();

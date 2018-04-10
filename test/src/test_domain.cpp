@@ -9,13 +9,13 @@ public:
   ghost::Domain *domain1;
   ghost::Domain *domain2;
   ghost::Domain *domain3;
-  std::vector< int > v {1,3,5,7,9};
+  std::vector< int > v {1,3,-5,7,9};
 
   DomainTest()
   {
     domain1 = new ghost::Domain( v );
     domain2 = new ghost::Domain( v );
-    domain3 = new ghost::Domain( 3, 1 );
+    domain3 = new ghost::Domain( 1, 3 );
   }
 
   ~DomainTest()
@@ -59,13 +59,13 @@ TEST_F(DomainTest, getValue)
 {
   EXPECT_EQ( domain1->get_value( 0 ), 1 );
   EXPECT_EQ( domain1->get_value( 1 ), 3 );
-  EXPECT_EQ( domain1->get_value( 2 ), 5 );
+  EXPECT_EQ( domain1->get_value( 2 ), -5 );
   EXPECT_EQ( domain1->get_value( 3 ), 7 );
   EXPECT_EQ( domain1->get_value( 4 ), 9 );
 
   EXPECT_EQ( domain2->get_value( 0 ), 1 );
   EXPECT_EQ( domain2->get_value( 1 ), 3 );
-  EXPECT_EQ( domain2->get_value( 2 ), 5 );
+  EXPECT_EQ( domain2->get_value( 2 ), -5 );
   EXPECT_EQ( domain2->get_value( 3 ), 7 );
   EXPECT_EQ( domain2->get_value( 4 ), 9 );
 
@@ -78,13 +78,13 @@ TEST_F(DomainTest, indexOf)
 {
   EXPECT_EQ( domain1->index_of( 1 ), 0 );
   EXPECT_EQ( domain1->index_of( 3 ), 1 );
-  EXPECT_EQ( domain1->index_of( 5 ), 2 );
+  EXPECT_EQ( domain1->index_of( -5 ), 2 );
   EXPECT_EQ( domain1->index_of( 7 ), 3 );
   EXPECT_EQ( domain1->index_of( 9 ), 4 );
 
   EXPECT_EQ( domain2->index_of( 1 ), 0 );
   EXPECT_EQ( domain2->index_of( 3 ), 1 );
-  EXPECT_EQ( domain2->index_of( 5 ), 2 );
+  EXPECT_EQ( domain2->index_of( -5 ), 2 );
   EXPECT_EQ( domain2->index_of( 7 ), 3 );
   EXPECT_EQ( domain2->index_of( 9 ), 4 );
 
