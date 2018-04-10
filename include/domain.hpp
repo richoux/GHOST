@@ -41,11 +41,12 @@ using namespace std;
 
 namespace ghost
 {
+  //! This class encodes domains of your CSP/COP variables. You cannot inherits your own class from Domain.  
   /*! 
    * Domain is the class implementing variable domains, ie, the set of possible values a variable can take.
    * In GHOST, such values must be integers, possibly positive, negative or both. 
    */
-  class Domain
+  class Domain final
   {
     vector< int >	_domain;	//!< Vector of integers containing the current values of the domain.
     vector< int >	_indexes;	//!< Vector of integers containing indexes of the domain values.
