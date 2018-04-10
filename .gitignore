@@ -5,8 +5,15 @@ test/src/*~
 # Doxygen files
 doc/html
 doc/latex
+doc/.zcache
 
 # CMake builds
 build/
 release/
 debug/
+
+# CMake test builds
+test/build/
+test/release/
+test/debug/
+test/bin
