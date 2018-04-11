@@ -80,8 +80,6 @@ namespace ghost
     virtual double required_cost() const = 0;
 
   public:
-    Constraint() = default;
-    
     //! Unique constructor
     /*!
      * \param variables A pointer to a vector of variables composing the constraint.
