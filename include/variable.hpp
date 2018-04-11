@@ -45,36 +45,34 @@ namespace ghost
    * (positive, negative or both). Since you cannot inherits from Variable, if your constraints 
    * or your objective functions need specific details about your variables (for instance, each variable models 
    * an agent with 2D coordinates), you must store these data on your own containers side by side with 
-   * the variables vector (\see Constraint and \see Objective).
+   * the variables vector (see Constraint and Objective).
    *
    * While modeling your probem with GHOST, make sure you understand the difference between your variable values 
    * (stored in the variable's domain) and your variable additional data (such as 2D coordinates for instance). 
    * You must manage additional data with your own data structures or classes.
    *
-   * \sa Domain
+   * \sa Domain Constraint Objective
    */
   class Variable final
   {
-    static int NBER_VAR; //!< Static counter that increases each time one instanciates a Variable object.
-    
-    int _id; //!< Unique ID integer taking the current value of NBER_VAR
+    static int	NBER_VAR;	//!< Static counter that increases each time one instanciates a Variable object.
+    int		_id;		//!< Unique ID integer taking the current value of NBER_VAR
+
+    string	_name;		//!< A string to give a full name to the variable (for instance, "Barracks").
+    string	_shortName;	//!< A string to give a shorten name to the variable (for instance, "B").
+    Domain	_domain;	//!< The domain of the variable.
+    int		_index;		//!< The domain's index corresponding to the current value of the variable.
+
     
     //! Private Variable constructor
     Variable( const string& name,
 	      const string& shortName,
 	      const Domain& domain,
-	      int index = 0);
+	      int index = 0 );
     
     //! For the copy-and-swap idiom
     void swap( Variable &other );
-
-  protected:
-    string	name;		//!< A string to give a full name to the variable (for instance, "Barracks").
-    string	shortName;	//!< A string to give a shorten name to the variable (for instance, "B").
-    Domain	domain;		//!< The domain of the variable.
-    int		index;		//!< The domain's index corresponding to the current value of the variable.
     
-  public:
     //! The default Variable constructor is disabled.
     Variable() = delete;
 
@@ -88,7 +86,7 @@ namespace ghost
     Variable( const string&		name,
 	      const string&		shortName,
 	      const vector<int>&	domain,
-	      int			index = 0);
+	      int			index = 0 );
     
     //! Second Variable constructor, with a starting value and a size for the domain.
     /*!
@@ -102,7 +100,7 @@ namespace ghost
 	      const string&	shortName,
 	      int		startValue,
 	      size_t		size,
-	      int		index = 0);
+	      int		index = 0 );
 
     //! Variable copy constructor
     /*!
@@ -134,7 +132,7 @@ namespace ghost
      * \return An integer corresponding to the variable value. If the variable index does not belong to its domain range, an indexException is raised.
      * \sa Domain
      */
-    inline int get_value() const { return domain.get_value( index ); }
+    inline int get_value() const { return _domain.get_value( _index ); }
 
     //! Inline function to set the value of the variable.
     /*! 
@@ -142,20 +140,20 @@ namespace ghost
      * \param value An integer representing the new value to set.
      * \sa Domain
      */
-    inline void	set_value( int value ) { index = domain.index_of( value ); }
+    inline void	set_value( int value ) { _index = _domain.index_of( value ); }
 
     //! Inline function returning the size of the domain of the variable.
     /*! 
      * \return a size_t equals to size of the domain of the variable.
      * \sa Domain
      */
-    inline size_t get_domain_size() { return domain.get_size(); }
+    inline size_t get_domain_size() { return _domain.get_size(); }
 
     //! Inline function to get the variable name.
-    inline string get_name() const { return name; }
+    inline string get_name() const { return _name; }
 
     //! Inline function to get the variable short name.
-    inline string get_short_name() const { return shortName; }
+    inline string get_short_name() const { return _shortName; }
 
     //! Inline function to get the unique id of the Variable object.
     inline int get_id() const { return _id; }
@@ -164,9 +162,9 @@ namespace ghost
     friend ostream& operator<<( ostream& os, const Variable& v )
     {
       return os
-	<< "Variable name: " << v.name
-	<< "\nShort name: " << v.shortName
-	<< "\nValue: " <<  v.domain.get_value( v.index )
+	<< "Variable name: " << v._name
+	<< "\nShort name: " << v._shortName
+	<< "\nValue: " <<  v._domain.get_value( v._index )
 	<< "\n-------";
     }
   };

@@ -39,10 +39,10 @@ int Variable::NBER_VAR = 0;
 
 Variable::Variable( const string& name, const string& shortName, const Domain& domain, int index )
   : _id		( NBER_VAR++ ),
-    name	( name ),
-    shortName	( shortName ),
-    domain	( domain ),
-    index	( index )
+    _name	( name ),
+    _shortName	( shortName ),
+    _domain	( domain ),
+    _index	( index )
 { }
 
 Variable::Variable( const string& name, const string& shortName, const vector<int>& domain, int index )
@@ -55,10 +55,10 @@ Variable::Variable( const string& name, const string& shortName, int startValue,
 
 Variable::Variable( const Variable &other )
   : _id		( other._id ),
-    name	( other.name ),
-    shortName	( other.shortName ),
-    domain	( other.domain ),
-    index	( other.index )
+    _name	( other._name ),
+    _shortName	( other._shortName ),
+    _domain	( other._domain ),
+    _index	( other._index )
 { }
 
 Variable& Variable::operator=( Variable other )
@@ -69,19 +69,19 @@ Variable& Variable::operator=( Variable other )
 
 void Variable::swap( Variable &other )
 {
-  std::swap( this->_id, other._id );
-  std::swap( this->name, other.name );
-  std::swap( this->shortName, other.shortName );
-  std::swap( this->domain, other.domain );
-  std::swap( this->index, other.index );
+  std::swap( this->_id,		other._id );
+  std::swap( this->_name,	other._name );
+  std::swap( this->_shortName,	other._shortName );
+  std::swap( this->_domain,	other._domain );
+  std::swap( this->_index,	other._index );
 }  
 
 void Variable::do_random_initialization()
 {
-  set_value( domain.random_value() );
+  set_value( _domain.random_value() );
 }
 
 const vector<int>& Variable::possible_values() const
 {
-  return domain.get_domain();
+  return _domain.get_domain();
 }    
