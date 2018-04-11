@@ -62,7 +62,6 @@ namespace ghost
     string	_shortName;	//!< A string to give a shorten name to the variable (for instance, "B").
     Domain	_domain;	//!< The domain of the variable.
     int		_index;		//!< The domain's index corresponding to the current value of the variable.
-
     
     //! Private Variable constructor
     Variable( const string& name,
@@ -72,6 +71,8 @@ namespace ghost
     
     //! For the copy-and-swap idiom
     void swap( Variable &other );
+
+  public:
     
     //! The default Variable constructor is disabled.
     Variable() = delete;
