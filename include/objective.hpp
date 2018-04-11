@@ -41,44 +41,136 @@ using namespace std;
 
 namespace ghost
 {
-  //! Objective is the class encoding objective functions of your CSP/COP.
+  //! This class encodes objective functions of your COP, as well as the special class NullObjective for CSP.
   /*! 
    * In GHOST, many different objective objects can be instanciate.
    *
-   * The Objective class is a template class, waiting for the type of variable 
-   * composing the objective. Thus, you must instanciate an objective by 
-   * specifying the class of your variable objects, like for instance
-   * Objective<Variable> or Objective<MyCustomVariable>, where MyCustomVariable 
-   * must inherits from ghost::Variable.
+   * You cannot directly use this class Objective to encode your objective functions since this is an abstract class. 
+   * Yhus, you must write your own objective class inheriting from ghost::Objective. You can write different objective 
+   * classes to model your problem, and switch from an objective to another between two Solver::solve calls.
    *
-   * You cannot directly use this class Objective to encode your
-   * objective functions since this is an abstract class. Thus, you
-   * must write your own objective class inheriting from ghost::Objective.
-   *
-   * In this class, each virtual function follows the Non-Virtual
-   * Interface Idiom (see http://www.gotw.ca/publications/mill18.htm).
-   * The only pure virtual function is required_cost. All other virtual functions
-   * have a default behavior implemented and are prefixed by 'expert_'. It is
-   * highly recommended to override these functions only if you know what you are doing.
+   * In this class, each virtual function follows the Non-Virtual Interface Idiom (see http://www.gotw.ca/publications/mill18.htm).
+   * The only pure virtual function is required_cost. All other virtual functions have a default behavior implemented and are 
+   * prefixed by 'expert_'. It is highly recommended to override these functions only if you know what you are doing.
    *
    * \sa Variable
    */
-  template <typename TypeVariable>
   class Objective
   {
+  protected:
+    
+    Random random;	//!< Random generator used by the function heuristicValue.
+    string name;	//!< String for the name of the objective object.
+
+    //! Pure virtual function to compute the value of the objective function on the current configuration.
+    /*! 
+     * Like Constraint::required_cost, this function is fundamental: it evalutes the performance of the current values of the variables.
+     * GHOST will search for variable values that will minimize the output of this function. If you are modelling a maximization problem, ie, 
+     * a problem where its natural objective function f(x) = z is to try to find the highest possible z, you can simplify write this function 
+     * such that it outputs -z. Values of variables minimizing -z will also maximize z.
+     *
+     * \param variables A pointer to the vector of variable of the CSP/COP.
+     * \return A double in R corresponding to the value of the objective function on the current configuration. 
+     * Unlike Constraint::required_cost, this output may be negative.
+     * \sa cost
+     */
+    virtual double required_cost( vector< Variable > *variables ) const = 0;
+
+    //! Virtual function to apply the value heuristic used by the solver for non permutation problems.
+    /*! 
+     * While deadling with non permutation problems, the solver calls this function to apply an eventual
+     * user-defined heuristic to choose a new domain value for a variable selected by the solver. 
+     *
+     * The default implementation outputs the value leading to the
+     * lowest objective cost. If two or more values lead to configurations 
+     * with the same lowest cost, one of them is randomly returned.
+     *
+     * Like all functions prefixed by 'expert_', you should override this function only if you 
+     * know what you are doing.
+     *
+     * \param variables A pointer to the vector containing all variables.
+     * \param var A pointer to the variable to change.
+     * \param possible_values A const reference to the vector of possible values of var. 
+     * \return The selected value according to the heuristic.
+     * \sa heuristic_value, Random
+     */
+    virtual int	expert_heuristic_value( vector< Variable > *variables,
+					Variable *var,
+					const vector< int >& possible_values ) const;
+
+    //! Virtual function to apply the value heuristic used by the solver for permutation problems.
+    /*! 
+     * While deadling with permutation problems, the solver calls this function to apply an eventual
+     * user-defined heuristic to choose a variable to swap the value with.
+     *
+     * By default, it returns a random variable among the vector in input.
+     *
+     * Like all functions prefixed by 'expert_', you should override this function only if you 
+     * know what you are doing.
+     *
+     * \param bad_variables The vector of candidate variables the solver may swap the value with another variable it had chosen.
+     * \return The selected variable to swap with, according to the heuristic.
+     * \sa heuristic_value, Random
+     */
+    virtual Variable* expert_heuristic_value( vector< Variable* > bad_variables ) const;
+
+    //! Virtual function to perform satisfaction post-processing.
+    /*! 
+     * This function is called by the solver after a satisfaction run, if the solver was able to find a solution, to apply
+     * human-knowledge in order to "clean-up" the proposed solution.
+     *
+     * It does nothing By default. You need to override it to have a satisfaction postprocess.
+     *
+     * Like all functions prefixed by 'expert_', you should override this function only if you 
+     * know what you are doing.
+     * 
+     * \param variables A pointer to the vector of variables of the CSP/COP.
+     * \param bestCost A reference the double representing the best satisfaction cost found by the solver so far. Its value may be updated, justifying a non const reference.
+     * \param solution A reference to the vector of variables of the solution found by the solver. This vector may be updated, justifying a non const reference
+     * \sa postprocess_satisfaction
+     */
+    virtual void expert_postprocess_satisfaction( vector< Variable > *variables,
+						  double& bestCost,
+						  vector< int >& solution ) const;
+
+    //! Virtual function to perform optimization post-processing.
+    /*! 
+     * This function is called by the solver after all optimization runs to apply human-knowledge optimization, allowing to improve
+     * the optimization cost.
+     *
+     * It does nothing By default. You need to override it to have an optimization postprocess.
+     *
+     * Like all functions prefixed by 'expert_', you should override this function only if you 
+     * know what you are doing.
+     *
+     * \warning The computation spantime of this function is not taken into account by timeouts given to the solver. 
+     * If you override this function, be sure its computation time is neglictable compare to the optimization timeout
+     * you give to Solver::solve.  
+     * 
+     * \param variables A pointer to the vector of variables of the CSP/COP.
+     * \param bestCost A reference the double representing the best optimization cost found by the solver so far. Its value may be updated, justifying a non const reference.
+     * \param solution A reference to the vector of variables of the solution found by the solver. This vector may be updated, justifying a non const reference
+     * \sa postprocess_optimization
+     */
+    virtual void expert_postprocess_optimization( vector< Variable > *variables,
+						  double& bestCost,
+						  vector< int >& solution ) const;
+
   public:
-    //! The unique Objective constructor
+    //! Unique constructor
     /*!
      * \param name A const reference to a string to give the Objective object a specific name.
      */
     Objective( const string& name );
 
-    //! Default copy and move contructors are explicitely declared.
+    //! Default copy contructor.
     Objective( const Objective& other ) = default;
+    //! Default move contructor.
     Objective( Objective&& other ) = default;
 
-    //! Copy and move assignment operators are disabled.
+    //! Copy assignment operator disabled.
     Objective& operator=( const Objective& other ) = delete;
+    //! Move assignment operator disabled.
     Objective& operator=( Objective&& other ) = delete;
 
     // Default virtual destructor.
@@ -88,15 +180,15 @@ namespace ghost
     /*! 
      * \sa required_cost
      */
-    inline double cost( vector< TypeVariable > *variables ) const
+    inline double cost( vector< Variable > *variables ) const
     { return required_cost( variables ); }
 
     //! Inline function following the NVI idiom. Calling expert_heuristic_value.
     /*! 
      * \sa expert_heuristic_value
      */
-    inline int heuristic_value( vector< TypeVariable > *variables,
-				TypeVariable *var,
+    inline int heuristic_value( vector< Variable > *variables,
+				Variable *var,
 				const vector< int >& possible_values ) const
     { return expert_heuristic_value( variables, var, possible_values ); }
 
@@ -104,14 +196,14 @@ namespace ghost
     /*! 
      * \sa expert_heuristic_value
      */
-    inline TypeVariable* heuristic_value( vector< TypeVariable* > bad_variables ) const
+    inline Variable* heuristic_value( vector< Variable* > bad_variables ) const
     { return expert_heuristic_value( bad_variables ); }
 
     //! Inline function following the NVI idiom. Calling expert_postprocess_satisfaction.
     /*! 
      * \sa expert_postprocess_satisfaction
      */
-    inline void postprocess_satisfaction( vector< TypeVariable > *variables,
+    inline void postprocess_satisfaction( vector< Variable > *variables,
 					  double& bestCost,
 					  vector< int >& solution ) const
     { expert_postprocess_satisfaction( variables, bestCost, solution ); }
@@ -120,169 +212,31 @@ namespace ghost
     /*! 
      * \sa expert_postprocess_optimization
      */
-    inline void postprocess_optimization( vector< TypeVariable > *variables,
+    inline void postprocess_optimization( vector< Variable > *variables,
 					  double& bestCost,
 					  vector< int >& solution ) const
     { expert_postprocess_optimization( variables, bestCost, solution ); }
 
     //! Inline accessor to get the name of the objective object.
     inline string get_name() const { return name; }
-
-  protected:
-    
-    Random random;	//!< Random generator used by the function heuristicValue.
-    string name;	//!< String for the name of the objective object.
-
-    //! Pure virtual function to compute the value of the objective function on the current configuration.
-    /*! 
-     * \param variables A pointer to the vector of variable objects of the CSP/COP.
-     * \return The value of the objective function on the current configuration.
-     * \sa cost
-     */
-    virtual double required_cost( vector< TypeVariable > *variables ) const = 0;
-
-    //! Virtual function to apply the value heuristic used by the solver for non permutation problems.
-    /*! 
-     * This default implementation outputs the value leading to the
-     * lowest objective cost. If two or more values lead to configurations 
-     * with the same lowest cost, one of them is randomly returned.
-     *
-     * \param variables A pointer to the vector of all variables.
-     * \param var A pointer to the variable to change.
-     * \param possible_values A const reference to the vector of possible values of var. 
-     * \return The selected value according to the heuristic.
-     * \sa heuristic_value, Random
-     */
-    virtual int	expert_heuristic_value( vector< TypeVariable > *variables,
-					TypeVariable *var,
-					const vector< int >& possible_values ) const;
-
-    //! Virtual function to apply the value heuristic used by the solver for permutation problems.
-    /*! 
-     * By default, returns a random variable among the vector in input.
-     *
-     * \param bad_variables The vector of variable pointers.
-     * \return The selected variable to swap with, according to the heuristic.
-     * \sa heuristic_value, Random
-     */
-    virtual TypeVariable* expert_heuristic_value( vector< TypeVariable* > bad_variables ) const;
-
-    //! Virtual function to perform satisfaction post-processing.
-    /*! 
-     * This function is called by the solver after a satisfaction run,
-     * if the solver was able to find a solution, to apply
-     * human-knowledge in order to "clean-up" the proposed solution.
-     *
-     * This implementation by default does nothing.
-     * 
-     * \param variables A pointer to the vector of variable objects of the CSP/COP.
-     * \param bestCost A reference the double representing the best global cost found by the solver so far. This parameter must be updated.
-     * \param solution A reference to the vector of variables of the solution found by the solver. This parameter must be updated.
-     * \sa postprocess_satisfaction
-     */
-    virtual void expert_postprocess_satisfaction( vector< TypeVariable > *variables,
-						  double& bestCost,
-						  vector< int >& solution ) const;
-
-    //! Virtual function to perform optimization post-processing.
-    /*! 
-     * This function is called by the solver after all optimization
-     * runs to apply human-knowledge optimization, allowing to improve
-     * the optimization cost.
-     *
-     * This implementation by default does nothing.
-     *
-     * WARNING: The computation spantime of this function is not taken into account by timeouts given to the solver. 
-     * If you override this function, be sure its computation time is neglictable compare to the optimization timeout
-     * you give to Solver::solve.  
-     * 
-     * \param variables A pointer to the vector of variable objects of the CSP/COP.
-     * \param bestCost A reference the double representing the best optimization cost found by the solver so far. This parameter must be updated.
-     * \param solution A reference to the vector of variables of the solution found by the solver. This parameter must be updated.
-     * \sa postprocess_optimization
-     */
-    virtual void expert_postprocess_optimization( vector< TypeVariable > *variables,
-						  double& bestCost,
-						  vector< int >& solution ) const;
   };
 
   //! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 
-  template <typename TypeVariable>
-  class NullObjective : public Objective<TypeVariable>
+  class NullObjective : public Objective
   {
-    using Objective<TypeVariable>::random;
+    using Objective::random;
     
   public:
-    NullObjective() : Objective<TypeVariable>("nullObjective") { }
+    NullObjective() : Objective("nullObjective") { }
 
   private:
-    double required_cost( vector< TypeVariable > *variables ) const override { return 0.; }
-
-    int expert_heuristic_value( vector< TypeVariable > *variables,
-				TypeVariable *var,
+    double required_cost( vector< Variable > *variables ) const override { return 0.; }
+    
+    int expert_heuristic_value( vector< Variable > *variables,
+				Variable *var,
 				const vector< int >& valuesList ) const override
     {
       return valuesList[ random.get_random_number( valuesList.size() ) ];
     }
   };
-
-  ////////////////////
-  // Implementation //
-  ////////////////////
-  
-  template <typename TypeVariable>
-  Objective<TypeVariable>::Objective( const string& name )
-    : name(name)
-  { }
-  
-  template <typename TypeVariable>
-  int Objective<TypeVariable>::expert_heuristic_value( vector< TypeVariable > *variables,
-						       TypeVariable *var,
-						       const vector< int >& possible_values ) const
-  {
-    double minCost = numeric_limits<double>::max();
-    double simulatedCost;
-    
-    int backup = var->get_value();
-    vector<int> bestValues;
-    
-    for( auto& v : possible_values )
-    {
-      var->set_value( v );
-      simulatedCost = cost( variables );
-      
-      if( minCost > simulatedCost )
-      {
-	minCost = simulatedCost;
-	bestValues.clear();
-	bestValues.push_back( v );
-      }
-      else
-	if( minCost == simulatedCost )
-	  bestValues.push_back( v );
-    }
-    
-    var->set_value( backup );
-    
-    return bestValues[ random.get_random_number( bestValues.size() ) ];
-  }
-  
-  template <typename TypeVariable>
-  TypeVariable* Objective<TypeVariable>::expert_heuristic_value( vector< TypeVariable* > bad_variables ) const
-  {
-    return bad_variables[ random.get_random_number( bad_variables.size() ) ];
-  }
- 
-  template <typename TypeVariable>
-  void Objective<TypeVariable>::expert_postprocess_satisfaction( vector< TypeVariable > *variables,
-								 double& bestCost,
-								 vector< int >& solution ) const
-  { }
-
-  template <typename TypeVariable>
-  void Objective<TypeVariable>::expert_postprocess_optimization( vector< TypeVariable > *variables,
-								 double& bestCost,
-								 vector< int >& solution ) const
-  { }
-
 }

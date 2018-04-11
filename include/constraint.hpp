@@ -76,6 +76,7 @@ namespace ghost
      *
      * \return A positive double corresponding to the cost of the constraint with current variable values. 
      * Outputing 0 means current values are satisfying this constraint.
+     * \sa cost
      */
     virtual double required_cost() const = 0;
 
@@ -86,14 +87,14 @@ namespace ghost
      */
     Constraint( vector< Variable > *variables );
 
-    //! Default copy contructors.
+    //! Default copy contructor.
     Constraint( const Constraint& other ) = default;
-    //! Default move contructors.
+    //! Default move contructor.
     Constraint( Constraint&& other ) = default;
     
-    //! Copy assignment operators disabled.
+    //! Copy assignment operator disabled.
     Constraint& operator=( const Constraint& other ) = delete;
-    //! Move assignment operators disabled.
+    //! Move assignment operator disabled.
     Constraint& operator=( Constraint&& other ) = delete;
     
     //! Default virtual destructor.
