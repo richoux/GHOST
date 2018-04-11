@@ -40,57 +40,62 @@ using namespace std;
 
 namespace ghost
 {
-  //! Constraint is the class encoding constraints of your CSP/COP.
+  //! This class encodes constraints of your CSP/COP.
   /*! 
-   * In GHOST, constraints modelling a problem can be objects from different 
-   * sub-classes of Constraint.
-   *
-   * The Constraint class is a template class, waiting for the type of variable 
-   * composing the constraint. Thus, you must instanciate a constraint by 
-   * specifying the class of your variable objects, like for instance
-   * Constraint<Variable> or Constraint<MyCustomVariable>, where MyCustomVariable 
-   * must inherits from ghost::Variable.
-   *
    * You cannot directly use this class Constraint to encode your CSP/COP
-   * constraints, since this is an abstract class. Thus, you must write your own
-   * constraint class inheriting from ghost::Constraint.
+   * constraints, since this is an abstract class. To model a problem with GHOST, 
+   * you have to make your own constraints by inheriting from this class. 
+   * The same problem can be composed of several subclasses of Constraint.
    *
    * The only pure virtual Constraint function is required_cost.
    *
    * \sa Variable
    */
 
-  template <typename TypeVariable>
   class Constraint
   {
-    static int NBER_CTR; 
+    static int NBER_CTR; //!< Static counter that increases each time one instanciates a Constraint object.
 
   protected:
-    vector< TypeVariable >	*variables;	//!< Pointer to the vector of variable compositing the CSP/COP.
-    int				id;		//!< Unique ID integer
+    vector< Variable >	*variables;	//!< Pointer to the vector of variable compositing the CSP/COP.
+    int				id;	//!< Unique ID integer
 
     //! Pure virtual function to compute the current cost of the constraint.
     /*!
-     * WARNING: do not implement side effect in this function. It is called by the solver 
-     * to compute the constraint cost but also for some cost simulations.
+     * This function is fundamental: it evalutes how much the current values of variables violate this contraint.
+     * Let's consider the following example : consider the contraint (x = y).\n
+     * If x = 42 and y = 42, then these values satify the contraint. The cost is then 0.\n
+     * If x = 42 and y = 40, the constraint is not satified, but intuitively, we are closer to have a solution than with
+     * x = 42 and y = 10,000. Thus the cost when y = 40 must be strictly lower than the cost when y = 10,000.\n
+     * Thus, a good required_cost candidate for the contraint (x = y) could be the function |x-y|.
+     * 
+     * This function MUST returns a value greater than or equals to 0.
+     *
+     * \warning Do not implement side effect in this function. It is called by the solver 
+     * to compute the constraint cost but also for some inner mechanisms (such as cost simulations).
+     *
+     * \return A positive double corresponding to the cost of the constraint with current variable values. 
+     * Outputing 0 means current values are satisfying this constraint.
      */
     virtual double required_cost() const = 0;
 
   public:
     Constraint() = default;
     
-    //! The unique Constraint constructor
+    //! Unique constructor
     /*!
-     * \param variables A pointer to the vector of variable composition the CSP/COP.
+     * \param variables A pointer to a vector of variables composing the constraint.
      */
-    Constraint( vector< TypeVariable > *variables );
+    Constraint( vector< Variable > *variables );
 
-    //! Default copy and move contructors are explicitely declared.
+    //! Default copy contructors.
     Constraint( const Constraint& other ) = default;
+    //! Default move contructors.
     Constraint( Constraint&& other ) = default;
     
-    //! Copy and move assignment operators are disabled.
+    //! Copy assignment operators disabled.
     Constraint& operator=( const Constraint& other ) = delete;
+    //! Move assignment operators disabled.
     Constraint& operator=( Constraint&& other ) = delete;
     
     //! Default virtual destructor.
@@ -102,41 +107,22 @@ namespace ghost
      */
     inline double cost() const { return required_cost(); }
 
-    //! Given a variable, does this variable composes the constraint?
+    //! Function to determine if the constraint contains a given variable. 
     /*!
+     * Given a variable, returns if it composes the constraint.
+     *
      * \param var A variable.
      * \return True iff the constraint contains var.
      */ 
-    bool has_variable( const TypeVariable& var ) const;
+    bool has_variable( const Variable& var ) const;
 
     //! Inline function to get the unique id of the Constraint object.
     inline int get_id() const { return id; }
 
-    friend ostream& operator<<( ostream& os, const Constraint<TypeVariable>& c )
+    //! To have a nicer stream of Constraint.
+    friend ostream& operator<<( ostream& os, const Constraint& c )
     {
       return os << "Constraint type: " <<  typeid(c).name() << endl;
     }
   };
-
-  ////////////////////
-  // Implementation //
-  ////////////////////
-
-  template <typename TypeVariable>
-  int Constraint<TypeVariable>::NBER_CTR = 0;
-
-  template <typename TypeVariable>
-  Constraint<TypeVariable>::Constraint( vector< TypeVariable >* variables )
-    : variables	( variables ),
-      id	( NBER_CTR++ )
-  { }
-
-  template <typename TypeVariable>
-  bool Constraint<TypeVariable>::has_variable( const TypeVariable& var ) const
-  {
-    auto it = find_if( variables->cbegin(),
-		       variables->cend(),
-		       [&]( auto& v ){ return v.get_id() == var.get_id(); } );
-    return it != variables->cend();
-  }  
 }

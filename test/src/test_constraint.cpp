@@ -4,7 +4,7 @@
 
 #include <vector>
 
-class MyConstraint : public ghost::Constraint<ghost::Variable>
+class MyConstraint : public ghost::Constraint
 {
   double required_cost() const override
   {

@@ -1,8 +1,6 @@
 cmake_minimum_required (VERSION 3.0)
 project (ghost)
 
-# set(CMAKE_BUILD_TYPE Release)
-
 # require a C++14-capable compiler
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
@@ -23,21 +21,15 @@ else()
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-# if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")  
-#   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
-#   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lc++ -lc++abi")
-# endif()
   
-# add the binary tree to the search path for include files
-# so that we will find headers
+# add the binary tree to the search path for include files so that we will find headers
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # add the targets
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
-
 # add the library
-add_library(ghost SHARED src/variable.cpp src/domain.cpp)
+add_library(ghost SHARED src/variable.cpp src/domain.cpp src/constraint.cpp)
 
 #gather headers list
 file(GLOB libHeadersList
