@@ -1,11 +1,32 @@
+Please be sure to have CMake v3.0+ and a C++14-capable compiler.
+
 ============
 On GNU/Linux:
 
-$> mkdir build
-$> cd build
-$> cmake ..
+You have options 1, 2 or 3.
+
+1. To compile and install the release version:
 $> make
+
+2. To compile and install the debug version:
+$> make debug
+
+3. If you just want to compile, without installing the library on your /usr/local, then you have two choices:
+To compile in release mode:
+$> mkdir release
+$> cd release
+$> cmake -DCMAKE_BUILD_TYPE=Release ..
+$> make
+
+To compile in debug mode:
+$> mkdir debug
+$> cd debug
+$> cmake -DCMAKE_BUILD_TYPE=Debug ..
+$> make
+
+And finally, if you change your mind and want to install the library:
 $> sudo make install
+(in the release or debug folder)
 
 
 ============
@@ -27,6 +48,3 @@ Got the error 'The compiler /usr/bin/c++ has no C++14 support. Please use a diff
 1. Make sure you have installed a C++14-capable compiler
 2. If you have such a compiler but still get the error, before typing the command  'cmake ..', type 'export CXX=/path/of/your/c++14/compiler/executable_name'
 
-If you stil have problems, you can still compile GHOST with the Makefile in the root directory, but it has been written to compile on GNU/Linux with g++.
-$> make
-$> sudo make install
