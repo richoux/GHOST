@@ -164,10 +164,10 @@ class ghost::Constraint&lt; TypeVariable &gt;</h3>
 
 <p><a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> is the class encoding constraints of your CSP/COP. </p>
 <p>In GHOST, constraints modelling a problem can be objects from different sub-classes of <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a>.</p>
-<p>The <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> class is a template class, waiting for the type of variable composing the constraint. Thus, you must instanciate a constraint by specifying the class of your variable objects, like for instance Constraint&lt;Variable&gt; or Constraint&lt;MyCustomVariable&gt;, where MyCustomVariable must inherits from <a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">ghost::Variable</a>.</p>
+<p>The <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> class is a template class, waiting for the type of variable composing the constraint. Thus, you must instanciate a constraint by specifying the class of your variable objects, like for instance Constraint&lt;Variable&gt; or Constraint&lt;MyCustomVariable&gt;, where MyCustomVariable must inherits from <a class="el" href="classghost_1_1Variable.html" title="This class encodes variables of your CSP/COP. You cannot inherits your own class from Variable...">ghost::Variable</a>.</p>
 <p>You cannot directly use this class <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> to encode your CSP/COP constraints, since this is an abstract class. Thus, you must write your own constraint class inheriting from <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">ghost::Constraint</a>.</p>
 <p>The only pure virtual <a class="el" href="classghost_1_1Constraint.html" title="Constraint is the class encoding constraints of your CSP/COP. ">Constraint</a> function is required_cost.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classghost_1_1Variable.html" title="Variable is the class encoding the variables of your CSP/COP. ">Variable</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classghost_1_1Variable.html" title="This class encodes variables of your CSP/COP. You cannot inherits your own class from Variable...">Variable</a> </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a7c214f85b51115ef3c32fb21ae90ec22"></a>
 <div class="memitem">
@@ -558,7 +558,7 @@ template&lt;typename TypeVariable &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 10 2018 17:21:07 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 11 2018 09:42:34 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>
