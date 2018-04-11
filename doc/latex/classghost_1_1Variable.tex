@@ -11,7 +11,8 @@ This class encodes variables of your C\+S\+P/\+C\+OP. You cannot inherits your o
 
 
 
-Collaboration diagram for ghost\+:\+:Variable\+:\nopagebreak
+Collaboration diagram for ghost\+:\+:Variable\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -23,9 +24,9 @@ Collaboration diagram for ghost\+:\+:Variable\+:\nopagebreak
 \item 
 \hyperlink{classghost_1_1Variable_a41d27734b85f60c2e5fda7ee0ab5c600}{Variable} ()=delete
 \begin{DoxyCompactList}\small\item\em The default \hyperlink{classghost_1_1Variable}{Variable} constructor is disabled. \end{DoxyCompactList}\item 
-\hyperlink{classghost_1_1Variable_aa5dc881b8a239206bf55d018cc4a2156}{Variable} (const string \&\hyperlink{classghost_1_1Variable_a05cf4a4cd3a5c033028e0b0f11d1dafd}{name}, const string \&\hyperlink{classghost_1_1Variable_afb5eb79a7f6351b4305fe082699b6d7d}{short\+Name}, const vector$<$ int $>$ \&\hyperlink{classghost_1_1Variable_ab3d7bfa2e8c2139473775a6b797d0991}{domain}, int \hyperlink{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}{index}=0)
+\hyperlink{classghost_1_1Variable_aa5dc881b8a239206bf55d018cc4a2156}{Variable} (const string \&name, const string \&short\+Name, const vector$<$ int $>$ \&domain, int index=0)
 \begin{DoxyCompactList}\small\item\em First \hyperlink{classghost_1_1Variable}{Variable} constructor, with the vector of domain values and the outside-\/the-\/scope value. \end{DoxyCompactList}\item 
-\hyperlink{classghost_1_1Variable_abae563e3f8ac3cc0f81b8736ae86d5b8}{Variable} (const string \&\hyperlink{classghost_1_1Variable_a05cf4a4cd3a5c033028e0b0f11d1dafd}{name}, const string \&\hyperlink{classghost_1_1Variable_afb5eb79a7f6351b4305fe082699b6d7d}{short\+Name}, int start\+Value, size\+\_\+t size, int \hyperlink{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}{index}=0)
+\hyperlink{classghost_1_1Variable_abae563e3f8ac3cc0f81b8736ae86d5b8}{Variable} (const string \&name, const string \&short\+Name, int start\+Value, size\+\_\+t size, int index=0)
 \begin{DoxyCompactList}\small\item\em Second \hyperlink{classghost_1_1Variable}{Variable} constructor, with a starting value and a size for the domain. \end{DoxyCompactList}\item 
 \hyperlink{classghost_1_1Variable_ac9fb0513e1d15a047816821e034589ea}{Variable} (const \hyperlink{classghost_1_1Variable}{Variable} \&other)
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Variable}{Variable} copy constructor. \end{DoxyCompactList}\item 
@@ -49,17 +50,6 @@ string \hyperlink{classghost_1_1Variable_a993e65196f2bcd0e5e5f4453736e36c5}{get\
 \begin{DoxyCompactList}\small\item\em Inline function to get the variable short name. \end{DoxyCompactList}\item 
 int \hyperlink{classghost_1_1Variable_adc5da5dedaa3d47a5eb4092b08c3f77c}{get\+\_\+id} () const 
 \begin{DoxyCompactList}\small\item\em Inline function to get the unique id of the \hyperlink{classghost_1_1Variable}{Variable} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\subsection*{Protected Attributes}
-\begin{DoxyCompactItemize}
-\item 
-string \hyperlink{classghost_1_1Variable_a05cf4a4cd3a5c033028e0b0f11d1dafd}{name}
-\begin{DoxyCompactList}\small\item\em A string to give a full name to the variable (for instance, \char`\"{}\+Barracks\char`\"{}). \end{DoxyCompactList}\item 
-string \hyperlink{classghost_1_1Variable_afb5eb79a7f6351b4305fe082699b6d7d}{short\+Name}
-\begin{DoxyCompactList}\small\item\em A string to give a shorten name to the variable (for instance, \char`\"{}\+B\char`\"{}). \end{DoxyCompactList}\item 
-\hyperlink{classghost_1_1Domain}{Domain} \hyperlink{classghost_1_1Variable_ab3d7bfa2e8c2139473775a6b797d0991}{domain}
-\begin{DoxyCompactList}\small\item\em The domain of the variable. \end{DoxyCompactList}\item 
-int \hyperlink{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}{index}
-\begin{DoxyCompactList}\small\item\em The domain\textquotesingle{}s index corresponding to the current value of the variable. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
@@ -70,15 +60,12 @@ ostream \& \hyperlink{classghost_1_1Variable_af674a590cfa8082686f61b22cbb15790}{
 \subsection{Detailed Description}
 This class encodes variables of your C\+S\+P/\+C\+OP. You cannot inherits your own class from \hyperlink{classghost_1_1Variable}{Variable}. 
 
-In G\+H\+O\+ST, all variables are discrete variables with a \hyperlink{classghost_1_1Domain}{Domain} containing intergers only (positive, negative or both). Since you cannot inherits from \hyperlink{classghost_1_1Variable}{Variable}, if your constraints or your objective functions need specific details about your variables (for instance, each variable models an agent with 2D coordinates), you must store these data on your own containers side by side with the variables vector (\begin{DoxySeeAlso}{See also}
-\hyperlink{classghost_1_1Constraint}{Constraint} and 
+In G\+H\+O\+ST, all variables are discrete variables with a \hyperlink{classghost_1_1Domain}{Domain} containing intergers only (positive, negative or both). Since you cannot inherits from \hyperlink{classghost_1_1Variable}{Variable}, if your constraints or your objective functions need specific details about your variables (for instance, each variable models an agent with 2D coordinates), you must store these data on your own containers side by side with the variables vector (see \hyperlink{classghost_1_1Constraint}{Constraint} and \hyperlink{classghost_1_1Objective}{Objective}).
 
-\hyperlink{classghost_1_1Objective}{Objective}).
-\end{DoxySeeAlso}
 While modeling your probem with G\+H\+O\+ST, make sure you understand the difference between your variable values (stored in the variable\textquotesingle{}s domain) and your variable additional data (such as 2D coordinates for instance). You must manage additional data with your own data structures or classes.
 
 \begin{DoxySeeAlso}{See also}
-\hyperlink{classghost_1_1Domain}{Domain} 
+\hyperlink{classghost_1_1Domain}{Domain} \hyperlink{classghost_1_1Constraint}{Constraint} \hyperlink{classghost_1_1Objective}{Objective} 
 \end{DoxySeeAlso}
 
 
@@ -316,37 +303,6 @@ If the given value is not in the domain, raises a value\+Exception.
 
 
 To have a nicer stream of \hyperlink{classghost_1_1Variable}{Variable}. 
-
-
-
-\subsection{Member Data Documentation}
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!domain@{domain}}
-\index{domain@{domain}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{domain}{domain}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Domain} ghost\+::\+Variable\+::domain\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classghost_1_1Variable_ab3d7bfa2e8c2139473775a6b797d0991}{}\label{classghost_1_1Variable_ab3d7bfa2e8c2139473775a6b797d0991}
-
-
-The domain of the variable. 
-
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!index@{index}}
-\index{index@{index}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{index}{index}}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\+::\+Variable\+::index\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}{}\label{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}
-
-
-The domain\textquotesingle{}s index corresponding to the current value of the variable. 
-
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!name@{name}}
-\index{name@{name}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{name}{name}}]{\setlength{\rightskip}{0pt plus 5cm}string ghost\+::\+Variable\+::name\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classghost_1_1Variable_a05cf4a4cd3a5c033028e0b0f11d1dafd}{}\label{classghost_1_1Variable_a05cf4a4cd3a5c033028e0b0f11d1dafd}
-
-
-A string to give a full name to the variable (for instance, \char`\"{}\+Barracks\char`\"{}). 
-
-\index{ghost\+::\+Variable@{ghost\+::\+Variable}!short\+Name@{short\+Name}}
-\index{short\+Name@{short\+Name}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{short\+Name}{shortName}}]{\setlength{\rightskip}{0pt plus 5cm}string ghost\+::\+Variable\+::short\+Name\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classghost_1_1Variable_afb5eb79a7f6351b4305fe082699b6d7d}{}\label{classghost_1_1Variable_afb5eb79a7f6351b4305fe082699b6d7d}
-
-
-A string to give a shorten name to the variable (for instance, \char`\"{}\+B\char`\"{}). 
 
 
 
