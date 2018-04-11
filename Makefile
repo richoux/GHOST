@@ -1,68 +1,38 @@
-# Project name
-EXEC=libghost.a
+all:
+	(mkdir -p release && \
+	cd release && \
+	cmake -DCMAKE_BUILD_TYPE=Release .. && \
+	make && \
+	sudo make install)
 
-# Compiler
-ifeq ($(CXX),)
-  CXX=g++
-endif
-SRCDIR=src
-INCDIR=include include/misc
-INCDIRFLAG=$(foreach idir, $(INCDIR), -I$(idir))
-CXXFLAGS=-std=c++14 -fPIC -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter $(INCDIRFLAG)
-
-# Linker
-# LDFLAGS=-shared $(INCDIRFLAG)
-
-# Directories
-OBJDIR=obj
-BINDIR=lib
-
-# Files
-SOURCES=$(foreach sdir, $(SRCDIR), $(wildcard $(sdir)/*.cpp))
-OBJECTS=$(patsubst %.cpp, $(OBJDIR)/%.o, $(notdir $(SOURCES)))
-
-# For rm
-SOURCESTILDE=$(foreach sdir, $(SRCDIR), $(wildcard $(sdir)/*.cpp~))
-INCLUDETILDE=$(foreach idir, $(INCDIR), $(wildcard $(idir)/*.hpp~))
-
-vpath %.cpp $(SRCDIR)
-
-# Reminder, 'cause it is easy to forget makefile's fucked-up syntax...
-# $@ is what triggered the rule, ie the target before :
-# $^ is the whole dependencies list, ie everything after :
-# $< is the first item in the dependencies list
-
-# Rules
-
-all: CXXFLAGS += -DNDEBUG -Ofast 
-all: $(OBJECTS)
-	ar cru $(BINDIR)/libghost.a $(OBJECTS)
-#all: $(BINDIR)/$(EXEC)	
-
-debug: CXXFLAGS += -DDEBUG -g -O0
-debug: $(OBJECTS)
-	ar cru $(BINDIR)/libghost.a $(OBJECTS)
-#debug: $(BINDIR)/$(EXEC)	
-
-#$(BINDIR)/$(EXEC): $(OBJECTS)
-#	$(CXX) -o $@ $(LDFLAGS) $^
-
-$(OBJDIR)/%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-.PHONY: debug clean test doc install
+debug:
+	(mkdir -p debug && \
+	cd debug && \
+	cmake -DCMAKE_BUILD_TYPE=Debug .. && \
+	make && \
+	sudo make install)
 
 clean:
-	rm -fr core *~ $(OBJDIR)/*.o $(SOURCESTILDE) $(INCLUDETILDE) $(BINDIR)/$(EXEC) 
+	(if [ -d "release" ]; then \
+	  cd release; make clean; cd ..; \
+	fi && \
+	if [ -d "debug" ]; then \
+	  cd debug; make clean; cd ..; \
+	fi && \
+	cd test && \
+	if [ -d "build" ]; then \
+	  cd build; make clean; cd ..; \
+	fi && \
+	cd ../..)
 
 test:
-	(cd test && $(MAKE))
+	(cd test && \
+	mkdir -p build && \
+	cd build && \
+	cmake .. && \
+	make)
 
 doc:
-	doxygen doc/Doxyfile
+	(doxygen doc/Doxyfile)
 
-install:
-	cp lib/libghost.a /usr/local/lib
-	ldconfig
-	rm -fr /usr/local/include/ghost
-	cp -r include /usr/local/include/ghost
+.PHONY: debug clean test doc
