@@ -126,8 +126,8 @@ class ghost::Solver&lt; TypeVariable, TypeConstraint &gt;</h3>
 <p>You just need to instanciate one <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a> object, then run its 'solve' function.</p>
 <p>The <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a> class is a template class, waiting for both the type of variable and the type of constraint. Thus, you must instanciate a solver by specifying the class of your variable objects and the class of your constraint objects, like for instance <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>&lt;MyCustomVariable, MyCustomConstraint&gt; where MyCustomVariable must inherits from <a class="el" href="classghost_1_1Variable.html" title="This class encodes variables of your CSP/COP. You cannot inherits your own class from Variable...">ghost::Variable</a> and MyCustomConstraint must inherits from <a class="el" href="classghost_1_1Constraint.html" title="This class encodes constraints of your CSP/COP. ">ghost::Constraint</a>.</p>
 <p>Each variable modelling a problem must instanciate the same class. However, constraints of different type can exist within the same problem model. This is the reson why the vector of constraints is a vector of (shared) pointers of <a class="el" href="classghost_1_1Constraint.html" title="This class encodes constraints of your CSP/COP. ">Constraint</a>.</p>
-<p><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s constructor also need a shared pointer of an <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> object. The reason why <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> is not a template parameter of <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a> but a pointer is to allow a dynamic modification of the objective function.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classghost_1_1Variable.html" title="This class encodes variables of your CSP/COP. You cannot inherits your own class from Variable...">Variable</a>, <a class="el" href="classghost_1_1Constraint.html" title="This class encodes constraints of your CSP/COP. ">Constraint</a>, <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a> </dd></dl>
+<p><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s constructor also need a shared pointer of an <a class="el" href="classghost_1_1Objective.html" title="This class encodes objective functions of your COP, as well as the special class NullObjective for CS...">Objective</a> object. The reason why <a class="el" href="classghost_1_1Objective.html" title="This class encodes objective functions of your COP, as well as the special class NullObjective for CS...">Objective</a> is not a template parameter of <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a> but a pointer is to allow a dynamic modification of the objective function.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classghost_1_1Variable.html" title="This class encodes variables of your CSP/COP. You cannot inherits your own class from Variable...">Variable</a>, <a class="el" href="classghost_1_1Constraint.html" title="This class encodes constraints of your CSP/COP. ">Constraint</a>, <a class="el" href="classghost_1_1Objective.html" title="This class encodes objective functions of your COP, as well as the special class NullObjective for CS...">Objective</a> </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="afcafbb540e963da0aa0d8bbf5634f6e4"></a>
 <div class="memitem">
@@ -172,7 +172,7 @@ template&lt;typename TypeVariable , typename TypeConstraint &gt; </div>
   <table class="params">
     <tr><td class="paramname">vecVariables</td><td>A pointer to the vector of Variables. </td></tr>
     <tr><td class="paramname">vecConstraints</td><td>A reference to the vector of Constraints. </td></tr>
-    <tr><td class="paramname">obj</td><td>A shared pointer to the <a class="el" href="classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. ">Objective</a>. </td></tr>
+    <tr><td class="paramname">obj</td><td>A shared pointer to the <a class="el" href="classghost_1_1Objective.html" title="This class encodes objective functions of your COP, as well as the special class NullObjective for CS...">Objective</a>. </td></tr>
     <tr><td class="paramname">permutationProblem</td><td>A boolean indicating if we work on a permutation problem. False by default. </td></tr>
   </table>
   </dd>
@@ -283,7 +283,7 @@ template&lt;typename TypeVariable , typename TypeConstraint &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 11 2018 15:57:54 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 11 2018 17:54:24 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

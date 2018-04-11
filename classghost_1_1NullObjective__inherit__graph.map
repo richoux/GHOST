@@ -1,3 +1,3 @@
-<map id="ghost::NullObjective&lt; TypeVariable &gt;" name="ghost::NullObjective&lt; TypeVariable &gt;">
-<area shape="rect" id="node2" href="$classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. " alt="" coords="5,5,223,361"/>
+<map id="ghost::NullObjective" name="ghost::NullObjective">
+<area shape="rect" id="node2" href="$classghost_1_1Objective.html" title="This class encodes objective functions of your COP, as well as the special class NullObjective for CS..." alt="" coords="5,5,196,361"/>
 </map>

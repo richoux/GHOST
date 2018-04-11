@@ -1,4 +1,4 @@
-<map id="ghost::NullObjective&lt; TypeVariable &gt;" name="ghost::NullObjective&lt; TypeVariable &gt;">
-<area shape="rect" id="node2" href="$classghost_1_1Objective.html" title="Objective is the class encoding objective functions of your CSP/COP. " alt="" coords="5,204,223,545"/>
-<area shape="rect" id="node3" href="$classghost_1_1Random.html" title="Use this class to generate pseudo&#45;random numbers following a near&#45;uniform distribution. " alt="" coords="34,5,194,141"/>
+<map id="ghost::NullObjective" name="ghost::NullObjective">
+<area shape="rect" id="node2" href="$classghost_1_1Objective.html" title="This class encodes objective functions of your COP, as well as the special class NullObjective for CS..." alt="" coords="5,204,196,545"/>
+<area shape="rect" id="node3" href="$classghost_1_1Random.html" title="Use this class to generate pseudo&#45;random numbers following a near&#45;uniform distribution. " alt="" coords="21,5,181,141"/>
 </map>
