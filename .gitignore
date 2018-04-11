@@ -11,9 +11,15 @@ doc/.zcache
 build/
 release/
 debug/
+build_osx/
+release_osx/
+debug_osx/
 
 # CMake test builds
 test/build/
 test/release/
 test/debug/
+test/build_osx/
+test/release_osx/
+test/debug_osx/
 test/bin
