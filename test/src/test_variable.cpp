@@ -13,7 +13,7 @@ public:
   {
     var_ctor1 = new ghost::Variable( "Thomas", "T", std::vector<int>{1,3,5,7,9}, 3 );
     var_ctor2 = new ghost::Variable( "Leo", "L", std::vector<int>{1,3,5,7,9} );
-    var_ctor3 = new ghost::Variable( "Julie", "J", 3, 7, 1 );
+    var_ctor3 = new ghost::Variable( "Julie", "J", 7, 3, 1 );
   }
 
   ~VariableTest()

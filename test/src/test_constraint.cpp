@@ -53,8 +53,6 @@ public:
 
 TEST_F(ConstraintTest, IDs)
 {
-  // The isInitialized test already creates 4 variables
-  // So our first variable here starts with id=4 instead of 0
   EXPECT_EQ( ctr1->get_id(), 0 );
   EXPECT_EQ( ctr2->get_id(), 1 );
 }
