@@ -49,6 +49,7 @@ namespace ghost
   class Domain final
   {
     vector< int >	_domain;	//!< Vector of integers containing the current values of the domain.
+    vector< int >	_indexes;	//!< Vector of integers containing indexes of current values of the domain.
     int			_minValue;	//!< Min value, used for indexes.
     int			_maxValue;	//!< Max value.
     size_t		_size;		//!< Size of _domain, ie, number of elements it contains.

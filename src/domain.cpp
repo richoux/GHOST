@@ -57,7 +57,7 @@ Domain::Domain( int startValue, size_t size )
 {
   iota( begin( _domain ), end( _domain ), startValue );
 
-  _indexes = vector<int>( size, -1 );
+  _indexes = vector<int>( _size, -1 );
   for( int i = 0 ; i < (int)_size ; ++i )
     _indexes[ _domain[ i ] - _minValue ] = i;
 }

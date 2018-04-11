@@ -55,9 +55,9 @@ namespace ghost
    */
   class Variable final
   {
-    static int NBER_VAR; //! Static counter that increases each time one instanciates a Variable object.
+    static int NBER_VAR; //!< Static counter that increases each time one instanciates a Variable object.
     
-    int _id; //! Unique ID integer taking the current value of NBER_VAR
+    int _id; //!< Unique ID integer taking the current value of NBER_VAR
     
     //! Private Variable constructor
     Variable( const string& name,
@@ -65,7 +65,7 @@ namespace ghost
 	      const Domain& domain,
 	      int index = 0);
     
-    // For the copy-and-swap idiom
+    //! For the copy-and-swap idiom
     void swap( Variable &other );
 
   protected:
@@ -90,7 +90,7 @@ namespace ghost
 	      const vector<int>&	domain,
 	      int			index = 0);
     
-    //! Second Variable constructor, with a size and a starting value for the domain.
+    //! Second Variable constructor, with a starting value and a size for the domain.
     /*!
      * \param name A const reference of a string to give a full name to the variable (for instance, "Barracks").
      * \param shortName A const reference of a string to give a shorten name to the variable (for instance, "B").
@@ -131,7 +131,7 @@ namespace ghost
     
     //! Inline function to get the current value of the variable.
     /*! 
-     * If the index do not belong to the Domain range, raises an indexException.
+     * \return An integer corresponding to the variable value. If the variable index does not belong to its domain range, an indexException is raised.
      * \sa Domain
      */
     inline int get_value() const { return domain.get_value( index ); }
@@ -159,7 +159,8 @@ namespace ghost
 
     //! Inline function to get the unique id of the Variable object.
     inline int get_id() const { return _id; }
-    
+
+    //! To have a nicer stream of Variable.
     friend ostream& operator<<( ostream& os, const Variable& v )
     {
       return os

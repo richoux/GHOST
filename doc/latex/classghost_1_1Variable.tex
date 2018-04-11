@@ -2,7 +2,7 @@
 \label{classghost_1_1Variable}\index{ghost\+::\+Variable@{ghost\+::\+Variable}}
 
 
-\hyperlink{classghost_1_1Variable}{Variable} is the class encoding the variables of your C\+S\+P/\+C\+OP.  
+This class encodes variables of your C\+S\+P/\+C\+OP. You cannot inherits your own class from \hyperlink{classghost_1_1Variable}{Variable}.  
 
 
 
@@ -26,12 +26,12 @@ Collaboration diagram for ghost\+:\+:Variable\+:\nopagebreak
 \hyperlink{classghost_1_1Variable_aa5dc881b8a239206bf55d018cc4a2156}{Variable} (const string \&\hyperlink{classghost_1_1Variable_a05cf4a4cd3a5c033028e0b0f11d1dafd}{name}, const string \&\hyperlink{classghost_1_1Variable_afb5eb79a7f6351b4305fe082699b6d7d}{short\+Name}, const vector$<$ int $>$ \&\hyperlink{classghost_1_1Variable_ab3d7bfa2e8c2139473775a6b797d0991}{domain}, int \hyperlink{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}{index}=0)
 \begin{DoxyCompactList}\small\item\em First \hyperlink{classghost_1_1Variable}{Variable} constructor, with the vector of domain values and the outside-\/the-\/scope value. \end{DoxyCompactList}\item 
 \hyperlink{classghost_1_1Variable_abae563e3f8ac3cc0f81b8736ae86d5b8}{Variable} (const string \&\hyperlink{classghost_1_1Variable_a05cf4a4cd3a5c033028e0b0f11d1dafd}{name}, const string \&\hyperlink{classghost_1_1Variable_afb5eb79a7f6351b4305fe082699b6d7d}{short\+Name}, int start\+Value, size\+\_\+t size, int \hyperlink{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}{index}=0)
-\begin{DoxyCompactList}\small\item\em Second \hyperlink{classghost_1_1Variable}{Variable} constructor, with a size and a starting value for the domain. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Second \hyperlink{classghost_1_1Variable}{Variable} constructor, with a starting value and a size for the domain. \end{DoxyCompactList}\item 
 \hyperlink{classghost_1_1Variable_ac9fb0513e1d15a047816821e034589ea}{Variable} (const \hyperlink{classghost_1_1Variable}{Variable} \&other)
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Variable}{Variable} copy constructor. \end{DoxyCompactList}\item 
 \hyperlink{classghost_1_1Variable}{Variable} \& \hyperlink{classghost_1_1Variable_ad82b892892c3531cc3d54d6b5d048bf6}{operator=} (\hyperlink{classghost_1_1Variable}{Variable} other)
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Variable}{Variable}\textquotesingle{}s copy assignment operator. \end{DoxyCompactList}\item 
-virtual \hyperlink{classghost_1_1Variable_a718686ab389bd31ae0f3cbb312c9be77}{$\sim$\+Variable} ()=default
+\hyperlink{classghost_1_1Variable_a06aa85e69ddf9a887dcc31c61dca70ab}{$\sim$\+Variable} ()=default
 \begin{DoxyCompactList}\small\item\em Default \hyperlink{classghost_1_1Variable}{Variable} destructor. \end{DoxyCompactList}\item 
 void \hyperlink{classghost_1_1Variable_a37018e24ee21e12649599409d7ac3640}{do\+\_\+random\+\_\+initialization} ()
 \begin{DoxyCompactList}\small\item\em Function initializing the variable to one random values of its domain. \end{DoxyCompactList}\item 
@@ -64,15 +64,18 @@ int \hyperlink{classghost_1_1Variable_a934efa463fb1897b4266040e321dbc41}{index}
 \begin{DoxyCompactItemize}
 \item 
 ostream \& \hyperlink{classghost_1_1Variable_af674a590cfa8082686f61b22cbb15790}{operator$<$$<$} (ostream \&os, const \hyperlink{classghost_1_1Variable}{Variable} \&v)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em To have a nicer stream of \hyperlink{classghost_1_1Variable}{Variable}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-\hyperlink{classghost_1_1Variable}{Variable} is the class encoding the variables of your C\+S\+P/\+C\+OP. 
+This class encodes variables of your C\+S\+P/\+C\+OP. You cannot inherits your own class from \hyperlink{classghost_1_1Variable}{Variable}. 
 
-In G\+H\+O\+ST, all variable objects must be instanciate from the same concrete class. Be careful to model your C\+S\+P/\+C\+OP in order to use one kind of variable only, ie., all variable objects in the implementation of your C\+S\+P/\+C\+OP must be instanciated from the same \hyperlink{classghost_1_1Variable}{Variable} (sub)class.
+In G\+H\+O\+ST, all variables are discrete variables with a \hyperlink{classghost_1_1Domain}{Domain} containing intergers only (positive, negative or both). Since you cannot inherits from \hyperlink{classghost_1_1Variable}{Variable}, if your constraints or your objective functions need specific details about your variables (for instance, each variable models an agent with 2D coordinates), you must store these data on your own containers side by side with the variables vector (\begin{DoxySeeAlso}{See also}
+\hyperlink{classghost_1_1Constraint}{Constraint} and 
 
-To encode your C\+S\+P/\+C\+OP variables, you can either directly use this class \hyperlink{classghost_1_1Variable}{Variable} (there are no pure virtual functions here), or inherit from it to make your own variable class.
+\hyperlink{classghost_1_1Objective}{Objective}).
+\end{DoxySeeAlso}
+While modeling your probem with G\+H\+O\+ST, make sure you understand the difference between your variable values (stored in the variable\textquotesingle{}s domain) and your variable additional data (such as 2D coordinates for instance). You must manage additional data with your own data structures or classes.
 
 \begin{DoxySeeAlso}{See also}
 \hyperlink{classghost_1_1Domain}{Domain} 
@@ -129,7 +132,7 @@ First \hyperlink{classghost_1_1Variable}{Variable} constructor, with the vector 
 )}\hypertarget{classghost_1_1Variable_abae563e3f8ac3cc0f81b8736ae86d5b8}{}\label{classghost_1_1Variable_abae563e3f8ac3cc0f81b8736ae86d5b8}
 
 
-Second \hyperlink{classghost_1_1Variable}{Variable} constructor, with a size and a starting value for the domain. 
+Second \hyperlink{classghost_1_1Variable}{Variable} constructor, with a starting value and a size for the domain. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -162,11 +165,11 @@ Second \hyperlink{classghost_1_1Variable}{Variable} constructor, with a size and
 \end{DoxyParams}
 \index{ghost\+::\+Variable@{ghost\+::\+Variable}!````~Variable@{$\sim$\+Variable}}
 \index{````~Variable@{$\sim$\+Variable}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{$\sim$\+Variable()=default}{~Variable()=default}}]{\setlength{\rightskip}{0pt plus 5cm}virtual ghost\+::\+Variable\+::$\sim$\+Variable (
+\subsubsection[{\texorpdfstring{$\sim$\+Variable()=default}{~Variable()=default}}]{\setlength{\rightskip}{0pt plus 5cm}ghost\+::\+Variable\+::$\sim$\+Variable (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [default]}}\hypertarget{classghost_1_1Variable_a718686ab389bd31ae0f3cbb312c9be77}{}\label{classghost_1_1Variable_a718686ab389bd31ae0f3cbb312c9be77}
+)\hspace{0.3cm}{\ttfamily [default]}}\hypertarget{classghost_1_1Variable_a06aa85e69ddf9a887dcc31c61dca70ab}{}\label{classghost_1_1Variable_a06aa85e69ddf9a887dcc31c61dca70ab}
 
 
 Default \hyperlink{classghost_1_1Variable}{Variable} destructor. 
@@ -246,7 +249,10 @@ Inline function to get the variable short name.
 
 Inline function to get the current value of the variable. 
 
-If the index do not belong to the \hyperlink{classghost_1_1Domain}{Domain} range, raises an index\+Exception. \begin{DoxySeeAlso}{See also}
+\begin{DoxyReturn}{Returns}
+An integer corresponding to the variable value. If the variable index does not belong to its domain range, an index\+Exception is raised. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
 \hyperlink{classghost_1_1Domain}{Domain} 
 \end{DoxySeeAlso}
 \index{ghost\+::\+Variable@{ghost\+::\+Variable}!operator=@{operator=}}
@@ -307,6 +313,10 @@ If the given value is not in the domain, raises a value\+Exception.
 \item[{const {\bf Variable} \&}]{v}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [friend]}}\hypertarget{classghost_1_1Variable_af674a590cfa8082686f61b22cbb15790}{}\label{classghost_1_1Variable_af674a590cfa8082686f61b22cbb15790}
+
+
+To have a nicer stream of \hyperlink{classghost_1_1Variable}{Variable}. 
+
 
 
 \subsection{Member Data Documentation}
