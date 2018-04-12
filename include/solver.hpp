@@ -74,12 +74,12 @@ namespace ghost
    *
    * \sa Variable, Constraint, Objective
    */  
-  template <typename TypeVariable, typename TypeConstraint>
+  template <typename TypeConstraint>
   class Solver
   {
-    vector<TypeVariable>		*_vecVariables;		// Pointer to the vector of variables.
+    vector<Variable>			*_vecVariables;		// Pointer to the vector of variables.
     vector<shared_ptr<TypeConstraint>>	*_vecConstraints;	// Pointer to the vector of shared pointer constraints.
-    shared_ptr<Objective<TypeVariable>>	_objective;		// Shared pointer of the objective function.
+    shared_ptr<Objective>		_objective;		// Shared pointer of the objective function.
 
     vector<int>	_weakTabuList;		// The weak tabu list, frozing used variables for tabuTime iterations. 
     Random	_random;		// The random generator used by the solver.
@@ -91,16 +91,35 @@ namespace ghost
 
     int		_varOffset;		// Offset to shift variables id, sich that the first would be shifted to 0.
     int		_ctrOffset;		// Same for constraints.
+
+    //! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 
+    class NullObjective : public Objective
+    {
+      using Objective::random;
+      
+    public:
+      NullObjective() : Objective("nullObjective") { }
+      
+    private:
+      double required_cost( vector< Variable > *variables ) const override { return 0.; }
+      
+      int expert_heuristic_value( vector< Variable > *variables,
+				  Variable *var,
+				  const vector< int >& valuesList ) const override
+      {
+	return valuesList[ random.get_random_number( valuesList.size() ) ];
+      }
+    };
     
     struct VarComp
     {
-      bool operator()( const TypeVariable& lhs, const TypeVariable& rhs ) const
+      bool operator()( const Variable& lhs, const Variable& rhs ) const
       {
 	return lhs.get_id() < rhs.get_id();
       }
     };
     
-    mutable map< TypeVariable,
+    mutable map< Variable,
 		 vector< shared_ptr<TypeConstraint> >,
 		 VarComp > _mapVarCtr;	// Map to know in which constraints are each variable.
 
@@ -111,9 +130,9 @@ namespace ghost
      * \param objective A shared pointer to an Objective.
      * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
      */
-    Solver( vector<TypeVariable>		*vecVariables, 
+    Solver( vector<Variable>			*vecVariables, 
 	    vector<shared_ptr<TypeConstraint>>	*vecConstraints,
-	    shared_ptr<Objective<TypeVariable>>	objective,
+	    shared_ptr<Objective>		objective,
 	    bool				permutationProblem = false );
 
     // Set the initial configuration by calling monte_carlo_sampling() 'samplings' times.
@@ -141,29 +160,29 @@ namespace ghost
     void compute_variables_costs( const vector<double>& costConstraints,
 				  vector<double>&	costVariables,
 				  vector<double>&	costNonTabuVariables,
-				  const double currentSatCost ) const;
+				  const double		currentSatCost ) const;
 
     // Compute incrementally the now satisfaction cost IF we change the value of 'variable' by 'value' with a local move.
-    double simulate_local_move_cost( TypeVariable		*variable,
+    double simulate_local_move_cost( Variable			*variable,
 				     double			value,
 				     const vector<double>&	costConstraints,
 				     double			currentSatCost ) const;
 
     // Compute incrementally the now satisfaction cost IF we swap values of 'variable' with another variable.
-    double simulate_permutation_cost( TypeVariable		*worstVariable,
-				      TypeVariable&		otherVariable,
+    double simulate_permutation_cost( Variable			*worstVariable,
+				      Variable&			otherVariable,
 				      const vector<double>&	costConstraints,
 				      double			currentSatCost ) const;
 
     // Function to make a local move, ie, to assign a given
-    void local_move( TypeVariable	*variable,
+    void local_move( Variable		*variable,
 		     vector<double>&	costConstraints,
 		     vector<double>&	costVariables,
 		     vector<double>&	costNonTabuVariables,
 		     double&		currentSatCost );
 
     // Function to make a permutation move, ie, to assign a given
-    void permutation_move( TypeVariable		*variable,
+    void permutation_move( Variable		*variable,
 			   vector<double>&	costConstraints,
 			   vector<double>&	costVariables,
 			   vector<double>&	costNonTabuVariables,
@@ -178,9 +197,9 @@ namespace ghost
      * \param obj A shared pointer to the Objective.
      * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
      */
-    Solver( vector<TypeVariable>&		vecVariables, 
+    Solver( vector<Variable>&			vecVariables, 
 	    vector<shared_ptr<TypeConstraint>>&	vecConstraints,
-	    shared_ptr<Objective<TypeVariable>>	objecive,
+	    shared_ptr<Objective>		objecive,
 	    bool				permutationProblem = false );
 
     //! Second Solver's constructor
@@ -189,7 +208,7 @@ namespace ghost
      * \param vecConstraints A reference to the vector of Constraints.
      * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
      */
-    Solver( vector<TypeVariable>&		vecVariables, 
+    Solver( vector<Variable>&			vecVariables, 
 	    vector<shared_ptr<TypeConstraint>>&	vecConstraints,
 	    bool				permutationProblem = false );
     
@@ -208,11 +227,11 @@ namespace ghost
   // Implementation //
   ////////////////////
 
-  template <typename TypeVariable, typename TypeConstraint>
-  Solver<TypeVariable, TypeConstraint>::Solver( vector<TypeVariable>			*vecVariables, 
-						vector<shared_ptr<TypeConstraint>>	*vecConstraints,
-						shared_ptr<Objective<TypeVariable>>	objective,
-						bool					permutationProblem )
+  template <typename TypeConstraint>
+  Solver<TypeConstraint>::Solver( vector<Variable>			*vecVariables, 
+				  vector<shared_ptr<TypeConstraint>>	*vecConstraints,
+				  shared_ptr<Objective>			objective,
+				  bool					permutationProblem )
     : _vecVariables		( vecVariables ), 
       _vecConstraints		( vecConstraints ),
       _objective		( objective ),
@@ -226,27 +245,27 @@ namespace ghost
 	  _mapVarCtr[ var ].push_back( ctr );
   }
 
-  template <typename TypeVariable, typename TypeConstraint>
-  Solver<TypeVariable, TypeConstraint>::Solver( vector<TypeVariable>&			vecVariables, 
-						vector< shared_ptr<TypeConstraint>>&	vecConstraints,
-						shared_ptr<Objective<TypeVariable>>	objective,
-						bool					permutationProblem )
+  template <typename TypeConstraint>
+  Solver<TypeConstraint>::Solver( vector<Variable>&			vecVariables, 
+				  vector< shared_ptr<TypeConstraint>>&	vecConstraints,
+				  shared_ptr<Objective>			objective,
+				  bool					permutationProblem )
     : Solver( &vecVariables, &vecConstraints, objective, permutationProblem )
   { }
 
-  template <typename TypeVariable, typename TypeConstraint>
-  Solver<TypeVariable, TypeConstraint>::Solver( vector<TypeVariable>&			vecVariables, 
-						vector<shared_ptr<TypeConstraint>>&	vecConstraints,
-						bool					permutationProblem )
+  template <typename TypeConstraint>
+  Solver<TypeConstraint>::Solver( vector<Variable>&			vecVariables, 
+				  vector<shared_ptr<TypeConstraint>>&	vecConstraints,
+				  bool					permutationProblem )
     : Solver( &vecVariables, &vecConstraints, nullptr, permutationProblem )
   { }
   
 
-  template <typename TypeVariable, typename TypeConstraint>
-  bool Solver<TypeVariable, TypeConstraint>::solve( double&	finalCost,
-						    vector<int>& finalSolution,
-						    double	satTimeout,
-						    double	optTimeout )
+  template <typename TypeConstraint>
+  bool Solver<TypeConstraint>::solve( double&		finalCost,
+				      vector<int>&	finalSolution,
+				      double		satTimeout,
+				      double		optTimeout )
   {
     satTimeout *= 1000; // timeouts in microseconds
     if( optTimeout == 0 )
@@ -254,7 +273,7 @@ namespace ghost
     else
       optTimeout *= 1000;
 
-    // The only parameter of Solver<TypeVariable, TypeConstraint>::solve outside timeouts
+    // The only parameter of Solver<Variable, TypeConstraint>::solve outside timeouts
     int tabuTimeLocalMin = _vecVariables->size() - 1;
     int tabuTimeSelected = std::max( 1, tabuTimeLocalMin / 2);
 
@@ -282,14 +301,14 @@ namespace ghost
     mt19937		rng( rd() );
 
     if( _objective == nullptr )
-      _objective = make_shared< NullObjective<TypeVariable> >();
+      _objective = make_shared< NullObjective<Variable> >();
     
     int optLoop = 0;
     int satLoop = 0;
 
     double costBeforePostProc = numeric_limits<double>::max();
   
-    TypeVariable* worstVariable;
+    Variable* worstVariable;
     double currentSatCost;
     double currentOptCost;
     vector< double > costConstraints( _vecConstraints->size(), 0. );
@@ -415,7 +434,7 @@ namespace ghost
       finalCost = _bestSatCost;
 
     // Set the variables to the best solution values.
-    // Useful if the user prefer to directly use the vector of TypeVariables
+    // Useful if the user prefer to directly use the vector of Variables
     // to manipulate and exploit the solution.
     for( auto& v : *_vecVariables )
       v.set_value( finalSolution[ v.get_id() - _varOffset ] );
@@ -449,8 +468,8 @@ namespace ghost
     return _bestSatCost == 0.;
   }
 
-  template <typename TypeVariable, typename TypeConstraint>
-  double Solver<TypeVariable, TypeConstraint>::compute_constraints_costs( vector<double>& costConstraints ) const
+  template <typename TypeConstraint>
+  double Solver<TypeConstraint>::compute_constraints_costs( vector<double>& costConstraints ) const
   {
     double satisfactionCost = 0.;
     double cost;
@@ -465,11 +484,11 @@ namespace ghost
     return satisfactionCost;
   }
 
-  template <typename TypeVariable, typename TypeConstraint>
-  void Solver<TypeVariable, TypeConstraint>::compute_variables_costs( const vector<double>& costConstraints,
-								      vector<double>& costVariables,
-								      vector<double>& costNonTabuVariables,
-								      const double currentSatCost ) const
+  template <typename TypeConstraint>
+  void Solver<TypeConstraint>::compute_variables_costs( const vector<double>&	costConstraints,
+							vector<double>&		costVariables,
+							vector<double>&		costNonTabuVariables,
+							const double		currentSatCost ) const
   {
     int id;
     
@@ -492,7 +511,7 @@ namespace ghost
       
       if( _permutationProblem )
       {
-	TypeVariable *otherVariable;
+	Variable *otherVariable;
 	
 	for( i = 0 ; i < ratio; ++i )
 	{
@@ -535,8 +554,8 @@ namespace ghost
     }
   }
 
-  template <typename TypeVariable, typename TypeConstraint>
-  void Solver<TypeVariable, TypeConstraint>::set_initial_configuration( int samplings )
+  template <typename TypeConstraint>
+  void Solver<TypeConstraint>::set_initial_configuration( int samplings )
   {
     if( samplings == 1 )
     {
@@ -579,15 +598,15 @@ namespace ghost
     }
   }
 
-  template <typename TypeVariable, typename TypeConstraint>
-  void Solver<TypeVariable, TypeConstraint>::monte_carlo_sampling()
+  template <typename TypeConstraint>
+  void Solver<TypeConstraint>::monte_carlo_sampling()
   {
     for( auto& v : *_vecVariables )
       v.do_random_initialization();
   }
 
-  template <typename TypeVariable, typename TypeConstraint>
-  void Solver<TypeVariable, TypeConstraint>::decay_weak_tabu_list( bool& freeVariables ) 
+  template <typename TypeConstraint>
+  void Solver<TypeConstraint>::decay_weak_tabu_list( bool& freeVariables ) 
   {
     for( int i = 0 ; i < (int)_weakTabuList.size() ; ++i )
     {
@@ -600,10 +619,10 @@ namespace ghost
     }
   }
 
-  template <typename TypeVariable, typename TypeConstraint>
-  void Solver<TypeVariable, TypeConstraint>::update_better_configuration( double& best,
-									  const double current,
-									  vector<int>& configuration )
+  template <typename TypeConstraint>
+  void Solver<TypeConstraint>::update_better_configuration( double&	best,
+							    const double current,
+							    vector<int>& configuration )
   {
     best = current;
 
@@ -612,11 +631,11 @@ namespace ghost
   }
   
   // NO VALUE BACKED-UP!
-  template <typename TypeVariable, typename TypeConstraint>
-  double Solver<TypeVariable, TypeConstraint>::simulate_local_move_cost( TypeVariable* variable,
-									 double value,
-									 const vector<double>& costConstraints,
-									 double currentSatCost ) const
+  template <typename TypeConstraint>
+  double Solver<TypeConstraint>::simulate_local_move_cost( Variable*		variable,
+							   double		value,
+							   const vector<double>& costConstraints,
+							   double		currentSatCost ) const
   {
     double newCurrentSatCost = currentSatCost;
 
@@ -627,11 +646,11 @@ namespace ghost
     return newCurrentSatCost;
   }
 
-  template <typename TypeVariable, typename TypeConstraint>
-  double Solver<TypeVariable, TypeConstraint>::simulate_permutation_cost( TypeVariable* worstVariable,
-									  TypeVariable& otherVariable,
-									  const vector<double>& costConstraints,
-									  double currentSatCost ) const
+  template <typename TypeConstraint>
+  double Solver<TypeConstraint>::simulate_permutation_cost( Variable*			worstVariable,
+							    Variable&			otherVariable,
+							    const vector<double>&	costConstraints,
+							    double			currentSatCost ) const
   {
     double newCurrentSatCost = currentSatCost;
     int tmp = worstVariable->get_value();
@@ -658,12 +677,12 @@ namespace ghost
     return newCurrentSatCost;
   }
 
-  template <typename TypeVariable, typename TypeConstraint>
-  void Solver<TypeVariable, TypeConstraint>::local_move( TypeVariable* variable,
-							 vector<double>& costConstraints,
-							 vector<double>& costVariables,
-							 vector<double>& costNonTabuVariables,
-							 double& currentSatCost )
+  template <typename TypeConstraint>
+  void Solver<TypeConstraint>::local_move( Variable*		variable,
+					   vector<double>&	costConstraints,
+					   vector<double>&	costVariables,
+					   vector<double>&	costNonTabuVariables,
+					   double&		currentSatCost )
   {
     // Here, we look at values in the variable domain
     // leading to the lowest satisfaction cost.
@@ -705,18 +724,18 @@ namespace ghost
     // compute_variables_costs( costConstraints, costVariables, costNonTabuVariables, currentSatCost );
   }
 
-  template <typename TypeVariable, typename TypeConstraint>
-  void Solver<TypeVariable, TypeConstraint>::permutation_move( TypeVariable* variable,
-							       vector<double>& costConstraints,
-							       vector<double>& costVariables,
-							       vector<double>& costNonTabuVariables,
-							       double& currentSatCost )
+  template <typename TypeConstraint>
+  void Solver<TypeConstraint>::permutation_move( Variable*	variable,
+						 vector<double>& costConstraints,
+						 vector<double>& costVariables,
+						 vector<double>& costNonTabuVariables,
+						 double&	currentSatCost )
   {
     // Here, we look at values in the variable domain
     // leading to the lowest satisfaction cost.
     double newCurrentSatCost;
-    vector< TypeVariable* > bestVarToSwapList;
-    TypeVariable* bestVarToSwap;
+    vector< Variable* > bestVarToSwapList;
+    Variable* bestVarToSwap;
     double bestCost = numeric_limits<double>::max();
   
     for( auto& otherVariable : *_vecVariables )
@@ -767,4 +786,3 @@ namespace ghost
     compute_variables_costs( costConstraints, costVariables, costNonTabuVariables, newCurrentSatCost );
   }
 }
-

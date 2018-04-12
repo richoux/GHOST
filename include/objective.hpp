@@ -220,23 +220,4 @@ namespace ghost
     //! Inline accessor to get the name of the objective object.
     inline string get_name() const { return name; }
   };
-
-  //! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 
-  class NullObjective : public Objective
-  {
-    using Objective::random;
-    
-  public:
-    NullObjective() : Objective("nullObjective") { }
-
-  private:
-    double required_cost( vector< Variable > *variables ) const override { return 0.; }
-    
-    int expert_heuristic_value( vector< Variable > *variables,
-				Variable *var,
-				const vector< int >& valuesList ) const override
-    {
-      return valuesList[ random.get_random_number( valuesList.size() ) ];
-    }
-  };
 }
