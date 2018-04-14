@@ -73,12 +73,12 @@ namespace ghost
     vector<int>	_weakTabuList;		//!< The weak tabu list, frozing used variables for tabuTime iterations. 
     Random	_random;		//!< The random generator used by the solver.
     double	_bestSatCost;		//!< The satisfaction cost of the best solution.
-    double	_bestSatCostTour;	//!< The satisfaction cost of the best solution in the current optimization loop.
+    double	_bestSatCostOptLoop;	//!< The satisfaction cost of the best solution in the current optimization loop.
     double	_bestOptCost;		//!< The optimization cost of the best solution.
     bool	_isOptimization;	//!< A boolean to know if it is a satisfaction or optimization run.
     bool	_permutationProblem;	//!< A boolean to know if it is a permutation problem or not.
 
-    int		_varOffset;		//!< Offset to shift variables id, sich that the first would be shifted to 0.
+    int		_varOffset;		//!< Offset to shift variables id, such that the first would be shifted to 0.
     int		_ctrOffset;		//!< Same for constraints.
 
     //! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 

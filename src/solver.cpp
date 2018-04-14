@@ -134,7 +134,7 @@ bool Solver<Constraint>::solve( double&	finalCost,
     fill( _weakTabuList.begin(), _weakTabuList.end(), 0 );
 
     // Reset the best satisfaction cost
-    _bestSatCostTour = numeric_limits<double>::max();
+    _bestSatCostOptLoop = numeric_limits<double>::max();
 
     do // satisfaction loop 
     {
@@ -166,12 +166,12 @@ bool Solver<Constraint>::solve( double&	finalCost,
       else
 	local_move( worstVariable, costConstraints, costVariables, costNonTabuVariables, currentSatCost );
 
-      if( _bestSatCostTour > currentSatCost )
+      if( _bestSatCostOptLoop > currentSatCost )
       {
-	_bestSatCostTour = currentSatCost;
+	_bestSatCostOptLoop = currentSatCost;
 
-	if( _bestSatCost >= _bestSatCostTour )
-	  _bestSatCost = _bestSatCostTour;
+	if( _bestSatCost >= _bestSatCostOptLoop )
+	  _bestSatCost = _bestSatCostOptLoop;
 
 	// freeze the variable a bit
 	_weakTabuList[ worstVariable->get_id() - _varOffset ] = tabuTimeSelected;
@@ -192,9 +192,9 @@ bool Solver<Constraint>::solve( double&	finalCost,
       elapsedTimeOptLoop = chrono::steady_clock::now() - startOptLoop;
       elapsedTime = chrono::steady_clock::now() - start;
     } // satisfaction loop
-    while( _bestSatCostTour > 0. && elapsedTimeOptLoop.count() < satTimeout && elapsedTime.count() < optTimeout );
+    while( _bestSatCostOptLoop > 0. && elapsedTimeOptLoop.count() < satTimeout && elapsedTime.count() < optTimeout );
 
-    if( _bestSatCostTour == 0. )
+    if( _bestSatCostOptLoop == 0. )
     {
       currentOptCost = _objective->cost( _vecVariables );
       if( _bestOptCost > currentOptCost )
