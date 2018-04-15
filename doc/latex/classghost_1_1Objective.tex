@@ -2,7 +2,7 @@
 \label{classghost_1_1Objective}\index{ghost\+::\+Objective@{ghost\+::\+Objective}}
 
 
-This class encodes objective functions of your C\+OP, as well as the special class \hyperlink{classghost_1_1NullObjective}{Null\+Objective} for C\+SP.  
+This class encodes objective functions of your C\+OP, as well as the special class Null\+Objective for C\+SP.  
 
 
 
@@ -11,18 +11,7 @@ This class encodes objective functions of your C\+OP, as well as the special cla
 
 
 
-Inheritance diagram for ghost\+:\+:Objective\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=223pt]{classghost_1_1Objective__inherit__graph}
-\end{center}
-\end{figure}
-
-
-Collaboration diagram for ghost\+:\+:Objective\+:
-\nopagebreak
+Collaboration diagram for ghost\+:\+:Objective\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -79,11 +68,11 @@ string \hyperlink{classghost_1_1Objective_af5bf0605c193884ad7f53593dabe8b85}{nam
 
 
 \subsection{Detailed Description}
-This class encodes objective functions of your C\+OP, as well as the special class \hyperlink{classghost_1_1NullObjective}{Null\+Objective} for C\+SP. 
+This class encodes objective functions of your C\+OP, as well as the special class Null\+Objective for C\+SP. 
 
 In G\+H\+O\+ST, many different objective objects can be instanciate.
 
-You cannot directly use this class \hyperlink{classghost_1_1Objective}{Objective} to encode your objective functions since this is an abstract class. Yhus, you must write your own objective class inheriting from \hyperlink{classghost_1_1Objective}{ghost\+::\+Objective}. You can write different objective classes to model your problem, and switch from an objective to another between two \hyperlink{classghost_1_1Solver_ab2f3b79560cefbe8299583a40edad40e}{Solver\+::solve} calls.
+You cannot directly use this class \hyperlink{classghost_1_1Objective}{Objective} to encode your objective functions since this is an abstract class. Yhus, you must write your own objective class inheriting from \hyperlink{classghost_1_1Objective}{ghost\+::\+Objective}. You can write different objective classes to model your problem, and switch from an objective to another between two \hyperlink{classghost_1_1Solver_acc72c5a651e888858c10dfe300d96fa8}{Solver\+::solve} calls.
 
 In this class, each virtual function follows the Non-\/\+Virtual Interface Idiom (see \href{http://www.gotw.ca/publications/mill18.htm}{\tt http\+://www.\+gotw.\+ca/publications/mill18.\+htm}). The only pure virtual function is required\+\_\+cost. All other virtual functions have a default behavior implemented and are prefixed by \textquotesingle{}expert\+\_\+\textquotesingle{}. It is highly recommended to override these functions only if you know what you are doing.
 
@@ -237,7 +226,7 @@ It does nothing By default. You need to override it to have an optimization post
 Like all functions prefixed by \textquotesingle{}expert\+\_\+\textquotesingle{}, you should override this function only if you know what you are doing.
 
 \begin{DoxyWarning}{Warning}
-The computation spantime of this function is not taken into account by timeouts given to the solver. If you override this function, be sure its computation time is neglictable compare to the optimization timeout you give to \hyperlink{classghost_1_1Solver_ab2f3b79560cefbe8299583a40edad40e}{Solver\+::solve}.
+The computation spantime of this function is not taken into account by timeouts given to the solver. If you override this function, be sure its computation time is neglictable compare to the optimization timeout you give to \hyperlink{classghost_1_1Solver_acc72c5a651e888858c10dfe300d96fa8}{Solver\+::solve}.
 \end{DoxyWarning}
 
 \begin{DoxyParams}{Parameters}

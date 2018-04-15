@@ -202,6 +202,41 @@ namespace ghost
     
     //! Solver's main function, to solve the given CSP/COP.
     /*!
+     * This function is the heart of GHOST's solver: it will try to find a solution within a limit time. If it finds wuch a solution, 
+     * the function outputs the value true.\n
+     * Here how it works: if at least one solution is found, at the end of the computation, it will write in the two first
+     * parameters finalCost and finalSolution the cost of the best solution found and the value of each variable.\n
+     * For a satisfaction problem (without any objective functions), the cost of a solution is the sum of the cost of each
+     * problem constraint (computated by Constraint::required_cost). For an optimization problem, the cost is the value outputed
+     * by Objective::required_cost.\n
+     * For both, the lower value the better: A satisfaction cost of 0 means we have a solution to a satisfaction problem (ie, 
+     * all constraints are satisfied). An optimization cost should be as low as possible: GHOST is handling minimization problems 
+     * only. If you have a maximization problem (you are looking to the highest possible value of your objective function), look 
+     * at the Objective documentation to see how to easily convert your problem into a minimization problem.
+     *
+     * The two last parameters sat_timeout and opt_timeout are fundamental: sat_timeout is mandatory, opt_timeout is optional: 
+     * if not given, its value will be fixed to sat_timeout * 10.\n
+     * sat_timeout is the timeout in milliseconds you give to GHOST to find a solution to the problem, ie, finding a value for 
+     * each variable such that each constraint of the problem is satisfied. For a satisfaction problem, this is the timeout within
+     * GHOST must output a solution.\n
+     * opt_timeout is only useful for optimization problems. Once GHOST finds a solution within sat_timeout, it saves it and try to find 
+     * other solutions leading to better (ie, smaller) values of the objective function. Then it restart a fresh satisfaction search, 
+     * with again sat_timeout as a timeout to find a solution. It will repeat this operation until opt_timeout is reached.
+     *
+     * Thus for instance, if you set sat_timeout to 20ms and opt_timeout to 60ms (or better, to 61 or 62ms to be sure), you let GHOST 
+     * the time to run 3 satisfaction runs within a global runtime of 60ms (or 61, 62ms), like illustrated below.
+     * _ _
+     * | | <-- satisfaction timeouts 
+     * | _
+     * | | <-- satisfaction timeouts
+     * | _
+     * | | <-- satisfaction timeouts
+     * ¯ <-- optimization timeout
+     *
+     * It is possible it returns no solutions after timeout; in that case Solver::solve returns false. If it is often the case, this is a 
+     * strong evidence the satisfaction timeout is too low, and the solver does not have time to find at least one solution. Thus, this is 
+     * the only parameter you may have to tweak in GHOST.
+     *
      * \param finalCost A reference to the double of the sum of constraints cost for satisfaction problems, 
      * or the value of the objective function for optimization problems. For satisfaction problems, a cost of zero means a solution has been found.
      * \param finalSolution The configuration of the best solution found, ie, a reference to the vector of assignements of each variable.
