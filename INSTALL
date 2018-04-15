@@ -6,10 +6,10 @@ On GNU/Linux:
 You have options 1, 2 or 3.
 
 1. To compile and install the release version:
-$> make
+$> ./build.sh
 
 2. To compile and install the debug version:
-$> make debug
+$> ./build.sh debug
 
 3. If you just want to compile, without installing the library on your /usr/local, then you have two choices:
 To compile in release mode:
