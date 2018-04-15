@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>GHOST: ghost::Solver&lt; TypeVariable, TypeConstraint &gt; Class Template Reference</title>
+<title>GHOST: ghost::Solver Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,7 +63,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -92,7 +91,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classghost_1_1Solver-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">ghost::Solver&lt; TypeVariable, TypeConstraint &gt; Class Template Reference</div>  </div>
+<div class="title">ghost::Solver Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -101,57 +100,53 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p><code>#include &lt;<a class="el" href="solver_8hpp_source.html">solver.hpp</a>&gt;</code></p>
 <div class="dynheader">
-Collaboration diagram for ghost::Solver&lt; TypeVariable, TypeConstraint &gt;:</div>
+Collaboration diagram for ghost::Solver:</div>
 <div class="dyncontent">
-<div class="center"><img src="classghost_1_1Solver__coll__graph.png" border="0" usemap="#ghost_1_1Solver_3_01TypeVariable_00_01TypeConstraint_01_4_coll__map" alt="Collaboration graph"/></div>
+<div class="center"><img src="classghost_1_1Solver__coll__graph.png" border="0" usemap="#ghost_1_1Solver_coll__map" alt="Collaboration graph"/></div>
+<map name="ghost_1_1Solver_coll__map" id="ghost_1_1Solver_coll__map">
+</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:afcafbb540e963da0aa0d8bbf5634f6e4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#afcafbb540e963da0aa0d8bbf5634f6e4">Solver</a> (vector&lt; TypeVariable &gt; &amp;vecVariables, vector&lt; shared_ptr&lt; TypeConstraint &gt;&gt; &amp;vecConstraints, shared_ptr&lt; <a class="el" href="classghost_1_1Objective.html">Objective</a>&lt; TypeVariable &gt;&gt; objecive, bool permutationProblem=false)</td></tr>
-<tr class="memdesc:afcafbb540e963da0aa0d8bbf5634f6e4"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s regular constructor.  <a href="#afcafbb540e963da0aa0d8bbf5634f6e4">More...</a><br /></td></tr>
-<tr class="separator:afcafbb540e963da0aa0d8bbf5634f6e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26fe2a7362fdc6cc44b07e0c658250de"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a26fe2a7362fdc6cc44b07e0c658250de">Solver</a> (vector&lt; TypeVariable &gt; &amp;vecVariables, vector&lt; shared_ptr&lt; TypeConstraint &gt;&gt; &amp;vecConstraints, bool permutationProblem=false)</td></tr>
-<tr class="memdesc:a26fe2a7362fdc6cc44b07e0c658250de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Second <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s constructor.  <a href="#a26fe2a7362fdc6cc44b07e0c658250de">More...</a><br /></td></tr>
-<tr class="separator:a26fe2a7362fdc6cc44b07e0c658250de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2f3b79560cefbe8299583a40edad40e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#ab2f3b79560cefbe8299583a40edad40e">solve</a> (double &amp;finalCost, vector&lt; int &gt; &amp;finalSolution, double sat_timeout, double opt_timeout=0.)</td></tr>
-<tr class="memdesc:ab2f3b79560cefbe8299583a40edad40e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s main function, to solve the given CSP/COP.  <a href="#ab2f3b79560cefbe8299583a40edad40e">More...</a><br /></td></tr>
-<tr class="separator:ab2f3b79560cefbe8299583a40edad40e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08cd6511d8f11a1b78a6e46c9f02ec8a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a08cd6511d8f11a1b78a6e46c9f02ec8a">Solver</a> (vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; &amp;vecVariables, vector&lt; shared_ptr&lt; <a class="el" href="classghost_1_1Constraint.html">Constraint</a> &gt;&gt; &amp;vecConstraints, shared_ptr&lt; <a class="el" href="classghost_1_1Objective.html">Objective</a> &gt; objective, bool permutationProblem=false)</td></tr>
+<tr class="memdesc:a08cd6511d8f11a1b78a6e46c9f02ec8a"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s regular constructor.  <a href="#a08cd6511d8f11a1b78a6e46c9f02ec8a">More...</a><br /></td></tr>
+<tr class="separator:a08cd6511d8f11a1b78a6e46c9f02ec8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fef29b475575713d7c507569e25976c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a8fef29b475575713d7c507569e25976c">Solver</a> (vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; &amp;vecVariables, vector&lt; shared_ptr&lt; <a class="el" href="classghost_1_1Constraint.html">Constraint</a> &gt;&gt; &amp;vecConstraints, bool permutationProblem=false)</td></tr>
+<tr class="memdesc:a8fef29b475575713d7c507569e25976c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Second <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s constructor, without <a class="el" href="classghost_1_1Objective.html" title="This class encodes objective functions of your COP, as well as the special class NullObjective for CS...">Objective</a>.  <a href="#a8fef29b475575713d7c507569e25976c">More...</a><br /></td></tr>
+<tr class="separator:a8fef29b475575713d7c507569e25976c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc72c5a651e888858c10dfe300d96fa8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#acc72c5a651e888858c10dfe300d96fa8">solve</a> (double &amp;finalCost, vector&lt; int &gt; &amp;finalSolution, double sat_timeout, double opt_timeout=0.)</td></tr>
+<tr class="memdesc:acc72c5a651e888858c10dfe300d96fa8"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s main function, to solve the given CSP/COP.  <a href="#acc72c5a651e888858c10dfe300d96fa8">More...</a><br /></td></tr>
+<tr class="separator:acc72c5a651e888858c10dfe300d96fa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename TypeVariable, typename TypeConstraint&gt;<br />
-class ghost::Solver&lt; TypeVariable, TypeConstraint &gt;</h3>
-
-<p><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a> is the class coding the solver itself. </p>
-<p>You just need to instanciate one <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a> object, then run its 'solve' function.</p>
-<p>The <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a> class is a template class, waiting for both the type of variable and the type of constraint. Thus, you must instanciate a solver by specifying the class of your variable objects and the class of your constraint objects, like for instance <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>&lt;MyCustomVariable, MyCustomConstraint&gt; where MyCustomVariable must inherits from <a class="el" href="classghost_1_1Variable.html" title="This class encodes variables of your CSP/COP. You cannot inherits your own class from Variable...">ghost::Variable</a> and MyCustomConstraint must inherits from <a class="el" href="classghost_1_1Constraint.html" title="This class encodes constraints of your CSP/COP. ">ghost::Constraint</a>.</p>
-<p>Each variable modelling a problem must instanciate the same class. However, constraints of different type can exist within the same problem model. This is the reson why the vector of constraints is a vector of (shared) pointers of <a class="el" href="classghost_1_1Constraint.html" title="This class encodes constraints of your CSP/COP. ">Constraint</a>.</p>
-<p><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s constructor also need a shared pointer of an <a class="el" href="classghost_1_1Objective.html" title="This class encodes objective functions of your COP, as well as the special class NullObjective for CS...">Objective</a> object. The reason why <a class="el" href="classghost_1_1Objective.html" title="This class encodes objective functions of your COP, as well as the special class NullObjective for CS...">Objective</a> is not a template parameter of <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a> but a pointer is to allow a dynamic modification of the objective function.</p>
+<div class="textblock"><p><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a> is the class coding the solver itself. </p>
+<p>To solve a problem instance, you must instanciate a <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a> object, then run <a class="el" href="classghost_1_1Solver.html#acc72c5a651e888858c10dfe300d96fa8" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a>.</p>
+<p><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a> constructors need a vector of <a class="el" href="classghost_1_1Variable.html" title="This class encodes variables of your CSP/COP. You cannot inherits your own class from Variable...">Variable</a>, a vector of shared pointers on <a class="el" href="classghost_1_1Constraint.html" title="This class encodes constraints of your CSP/COP. ">Constraint</a> objects, an optional shared pointer on an <a class="el" href="classghost_1_1Objective.html" title="This class encodes objective functions of your COP, as well as the special class NullObjective for CS...">Objective</a> object (the solver will create a special empty <a class="el" href="classghost_1_1Objective.html" title="This class encodes objective functions of your COP, as well as the special class NullObjective for CS...">Objective</a> object is none is given), and finally an optionnal boolean to indicate if the problem has been modeled as a permutation problem (false by default).</p>
+<p>A permutation problem is a problem where all variables start with different values, and only swapping values is allowed. This is typically the case for scheduling problems, for instance: you want to do A first, then B second, C third, and so on. The solution of the problem must assign a unique value for each variable. Try as much as possible to model your problems as permutation problems, since it should greatly speed-up the search of solutions.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classghost_1_1Variable.html" title="This class encodes variables of your CSP/COP. You cannot inherits your own class from Variable...">Variable</a>, <a class="el" href="classghost_1_1Constraint.html" title="This class encodes constraints of your CSP/COP. ">Constraint</a>, <a class="el" href="classghost_1_1Objective.html" title="This class encodes objective functions of your COP, as well as the special class NullObjective for CS...">Objective</a> </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="afcafbb540e963da0aa0d8bbf5634f6e4"></a>
+<a class="anchor" id="a08cd6511d8f11a1b78a6e46c9f02ec8a"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable , typename TypeConstraint &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeConstraint &gt;::<a class="el" href="classghost_1_1Solver.html">Solver</a> </td>
+          <td class="memname">ghost::Solver::Solver </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; TypeVariable &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>vecVariables</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; shared_ptr&lt; TypeConstraint &gt;&gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; shared_ptr&lt; <a class="el" href="classghost_1_1Constraint.html">Constraint</a> &gt;&gt; &amp;&#160;</td>
           <td class="paramname"><em>vecConstraints</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classghost_1_1Objective.html">Objective</a>&lt; TypeVariable &gt;&gt;&#160;</td>
-          <td class="paramname"><em>objecive</em>, </td>
+          <td class="paramtype">shared_ptr&lt; <a class="el" href="classghost_1_1Objective.html">Objective</a> &gt;&#160;</td>
+          <td class="paramname"><em>objective</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -180,22 +175,20 @@ template&lt;typename TypeVariable , typename TypeConstraint &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a26fe2a7362fdc6cc44b07e0c658250de"></a>
+<a class="anchor" id="a8fef29b475575713d7c507569e25976c"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable , typename TypeConstraint &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeConstraint &gt;::<a class="el" href="classghost_1_1Solver.html">Solver</a> </td>
+          <td class="memname">ghost::Solver::Solver </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; TypeVariable &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>vecVariables</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; shared_ptr&lt; TypeConstraint &gt;&gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; shared_ptr&lt; <a class="el" href="classghost_1_1Constraint.html">Constraint</a> &gt;&gt; &amp;&#160;</td>
           <td class="paramname"><em>vecConstraints</em>, </td>
         </tr>
         <tr>
@@ -212,7 +205,7 @@ template&lt;typename TypeVariable , typename TypeConstraint &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Second <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s constructor. </p>
+<p>Second <a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s constructor, without <a class="el" href="classghost_1_1Objective.html" title="This class encodes objective functions of your COP, as well as the special class NullObjective for CS...">Objective</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">vecVariables</td><td>A reference to the vector of Variables. </td></tr>
@@ -225,14 +218,12 @@ template&lt;typename TypeVariable , typename TypeConstraint &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ab2f3b79560cefbe8299583a40edad40e"></a>
+<a class="anchor" id="acc72c5a651e888858c10dfe300d96fa8"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename TypeVariable , typename TypeConstraint &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; TypeVariable, TypeConstraint &gt;::solve </td>
+          <td class="memname">bool ghost::Solver::solve </td>
           <td>(</td>
           <td class="paramtype">double &amp;&#160;</td>
           <td class="paramname"><em>finalCost</em>, </td>
@@ -264,6 +255,15 @@ template&lt;typename TypeVariable , typename TypeConstraint &gt; </div>
 </div><div class="memdoc">
 
 <p><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s main function, to solve the given CSP/COP. </p>
+<p>This function is the heart of GHOST's solver: it will try to find a solution within a limit time. If it finds wuch a solution, the function outputs the value true.<br />
+Here how it works: if at least one solution is found, at the end of the computation, it will write in the two first parameters finalCost and finalSolution the cost of the best solution found and the value of each variable.<br />
+For a satisfaction problem (without any objective functions), the cost of a solution is the sum of the cost of each problem constraint (computated by <a class="el" href="classghost_1_1Constraint.html#a6ef4cd03a4dc864a8d308e55044c615d" title="Pure virtual function to compute the current cost of the constraint. ">Constraint::required_cost</a>). For an optimization problem, the cost is the value outputed by <a class="el" href="classghost_1_1Objective.html#a5f6db473f497e84cf15d0a638be21d31" title="Pure virtual function to compute the value of the objective function on the current configuration...">Objective::required_cost</a>.<br />
+For both, the lower value the better: A satisfaction cost of 0 means we have a solution to a satisfaction problem (ie, all constraints are satisfied). An optimization cost should be as low as possible: GHOST is handling minimization problems only. If you have a maximization problem (you are looking to the highest possible value of your objective function), look at the <a class="el" href="classghost_1_1Objective.html" title="This class encodes objective functions of your COP, as well as the special class NullObjective for CS...">Objective</a> documentation to see how to easily convert your problem into a minimization problem.</p>
+<p>The two last parameters sat_timeout and opt_timeout are fundamental: sat_timeout is mandatory, opt_timeout is optional: if not given, its value will be fixed to sat_timeout * 10.<br />
+sat_timeout is the timeout in milliseconds you give to GHOST to find a solution to the problem, ie, finding a value for each variable such that each constraint of the problem is satisfied. For a satisfaction problem, this is the timeout within GHOST must output a solution.<br />
+opt_timeout is only useful for optimization problems. Once GHOST finds a solution within sat_timeout, it saves it and try to find other solutions leading to better (ie, smaller) values of the objective function. Then it restart a fresh satisfaction search, with again sat_timeout as a timeout to find a solution. It will repeat this operation until opt_timeout is reached.</p>
+<p>Thus for instance, if you set sat_timeout to 20ms and opt_timeout to 60ms (or better, to 61 or 62ms to be sure), you let GHOST the time to run 3 satisfaction runs within a global runtime of 60ms (or 61, 62ms), like illustrated below. _ _ | | &lt;&ndash; satisfaction timeouts | _ | | &lt;&ndash; satisfaction timeouts | _ | | &lt;&ndash; satisfaction timeouts ¯ &lt;&ndash; optimization timeout</p>
+<p>It is possible it returns no solutions after timeout; in that case <a class="el" href="classghost_1_1Solver.html#acc72c5a651e888858c10dfe300d96fa8" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a> returns false. If it is often the case, this is a strong evidence the satisfaction timeout is too low, and the solver does not have time to find at least one solution. Thus, this is the only parameter you may have to tweak in GHOST.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">finalCost</td><td>A reference to the double of the sum of constraints cost for satisfaction problems, or the value of the objective function for optimization problems. For satisfaction problems, a cost of zero means a solution has been found. </td></tr>
@@ -283,7 +283,7 @@ template&lt;typename TypeVariable , typename TypeConstraint &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 11 2018 17:54:24 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 15 2018 09:29:56 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

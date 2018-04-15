@@ -1,4 +1,8 @@
 var searchData=
 [
-  ['variable',['Variable',['../classghost_1_1Variable.html#a41d27734b85f60c2e5fda7ee0ab5c600',1,'ghost::Variable::Variable()=delete'],['../classghost_1_1Variable.html#aa5dc881b8a239206bf55d018cc4a2156',1,'ghost::Variable::Variable(const string &amp;name, const string &amp;shortName, const vector&lt; int &gt; &amp;domain, int index=0)'],['../classghost_1_1Variable.html#abae563e3f8ac3cc0f81b8736ae86d5b8',1,'ghost::Variable::Variable(const string &amp;name, const string &amp;shortName, int startValue, size_t size, int index=0)'],['../classghost_1_1Variable.html#ac9fb0513e1d15a047816821e034589ea',1,'ghost::Variable::Variable(const Variable &amp;other)']]]
+  ['_7econstraint',['~Constraint',['../classghost_1_1Constraint.html#aebea8263c24d0c3a5328c20ee0006f32',1,'ghost::Constraint']]],
+  ['_7edomain',['~Domain',['../classghost_1_1Domain.html#aa5d4791c2f90c021d9f19746f4694039',1,'ghost::Domain']]],
+  ['_7eobjective',['~Objective',['../classghost_1_1Objective.html#a9b288b785eb9abd31389adffe0e82716',1,'ghost::Objective']]],
+  ['_7erandom',['~Random',['../classghost_1_1Random.html#a5b2a324a97684d12174a6f97bdb43aaa',1,'ghost::Random']]],
+  ['_7evariable',['~Variable',['../classghost_1_1Variable.html#a06aa85e69ddf9a887dcc31c61dca70ab',1,'ghost::Variable']]]
 ];

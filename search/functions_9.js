@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['random',['Random',['../classghost_1_1Random.html#a7c45efd1f7c522a68760104ba6084d89',1,'ghost::Random::Random()'],['../classghost_1_1Random.html#aa57a39ee45a9ba30d7f7ea2c4c17b539',1,'ghost::Random::Random(const Random &amp;other)']]],
-  ['random_5fvalue',['random_value',['../classghost_1_1Domain.html#a5d12f840be7a0ddd673c85d70426a75e',1,'ghost::Domain']]],
-  ['required_5fcost',['required_cost',['../classghost_1_1Constraint.html#a6ef4cd03a4dc864a8d308e55044c615d',1,'ghost::Constraint::required_cost()'],['../classghost_1_1Objective.html#a5f6db473f497e84cf15d0a638be21d31',1,'ghost::Objective::required_cost()']]]
+  ['set_5fvalue',['set_value',['../classghost_1_1Variable.html#a06f6c296986a017e1713961b4d763b0c',1,'ghost::Variable']]],
+  ['solve',['solve',['../classghost_1_1Solver.html#acc72c5a651e888858c10dfe300d96fa8',1,'ghost::Solver']]],
+  ['solver',['Solver',['../classghost_1_1Solver.html#a08cd6511d8f11a1b78a6e46c9f02ec8a',1,'ghost::Solver::Solver(vector&lt; Variable &gt; &amp;vecVariables, vector&lt; shared_ptr&lt; Constraint &gt;&gt; &amp;vecConstraints, shared_ptr&lt; Objective &gt; objective, bool permutationProblem=false)'],['../classghost_1_1Solver.html#a8fef29b475575713d7c507569e25976c',1,'ghost::Solver::Solver(vector&lt; Variable &gt; &amp;vecVariables, vector&lt; shared_ptr&lt; Constraint &gt;&gt; &amp;vecConstraints, bool permutationProblem=false)']]]
 ];

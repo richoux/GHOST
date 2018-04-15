@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['objective',['Objective',['../classghost_1_1Objective.html#a30a595b146555401e98f51b5a1ef5bfb',1,'ghost::Objective::Objective(const string &amp;name)'],['../classghost_1_1Objective.html#a7e2305f59de130a75785a1dc9269d7ae',1,'ghost::Objective::Objective(const Objective &amp;other)=default'],['../classghost_1_1Objective.html#ae9d567c78a9df7aeae4f8bea71e54b56',1,'ghost::Objective::Objective(Objective &amp;&amp;other)=default']]],
-  ['operator_3d',['operator=',['../classghost_1_1Variable.html#ad82b892892c3531cc3d54d6b5d048bf6',1,'ghost::Variable::operator=()'],['../classghost_1_1Domain.html#a69c6fb58d1811b8306d1dc8b0aaa6778',1,'ghost::Domain::operator=()'],['../classghost_1_1Constraint.html#a002177e11deecee2db240c9ff4647008',1,'ghost::Constraint::operator=(const Constraint &amp;other)=delete'],['../classghost_1_1Constraint.html#a2d220b6c65e9c5456bdbc49944a0b52c',1,'ghost::Constraint::operator=(Constraint &amp;&amp;other)=delete'],['../classghost_1_1Objective.html#adaedfb85e62325aaa1ce766e60c93d77',1,'ghost::Objective::operator=(const Objective &amp;other)=delete'],['../classghost_1_1Objective.html#a5682a026b25d9ca93cacf3d19f5ef0ec',1,'ghost::Objective::operator=(Objective &amp;&amp;other)=delete'],['../classghost_1_1Random.html#ab9257479f8e393fc8d205f6a05357ee6',1,'ghost::Random::operator=()']]]
+  ['possible_5fvalues',['possible_values',['../classghost_1_1Variable.html#a82380b5d0d4f679401c0139d5d30ad60',1,'ghost::Variable']]],
+  ['postprocess_5foptimization',['postprocess_optimization',['../classghost_1_1Objective.html#a93e4461791d365f18078d3fc7d23a67d',1,'ghost::Objective']]],
+  ['postprocess_5fsatisfaction',['postprocess_satisfaction',['../classghost_1_1Objective.html#af7ae98042b3ba81a9bd501d542820b66',1,'ghost::Objective']]]
 ];
