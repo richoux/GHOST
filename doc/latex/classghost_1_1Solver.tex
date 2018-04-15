@@ -11,8 +11,7 @@
 
 
 
-Collaboration diagram for ghost\+:\+:Solver\+:
-\nopagebreak
+Collaboration diagram for ghost\+:\+:Solver\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -118,9 +117,16 @@ The two last parameters sat\+\_\+timeout and opt\+\_\+timeout are fundamental\+:
 sat\+\_\+timeout is the timeout in milliseconds you give to G\+H\+O\+ST to find a solution to the problem, ie, finding a value for each variable such that each constraint of the problem is satisfied. For a satisfaction problem, this is the timeout within G\+H\+O\+ST must output a solution.~\newline
 opt\+\_\+timeout is only useful for optimization problems. Once G\+H\+O\+ST finds a solution within sat\+\_\+timeout, it saves it and try to find other solutions leading to better (ie, smaller) values of the objective function. Then it restart a fresh satisfaction search, with again sat\+\_\+timeout as a timeout to find a solution. It will repeat this operation until opt\+\_\+timeout is reached.
 
-Thus for instance, if you set sat\+\_\+timeout to 20ms and opt\+\_\+timeout to 60ms (or better, to 61 or 62ms to be sure), you let G\+H\+O\+ST the time to run 3 satisfaction runs within a global runtime of 60ms (or 61, 62ms), like illustrated below. \+\_\+ \+\_\+ $\vert$ $\vert$ $<$-- satisfaction timeouts $\vert$ \+\_\+ $\vert$ $\vert$ $<$-- satisfaction timeouts $\vert$ \+\_\+ $\vert$ $\vert$ $<$-- satisfaction timeouts ¯ $<$-- optimization timeout
+Thus for instance, if you set sat\+\_\+timeout to 20ms and opt\+\_\+timeout to 60ms (or bit more like 61 or 62ms, see why below), you let G\+H\+O\+ST the time to run 3 satisfaction runs within a global runtime of 60ms (or 61, 62ms), like illustrated below.
 
-It is possible it returns no solutions after timeout; in that case \hyperlink{classghost_1_1Solver_acc72c5a651e888858c10dfe300d96fa8}{Solver\+::solve} returns false. If it is often the case, this is a strong evidence the satisfaction timeout is too low, and the solver does not have time to find at least one solution. Thus, this is the only parameter you may have to tweak in G\+H\+O\+ST.
+
+\begin{DoxyImage}
+\includegraphics[width=\textwidth,height=\textheight/2,keepaspectratio=true]{architecture.png}
+\caption{x and y milliseconds correspond respectively to sat\+\_\+timeout and opt\+\_\+timeout}
+\end{DoxyImage}
+ It is possible it returns no solutions after timeout; in that case \hyperlink{classghost_1_1Solver_acc72c5a651e888858c10dfe300d96fa8}{Solver\+::solve} returns false. If it is often the case, this is a strong evidence the satisfaction timeout is too low, and the solver does not have time to find at least one solution. Thus, this is the only parameter you may have to tweak in G\+H\+O\+ST.
+
+The illustration above shows satisfaction and optimization post-\/processes. The first one is triggered each time the solver found a solution. If the user overloads \hyperlink{classghost_1_1Objective_a0d84f1a341b9366a66b3cb52568ded33}{Objective\+::expert\+\_\+postprocess\+\_\+satisfaction}, he or she must be sure that his or her function runs very quickly, otherwise it may slow down the whole optimization process and may limit the number of solutions found by the solver. Optimization post-\/process runtime is not taken into account within opt\+\_\+timeout, so the real G\+H\+O\+ST runtime for optimization problems will be roughly equals to opt\+\_\+timeout + optimization post-\/process runtime.
 
 
 \begin{DoxyParams}{Parameters}

@@ -223,23 +223,21 @@ namespace ghost
      * other solutions leading to better (ie, smaller) values of the objective function. Then it restart a fresh satisfaction search, 
      * with again sat_timeout as a timeout to find a solution. It will repeat this operation until opt_timeout is reached.
      *
-     * Thus for instance, if you set sat_timeout to 20ms and opt_timeout to 60ms (or better, to 61 or 62ms to be sure), you let GHOST 
+     * Thus for instance, if you set sat_timeout to 20ms and opt_timeout to 60ms (or bit more like 61 or 62ms, see why below), you let GHOST 
      * the time to run 3 satisfaction runs within a global runtime of 60ms (or 61, 62ms), like illustrated below.
      *
-     * \image html architecture.png 
-     * \image latex architecture.png 
-     *
-     * _ _
-     * | | <-- satisfaction timeouts 
-     * | _
-     * | | <-- satisfaction timeouts
-     * | _
-     * | | <-- satisfaction timeouts
-     * ¯ <-- optimization timeout
+     * \image html architecture.png "x and y milliseconds correspond respectively to sat_timeout and opt_timeout"
+     * \image latex architecture.png "x and y milliseconds correspond respectively to sat_timeout and opt_timeout"
      *
      * It is possible it returns no solutions after timeout; in that case Solver::solve returns false. If it is often the case, this is a 
      * strong evidence the satisfaction timeout is too low, and the solver does not have time to find at least one solution. Thus, this is 
      * the only parameter you may have to tweak in GHOST.
+     *
+     * The illustration above shows satisfaction and optimization post-processes. The first one is triggered each time the solver found a solution. 
+     * If the user overloads Objective::expert_postprocess_satisfaction, he or she must be sure that his or her function runs very quickly, otherwise
+     * it may slow down the whole optimization process and may limit the number of solutions found by the solver. Optimization post-process runtime 
+     * is not taken into account within opt_timeout, so the real GHOST runtime for optimization problems will be roughly equals to opt_timeout + 
+     * optimization post-process runtime.
      *
      * \param finalCost A reference to the double of the sum of constraints cost for satisfaction problems, 
      * or the value of the objective function for optimization problems. For satisfaction problems, a cost of zero means a solution has been found.
