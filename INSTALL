@@ -38,7 +38,13 @@ Same as on GNU/Linux.
 ============
 On Windows:
 
-TODO
+1. In CMake, select 'GHOST' as the source code folder and 'GHOST/build' as the build folder (you may have to create this folder).
+2. Click on 'Configure'. It would ask you which generator (ie, compiler/IDE) do you want. It can be Visual Studio for instance.
+3. CMake should propose you to change the value of CMAKE_INSTALL_PREFIX to choose the folder where to write solution files.
+4. Click on 'Generate'.
+5. Go to the folder where solution files have been generated (determined by CMAKE_INSTALL_PREFIX). If you use an IDE, you should
+have a projet file corresponding to your IDE. For Visual Studio, it is ghost.sln. Open it.
+6. Build the ghost project in 'Release mode'.  
 
 
 ============
