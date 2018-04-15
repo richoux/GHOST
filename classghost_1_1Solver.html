@@ -103,8 +103,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Collaboration diagram for ghost::Solver:</div>
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1Solver__coll__graph.png" border="0" usemap="#ghost_1_1Solver_coll__map" alt="Collaboration graph"/></div>
-<map name="ghost_1_1Solver_coll__map" id="ghost_1_1Solver_coll__map">
-</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -262,7 +260,11 @@ For both, the lower value the better: A satisfaction cost of 0 means we have a s
 <p>The two last parameters sat_timeout and opt_timeout are fundamental: sat_timeout is mandatory, opt_timeout is optional: if not given, its value will be fixed to sat_timeout * 10.<br />
 sat_timeout is the timeout in milliseconds you give to GHOST to find a solution to the problem, ie, finding a value for each variable such that each constraint of the problem is satisfied. For a satisfaction problem, this is the timeout within GHOST must output a solution.<br />
 opt_timeout is only useful for optimization problems. Once GHOST finds a solution within sat_timeout, it saves it and try to find other solutions leading to better (ie, smaller) values of the objective function. Then it restart a fresh satisfaction search, with again sat_timeout as a timeout to find a solution. It will repeat this operation until opt_timeout is reached.</p>
-<p>Thus for instance, if you set sat_timeout to 20ms and opt_timeout to 60ms (or better, to 61 or 62ms to be sure), you let GHOST the time to run 3 satisfaction runs within a global runtime of 60ms (or 61, 62ms), like illustrated below. _ _ | | &lt;&ndash; satisfaction timeouts | _ | | &lt;&ndash; satisfaction timeouts | _ | | &lt;&ndash; satisfaction timeouts ¯ &lt;&ndash; optimization timeout</p>
+<p>Thus for instance, if you set sat_timeout to 20ms and opt_timeout to 60ms (or better, to 61 or 62ms to be sure), you let GHOST the time to run 3 satisfaction runs within a global runtime of 60ms (or 61, 62ms), like illustrated below.</p>
+<div class="image">
+<img src="architecture.png" alt="architecture.png"/>
+</div>
+ <p>_ _ | | &lt;&ndash; satisfaction timeouts | _ | | &lt;&ndash; satisfaction timeouts | _ | | &lt;&ndash; satisfaction timeouts ¯ &lt;&ndash; optimization timeout</p>
 <p>It is possible it returns no solutions after timeout; in that case <a class="el" href="classghost_1_1Solver.html#acc72c5a651e888858c10dfe300d96fa8" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a> returns false. If it is often the case, this is a strong evidence the satisfaction timeout is too low, and the solver does not have time to find at least one solution. Thus, this is the only parameter you may have to tweak in GHOST.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -283,7 +285,7 @@ opt_timeout is only useful for optimization problems. Once GHOST finds a solutio
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 15 2018 09:29:56 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 15 2018 09:42:52 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>
