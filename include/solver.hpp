@@ -225,6 +225,10 @@ namespace ghost
      *
      * Thus for instance, if you set sat_timeout to 20ms and opt_timeout to 60ms (or better, to 61 or 62ms to be sure), you let GHOST 
      * the time to run 3 satisfaction runs within a global runtime of 60ms (or 61, 62ms), like illustrated below.
+     *
+     * \image html architecture.png 
+     * \image latex architecture.png 
+     *
      * _ _
      * | | <-- satisfaction timeouts 
      * | _
