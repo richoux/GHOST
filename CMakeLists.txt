@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.0)
+Cmake_minimum_required (VERSION 3.0)
 project (ghost)
 
 set( CMAKE_VERBOSE_MAKEFILE on )
@@ -8,22 +8,36 @@ include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
 CHECK_CXX_COMPILER_FLAG("-std=c++1y" COMPILER_SUPPORTS_CXX1Y)
 if(COMPILER_SUPPORTS_CXX14)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+  set(CMAKE_CXX_FLAGS "-std=c++14")
 elseif(COMPILER_SUPPORTS_CXX1Y)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y")
+  set(CMAKE_CXX_FLAGS "-std=c++1y")
 else()
   message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++14 support. Please use a different C++ compiler.")
 endif()
 
 # compilation options
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
+  set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
+  add_definitions(-DDEBUG)
 else()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Ofast")
+  set(CMAKE_CXX_FLAGS_RELEASE "-Ofast")
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-  
+
+##if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+##  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
+##  add_definitions(-DDEBUG)
+##else()
+##  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE} -Ofast")
+##endif()
+
+##set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+
+if("${CMAKE_BUILD_TYPE}" STREQUAL "RelWithDebInfo")
+  add_definitions(-DBENCH)
+endif()
+
 # add the binary tree to the search path for include files so that we will find headers
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
