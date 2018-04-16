@@ -1,6 +1,8 @@
 cmake_minimum_required (VERSION 3.0)
 project (ghost)
 
+set( CMAKE_VERBOSE_MAKEFILE on )
+
 # require a C++14-capable compiler
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
