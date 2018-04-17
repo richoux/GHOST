@@ -69,12 +69,12 @@ namespace ghost
      * a problem where its natural objective function f(x) = z is to try to find the highest possible z, you can simplify write this function 
      * such that it outputs -z. Values of variables minimizing -z will also maximize z.
      *
-     * \param variables A pointer to the vector of variable of the CSP/COP.
+     * \param variables A reference to the vector of variable of the CSP/COP.
      * \return A double in R corresponding to the value of the objective function on the current configuration. 
      * Unlike Constraint::required_cost, this output may be negative.
      * \sa cost
      */
-    virtual double required_cost( vector< Variable > *variables ) const = 0;
+    virtual double required_cost( const vector< Variable >& variables ) const = 0;
 
     //! Virtual function to apply the value heuristic used by the solver for non permutation problems.
     /*! 
@@ -88,15 +88,15 @@ namespace ghost
      * Like all functions prefixed by 'expert_', you should override this function only if you 
      * know what you are doing.
      *
-     * \param variables A pointer to the vector containing all variables.
-     * \param var A pointer to the variable to change.
+     * \param variables A reference to the vector containing all variables.
+     * \param var A reference to the variable to change.
      * \param possible_values A const reference to the vector of possible values of var. 
      * \return The selected value according to the heuristic.
      * \sa heuristic_value, Random
      */
-    virtual int	expert_heuristic_value( vector< Variable > *variables,
-					Variable *var,
-					const vector< int >& possible_values ) const;
+    virtual int	expert_heuristic_value( const vector< Variable >&	variables,
+					const Variable&			var,
+					const vector< int >&		possible_values ) const;
 
     //! Virtual function to apply the value heuristic used by the solver for permutation problems.
     /*! 
@@ -108,11 +108,11 @@ namespace ghost
      * Like all functions prefixed by 'expert_', you should override this function only if you 
      * know what you are doing.
      *
-     * \param bad_variables The vector of candidate variables the solver may swap the value with another variable it had chosen.
+     * \param bad_variables A reference to yhe vector of candidate variables the solver may swap the value with another variable it had chosen.
      * \return The selected variable to swap with, according to the heuristic.
      * \sa heuristic_value, Random
      */
-    virtual Variable* expert_heuristic_value( vector< Variable* > bad_variables ) const;
+    virtual Variable expert_heuristic_value( const vector< Variable >& bad_variables ) const;
 
     //! Virtual function to perform satisfaction post-processing.
     /*! 
@@ -124,14 +124,14 @@ namespace ghost
      * Like all functions prefixed by 'expert_', you should override this function only if you 
      * know what you are doing.
      * 
-     * \param variables A pointer to the vector of variables of the CSP/COP.
-     * \param bestCost A reference the double representing the best satisfaction cost found by the solver so far. Its value may be updated, justifying a non const reference.
+     * \param variables A reference to the vector of variables of the CSP/COP.
+     * \param bestCost A reference to the double representing the best satisfaction cost found by the solver so far. Its value may be updated, justifying a non const reference.
      * \param solution A reference to the vector of variables of the solution found by the solver. This vector may be updated, justifying a non const reference
      * \sa postprocess_satisfaction
      */
-    virtual void expert_postprocess_satisfaction( vector< Variable > *variables,
-						  double& bestCost,
-						  vector< int >& solution ) const;
+    virtual void expert_postprocess_satisfaction( vector< Variable >&	variables,
+						  double&		bestCost,
+						  vector< int >&	solution ) const;
 
     //! Virtual function to perform optimization post-processing.
     /*! 
@@ -147,14 +147,14 @@ namespace ghost
      * If you override this function, be sure its computation time is neglictable compare to the optimization timeout
      * you give to Solver::solve.  
      * 
-     * \param variables A pointer to the vector of variables of the CSP/COP.
-     * \param bestCost A reference the double representing the best optimization cost found by the solver so far. Its value may be updated, justifying a non const reference.
+     * \param variables A reference to the vector of variables of the CSP/COP.
+     * \param bestCost A reference to the double representing the best optimization cost found by the solver so far. Its value may be updated, justifying a non const reference.
      * \param solution A reference to the vector of variables of the solution found by the solver. This vector may be updated, justifying a non const reference
      * \sa postprocess_optimization
      */
-    virtual void expert_postprocess_optimization( vector< Variable > *variables,
-						  double& bestCost,
-						  vector< int >& solution ) const;
+    virtual void expert_postprocess_optimization( vector< Variable >&	variables,
+						  double&		bestCost,
+						  vector< int >&	solution ) const;
 
   public:
     //! Unique constructor
@@ -180,41 +180,41 @@ namespace ghost
     /*! 
      * \sa required_cost
      */
-    inline double cost( vector< Variable > *variables ) const
+    inline double cost( const vector< Variable >& variables ) const
     { return required_cost( variables ); }
 
     //! Inline function following the NVI idiom. Calling expert_heuristic_value.
     /*! 
      * \sa expert_heuristic_value
      */
-    inline int heuristic_value( vector< Variable > *variables,
-				Variable *var,
-				const vector< int >& possible_values ) const
+    inline int heuristic_value( const vector< Variable >&	variables,
+				const Variable&			var,
+				const vector< int >&		possible_values ) const
     { return expert_heuristic_value( variables, var, possible_values ); }
 
     //! Inline function following the NVI idiom. Calling expert_heuristic_value.
     /*! 
      * \sa expert_heuristic_value
      */
-    inline Variable* heuristic_value( vector< Variable* > bad_variables ) const
+    inline Variable heuristic_value( const vector< Variable >& bad_variables ) const
     { return expert_heuristic_value( bad_variables ); }
 
     //! Inline function following the NVI idiom. Calling expert_postprocess_satisfaction.
     /*! 
      * \sa expert_postprocess_satisfaction
      */
-    inline void postprocess_satisfaction( vector< Variable > *variables,
-					  double& bestCost,
-					  vector< int >& solution ) const
+    inline void postprocess_satisfaction( vector< Variable >&	variables,
+					  double&		bestCost,
+					  vector< int >&	solution ) const
     { expert_postprocess_satisfaction( variables, bestCost, solution ); }
 
     //! Inline function following the NVI idiom. Calling expert_postprocess_optimization.
     /*! 
      * \sa expert_postprocess_optimization
      */
-    inline void postprocess_optimization( vector< Variable > *variables,
-					  double& bestCost,
-					  vector< int >& solution ) const
+    inline void postprocess_optimization( vector< Variable >&	variables,
+					  double&		bestCost,
+					  vector< int >&	solution ) const
     { expert_postprocess_optimization( variables, bestCost, solution ); }
 
     //! Inline accessor to get the name of the objective object.

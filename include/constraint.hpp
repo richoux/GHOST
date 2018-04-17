@@ -83,7 +83,7 @@ namespace ghost
   public:
     //! Unique constructor
     /*!
-     * \param variables A reference of the vector of variables composing the constraint.
+     * \param variables A reference to the vector of variables composing the constraint.
      */
     Constraint( vector< Variable >& variables );
 
