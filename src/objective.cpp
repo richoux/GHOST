@@ -36,7 +36,7 @@ Objective::Objective( const string& name )
 { }
   
 int Objective::expert_heuristic_value( const vector< Variable >& variables,
-				       const Variable& var,
+				       Variable& var,
 				       const vector< int >& possible_values ) const
 {
   double minCost = numeric_limits<double>::max();

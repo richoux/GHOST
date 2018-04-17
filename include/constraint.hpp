@@ -83,9 +83,9 @@ namespace ghost
   public:
     //! Unique constructor
     /*!
-     * \param variables A reference to the vector of variables composing the constraint.
+     * \param variables A const reference to the vector of variables composing the constraint.
      */
-    Constraint( vector< Variable >& variables );
+    Constraint( const vector< Variable >& variables );
 
     //! Default copy contructor.
     Constraint( const Constraint& other ) = default;

@@ -69,7 +69,7 @@ namespace ghost
      * a problem where its natural objective function f(x) = z is to try to find the highest possible z, you can simplify write this function 
      * such that it outputs -z. Values of variables minimizing -z will also maximize z.
      *
-     * \param variables A reference to the vector of variable of the CSP/COP.
+     * \param variables A const reference to the vector of variable of the CSP/COP.
      * \return A double in R corresponding to the value of the objective function on the current configuration. 
      * Unlike Constraint::required_cost, this output may be negative.
      * \sa cost
@@ -88,14 +88,14 @@ namespace ghost
      * Like all functions prefixed by 'expert_', you should override this function only if you 
      * know what you are doing.
      *
-     * \param variables A reference to the vector containing all variables.
+     * \param variables A const reference to the vector containing all variables.
      * \param var A reference to the variable to change.
      * \param possible_values A const reference to the vector of possible values of var. 
      * \return The selected value according to the heuristic.
      * \sa heuristic_value, Random
      */
     virtual int	expert_heuristic_value( const vector< Variable >&	variables,
-					const Variable&			var,
+					Variable&			var,
 					const vector< int >&		possible_values ) const;
 
     //! Virtual function to apply the value heuristic used by the solver for permutation problems.
@@ -108,7 +108,7 @@ namespace ghost
      * Like all functions prefixed by 'expert_', you should override this function only if you 
      * know what you are doing.
      *
-     * \param bad_variables A reference to yhe vector of candidate variables the solver may swap the value with another variable it had chosen.
+     * \param bad_variables A const reference to yhe vector of candidate variables the solver may swap the value with another variable it had chosen.
      * \return The selected variable to swap with, according to the heuristic.
      * \sa heuristic_value, Random
      */
@@ -188,7 +188,7 @@ namespace ghost
      * \sa expert_heuristic_value
      */
     inline int heuristic_value( const vector< Variable >&	variables,
-				const Variable&			var,
+				Variable&			var,
 				const vector< int >&		possible_values ) const
     { return expert_heuristic_value( variables, var, possible_values ); }
 

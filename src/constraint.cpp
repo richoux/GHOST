@@ -33,7 +33,7 @@ using namespace ghost;
 
 int Constraint::NBER_CTR = 0;
 
-Constraint::Constraint( vector< Variable >& variables )
+Constraint::Constraint( const vector< Variable >& variables )
   : variables	( variables ),
     id		( NBER_CTR++ )
 { }

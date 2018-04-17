@@ -37,6 +37,14 @@ using namespace ghost;
 
 int Variable::NBER_VAR = 0;
 
+Variable::Variable()
+  : _id		( -1 ),
+    _name	( "" ),
+    _shortName	( "" ),
+    _domain	( Domain(0, 0) ),
+    _index	( 0 )
+{ }
+
 Variable::Variable( const string& name, const string& shortName, const Domain& domain, int index )
   : _id		( NBER_VAR++ ),
     _name	( name ),

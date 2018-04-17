@@ -69,14 +69,19 @@ namespace ghost
 	      const string& shortName,
 	      const Domain& domain,
 	      int index = 0 );
-    
+
     //! For the copy-and-swap idiom
     void swap( Variable &other );
 
   public:
     
-    //! The default Variable constructor is disabled.
-    Variable() = delete;
+    //! Default constructor, not incrementing NBER_VAR.
+    /*!
+     * \warning Do not call this constructor explicitly, since it would not attribute a
+     * unique ID number to the created object. This constructor is only useful to allow 
+     * implicit initialization of Variable variables.
+     */
+    Variable();
 
     //! First Variable constructor, with the vector of domain values and the outside-the-scope value.
     /*!
