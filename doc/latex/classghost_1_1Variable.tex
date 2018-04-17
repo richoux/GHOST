@@ -21,8 +21,8 @@ Collaboration diagram for ghost\+:\+:Variable\+:\nopagebreak
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classghost_1_1Variable_a41d27734b85f60c2e5fda7ee0ab5c600}{Variable} ()=delete
-\begin{DoxyCompactList}\small\item\em The default \hyperlink{classghost_1_1Variable}{Variable} constructor is disabled. \end{DoxyCompactList}\item 
+\hyperlink{classghost_1_1Variable_a50678691d071f5dcf3a8e60be06e2a71}{Variable} ()
+\begin{DoxyCompactList}\small\item\em Default constructor, not incrementing N\+B\+E\+R\+\_\+\+V\+AR. \end{DoxyCompactList}\item 
 \hyperlink{classghost_1_1Variable_aa5dc881b8a239206bf55d018cc4a2156}{Variable} (const string \&name, const string \&short\+Name, const vector$<$ int $>$ \&domain, int index=0)
 \begin{DoxyCompactList}\small\item\em First \hyperlink{classghost_1_1Variable}{Variable} constructor, with the vector of domain values and the outside-\/the-\/scope value. \end{DoxyCompactList}\item 
 \hyperlink{classghost_1_1Variable_abae563e3f8ac3cc0f81b8736ae86d5b8}{Variable} (const string \&name, const string \&short\+Name, int start\+Value, size\+\_\+t size, int index=0)
@@ -71,15 +71,18 @@ While modeling your probem with G\+H\+O\+ST, make sure you understand the differ
 \subsection{Constructor \& Destructor Documentation}
 \index{ghost\+::\+Variable@{ghost\+::\+Variable}!Variable@{Variable}}
 \index{Variable@{Variable}!ghost\+::\+Variable@{ghost\+::\+Variable}}
-\subsubsection[{\texorpdfstring{Variable()=delete}{Variable()=delete}}]{\setlength{\rightskip}{0pt plus 5cm}ghost\+::\+Variable\+::\+Variable (
+\subsubsection[{\texorpdfstring{Variable()}{Variable()}}]{\setlength{\rightskip}{0pt plus 5cm}ghost\+::\+Variable\+::\+Variable (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [delete]}}\hypertarget{classghost_1_1Variable_a41d27734b85f60c2e5fda7ee0ab5c600}{}\label{classghost_1_1Variable_a41d27734b85f60c2e5fda7ee0ab5c600}
+)}\hypertarget{classghost_1_1Variable_a50678691d071f5dcf3a8e60be06e2a71}{}\label{classghost_1_1Variable_a50678691d071f5dcf3a8e60be06e2a71}
 
 
-The default \hyperlink{classghost_1_1Variable}{Variable} constructor is disabled. 
+Default constructor, not incrementing N\+B\+E\+R\+\_\+\+V\+AR. 
 
+\begin{DoxyWarning}{Warning}
+Do not call this constructor explicitly, since it would not attribute a unique ID number to the created object. This constructor is only useful to allow implicit initialization of \hyperlink{classghost_1_1Variable}{Variable} variables. 
+\end{DoxyWarning}
 \index{ghost\+::\+Variable@{ghost\+::\+Variable}!Variable@{Variable}}
 \index{Variable@{Variable}!ghost\+::\+Variable@{ghost\+::\+Variable}}
 \subsubsection[{\texorpdfstring{Variable(const string \&name, const string \&short\+Name, const vector$<$ int $>$ \&domain, int index=0)}{Variable(const string &name, const string &shortName, const vector< int > &domain, int index=0)}}]{\setlength{\rightskip}{0pt plus 5cm}ghost\+::\+Variable\+::\+Variable (
