@@ -17,7 +17,7 @@ public:
   MyConstraint( std::vector< ghost::Variable >& variables )
     : Constraint( variables ) {}
 
-  ghost::Variable& get_var( int index ) const { return variables[index]; }
+  ghost::Variable& get_var( int index ) { return variables[index]; }
 };
 
 class ConstraintTest : public ::testing::Test
@@ -74,7 +74,14 @@ TEST_F(ConstraintTest, Copy)
 
   EXPECT_EQ( ctr1->get_var(0).get_id(), ctr_copy1.get_var(0).get_id() );
   EXPECT_EQ( ctr1->get_var(0).get_value(), ctr_copy1.get_var(0).get_value() );
+
+  EXPECT_EQ( ctr1->get_var(0).get_value(), 1 );
+  EXPECT_EQ( ctr_copy1.get_var(0).get_value(), 1 );
+
   ctr1->get_var(0).set_value( 5 );
+  EXPECT_EQ( ctr1->get_var(0).get_value(), 5 );
+  EXPECT_EQ( ctr_copy1.get_var(0).get_value(), 5 );
+
   ctr_copy1.get_var(0).set_value( 3 );
   EXPECT_EQ( ctr1->get_var(0).get_value(), 3 );
   EXPECT_EQ( ctr_copy1.get_var(0).get_value(), 3 );
