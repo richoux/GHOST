@@ -107,9 +107,9 @@ Collaboration diagram for ghost::Variable:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a41d27734b85f60c2e5fda7ee0ab5c600"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Variable.html#a41d27734b85f60c2e5fda7ee0ab5c600">Variable</a> ()=delete</td></tr>
-<tr class="memdesc:a41d27734b85f60c2e5fda7ee0ab5c600"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default <a class="el" href="classghost_1_1Variable.html" title="This class encodes variables of your CSP/COP. You cannot inherits your own class from Variable...">Variable</a> constructor is disabled.  <a href="#a41d27734b85f60c2e5fda7ee0ab5c600">More...</a><br /></td></tr>
-<tr class="separator:a41d27734b85f60c2e5fda7ee0ab5c600"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50678691d071f5dcf3a8e60be06e2a71"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Variable.html#a50678691d071f5dcf3a8e60be06e2a71">Variable</a> ()</td></tr>
+<tr class="memdesc:a50678691d071f5dcf3a8e60be06e2a71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor, not incrementing NBER_VAR.  <a href="#a50678691d071f5dcf3a8e60be06e2a71">More...</a><br /></td></tr>
+<tr class="separator:a50678691d071f5dcf3a8e60be06e2a71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5dc881b8a239206bf55d018cc4a2156"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Variable.html#aa5dc881b8a239206bf55d018cc4a2156">Variable</a> (const string &amp;name, const string &amp;shortName, const vector&lt; int &gt; &amp;domain, int index=0)</td></tr>
 <tr class="memdesc:aa5dc881b8a239206bf55d018cc4a2156"><td class="mdescLeft">&#160;</td><td class="mdescRight">First <a class="el" href="classghost_1_1Variable.html" title="This class encodes variables of your CSP/COP. You cannot inherits your own class from Variable...">Variable</a> constructor, with the vector of domain values and the outside-the-scope value.  <a href="#aa5dc881b8a239206bf55d018cc4a2156">More...</a><br /></td></tr>
 <tr class="separator:aa5dc881b8a239206bf55d018cc4a2156"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -161,12 +161,9 @@ Friends</h2></td></tr>
 <p>While modeling your probem with GHOST, make sure you understand the difference between your variable values (stored in the variable's domain) and your variable additional data (such as 2D coordinates for instance). You must manage additional data with your own data structures or classes.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classghost_1_1Domain.html" title="This class encodes domains of your CSP/COP variables. You cannot inherits your own class from Domain...">Domain</a> <a class="el" href="classghost_1_1Constraint.html" title="This class encodes constraints of your CSP/COP. ">Constraint</a> <a class="el" href="classghost_1_1Objective.html" title="This class encodes objective functions of your COP, as well as the special class NullObjective for CS...">Objective</a> </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a41d27734b85f60c2e5fda7ee0ab5c600"></a>
+<a class="anchor" id="a50678691d071f5dcf3a8e60be06e2a71"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">ghost::Variable::Variable </td>
@@ -175,14 +172,10 @@ Friends</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>The default <a class="el" href="classghost_1_1Variable.html" title="This class encodes variables of your CSP/COP. You cannot inherits your own class from Variable...">Variable</a> constructor is disabled. </p>
+<p>Default constructor, not incrementing NBER_VAR. </p>
+<dl class="section warning"><dt>Warning</dt><dd>Do not call this constructor explicitly, since it would not attribute a unique ID number to the created object. This constructor is only useful to allow implicit initialization of <a class="el" href="classghost_1_1Variable.html" title="This class encodes variables of your CSP/COP. You cannot inherits your own class from Variable...">Variable</a> variables. </dd></dl>
 
 </div>
 </div>
@@ -604,7 +597,7 @@ Friends</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 15 2018 09:56:22 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Apr 17 2018 17:21:30 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>
