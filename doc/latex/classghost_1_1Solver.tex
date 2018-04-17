@@ -21,9 +21,9 @@ Collaboration diagram for ghost\+:\+:Solver\+:\nopagebreak
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classghost_1_1Solver_aee56a03908003c1a1120466e72ac3799}{Solver} (const vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ \&vec\+Variables, const vector$<$ shared\+\_\+ptr$<$ \hyperlink{classghost_1_1Constraint}{Constraint} $>$$>$ \&vec\+Constraints, shared\+\_\+ptr$<$ \hyperlink{classghost_1_1Objective}{Objective} $>$ objective, bool permutation\+Problem=false)
+\hyperlink{classghost_1_1Solver_a08cd6511d8f11a1b78a6e46c9f02ec8a}{Solver} (vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ \&vec\+Variables, vector$<$ shared\+\_\+ptr$<$ \hyperlink{classghost_1_1Constraint}{Constraint} $>$$>$ \&vec\+Constraints, shared\+\_\+ptr$<$ \hyperlink{classghost_1_1Objective}{Objective} $>$ objective, bool permutation\+Problem=false)
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Solver}{Solver}\textquotesingle{}s regular constructor. \end{DoxyCompactList}\item 
-\hyperlink{classghost_1_1Solver_ade9340e94794a2ed0058957443be34e0}{Solver} (const vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ \&vec\+Variables, const vector$<$ shared\+\_\+ptr$<$ \hyperlink{classghost_1_1Constraint}{Constraint} $>$$>$ \&vec\+Constraints, bool permutation\+Problem=false)
+\hyperlink{classghost_1_1Solver_a8fef29b475575713d7c507569e25976c}{Solver} (vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ \&vec\+Variables, vector$<$ shared\+\_\+ptr$<$ \hyperlink{classghost_1_1Constraint}{Constraint} $>$$>$ \&vec\+Constraints, bool permutation\+Problem=false)
 \begin{DoxyCompactList}\small\item\em Second \hyperlink{classghost_1_1Solver}{Solver}\textquotesingle{}s constructor, without \hyperlink{classghost_1_1Objective}{Objective}. \end{DoxyCompactList}\item 
 bool \hyperlink{classghost_1_1Solver_acc72c5a651e888858c10dfe300d96fa8}{solve} (double \&final\+Cost, vector$<$ int $>$ \&final\+Solution, double sat\+\_\+timeout, double opt\+\_\+timeout=0.)
 \begin{DoxyCompactList}\small\item\em \hyperlink{classghost_1_1Solver}{Solver}\textquotesingle{}s main function, to solve the given C\+S\+P/\+C\+OP. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -46,23 +46,23 @@ A permutation problem is a problem where all variables start with different valu
 \subsection{Constructor \& Destructor Documentation}
 \index{ghost\+::\+Solver@{ghost\+::\+Solver}!Solver@{Solver}}
 \index{Solver@{Solver}!ghost\+::\+Solver@{ghost\+::\+Solver}}
-\subsubsection[{\texorpdfstring{Solver(const vector$<$ Variable $>$ \&vec\+Variables, const vector$<$ shared\+\_\+ptr$<$ Constraint $>$$>$ \&vec\+Constraints, shared\+\_\+ptr$<$ Objective $>$ objective, bool permutation\+Problem=false)}{Solver(const vector< Variable > &vecVariables, const vector< shared_ptr< Constraint >> &vecConstraints, shared_ptr< Objective > objective, bool permutationProblem=false)}}]{\setlength{\rightskip}{0pt plus 5cm}ghost\+::\+Solver\+::\+Solver (
+\subsubsection[{\texorpdfstring{Solver(vector$<$ Variable $>$ \&vec\+Variables, vector$<$ shared\+\_\+ptr$<$ Constraint $>$$>$ \&vec\+Constraints, shared\+\_\+ptr$<$ Objective $>$ objective, bool permutation\+Problem=false)}{Solver(vector< Variable > &vecVariables, vector< shared_ptr< Constraint >> &vecConstraints, shared_ptr< Objective > objective, bool permutationProblem=false)}}]{\setlength{\rightskip}{0pt plus 5cm}ghost\+::\+Solver\+::\+Solver (
 \begin{DoxyParamCaption}
-\item[{const vector$<$ {\bf Variable} $>$ \&}]{vec\+Variables, }
-\item[{const vector$<$ shared\+\_\+ptr$<$ {\bf Constraint} $>$$>$ \&}]{vec\+Constraints, }
+\item[{vector$<$ {\bf Variable} $>$ \&}]{vec\+Variables, }
+\item[{vector$<$ shared\+\_\+ptr$<$ {\bf Constraint} $>$$>$ \&}]{vec\+Constraints, }
 \item[{shared\+\_\+ptr$<$ {\bf Objective} $>$}]{objective, }
 \item[{bool}]{permutation\+Problem = {\ttfamily false}}
 \end{DoxyParamCaption}
-)}\hypertarget{classghost_1_1Solver_aee56a03908003c1a1120466e72ac3799}{}\label{classghost_1_1Solver_aee56a03908003c1a1120466e72ac3799}
+)}\hypertarget{classghost_1_1Solver_a08cd6511d8f11a1b78a6e46c9f02ec8a}{}\label{classghost_1_1Solver_a08cd6511d8f11a1b78a6e46c9f02ec8a}
 
 
 \hyperlink{classghost_1_1Solver}{Solver}\textquotesingle{}s regular constructor. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em vec\+Variables} & A const reference to the vector of Variables. \\
+{\em vec\+Variables} & A reference to the vector of Variables. \\
 \hline
-{\em vec\+Constraints} & A const reference to the vector of Constraints. \\
+{\em vec\+Constraints} & A reference to the vector of Constraints. \\
 \hline
 {\em obj} & A shared pointer to the \hyperlink{classghost_1_1Objective}{Objective}. \\
 \hline
@@ -71,22 +71,22 @@ A permutation problem is a problem where all variables start with different valu
 \end{DoxyParams}
 \index{ghost\+::\+Solver@{ghost\+::\+Solver}!Solver@{Solver}}
 \index{Solver@{Solver}!ghost\+::\+Solver@{ghost\+::\+Solver}}
-\subsubsection[{\texorpdfstring{Solver(const vector$<$ Variable $>$ \&vec\+Variables, const vector$<$ shared\+\_\+ptr$<$ Constraint $>$$>$ \&vec\+Constraints, bool permutation\+Problem=false)}{Solver(const vector< Variable > &vecVariables, const vector< shared_ptr< Constraint >> &vecConstraints, bool permutationProblem=false)}}]{\setlength{\rightskip}{0pt plus 5cm}ghost\+::\+Solver\+::\+Solver (
+\subsubsection[{\texorpdfstring{Solver(vector$<$ Variable $>$ \&vec\+Variables, vector$<$ shared\+\_\+ptr$<$ Constraint $>$$>$ \&vec\+Constraints, bool permutation\+Problem=false)}{Solver(vector< Variable > &vecVariables, vector< shared_ptr< Constraint >> &vecConstraints, bool permutationProblem=false)}}]{\setlength{\rightskip}{0pt plus 5cm}ghost\+::\+Solver\+::\+Solver (
 \begin{DoxyParamCaption}
-\item[{const vector$<$ {\bf Variable} $>$ \&}]{vec\+Variables, }
-\item[{const vector$<$ shared\+\_\+ptr$<$ {\bf Constraint} $>$$>$ \&}]{vec\+Constraints, }
+\item[{vector$<$ {\bf Variable} $>$ \&}]{vec\+Variables, }
+\item[{vector$<$ shared\+\_\+ptr$<$ {\bf Constraint} $>$$>$ \&}]{vec\+Constraints, }
 \item[{bool}]{permutation\+Problem = {\ttfamily false}}
 \end{DoxyParamCaption}
-)}\hypertarget{classghost_1_1Solver_ade9340e94794a2ed0058957443be34e0}{}\label{classghost_1_1Solver_ade9340e94794a2ed0058957443be34e0}
+)}\hypertarget{classghost_1_1Solver_a8fef29b475575713d7c507569e25976c}{}\label{classghost_1_1Solver_a8fef29b475575713d7c507569e25976c}
 
 
 Second \hyperlink{classghost_1_1Solver}{Solver}\textquotesingle{}s constructor, without \hyperlink{classghost_1_1Objective}{Objective}. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em vec\+Variables} & A const reference to the vector of Variables. \\
+{\em vec\+Variables} & A reference to the vector of Variables. \\
 \hline
-{\em vec\+Constraints} & A const reference to the vector of Constraints. \\
+{\em vec\+Constraints} & A reference to the vector of Constraints. \\
 \hline
 {\em permutation\+Problem} & A boolean indicating if we work on a permutation problem. False by default. \\
 \hline

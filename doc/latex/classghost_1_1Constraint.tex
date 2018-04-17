@@ -21,7 +21,7 @@ Collaboration diagram for ghost\+:\+:Constraint\+:\nopagebreak
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classghost_1_1Constraint_a005ea04b17e7f02a3424f7b01196f172}{Constraint} (const vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ \&\hyperlink{classghost_1_1Constraint_aabd62a463f0004e9e79227d380cf0020}{variables})
+\hyperlink{classghost_1_1Constraint_a5aff0899e4c035709f2198b37d269e3b}{Constraint} (vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ \&\hyperlink{classghost_1_1Constraint_aff0c784579a9d69524be3dc9c0068302}{variables})
 \begin{DoxyCompactList}\small\item\em Unique constructor. \end{DoxyCompactList}\item 
 \hyperlink{classghost_1_1Constraint_a12f4e85434d02d6fe0a2a95fa7ff6a56}{Constraint} (const \hyperlink{classghost_1_1Constraint}{Constraint} \&other)=default
 \begin{DoxyCompactList}\small\item\em Default copy contructor. \end{DoxyCompactList}\item 
@@ -47,7 +47,7 @@ virtual double \hyperlink{classghost_1_1Constraint_a6ef4cd03a4dc864a8d308e55044c
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ \hyperlink{classghost_1_1Constraint_aabd62a463f0004e9e79227d380cf0020}{variables}
+vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ \& \hyperlink{classghost_1_1Constraint_aff0c784579a9d69524be3dc9c0068302}{variables}
 \begin{DoxyCompactList}\small\item\em Vector of variable compositing the C\+S\+P/\+C\+OP. \end{DoxyCompactList}\item 
 int \hyperlink{classghost_1_1Constraint_a5215df3cd5269adb4c5f6168191b9d47}{id}
 \begin{DoxyCompactList}\small\item\em Unique ID integer. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -73,11 +73,11 @@ The only pure virtual \hyperlink{classghost_1_1Constraint}{Constraint} function 
 \subsection{Constructor \& Destructor Documentation}
 \index{ghost\+::\+Constraint@{ghost\+::\+Constraint}!Constraint@{Constraint}}
 \index{Constraint@{Constraint}!ghost\+::\+Constraint@{ghost\+::\+Constraint}}
-\subsubsection[{\texorpdfstring{Constraint(const vector$<$ Variable $>$ \&variables)}{Constraint(const vector< Variable > &variables)}}]{\setlength{\rightskip}{0pt plus 5cm}ghost\+::\+Constraint\+::\+Constraint (
+\subsubsection[{\texorpdfstring{Constraint(vector$<$ Variable $>$ \&variables)}{Constraint(vector< Variable > &variables)}}]{\setlength{\rightskip}{0pt plus 5cm}ghost\+::\+Constraint\+::\+Constraint (
 \begin{DoxyParamCaption}
-\item[{const vector$<$ {\bf Variable} $>$ \&}]{variables}
+\item[{vector$<$ {\bf Variable} $>$ \&}]{variables}
 \end{DoxyParamCaption}
-)}\hypertarget{classghost_1_1Constraint_a005ea04b17e7f02a3424f7b01196f172}{}\label{classghost_1_1Constraint_a005ea04b17e7f02a3424f7b01196f172}
+)}\hypertarget{classghost_1_1Constraint_a5aff0899e4c035709f2198b37d269e3b}{}\label{classghost_1_1Constraint_a5aff0899e4c035709f2198b37d269e3b}
 
 
 Unique constructor. 
@@ -245,7 +245,7 @@ Unique ID integer.
 
 \index{ghost\+::\+Constraint@{ghost\+::\+Constraint}!variables@{variables}}
 \index{variables@{variables}!ghost\+::\+Constraint@{ghost\+::\+Constraint}}
-\subsubsection[{\texorpdfstring{variables}{variables}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ {\bf Variable} $>$ ghost\+::\+Constraint\+::variables\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classghost_1_1Constraint_aabd62a463f0004e9e79227d380cf0020}{}\label{classghost_1_1Constraint_aabd62a463f0004e9e79227d380cf0020}
+\subsubsection[{\texorpdfstring{variables}{variables}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ {\bf Variable} $>$\& ghost\+::\+Constraint\+::variables\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classghost_1_1Constraint_aff0c784579a9d69524be3dc9c0068302}{}\label{classghost_1_1Constraint_aff0c784579a9d69524be3dc9c0068302}
 
 
 Vector of variable compositing the C\+S\+P/\+C\+OP. 
