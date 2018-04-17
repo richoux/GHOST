@@ -14,10 +14,10 @@ class MyConstraint : public ghost::Constraint
 public:
   MyConstraint() = default;
   
-  MyConstraint( std::vector< ghost::Variable > *variables )
+  MyConstraint( std::vector< ghost::Variable >& variables )
     : Constraint( variables ) {}
 
-  ghost::Variable& get_var( int index ) const { return (*variables)[index]; }
+  ghost::Variable& get_var( int index ) const { return variables[index]; }
 };
 
 class ConstraintTest : public ::testing::Test
@@ -40,8 +40,8 @@ public:
   {
     vec1 = { var1, var2 };
     vec2 = { var1, var3 };
-    ctr1 = new MyConstraint( &vec1 );
-    ctr2 = new MyConstraint( &vec2 );
+    ctr1 = new MyConstraint( vec1 );
+    ctr2 = new MyConstraint( vec2 );
   }
 
   ~ConstraintTest()

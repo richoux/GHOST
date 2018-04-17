@@ -57,8 +57,8 @@ namespace ghost
     static int NBER_CTR; //!< Static counter that increases each time one instanciates a Constraint object.
 
   protected:
-    vector< Variable >	*variables;	//!< Pointer to the vector of variable compositing the CSP/COP.
-    int				id;	//!< Unique ID integer
+    vector< Variable >	variables;	//!< Vector of variable compositing the CSP/COP.
+    int			id;	//!< Unique ID integer
 
     //! Pure virtual function to compute the current cost of the constraint.
     /*!
@@ -83,9 +83,9 @@ namespace ghost
   public:
     //! Unique constructor
     /*!
-     * \param variables A pointer to a vector of variables composing the constraint.
+     * \param variables A reference of the vector of variables composing the constraint.
      */
-    Constraint( vector< Variable > *variables );
+    Constraint( vector< Variable >& variables );
 
     //! Default copy contructor.
     Constraint( const Constraint& other ) = default;
