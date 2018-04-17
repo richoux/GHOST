@@ -48,10 +48,10 @@ using namespace ghost;
 // 	_mapVarCtr[ var ].push_back( ctr );
 // }
 
-Solver::Solver( const vector<Variable>&			vecVariables, 
-		const vector<shared_ptr<Constraint>>&	vecConstraints,
-		shared_ptr<Objective>			objective,
-		bool					permutationProblem )
+Solver::Solver( vector<Variable>&		vecVariables, 
+		vector<shared_ptr<Constraint>>&	vecConstraints,
+		shared_ptr<Objective>		objective,
+		bool				permutationProblem )
   : _vecVariables	( vecVariables ), 
     _vecConstraints	( vecConstraints ),
     _objective		( objective ),
@@ -72,9 +72,9 @@ Solver::Solver( const vector<Variable>&			vecVariables,
 //   : Solver( &vecVariables, &vecConstraints, objective, permutationProblem )
 // { }
 
-Solver::Solver( const vector<Variable>&			vecVariables, 
-		const vector<shared_ptr<Constraint>>&	vecConstraints,
-		bool					permutationProblem )
+Solver::Solver( vector<Variable>&		vecVariables, 
+		vector<shared_ptr<Constraint>>&	vecConstraints,
+		bool				permutationProblem )
   : Solver( vecVariables, vecConstraints, nullptr, permutationProblem )
 { }
   

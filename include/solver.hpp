@@ -66,8 +66,8 @@ namespace ghost
    */  
   class Solver
   {
-    vector<Variable>			_vecVariables;		//!< Vector of variables.
-    vector<shared_ptr<Constraint>>	_vecConstraints;	//!< Vector of shared pointer constraints.
+    vector<Variable>&			_vecVariables;		//!< Reference to the vector of variables.
+    vector<shared_ptr<Constraint>>&	_vecConstraints;	//!< Reference to the vector of shared pointer constraints.
     shared_ptr<Objective>		_objective;		//!< Shared pointer of the objective function.
 
     vector<int>	_weakTabuList;		//!< The weak tabu list, frozing used variables for tabuTime iterations. 
@@ -180,25 +180,25 @@ namespace ghost
   public:
     //! Solver's regular constructor
     /*!
-     * \param vecVariables A const reference to the vector of Variables.
-     * \param vecConstraints A const reference to the vector of Constraints.
+     * \param vecVariables A reference to the vector of Variables.
+     * \param vecConstraints A reference to the vector of Constraints.
      * \param obj A shared pointer to the Objective.
      * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
      */
-    Solver( const vector<Variable>&			vecVariables, 
-	    const vector<shared_ptr<Constraint>>&	vecConstraints,
-	    shared_ptr<Objective>			objective,
-	    bool					permutationProblem = false );
+    Solver( vector<Variable>&			vecVariables, 
+	    vector<shared_ptr<Constraint>>&	vecConstraints,
+	    shared_ptr<Objective>		objective,
+	    bool				permutationProblem = false );
 
     //! Second Solver's constructor, without Objective
     /*!
-     * \param vecVariables A const reference to the vector of Variables.
-     * \param vecConstraints A const reference to the vector of Constraints.
+     * \param vecVariables A reference to the vector of Variables.
+     * \param vecConstraints A reference to the vector of Constraints.
      * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
      */
-    Solver( const vector<Variable>&			vecVariables, 
-	    const vector<shared_ptr<Constraint>>&	vecConstraints,
-	    bool					permutationProblem = false );
+    Solver( vector<Variable>&			vecVariables, 
+	    vector<shared_ptr<Constraint>>&	vecConstraints,
+	    bool				permutationProblem = false );
     
     //! Solver's main function, to solve the given CSP/COP.
     /*!
