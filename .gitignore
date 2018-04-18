@@ -13,7 +13,7 @@ release*
 debug*
 
 # CMake test builds
-test/build*
-test/release*
-test/debug*
-test/bin
+tests/build*
+tests/release*
+tests/debug*
+tests/bin
