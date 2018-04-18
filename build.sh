@@ -81,7 +81,7 @@ function doc()
 
 function tests()
 {
-    cd tests
+    cd test
     mkdir -p build
     cd build
     cmake ..
