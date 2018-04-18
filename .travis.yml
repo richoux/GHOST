@@ -60,7 +60,7 @@ script:
   - cd ..
 
 # make and run tests
-  - cd test  
+  - cd tests  
   - mkdir build
   - cd build
   - cmake ..
