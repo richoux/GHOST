@@ -109,9 +109,9 @@ Collaboration diagram for ghost::Constraint:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5aff0899e4c035709f2198b37d269e3b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a5aff0899e4c035709f2198b37d269e3b">Constraint</a> (vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; &amp;<a class="el" href="classghost_1_1Constraint.html#aff0c784579a9d69524be3dc9c0068302">variables</a>)</td></tr>
-<tr class="memdesc:a5aff0899e4c035709f2198b37d269e3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique constructor.  <a href="#a5aff0899e4c035709f2198b37d269e3b">More...</a><br /></td></tr>
-<tr class="separator:a5aff0899e4c035709f2198b37d269e3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b66b2953a7b3d81e6f215ea4e5e0294"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a2b66b2953a7b3d81e6f215ea4e5e0294">Constraint</a> (vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; *<a class="el" href="classghost_1_1Constraint.html#a1730b1b54d03d221e6e2a95185a2184b">variables</a>)</td></tr>
+<tr class="memdesc:a2b66b2953a7b3d81e6f215ea4e5e0294"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique constructor.  <a href="#a2b66b2953a7b3d81e6f215ea4e5e0294">More...</a><br /></td></tr>
+<tr class="separator:a2b66b2953a7b3d81e6f215ea4e5e0294"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12f4e85434d02d6fe0a2a95fa7ff6a56"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a12f4e85434d02d6fe0a2a95fa7ff6a56">Constraint</a> (const <a class="el" href="classghost_1_1Constraint.html">Constraint</a> &amp;other)=default</td></tr>
 <tr class="memdesc:a12f4e85434d02d6fe0a2a95fa7ff6a56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default copy contructor.  <a href="#a12f4e85434d02d6fe0a2a95fa7ff6a56">More...</a><br /></td></tr>
 <tr class="separator:a12f4e85434d02d6fe0a2a95fa7ff6a56"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,9 +145,9 @@ Protected Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:aff0c784579a9d69524be3dc9c0068302"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#aff0c784579a9d69524be3dc9c0068302">variables</a></td></tr>
-<tr class="memdesc:aff0c784579a9d69524be3dc9c0068302"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector of variable compositing the CSP/COP.  <a href="#aff0c784579a9d69524be3dc9c0068302">More...</a><br /></td></tr>
-<tr class="separator:aff0c784579a9d69524be3dc9c0068302"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1730b1b54d03d221e6e2a95185a2184b"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a1730b1b54d03d221e6e2a95185a2184b">variables</a></td></tr>
+<tr class="memdesc:a1730b1b54d03d221e6e2a95185a2184b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to the vector of variable compositing the CSP/COP.  <a href="#a1730b1b54d03d221e6e2a95185a2184b">More...</a><br /></td></tr>
+<tr class="separator:a1730b1b54d03d221e6e2a95185a2184b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5215df3cd5269adb4c5f6168191b9d47"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a5215df3cd5269adb4c5f6168191b9d47">id</a></td></tr>
 <tr class="memdesc:a5215df3cd5269adb4c5f6168191b9d47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique ID integer.  <a href="#a5215df3cd5269adb4c5f6168191b9d47">More...</a><br /></td></tr>
 <tr class="separator:a5215df3cd5269adb4c5f6168191b9d47"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -164,14 +164,14 @@ Friends</h2></td></tr>
 <p>The only pure virtual <a class="el" href="classghost_1_1Constraint.html" title="This class encodes constraints of your CSP/COP. ">Constraint</a> function is required_cost.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classghost_1_1Variable.html" title="This class encodes variables of your CSP/COP. You cannot inherits your own class from Variable...">Variable</a> </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a5aff0899e4c035709f2198b37d269e3b"></a>
+<a class="anchor" id="a2b66b2953a7b3d81e6f215ea4e5e0294"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">ghost::Constraint::Constraint </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; *&#160;</td>
           <td class="paramname"><em>variables</em></td><td>)</td>
           <td></td>
         </tr>
@@ -181,7 +181,7 @@ Friends</h2></td></tr>
 <p>Unique constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">variables</td><td>A const reference to the vector of variables composing the constraint. </td></tr>
+    <tr><td class="paramname">variables</td><td>A pointer to a vector of variables composing the constraint. </td></tr>
   </table>
   </dd>
 </dl>
@@ -488,7 +488,7 @@ Thus, a good required_cost candidate for the contraint (x = y) could be the func
 
 </div>
 </div>
-<a class="anchor" id="aff0c784579a9d69524be3dc9c0068302"></a>
+<a class="anchor" id="a1730b1b54d03d221e6e2a95185a2184b"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -496,7 +496,7 @@ Thus, a good required_cost candidate for the contraint (x = y) could be the func
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt;&amp; ghost::Constraint::variables</td>
+          <td class="memname">vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt;* ghost::Constraint::variables</td>
         </tr>
       </table>
   </td>
@@ -506,7 +506,7 @@ Thus, a good required_cost candidate for the contraint (x = y) could be the func
 </table>
 </div><div class="memdoc">
 
-<p>Vector of variable compositing the CSP/COP. </p>
+<p>Pointer to the vector of variable compositing the CSP/COP. </p>
 
 </div>
 </div>
@@ -516,7 +516,7 @@ Thus, a good required_cost candidate for the contraint (x = y) could be the func
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 17 2018 18:48:34 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 18 2018 20:12:36 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

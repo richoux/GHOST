@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['expert_5fheuristic_5fvalue',['expert_heuristic_value',['../classghost_1_1Objective.html#afd240c0d36337f7204be3f2c2412e4a1',1,'ghost::Objective::expert_heuristic_value(const vector&lt; Variable &gt; &amp;variables, Variable &amp;var, const vector&lt; int &gt; &amp;possible_values) const '],['../classghost_1_1Objective.html#a9d3f1799664d66a03fe34fbd3a8e66fe',1,'ghost::Objective::expert_heuristic_value(const vector&lt; Variable &gt; &amp;bad_variables) const ']]],
-  ['expert_5fpostprocess_5foptimization',['expert_postprocess_optimization',['../classghost_1_1Objective.html#afcf365738f5caa5824b4fe9e411459d8',1,'ghost::Objective']]],
-  ['expert_5fpostprocess_5fsatisfaction',['expert_postprocess_satisfaction',['../classghost_1_1Objective.html#a5f7af74c8b54cffbff4c42a5bdf1e563',1,'ghost::Objective']]]
+  ['expert_5fheuristic_5fvalue',['expert_heuristic_value',['../classghost_1_1Objective.html#a4e0f733d219978343b9532d1e8168510',1,'ghost::Objective::expert_heuristic_value(vector&lt; Variable &gt; *variables, Variable *var, const vector&lt; int &gt; &amp;possible_values) const '],['../classghost_1_1Objective.html#a26e649c3e9a6e71fbdac3194120728bb',1,'ghost::Objective::expert_heuristic_value(vector&lt; Variable * &gt; bad_variables) const ']]],
+  ['expert_5fpostprocess_5foptimization',['expert_postprocess_optimization',['../classghost_1_1Objective.html#a5fb30d2973d51e6c788533f7a4b1c493',1,'ghost::Objective']]],
+  ['expert_5fpostprocess_5fsatisfaction',['expert_postprocess_satisfaction',['../classghost_1_1Objective.html#a0d84f1a341b9366a66b3cb52568ded33',1,'ghost::Objective']]]
 ];

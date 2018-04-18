@@ -163,7 +163,7 @@ Public Member Functions</h2></td></tr>
 <p><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s regular constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vecVariables</td><td>A reference to the vector of Variables. </td></tr>
+    <tr><td class="paramname">vecVariables</td><td>A pointer to the vector of Variables. </td></tr>
     <tr><td class="paramname">vecConstraints</td><td>A reference to the vector of Constraints. </td></tr>
     <tr><td class="paramname">obj</td><td>A shared pointer to the <a class="el" href="classghost_1_1Objective.html" title="This class encodes objective functions of your COP, as well as the special class NullObjective for CS...">Objective</a>. </td></tr>
     <tr><td class="paramname">permutationProblem</td><td>A boolean indicating if we work on a permutation problem. False by default. </td></tr>
@@ -255,7 +255,7 @@ Public Member Functions</h2></td></tr>
 <p><a class="el" href="classghost_1_1Solver.html" title="Solver is the class coding the solver itself. ">Solver</a>'s main function, to solve the given CSP/COP. </p>
 <p>This function is the heart of GHOST's solver: it will try to find a solution within a limit time. If it finds wuch a solution, the function outputs the value true.<br />
 Here how it works: if at least one solution is found, at the end of the computation, it will write in the two first parameters finalCost and finalSolution the cost of the best solution found and the value of each variable.<br />
-For a satisfaction problem (without any objective functions), the cost of a solution is the sum of the cost of each problem constraint (computated by <a class="el" href="classghost_1_1Constraint.html#a6ef4cd03a4dc864a8d308e55044c615d" title="Pure virtual function to compute the current cost of the constraint. ">Constraint::required_cost</a>). For an optimization problem, the cost is the value outputed by <a class="el" href="classghost_1_1Objective.html#aae6630f4fca9012278a0bf1ca1503cd0" title="Pure virtual function to compute the value of the objective function on the current configuration...">Objective::required_cost</a>.<br />
+For a satisfaction problem (without any objective functions), the cost of a solution is the sum of the cost of each problem constraint (computated by <a class="el" href="classghost_1_1Constraint.html#a6ef4cd03a4dc864a8d308e55044c615d" title="Pure virtual function to compute the current cost of the constraint. ">Constraint::required_cost</a>). For an optimization problem, the cost is the value outputed by <a class="el" href="classghost_1_1Objective.html#a5f6db473f497e84cf15d0a638be21d31" title="Pure virtual function to compute the value of the objective function on the current configuration...">Objective::required_cost</a>.<br />
 For both, the lower value the better: A satisfaction cost of 0 means we have a solution to a satisfaction problem (ie, all constraints are satisfied). An optimization cost should be as low as possible: GHOST is handling minimization problems only. If you have a maximization problem (you are looking to the highest possible value of your objective function), look at the <a class="el" href="classghost_1_1Objective.html" title="This class encodes objective functions of your COP, as well as the special class NullObjective for CS...">Objective</a> documentation to see how to easily convert your problem into a minimization problem.</p>
 <p>The two last parameters sat_timeout and opt_timeout are fundamental: sat_timeout is mandatory, opt_timeout is optional: if not given, its value will be fixed to sat_timeout * 10.<br />
 sat_timeout is the timeout in milliseconds you give to GHOST to find a solution to the problem, ie, finding a value for each variable such that each constraint of the problem is satisfied. For a satisfaction problem, this is the timeout within GHOST must output a solution.<br />
@@ -266,7 +266,7 @@ opt_timeout is only useful for optimization problems. Once GHOST finds a solutio
 <div class="caption">
 x and y milliseconds correspond respectively to sat_timeout and opt_timeout</div></div>
  It is possible it returns no solutions after timeout; in that case <a class="el" href="classghost_1_1Solver.html#acc72c5a651e888858c10dfe300d96fa8" title="Solver&#39;s main function, to solve the given CSP/COP. ">Solver::solve</a> returns false. If it is often the case, this is a strong evidence the satisfaction timeout is too low, and the solver does not have time to find at least one solution. Thus, this is the only parameter you may have to tweak in GHOST.</p>
-<p>The illustration above shows satisfaction and optimization post-processes. The first one is triggered each time the solver found a solution. If the user overloads <a class="el" href="classghost_1_1Objective.html#a5f7af74c8b54cffbff4c42a5bdf1e563" title="Virtual function to perform satisfaction post-processing. ">Objective::expert_postprocess_satisfaction</a>, he or she must be sure that his or her function runs very quickly, otherwise it may slow down the whole optimization process and may limit the number of solutions found by the solver. Optimization post-process runtime is not taken into account within opt_timeout, so the real GHOST runtime for optimization problems will be roughly equals to opt_timeout + optimization post-process runtime.</p>
+<p>The illustration above shows satisfaction and optimization post-processes. The first one is triggered each time the solver found a solution. If the user overloads <a class="el" href="classghost_1_1Objective.html#a0d84f1a341b9366a66b3cb52568ded33" title="Virtual function to perform satisfaction post-processing. ">Objective::expert_postprocess_satisfaction</a>, he or she must be sure that his or her function runs very quickly, otherwise it may slow down the whole optimization process and may limit the number of solutions found by the solver. Optimization post-process runtime is not taken into account within opt_timeout, so the real GHOST runtime for optimization problems will be roughly equals to opt_timeout + optimization post-process runtime.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">finalCost</td><td>A reference to the double of the sum of constraints cost for satisfaction problems, or the value of the objective function for optimization problems. For satisfaction problems, a cost of zero means a solution has been found. </td></tr>
@@ -286,7 +286,7 @@ x and y milliseconds correspond respectively to sat_timeout and opt_timeout</div
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 17 2018 18:48:34 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 18 2018 20:12:36 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>
