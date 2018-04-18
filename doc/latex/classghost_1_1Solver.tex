@@ -60,7 +60,7 @@ A permutation problem is a problem where all variables start with different valu
 
 
 \begin{DoxyParams}{Parameters}
-{\em vec\+Variables} & A reference to the vector of Variables. \\
+{\em vec\+Variables} & A pointer to the vector of Variables. \\
 \hline
 {\em vec\+Constraints} & A reference to the vector of Constraints. \\
 \hline
@@ -110,7 +110,7 @@ Second \hyperlink{classghost_1_1Solver}{Solver}\textquotesingle{}s constructor, 
 
 This function is the heart of G\+H\+O\+ST\textquotesingle{}s solver\+: it will try to find a solution within a limit time. If it finds wuch a solution, the function outputs the value true.~\newline
 Here how it works\+: if at least one solution is found, at the end of the computation, it will write in the two first parameters final\+Cost and final\+Solution the cost of the best solution found and the value of each variable.~\newline
-For a satisfaction problem (without any objective functions), the cost of a solution is the sum of the cost of each problem constraint (computated by \hyperlink{classghost_1_1Constraint_a6ef4cd03a4dc864a8d308e55044c615d}{Constraint\+::required\+\_\+cost}). For an optimization problem, the cost is the value outputed by \hyperlink{classghost_1_1Objective_aae6630f4fca9012278a0bf1ca1503cd0}{Objective\+::required\+\_\+cost}.~\newline
+For a satisfaction problem (without any objective functions), the cost of a solution is the sum of the cost of each problem constraint (computated by \hyperlink{classghost_1_1Constraint_a6ef4cd03a4dc864a8d308e55044c615d}{Constraint\+::required\+\_\+cost}). For an optimization problem, the cost is the value outputed by \hyperlink{classghost_1_1Objective_a5f6db473f497e84cf15d0a638be21d31}{Objective\+::required\+\_\+cost}.~\newline
 For both, the lower value the better\+: A satisfaction cost of 0 means we have a solution to a satisfaction problem (ie, all constraints are satisfied). An optimization cost should be as low as possible\+: G\+H\+O\+ST is handling minimization problems only. If you have a maximization problem (you are looking to the highest possible value of your objective function), look at the \hyperlink{classghost_1_1Objective}{Objective} documentation to see how to easily convert your problem into a minimization problem.
 
 The two last parameters sat\+\_\+timeout and opt\+\_\+timeout are fundamental\+: sat\+\_\+timeout is mandatory, opt\+\_\+timeout is optional\+: if not given, its value will be fixed to sat\+\_\+timeout $\ast$ 10.~\newline
@@ -126,7 +126,7 @@ Thus for instance, if you set sat\+\_\+timeout to 20ms and opt\+\_\+timeout to 6
 \end{DoxyImage}
  It is possible it returns no solutions after timeout; in that case \hyperlink{classghost_1_1Solver_acc72c5a651e888858c10dfe300d96fa8}{Solver\+::solve} returns false. If it is often the case, this is a strong evidence the satisfaction timeout is too low, and the solver does not have time to find at least one solution. Thus, this is the only parameter you may have to tweak in G\+H\+O\+ST.
 
-The illustration above shows satisfaction and optimization post-\/processes. The first one is triggered each time the solver found a solution. If the user overloads \hyperlink{classghost_1_1Objective_a5f7af74c8b54cffbff4c42a5bdf1e563}{Objective\+::expert\+\_\+postprocess\+\_\+satisfaction}, he or she must be sure that his or her function runs very quickly, otherwise it may slow down the whole optimization process and may limit the number of solutions found by the solver. Optimization post-\/process runtime is not taken into account within opt\+\_\+timeout, so the real G\+H\+O\+ST runtime for optimization problems will be roughly equals to opt\+\_\+timeout + optimization post-\/process runtime.
+The illustration above shows satisfaction and optimization post-\/processes. The first one is triggered each time the solver found a solution. If the user overloads \hyperlink{classghost_1_1Objective_a0d84f1a341b9366a66b3cb52568ded33}{Objective\+::expert\+\_\+postprocess\+\_\+satisfaction}, he or she must be sure that his or her function runs very quickly, otherwise it may slow down the whole optimization process and may limit the number of solutions found by the solver. Optimization post-\/process runtime is not taken into account within opt\+\_\+timeout, so the real G\+H\+O\+ST runtime for optimization problems will be roughly equals to opt\+\_\+timeout + optimization post-\/process runtime.
 
 
 \begin{DoxyParams}{Parameters}

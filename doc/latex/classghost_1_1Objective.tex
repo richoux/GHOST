@@ -33,30 +33,30 @@ Collaboration diagram for ghost\+:\+:Objective\+:\nopagebreak
 \begin{DoxyCompactList}\small\item\em Move assignment operator disabled. \end{DoxyCompactList}\item 
 virtual \hyperlink{classghost_1_1Objective_a9b288b785eb9abd31389adffe0e82716}{$\sim$\+Objective} ()=default
 \item 
-double \hyperlink{classghost_1_1Objective_a15d4c24042c87834dd0ccbf2a2c856f8}{cost} (const vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ \&variables) const 
+double \hyperlink{classghost_1_1Objective_adf174d82bf2a9f9b0ad72f11a279799e}{cost} (vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ $\ast$variables) const 
 \begin{DoxyCompactList}\small\item\em Inline function following the N\+VI idiom. Calling v\+\_\+cost. \end{DoxyCompactList}\item 
-int \hyperlink{classghost_1_1Objective_a99802c1672d9e28944c1fe9586128214}{heuristic\+\_\+value} (const vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ \&variables, \hyperlink{classghost_1_1Variable}{Variable} \&var, const vector$<$ int $>$ \&possible\+\_\+values) const 
+int \hyperlink{classghost_1_1Objective_a0da0d81b3f4c83cb6f4b2a33e2822d2f}{heuristic\+\_\+value} (vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ $\ast$variables, \hyperlink{classghost_1_1Variable}{Variable} $\ast$var, const vector$<$ int $>$ \&possible\+\_\+values) const 
 \begin{DoxyCompactList}\small\item\em Inline function following the N\+VI idiom. Calling expert\+\_\+heuristic\+\_\+value. \end{DoxyCompactList}\item 
-\hyperlink{classghost_1_1Variable}{Variable} \hyperlink{classghost_1_1Objective_a5f712482ee747fe308a719f9090deb56}{heuristic\+\_\+value} (const vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ \&bad\+\_\+variables) const 
+\hyperlink{classghost_1_1Variable}{Variable} $\ast$ \hyperlink{classghost_1_1Objective_af21823582664ad75307439adf3cb1f5e}{heuristic\+\_\+value} (vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $\ast$ $>$ bad\+\_\+variables) const 
 \begin{DoxyCompactList}\small\item\em Inline function following the N\+VI idiom. Calling expert\+\_\+heuristic\+\_\+value. \end{DoxyCompactList}\item 
-void \hyperlink{classghost_1_1Objective_ad68d6414519c6cc1542603d729af8bdb}{postprocess\+\_\+satisfaction} (vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ \&variables, double \&best\+Cost, vector$<$ int $>$ \&solution) const 
+void \hyperlink{classghost_1_1Objective_af7ae98042b3ba81a9bd501d542820b66}{postprocess\+\_\+satisfaction} (vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ $\ast$variables, double \&best\+Cost, vector$<$ int $>$ \&solution) const 
 \begin{DoxyCompactList}\small\item\em Inline function following the N\+VI idiom. Calling expert\+\_\+postprocess\+\_\+satisfaction. \end{DoxyCompactList}\item 
-void \hyperlink{classghost_1_1Objective_a96be4da0c23406cc67b190a37f328b91}{postprocess\+\_\+optimization} (vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ \&variables, double \&best\+Cost, vector$<$ int $>$ \&solution) const 
+void \hyperlink{classghost_1_1Objective_a93e4461791d365f18078d3fc7d23a67d}{postprocess\+\_\+optimization} (vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ $\ast$variables, double \&best\+Cost, vector$<$ int $>$ \&solution) const 
 \begin{DoxyCompactList}\small\item\em Inline function following the N\+VI idiom. Calling expert\+\_\+postprocess\+\_\+optimization. \end{DoxyCompactList}\item 
 string \hyperlink{classghost_1_1Objective_a27e8ef04bf5cfc74d931742a578b282e}{get\+\_\+name} () const 
 \begin{DoxyCompactList}\small\item\em Inline accessor to get the name of the objective object. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-virtual double \hyperlink{classghost_1_1Objective_aae6630f4fca9012278a0bf1ca1503cd0}{required\+\_\+cost} (const vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ \&variables) const =0
+virtual double \hyperlink{classghost_1_1Objective_a5f6db473f497e84cf15d0a638be21d31}{required\+\_\+cost} (vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ $\ast$variables) const =0
 \begin{DoxyCompactList}\small\item\em Pure virtual function to compute the value of the objective function on the current configuration. \end{DoxyCompactList}\item 
-virtual int \hyperlink{classghost_1_1Objective_afd240c0d36337f7204be3f2c2412e4a1}{expert\+\_\+heuristic\+\_\+value} (const vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ \&variables, \hyperlink{classghost_1_1Variable}{Variable} \&var, const vector$<$ int $>$ \&possible\+\_\+values) const 
+virtual int \hyperlink{classghost_1_1Objective_a4e0f733d219978343b9532d1e8168510}{expert\+\_\+heuristic\+\_\+value} (vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ $\ast$variables, \hyperlink{classghost_1_1Variable}{Variable} $\ast$var, const vector$<$ int $>$ \&possible\+\_\+values) const 
 \begin{DoxyCompactList}\small\item\em Virtual function to apply the value heuristic used by the solver for non permutation problems. \end{DoxyCompactList}\item 
-virtual \hyperlink{classghost_1_1Variable}{Variable} \hyperlink{classghost_1_1Objective_a9d3f1799664d66a03fe34fbd3a8e66fe}{expert\+\_\+heuristic\+\_\+value} (const vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ \&bad\+\_\+variables) const 
+virtual \hyperlink{classghost_1_1Variable}{Variable} $\ast$ \hyperlink{classghost_1_1Objective_a26e649c3e9a6e71fbdac3194120728bb}{expert\+\_\+heuristic\+\_\+value} (vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $\ast$ $>$ bad\+\_\+variables) const 
 \begin{DoxyCompactList}\small\item\em Virtual function to apply the value heuristic used by the solver for permutation problems. \end{DoxyCompactList}\item 
-virtual void \hyperlink{classghost_1_1Objective_a5f7af74c8b54cffbff4c42a5bdf1e563}{expert\+\_\+postprocess\+\_\+satisfaction} (vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ \&variables, double \&best\+Cost, vector$<$ int $>$ \&solution) const 
+virtual void \hyperlink{classghost_1_1Objective_a0d84f1a341b9366a66b3cb52568ded33}{expert\+\_\+postprocess\+\_\+satisfaction} (vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ $\ast$variables, double \&best\+Cost, vector$<$ int $>$ \&solution) const 
 \begin{DoxyCompactList}\small\item\em Virtual function to perform satisfaction post-\/processing. \end{DoxyCompactList}\item 
-virtual void \hyperlink{classghost_1_1Objective_afcf365738f5caa5824b4fe9e411459d8}{expert\+\_\+postprocess\+\_\+optimization} (vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ \&variables, double \&best\+Cost, vector$<$ int $>$ \&solution) const 
+virtual void \hyperlink{classghost_1_1Objective_a5fb30d2973d51e6c788533f7a4b1c493}{expert\+\_\+postprocess\+\_\+optimization} (vector$<$ \hyperlink{classghost_1_1Variable}{Variable} $>$ $\ast$variables, double \&best\+Cost, vector$<$ int $>$ \&solution) const 
 \begin{DoxyCompactList}\small\item\em Virtual function to perform optimization post-\/processing. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
@@ -132,27 +132,27 @@ Default move contructor.
 \subsection{Member Function Documentation}
 \index{ghost\+::\+Objective@{ghost\+::\+Objective}!cost@{cost}}
 \index{cost@{cost}!ghost\+::\+Objective@{ghost\+::\+Objective}}
-\subsubsection[{\texorpdfstring{cost(const vector$<$ Variable $>$ \&variables) const }{cost(const vector< Variable > &variables) const }}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\+::\+Objective\+::cost (
+\subsubsection[{\texorpdfstring{cost(vector$<$ Variable $>$ $\ast$variables) const }{cost(vector< Variable > *variables) const }}]{\setlength{\rightskip}{0pt plus 5cm}double ghost\+::\+Objective\+::cost (
 \begin{DoxyParamCaption}
-\item[{const vector$<$ {\bf Variable} $>$ \&}]{variables}
+\item[{vector$<$ {\bf Variable} $>$ $\ast$}]{variables}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Objective_a15d4c24042c87834dd0ccbf2a2c856f8}{}\label{classghost_1_1Objective_a15d4c24042c87834dd0ccbf2a2c856f8}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Objective_adf174d82bf2a9f9b0ad72f11a279799e}{}\label{classghost_1_1Objective_adf174d82bf2a9f9b0ad72f11a279799e}
 
 
 Inline function following the N\+VI idiom. Calling v\+\_\+cost. 
 
 \begin{DoxySeeAlso}{See also}
-\hyperlink{classghost_1_1Objective_aae6630f4fca9012278a0bf1ca1503cd0}{required\+\_\+cost} 
+\hyperlink{classghost_1_1Objective_a5f6db473f497e84cf15d0a638be21d31}{required\+\_\+cost} 
 \end{DoxySeeAlso}
 \index{ghost\+::\+Objective@{ghost\+::\+Objective}!expert\+\_\+heuristic\+\_\+value@{expert\+\_\+heuristic\+\_\+value}}
 \index{expert\+\_\+heuristic\+\_\+value@{expert\+\_\+heuristic\+\_\+value}!ghost\+::\+Objective@{ghost\+::\+Objective}}
-\subsubsection[{\texorpdfstring{expert\+\_\+heuristic\+\_\+value(const vector$<$ Variable $>$ \&variables, Variable \&var, const vector$<$ int $>$ \&possible\+\_\+values) const }{expert_heuristic_value(const vector< Variable > &variables, Variable &var, const vector< int > &possible_values) const }}]{\setlength{\rightskip}{0pt plus 5cm}virtual int ghost\+::\+Objective\+::expert\+\_\+heuristic\+\_\+value (
+\subsubsection[{\texorpdfstring{expert\+\_\+heuristic\+\_\+value(vector$<$ Variable $>$ $\ast$variables, Variable $\ast$var, const vector$<$ int $>$ \&possible\+\_\+values) const }{expert_heuristic_value(vector< Variable > *variables, Variable *var, const vector< int > &possible_values) const }}]{\setlength{\rightskip}{0pt plus 5cm}virtual int ghost\+::\+Objective\+::expert\+\_\+heuristic\+\_\+value (
 \begin{DoxyParamCaption}
-\item[{const vector$<$ {\bf Variable} $>$ \&}]{variables, }
-\item[{{\bf Variable} \&}]{var, }
+\item[{vector$<$ {\bf Variable} $>$ $\ast$}]{variables, }
+\item[{{\bf Variable} $\ast$}]{var, }
 \item[{const vector$<$ int $>$ \&}]{possible\+\_\+values}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\hypertarget{classghost_1_1Objective_afd240c0d36337f7204be3f2c2412e4a1}{}\label{classghost_1_1Objective_afd240c0d36337f7204be3f2c2412e4a1}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\hypertarget{classghost_1_1Objective_a4e0f733d219978343b9532d1e8168510}{}\label{classghost_1_1Objective_a4e0f733d219978343b9532d1e8168510}
 
 
 Virtual function to apply the value heuristic used by the solver for non permutation problems. 
@@ -165,9 +165,9 @@ Like all functions prefixed by \textquotesingle{}expert\+\_\+\textquotesingle{},
 
 
 \begin{DoxyParams}{Parameters}
-{\em variables} & A const reference to the vector containing all variables. \\
+{\em variables} & A pointer to the vector containing all variables. \\
 \hline
-{\em var} & A reference to the variable to change. \\
+{\em var} & A pointer to the variable to change. \\
 \hline
 {\em possible\+\_\+values} & A const reference to the vector of possible values of var. \\
 \hline
@@ -176,15 +176,15 @@ Like all functions prefixed by \textquotesingle{}expert\+\_\+\textquotesingle{},
 The selected value according to the heuristic. 
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See also}
-\hyperlink{classghost_1_1Objective_a99802c1672d9e28944c1fe9586128214}{heuristic\+\_\+value}, \hyperlink{classghost_1_1Random}{Random} 
+\hyperlink{classghost_1_1Objective_a0da0d81b3f4c83cb6f4b2a33e2822d2f}{heuristic\+\_\+value}, \hyperlink{classghost_1_1Random}{Random} 
 \end{DoxySeeAlso}
 \index{ghost\+::\+Objective@{ghost\+::\+Objective}!expert\+\_\+heuristic\+\_\+value@{expert\+\_\+heuristic\+\_\+value}}
 \index{expert\+\_\+heuristic\+\_\+value@{expert\+\_\+heuristic\+\_\+value}!ghost\+::\+Objective@{ghost\+::\+Objective}}
-\subsubsection[{\texorpdfstring{expert\+\_\+heuristic\+\_\+value(const vector$<$ Variable $>$ \&bad\+\_\+variables) const }{expert_heuristic_value(const vector< Variable > &bad_variables) const }}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf Variable} ghost\+::\+Objective\+::expert\+\_\+heuristic\+\_\+value (
+\subsubsection[{\texorpdfstring{expert\+\_\+heuristic\+\_\+value(vector$<$ Variable $\ast$ $>$ bad\+\_\+variables) const }{expert_heuristic_value(vector< Variable * > bad_variables) const }}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf Variable}$\ast$ ghost\+::\+Objective\+::expert\+\_\+heuristic\+\_\+value (
 \begin{DoxyParamCaption}
-\item[{const vector$<$ {\bf Variable} $>$ \&}]{bad\+\_\+variables}
+\item[{vector$<$ {\bf Variable} $\ast$ $>$}]{bad\+\_\+variables}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\hypertarget{classghost_1_1Objective_a9d3f1799664d66a03fe34fbd3a8e66fe}{}\label{classghost_1_1Objective_a9d3f1799664d66a03fe34fbd3a8e66fe}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\hypertarget{classghost_1_1Objective_a26e649c3e9a6e71fbdac3194120728bb}{}\label{classghost_1_1Objective_a26e649c3e9a6e71fbdac3194120728bb}
 
 
 Virtual function to apply the value heuristic used by the solver for permutation problems. 
@@ -197,24 +197,24 @@ Like all functions prefixed by \textquotesingle{}expert\+\_\+\textquotesingle{},
 
 
 \begin{DoxyParams}{Parameters}
-{\em bad\+\_\+variables} & A const reference to yhe vector of candidate variables the solver may swap the value with another variable it had chosen. \\
+{\em bad\+\_\+variables} & The vector of candidate variables the solver may swap the value with another variable it had chosen. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 The selected variable to swap with, according to the heuristic. 
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See also}
-\hyperlink{classghost_1_1Objective_a99802c1672d9e28944c1fe9586128214}{heuristic\+\_\+value}, \hyperlink{classghost_1_1Random}{Random} 
+\hyperlink{classghost_1_1Objective_a0da0d81b3f4c83cb6f4b2a33e2822d2f}{heuristic\+\_\+value}, \hyperlink{classghost_1_1Random}{Random} 
 \end{DoxySeeAlso}
 \index{ghost\+::\+Objective@{ghost\+::\+Objective}!expert\+\_\+postprocess\+\_\+optimization@{expert\+\_\+postprocess\+\_\+optimization}}
 \index{expert\+\_\+postprocess\+\_\+optimization@{expert\+\_\+postprocess\+\_\+optimization}!ghost\+::\+Objective@{ghost\+::\+Objective}}
-\subsubsection[{\texorpdfstring{expert\+\_\+postprocess\+\_\+optimization(vector$<$ Variable $>$ \&variables, double \&best\+Cost, vector$<$ int $>$ \&solution) const }{expert_postprocess_optimization(vector< Variable > &variables, double &bestCost, vector< int > &solution) const }}]{\setlength{\rightskip}{0pt plus 5cm}virtual void ghost\+::\+Objective\+::expert\+\_\+postprocess\+\_\+optimization (
+\subsubsection[{\texorpdfstring{expert\+\_\+postprocess\+\_\+optimization(vector$<$ Variable $>$ $\ast$variables, double \&best\+Cost, vector$<$ int $>$ \&solution) const }{expert_postprocess_optimization(vector< Variable > *variables, double &bestCost, vector< int > &solution) const }}]{\setlength{\rightskip}{0pt plus 5cm}virtual void ghost\+::\+Objective\+::expert\+\_\+postprocess\+\_\+optimization (
 \begin{DoxyParamCaption}
-\item[{vector$<$ {\bf Variable} $>$ \&}]{variables, }
+\item[{vector$<$ {\bf Variable} $>$ $\ast$}]{variables, }
 \item[{double \&}]{best\+Cost, }
 \item[{vector$<$ int $>$ \&}]{solution}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\hypertarget{classghost_1_1Objective_afcf365738f5caa5824b4fe9e411459d8}{}\label{classghost_1_1Objective_afcf365738f5caa5824b4fe9e411459d8}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\hypertarget{classghost_1_1Objective_a5fb30d2973d51e6c788533f7a4b1c493}{}\label{classghost_1_1Objective_a5fb30d2973d51e6c788533f7a4b1c493}
 
 
 Virtual function to perform optimization post-\/processing. 
@@ -230,25 +230,25 @@ The computation spantime of this function is not taken into account by timeouts 
 \end{DoxyWarning}
 
 \begin{DoxyParams}{Parameters}
-{\em variables} & A reference to the vector of variables of the C\+S\+P/\+C\+OP. \\
+{\em variables} & A pointer to the vector of variables of the C\+S\+P/\+C\+OP. \\
 \hline
-{\em best\+Cost} & A reference to the double representing the best optimization cost found by the solver so far. Its value may be updated, justifying a non const reference. \\
+{\em best\+Cost} & A reference the double representing the best optimization cost found by the solver so far. Its value may be updated, justifying a non const reference. \\
 \hline
 {\em solution} & A reference to the vector of variables of the solution found by the solver. This vector may be updated, justifying a non const reference \\
 \hline
 \end{DoxyParams}
 \begin{DoxySeeAlso}{See also}
-\hyperlink{classghost_1_1Objective_a96be4da0c23406cc67b190a37f328b91}{postprocess\+\_\+optimization} 
+\hyperlink{classghost_1_1Objective_a93e4461791d365f18078d3fc7d23a67d}{postprocess\+\_\+optimization} 
 \end{DoxySeeAlso}
 \index{ghost\+::\+Objective@{ghost\+::\+Objective}!expert\+\_\+postprocess\+\_\+satisfaction@{expert\+\_\+postprocess\+\_\+satisfaction}}
 \index{expert\+\_\+postprocess\+\_\+satisfaction@{expert\+\_\+postprocess\+\_\+satisfaction}!ghost\+::\+Objective@{ghost\+::\+Objective}}
-\subsubsection[{\texorpdfstring{expert\+\_\+postprocess\+\_\+satisfaction(vector$<$ Variable $>$ \&variables, double \&best\+Cost, vector$<$ int $>$ \&solution) const }{expert_postprocess_satisfaction(vector< Variable > &variables, double &bestCost, vector< int > &solution) const }}]{\setlength{\rightskip}{0pt plus 5cm}virtual void ghost\+::\+Objective\+::expert\+\_\+postprocess\+\_\+satisfaction (
+\subsubsection[{\texorpdfstring{expert\+\_\+postprocess\+\_\+satisfaction(vector$<$ Variable $>$ $\ast$variables, double \&best\+Cost, vector$<$ int $>$ \&solution) const }{expert_postprocess_satisfaction(vector< Variable > *variables, double &bestCost, vector< int > &solution) const }}]{\setlength{\rightskip}{0pt plus 5cm}virtual void ghost\+::\+Objective\+::expert\+\_\+postprocess\+\_\+satisfaction (
 \begin{DoxyParamCaption}
-\item[{vector$<$ {\bf Variable} $>$ \&}]{variables, }
+\item[{vector$<$ {\bf Variable} $>$ $\ast$}]{variables, }
 \item[{double \&}]{best\+Cost, }
 \item[{vector$<$ int $>$ \&}]{solution}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\hypertarget{classghost_1_1Objective_a5f7af74c8b54cffbff4c42a5bdf1e563}{}\label{classghost_1_1Objective_a5f7af74c8b54cffbff4c42a5bdf1e563}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\hypertarget{classghost_1_1Objective_a0d84f1a341b9366a66b3cb52568ded33}{}\label{classghost_1_1Objective_a0d84f1a341b9366a66b3cb52568ded33}
 
 
 Virtual function to perform satisfaction post-\/processing. 
@@ -261,15 +261,15 @@ Like all functions prefixed by \textquotesingle{}expert\+\_\+\textquotesingle{},
 
 
 \begin{DoxyParams}{Parameters}
-{\em variables} & A reference to the vector of variables of the C\+S\+P/\+C\+OP. \\
+{\em variables} & A pointer to the vector of variables of the C\+S\+P/\+C\+OP. \\
 \hline
-{\em best\+Cost} & A reference to the double representing the best satisfaction cost found by the solver so far. Its value may be updated, justifying a non const reference. \\
+{\em best\+Cost} & A reference the double representing the best satisfaction cost found by the solver so far. Its value may be updated, justifying a non const reference. \\
 \hline
 {\em solution} & A reference to the vector of variables of the solution found by the solver. This vector may be updated, justifying a non const reference \\
 \hline
 \end{DoxyParams}
 \begin{DoxySeeAlso}{See also}
-\hyperlink{classghost_1_1Objective_ad68d6414519c6cc1542603d729af8bdb}{postprocess\+\_\+satisfaction} 
+\hyperlink{classghost_1_1Objective_af7ae98042b3ba81a9bd501d542820b66}{postprocess\+\_\+satisfaction} 
 \end{DoxySeeAlso}
 \index{ghost\+::\+Objective@{ghost\+::\+Objective}!get\+\_\+name@{get\+\_\+name}}
 \index{get\+\_\+name@{get\+\_\+name}!ghost\+::\+Objective@{ghost\+::\+Objective}}
@@ -284,33 +284,33 @@ Inline accessor to get the name of the objective object.
 
 \index{ghost\+::\+Objective@{ghost\+::\+Objective}!heuristic\+\_\+value@{heuristic\+\_\+value}}
 \index{heuristic\+\_\+value@{heuristic\+\_\+value}!ghost\+::\+Objective@{ghost\+::\+Objective}}
-\subsubsection[{\texorpdfstring{heuristic\+\_\+value(const vector$<$ Variable $>$ \&variables, Variable \&var, const vector$<$ int $>$ \&possible\+\_\+values) const }{heuristic_value(const vector< Variable > &variables, Variable &var, const vector< int > &possible_values) const }}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\+::\+Objective\+::heuristic\+\_\+value (
+\subsubsection[{\texorpdfstring{heuristic\+\_\+value(vector$<$ Variable $>$ $\ast$variables, Variable $\ast$var, const vector$<$ int $>$ \&possible\+\_\+values) const }{heuristic_value(vector< Variable > *variables, Variable *var, const vector< int > &possible_values) const }}]{\setlength{\rightskip}{0pt plus 5cm}int ghost\+::\+Objective\+::heuristic\+\_\+value (
 \begin{DoxyParamCaption}
-\item[{const vector$<$ {\bf Variable} $>$ \&}]{variables, }
-\item[{{\bf Variable} \&}]{var, }
+\item[{vector$<$ {\bf Variable} $>$ $\ast$}]{variables, }
+\item[{{\bf Variable} $\ast$}]{var, }
 \item[{const vector$<$ int $>$ \&}]{possible\+\_\+values}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Objective_a99802c1672d9e28944c1fe9586128214}{}\label{classghost_1_1Objective_a99802c1672d9e28944c1fe9586128214}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Objective_a0da0d81b3f4c83cb6f4b2a33e2822d2f}{}\label{classghost_1_1Objective_a0da0d81b3f4c83cb6f4b2a33e2822d2f}
 
 
 Inline function following the N\+VI idiom. Calling expert\+\_\+heuristic\+\_\+value. 
 
 \begin{DoxySeeAlso}{See also}
-\hyperlink{classghost_1_1Objective_afd240c0d36337f7204be3f2c2412e4a1}{expert\+\_\+heuristic\+\_\+value} 
+\hyperlink{classghost_1_1Objective_a4e0f733d219978343b9532d1e8168510}{expert\+\_\+heuristic\+\_\+value} 
 \end{DoxySeeAlso}
 \index{ghost\+::\+Objective@{ghost\+::\+Objective}!heuristic\+\_\+value@{heuristic\+\_\+value}}
 \index{heuristic\+\_\+value@{heuristic\+\_\+value}!ghost\+::\+Objective@{ghost\+::\+Objective}}
-\subsubsection[{\texorpdfstring{heuristic\+\_\+value(const vector$<$ Variable $>$ \&bad\+\_\+variables) const }{heuristic_value(const vector< Variable > &bad_variables) const }}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Variable} ghost\+::\+Objective\+::heuristic\+\_\+value (
+\subsubsection[{\texorpdfstring{heuristic\+\_\+value(vector$<$ Variable $\ast$ $>$ bad\+\_\+variables) const }{heuristic_value(vector< Variable * > bad_variables) const }}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Variable}$\ast$ ghost\+::\+Objective\+::heuristic\+\_\+value (
 \begin{DoxyParamCaption}
-\item[{const vector$<$ {\bf Variable} $>$ \&}]{bad\+\_\+variables}
+\item[{vector$<$ {\bf Variable} $\ast$ $>$}]{bad\+\_\+variables}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Objective_a5f712482ee747fe308a719f9090deb56}{}\label{classghost_1_1Objective_a5f712482ee747fe308a719f9090deb56}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Objective_af21823582664ad75307439adf3cb1f5e}{}\label{classghost_1_1Objective_af21823582664ad75307439adf3cb1f5e}
 
 
 Inline function following the N\+VI idiom. Calling expert\+\_\+heuristic\+\_\+value. 
 
 \begin{DoxySeeAlso}{See also}
-\hyperlink{classghost_1_1Objective_afd240c0d36337f7204be3f2c2412e4a1}{expert\+\_\+heuristic\+\_\+value} 
+\hyperlink{classghost_1_1Objective_a4e0f733d219978343b9532d1e8168510}{expert\+\_\+heuristic\+\_\+value} 
 \end{DoxySeeAlso}
 \index{ghost\+::\+Objective@{ghost\+::\+Objective}!operator=@{operator=}}
 \index{operator=@{operator=}!ghost\+::\+Objective@{ghost\+::\+Objective}}
@@ -336,43 +336,43 @@ Move assignment operator disabled.
 
 \index{ghost\+::\+Objective@{ghost\+::\+Objective}!postprocess\+\_\+optimization@{postprocess\+\_\+optimization}}
 \index{postprocess\+\_\+optimization@{postprocess\+\_\+optimization}!ghost\+::\+Objective@{ghost\+::\+Objective}}
-\subsubsection[{\texorpdfstring{postprocess\+\_\+optimization(vector$<$ Variable $>$ \&variables, double \&best\+Cost, vector$<$ int $>$ \&solution) const }{postprocess_optimization(vector< Variable > &variables, double &bestCost, vector< int > &solution) const }}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\+::\+Objective\+::postprocess\+\_\+optimization (
+\subsubsection[{\texorpdfstring{postprocess\+\_\+optimization(vector$<$ Variable $>$ $\ast$variables, double \&best\+Cost, vector$<$ int $>$ \&solution) const }{postprocess_optimization(vector< Variable > *variables, double &bestCost, vector< int > &solution) const }}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\+::\+Objective\+::postprocess\+\_\+optimization (
 \begin{DoxyParamCaption}
-\item[{vector$<$ {\bf Variable} $>$ \&}]{variables, }
+\item[{vector$<$ {\bf Variable} $>$ $\ast$}]{variables, }
 \item[{double \&}]{best\+Cost, }
 \item[{vector$<$ int $>$ \&}]{solution}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Objective_a96be4da0c23406cc67b190a37f328b91}{}\label{classghost_1_1Objective_a96be4da0c23406cc67b190a37f328b91}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Objective_a93e4461791d365f18078d3fc7d23a67d}{}\label{classghost_1_1Objective_a93e4461791d365f18078d3fc7d23a67d}
 
 
 Inline function following the N\+VI idiom. Calling expert\+\_\+postprocess\+\_\+optimization. 
 
 \begin{DoxySeeAlso}{See also}
-\hyperlink{classghost_1_1Objective_afcf365738f5caa5824b4fe9e411459d8}{expert\+\_\+postprocess\+\_\+optimization} 
+\hyperlink{classghost_1_1Objective_a5fb30d2973d51e6c788533f7a4b1c493}{expert\+\_\+postprocess\+\_\+optimization} 
 \end{DoxySeeAlso}
 \index{ghost\+::\+Objective@{ghost\+::\+Objective}!postprocess\+\_\+satisfaction@{postprocess\+\_\+satisfaction}}
 \index{postprocess\+\_\+satisfaction@{postprocess\+\_\+satisfaction}!ghost\+::\+Objective@{ghost\+::\+Objective}}
-\subsubsection[{\texorpdfstring{postprocess\+\_\+satisfaction(vector$<$ Variable $>$ \&variables, double \&best\+Cost, vector$<$ int $>$ \&solution) const }{postprocess_satisfaction(vector< Variable > &variables, double &bestCost, vector< int > &solution) const }}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\+::\+Objective\+::postprocess\+\_\+satisfaction (
+\subsubsection[{\texorpdfstring{postprocess\+\_\+satisfaction(vector$<$ Variable $>$ $\ast$variables, double \&best\+Cost, vector$<$ int $>$ \&solution) const }{postprocess_satisfaction(vector< Variable > *variables, double &bestCost, vector< int > &solution) const }}]{\setlength{\rightskip}{0pt plus 5cm}void ghost\+::\+Objective\+::postprocess\+\_\+satisfaction (
 \begin{DoxyParamCaption}
-\item[{vector$<$ {\bf Variable} $>$ \&}]{variables, }
+\item[{vector$<$ {\bf Variable} $>$ $\ast$}]{variables, }
 \item[{double \&}]{best\+Cost, }
 \item[{vector$<$ int $>$ \&}]{solution}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Objective_ad68d6414519c6cc1542603d729af8bdb}{}\label{classghost_1_1Objective_ad68d6414519c6cc1542603d729af8bdb}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classghost_1_1Objective_af7ae98042b3ba81a9bd501d542820b66}{}\label{classghost_1_1Objective_af7ae98042b3ba81a9bd501d542820b66}
 
 
 Inline function following the N\+VI idiom. Calling expert\+\_\+postprocess\+\_\+satisfaction. 
 
 \begin{DoxySeeAlso}{See also}
-\hyperlink{classghost_1_1Objective_a5f7af74c8b54cffbff4c42a5bdf1e563}{expert\+\_\+postprocess\+\_\+satisfaction} 
+\hyperlink{classghost_1_1Objective_a0d84f1a341b9366a66b3cb52568ded33}{expert\+\_\+postprocess\+\_\+satisfaction} 
 \end{DoxySeeAlso}
 \index{ghost\+::\+Objective@{ghost\+::\+Objective}!required\+\_\+cost@{required\+\_\+cost}}
 \index{required\+\_\+cost@{required\+\_\+cost}!ghost\+::\+Objective@{ghost\+::\+Objective}}
-\subsubsection[{\texorpdfstring{required\+\_\+cost(const vector$<$ Variable $>$ \&variables) const =0}{required_cost(const vector< Variable > &variables) const =0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual double ghost\+::\+Objective\+::required\+\_\+cost (
+\subsubsection[{\texorpdfstring{required\+\_\+cost(vector$<$ Variable $>$ $\ast$variables) const =0}{required_cost(vector< Variable > *variables) const =0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual double ghost\+::\+Objective\+::required\+\_\+cost (
 \begin{DoxyParamCaption}
-\item[{const vector$<$ {\bf Variable} $>$ \&}]{variables}
+\item[{vector$<$ {\bf Variable} $>$ $\ast$}]{variables}
 \end{DoxyParamCaption}
-) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}\hypertarget{classghost_1_1Objective_aae6630f4fca9012278a0bf1ca1503cd0}{}\label{classghost_1_1Objective_aae6630f4fca9012278a0bf1ca1503cd0}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}\hypertarget{classghost_1_1Objective_a5f6db473f497e84cf15d0a638be21d31}{}\label{classghost_1_1Objective_a5f6db473f497e84cf15d0a638be21d31}
 
 
 Pure virtual function to compute the value of the objective function on the current configuration. 
@@ -381,14 +381,14 @@ Like \hyperlink{classghost_1_1Constraint_a6ef4cd03a4dc864a8d308e55044c615d}{Cons
 
 
 \begin{DoxyParams}{Parameters}
-{\em variables} & A const reference to the vector of variable of the C\+S\+P/\+C\+OP. \\
+{\em variables} & A pointer to the vector of variable of the C\+S\+P/\+C\+OP. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 A double in R corresponding to the value of the objective function on the current configuration. Unlike \hyperlink{classghost_1_1Constraint_a6ef4cd03a4dc864a8d308e55044c615d}{Constraint\+::required\+\_\+cost}, this output may be negative. 
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See also}
-\hyperlink{classghost_1_1Objective_a15d4c24042c87834dd0ccbf2a2c856f8}{cost} 
+\hyperlink{classghost_1_1Objective_adf174d82bf2a9f9b0ad72f11a279799e}{cost} 
 \end{DoxySeeAlso}
 
 
