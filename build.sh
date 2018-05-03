@@ -7,6 +7,12 @@ DEBUG="debug"
 OSX="_osx"
 BACKPWD="$PWD"
 
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+ORANGE='\033[0;33m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
+
 if [ "$OS" == "Darwin" ]; then
     RELEASE="$RELEASE$OSX"
     RELEASEBENCH="$RELEASEBENCH$OSX"
@@ -88,18 +94,27 @@ function tests()
     make
 }
 
+function first_compile()
+{
+    if [ "$OS" == "Linux" ]; then
+	echo -e "\n\n${RED}>>> If you compile ${GREEN}GHOST${RED} for the ${CYAN}first time${RED}, you probably need to run the following command: ${ORANGE}sudo ldconfig${NC}"
+    fi
+}
+
 if [ $# -gt 1 ]; then
     usage
 fi
 
 if [ $# -eq 0 ]; then
     release
+    first_compile
     cd $BACKPWD
     exit 0
 fi
 
 if [ "$1" == "release" ]; then
     release
+    first_compile
     cd $BACKPWD
     exit 0
 elif [ "$1" == "bench" ]; then
