@@ -50,7 +50,13 @@ have a projet file corresponding to your IDE. For Visual Studio, it is ghost.sln
 ============
 Troubleshooting:
 
+===
 Got the error 'The compiler /usr/bin/c++ has no C++14 support. Please use a different C++ compiler.'?
 1. Make sure you have installed a C++14-capable compiler
 2. If you have such a compiler but still get the error, before typing the command  'cmake ..', type 'export CXX=/path/of/your/c++14/compiler/executable_name'
+
+===
+While running your program on GNU/Linux, if you have a message like 'error while loading shared libraries: libghost.so: cannot open shared object file: No such file or directory', you probably need to run the following command:
+
+$ sudo ldconfig
 
