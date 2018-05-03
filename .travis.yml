@@ -71,4 +71,4 @@ branches:
   only:
     - master
     - adaptive_search
-    - no_template
+    - develop
