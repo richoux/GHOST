@@ -42,7 +42,8 @@ Variable::Variable( const string& name, const string& shortName, const Domain& d
     _name	( name ),
     _shortName	( shortName ),
     _domain	( domain ),
-    _index	( index )
+    _index	( index ),
+    _cache_value( domain.get_value( index ) )
 { }
 
 Variable::Variable( const string& name, const string& shortName, const vector<int>& domain, int index )
@@ -58,7 +59,8 @@ Variable::Variable( const Variable &other )
     _name	( other._name ),
     _shortName	( other._shortName ),
     _domain	( other._domain ),
-    _index	( other._index )
+    _index	( other._index ),
+    _cache_value( other._cache_value )
 { }
 
 Variable& Variable::operator=( Variable other )
@@ -74,6 +76,7 @@ void Variable::swap( Variable &other )
   std::swap( this->_shortName,	other._shortName );
   std::swap( this->_domain,	other._domain );
   std::swap( this->_index,	other._index );
+  std::swap( this->_cache_value,other._cache_value );
 }  
 
 void Variable::do_random_initialization()

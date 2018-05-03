@@ -63,6 +63,7 @@ namespace ghost
     string	_shortName;	//!< A string to give a shorten name to the variable (for instance, "B").
     Domain	_domain;	//!< The domain of the variable.
     int		_index;		//!< The domain's index corresponding to the current value of the variable.
+    int		_cache_value;	//!< Cache of the Variable current value.
     
     //! Private Variable constructor
     Variable( const string& name,
@@ -134,7 +135,8 @@ namespace ghost
      * \return An integer corresponding to the variable value. If the variable index does not belong to its domain range, an indexException is raised.
      * \sa Domain
      */
-    inline int get_value() const { return _domain.get_value( _index ); }
+    // inline int get_value() const { return _domain.get_value( _index ); }
+    inline int get_value() const { return _cache_value; }
 
     //! Inline function to set the value of the variable.
     /*! 
@@ -142,7 +144,11 @@ namespace ghost
      * \param value An integer representing the new value to set.
      * \sa Domain
      */
-    inline void	set_value( int value ) { _index = _domain.index_of( value ); }
+    inline void	set_value( int value )
+    {
+      _index = _domain.index_of( value );
+      _cache_value = value;
+    }
 
     //! Inline function returning the size of the domain of the variable.
     /*! 
