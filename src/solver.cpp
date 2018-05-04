@@ -67,11 +67,11 @@ bool Solver::solve( double&	finalCost,
 		    double	satTimeout,
 		    double	optTimeout )
 {
-  satTimeout *= 1000; // timeouts in microseconds
+  //satTimeout *= 1000; // timeouts in microseconds
   if( optTimeout == 0 )
     optTimeout = satTimeout * 10;
-  else
-    optTimeout *= 1000;
+  //else
+  //optTimeout *= 1000;
 
   // The only parameter of Solver<Variable, Constraint>::solve outside timeouts
   int tabuTimeLocalMin = _vecVariables->size() - 1;
