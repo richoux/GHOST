@@ -142,9 +142,11 @@ namespace ghost
     //! To factorize code like if (best > current) then best=current and update configuration
     void update_better_configuration( double& best, const double current, vector<int>& configuration );
 
+#if defined(ADAPTIVE_SEARCH)
     //! To compute the vector of variables which are principal culprits for not satisfying the problem
     vector< Variable* > compute_worst_variables( bool freeVariables, const vector<double>& costVariables );
-
+#endif
+    
     //! Compute the cost of each constraints and fill up the vector costConstraints
     double compute_constraints_costs( vector<double>& costConstraints ) const;
 

@@ -25,14 +25,11 @@ endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
-##if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-##  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
-##  add_definitions(-DDEBUG)
-##else()
-##  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE} -Ofast")
-##endif()
-
-##set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+# Switch between Cuplrit Search (default) and Adaptive Search algorithms
+option(ADAPTIVE_SEARCH "Enable Adaptive Search algorithm" OFF)
+if(ADAPTIVE_SEARCH)
+  add_definitions(-DADAPTIVE_SEARCH)
+endif()
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "RelWithDebInfo")
   add_definitions(-DBENCH)

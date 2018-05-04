@@ -150,10 +150,14 @@ bool Solver::solve( double&	finalCost,
       bool freeVariables = false;
       decay_weak_tabu_list( freeVariables );
 
-      /////////////////////////////////////////////
-      // Switch Adaptive Search - Culprit Search //
-      /////////////////////////////////////////////
-      //*
+#if defined(ADAPTIVE_SEARCH)
+      auto worstVariableList = compute_worst_variables( freeVariables, costVariables );
+      if( worstVariableList.size() > 1 )
+	// worstVariable = _objective->heuristic_variable( worstVariableList );
+	worstVariable = worstVariableList[ _random.get_random_number( worstVariableList.size() ) ];
+      else
+	worstVariable = worstVariableList[0];      
+#else
       if( freeVariables )
       {
 	discrete_distribution<int> distribution { costNonTabuVariables.begin(), costNonTabuVariables.end() };
@@ -163,14 +167,8 @@ bool Solver::solve( double&	finalCost,
       {
 	discrete_distribution<int> distribution { costVariables.begin(), costVariables.end() };
 	worstVariable = &(*_vecVariables)[ distribution( rng ) ];
-      }
-      /*/
-      auto worstVariableList = compute_worst_variables( freeVariables, costVariables );
-      if( worstVariableList.size() > 1 )
-	worstVariable = _objective->heuristic_variable( worstVariableList );
-      else
-	worstVariable = worstVariableList[0];
-      //*/
+      }      
+#endif
       
       if( _permutationProblem )
 	permutation_move( worstVariable, costConstraints, costVariables, costNonTabuVariables, currentSatCost );
@@ -435,6 +433,7 @@ void Solver::update_better_configuration( double&	best,
     configuration[ v.get_id() - _varOffset ] = v.get_value();
 }
 
+#if defined(ADAPTIVE_SEARCH)
 vector< Variable* > Solver::compute_worst_variables( bool freeVariables,
 						     const vector<double>& costVariables )
 {
@@ -462,6 +461,7 @@ vector< Variable* > Solver::compute_worst_variables( bool freeVariables,
   
   return worstVariableList;
 }
+#endif
   
 // NO VALUE BACKED-UP!
 double Solver::simulate_local_move_cost( Variable*		variable,
