@@ -150,6 +150,10 @@ bool Solver::solve( double&	finalCost,
       bool freeVariables = false;
       decay_weak_tabu_list( freeVariables );
 
+      /////////////////////////////////////////////
+      // Switch Adaptive Search - Culprit Search //
+      /////////////////////////////////////////////
+      //*
       if( freeVariables )
       {
 	discrete_distribution<int> distribution { costNonTabuVariables.begin(), costNonTabuVariables.end() };
@@ -160,7 +164,14 @@ bool Solver::solve( double&	finalCost,
 	discrete_distribution<int> distribution { costVariables.begin(), costVariables.end() };
 	worstVariable = &(*_vecVariables)[ distribution( rng ) ];
       }
-
+      /*/
+      auto worstVariableList = compute_worst_variables( freeVariables, costVariables );
+      if( worstVariableList.size() > 1 )
+	worstVariable = _objective->heuristic_variable( worstVariableList );
+      else
+	worstVariable = worstVariableList[0];
+      //*/
+      
       if( _permutationProblem )
 	permutation_move( worstVariable, costConstraints, costVariables, costNonTabuVariables, currentSatCost );
       else
@@ -422,6 +433,34 @@ void Solver::update_better_configuration( double&	best,
 
   for( auto& v : *_vecVariables )
     configuration[ v.get_id() - _varOffset ] = v.get_value();
+}
+
+vector< Variable* > Solver::compute_worst_variables( bool freeVariables,
+						     const vector<double>& costVariables )
+{
+  // Here, we look at neighbor configurations with the lowest cost.
+  vector< Variable* > worstVariableList;
+  double worstVariableCost = 0.;
+  int id;
+  
+  for( auto& v : *_vecVariables )
+  {
+    id = v.get_id() - _varOffset;
+    if( !freeVariables || _weakTabuList[ id ] == 0 )
+    {
+      if( worstVariableCost < costVariables[ id ] )
+      {
+	worstVariableCost = costVariables[ id ];
+	worstVariableList.clear();
+	worstVariableList.push_back( &v );
+      }
+      else 
+	if( worstVariableCost == costVariables[ id ] )
+	  worstVariableList.push_back( &v );	  
+    }
+  }
+  
+  return worstVariableList;
 }
   
 // NO VALUE BACKED-UP!
