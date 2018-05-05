@@ -205,13 +205,13 @@ bool Solver::solve( double&	finalCost,
 
     if( _bestSatCostOptLoop == 0. )
     {
-      currentOptCost = _objective->cost( _vecVariables );
+      currentOptCost = _objective->cost( *_vecVariables );
       if( _bestOptCost > currentOptCost )
       {
 	update_better_configuration( _bestOptCost, currentOptCost, finalSolution );
 
 	startPostprocess = chrono::steady_clock::now();
-	_objective->postprocess_satisfaction( _vecVariables, _bestOptCost, finalSolution );
+	_objective->postprocess_satisfaction( *_vecVariables, _bestOptCost, finalSolution );
 	timerPostProcessSat = chrono::steady_clock::now() - startPostprocess;
       }
     }
@@ -225,7 +225,7 @@ bool Solver::solve( double&	finalCost,
     costBeforePostProc = _bestOptCost;
 
     startPostprocess = chrono::steady_clock::now();
-    _objective->postprocess_optimization( _vecVariables, _bestOptCost, finalSolution );
+    _objective->postprocess_optimization( *_vecVariables, _bestOptCost, finalSolution );
     timerPostProcessOpt = chrono::steady_clock::now() - startPostprocess;							     
   }
 
@@ -393,7 +393,7 @@ void Solver::set_initial_configuration( int samplings )
 	if( currentSatCost == 0 )
 	  if( _isOptimization )
 	  {
-	    currentOptCost = _objective->cost( _vecVariables );
+	    currentOptCost = _objective->cost( *_vecVariables );
 	    if( bestOptCost > currentOptCost )
 	      update_better_configuration( bestOptCost, currentOptCost, bestValues );
 	  }
@@ -542,7 +542,7 @@ void Solver::local_move( Variable*		variable,
   // among values improving the most the optimization cost if there
   // are some ties.
   if( bestValuesList.size() > 1 )
-    bestValue = _objective->heuristic_value( _vecVariables, variable, bestValuesList );
+    bestValue = _objective->heuristic_value( *_vecVariables, *variable, bestValuesList );
   else
     bestValue = bestValuesList[0];
 

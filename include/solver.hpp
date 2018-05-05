@@ -90,10 +90,10 @@ namespace ghost
       NullObjective() : Objective("nullObjective") { }
       
     private:
-      double required_cost( vector< Variable > *variables ) const override { return 0.; }
+      double required_cost( const vector< Variable > &variables ) const override { return 0.; }
       
-      int expert_heuristic_value( vector< Variable > *variables,
-				  Variable *var,
+      int expert_heuristic_value( const vector< Variable > &variables,
+				  Variable &var,
 				  const vector< int >& valuesList ) const override
       {
 	return valuesList[ random.get_random_number( valuesList.size() ) ];
