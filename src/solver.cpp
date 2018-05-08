@@ -453,10 +453,12 @@ double Solver::simulate_permutation_cost( Variable*		worstVariable,
 					  double		currentSatCost ) const
 {
   double newCurrentSatCost = currentSatCost;
-  int tmp = worstVariable->get_value();
-  worstVariable->set_value( otherVariable.get_value() );
-  otherVariable.set_value( tmp );
-
+  // int tmp = worstVariable->get_value();
+  // worstVariable->set_value( otherVariable.get_value() );
+  // otherVariable.set_value( tmp );
+  std::swap( worstVariable->_index, otherVariable._index );
+  std::swap( worstVariable->_cache_value, otherVariable._cache_value );
+  
   vector<bool> compted( costConstraints.size(), false );
   
   for( auto& c : _mapVarCtr[ *worstVariable ] )
@@ -470,9 +472,11 @@ double Solver::simulate_permutation_cost( Variable*		worstVariable,
       newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() - _ctrOffset ] );
 
   // We must roll back to the previous state before returning the new cost value. 
-  tmp = worstVariable->get_value();
-  worstVariable->set_value( otherVariable.get_value() );
-  otherVariable.set_value( tmp );
+  // tmp = worstVariable->get_value();
+  // worstVariable->set_value( otherVariable.get_value() );
+  // otherVariable.set_value( tmp );
+  std::swap( worstVariable->_index, otherVariable._index );
+  std::swap( worstVariable->_cache_value, otherVariable._cache_value );
 
   return newCurrentSatCost;
 }
@@ -564,9 +568,11 @@ void Solver::permutation_move( Variable*	variable,
   else
     bestVarToSwap = bestVarToSwapList[0];
 
-  int tmp = variable->get_value();
-  variable->set_value( bestVarToSwap.get_value() );
-  bestVarToSwap.set_value( tmp );
+  // int tmp = variable->get_value();
+  // variable->set_value( bestVarToSwap.get_value() );
+  // bestVarToSwap.set_value( tmp );
+  std::swap( variable->_index, bestVarToSwap._index );
+  std::swap( variable->_cache_value, bestVarToSwap._cache_value );
 
   currentSatCost = bestCost;
   vector<bool> compted( costConstraints.size(), false );
