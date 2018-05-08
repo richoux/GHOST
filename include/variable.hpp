@@ -56,6 +56,7 @@ namespace ghost
    */
   class Variable final
   {
+    friend class Solver;
     static int	NBER_VAR;	//!< Static counter that increases each time one instanciates a Variable object.
     int		_id;		//!< Unique ID integer taking the current value of NBER_VAR
 
@@ -65,19 +66,22 @@ namespace ghost
     int		_index;		//!< The domain's index corresponding to the current value of the variable.
     int		_cache_value;	//!< Cache of the Variable current value.
     
-    //! Private Variable constructor
+    //! Regurlar private Variable constructor
     Variable( const string& name,
 	      const string& shortName,
 	      const Domain& domain,
 	      int index = 0 );
+
+    //! Default private constructor
+    Variable();
     
     //! For the copy-and-swap idiom
     void swap( Variable &other );
 
   public:
     
-    //! The default Variable constructor is disabled.
-    Variable() = delete;
+    // //! The default Variable constructor is disabled.
+    // Variable() = delete;
 
     //! First Variable constructor, with the vector of domain values and the outside-the-scope value.
     /*!

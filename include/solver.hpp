@@ -64,10 +64,10 @@ namespace ghost
    *
    * \sa Variable, Constraint, Objective
    */  
-  class Solver
+  class Solver final
   {
-    vector<Variable>			*_vecVariables;		//!< Pointer to the vector of variables.
-    vector<shared_ptr<Constraint>>	*_vecConstraints;	//!< Pointer to the vector of shared pointer constraints.
+    vector<Variable>&			_vecVariables;		//!< Reference to the vector of variables.
+    vector<shared_ptr<Constraint>>&	_vecConstraints;	//!< Reference to the vector of shared pointer constraints.
     shared_ptr<Objective>		_objective;		//!< Shared pointer of the objective function.
 
     vector<int>	_weakTabuList;		//!< The weak tabu list, frozing used variables for tabuTime iterations. 
@@ -90,11 +90,11 @@ namespace ghost
       NullObjective() : Objective("nullObjective") { }
       
     private:
-      double required_cost( const vector< Variable > &variables ) const override { return 0.; }
+      double required_cost( const vector< Variable >& variables ) const override { return 0.; }
       
-      int expert_heuristic_value( const vector< Variable > &variables,
-				  Variable &var,
-				  const vector< int >& valuesList ) const override
+      int expert_heuristic_value( const vector< Variable >&	variables,
+				  Variable&			var,
+				  const vector< int >&		valuesList ) const override
       {
 	return valuesList[ random.get_random_number( valuesList.size() ) ];
       }
@@ -109,18 +109,6 @@ namespace ghost
     };
     
     mutable map< Variable, vector< shared_ptr<Constraint> >, VarComp > _mapVarCtr; //!< Map to know in which constraints are each variable.
-
-    //! Solver's regular constructor
-    /*!
-     * \param vecVariables A pointer to the vector of Variables.
-     * \param vecConstraints A pointer to the vector of Constraints.
-     * \param objective A shared pointer to an Objective.
-     * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
-     */
-    Solver( vector<Variable>			*vecVariables, 
-	    vector<shared_ptr<Constraint>>	*vecConstraints,
-	    shared_ptr<Objective>		objective,
-	    bool				permutationProblem = false );
 
     //! Set the initial configuration by calling monte_carlo_sampling() 'samplings' times.
     /*!

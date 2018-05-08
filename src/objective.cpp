@@ -35,9 +35,9 @@ Objective::Objective( const string& name )
   : name(name)
 { }
   
-int Objective::expert_heuristic_value( const vector< Variable > &variables,
-				       Variable &var,
-				       const vector< int >& possible_values ) const
+int Objective::expert_heuristic_value( const vector< Variable >&	variables,
+				       Variable&			var,
+				       const vector< int >&		possible_values ) const
 {
   double minCost = numeric_limits<double>::max();
   double simulatedCost;
@@ -66,18 +66,18 @@ int Objective::expert_heuristic_value( const vector< Variable > &variables,
   return bestValues[ random.get_random_number( bestValues.size() ) ];
 }
   
-Variable* Objective::expert_heuristic_value( const vector< Variable* > &bad_variables ) const
+Variable Objective::expert_heuristic_value( const vector< Variable >& bad_variables ) const
 {
   return bad_variables[ random.get_random_number( bad_variables.size() ) ];
 }
  
-void Objective::expert_postprocess_satisfaction( vector< Variable > &variables,
-						 double& bestCost,
-						 vector< int >& solution ) const
+void Objective::expert_postprocess_satisfaction( vector< Variable >&	variables,
+						 double&		bestCost,
+						 vector< int >&		solution ) const
 { }
 
-void Objective::expert_postprocess_optimization( vector< Variable > &variables,
-						 double& bestCost,
-						 vector< int >& solution ) const
+void Objective::expert_postprocess_optimization( vector< Variable >&	variables,
+						 double&		bestCost,
+						 vector< int >&		solution ) const
 { }
 
