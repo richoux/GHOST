@@ -48,13 +48,6 @@ Solver::Solver( vector<Variable>&		vecVariables,
 	_mapVarCtr[ var ].push_back( ctr );
 }
 
-// Solver::Solver( vector<Variable>&		vecVariables, 
-// 		vector<shared_ptr<Constraint>>& vecConstraints,
-// 		shared_ptr<Objective>		objective,
-// 		bool				permutationProblem )
-//   : Solver( &vecVariablxes, &vecConstraints, objective, permutationProblem )
-// { }
-
 Solver::Solver( vector<Variable>&		vecVariables, 
 		vector<shared_ptr<Constraint>>&	vecConstraints,
 		bool				permutationProblem )
@@ -77,10 +70,10 @@ bool Solver::solve( double&	finalCost,
   int tabuTimeLocalMin = _vecVariables.size() - 1;
   int tabuTimeSelected = std::max( 1, tabuTimeLocalMin / 2);
 
-  _varOffset = _vecVariables[0].get_id();
+  _varOffset = _vecVariables[0]._id;
   for( auto& v : _vecVariables )
-    if( v.get_id() < _varOffset )
-      _varOffset = v.get_id();
+    if( v._id < _varOffset )
+      _varOffset = v._id;
     
   _ctrOffset = _vecConstraints[0]->get_id();
   for( auto& c : _vecConstraints )
@@ -153,7 +146,6 @@ bool Solver::solve( double&	finalCost,
 #if defined(ADAPTIVE_SEARCH)
       auto worstVariableList = compute_worst_variables( freeVariables, costVariables );
       if( worstVariableList.size() > 1 )
-	// worstVariable = _objective->heuristic_variable( worstVariableList );
 	worstVariable = worstVariableList[ _random.get_random_number( worstVariableList.size() ) ];
       else
 	worstVariable = worstVariableList[0];      
@@ -183,21 +175,12 @@ bool Solver::solve( double&	finalCost,
 	  _bestSatCost = _bestSatCostOptLoop;
 
 	// freeze the variable a bit
-	_weakTabuList[ worstVariable->get_id() - _varOffset ] = tabuTimeSelected;
+	_weakTabuList[ worstVariable->_id - _varOffset ] = tabuTimeSelected;
       }
       else // local minima
 	// Mark worstVariable as weak tabu for tabuTimeLocalMin iterations.
-	_weakTabuList[ worstVariable->get_id() - _varOffset ] = tabuTimeLocalMin;
+	_weakTabuList[ worstVariable->_id - _varOffset ] = tabuTimeLocalMin;
       
-      // cout << "Opt " << optLoop << " - Sat " << satLoop << "\n";
-      // cout << "Var " << worstVariable->get_name() << "\n";
-      // for( auto& v : *_vecVariables )
-      //   cout << v.get_name() << ": " << v.get_value()
-      //        << ", " << costVariables[v.get_id()]
-      //        << ", " << costNonTabuVariables[v.get_id()]
-      //        << ", " << _weakTabuList[v.get_id()] << "\n";
-      // cout << "\n";
-
       elapsedTimeOptLoop = chrono::steady_clock::now() - startOptLoop;
       elapsedTime = chrono::steady_clock::now() - start;
     } // satisfaction loop
@@ -246,7 +229,7 @@ bool Solver::solve( double&	finalCost,
   // Useful if the user prefer to directly use the vector of Variables
   // to manipulate and exploit the solution.
   for( auto& v : _vecVariables )
-    v.set_value( finalSolution[ v.get_id() - _varOffset ] );
+    v.set_value( finalSolution[ v._id - _varOffset ] );
     
 #if defined(DEBUG) || defined(BENCH)
   cout << "############" << "\n";
@@ -303,7 +286,7 @@ void Solver::compute_variables_costs( const vector<double>&	costConstraints,
 
   for( auto& v : _vecVariables )
   {
-    id = v.get_id() - _varOffset;
+    id = v._id - _varOffset;
     int ratio = 1;//std::max( 5, (int)v.get_domain_size()/100 );
     
     for( auto& c : _mapVarCtr[ v ] )
@@ -312,9 +295,6 @@ void Solver::compute_variables_costs( const vector<double>&	costConstraints,
     // i is initialized just not to be warned by compiler
     int i = 1;
     double sum = 0.;
-
-    // int below11 = 0;
-    // int above11 = 0;
       
     if( _permutationProblem )
     {
@@ -324,10 +304,6 @@ void Solver::compute_variables_costs( const vector<double>&	costConstraints,
       {
 	otherVariable = &(_vecVariables[ _random.get_random_number( _vecVariables.size() ) ]);
 	sum += simulate_permutation_cost( &v, *otherVariable, costConstraints, currentSatCost );
-	// if( ( costVariables[ id ] / simulate_permutation_cost( &v, *otherVariable, costConstraints, currentSatCost ) ) < 1.1 )
-	//   ++below11;
-	// else
-	//   ++above11;
       }
     }
     else
@@ -340,10 +316,6 @@ void Solver::compute_variables_costs( const vector<double>&	costConstraints,
       {
 	value = domain[ _random.get_random_number( domain.size() ) ];
 	sum += simulate_local_move_cost( &v, value, costConstraints, currentSatCost );
-	// if( ( costVariables[ id ] / simulate_local_move_cost( &v, value, costConstraints, currentSatCost ) ) < 1.1 )
-	//   ++below11;
-	// else
-	//   ++above11;
       }
 	
       v.set_value( backup );
@@ -352,10 +324,7 @@ void Solver::compute_variables_costs( const vector<double>&	costConstraints,
     // sum / i is the mean
     costVariables[ id ] = fabs( costVariables[ id ] - ( sum / ratio ) );
     // costVariables[ id ] = std::max( 0., costVariables[ id ] * ( 1 - ( ( sum / ratio ) / costVariables[ id ] ) ) );
-      
-    // if( below11 > above11 )
-    // 	costVariables[ id ] = 0;
-      
+            
     if( _weakTabuList[ id ] == 0 )
       costNonTabuVariables[ id ] = costVariables[ id ];
   }
@@ -400,7 +369,7 @@ void Solver::set_initial_configuration( int samplings )
     }
 
     for( auto& v : _vecVariables )
-      v.set_value( bestValues[ v.get_id() - _varOffset ] );
+      v.set_value( bestValues[ v._id - _varOffset ] );
   }
 }
 
@@ -430,7 +399,7 @@ void Solver::update_better_configuration( double&	best,
   best = current;
 
   for( auto& v : _vecVariables )
-    configuration[ v.get_id() - _varOffset ] = v.get_value();
+    configuration[ v._id - _varOffset ] = v.get_value();
 }
 
 #if defined(ADAPTIVE_SEARCH)
@@ -444,7 +413,7 @@ vector< Variable* > Solver::compute_worst_variables( bool freeVariables,
   
   for( auto& v : _vecVariables )
   {
-    id = v.get_id() - _varOffset;
+    id = v._id - _varOffset;
     if( !freeVariables || _weakTabuList[ id ] == 0 )
     {
       if( worstVariableCost < costVariables[ id ] )
@@ -569,7 +538,7 @@ void Solver::permutation_move( Variable*	variable,
   
   for( auto& otherVariable : _vecVariables )
   {
-    if( otherVariable.get_id() == variable->get_id() )
+    if( otherVariable._id == variable->_id )
       continue;
     
     newCurrentSatCost = simulate_permutation_cost( variable, otherVariable, costConstraints, currentSatCost );
