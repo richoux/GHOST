@@ -80,7 +80,8 @@ namespace ghost
 
     int		_varOffset;		//!< Offset to shift variables id, such that the first would be shifted to 0.
     int		_ctrOffset;		//!< Same for constraints.
-
+    int		_number_variables;	//!< Size of the vector of variables.
+    
     //! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 
     class NullObjective : public Objective
     {

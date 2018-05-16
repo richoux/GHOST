@@ -40,7 +40,8 @@ Solver::Solver( vector<Variable>&		vecVariables,
     _objective		( objective ),
     _weakTabuList	( vecVariables.size() ),
     _isOptimization	( objective == nullptr ? false : true ),
-    _permutationProblem	( permutationProblem )
+    _permutationProblem	( permutationProblem ),
+    _number_variables	( vecVariables.size() )
 {
   for( auto& var : vecVariables )
     for( auto& ctr : vecConstraints )
@@ -67,7 +68,7 @@ bool Solver::solve( double&	finalCost,
   //optTimeout *= 1000;
 
   // The only parameter of Solver<Variable, Constraint>::solve outside timeouts
-  int tabuTimeLocalMin = _vecVariables.size() - 1;
+  int tabuTimeLocalMin = _number_variables - 1;
   int tabuTimeSelected = std::max( 1, tabuTimeLocalMin / 2);
 
   _varOffset = _vecVariables[0]._id;
@@ -105,12 +106,12 @@ bool Solver::solve( double&	finalCost,
   double currentSatCost;
   double currentOptCost;
   vector< double > costConstraints( _vecConstraints.size(), 0. );
-  vector< double > costVariables( _vecVariables.size(), 0. );
-  vector< double > costNonTabuVariables( _vecVariables.size(), 0. );
+  vector< double > costVariables( _number_variables, 0. );
+  vector< double > costNonTabuVariables( _number_variables, 0. );
 
   // In case finalSolution is not a vector of the correct size,
   // ie, equals to the number of variables.
-  finalSolution.resize( _vecVariables.size() );
+  finalSolution.resize( _number_variables );
   
   _bestSatCost = numeric_limits<double>::max();
   _bestOptCost = numeric_limits<double>::max();
@@ -302,7 +303,7 @@ void Solver::compute_variables_costs( const vector<double>&	costConstraints,
 	
       for( i = 0 ; i < ratio; ++i )
       {
-	otherVariable = &(_vecVariables[ _random.get_random_number( _vecVariables.size() ) ]);
+	otherVariable = &(_vecVariables[ _random.get_random_number( _number_variables ) ]);
 	sum += simulate_permutation_cost( &v, *otherVariable, costConstraints, currentSatCost );
       }
     }
@@ -342,12 +343,9 @@ void Solver::set_initial_configuration( int samplings )
     samplings = std::max( 2, samplings );
     
     double bestSatCost = numeric_limits<double>::max();
-    double bestOptCost = numeric_limits<double>::max();
-    
     double currentSatCost;
-    double currentOptCost;
 
-    vector<int> bestValues( _vecVariables.size(), 0 );
+    vector<int> bestValues( _number_variables, 0 );
     
     for( int i = 0 ; i < samplings ; ++i )
     {
@@ -358,18 +356,16 @@ void Solver::set_initial_configuration( int samplings )
       
       if( bestSatCost > currentSatCost )
 	update_better_configuration( bestSatCost, currentSatCost, bestValues );
-      else
-	if( currentSatCost == 0 )
-	  if( _isOptimization )
-	  {
-	    currentOptCost = _objective->cost( _vecVariables );
-	    if( bestOptCost > currentOptCost )
-	      update_better_configuration( bestOptCost, currentOptCost, bestValues );
-	  }
+
+      if( currentSatCost == 0. )
+	break;
     }
 
-    for( auto& v : _vecVariables )
-      v.set_value( bestValues[ v._id - _varOffset ] );
+    for( int i = 0; i < _number_variables; ++i )
+      _vecVariables[ i ].set_value( bestValues[ i ] );
+    
+    // for( auto& v : _vecVariables )
+    //   v.set_value( bestValues[ v._id - _varOffset ] );
   }
 }
 
@@ -398,8 +394,10 @@ void Solver::update_better_configuration( double&	best,
 {
   best = current;
 
-  for( auto& v : _vecVariables )
-    configuration[ v._id - _varOffset ] = v.get_value();
+  for( int i = 0; i < _number_variables; ++i )
+    configuration[ i ] = _vecVariables[ i ].get_value();
+  // for( auto& v : _vecVariables )
+  //   configuration[ v._id - _varOffset ] = v.get_value();
 }
 
 #if defined(ADAPTIVE_SEARCH)
