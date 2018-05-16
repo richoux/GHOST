@@ -58,7 +58,7 @@ namespace ghost
     static int NBER_CTR; //!< Static counter that increases each time one instanciates a Constraint object.
 
   protected:
-    const vector< reference_wrapper<Variable> >&	variables;	//!< Const reference to the vector of variable references compositing the CSP/COP.
+    const vector< reference_wrapper<Variable> >&	variables;	//!< Const reference to the vector of variable references composing the CSP/COP.
     int							id;		//!< Unique ID integer
 
     //! Pure virtual function to compute the current cost of the constraint.
