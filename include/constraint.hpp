@@ -33,6 +33,7 @@
 #include <vector>
 #include <iostream>
 #include <typeinfo>
+#include <functional>
 
 #include "variable.hpp"
 
@@ -57,8 +58,8 @@ namespace ghost
     static int NBER_CTR; //!< Static counter that increases each time one instanciates a Constraint object.
 
   protected:
-    const vector< Variable >&	variables;	//!< Const reference to the vector of variable compositing the CSP/COP.
-    int				id;		//!< Unique ID integer
+    const vector< reference_wrapper<Variable> >&	variables;	//!< Const reference to the vector of variable references compositing the CSP/COP.
+    int							id;		//!< Unique ID integer
 
     //! Pure virtual function to compute the current cost of the constraint.
     /*!
@@ -83,9 +84,9 @@ namespace ghost
   public:
     //! Unique constructor
     /*!
-     * \param variables A const reference to a vector of variables composing the constraint.
+     * \param variables A const reference to a vector of variable references composing the constraint.
      */
-    Constraint( const vector< Variable >& variables );
+    Constraint( const vector< reference_wrapper<Variable> >& variables );
 
     //! Default copy contructor.
     Constraint( const Constraint& other ) = default;
