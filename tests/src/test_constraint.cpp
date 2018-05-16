@@ -3,6 +3,7 @@
 #include <gmock/gmock.h>
 
 #include <vector>
+#include <functional>
 
 class MyConstraint : public ghost::Constraint
 {
@@ -14,10 +15,12 @@ class MyConstraint : public ghost::Constraint
 public:
   MyConstraint() = default;
   
-  MyConstraint( std::vector< ghost::Variable > variables )
+  MyConstraint( const std::vector< std::reference_wrapper<ghost::Variable> >& variables )
     : Constraint( variables ) {}
 
-  const ghost::Variable& get_var( int index ) const { return variables[index]; }
+  ghost::Variable& get_var( int index ) const { return variables[index]; }
+  int number_variables() const { return variables.size(); }
+  
 };
 
 class ConstraintTest : public ::testing::Test
@@ -27,8 +30,8 @@ public:
   ghost::Variable var2;
   ghost::Variable var3;
 
-  vector< ghost::Variable > vec1;
-  vector< ghost::Variable > vec2;
+  vector< std::reference_wrapper<ghost::Variable> > vec1;
+  vector< std::reference_wrapper<ghost::Variable> > vec2;
   
   MyConstraint *ctr1;
   MyConstraint *ctr2;
@@ -74,10 +77,11 @@ TEST_F(ConstraintTest, Copy)
 
   EXPECT_EQ( ctr1->get_var(0).get_id(), ctr_copy1.get_var(0).get_id() );
   EXPECT_EQ( ctr1->get_var(0).get_value(), ctr_copy1.get_var(0).get_value() );
-  // ctr1->get_var(0).set_value( 5 );
-  // ctr_copy1.get_var(0).set_value( 3 );
-  // EXPECT_EQ( ctr1->get_var(0).get_value(), 3 );
-  // EXPECT_EQ( ctr_copy1.get_var(0).get_value(), 3 );
+
+  ctr1->get_var(0).set_value( 5 );
+  ctr_copy1.get_var(0).set_value( 3 );
+  EXPECT_EQ( ctr1->get_var(0).get_value(), 3 );
+  EXPECT_EQ( ctr_copy1.get_var(0).get_value(), 3 );
 }
 
 TEST_F(ConstraintTest, has_variable)
