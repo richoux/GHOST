@@ -288,7 +288,7 @@ void Solver::compute_variables_costs( const vector<double>&	costConstraints,
   for( auto& v : _vecVariables )
   {
     id = v._id - _varOffset;
-    int ratio = 1;//std::max( 5, (int)v.get_domain_size()/100 );
+    int ratio = std::max( 5, (int)v.get_domain_size()/100 );
     
     for( auto& c : _mapVarCtr[ v ] )
       costVariables[ id ] += costConstraints[ c->get_id() - _ctrOffset ];
@@ -323,8 +323,8 @@ void Solver::compute_variables_costs( const vector<double>&	costConstraints,
     }
       
     // sum / i is the mean
-    costVariables[ id ] = fabs( costVariables[ id ] - ( sum / ratio ) );
-    // costVariables[ id ] = std::max( 0., costVariables[ id ] * ( 1 - ( ( sum / ratio ) / costVariables[ id ] ) ) );
+    // costVariables[ id ] = fabs( costVariables[ id ] - ( sum / ratio ) );
+    costVariables[ id ] = std::max( 0., costVariables[ id ] * ( ( sum / ratio ) / currentSatCost ) );
             
     if( _weakTabuList[ id ] == 0 )
       costNonTabuVariables[ id ] = costVariables[ id ];
