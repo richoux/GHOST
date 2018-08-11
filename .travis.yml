@@ -3,7 +3,7 @@ language: cpp
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+      #- ubuntu-toolchain-r-test
       - llvm-toolchain-precise-3.9
     packages:
       - g++-6
