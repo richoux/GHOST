@@ -8,7 +8,6 @@ doc/latex
 doc/.zcache
 
 # CMake builds
-build*
 release*
 debug*
 
