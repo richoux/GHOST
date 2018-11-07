@@ -7,6 +7,7 @@ DEBUG="debug"
 OSX="_osx"
 BACKPWD="$PWD"
 ADAPTIVE=""
+CXX="g++"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -18,6 +19,7 @@ if [ "$OS" == "Darwin" ]; then
     RELEASE="$RELEASE$OSX"
     RELEASEBENCH="$RELEASEBENCH$OSX"
     DEBUG="$DEBUG$OSX"
+    CXX="clang++"
 fi
 
 function usage()
@@ -30,7 +32,7 @@ function release()
 {
     mkdir -p $RELEASE
     cd $RELEASE
-    cmake -DCMAKE_BUILD_TYPE=Release $ADAPTIVE ..
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=$CXX $ADAPTIVE ..
     make
     sudo make install
 }
@@ -39,7 +41,7 @@ function debug()
 {
     mkdir -p $DEBUG
     cd $DEBUG
-    cmake -DCMAKE_BUILD_TYPE=Debug $ADAPTIVE ..
+    cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=$CXX $ADAPTIVE ..
     make
     sudo make install
 }
@@ -48,7 +50,7 @@ function bench()
 {
     mkdir -p $RELEASEBENCH
     cd $RELEASEBENCH
-    cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo $ADAPTIVE ..
+    cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_COMPILER=$CXX $ADAPTIVE ..
     make
     sudo make install    
 }
