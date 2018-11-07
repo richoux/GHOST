@@ -102,6 +102,9 @@ function first_compile()
     if [ "$OS" == "Linux" ]; then
 	echo -e "\n\n${RED}>>> If you compile ${GREEN}GHOST${RED} for the ${CYAN}first time${RED}, you probably need to run the following command: ${ORANGE}sudo ldconfig${NC}"
     fi
+    if [ "$OS" == "Darwin" ]; then
+	echo -e "\n\n${RED}>>> If you compile ${GREEN}GHOST${RED} for the ${CYAN}first time${RED}, you probably need to run the following command: ${ORANGE}sudo update_dyld_shared_cache${NC}"
+    fi
 }
 
 if [ $# -gt 2 ]; then
