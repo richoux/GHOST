@@ -1,31 +1,40 @@
 language: cpp
 
-addons:
-  apt:
-    sources:
-      #- ubuntu-toolchain-r-test
-      - llvm-toolchain-precise-3.9
-    packages:
-      #- g++-6
-      #- clang-3.9
-
 matrix:
   include:
+    # Ubuntu 14.04 Trusty with gcc
     - os: linux
       dist: trusty
       sudo: required
-      compiler: gcc
-      #env: COMPILER=g++-6
+      addons:
+        apt:
+    	  sources:
+      	    - ubuntu-toolchain-r-test
+    	  packages:
+      	    - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
+    # Ubuntu 14.04 Trusty with clang
+    - os: linux
+      dist: trusty
+      sudo: required
+      addons:
+        apt:
+    	  sources:
+      	    - llvm-toolchain-trusty-5.0
+    	  packages:
+      	    - clang-5.0
+      env:
+        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+
+    # Mac OSX
     - os: osx
       osx_image: xcode8
-      compiler: clang
-      #env: COMPILER=clang++-3.9
-
-before_script:
-  #- if [ "$COMPILER" = "g++-6"        ]; then export CXX="g++-6" CC="gcc-6";     fi
-  #- if [ "$COMPILER" = "clang++-3.9" ]; then export CXX="clang++" CC="clang";    fi
-
+        
+before_install:
+    - eval "${MATRIX_EVAL}"
+    
 script:
   - echo $CXX
   - $CXX --version
