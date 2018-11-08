@@ -6,8 +6,8 @@ addons:
       #- ubuntu-toolchain-r-test
       - llvm-toolchain-precise-3.9
     packages:
-      - g++-6
-      - clang-3.9
+      #- g++-6
+      #- clang-3.9
 
 matrix:
   include:
@@ -15,16 +15,16 @@ matrix:
       dist: trusty
       sudo: required
       compiler: gcc
-      env: COMPILER=g++-6
+      #env: COMPILER=g++-6
 
     - os: osx
       osx_image: xcode8
       compiler: clang
-      env: COMPILER=clang++-3.9
+      #env: COMPILER=clang++-3.9
 
 before_script:
-  - if [ "$COMPILER" = "g++-6"        ]; then export CXX="g++-6" CC="gcc-6";     fi
-  - if [ "$COMPILER" = "clang++-3.9" ]; then export CXX="clang++" CC="clang";    fi
+  #- if [ "$COMPILER" = "g++-6"        ]; then export CXX="g++-6" CC="gcc-6";     fi
+  #- if [ "$COMPILER" = "clang++-3.9" ]; then export CXX="clang++" CC="clang";    fi
 
 script:
   - echo $CXX
