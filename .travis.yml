@@ -47,16 +47,16 @@ script:
   - cmake ..
   - make
   - sudo cp -r ../include/gtest /usr/local/include
-  - sudo cp libgtest_main.a libgtest.a /usr/local/lib/
+  - sudo cp lib/libgtest_main.a lib/libgtest.a /usr/local/lib/
   - cd ../..
 
 # install GMock
   - cd googlemock
-  - mkdir build ; cd build
-  - cmake ..
-  - make
+#  - mkdir build ; cd build
+#  - cmake ..
+#  - make
   - sudo cp -r ../include/gmock /usr/local/include
-  - sudo cp libgmock_main.a libgmock.a /usr/local/lib/
+#  - sudo cp libgmock_main.a libgmock.a /usr/local/lib/
   - cd ../../..
 
 # install GHOST
@@ -79,5 +79,6 @@ script:
 branches:
   only:
     - master
+		- develop
     - adaptive_search
     - develop
