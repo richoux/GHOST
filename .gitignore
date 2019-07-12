@@ -16,3 +16,7 @@ tests/build*
 tests/release*
 tests/debug*
 tests/bin
+
+# tutorial obj and bin
+tutorial/obj/*
+tutorial/bin/*
