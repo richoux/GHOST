@@ -8,9 +8,9 @@ matrix:
       sudo: required
       addons:
         apt:
-    	  sources:
+    	    sources:
       	    - ubuntu-toolchain-r-test
-    	  packages:
+    	    packages:
       	    - g++-7
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
@@ -21,9 +21,9 @@ matrix:
       sudo: required
       addons:
         apt:
-    	  sources:
+    	    sources:
       	    - llvm-toolchain-trusty-5.0
-    	  packages:
+    	    packages:
       	    - clang-5.0
       env:
         - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
@@ -43,7 +43,7 @@ script:
 
 # install GTest
   - cd googletest/googletest
-  - mkdir build ; cd build
+  - mkdir -p build ; cd build
   - cmake ..
   - make
   - sudo cp -r ../include/gtest /usr/local/include
@@ -52,7 +52,7 @@ script:
 
 # install GMock
   - cd googlemock
-#  - mkdir build ; cd build
+  - mkdir -p build ; cd build
 #  - cmake ..
 #  - make
   - sudo cp -r ../include/gmock /usr/local/include
@@ -61,17 +61,15 @@ script:
 
 # install GHOST
   - export LD_LIBRARY_PATH=/usr/local/lib/
-  - mkdir build
-  - cd build
+  - mkdir -p build ; cd build
   - cmake ..
   - make VERBOSE=1
   - sudo make install
   - cd ..
 
 # make and run tests
-  - cd tests  
-  - mkdir build
-  - cd build
+  - mkdir -p tests ; cd tests  
+  - mkdir -p build ; cd build
   - cmake ..
   - make
   - cd ../bin && for i in $(ls); do ./$i; done
@@ -79,6 +77,5 @@ script:
 branches:
   only:
     - master
-		- develop
-    - adaptive_search
     - develop
+    - adaptive_search
