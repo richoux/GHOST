@@ -20,18 +20,6 @@
 #include "at_least.hpp"
 #endif
 
-/*
- * To change:
- *
- * var ctor (2 names)
- * var_p.end() 
- * solver(var_not_ref)
- * solver timeouts
- * in the objective: no var_ref, no .get()
- * in capacity: braces after +=
- */
-
-
 int main()
 {
 /*
