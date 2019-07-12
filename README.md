@@ -7,7 +7,7 @@ GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library design
 
 ## License
 
-GHOST is under the term of the GNU GPL v3 license. Dual-licenses are possibles (see the [dual-license wiki section](https://github.com/richoux/GHOST/wiki/1.-Introduction#possibilities-for-dual-license)).
+GHOST is under the term of the GNU GPL v3 license. Dual-licenses are possible (see the [dual-license wiki section](https://github.com/richoux/GHOST/wiki/1.-Introduction#possibilities-for-dual-license)).
 
 ## Code documentation
 
