@@ -34,12 +34,12 @@ script:
 
 # install GTest
   - cd googletest/googletest
-  - mkdir build ; cd build
+  - mkdir -p build ; cd build
   - cmake ..
   - make all
   - sudo cp -r ../include/gtest /usr/local/include
   - sudo cp lib/libgtest_main.a lib/libgtest.a /usr/local/lib/
-  - cd ../..
+  - cd ../../..
 
 # install GMock
 #  - cd googlemock
@@ -52,7 +52,7 @@ script:
 
 # install GHOST
   - export LD_LIBRARY_PATH=/usr/local/lib/
-  - mkdir build
+  - mkdir -p build
   - cd build
   - cmake ..
   - make VERBOSE=1
@@ -60,8 +60,9 @@ script:
   - cd ..
 
 # make and run tests
+  - mkdir -p tests
   - cd tests  
-  - mkdir build
+  - mkdir -p build
   - cd build
   - cmake ..
   - make
