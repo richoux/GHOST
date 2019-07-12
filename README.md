@@ -3,13 +3,20 @@ GHOST
 
 [![Build Status](https://travis-ci.org/richoux/GHOST.svg?branch=master)](https://travis-ci.org/richoux/GHOST)
 
-GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library, under the terms of the GNU GPL v3 licence, designed to help developers to model and implement optimization problem solving. It contains a meta-heuristic solver aiming to solve any kind of combinatorial and optimization real-time problems represented by a CSP/COP.
+GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library designed to help developers to model and implement optimization problem solving. It contains a meta-heuristic solver aiming to solve any kind of combinatorial and optimization real-time problems represented by a Constraint Satisfaction Problem (CSP), a Contrained Optimization Problem (COP) or a Cost Function Network (CFN).
 
-GHOST has been first developped to help making AI for the RTS game StarCraft: Brood war, but can be used for any kind of applications where solving combinatorial and optimization problems within some tenth of milliseconds is needed. It is a generalization of the Wall-in project (see [github.com/richoux/Wall-in](https://github.com/richoux/Wall-in)).
+## License
 
-Please visit [richoux.github.io/GHOST](http://richoux.github.io/GHOST) for:
+GHOST is under the term of the GNU GPL v3 license. Dual-licenses are possibles (see the [https://github.com/richoux/GHOST/wiki/1.-Introduction#possibilities-for-dual-license](dual-license wiki section)).
 
-  - A short introduction to CSP (Constraint Satisfaction Problems) and COP (Constraint Optimization Problems)
-  - How to use GHOST
-  - How to define and solve your own CSP/COP problem with GHOST
-  - The full GHOST doxygen documentation.
+## Code documentation
+
+Please visit [richoux.github.io/GHOST](richoux.github.io/GHOST) for the full Doxygen documentation.
+
+## How to install
+
+Installation steps for GNU/Linux, OSX and Windows can be found here: [https://github.com/richoux/GHOST/wiki/2.-How-to-install](wiki How to install).
+
+## User manual
+
+For a short tutorial on Constraint Programming and the 'How to use GHOST' section, please visit the [https://github.com/richoux/GHOST/wiki](user manual).
