@@ -7,16 +7,16 @@ GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library design
 
 ## License
 
-GHOST is under the term of the GNU GPL v3 license. Dual-licenses are possibles (see the [https://github.com/richoux/GHOST/wiki/1.-Introduction#possibilities-for-dual-license](dual-license wiki section)).
+GHOST is under the term of the GNU GPL v3 license. Dual-licenses are possibles (see the [dual-license wiki section](https://github.com/richoux/GHOST/wiki/1.-Introduction#possibilities-for-dual-license)).
 
 ## Code documentation
 
-Please visit [richoux.github.io/GHOST](richoux.github.io/GHOST) for the full Doxygen documentation.
+Please visit [richoux.github.io/GHOST](https://richoux.github.io/GHOST) for the full Doxygen documentation.
 
 ## How to install
 
-Installation steps for GNU/Linux, OSX and Windows can be found here: [https://github.com/richoux/GHOST/wiki/2.-How-to-install](wiki How to install).
+Installation steps for GNU/Linux, OSX and Windows can be found here: [wiki How to install](https://github.com/richoux/GHOST/wiki/2.-How-to-install).
 
 ## User manual
 
-For a short tutorial on Constraint Programming and the 'How to use GHOST' section, please visit the [https://github.com/richoux/GHOST/wiki](user manual).
+For a short tutorial on Constraint Programming and the 'How to use GHOST' section, please visit the [user manual](https://github.com/richoux/GHOST/wiki).
