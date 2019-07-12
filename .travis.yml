@@ -3,9 +3,15 @@ language: cpp
 addons:
   apt:
     sources:
+      # for g++
       - ubuntu-toolchain-r-test
+      # for CMake
+      - george-edison55-precise-backports
+      # for clang stdlib
 #      - llvm-toolchain-precise-3.9
     packages:
+      - cmake-data
+      - cmake
 #      - g++-6
 #      - clang-3.9
 
@@ -15,14 +21,19 @@ matrix:
       dist: trusty
       sudo: required
       compiler: 
-        - gcc
+        - g++-7
 #        - clang
 #      env: COMPILER=g++-6
+      env: 
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
     - os: osx
-      osx_image: xcode8
-      compiler: clang
+      osx_image: xcode10.1
+#      compiler: clang
 #      env: COMPILER=clang++-3.9
+
+before_install:
+    - eval "${MATRIX_EVAL}"
 
 before_script:
 #  - if [ "$COMPILER" = "g++-6"        ]; then export CXX="g++-6" CC="gcc-6";     fi
