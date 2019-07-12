@@ -39,16 +39,16 @@ script:
   - make all
   - sudo cp -r ../include/gtest /usr/local/include
   - sudo cp lib/libgtest_main.a lib/libgtest.a /usr/local/lib/
-  - cd ../../..
+  - cd ../..
 
 # install GMock
-#  - cd googlemock
-#  - mkdir build ; cd build
+  - cd googlemock
+  - mkdir -p build ; cd build
 #  - cmake ..
 #  - make
-#  - sudo cp -r ../include/gmock /usr/local/include
+  - sudo cp -r ../include/gmock /usr/local/include
 #  - sudo cp lib/libgmock_main.a lib/libgmock.a /usr/local/lib/
-#  - cd ../../..
+  - cd ../../..
 
 # install GHOST
   - export LD_LIBRARY_PATH=/usr/local/lib/
