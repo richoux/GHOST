@@ -79,6 +79,6 @@ script:
 branches:
   only:
     - master
-		- develop
+    - develop
     - adaptive_search
     - develop
