@@ -8,12 +8,12 @@ addons:
       # for CMake
       - george-edison55-precise-backports
       # for clang stdlib
-#      - llvm-toolchain-precise-3.9
+      - llvm-toolchain-precise-4
     packages:
       - cmake-data
       - cmake
-#      - g++-6
-#      - clang-3.9
+      - g++-6
+      - clang-4
 
 matrix:
   include:
@@ -21,23 +21,24 @@ matrix:
       dist: trusty
       sudo: required
       compiler: 
-        - g++-7
+        - g++
 #        - clang
-#      env: COMPILER=g++-6
+#      env: 
       env: 
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - COMPILER=g++-6
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
 
     - os: osx
-      osx_image: xcode10.1
-#      compiler: clang
-#      env: COMPILER=clang++-3.9
+      osx_image: xcode9.4
+      compiler: clang
+      env: COMPILER=clang++-4
 
 before_install:
     - eval "${MATRIX_EVAL}"
 
 before_script:
-#  - if [ "$COMPILER" = "g++-6"        ]; then export CXX="g++-6" CC="gcc-6";     fi
-#  - if [ "$COMPILER" = "clang++-3.9" ]; then export CXX="clang++" CC="clang";    fi
+  - if [ "$COMPILER" = "g++-6"        ]; then export CXX="g++-6" CC="gcc-6";     fi
+  - if [ "$COMPILER" = "clang++-4" ]; then export CXX="clang++" CC="clang";    fi
 
 script:
   - echo $CXX
