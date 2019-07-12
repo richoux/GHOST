@@ -37,7 +37,7 @@ script:
   - mkdir build ; cd build
   - cmake ..
   - make all
-	- ls ../CMakeFiles/gtest.dir
+  - ls ../CMakeFiles/gtest.dir
   - sudo cp -r ../include/gtest /usr/local/include
   - sudo cp lib/libgtest_main.a lib/libgtest.a /usr/local/lib/
   - cd ../..
