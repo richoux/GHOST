@@ -25,7 +25,7 @@ endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
-# Switch between Cuplrit Search (default) and Adaptive Search algorithms
+# Switch between Culprit Search (default) and Adaptive Search algorithms
 option(ADAPTIVE_SEARCH "Enable Adaptive Search algorithm" OFF)
 if(ADAPTIVE_SEARCH)
   add_definitions(-DADAPTIVE_SEARCH)
