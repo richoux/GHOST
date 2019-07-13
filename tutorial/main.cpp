@@ -82,9 +82,9 @@ int main()
 	double cost = 0.;
 	std::vector<int> solution( variables_ref.size(), 0 );
 
-// Run the solver with a 100 milliseconds budget
-// After 100 milliseconds, the solver will write in cost and solution the best solution it has found.
-	solver.solve( cost, solution, 10000, 100000 );
+// Run the solver with a 300 microseconds budget (i.e., 0.3 millisecond)
+// After 0.3 millisecond, the solver will write in cost and solution the best solution it has found.
+	solver.solve( cost, solution, 30, 300 );
 
 	std::cout << "Cost: " << cost << "\nSolution:";
 	for( auto v : solution )
