@@ -68,7 +68,7 @@ bool Solver::solve( double&	finalCost,
 	//optTimeout *= 1000;
 
 	// The only parameter of Solver<Variable, Constraint>::solve outside timeouts
-	int tabuTimeLocalMin = _number_variables - 1;
+	int tabuTimeLocalMin = std::max( 1, _number_variables / 2); // _number_variables - 1;
 	int tabuTimeSelected = std::max( 1, tabuTimeLocalMin / 2);
 
 	_varOffset = _vecVariables[0]._id;
