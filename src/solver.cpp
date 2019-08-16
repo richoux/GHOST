@@ -210,7 +210,8 @@ bool Solver::solve( double&	finalCost,
     
 		elapsedTime = chrono::steady_clock::now() - start;
 	} // optimization loop
-	while( elapsedTime.count() < optTimeout && _isOptimization );
+	//while( elapsedTime.count() < optTimeout );
+	while( elapsedTime.count() < optTimeout && ( _isOptimization || _bestOptCost > 0. ) );
 
 	if( _bestSatCost == 0. && _isOptimization )
 	{
