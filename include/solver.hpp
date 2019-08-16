@@ -121,7 +121,10 @@ namespace ghost
 
 		//! Sample an configuration
 		void monte_carlo_sampling();
-    
+
+		//! Sample an configuration for permutation problems
+		void random_permutations();
+
 		//! Decreasing values in tabuList
 		/*!
 		 * \param freeVariables is set to true if there is at least one free variable, ie, untabu. 

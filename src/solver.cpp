@@ -123,7 +123,14 @@ bool Solver::solve( double&	finalCost,
 
 		// start from a random configuration
 		set_initial_configuration( 10 );
-    
+
+#if defined(DEBUG)
+		cout << "Generate new config:\n";
+		for( auto& v : _vecVariables )
+			cout << v.get_value() << " ";
+		cout << "\n";
+#endif
+		
 		// Reset weak tabu list
 		fill( _weakTabuList.begin(), _weakTabuList.end(), 0 );
 
@@ -342,39 +349,69 @@ void Solver::compute_variables_costs( const vector<double>&	costConstraints,
 
 void Solver::set_initial_configuration( int samplings )
 {
-	if( samplings == 1 )
+	if( !_permutationProblem )
 	{
-		monte_carlo_sampling();
+		if( samplings == 1 )
+		{
+			monte_carlo_sampling();
+		}
+		else
+		{
+			// To avoid weird samplings numbers like 0 or -1
+			samplings = std::max( 2, samplings );
+    
+			double bestSatCost = numeric_limits<double>::max();
+			double currentSatCost;
+
+			vector<int> bestValues( _number_variables, 0 );
+    
+			for( int i = 0 ; i < samplings ; ++i )
+			{
+				monte_carlo_sampling();
+				currentSatCost = 0.;
+				for( auto& c : _vecConstraints )
+					currentSatCost += c->cost();
+      
+				if( bestSatCost > currentSatCost )
+					update_better_configuration( bestSatCost, currentSatCost, bestValues );
+
+				if( currentSatCost == 0. )
+					break;
+			}
+
+			for( int i = 0; i < _number_variables; ++i )
+				_vecVariables[ i ].set_value( bestValues[ i ] );
+    
+			// for( auto& v : _vecVariables )
+			//   v.set_value( bestValues[ v._id - _varOffset ] );
+		}
 	}
 	else
 	{
 		// To avoid weird samplings numbers like 0 or -1
-		samplings = std::max( 2, samplings );
-    
+		samplings = std::max( 1, samplings );
+		
 		double bestSatCost = numeric_limits<double>::max();
 		double currentSatCost;
-
+		
 		vector<int> bestValues( _number_variables, 0 );
-    
+		
 		for( int i = 0 ; i < samplings ; ++i )
 		{
-			monte_carlo_sampling();
+			random_permutations();
 			currentSatCost = 0.;
 			for( auto& c : _vecConstraints )
 				currentSatCost += c->cost();
-      
+			
 			if( bestSatCost > currentSatCost )
 				update_better_configuration( bestSatCost, currentSatCost, bestValues );
-
+			
 			if( currentSatCost == 0. )
 				break;
 		}
-
+		
 		for( int i = 0; i < _number_variables; ++i )
 			_vecVariables[ i ].set_value( bestValues[ i ] );
-    
-		// for( auto& v : _vecVariables )
-		//   v.set_value( bestValues[ v._id - _varOffset ] );
 	}
 }
 
@@ -382,6 +419,21 @@ void Solver::monte_carlo_sampling()
 {
 	for( auto& v : _vecVariables )
 		v.do_random_initialization();
+}
+
+void Solver::random_permutations()
+{
+	for( unsigned int i = 0; i < _vecVariables.size() - 1; ++i )
+		for( unsigned int j = i + 1; j < _vecVariables.size(); ++j )
+		{
+			int domain_size = _vecVariables[i].get_domain_size();
+			// About 50% to do a swap for each couple (var_i, var_j)
+			if( _random.get_random_number( domain_size ) > ( domain_size / 2 ) )
+			{
+				std::swap( _vecVariables[i]._index, _vecVariables[j]._index );
+				std::swap( _vecVariables[i]._cache_value, _vecVariables[j]._cache_value );
+			}
+		}
 }
 
 void Solver::decay_weak_tabu_list( bool& freeVariables ) 
@@ -578,21 +630,30 @@ void Solver::permutation_move( Variable*	variable,
 	// int tmp = variable->get_value();
 	// variable->set_value( bestVarToSwap.get_value() );
 	// bestVarToSwap.set_value( tmp );
-	std::swap( variable->_index, bestVarToSwap._index );
-	std::swap( variable->_cache_value, bestVarToSwap._cache_value );
+
+	// TO FIX: Hack to avoid weird behavior due to Variable copy
+	unsigned int index = 0;
+	for( ; index < _vecVariables.size(); ++index )
+	{
+		if( _vecVariables[index]._id == bestVarToSwap._id )
+			break;
+	}
+	
+	std::swap( variable->_index, _vecVariables[index]._index );
+	std::swap( variable->_cache_value, _vecVariables[index]._cache_value );
 
 	currentSatCost = bestCost;
-	vector<bool> compted( costConstraints.size(), false );
+	// vector<bool> compted( costConstraints.size(), false );
   
-	for( auto& c : _mapVarCtr[ *variable ] )
-	{
-		newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() - _ctrOffset ] );
-		compted[ c->get_id() - _ctrOffset ] = true;
-	}
+	// for( auto& c : _mapVarCtr[ *variable ] )
+	// {
+	// 	newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() - _ctrOffset ] );
+	// 	compted[ c->get_id() - _ctrOffset ] = true;
+	// }
   
-	for( auto& c : _mapVarCtr[ bestVarToSwap ] )
-		if( !compted[ c->get_id() - _ctrOffset ] )
-			newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() - _ctrOffset ] );
+	// for( auto& c : _mapVarCtr[ bestVarToSwap ] )
+	// 	if( !compted[ c->get_id() - _ctrOffset ] )
+	// 		newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() - _ctrOffset ] );
 
-	compute_variables_costs( costConstraints, costVariables, costNonTabuVariables, newCurrentSatCost );
+	// compute_variables_costs( costConstraints, costVariables, costNonTabuVariables, newCurrentSatCost );
 }
