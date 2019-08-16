@@ -171,10 +171,18 @@ bool Solver::solve( double&	finalCost,
 			if( _bestSatCostOptLoop > currentSatCost )
 			{
 				_bestSatCostOptLoop = currentSatCost;
-
+#if defined(DEBUG)
+				cout << "New cost: " << currentSatCost << ", Config:\n";
+				for( auto& v : _vecVariables )
+					cout << v.get_value() << " ";
+				cout << "\n";
+#endif
 				if( _bestSatCost >= _bestSatCostOptLoop )
+				{
 					_bestSatCost = _bestSatCostOptLoop;
-
+					for( auto& v : _vecVariables )
+						finalSolution[ v._id - _varOffset ] = v.get_value();
+				}
 				// freeze the variable a bit
 				_weakTabuList[ worstVariable->_id - _varOffset ] = tabuTimeSelected;
 			}
@@ -231,7 +239,7 @@ bool Solver::solve( double&	finalCost,
 	// to manipulate and exploit the solution.
 	for( auto& v : _vecVariables )
 		v.set_value( finalSolution[ v._id - _varOffset ] );
-    
+
 #if defined(DEBUG) || defined(BENCH)
 	cout << "############" << "\n";
       
