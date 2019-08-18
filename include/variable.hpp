@@ -159,7 +159,7 @@ namespace ghost
      * \return a size_t equals to size of the domain of the variable.
      * \sa Domain
      */
-    inline size_t get_domain_size() { return _domain.get_size(); }
+    inline size_t get_domain_size() const { return _domain.get_size(); }
 
     //! Inline function to get the variable name.
     inline string get_name() const { return _name; }
