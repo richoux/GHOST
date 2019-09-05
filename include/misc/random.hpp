@@ -31,6 +31,8 @@
 #pragma once
 
 #include <random>
+#include <array>
+#include <functional>
 #include <algorithm>
 
 using namespace std;
@@ -49,27 +51,32 @@ namespace ghost
    */
   class Random
   {
-    random_device				_rd;
-    mutable mt19937				_rng;
+	  random_device rd;
+	  mutable mt19937 _rng;
+
     mutable uniform_int_distribution<int>	_unif_dist;
 
     //! Only used for the copy-and-swap idiom.
     /*!
      * \sa operator=
      */
-    void swap( Random &other )
-    {
-      std::swap( this->_rng, other._rng );
-    }  
+    inline void swap( Random &other ) { std::swap( this->_rng, other._rng ); }  
 
   public:
     //! Unique construtor.
-    Random() : _rng( _rd() ) { }
+	  Random() : _rng( rd() )
+	  {
+		  // array<int, mt19937::state_size> seed_data;
+		  // random_device rd;
+		  // std::generate_n( seed_data.data(), seed_data.size(), std::ref( rd ) );
+		  // seed_seq seq( seed_data.begin(), seed_data.end() );
+		  // _rng = mt19937( seq );
+	  }
 
     //! Unique copy constructor.
     Random( const Random &other )
-      : _rng( _rd() )
-    { }
+	    : _rng( other._rng )
+	  { }
     
     //! Copy assignment operator following the copy-and-swap idiom.
     Random& operator=( Random other )
