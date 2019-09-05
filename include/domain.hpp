@@ -142,6 +142,20 @@ namespace ghost
     }
 
     /*!
+     * Return the minimal value in the domain
+     * 
+     * \return The minimal value in the domain.
+     */    
+	  inline int get_min_value() const { return _minValue; }
+
+	  /*!
+     * Return the maximal value in the domain
+     * 
+     * \return The maximal value in the domain.
+     */    
+	  inline int get_max_value() const { return _maxValue; }
+
+	  /*!
      * Inline function to get the full domain.
      *
      * \return A const reference to the vector of integer within Domain representing the domain.
