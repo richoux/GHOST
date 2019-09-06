@@ -125,6 +125,10 @@ bool Solver::solve( double&	finalCost,
 		// start from a random configuration, if no_random_starting_point is false
 		if( !no_random_starting_point )
 			set_initial_configuration( 10 );
+		else
+			// From the second turn in this loop, start from a random configuration
+			// TODO: What if the user REALLY wants to start searching from his/her own starting point?
+			no_random_starting_point = false;
 
 #if defined(DEBUG)
 		cout << "Generate new config:\n";
