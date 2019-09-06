@@ -262,7 +262,7 @@ bool Solver::solve( double&	finalCost,
 	else
 		cout << "OPTIMIZATION run with objective " << _objective->get_name() << "\n";
 
-	cout << "Elapsed time: " << elapsedTime.count() / 1000 << "\n"
+	cout << "Elapsed time: " << elapsedTime.count() / 1000 << "ms\n"
 	     << "Satisfaction cost: " << _bestSatCost << "\n"
 	     << "Number of optization loops: " << optLoop << "\n"
 	     << "Number of satisfaction loops: " << satLoop << "\n";
