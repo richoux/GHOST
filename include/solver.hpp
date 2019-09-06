@@ -77,7 +77,7 @@ namespace ghost
 		double	_bestOptCost;		//!< The optimization cost of the best solution.
 		bool	_isOptimization;	//!< A boolean to know if it is a satisfaction or optimization run.
 		bool	_permutationProblem;	//!< A boolean to know if it is a permutation problem or not.
-
+		
 		int		_varOffset;		//!< Offset to shift variables id, such that the first would be shifted to 0.
 		int		_ctrOffset;		//!< Same for constraints.
 		int		_number_variables;	//!< Size of the vector of variables.
@@ -241,8 +241,13 @@ namespace ghost
 		 * \param finalSolution The configuration of the best solution found, ie, a reference to the vector of assignements of each variable.
 		 * \param sat_timeout The satisfaction timeout in milliseconds.
 		 * \param opt_timeout The optimization timeout in milliseconds (optionnal, equals to 10 times sat_timeout is not set).
+		 * \param no_random_starting_point A Boolean to indicate if the solver should not start from a random starting point. This is necessary in particular to use the resume feature.
 		 * \return True iff a solution has been found.
 		 */
-		bool solve( double& finalCost, vector<int>& finalSolution, double sat_timeout, double opt_timeout = 0. );
+		bool solve( double& finalCost,
+		            vector<int>& finalSolution,
+		            double sat_timeout,
+		            double opt_timeout = 0.,
+		            bool no_random_starting_point = false );
 	};
 }

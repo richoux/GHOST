@@ -59,7 +59,8 @@ Solver::Solver( vector<Variable>&		vecVariables,
 bool Solver::solve( double&	finalCost,
                     vector<int>& finalSolution,
                     double	satTimeout,
-                    double	optTimeout )
+                    double	optTimeout,
+                    bool no_random_starting_point )
 {
 	//satTimeout *= 1000; // timeouts in microseconds
 	if( optTimeout == 0 )
@@ -121,8 +122,9 @@ bool Solver::solve( double&	finalCost,
 		startOptLoop = chrono::steady_clock::now();
 		++optLoop;
 
-		// start from a random configuration
-		set_initial_configuration( 10 );
+		// start from a random configuration, if no_random_starting_point is false
+		if( !no_random_starting_point )
+			set_initial_configuration( 10 );
 
 #if defined(DEBUG)
 		cout << "Generate new config:\n";
