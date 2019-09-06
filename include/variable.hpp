@@ -166,14 +166,14 @@ namespace ghost
      * \return the minimal value in the variable's domain.
      * \sa Domain
      */
-    inline int get_min_value() const { return _domain.get_min_value(); }
+    inline int get_domain_min_value() const { return _domain.get_min_value(); }
 
 	  //! Inline function returning the maximal value in the variable's domain.
     /*! 
      * \return the maximal value in the variable's domain.
      * \sa Domain
      */
-    inline int get_max_value() const { return _domain.get_max_value(); }
+    inline int get_domain_max_value() const { return _domain.get_max_value(); }
 
     //! Inline function to get the variable name.
     inline string get_name() const { return _name; }
