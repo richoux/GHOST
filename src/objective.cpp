@@ -63,12 +63,12 @@ int Objective::expert_heuristic_value( const vector< Variable >&	variables,
   
   var.set_value( backup );
   
-  return bestValues[ random.get_random_number( bestValues.size() ) ];
+  return rng.pick( bestValues );
 }
   
 Variable Objective::expert_heuristic_value( const vector< Variable >& bad_variables ) const
 {
-  return bad_variables[ random.get_random_number( bad_variables.size() ) ];
+	return rng.pick( bad_variables );
 }
  
 void Objective::expert_postprocess_satisfaction( vector< Variable >&	variables,

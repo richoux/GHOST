@@ -35,7 +35,7 @@
 #include <vector>
 
 #include "variable.hpp"
-#include "misc/random.hpp"
+#include "misc/randutils.hpp"
 
 using namespace std;
 
@@ -59,7 +59,8 @@ namespace ghost
   {
   protected:
     
-    Random random;	//!< Random generator used by the function heuristicValue.
+	  //Random random;	//!< Random generator used by the function heuristicValue.
+	  mutable randutils::mt19937_rng rng; 	//!< A neat random generator from randutils.hpp.
     string name;	//!< String for the name of the objective object.
 
     //! Pure virtual function to compute the value of the objective function on the current configuration.

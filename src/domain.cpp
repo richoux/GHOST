@@ -68,12 +68,13 @@ Domain::Domain( const Domain &other )
     _minValue( other._minValue ),
     _maxValue( other._maxValue ),
     _size( other._size ),
-    _random( other._random )
+    _rng( randutils::mt19937_rng() )
 { }
 
 Domain& Domain::operator=( Domain other )
 {
   this->swap( other );
+  _rng = randutils::mt19937_rng();
   return *this;
 }
 
@@ -84,7 +85,6 @@ void Domain::swap( Domain &other )
   std::swap( this->_minValue, other._minValue );
   std::swap( this->_maxValue, other._maxValue );
   std::swap( this->_size, other._size );
-  std::swap( this->_random, other._random );
 }  
 
 int Domain::get_value( int index ) const

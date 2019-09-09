@@ -92,9 +92,9 @@ bool Solver::solve( double&	finalCost,
 	chrono::duration<double,micro> timerPostProcessSat(0);
 	chrono::duration<double,micro> timerPostProcessOpt(0);
 
-	random_device	rd;
-	mt19937		rng( rd() );
-
+	// random_device	rd;
+	// mt19937		rng( rd() );
+	
 	if( _objective == nullptr )
 		_objective = make_shared< NullObjective >();
     
@@ -160,19 +160,21 @@ bool Solver::solve( double&	finalCost,
 #if defined(ADAPTIVE_SEARCH)
 			auto worstVariableList = compute_worst_variables( freeVariables, costVariables );
 			if( worstVariableList.size() > 1 )
-				worstVariable = worstVariableList[ _random.get_random_number( worstVariableList.size() ) ];
+				worstVariable = _rng.pick( worstVariableList );
 			else
 				worstVariable = worstVariableList[0];      
 #else
 			if( freeVariables )
 			{
-				discrete_distribution<int> distribution { costNonTabuVariables.begin(), costNonTabuVariables.end() };
-				worstVariable = &(_vecVariables[ distribution( rng ) ]);
+				// discrete_distribution<int> distribution { costNonTabuVariables.begin(), costNonTabuVariables.end() };
+				// worstVariable = &(_vecVariables[ distribution( rng ) ]);
+				worstVariable = &(_vecVariables[ _rng.variate<int, std::discrete_distribution>( costNonTabuVariables ) ];
 			}
 			else
 			{
-				discrete_distribution<int> distribution { costVariables.begin(), costVariables.end() };
-				worstVariable = &(_vecVariables[ distribution( rng ) ]);
+				// discrete_distribution<int> distribution { costVariables.begin(), costVariables.end() };
+				// worstVariable = &(_vecVariables[ distribution( rng ) ]);
+				worstVariable = &(_vecVariables[ _rng.variate<int, std::discrete_distribution>( costVariables ) ];
 			}      
 #endif
       
@@ -325,7 +327,7 @@ void Solver::compute_variables_costs( const vector<double>&	costConstraints,
 	
 			for( i = 0 ; i < ratio; ++i )
 			{
-				otherVariable = &(_vecVariables[ _random.get_random_number( _number_variables ) ]);
+				otherVariable = &(_rng.pick( _vecVariables ) );
 				sum += simulate_permutation_cost( &v, *otherVariable, costConstraints, currentSatCost );
 			}
 		}
@@ -337,7 +339,7 @@ void Solver::compute_variables_costs( const vector<double>&	costConstraints,
 	
 			for( i = 0 ; i < ratio; ++i )
 			{
-				value = domain[ _random.get_random_number( domain.size() ) ];
+				value = _rng.pick( domain );
 				sum += simulate_local_move_cost( &v, value, costConstraints, currentSatCost );
 			}
 	
@@ -434,7 +436,7 @@ void Solver::random_permutations()
 		{
 			int domain_size = _vecVariables[i].get_domain_size();
 			// About 50% to do a swap for each couple (var_i, var_j)
-			if( _random.get_random_number( domain_size ) > ( domain_size / 2 ) )
+			if( _rng.uniform( 0, 1 ) == 0 )
 			{
 				std::swap( _vecVariables[i]._index, _vecVariables[j]._index );
 				std::swap( _vecVariables[i]._cache_value, _vecVariables[j]._cache_value );

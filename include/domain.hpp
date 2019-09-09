@@ -35,7 +35,7 @@
 #include <iterator>
 #include <exception>
 
-#include "misc/random.hpp"
+#include "misc/randutils.hpp"
 
 using namespace std;
 
@@ -53,7 +53,8 @@ namespace ghost
     int			_minValue;	//!< Min value, used for indexes.
     int			_maxValue;	//!< Max value.
     size_t		_size;		//!< Size of _domain, ie, number of elements it contains.
-    Random		_random;	//!< A random generator used by the function randomValue. 
+	  //Random		_random;	//!< A random generator used by the function randomValue.
+	  mutable randutils::mt19937_rng _rng; 	//!< A neat random generator from randutils.hpp.
 
     /*
       Why having both domain and indexes vectors?
@@ -128,7 +129,7 @@ namespace ghost
      */
     inline int random_value() const
     {
-      return _domain[ _random.get_random_number( (int)_size ) ];
+	    return _rng.pick( _domain );
     }
 
     /*!

@@ -42,7 +42,7 @@
 #include "variable.hpp"
 #include "constraint.hpp"
 #include "domain.hpp"
-#include "misc/random.hpp"
+#include "misc/randutils.hpp"
 #include "objective.hpp"
 
 using namespace std;
@@ -71,7 +71,8 @@ namespace ghost
 		shared_ptr<Objective>		_objective;		//!< Shared pointer of the objective function.
 
 		vector<int>	_weakTabuList;		//!< The weak tabu list, frozing used variables for tabuTime iterations. 
-		Random	_random;		//!< The random generator used by the solver.
+		//Random	_random;		//!< The random generator used by the solver.
+		mutable randutils::mt19937_rng _rng; 	//!< A neat random generator from randutils.hpp.
 		double	_bestSatCost;		//!< The satisfaction cost of the best solution.
 		double	_bestSatCostOptLoop;	//!< The satisfaction cost of the best solution in the current optimization loop.
 		double	_bestOptCost;		//!< The optimization cost of the best solution.
@@ -85,7 +86,7 @@ namespace ghost
 		//! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 
 		class NullObjective : public Objective
 		{
-			using Objective::random;
+			using Objective::rng;
       
 		public:
 			NullObjective() : Objective("nullObjective") { }
@@ -97,7 +98,7 @@ namespace ghost
 			                            Variable&			var,
 			                            const vector< int >&		valuesList ) const override
 			{
-				return valuesList[ random.get_random_number( valuesList.size() ) ];
+				return rng.pick( valuesList );
 			}
 		};
     
