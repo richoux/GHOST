@@ -87,13 +87,3 @@ void Variable::swap( Variable &other )
   std::swap( this->_index,	other._index );
   std::swap( this->_cache_value,other._cache_value );
 }  
-
-void Variable::do_random_initialization()
-{
-  set_value( _domain.random_value() );
-}
-
-const vector<int>& Variable::possible_values() const
-{
-  return _domain.get_domain();
-}    

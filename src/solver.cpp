@@ -426,7 +426,7 @@ void Solver::set_initial_configuration( int samplings )
 void Solver::monte_carlo_sampling()
 {
 	for( auto& v : _vecVariables )
-		v.do_random_initialization();
+		v.pick_random_value();
 }
 
 void Solver::random_permutations()

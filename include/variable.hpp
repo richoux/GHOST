@@ -126,13 +126,13 @@ namespace ghost
     //! Default Variable destructor.
     ~Variable() = default;
 
-    //! Function initializing the variable to one random values of its domain.
-    void do_random_initialization();
+    //! Inline function initializing the variable to one random values of its domain.
+	  inline void pick_random_value() { set_value( _domain.random_value() ); }
     
-    /*! Function returning what values are in the domain.
+    /*! Inline function returning what values are in the domain.
      * \return a vector<int> of values belonging to the variable domain.
      */
-    const vector<int>& possible_values() const;
+	  inline const vector<int>& possible_values() const { return _domain.get_domain(); }
     
     //! Inline function to get the current value of the variable.
     /*! 
