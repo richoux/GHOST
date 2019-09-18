@@ -3,7 +3,7 @@ GHOST
 
 [![Build Status](https://travis-ci.org/richoux/GHOST.svg?branch=master)](https://travis-ci.org/richoux/GHOST)
 
-GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library designed to help developers to model and implement optimization problem solving. It contains a meta-heuristic solver aiming to solve any kind of combinatorial and optimization real-time problems represented by a Constraint Satisfaction Problem (CSP), a Contrained Optimization Problem (COP) or a Cost Function Network (CFN).
+GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library designed to help developers to model and implement optimization problem solving. It contains a meta-heuristic solver aiming to solve any kind of combinatorial and optimization real-time problems represented by a Constraint Satisfaction Problem (CSP), a Constrained Optimization Problem (COP) or a Cost Function Network (CFN).
 
 ## License
 
