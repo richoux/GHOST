@@ -58,7 +58,7 @@ int Objective::expert_heuristic_value( const vector< Variable >&	variables,
     }
     else
       if( minCost == simulatedCost )
-	bestValues.push_back( v );
+	      bestValues.push_back( v );
   }
   
   var.set_value( backup );
