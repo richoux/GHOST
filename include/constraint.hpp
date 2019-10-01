@@ -34,6 +34,8 @@
 #include <iostream>
 #include <typeinfo>
 #include <functional>
+#include <cmath> // for isnan
+#include <exception>
 
 #include "variable.hpp"
 
@@ -103,9 +105,16 @@ namespace ghost
     
     //! Inline function following the NVI idiom. Calling required_cost.
     /*!
+     * @throw NaNException
      * \sa required_cost
      */
-    inline double cost() const { return required_cost(); }
+    inline double cost() const
+	  {
+		  double value = required_cost();
+		  if( std::isnan( value ) )
+			  throw std::runtime_error("Constraint required_cost returned a NaN value");
+		  return value;
+	  }
 
     //! Function to determine if the constraint contains a given variable. 
     /*!

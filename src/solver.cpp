@@ -130,12 +130,12 @@ bool Solver::solve( double&	finalCost,
 			// TODO: What if the user REALLY wants to start searching from his/her own starting point?
 			no_random_starting_point = false;
 
-#if defined(DEBUG)
-		cout << "Generate new config:\n";
-		for( auto& v : _vecVariables )
-			cout << v.get_value() << " ";
-		cout << "\n";
-#endif
+// #if defined(DEBUG)
+// 		cout << "Generate new config:\n";
+// 		for( auto& v : _vecVariables )
+// 			cout << v.get_value() << " ";
+// 		cout << "\n";
+// #endif
 		
 		// Reset weak tabu list
 		fill( _weakTabuList.begin(), _weakTabuList.end(), 0 );
@@ -186,12 +186,12 @@ bool Solver::solve( double&	finalCost,
 			if( _bestSatCostOptLoop > currentSatCost )
 			{
 				_bestSatCostOptLoop = currentSatCost;
-#if defined(DEBUG)
-				cout << "New cost: " << currentSatCost << ", Config:\n";
-				for( auto& v : _vecVariables )
-					cout << v.get_value() << " ";
-				cout << "\n";
-#endif
+// #if defined(DEBUG)
+// 				cout << "New cost: " << currentSatCost << ", Config:\n";
+// 				for( auto& v : _vecVariables )
+// 					cout << v.get_value() << " ";
+// 				cout << "\n";
+// #endif
 				if( _bestSatCost >= _bestSatCostOptLoop )
 				{
 					_bestSatCost = _bestSatCostOptLoop;

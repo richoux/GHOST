@@ -33,6 +33,8 @@
 #include <algorithm>
 #include <limits>
 #include <vector>
+#include <cmath> // for isnan
+#include <exception>
 
 #include "variable.hpp"
 #include "misc/randutils.hpp"
@@ -180,11 +182,17 @@ namespace ghost
         
     //! Inline function following the NVI idiom. Calling v_cost.
     /*! 
+     * @throw NaNException
      * \sa required_cost
      */
     inline double cost( const vector< Variable >& variables ) const
-    { return required_cost( variables ); }
-
+	  {
+		  double value = required_cost( variables );
+		  if( std::isnan( value ) )
+			  throw std::runtime_error("Objective required_cost returned a NaN value");
+		  return value;
+	  }
+	  
     //! Inline function following the NVI idiom. Calling expert_heuristic_value.
     /*! 
      * \sa expert_heuristic_value
