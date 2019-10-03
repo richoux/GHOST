@@ -207,8 +207,11 @@ bool Solver::solve( double&	finalCost,
 
 			// for rounding errors
 			if( _bestSatCostOptLoop  < 1.0e-10 )
+			{
 				_bestSatCostOptLoop = 0;
-					
+				_bestSatCost = 0;
+			}
+			
 			elapsedTimeOptLoop = chrono::steady_clock::now() - startOptLoop;
 			elapsedTime = chrono::steady_clock::now() - start;
 		} // satisfaction loop
