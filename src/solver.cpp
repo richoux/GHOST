@@ -192,7 +192,7 @@ bool Solver::solve( double&	finalCost,
 // 					cout << v.get_value() << " ";
 // 				cout << "\n";
 // #endif
-				if( _bestSatCost >= _bestSatCostOptLoop )
+				if( _bestSatCost >= _bestSatCostOptLoop && _bestSatCost > 0 )
 				{
 					_bestSatCost = _bestSatCostOptLoop;
 					for( auto& v : _vecVariables )
@@ -223,7 +223,7 @@ bool Solver::solve( double&	finalCost,
 			if( _bestOptCost > currentOptCost )
 			{
 				update_better_configuration( _bestOptCost, currentOptCost, finalSolution );
-
+				
 				startPostprocess = chrono::steady_clock::now();
 				_objective->postprocess_satisfaction( _vecVariables, _bestOptCost, finalSolution );
 				timerPostProcessSat = chrono::steady_clock::now() - startPostprocess;
