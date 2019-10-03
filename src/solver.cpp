@@ -168,16 +168,16 @@ bool Solver::solve( double&	finalCost,
 			{
 				// discrete_distribution<int> distribution { costNonTabuVariables.begin(), costNonTabuVariables.end() };
 				// worstVariable = &(_vecVariables[ distribution( rng ) ]);
-				worstVariable = &(_vecVariables[ _rng.variate<int, std::discrete_distribution>( costNonTabuVariables ) ];
+				worstVariable = &(_vecVariables[ _rng.variate<int, std::discrete_distribution>( costNonTabuVariables ) ]);
 			}
 			else
 			{
 				// discrete_distribution<int> distribution { costVariables.begin(), costVariables.end() };
 				// worstVariable = &(_vecVariables[ distribution( rng ) ]);
-				worstVariable = &(_vecVariables[ _rng.variate<int, std::discrete_distribution>( costVariables ) ];
+				worstVariable = &(_vecVariables[ _rng.variate<int, std::discrete_distribution>( costVariables ) ]);
 			}      
 #endif
-      
+			
 			if( _permutationProblem )
 				permutation_move( worstVariable, costConstraints, costVariables, costNonTabuVariables, currentSatCost );
 			else
@@ -204,7 +204,11 @@ bool Solver::solve( double&	finalCost,
 			else // local minima
 				// Mark worstVariable as weak tabu for tabuTimeLocalMin iterations.
 				_weakTabuList[ worstVariable->_id - _varOffset ] = tabuTimeLocalMin;
-      
+
+			// for rounding errors
+			if( _bestSatCostOptLoop  < 1.0e-10 )
+				_bestSatCostOptLoop = 0;
+					
 			elapsedTimeOptLoop = chrono::steady_clock::now() - startOptLoop;
 			elapsedTime = chrono::steady_clock::now() - start;
 		} // satisfaction loop
