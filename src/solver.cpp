@@ -441,7 +441,6 @@ void Solver::random_permutations()
 	for( unsigned int i = 0; i < _vecVariables.size() - 1; ++i )
 		for( unsigned int j = i + 1; j < _vecVariables.size(); ++j )
 		{
-			int domain_size = _vecVariables[i].get_domain_size();
 			// About 50% to do a swap for each couple (var_i, var_j)
 			if( _rng.uniform( 0, 1 ) == 0 )
 			{
