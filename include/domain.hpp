@@ -34,6 +34,7 @@
 #include <iostream>
 #include <iterator>
 #include <exception>
+#include <string>
 
 #include "misc/randutils.hpp"
 
@@ -71,12 +72,21 @@ namespace ghost
     
     struct indexException : std::exception
     {
-      const char* what() const noexcept { return "Wrong index passed to Domain::get_value.\n"; }
+	    int index;
+	    int size;
+	    indexException( int index, int size ) : index(index), size(size) {}
+	    string message = "Wrong index " + to_string( index ) + " passed to Domain::get_value. An index should be between 0 (included) and " + to_string( size ) + " (excluded).\n";
+	    const char* what() const noexcept { return message.c_str(); }
     };
     
     struct valueException : std::exception
     {
-      const char* what() const noexcept { return "Wrong value passed to Domain::index_of.\n"; }
+	    int value;
+	    int min;
+	    int max;
+	    valueException( int value, int min, int max ) : value(value), min(min), max(max) {}
+	    string message = "Wrong value " + to_string( value ) + " passed to Domain::index_of. A value should be between " + to_string(min) + " (included) and " + to_string(max) + " (included).\n";
+	    const char* what() const noexcept { return message.c_str(); }
     };
     
     //! For the copy-and-swap idiom

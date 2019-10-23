@@ -92,17 +92,17 @@ int Domain::get_value( int index ) const
   if( index >=0 && index < (int)_size )
     return _domain[ index ];
   else
-    throw indexException();
+	  throw indexException( index, (int)_size );
 }
 
 int Domain::index_of( int value ) const
 {
   if( value < _minValue || value > _maxValue )
-    throw valueException();
+	  throw valueException( value, _minValue, _maxValue );
     
   int index = _indexes[ value - _minValue ];
   if( index == -1 )
-    throw valueException();
+    throw valueException( value, _minValue, _maxValue );
   else
     return index;
 }
