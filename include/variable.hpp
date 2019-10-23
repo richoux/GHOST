@@ -66,7 +66,7 @@ namespace ghost
     int		_index;		//!< The domain's index corresponding to the current value of the variable.
     int		_cache_value;	//!< Cache of the Variable current value.
     
-    //! Regurlar private Variable constructor
+    //! Regular private Variable constructor
     Variable( const string& name,
 	      const string& shortName,
 	      const Domain& domain,

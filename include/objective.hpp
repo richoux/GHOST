@@ -59,6 +59,11 @@ namespace ghost
    */
   class Objective
   {
+	  struct nanException : std::exception
+    {
+      const char* what() const noexcept { return "Objective required_cost returned a NaN value.\n"; }
+    };
+	  
   protected:
     
 	  //Random random;	//!< Random generator used by the function heuristicValue.
@@ -182,14 +187,14 @@ namespace ghost
         
     //! Inline function following the NVI idiom. Calling v_cost.
     /*! 
-     * @throw NaNException
+     * @throw nanException
      * \sa required_cost
      */
     inline double cost( const vector< Variable >& variables ) const
 	  {
 		  double value = required_cost( variables );
 		  if( std::isnan( value ) )
-			  throw std::runtime_error("Objective required_cost returned a NaN value");
+			  throw nanException();
 		  return value;
 	  }
 	  

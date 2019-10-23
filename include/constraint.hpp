@@ -59,6 +59,11 @@ namespace ghost
   {
     static int NBER_CTR; //!< Static counter that increases each time one instanciates a Constraint object.
 
+	  struct nanException : std::exception
+    {
+      const char* what() const noexcept { return "Constraint required_cost returned a NaN value.\n"; }
+    };
+
   protected:
     const vector< reference_wrapper<Variable> >&	variables;	//!< Const reference to the vector of variable references composing the CSP/COP.
     int							id;		//!< Unique ID integer
@@ -105,14 +110,14 @@ namespace ghost
     
     //! Inline function following the NVI idiom. Calling required_cost.
     /*!
-     * @throw NaNException
+     * @throw nanException
      * \sa required_cost
      */
     inline double cost() const
 	  {
 		  double value = required_cost();
 		  if( std::isnan( value ) )
-			  throw std::runtime_error("Constraint required_cost returned a NaN value");
+			  throw nanException();
 		  return value;
 	  }
 
