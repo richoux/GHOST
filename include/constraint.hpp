@@ -36,6 +36,7 @@
 #include <functional>
 #include <cmath> // for isnan
 #include <exception>
+#include <string>
 
 #include "variable.hpp"
 
@@ -61,7 +62,17 @@ namespace ghost
 
 	  struct nanException : std::exception
     {
-      const char* what() const noexcept { return "Constraint required_cost returned a NaN value.\n"; }
+	    const vector< reference_wrapper<Variable> >&	variables;
+	    string message;
+
+	    nanException( const vector< reference_wrapper<Variable> >&	variables ) : variables(variables)
+	    {
+		    message = "Constraint required_cost returned a NaN value on variables (";
+		    for( int i = 0; i < (int)variables.size() - 1; ++i )
+			    message += to_string(variables[i].get().get_value()) + ", ";
+		    message += to_string(variables[(int)variables.size() - 1].get().get_value()) + ")\n";
+	    }
+	    const char* what() const noexcept { return message.c_str(); }
     };
 
   protected:
@@ -117,7 +128,7 @@ namespace ghost
 	  {
 		  double value = required_cost();
 		  if( std::isnan( value ) )
-			  throw nanException();
+			  throw nanException( variables );
 		  return value;
 	  }
 
