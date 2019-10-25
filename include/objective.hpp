@@ -61,7 +61,17 @@ namespace ghost
   {
 	  struct nanException : std::exception
     {
-      const char* what() const noexcept { return "Objective required_cost returned a NaN value.\n"; }
+	    const vector< Variable >&	variables;
+	    string message;
+
+	    nanException( const vector< Variable >&	variables ) : variables(variables)
+	    {
+		    message = "Objective required_cost returned a NaN value on variables (";
+		    for( int i = 0; i < (int)variables.size() - 1; ++i )
+			    message += to_string(variables[i].get_value()) + ", ";
+		    message += to_string(variables[(int)variables.size() - 1].get_value()) + ")\n";
+	    }
+	    const char* what() const noexcept { return message.c_str(); }
     };
 	  
   protected:
@@ -194,7 +204,7 @@ namespace ghost
 	  {
 		  double value = required_cost( variables );
 		  if( std::isnan( value ) )
-			  throw nanException();
+			  throw nanException( variables );
 		  return value;
 	  }
 	  
