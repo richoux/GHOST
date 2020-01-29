@@ -81,7 +81,12 @@ bool Solver::solve( double&	finalCost,
 	for( auto& c : _vecConstraints )
 		if( c->get_id() < _ctrOffset )
 			_ctrOffset = c->get_id();
-    
+
+#if defined(TRACE)
+	cout << "varOffset: " << _varOffset << ", ctrOffset: " << _ctrOffset << "\n";
+#endif
+
+	
 	chrono::duration<double,micro> elapsedTime(0);
 	chrono::duration<double,micro> elapsedTimeOptLoop(0);
 	chrono::time_point<chrono::steady_clock> start;
@@ -130,12 +135,12 @@ bool Solver::solve( double&	finalCost,
 			// TODO: What if the user REALLY wants to start searching from his/her own starting point?
 			no_random_starting_point = false;
 
-// #if defined(DEBUG)
-// 		cout << "Generate new config:\n";
-// 		for( auto& v : _vecVariables )
-// 			cout << v.get_value() << " ";
-// 		cout << "\n";
-// #endif
+#if defined(TRACE)
+		cout << "Generate new config: ";
+		for( auto& v : _vecVariables )
+			cout << v.get_value() << " ";
+		cout << "\n";
+#endif
 		
 		// Reset weak tabu list
 		fill( _weakTabuList.begin(), _weakTabuList.end(), 0 );
@@ -152,17 +157,52 @@ bool Solver::solve( double&	finalCost,
 			fill( costVariables.begin(), costVariables.end(), 0. );
 
 			currentSatCost = compute_constraints_costs( costConstraints );
+
+#if defined(TRACE)
+		cout << "Cost of constraints: ";
+		for( int i = 0; i < costConstraints.size(); ++i )
+			cout << "c[" << i << "]=" << costConstraints[i] << ", ";
+		cout << "\n";
+#endif
+
 			compute_variables_costs( costConstraints, costVariables, costNonTabuVariables, currentSatCost );
-      
+
+#if defined(TRACE)
+		cout << "Cost of variables: ";
+		for( int i = 0; i < costVariables.size(); ++i )
+			cout << _vecVariables[i].get_name() << "=" << costVariables[i] << ", ";
+		cout << "\n";
+#endif
+			
 			bool freeVariables = false;
 			decay_weak_tabu_list( freeVariables );
 
+#if defined(TRACE)
+		cout << "Tabu list: ";
+		for( auto& t : _weakTabuList )
+			cout << t << " ";
+		cout << "\n";
+#endif
+
 #if defined(ADAPTIVE_SEARCH)
 			auto worstVariableList = compute_worst_variables( freeVariables, costVariables );
+
+#if defined(TRACE)
+		cout << "Candidate variables: ";
+		for( auto& w : worstVariableList )
+			cout << w->get_name() << " ";
+		cout << "\n";
+#endif
+
 			if( worstVariableList.size() > 1 )
 				worstVariable = _rng.pick( worstVariableList );
 			else
-				worstVariable = worstVariableList[0];      
+				worstVariable = worstVariableList[0];
+
+#if defined(TRACE)
+			cout << "Picked variable: " << worstVariable->get_name() << "\n";
+#endif
+
 #else
 			if( freeVariables )
 			{
@@ -186,12 +226,13 @@ bool Solver::solve( double&	finalCost,
 			if( _bestSatCostOptLoop > currentSatCost )
 			{
 				_bestSatCostOptLoop = currentSatCost;
-// #if defined(DEBUG)
-// 				cout << "New cost: " << currentSatCost << ", Config:\n";
-// 				for( auto& v : _vecVariables )
-// 					cout << v.get_value() << " ";
-// 				cout << "\n";
-// #endif
+
+#if defined(TRACE)
+				cout << "New cost: " << currentSatCost << ", New config: ";
+				for( auto& v : _vecVariables )
+					cout << v.get_value() << " ";
+				cout << "\n";
+#endif
 				if( _bestSatCost >= _bestSatCostOptLoop && _bestSatCost > 0 )
 				{
 					_bestSatCost = _bestSatCostOptLoop;
@@ -263,7 +304,7 @@ bool Solver::solve( double&	finalCost,
 	for( auto& v : _vecVariables )
 		v.set_value( finalSolution[ v._id - _varOffset ] );
 
-#if defined(DEBUG) || defined(BENCH)
+#if defined(DEBUG) || defined(TRACE) || defined(BENCH)
 	cout << "############" << "\n";
       
 	if( !_isOptimization )
@@ -307,6 +348,13 @@ double Solver::compute_constraints_costs( vector<double>& costConstraints ) cons
 	return satisfactionCost;
 }
 
+// Commented lines concern the following idea:
+// in addition of the sum of the cost of its contraints,
+// compute the average cost of some sampled neighbor configurations
+// if we change the value of the variable. This is to measure the impact
+// of the variable in the neighbor configurations.
+// However, there are much undesired stochasticity in this process
+// and too much computation as well.
 void Solver::compute_variables_costs( const vector<double>&	costConstraints,
                                       vector<double>&		costVariables,
                                       vector<double>&		costNonTabuVariables,
@@ -319,43 +367,43 @@ void Solver::compute_variables_costs( const vector<double>&	costConstraints,
 	for( auto& v : _vecVariables )
 	{
 		id = v._id - _varOffset;
-		int ratio = std::max( 5, (int)v.get_domain_size()/100 );
+		// int ratio = std::max( 5, (int)v.get_domain_size()/100 );
     
 		for( auto& c : _mapVarCtr[ v ] )
 			costVariables[ id ] += costConstraints[ c->get_id() - _ctrOffset ];
 
 		// i is initialized just not to be warned by compiler
-		int i = 1;
-		double sum = 0.;
+		// int i = 1;
+		// double sum = 0.;
       
-		if( _permutationProblem )
-		{
-			Variable *otherVariable;
+		// if( _permutationProblem )
+		// {
+		// 	Variable *otherVariable;
 	
-			for( i = 0 ; i < ratio; ++i )
-			{
-				otherVariable = &(_rng.pick( _vecVariables ) );
-				sum += simulate_permutation_cost( &v, *otherVariable, costConstraints, currentSatCost );
-			}
-		}
-		else
-		{
-			int backup = v.get_value();
-			int value;
-			auto domain = v.possible_values();
+		// 	for( i = 0 ; i < ratio; ++i )
+		// 	{
+		// 		otherVariable = &(_rng.pick( _vecVariables ) );
+		// 		sum += simulate_permutation_cost( &v, *otherVariable, costConstraints, currentSatCost );
+		// 	}
+		// }
+		// else
+		// {
+		// 	int backup = v.get_value();
+		// 	int value;
+		// 	auto domain = v.possible_values();
 	
-			for( i = 0 ; i < ratio; ++i )
-			{
-				value = _rng.pick( domain );
-				sum += simulate_local_move_cost( &v, value, costConstraints, currentSatCost );
-			}
+		// 	for( i = 0 ; i < ratio; ++i )
+		// 	{
+		// 		value = _rng.pick( domain );
+		// 		sum += simulate_local_move_cost( &v, value, costConstraints, currentSatCost );
+		// 	}
 	
-			v.set_value( backup );
-		}
+		// 	v.set_value( backup );
+		// }
       
 		// sum / i is the mean
 		// costVariables[ id ] = fabs( costVariables[ id ] - ( sum / ratio ) );
-		costVariables[ id ] = std::max( 0., costVariables[ id ] * ( ( sum / ratio ) / currentSatCost ) );
+		// costVariables[ id ] = std::max( 0., costVariables[ id ] * ( ( sum / ratio ) / currentSatCost ) );
             
 		if( _weakTabuList[ id ] == 0 )
 			costNonTabuVariables[ id ] = costVariables[ id ];
@@ -606,34 +654,73 @@ void Solver::permutation_move( Variable*	variable,
 	vector< Variable > bestVarToSwapList;
 	Variable bestVarToSwap;
 	double bestCost = numeric_limits<double>::max();
-  
+
+#if defined(TRACE)
+	cout << "Current cost before permutation: " << currentSatCost << "\n";
+#endif
+
+	
 	for( auto& otherVariable : _vecVariables )
 	{
+		// So slow if next line is uncommented!
+		//if( otherVariable._id == variable->_id || otherVariable.get_value() == variable->get_value() )
 		if( otherVariable._id == variable->_id )
 			continue;
     
 		newCurrentSatCost = simulate_permutation_cost( variable, otherVariable, costConstraints, currentSatCost );
+
+#if defined(TRACE)
+		cout << "Cost if permutation between " << variable->_id << " and " << otherVariable._id << ": " << newCurrentSatCost << "\n";
+#endif
+
 		if( bestCost > newCurrentSatCost )
 		{
+#if defined(TRACE)
+	cout << "This is a new best cost.\n";
+#endif
+			
 			bestCost = newCurrentSatCost;
 			bestVarToSwapList.clear();
 			bestVarToSwapList.push_back( otherVariable );
 		}
 		else 
 			if( bestCost == newCurrentSatCost )
-				bestVarToSwapList.push_back( otherVariable );	  
+			{
+				bestVarToSwapList.push_back( otherVariable );
+#if defined(TRACE)
+	cout << "Tie cost with the best one.\n";
+#endif
+			}
 	}
 
-	// If several values lead to the same best satisfaction cost,
-	// call Objective::heuristic_value has a tie-break.
-	// By default, Objective::heuristic_value returns the value
-	// improving the most the optimization cost, or a random value
-	// among values improving the most the optimization cost if there
-	// are some ties.
-	if( bestVarToSwapList.size() > 1 )
-		bestVarToSwap = _objective->heuristic_value( bestVarToSwapList );
-	else
-		bestVarToSwap = bestVarToSwapList[0];
+  // // If the best cost found so far leads to a plateau,
+	// // then we have 10% of chance to escapte from the plateau
+	// // by picking up a random variable (giving a worst global cost)
+	// // to permute with.
+	// if( bestCost == currentSatCost && _rng.uniform( 0, 99 ) < 10 )
+	// {
+	// 	do
+	// 	{
+	// 		bestVarToSwap = _rng.pick( _vecVariables );
+	// 	} while( bestVarToSwap._id == variable->_id || std::find_if( bestVarToSwapList.begin(), bestVarToSwapList.end(), [&bestVarToSwap](auto& v){ return v._id == bestVarToSwap._id; } ) != bestVarToSwapList.end() );
+	// }
+	// else
+	// {
+		// If several values lead to the same best satisfaction cost,
+		// call Objective::heuristic_value has a tie-break.
+		// By default, Objective::heuristic_value returns the value
+		// improving the most the optimization cost, or a random value
+		// among values improving the most the optimization cost if there
+		// are some ties.
+		if( bestVarToSwapList.size() > 1 )
+			bestVarToSwap = _objective->heuristic_value( bestVarToSwapList );
+		else
+			bestVarToSwap = bestVarToSwapList[0];
+  // }
+
+#if defined(TRACE)
+	cout << "Permutation will be done between " << variable->_id << " and " << bestVarToSwap._id << ".\n";
+#endif
 
 	// int tmp = variable->get_value();
 	// variable->set_value( bestVarToSwap.get_value() );

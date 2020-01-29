@@ -2,6 +2,8 @@ Cmake_minimum_required (VERSION 3.0)
 project (ghost)
 
 set( CMAKE_VERBOSE_MAKEFILE on )
+OPTION(BENCH "Compile GHOST for benchmarks" OFF)
+OPTION(TRACE "Compile GHOST to have a full execution trace, for debugging" OFF)
 
 # require a C++14-capable compiler
 include(CheckCXXCompilerFlag)
@@ -31,8 +33,12 @@ if(ADAPTIVE_SEARCH)
   add_definitions(-DADAPTIVE_SEARCH)
 endif()
 
-if("${CMAKE_BUILD_TYPE}" STREQUAL "RelWithDebInfo")
+if(BENCH)
   add_definitions(-DBENCH)
+endif()
+
+if(TRACE)
+  add_definitions(-DTRACE)
 endif()
 
 # add the binary tree to the search path for include files so that we will find headers

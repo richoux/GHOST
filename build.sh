@@ -3,6 +3,7 @@
 OS="$(uname)"
 RELEASE="release"
 RELEASEBENCH="release-bench"
+RELEASETRACE="release-trace"
 DEBUG="debug"
 OSX="_osx"
 BACKPWD="$PWD"
@@ -18,13 +19,14 @@ NC='\033[0m' # No Color
 if [ "$OS" == "Darwin" ]; then
     RELEASE="$RELEASE$OSX"
     RELEASEBENCH="$RELEASEBENCH$OSX"
+    RELEASETRACE="$RELEASETRACE$OSX"
     DEBUG="$DEBUG$OSX"
     CXX="clang++"
 fi
 
 function usage()
 {
-    echo "$0: usage: build.sh [release|bench|debug|clean|doc|tests] [AS]"
+    echo "$0: usage: build.sh [release|bench|trace|debug|clean|doc|tests] [AS]"
     exit 1
 }
 
@@ -46,11 +48,20 @@ function debug()
     sudo make install
 }
 
+function trace()
+{
+    mkdir -p $RELEASETRACE
+    cd $RELEASETRACE
+    cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTRACE=ON -DCMAKE_CXX_COMPILER=$CXX $ADAPTIVE ..
+    make
+    sudo make install    
+}
+
 function bench()
 {
     mkdir -p $RELEASEBENCH
     cd $RELEASEBENCH
-    cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_COMPILER=$CXX $ADAPTIVE ..
+    cmake -DCMAKE_BUILD_TYPE=Release -DBENCH=ON -DCMAKE_CXX_COMPILER=$CXX $ADAPTIVE ..
     make
     sudo make install    
 }
@@ -65,6 +76,12 @@ function clean()
     fi
     if [ -d "$RELEASEBENCH" ]; then 
 	cd $RELEASEBENCH
+	make clean
+	sudo rm -fr *
+	cd ..
+    fi
+    if [ -d "$RELEASETRACE" ]; then 
+	cd $RELEASETRACE
 	make clean
 	sudo rm -fr *
 	cd ..
@@ -131,6 +148,10 @@ if [ "$1" == "release" ]; then
     exit 0
 elif [ "$1" == "bench" ]; then
     bench
+    cd $BACKPWD
+    exit 0
+elif [ "$1" == "trace" ]; then
+    trace
     cd $BACKPWD
     exit 0
 elif [ "$1" == "debug" ]; then
