@@ -112,9 +112,9 @@ namespace ghost
      * \return The selected value according to the heuristic.
      * \sa heuristic_value, Random
      */
-    virtual int	expert_heuristic_value( const vector< Variable >&	variables,
-					Variable&			var,
-					const vector< int >&		possible_values ) const;
+	  virtual int	expert_heuristic_value( const vector< Variable >&	variables,
+		                                    Variable& var,
+		                                    const vector< int >& possible_values ) const;
 
     //! Virtual function to apply the value heuristic used by the solver for permutation problems.
     /*! 
@@ -128,10 +128,10 @@ namespace ghost
      *
      * \param bad_variables A const reference to the vector of candidate variables
      * the solver may swap the value with another variable it had chosen.
-     * \return The selected variable to swap with, according to the heuristic.
+     * \return The address of the selected variable to swap with, according to the heuristic.
      * \sa heuristic_value, Random
      */
-    virtual Variable expert_heuristic_value( const vector< Variable >& bad_variables ) const;
+    virtual Variable* expert_heuristic_value( const vector< Variable* >& bad_variables ) const;
 
     //! Virtual function to perform satisfaction post-processing.
     /*! 
@@ -221,7 +221,7 @@ namespace ghost
     /*! 
      * \sa expert_heuristic_value
      */
-    inline Variable heuristic_value( const vector< Variable >& bad_variables ) const
+    inline Variable* heuristic_value( const vector< Variable* >& bad_variables ) const
     { return expert_heuristic_value( bad_variables ); }
 
     //! Inline function following the NVI idiom. Calling expert_postprocess_satisfaction.

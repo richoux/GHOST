@@ -348,13 +348,6 @@ double Solver::compute_constraints_costs( vector<double>& costConstraints ) cons
 	return satisfactionCost;
 }
 
-// Commented lines concern the following idea:
-// in addition of the sum of the cost of its contraints,
-// compute the average cost of some sampled neighbor configurations
-// if we change the value of the variable. This is to measure the impact
-// of the variable in the neighbor configurations.
-// However, there are much undesired stochasticity in this process
-// and too much computation as well.
 void Solver::compute_variables_costs( const vector<double>&	costConstraints,
                                       vector<double>&		costVariables,
                                       vector<double>&		costNonTabuVariables,
@@ -367,44 +360,10 @@ void Solver::compute_variables_costs( const vector<double>&	costConstraints,
 	for( auto& v : _vecVariables )
 	{
 		id = v._id - _varOffset;
-		// int ratio = std::max( 5, (int)v.get_domain_size()/100 );
     
 		for( auto& c : _mapVarCtr[ v ] )
 			costVariables[ id ] += costConstraints[ c->get_id() - _ctrOffset ];
 
-		// i is initialized just not to be warned by compiler
-		// int i = 1;
-		// double sum = 0.;
-      
-		// if( _permutationProblem )
-		// {
-		// 	Variable *otherVariable;
-	
-		// 	for( i = 0 ; i < ratio; ++i )
-		// 	{
-		// 		otherVariable = &(_rng.pick( _vecVariables ) );
-		// 		sum += simulate_permutation_cost( &v, *otherVariable, costConstraints, currentSatCost );
-		// 	}
-		// }
-		// else
-		// {
-		// 	int backup = v.get_value();
-		// 	int value;
-		// 	auto domain = v.possible_values();
-	
-		// 	for( i = 0 ; i < ratio; ++i )
-		// 	{
-		// 		value = _rng.pick( domain );
-		// 		sum += simulate_local_move_cost( &v, value, costConstraints, currentSatCost );
-		// 	}
-	
-		// 	v.set_value( backup );
-		// }
-      
-		// sum / i is the mean
-		// costVariables[ id ] = fabs( costVariables[ id ] - ( sum / ratio ) );
-		// costVariables[ id ] = std::max( 0., costVariables[ id ] * ( ( sum / ratio ) / currentSatCost ) );
-            
 		if( _weakTabuList[ id ] == 0 )
 			costNonTabuVariables[ id ] = costVariables[ id ];
 	}
@@ -651,8 +610,8 @@ void Solver::permutation_move( Variable*	variable,
 	// Here, we look at values in the variable domain
 	// leading to the lowest satisfaction cost.
 	double newCurrentSatCost = 0.0;
-	vector< Variable > bestVarToSwapList;
-	Variable bestVarToSwap;
+	vector< Variable* > bestVarToSwapList;
+	Variable* bestVarToSwap;
 	double bestCost = numeric_limits<double>::max();
 
 #if defined(TRACE)
@@ -681,12 +640,12 @@ void Solver::permutation_move( Variable*	variable,
 			
 			bestCost = newCurrentSatCost;
 			bestVarToSwapList.clear();
-			bestVarToSwapList.push_back( otherVariable );
+			bestVarToSwapList.push_back( &otherVariable );
 		}
 		else 
 			if( bestCost == newCurrentSatCost )
 			{
-				bestVarToSwapList.push_back( otherVariable );
+				bestVarToSwapList.push_back( &otherVariable );
 #if defined(TRACE)
 	cout << "Tie cost with the best one.\n";
 #endif
@@ -719,23 +678,11 @@ void Solver::permutation_move( Variable*	variable,
   // }
 
 #if defined(TRACE)
-	cout << "Permutation will be done between " << variable->_id << " and " << bestVarToSwap._id << ".\n";
+	cout << "Permutation will be done between " << variable->_id << " and " << bestVarToSwap->_id << ".\n";
 #endif
 
-	// int tmp = variable->get_value();
-	// variable->set_value( bestVarToSwap.get_value() );
-	// bestVarToSwap.set_value( tmp );
-
-	// TO FIX: Hack to avoid weird behavior due to Variable copy
-	unsigned int index = 0;
-	for( ; index < _vecVariables.size(); ++index )
-	{
-		if( _vecVariables[index]._id == bestVarToSwap._id )
-			break;
-	}
-	
-	std::swap( variable->_index, _vecVariables[index]._index );
-	std::swap( variable->_cache_value, _vecVariables[index]._cache_value );
+	std::swap( variable->_index, bestVarToSwap->_index );
+	std::swap( variable->_cache_value, bestVarToSwap->_cache_value );
 
 	currentSatCost = bestCost;
 	// vector<bool> compted( costConstraints.size(), false );

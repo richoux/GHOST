@@ -35,9 +35,9 @@ Objective::Objective( const string& name )
   : name(name)
 { }
   
-int Objective::expert_heuristic_value( const vector< Variable >&	variables,
-				       Variable&			var,
-				       const vector< int >&		possible_values ) const
+int Objective::expert_heuristic_value( const vector< Variable >& variables,
+                                       Variable& var,
+                                       const vector< int >& possible_values ) const
 {
   double minCost = numeric_limits<double>::max();
   double simulatedCost;
@@ -66,7 +66,7 @@ int Objective::expert_heuristic_value( const vector< Variable >&	variables,
   return rng.pick( bestValues );
 }
   
-Variable Objective::expert_heuristic_value( const vector< Variable >& bad_variables ) const
+Variable* Objective::expert_heuristic_value( const vector< Variable* >& bad_variables ) const
 {
 	return rng.pick( bad_variables );
 }
