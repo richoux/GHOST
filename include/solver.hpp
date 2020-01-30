@@ -38,6 +38,7 @@
 #include <map>
 #include <chrono>
 #include <memory>
+#include <iterator>
 
 #include "variable.hpp"
 #include "constraint.hpp"

@@ -543,10 +543,20 @@ double Solver::simulate_permutation_cost( Variable*		worstVariable,
 		newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() - _ctrOffset ] );
 		done[ c->get_id() - _ctrOffset ] = true;
 	}
-  
+
+	// The following was commented to avoid branch misses, but it appears to be slower than
+	// the commented block that follows.
 	for( auto& c : _mapVarCtr[ otherVariable ] )
 		if( !done[ c->get_id() - _ctrOffset ] )
 			newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() - _ctrOffset ] );
+
+	// vector< shared_ptr<Constraint> > diff;
+	// std::set_difference( _mapVarCtr[ otherVariable ].begin(), _mapVarCtr[ otherVariable ].end(),
+	//                      _mapVarCtr[ *worstVariable ].begin(), _mapVarCtr[ *worstVariable ].end(),
+	//                      std::inserter( diff, diff.begin() ) );
+
+	// for( auto& c : diff )
+	// 	newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() - _ctrOffset ] );
 
 	// We must roll back to the previous state before returning the new cost value. 
 	std::swap( worstVariable->_index, otherVariable._index );
@@ -621,8 +631,8 @@ void Solver::permutation_move( Variable*	variable,
 	
 	for( auto& otherVariable : _vecVariables )
 	{
-		// So slow if next line is uncommented!
-		//if( otherVariable._id == variable->_id || otherVariable.get_value() == variable->get_value() )
+		// Next line is replaced by a simpler conditional since there were A LOT of branch misses!
+		//if( otherVariable._id == variable->_id || otherVariable._index == variable->_index )
 		if( otherVariable._id == variable->_id )
 			continue;
     
