@@ -10,7 +10,7 @@
  * milliseconds is needed. It is a generalization of the Wall-in project.
  * Please visit https://github.com/richoux/GHOST for further information.
  * 
- * Copyright (C) 2014-2019 Florian Richoux
+ * Copyright (C) 2014-2020 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or 
