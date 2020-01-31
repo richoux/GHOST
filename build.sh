@@ -16,6 +16,12 @@ ORANGE='\033[0;33m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+ORANGE='\033[0;33m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
+
 if [ "$OS" == "Darwin" ]; then
     RELEASE="$RELEASE$OSX"
     RELEASEBENCH="$RELEASEBENCH$OSX"
@@ -119,6 +125,7 @@ function first_compile()
     if [ "$OS" == "Linux" ]; then
 	echo -e "\n\n${RED}>>> If you compile ${GREEN}GHOST${RED} for the ${CYAN}first time${RED}, you probably need to run the following command: ${ORANGE}sudo ldconfig${NC}"
     fi
+
     if [ "$OS" == "Darwin" ]; then
 	echo -e "\n\n${RED}>>> If you compile ${GREEN}GHOST${RED} for the ${CYAN}first time${RED}, you probably need to run the following command: ${ORANGE}sudo update_dyld_shared_cache${NC}"
     fi
