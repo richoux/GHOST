@@ -2,7 +2,7 @@
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library 
  * designed to help developers to model and implement optimization problem 
  * solving. It contains a meta-heuristic solver aiming to solve any kind of 
- * combinatorial and optimization real-time problems represented by a CSP/COP. 
+ * combinatorial and optimization real-time problems represented by a CSP/COP/CFN. 
  *
  * GHOST has been first developped to help making AI for the RTS game
  * StarCraft: Brood war, but can be used for any kind of applications where 
@@ -31,13 +31,13 @@
 
 using namespace ghost;
 
-Solver::Solver( vector<Variable>&		vecVariables, 
+Solver::Solver( vector<Variable>&	vecVariables, 
                 vector<shared_ptr<Constraint>>&	vecConstraints,
-                shared_ptr<Objective>		objective,
-                bool				permutationProblem )
+                shared_ptr<Objective>	objective,
+                bool permutationProblem )
 	: _vecVariables	( vecVariables ), 
 	  _vecConstraints	( vecConstraints ),
-	  _objective		( objective ),
+	  _objective ( objective ),
 	  _weakTabuList	( vecVariables.size() ),
 	  _isOptimization	( objective == nullptr ? false : true ),
 	  _permutationProblem	( permutationProblem ),
@@ -49,17 +49,17 @@ Solver::Solver( vector<Variable>&		vecVariables,
 				_mapVarCtr[ var ].push_back( ctr );
 }
 
-Solver::Solver( vector<Variable>&		vecVariables, 
+Solver::Solver( vector<Variable>&	vecVariables, 
                 vector<shared_ptr<Constraint>>&	vecConstraints,
-                bool				permutationProblem )
+                bool permutationProblem )
 	: Solver( vecVariables, vecConstraints, nullptr, permutationProblem )
 { }
   
 
 bool Solver::solve( double&	finalCost,
                     vector<int>& finalSolution,
-                    double	satTimeout,
-                    double	optTimeout,
+                    double satTimeout,
+                    double optTimeout,
                     bool no_random_starting_point )
 {
 	//satTimeout *= 1000; // timeouts in microseconds
@@ -159,39 +159,39 @@ bool Solver::solve( double&	finalCost,
 			currentSatCost = compute_constraints_costs( costConstraints );
 
 #if defined(TRACE)
-		cout << "Cost of constraints: ";
-		for( int i = 0; i < costConstraints.size(); ++i )
-			cout << "c[" << i << "]=" << costConstraints[i] << ", ";
-		cout << "\n";
+			cout << "Cost of constraints: ";
+			for( int i = 0; i < costConstraints.size(); ++i )
+				cout << "c[" << i << "]=" << costConstraints[i] << ", ";
+			cout << "\n";
 #endif
 
 			compute_variables_costs( costConstraints, costVariables, costNonTabuVariables, currentSatCost );
 
 #if defined(TRACE)
-		cout << "Cost of variables: ";
-		for( int i = 0; i < costVariables.size(); ++i )
-			cout << _vecVariables[i].get_name() << "=" << costVariables[i] << ", ";
-		cout << "\n";
+			cout << "Cost of variables: ";
+			for( int i = 0; i < costVariables.size(); ++i )
+				cout << _vecVariables[i].get_name() << "=" << costVariables[i] << ", ";
+			cout << "\n";
 #endif
 			
 			bool freeVariables = false;
 			decay_weak_tabu_list( freeVariables );
 
 #if defined(TRACE)
-		cout << "Tabu list: ";
-		for( auto& t : _weakTabuList )
-			cout << t << " ";
-		cout << "\n";
+			cout << "Tabu list: ";
+			for( auto& t : _weakTabuList )
+				cout << t << " ";
+			cout << "\n";
 #endif
 
 #if defined(ADAPTIVE_SEARCH)
 			auto worstVariableList = compute_worst_variables( freeVariables, costVariables );
 
 #if defined(TRACE)
-		cout << "Candidate variables: ";
-		for( auto& w : worstVariableList )
-			cout << w->get_name() << " ";
-		cout << "\n";
+			cout << "Candidate variables: ";
+			for( auto& w : worstVariableList )
+				cout << w->get_name() << " ";
+			cout << "\n";
 #endif
 
 			if( worstVariableList.size() > 1 )
@@ -349,9 +349,9 @@ double Solver::compute_constraints_costs( vector<double>& costConstraints ) cons
 }
 
 void Solver::compute_variables_costs( const vector<double>&	costConstraints,
-                                      vector<double>&		costVariables,
-                                      vector<double>&		costNonTabuVariables,
-                                      const double		currentSatCost ) const
+                                      vector<double>&	costVariables,
+                                      vector<double>&	costNonTabuVariables,
+                                      const double currentSatCost ) const
 {
 	int id;
     
@@ -471,8 +471,8 @@ void Solver::decay_weak_tabu_list( bool& freeVariables )
 }
 
 void Solver::update_better_configuration( double&	best,
-                                          const double	current,
-                                          vector<int>&	configuration )
+                                          const double current,
+                                          vector<int>& configuration )
 {
 	best = current;
 
@@ -513,10 +513,10 @@ vector< Variable* > Solver::compute_worst_variables( bool freeVariables,
 #endif
   
 // NO VALUE BACKED-UP!
-double Solver::simulate_local_move_cost( Variable*		variable,
-                                         double			value,
-                                         const vector<double>&	costConstraints,
-                                         double			currentSatCost ) const
+double Solver::simulate_local_move_cost( Variable* variable,
+                                         double	value,
+                                         const vector<double>& costConstraints,
+                                         double	currentSatCost ) const
 {
 	double newCurrentSatCost = currentSatCost;
 
@@ -527,10 +527,10 @@ double Solver::simulate_local_move_cost( Variable*		variable,
 	return newCurrentSatCost;
 }
 
-double Solver::simulate_permutation_cost( Variable*		worstVariable,
-                                          Variable&		otherVariable,
+double Solver::simulate_permutation_cost( Variable*	worstVariable,
+                                          Variable&	otherVariable,
                                           const vector<double>&	costConstraints,
-                                          double		currentSatCost ) const
+                                          double currentSatCost ) const
 {
 	double newCurrentSatCost = currentSatCost;
 	vector<bool> done( costConstraints.size(), false );
@@ -565,11 +565,11 @@ double Solver::simulate_permutation_cost( Variable*		worstVariable,
 	return newCurrentSatCost;
 }
 
-void Solver::local_move( Variable*		variable,
-                         vector<double>&	costConstraints,
-                         vector<double>&	costVariables,
-                         vector<double>&	costNonTabuVariables,
-                         double&		currentSatCost )
+void Solver::local_move( Variable* variable,
+                         vector<double>& costConstraints,
+                         vector<double>& costVariables,
+                         vector<double>& costNonTabuVariables,
+                         double& currentSatCost )
 {
 	// Here, we look at values in the variable domain
 	// leading to the lowest satisfaction cost.
@@ -611,11 +611,11 @@ void Solver::local_move( Variable*		variable,
 	// compute_variables_costs( costConstraints, costVariables, costNonTabuVariables, currentSatCost );
 }
 
-void Solver::permutation_move( Variable*	variable,
-                               vector<double>&	costConstraints,
-                               vector<double>&	costVariables,
-                               vector<double>&	costNonTabuVariables,
-                               double&		currentSatCost )
+void Solver::permutation_move( Variable* variable,
+                               vector<double>& costConstraints,
+                               vector<double>& costVariables,
+                               vector<double>& costNonTabuVariables,
+                               double& currentSatCost )
 {
 	// Here, we look at values in the variable domain
 	// leading to the lowest satisfaction cost.
@@ -645,7 +645,7 @@ void Solver::permutation_move( Variable*	variable,
 		if( bestCost > newCurrentSatCost )
 		{
 #if defined(TRACE)
-	cout << "This is a new best cost.\n";
+			cout << "This is a new best cost.\n";
 #endif
 			
 			bestCost = newCurrentSatCost;
@@ -657,12 +657,12 @@ void Solver::permutation_move( Variable*	variable,
 			{
 				bestVarToSwapList.push_back( &otherVariable );
 #if defined(TRACE)
-	cout << "Tie cost with the best one.\n";
+				cout << "Tie cost with the best one.\n";
 #endif
 			}
 	}
 
-  // // If the best cost found so far leads to a plateau,
+	// // If the best cost found so far leads to a plateau,
 	// // then we have 10% of chance to escapte from the plateau
 	// // by picking up a random variable (giving a worst global cost)
 	// // to permute with.
@@ -675,17 +675,17 @@ void Solver::permutation_move( Variable*	variable,
 	// }
 	// else
 	// {
-		// If several values lead to the same best satisfaction cost,
-		// call Objective::heuristic_value has a tie-break.
-		// By default, Objective::heuristic_value returns the value
-		// improving the most the optimization cost, or a random value
-		// among values improving the most the optimization cost if there
-		// are some ties.
-		if( bestVarToSwapList.size() > 1 )
-			bestVarToSwap = _objective->heuristic_value( bestVarToSwapList );
-		else
-			bestVarToSwap = bestVarToSwapList[0];
-  // }
+	// If several values lead to the same best satisfaction cost,
+	// call Objective::heuristic_value has a tie-break.
+	// By default, Objective::heuristic_value returns the value
+	// improving the most the optimization cost, or a random value
+	// among values improving the most the optimization cost if there
+	// are some ties.
+	if( bestVarToSwapList.size() > 1 )
+		bestVarToSwap = _objective->heuristic_value( bestVarToSwapList );
+	else
+		bestVarToSwap = bestVarToSwapList[0];
+	// }
 
 #if defined(TRACE)
 	cout << "Permutation will be done between " << variable->_id << " and " << bestVarToSwap->_id << ".\n";

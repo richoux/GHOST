@@ -2,7 +2,7 @@
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library 
  * designed to help developers to model and implement optimization problem 
  * solving. It contains a meta-heuristic solver aiming to solve any kind of 
- * combinatorial and optimization real-time problems represented by a CSP/COP. 
+ * combinatorial and optimization real-time problems represented by a CSP/COP/CFN. 
  *
  * GHOST has been first developped to help making AI for the RTS game
  * StarCraft: Brood war, but can be used for any kind of applications where 
@@ -32,38 +32,38 @@
 using namespace ghost;
 
 Objective::Objective( const string& name )
-  : name(name)
+	: name(name)
 { }
   
 int Objective::expert_heuristic_value( const vector< Variable >& variables,
                                        Variable& var,
                                        const vector< int >& possible_values ) const
 {
-  double minCost = numeric_limits<double>::max();
-  double simulatedCost;
+	double minCost = numeric_limits<double>::max();
+	double simulatedCost;
   
-  int backup = var.get_value();
-  vector<int> bestValues;
+	int backup = var.get_value();
+	vector<int> bestValues;
   
-  for( auto& v : possible_values )
-  {
-    var.set_value( v );
-    simulatedCost = cost( variables );
+	for( auto& v : possible_values )
+	{
+		var.set_value( v );
+		simulatedCost = cost( variables );
     
-    if( minCost > simulatedCost )
-    {
-      minCost = simulatedCost;
-      bestValues.clear();
-      bestValues.push_back( v );
-    }
-    else
-      if( minCost == simulatedCost )
-	      bestValues.push_back( v );
-  }
+		if( minCost > simulatedCost )
+		{
+			minCost = simulatedCost;
+			bestValues.clear();
+			bestValues.push_back( v );
+		}
+		else
+			if( minCost == simulatedCost )
+				bestValues.push_back( v );
+	}
   
-  var.set_value( backup );
+	var.set_value( backup );
   
-  return rng.pick( bestValues );
+	return rng.pick( bestValues );
 }
   
 Variable* Objective::expert_heuristic_value( const vector< Variable* >& bad_variables ) const
@@ -71,13 +71,13 @@ Variable* Objective::expert_heuristic_value( const vector< Variable* >& bad_vari
 	return rng.pick( bad_variables );
 }
  
-void Objective::expert_postprocess_satisfaction( vector< Variable >&	variables,
-						 double&		bestCost,
-						 vector< int >&		solution ) const
+void Objective::expert_postprocess_satisfaction( vector< Variable >& variables,
+                                                 double& bestCost,
+                                                 vector< int >&	solution ) const
 { }
 
-void Objective::expert_postprocess_optimization( vector< Variable >&	variables,
-						 double&		bestCost,
-						 vector< int >&		solution ) const
+void Objective::expert_postprocess_optimization( vector< Variable >& variables,
+                                                 double& bestCost,
+                                                 vector< int >&	solution ) const
 { }
 

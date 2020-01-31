@@ -2,7 +2,7 @@
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library 
  * designed to help developers to model and implement optimization problem 
  * solving. It contains a meta-heuristic solver aiming to solve any kind of 
- * combinatorial and optimization real-time problems represented by a CSP/COP. 
+ * combinatorial and optimization real-time problems represented by a CSP/COP/CFN. 
  *
  * GHOST has been first developped to help making AI for the RTS game
  * StarCraft: Brood war, but can be used for any kind of applications where 
@@ -67,22 +67,22 @@ namespace ghost
 	 */  
 	class Solver final
 	{
-		vector<Variable>&			_vecVariables;		//!< Reference to the vector of variables.
-		vector<shared_ptr<Constraint>>&	_vecConstraints;	//!< Reference to the vector of shared pointer constraints.
-		shared_ptr<Objective>		_objective;		//!< Shared pointer of the objective function.
+		vector<Variable>&	_vecVariables; //!< Reference to the vector of variables.
+		vector<shared_ptr<Constraint>>&	_vecConstraints; //!< Reference to the vector of shared pointer constraints.
+		shared_ptr<Objective>	_objective; //!< Shared pointer of the objective function.
 
-		vector<int>	_weakTabuList;		//!< The weak tabu list, frozing used variables for tabuTime iterations. 
-		//Random	_random;		//!< The random generator used by the solver.
-		mutable randutils::mt19937_rng _rng; 	//!< A neat random generator from randutils.hpp.
-		double	_bestSatCost;		//!< The satisfaction cost of the best solution.
-		double	_bestSatCostOptLoop;	//!< The satisfaction cost of the best solution in the current optimization loop.
-		double	_bestOptCost;		//!< The optimization cost of the best solution.
-		bool	_isOptimization;	//!< A boolean to know if it is a satisfaction or optimization run.
-		bool	_permutationProblem;	//!< A boolean to know if it is a permutation problem or not.
+		vector<int>	_weakTabuList; //!< The weak tabu list, frozing used variables for tabuTime iterations. 
+		//Random _random; //!< The random generator used by the solver.
+		mutable randutils::mt19937_rng _rng; //!< A neat random generator from randutils.hpp.
+		double _bestSatCost; //!< The satisfaction cost of the best solution.
+		double _bestSatCostOptLoop; //!< The satisfaction cost of the best solution in the current optimization loop.
+		double _bestOptCost; //!< The optimization cost of the best solution.
+		bool _isOptimization; //!< A boolean to know if it is a satisfaction or optimization run.
+		bool _permutationProblem; //!< A boolean to know if it is a permutation problem or not.
 		
-		int		_varOffset;		//!< Offset to shift variables id, such that the first would be shifted to 0.
-		int		_ctrOffset;		//!< Same for constraints.
-		int		_number_variables;	//!< Size of the vector of variables.
+		int	_varOffset; //!< Offset to shift variables id, such that the first would be shifted to 0.
+		int	_ctrOffset; //!< Same for constraints.
+		int	_number_variables; //!< Size of the vector of variables.
     
 		//! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 
 		class NullObjective : public Objective
@@ -96,8 +96,8 @@ namespace ghost
 			double required_cost( const vector< Variable >& variables ) const override { return 0.; }
       
 			int expert_heuristic_value( const vector< Variable >&	variables,
-			                            Variable&			var,
-			                            const vector< int >&		valuesList ) const override
+			                            Variable&	var,
+			                            const vector< int >& valuesList ) const override
 			{
 				return rng.pick( valuesList );
 			}
@@ -148,64 +148,64 @@ namespace ghost
 		void compute_variables_costs( const vector<double>& costConstraints,
 		                              vector<double>&	costVariables,
 		                              vector<double>&	costNonTabuVariables,
-		                              const double		currentSatCost ) const;
+		                              const double currentSatCost ) const;
 
 		//! Compute incrementally the now satisfaction cost IF we change the value of 'variable' by 'value' with a local move.
-		double simulate_local_move_cost( Variable			*variable,
-		                                 double			value,
-		                                 const vector<double>&	costConstraints,
-		                                 double			currentSatCost ) const;
+		double simulate_local_move_cost( Variable	*variable,
+		                                 double	value,
+		                                 const vector<double>& costConstraints,
+		                                 double	currentSatCost ) const;
 
 		//! Compute incrementally the now satisfaction cost IF we swap values of 'variable' with another variable.
-		double simulate_permutation_cost( Variable			*worstVariable,
-		                                  Variable&			otherVariable,
+		double simulate_permutation_cost( Variable *worstVariable,
+		                                  Variable&	otherVariable,
 		                                  const vector<double>&	costConstraints,
-		                                  double			currentSatCost ) const;
+		                                  double currentSatCost ) const;
 
 		//! Function to make a local move, ie, to assign a given
-		void local_move( Variable		*variable,
-		                 vector<double>&	costConstraints,
-		                 vector<double>&	costVariables,
-		                 vector<double>&	costNonTabuVariables,
-		                 double&		currentSatCost );
+		void local_move( Variable	*variable,
+		                 vector<double>& costConstraints,
+		                 vector<double>& costVariables,
+		                 vector<double>& costNonTabuVariables,
+		                 double& currentSatCost );
 
 		//! Function to make a permutation move, ie, to assign a given
-		void permutation_move( Variable		*variable,
-		                       vector<double>&	costConstraints,
-		                       vector<double>&	costVariables,
-		                       vector<double>&	costNonTabuVariables,
-		                       double&		currentSatCost );
+		void permutation_move( Variable	*variable,
+		                       vector<double>& costConstraints,
+		                       vector<double>& costVariables,
+		                       vector<double>& costNonTabuVariables,
+		                       double& currentSatCost );
     
 	public:
 		//! Solver's regular constructor
 		/*!
-		 * \param vecVariables A pointer to the vector of Variables.
-		 * \param vecConstraints A reference to the vector of Constraints.
+		 * \param vecVariables A reference to the vector of Variables.
+		 * \param vecConstraints A reference to the vector of shared pointer of Constraints.
 		 * \param obj A shared pointer to the Objective.
 		 * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
 		 */
-		Solver( vector<Variable>&			vecVariables, 
+		Solver( vector<Variable>&	vecVariables, 
 		        vector<shared_ptr<Constraint>>&	vecConstraints,
-		        shared_ptr<Objective>		objective,
-		        bool				permutationProblem = false );
+		        shared_ptr<Objective>	objective,
+		        bool permutationProblem = false );
 
 		//! Second Solver's constructor, without Objective
 		/*!
 		 * \param vecVariables A reference to the vector of Variables.
-		 * \param vecConstraints A reference to the vector of Constraints.
+		 * \param vecConstraints A reference to the vector of shared pointer of Constraints.
 		 * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
 		 */
-		Solver( vector<Variable>&			vecVariables, 
+		Solver( vector<Variable>&	vecVariables, 
 		        vector<shared_ptr<Constraint>>&	vecConstraints,
-		        bool				permutationProblem = false );
+		        bool permutationProblem = false );
     
-		//! Solver's main function, to solve the given CSP/COP.
+		//! Solver's main function, to solve the given CSP/COP/CFN.
 		/*!
-		 * This function is the heart of GHOST's solver: it will try to find a solution within a limit time. If it finds wuch a solution, 
+		 * This function is the heart of GHOST's solver: it will try to find a solution within a limited time. If it finds such a solution, 
 		 * the function outputs the value true.\n
 		 * Here how it works: if at least one solution is found, at the end of the computation, it will write in the two first
 		 * parameters finalCost and finalSolution the cost of the best solution found and the value of each variable.\n
-		 * For a satisfaction problem (without any objective functions), the cost of a solution is the sum of the cost of each
+		 * For a satisfaction problem (without any objective function), the cost of a solution is the sum of the cost of each
 		 * problem constraint (computated by Constraint::required_cost). For an optimization problem, the cost is the value outputed
 		 * by Objective::required_cost.\n
 		 * For both, the lower value the better: A satisfaction cost of 0 means we have a solution to a satisfaction problem (ie, 
@@ -215,15 +215,15 @@ namespace ghost
 		 *
 		 * The two last parameters sat_timeout and opt_timeout are fundamental: sat_timeout is mandatory, opt_timeout is optional: 
 		 * if not given, its value will be fixed to sat_timeout * 10.\n
-		 * sat_timeout is the timeout in milliseconds you give to GHOST to find a solution to the problem, ie, finding a value for 
+		 * sat_timeout is the timeout in microseconds you give to GHOST to find a solution to the problem, ie, finding a value for 
 		 * each variable such that each constraint of the problem is satisfied. For a satisfaction problem, this is the timeout within
 		 * GHOST must output a solution.\n
 		 * opt_timeout is only useful for optimization problems. Once GHOST finds a solution within sat_timeout, it saves it and try to find 
-		 * other solutions leading to better (ie, smaller) values of the objective function. Then it restart a fresh satisfaction search, 
-		 * with again sat_timeout as a timeout to find a solution. It will repeat this operation until opt_timeout is reached.
+		 * other solutions leading to better (ie, smaller) values of the objective function. Then it restarts a fresh satisfaction search, 
+		 * with once again sat_timeout as a timeout to find a solution. It will repeat this operation until opt_timeout is reached.
 		 *
-		 * Thus for instance, if you set sat_timeout to 20ms and opt_timeout to 60ms (or bit more like 61 or 62ms, see why below), you let GHOST 
-		 * the time to run 3 satisfaction runs within a global runtime of 60ms (or 61, 62ms), like illustrated below.
+		 * Thus for instance, if you set sat_timeout to 20μs and opt_timeout to 60μs (or bit more like 65μs, see why below), you let GHOST 
+		 * the time to run 3 satisfaction runs within a global runtime of 60μs (or 65μs), like illustrated below (with milliseconds instead of microseconds).
 		 *
 		 * \image html architecture.png "x and y milliseconds correspond respectively to sat_timeout and opt_timeout"
 		 * \image latex architecture.png "x and y milliseconds correspond respectively to sat_timeout and opt_timeout"
@@ -241,8 +241,8 @@ namespace ghost
 		 * \param finalCost A reference to the double of the sum of constraints cost for satisfaction problems, 
 		 * or the value of the objective function for optimization problems. For satisfaction problems, a cost of zero means a solution has been found.
 		 * \param finalSolution The configuration of the best solution found, ie, a reference to the vector of assignements of each variable.
-		 * \param sat_timeout The satisfaction timeout in milliseconds.
-		 * \param opt_timeout The optimization timeout in milliseconds (optionnal, equals to 10 times sat_timeout is not set).
+		 * \param sat_timeout The satisfaction timeout in microseconds.
+		 * \param opt_timeout The optimization timeout in microseconds (optionnal, equals to 10 times sat_timeout is not set).
 		 * \param no_random_starting_point A Boolean to indicate if the solver should not start from a random starting point. This is necessary in particular to use the resume feature.
 		 * \return True iff a solution has been found.
 		 */

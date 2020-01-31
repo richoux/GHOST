@@ -2,7 +2,7 @@
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library 
  * designed to help developers to model and implement optimization problem 
  * solving. It contains a meta-heuristic solver aiming to solve any kind of 
- * combinatorial and optimization real-time problems represented by a CSP/COP. 
+ * combinatorial and optimization real-time problems represented by a CSP/COP/CFN. 
  *
  * GHOST has been first developped to help making AI for the RTS game
  * StarCraft: Brood war, but can be used for any kind of applications where 
@@ -34,14 +34,14 @@ using namespace ghost;
 int Constraint::NBER_CTR = 0;
 
 Constraint::Constraint( const vector< reference_wrapper<Variable> >& variables )
-  : variables	( variables ),
-    id		( NBER_CTR++ )
+	: variables	( variables ),
+	  id ( NBER_CTR++ )
 { }
 
 bool Constraint::has_variable( const Variable& var ) const
 {
-  auto it = find_if( variables.cbegin(),
-		     variables.cend(),
-		     [&]( auto& v ){ return v.get().get_id() == var.get_id(); } );
-  return it != variables.cend();
+	auto it = find_if( variables.cbegin(),
+	                   variables.cend(),
+	                   [&]( auto& v ){ return v.get().get_id() == var.get_id(); } );
+	return it != variables.cend();
 }  
