@@ -1,13 +1,17 @@
 var searchData=
 [
-  ['get_5fdomain',['get_domain',['../classghost_1_1Domain.html#af14587da3669db692a9b988cc240999a',1,'ghost::Domain']]],
-  ['get_5fdomain_5fsize',['get_domain_size',['../classghost_1_1Variable.html#afd4a3fe7e7a6d1438c4e90c72b77eee7',1,'ghost::Variable']]],
-  ['get_5fid',['get_id',['../classghost_1_1Variable.html#adc5da5dedaa3d47a5eb4092b08c3f77c',1,'ghost::Variable::get_id()'],['../classghost_1_1Constraint.html#af483429a319284503ff634105cadbe08',1,'ghost::Constraint::get_id()']]],
-  ['get_5fname',['get_name',['../classghost_1_1Variable.html#a70c22841aa8d0ebe75eea92f1831c126',1,'ghost::Variable::get_name()'],['../classghost_1_1Objective.html#a27e8ef04bf5cfc74d931742a578b282e',1,'ghost::Objective::get_name()']]],
-  ['get_5frandom_5fnumber',['get_random_number',['../classghost_1_1Random.html#acc4f1a79621ed8d77c303cecda571034',1,'ghost::Random']]],
-  ['get_5fshort_5fname',['get_short_name',['../classghost_1_1Variable.html#a993e65196f2bcd0e5e5f4453736e36c5',1,'ghost::Variable']]],
-  ['get_5fsize',['get_size',['../classghost_1_1Domain.html#a222990a926a5313aef33025d48b41712',1,'ghost::Domain']]],
-  ['get_5fvalue',['get_value',['../classghost_1_1Variable.html#a7bdebf8b2a369f337690ac38ece31793',1,'ghost::Variable::get_value()'],['../classghost_1_1Domain.html#a6e50fc11a5ed2857fccb69f12c0fa07d',1,'ghost::Domain::get_value()']]],
+  ['get_5fdomain',['get_domain',['../classghost_1_1Domain.html#aac42965ba0b2953fbc07d889f610f67e',1,'ghost::Domain']]],
+  ['get_5fdomain_5fmax_5fvalue',['get_domain_max_value',['../classghost_1_1Variable.html#ad30a67f45dda72df70743e0b2e3371ed',1,'ghost::Variable']]],
+  ['get_5fdomain_5fmin_5fvalue',['get_domain_min_value',['../classghost_1_1Variable.html#ac697f67c6b142759656cacd03c0c988b',1,'ghost::Variable']]],
+  ['get_5fdomain_5fsize',['get_domain_size',['../classghost_1_1Variable.html#a1874ad8da43f7904656c066b7ac8ea0a',1,'ghost::Variable']]],
+  ['get_5fid',['get_id',['../classghost_1_1Variable.html#a4776e6a78454852cbce1e336fb3c59d1',1,'ghost::Variable::get_id()'],['../classghost_1_1Constraint.html#a15e1434d1a8b408a59b03d031c054db3',1,'ghost::Constraint::get_id()']]],
+  ['get_5fmax_5fvalue',['get_max_value',['../classghost_1_1Domain.html#adffadbc8b980a54949b3b8e740355b3f',1,'ghost::Domain']]],
+  ['get_5fmin_5fvalue',['get_min_value',['../classghost_1_1Domain.html#a82759ddf34e13e5d61df1b782f94cef1',1,'ghost::Domain']]],
+  ['get_5fname',['get_name',['../classghost_1_1Variable.html#a56d0e7d094298b30781c2b581944d7c6',1,'ghost::Variable::get_name()'],['../classghost_1_1Objective.html#a8a6a00cd379d76fb92f3c0559ebeba82',1,'ghost::Objective::get_name()']]],
+  ['get_5frandom_5fnumber',['get_random_number',['../classghost_1_1Random.html#a7069f3107f8e4f256d1fed6cf1bf1c89',1,'ghost::Random']]],
+  ['get_5fshort_5fname',['get_short_name',['../classghost_1_1Variable.html#af7c0e49f552a8771a69770305717fda3',1,'ghost::Variable']]],
+  ['get_5fsize',['get_size',['../classghost_1_1Domain.html#ac98d0c4476ea22e9ffc8970c72a2d4c2',1,'ghost::Domain']]],
+  ['get_5fvalue',['get_value',['../classghost_1_1Variable.html#a4a0fa047e6fdcc74d9afd7feeb0733a8',1,'ghost::Variable::get_value()'],['../classghost_1_1Domain.html#aa6e520996648051575cd7c10a70ab0a3',1,'ghost::Domain::get_value()']]],
   ['ghost',['ghost',['../namespaceghost.html',1,'']]],
   ['ghost',['GHOST',['../index.html',1,'']]]
 ];
