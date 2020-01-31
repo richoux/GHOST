@@ -2,7 +2,7 @@
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library 
  * designed to help developers to model and implement optimization problem 
  * solving. It contains a meta-heuristic solver aiming to solve any kind of 
- * combinatorial and optimization real-time problems represented by a CSP/COP. 
+ * combinatorial and optimization real-time problems represented by a CSP/COP/CFN. 
  *
  * GHOST has been first developped to help making AI for the RTS game
  * StarCraft: Brood war, but can be used for any kind of applications where 
@@ -10,7 +10,7 @@
  * milliseconds is needed. It is a generalization of the Wall-in project.
  * Please visit https://github.com/richoux/GHOST for further information.
  * 
- * Copyright (C) 2014-2017 Florian Richoux
+ * Copyright (C) 2014-2020 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or 
@@ -33,6 +33,10 @@
 #include <vector>
 #include <iostream>
 #include <typeinfo>
+#include <functional>
+#include <cmath> // for isnan
+#include <exception>
+#include <string>
 
 #include "variable.hpp"
 
@@ -40,88 +44,118 @@ using namespace std;
 
 namespace ghost
 {
-  //! This class encodes constraints of your CSP/COP.
-  /*! 
-   * You cannot directly use this class Constraint to encode your CSP/COP
-   * constraints, since this is an abstract class. To model a problem with GHOST, 
-   * you have to make your own constraints by inheriting from this class. 
-   * The same problem can be composed of several subclasses of Constraint.
-   *
-   * The only pure virtual Constraint function is required_cost.
-   *
-   * \sa Variable
-   */
+	//! This class encodes constraints of your CSP/COP/CFN.
+	/*! 
+	 * You cannot directly use this class Constraint to encode your CSP/COP/CFN
+	 * constraints, since this is an abstract class. To model a problem with GHOST, 
+	 * you have to make your own constraints by inheriting from this class. 
+	 * The same problem can be composed of several subclasses of Constraint.
+	 *
+	 * The only pure virtual Constraint function is required_cost, following the 
+	 * Non-Virtual Interface Idiom (see http://www.gotw.ca/publications/mill18.htm).
+	 *
+	 * \sa Variable
+	 */
 
-  class Constraint
-  {
-    static int NBER_CTR; //!< Static counter that increases each time one instanciates a Constraint object.
+	class Constraint
+	{
+		static int NBER_CTR; //!< Static counter that increases each time one instanciates a Constraint object.
 
-  protected:
-    vector< Variable >	*variables;	//!< Pointer to the vector of variable compositing the CSP/COP.
-    int				id;	//!< Unique ID integer
+		struct nanException : std::exception
+		{
+			const vector< reference_wrapper<Variable> >& variables;
+			string message;
 
-    //! Pure virtual function to compute the current cost of the constraint.
-    /*!
-     * This function is fundamental: it evalutes how much the current values of variables violate this contraint.
-     * Let's consider the following example : consider the contraint (x = y).\n
-     * If x = 42 and y = 42, then these values satify the contraint. The cost is then 0.\n
-     * If x = 42 and y = 40, the constraint is not satified, but intuitively, we are closer to have a solution than with
-     * x = 42 and y = 10,000. Thus the cost when y = 40 must be strictly lower than the cost when y = 10,000.\n
-     * Thus, a good required_cost candidate for the contraint (x = y) could be the function |x-y|.
-     * 
-     * This function MUST returns a value greater than or equals to 0.
-     *
-     * \warning Do not implement side effect in this function. It is called by the solver 
-     * to compute the constraint cost but also for some inner mechanisms (such as cost simulations).
-     *
-     * \return A positive double corresponding to the cost of the constraint with current variable values. 
-     * Outputing 0 means current values are satisfying this constraint.
-     * \sa cost
-     */
-    virtual double required_cost() const = 0;
+			nanException( const vector< reference_wrapper<Variable> >& variables ) : variables(variables)
+			{
+				message = "Constraint required_cost returned a NaN value on variables (";
+				for( int i = 0; i < (int)variables.size() - 1; ++i )
+					message += to_string(variables[i].get().get_value()) + ", ";
+				message += to_string(variables[(int)variables.size() - 1].get().get_value()) + ")\n";
+			}
+			const char* what() const noexcept { return message.c_str(); }
+		};
 
-  public:
-    //! Unique constructor
-    /*!
-     * \param variables A pointer to a vector of variables composing the constraint.
-     */
-    Constraint( vector< Variable > *variables );
+	protected:
+		const vector< reference_wrapper<Variable> >& variables;	//!< Const reference to the vector of variable references composing the CSP/COP/CFN.
+		int id;	//!< Unique ID integer
 
-    //! Default copy contructor.
-    Constraint( const Constraint& other ) = default;
-    //! Default move contructor.
-    Constraint( Constraint&& other ) = default;
+		//! Pure virtual function to compute the current cost of the constraint.
+		/*!
+		 * This function is fundamental: it evalutes how much the current values of variables violate this contraint.
+		 * Let's consider the following example : consider the contraint (x = y).\n
+		 * If x = 42 and y = 42, then these values satify the contraint. The cost is then 0.\n
+		 * If x = 42 and y = 40, the constraint is not satified, but intuitively, we are closer to have a solution than with
+		 * x = 42 and y = 10,000. Thus the cost when y = 40 must be strictly lower than the cost when y = 10,000.\n
+		 * Thus, a required_cost candidate for the contraint (x = y) could be the function |x-y|.
+		 * 
+		 * This function MUST returns a value greater than or equals to 0.
+		 *
+		 * We have the choice: if your are modeling a CSP or COP problem, then required_cost should outputs 0 if
+		 * current values of variables satisfy your constraint, and something strictly higher than 0, like 1 
+		 * for instance, otherwise.
+		 * If you are modeling a CFN problem, then it still must outputs 0 for satisfying values of variables, 
+		 * but must outputs a value strictly higher than 0 otherwise, such that the higher this value, the further
+		 * current values of variables are from satisfying your constraint.
+		 *
+		 * \warning Do not implement any side effect in this function. It is called by the solver 
+		 * to compute the constraint cost but also for some inner mechanisms (such as cost simulations).
+		 *
+		 * \return A positive double corresponding to the cost of the constraint with current variable values. 
+		 * Outputing 0 means current values are satisfying this constraint.
+		 * \sa cost
+		 */
+		virtual double required_cost() const = 0;
+
+	public:
+		//! Unique constructor
+		/*!
+		 * \param variables A const reference to a vector of variable references composing the constraint.
+		 */
+		Constraint( const vector< reference_wrapper<Variable> >& variables );
+
+		//! Default copy contructor.
+		Constraint( const Constraint& other ) = default;
+		//! Default move contructor.
+		Constraint( Constraint&& other ) = default;
     
-    //! Copy assignment operator disabled.
-    Constraint& operator=( const Constraint& other ) = delete;
-    //! Move assignment operator disabled.
-    Constraint& operator=( Constraint&& other ) = delete;
+		//! Copy assignment operator disabled.
+		Constraint& operator=( const Constraint& other ) = delete;
+		//! Move assignment operator disabled.
+		Constraint& operator=( Constraint&& other ) = delete;
     
-    //! Default virtual destructor.
-    virtual ~Constraint() = default;
+		//! Default virtual destructor.
+		virtual ~Constraint() = default;
     
-    //! Inline function following the NVI idiom. Calling required_cost.
-    /*!
-     * \sa required_cost
-     */
-    inline double cost() const { return required_cost(); }
+		//! Inline function following the NVI idiom. Calling required_cost.
+		/*!
+		 * @throw nanException
+		 * \sa required_cost
+		 */
+		inline double cost() const
+		{
+			double value = required_cost();
+			if( std::isnan( value ) )
+				throw nanException( variables );
+			return value;
+		}
 
-    //! Function to determine if the constraint contains a given variable. 
-    /*!
-     * Given a variable, returns if it composes the constraint.
-     *
-     * \param var A variable.
-     * \return True iff the constraint contains var.
-     */ 
-    bool has_variable( const Variable& var ) const;
+		//! Function to determine if the constraint contains a given variable. 
+		/*!
+		 * Given a variable, returns if it composes the constraint.
+		 *
+		 * \param var A variable.
+		 * \return True iff the constraint contains var.
+		 */ 
+		bool has_variable( const Variable& var ) const;
 
-    //! Inline function to get the unique id of the Constraint object.
-    inline int get_id() const { return id; }
+		//! Inline function to get the unique id of the Constraint object.
+		inline int get_id() const { return id; }
 
-    //! To have a nicer stream of Constraint.
-    friend ostream& operator<<( ostream& os, const Constraint& c )
-    {
-      return os << "Constraint type: " <<  typeid(c).name() << endl;
-    }
-  };
+		//! To have a nicer stream of Constraint.
+		friend ostream& operator<<( ostream& os, const Constraint& c )
+		{
+			return os << "Constraint type: " <<  typeid(c).name() << endl;
+		}
+	};
 }

@@ -8,7 +8,6 @@ doc/latex
 doc/.zcache
 
 # CMake builds
-build*
 release*
 debug*
 
@@ -17,3 +16,7 @@ tests/build*
 tests/release*
 tests/debug*
 tests/bin
+
+# tutorial obj and bin
+tutorial/obj/*
+tutorial/bin/*

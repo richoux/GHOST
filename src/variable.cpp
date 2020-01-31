@@ -2,7 +2,7 @@
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library 
  * designed to help developers to model and implement optimization problem 
  * solving. It contains a meta-heuristic solver aiming to solve any kind of 
- * combinatorial and optimization real-time problems represented by a CSP/COP. 
+ * combinatorial and optimization real-time problems represented by a CSP/COP/CFN. 
  *
  * GHOST has been first developped to help making AI for the RTS game
  * StarCraft: Brood war, but can be used for any kind of applications where 
@@ -10,7 +10,7 @@
  * milliseconds is needed. It is a generalization of the Wall-in project.
  * Please visit https://github.com/richoux/GHOST for further information.
  * 
- * Copyright (C) 2014-2017 Florian Richoux
+ * Copyright (C) 2014-2020 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or 
@@ -37,51 +37,53 @@ using namespace ghost;
 
 int Variable::NBER_VAR = 0;
 
+Variable::Variable()
+	: _id	( -1 ),
+	  _name	( "" ),
+	  _shortName ( "" ),
+	  _domain	( Domain( 0, 0 ) ),
+	  _index ( -1 ),
+	  _cache_value ( -1 )
+{ }
+
 Variable::Variable( const string& name, const string& shortName, const Domain& domain, int index )
-  : _id		( NBER_VAR++ ),
-    _name	( name ),
-    _shortName	( shortName ),
-    _domain	( domain ),
-    _index	( index )
+	: _id	( NBER_VAR++ ),
+	  _name	( name ),
+	  _shortName ( shortName ),
+	  _domain	( domain ),
+	  _index ( index ),
+	  _cache_value ( domain.get_value( index ) )
 { }
 
 Variable::Variable( const string& name, const string& shortName, const vector<int>& domain, int index )
-  : Variable( name, shortName, Domain{ domain }, index )
+	: Variable( name, shortName, Domain{ domain }, index )
 { }
 
 Variable::Variable( const string& name, const string& shortName, int startValue, size_t size, int index )
-  : Variable( name, shortName, Domain{ startValue, size }, index )
+	: Variable( name, shortName, Domain{ startValue, size }, index )
 { }
 
 Variable::Variable( const Variable &other )
-  : _id		( other._id ),
-    _name	( other._name ),
-    _shortName	( other._shortName ),
-    _domain	( other._domain ),
-    _index	( other._index )
+	: _id	( other._id ),
+	  _name	( other._name ),
+	  _shortName ( other._shortName ),
+	  _domain	( other._domain ),
+	  _index ( other._index ),
+	  _cache_value ( other._cache_value )
 { }
 
 Variable& Variable::operator=( Variable other )
 {
-  this->swap( other );
-  return *this;
+	this->swap( other );
+	return *this;
 }
 
 void Variable::swap( Variable &other )
 {
-  std::swap( this->_id,		other._id );
-  std::swap( this->_name,	other._name );
-  std::swap( this->_shortName,	other._shortName );
-  std::swap( this->_domain,	other._domain );
-  std::swap( this->_index,	other._index );
+	std::swap( this->_id,	other._id );
+	std::swap( this->_name,	other._name );
+	std::swap( this->_shortName, other._shortName );
+	std::swap( this->_domain,	other._domain );
+	std::swap( this->_index, other._index );
+	std::swap( this->_cache_value, other._cache_value );
 }  
-
-void Variable::do_random_initialization()
-{
-  set_value( _domain.random_value() );
-}
-
-const vector<int>& Variable::possible_values() const
-{
-  return _domain.get_domain();
-}    

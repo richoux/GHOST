@@ -2,6 +2,8 @@ Cmake_minimum_required (VERSION 3.0)
 project (ghost)
 
 set( CMAKE_VERBOSE_MAKEFILE on )
+OPTION(BENCH "Compile GHOST for benchmarks" OFF)
+OPTION(TRACE "Compile GHOST to have a full execution trace, for debugging" OFF)
 
 # require a C++14-capable compiler
 include(CheckCXXCompilerFlag)
@@ -20,22 +22,23 @@ if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
   set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
   add_definitions(-DDEBUG)
 else()
-  set(CMAKE_CXX_FLAGS_RELEASE "-Ofast")
+  set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
-##if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-##  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
-##  add_definitions(-DDEBUG)
-##else()
-##  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE} -Ofast")
-##endif()
+# Switch between Culprit Search (default) and Adaptive Search algorithms
+option(ADAPTIVE_SEARCH "Enable Adaptive Search algorithm" OFF)
+if(ADAPTIVE_SEARCH)
+  add_definitions(-DADAPTIVE_SEARCH)
+endif()
 
-##set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-
-if("${CMAKE_BUILD_TYPE}" STREQUAL "RelWithDebInfo")
+if(BENCH)
   add_definitions(-DBENCH)
+endif()
+
+if(TRACE)
+  add_definitions(-DTRACE)
 endif()
 
 # add the binary tree to the search path for include files so that we will find headers

@@ -1,45 +1,40 @@
 language: cpp
 
-addons:
-  apt:
-    sources:
-      # for g++
-      - ubuntu-toolchain-r-test
-      # for CMake
-#      - george-edison55-precise-backports
-      # for clang stdlib
-#      - llvm-toolchain-precise-4
-    packages:
-#      - cmake-data
-#      - cmake
-      - g++-6
-#      - clang-4
-
 matrix:
   include:
+    # Ubuntu 14.04 Trusty with gcc
     - os: linux
       dist: trusty
       sudo: required
-      compiler: 
-        - g++
-#        - clang
-#      env: 
-      env: 
-        - COMPILER=g++-6
-        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+      addons:
+        apt:
+    	    sources:
+      	    - ubuntu-toolchain-r-test
+    	    packages:
+      	    - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
-#    - os: osx
-#      osx_image: xcode9.4
-#      compiler: clang
-#      env: COMPILER=clang++-4
+    # Ubuntu 14.04 Trusty with clang
+    - os: linux
+      dist: trusty
+      sudo: required
+      addons:
+        apt:
+    	    sources:
+      	    - llvm-toolchain-trusty-5.0
+    	    packages:
+      	    - clang-5.0
+      env:
+        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
 
+    # Mac OSX
+    - os: osx
+      osx_image: xcode8
+        
 before_install:
     - eval "${MATRIX_EVAL}"
-
-before_script:
-  - if [ "$COMPILER" = "g++-6"        ]; then export CXX="g++-6" CC="gcc-6";     fi
-#  - if [ "$COMPILER" = "clang++-4" ]; then export CXX="clang++" CC="clang";    fi
-
+    
 script:
   - echo $CXX
   - $CXX --version
@@ -61,23 +56,20 @@ script:
 #  - cmake ..
 #  - make
   - sudo cp -r ../include/gmock /usr/local/include
-#  - sudo cp lib/libgmock_main.a lib/libgmock.a /usr/local/lib/
+#  - sudo cp libgmock_main.a libgmock.a /usr/local/lib/
   - cd ../../..
 
 # install GHOST
   - export LD_LIBRARY_PATH=/usr/local/lib/
-  - mkdir -p build
-  - cd build
+  - mkdir -p build ; cd build
   - cmake ..
   - make VERBOSE=1
   - sudo make install
   - cd ..
 
 # make and run tests
-  - mkdir -p tests
-  - cd tests  
-  - mkdir -p build
-  - cd build
+  - mkdir -p tests ; cd tests  
+  - mkdir -p build ; cd build
   - cmake ..
   - make
   - cd ../bin && for i in $(ls); do ./$i; done
@@ -87,4 +79,3 @@ branches:
     - master
     - develop
     - adaptive_search
-    - no_template
