@@ -7,7 +7,7 @@ RELEASETRACE="release-trace"
 DEBUG="debug"
 OSX="_osx"
 BACKPWD="$PWD"
-ADAPTIVE=""
+EXPERIMENTAL=""
 CXX="g++"
 
 RED='\033[0;31m'
@@ -32,7 +32,7 @@ fi
 
 function usage()
 {
-    echo "$0: usage: build.sh [release|bench|trace|debug|clean|doc|tests] [AS]"
+    echo "$0: usage: build.sh [release|bench|trace|debug|clean|doc|tests] [EXP]"
     exit 1
 }
 
@@ -40,7 +40,7 @@ function release()
 {
     mkdir -p $RELEASE
     cd $RELEASE
-    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=$CXX $ADAPTIVE ..
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
     make
     sudo make install
 }
@@ -49,7 +49,7 @@ function debug()
 {
     mkdir -p $DEBUG
     cd $DEBUG
-    cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=$CXX $ADAPTIVE ..
+    cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
     make
     sudo make install
 }
@@ -58,7 +58,7 @@ function trace()
 {
     mkdir -p $RELEASETRACE
     cd $RELEASETRACE
-    cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTRACE=ON -DCMAKE_CXX_COMPILER=$CXX $ADAPTIVE ..
+    cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTRACE=ON -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
     make
     sudo make install    
 }
@@ -67,7 +67,7 @@ function bench()
 {
     mkdir -p $RELEASEBENCH
     cd $RELEASEBENCH
-    cmake -DCMAKE_BUILD_TYPE=Release -DBENCH=ON -DCMAKE_CXX_COMPILER=$CXX $ADAPTIVE ..
+    cmake -DCMAKE_BUILD_TYPE=Release -DBENCH=ON -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
     make
     sudo make install    
 }
@@ -143,8 +143,8 @@ if [ $# -eq 0 ]; then
 fi
 
 if [ $# -eq 2 ]; then
-    if [ "$2" == "AS" ]; then
-	ADAPTIVE="-DADAPTIVE_SEARCH=ON"
+    if [ "$2" == "EXP" ]; then
+	EXPERIMENTAL="-DEXPERIMENTAL=ON"
     fi
 fi
 
