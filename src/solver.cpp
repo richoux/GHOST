@@ -184,7 +184,7 @@ bool Solver::solve( double&	finalCost,
 			cout << "\n";
 #endif
 
-#if defined(ADAPTIVE_SEARCH)
+#if !defined(EXPERIMENTAL)
 			auto worstVariableList = compute_worst_variables( freeVariables, costVariables );
 
 #if defined(TRACE)
@@ -482,7 +482,7 @@ void Solver::update_better_configuration( double&	best,
 	//   configuration[ v._id - _varOffset ] = v.get_value();
 }
 
-#if defined(ADAPTIVE_SEARCH)
+#if !defined(EXPERIMENTAL)
 vector< Variable* > Solver::compute_worst_variables( bool freeVariables,
                                                      const vector<double>& costVariables )
 {
