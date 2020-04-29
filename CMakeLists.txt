@@ -44,11 +44,15 @@ endif()
 # add the binary tree to the search path for include files so that we will find headers
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-# add the targets
+# add targets:
+# for the shared library
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+# for the static library
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
-# add the library
+# add both the dynamic and static version of the library
 add_library(ghost SHARED src/domain.cpp src/variable.cpp src/constraint.cpp src/objective.cpp src/solver.cpp)
+add_library(ghost_static STATIC src/domain.cpp src/variable.cpp src/constraint.cpp src/objective.cpp src/solver.cpp)
 
 #gather headers list
 file(GLOB libHeadersList
