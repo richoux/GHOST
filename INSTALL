@@ -49,7 +49,7 @@ have a projet file corresponding to your IDE. For Visual Studio, it is ghost.sln
 
 ============
 On all OS:
-Both the dynamic and static version of the library can be found in the lib repertory of this current folder.
+Both the dynamic and static version of the library can be found in the lib directory of this current folder.
 
 
 ============
