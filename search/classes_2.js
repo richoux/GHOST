@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['objective',['Objective',['../classghost_1_1Objective.html',1,'ghost']]]
+  ['domain',['Domain',['../classghost_1_1Domain.html',1,'ghost']]]
 ];

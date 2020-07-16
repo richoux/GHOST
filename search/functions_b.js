@@ -1,8 +1,12 @@
 var searchData=
 [
-  ['_7econstraint',['~Constraint',['../classghost_1_1Constraint.html#aebea8263c24d0c3a5328c20ee0006f32',1,'ghost::Constraint']]],
-  ['_7edomain',['~Domain',['../classghost_1_1Domain.html#aa5d4791c2f90c021d9f19746f4694039',1,'ghost::Domain']]],
-  ['_7eobjective',['~Objective',['../classghost_1_1Objective.html#a9b288b785eb9abd31389adffe0e82716',1,'ghost::Objective']]],
-  ['_7erandom',['~Random',['../classghost_1_1Random.html#a5b2a324a97684d12174a6f97bdb43aaa',1,'ghost::Random']]],
-  ['_7evariable',['~Variable',['../classghost_1_1Variable.html#a06aa85e69ddf9a887dcc31c61dca70ab',1,'ghost::Variable']]]
+  ['sample',['sample',['../classrandutils_1_1random__generator.html#a6572f276cd3c8fd547ffbefce5cd4dc4',1,'randutils::random_generator::sample(Size to_go, Iter first, Iter last)'],['../classrandutils_1_1random__generator.html#a1f99da2d77fccea01edc3a5fe32255ac',1,'randutils::random_generator::sample(Size to_go, Range &amp;&amp;range) -&gt; decltype(std::begin(range))']]],
+  ['seed',['seed',['../structrandutils_1_1seed__seq__fe.html#ad4b55fdb44ca51461e4e9aa9ec6aba89',1,'randutils::seed_seq_fe::seed()'],['../classrandutils_1_1random__generator.html#ae25cea4c3bd86714fb8f2c2135842e68',1,'randutils::random_generator::seed(Seeding &amp;&amp;seeding=default_seed_type{})'],['../classrandutils_1_1random__generator.html#aa73b154ba1e81729d845166b2624b425',1,'randutils::random_generator::seed(Seeding &amp;&amp;seeding, Params &amp;&amp;... params)']]],
+  ['seed_5fseq_5ffe',['seed_seq_fe',['../structrandutils_1_1seed__seq__fe.html#adfc89fa1466e011b999baad509645b50',1,'randutils::seed_seq_fe::seed_seq_fe(const seed_seq_fe &amp;)=delete'],['../structrandutils_1_1seed__seq__fe.html#ad716e450723c10c84a725a2e7bd0fbcd',1,'randutils::seed_seq_fe::seed_seq_fe(std::initializer_list&lt; T &gt; init)'],['../structrandutils_1_1seed__seq__fe.html#a18d0ce2ce0ac242c65e7d0aade46816e',1,'randutils::seed_seq_fe::seed_seq_fe(InputIter begin, InputIter end)']]],
+  ['set_5fvalue',['set_value',['../classghost_1_1Variable.html#a06f6c296986a017e1713961b4d763b0c',1,'ghost::Variable']]],
+  ['shuffle',['shuffle',['../classrandutils_1_1random__generator.html#aaa2790b3799d1a62d489ae3efefbb006',1,'randutils::random_generator::shuffle(Iter first, Iter last)'],['../classrandutils_1_1random__generator.html#a96bd60aadafa23dc853dcd9414f26b69',1,'randutils::random_generator::shuffle(Range &amp;&amp;range)']]],
+  ['size',['size',['../structrandutils_1_1seed__seq__fe.html#a3e9976ba5975a1ca19974cf4eaba72bc',1,'randutils::seed_seq_fe']]],
+  ['solve',['solve',['../classghost_1_1Solver.html#a31d21dccc6a803452a81839495294019',1,'ghost::Solver']]],
+  ['solver',['Solver',['../classghost_1_1Solver.html#a08cd6511d8f11a1b78a6e46c9f02ec8a',1,'ghost::Solver::Solver(vector&lt; Variable &gt; &amp;vecVariables, vector&lt; shared_ptr&lt; Constraint &gt;&gt; &amp;vecConstraints, shared_ptr&lt; Objective &gt; objective, bool permutationProblem=false)'],['../classghost_1_1Solver.html#a8fef29b475575713d7c507569e25976c',1,'ghost::Solver::Solver(vector&lt; Variable &gt; &amp;vecVariables, vector&lt; shared_ptr&lt; Constraint &gt;&gt; &amp;vecConstraints, bool permutationProblem=false)']]],
+  ['stir',['stir',['../structrandutils_1_1seed__seq__fe.html#af0bd79352a6fee86f10fb4d45058ef79',1,'randutils::seed_seq_fe']]]
 ];

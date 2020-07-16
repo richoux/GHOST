@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['unshiftvalue',['unshiftValue',['../classghost_1_1Variable.html#a3bebc2cc15609a5280a4949d63f7405d',1,'ghost::Variable']]]
+  ['variable',['Variable',['../classghost_1_1Variable.html',1,'ghost::Variable'],['../classghost_1_1Variable.html#aa5dc881b8a239206bf55d018cc4a2156',1,'ghost::Variable::Variable(const string &amp;name, const string &amp;shortName, const vector&lt; int &gt; &amp;domain, int index=0)'],['../classghost_1_1Variable.html#abae563e3f8ac3cc0f81b8736ae86d5b8',1,'ghost::Variable::Variable(const string &amp;name, const string &amp;shortName, int startValue, size_t size, int index=0)'],['../classghost_1_1Variable.html#ac9fb0513e1d15a047816821e034589ea',1,'ghost::Variable::Variable(const Variable &amp;other)']]],
+  ['variable_2ehpp',['variable.hpp',['../variable_8hpp.html',1,'']]],
+  ['variables',['variables',['../classghost_1_1Constraint.html#a666488cdaee8767912b226230a0a253f',1,'ghost::Constraint']]],
+  ['variate',['variate',['../classrandutils_1_1random__generator.html#a43c1255565bcff78175b2cb26f34ca0b',1,'randutils::random_generator']]]
 ];

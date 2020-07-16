@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ghost',['GHOST',['../index.html',1,'']]]
+  ['introduction',['Introduction',['../index.html',1,'']]]
 ];
