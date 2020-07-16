@@ -12,6 +12,5 @@ var searchData=
   ['get_5fshort_5fname',['get_short_name',['../classghost_1_1Variable.html#af7c0e49f552a8771a69770305717fda3',1,'ghost::Variable']]],
   ['get_5fsize',['get_size',['../classghost_1_1Domain.html#ac98d0c4476ea22e9ffc8970c72a2d4c2',1,'ghost::Domain']]],
   ['get_5fvalue',['get_value',['../classghost_1_1Variable.html#a4a0fa047e6fdcc74d9afd7feeb0733a8',1,'ghost::Variable::get_value()'],['../classghost_1_1Domain.html#aa6e520996648051575cd7c10a70ab0a3',1,'ghost::Domain::get_value()']]],
-  ['ghost',['ghost',['../namespaceghost.html',1,'']]],
-  ['ghost',['GHOST',['../index.html',1,'']]]
+  ['ghost',['ghost',['../namespaceghost.html',1,'']]]
 ];

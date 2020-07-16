@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GHOST: GHOST</title>
+<title>GHOST: Main Page</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,77 +59,13 @@ $(function() {
 
 <div class="header">
   <div class="headertitle">
-<div class="title">GHOST </div>  </div>
+<div class="title">GHOST Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>GHOST documentation </p><dl class="section author"><dt>Author</dt><dd>Florian Richoux</dd></dl>
-<h1>Introduction </h1>
-<p>GHOST (General meta-Heuristic Optimization Solving Tool) is a template C++11 library designed for StarCraft: Brood war. GHOST implements a meta-heuristic solver aiming to solve any kind of combinatorial and optimization RTS-related problems represented by a CSP. It is an generalization of the Wall-in project (see <a href="https://github.com/richoux/Wall-in">github.com/richoux/Wall-in</a>).</p>
-<p>The source code is available at <a href="https://github.com/richoux/GHOST">github.com/richoux/GHOST</a>, and the documentation pages at <a href="http://richoux.github.io/GHOST">richoux.github.io/GHOST</a>. GHOST is under the terms of the GNU GPL v3 licence.</p>
-<h2>Scientific papers: </h2>
-<ul>
-<li>Florian Richoux, Jean-François Baffier and Alberto Uriarte, GHOST: A Combinatorial Optimization Solver for RTS-related Problems (to appear).</li>
-<li>Florian Richoux, Alberto Uriarte and Santiago Ontañón, Walling in Strategy Games via Constraint Optimization (to appear in AIIDE 2014 proceedings).</li>
-<li>Santiago Ontañón, Gabriel Synnaeve, Alberto Uriarte, Florian Richoux, David Churchill and Mike Preuss, <a href="http://pagesperso.lina.univ-nantes.fr/~richoux-f/publications/tciaig13.pdf">A Survey of Real-Time Strategy Game AI Research and Competition in StarCraft</a>, Transactions on Computational Intelligence and AI in Games, IEEE, 2013.</li>
-</ul>
-<h1>A short CSP/COP tutorial </h1>
-<h2>Intuition behind CSP and COP </h2>
-<p>Constraint Satisfaction Problems (CSP) and Constraint Optimization Problems (COP) are two close formalisms intensively used in Artificial Intelligence to solve combinatorial and optimization problems. They allow you to easily express what your problem is, and offer you a uniform way to solve all problems you can describe by a CSP or a COP.</p>
-<p>The difference between a CSP and a COP is simple:</p>
-<ul>
-<li>A CSP models a satisfaction problem, that is to say, a problem where all solutions are equivalent, so you just want to find one of them. Example: find a solution of a Sudoku grid. Several solutions may exist, but finding one is sufficient, and no solutions seem better than another one.</li>
-<li>A COP models an optimization problem, where some solutions are better than others. Example: you may have several paths from your home to your workplace, but some of them are shorter.</li>
-</ul>
-<p>Let start by defining a CSP. To model your problem by a CSP, you need to define three things:</p>
-<ul>
-<li>V, the set of variables of your CSP.</li>
-<li>D, the domain of your CSP, that is to say, the set of values your variable can take.</li>
-<li>C, the set of constraint symbols of your CSP.</li>
-</ul>
-<p>Let's take a simple example:</p>
-<ul>
-<li>V = {x, y, z}. The variables of our CSP would be <em>x</em>, <em>y</em> and <em>z</em>.</li>
-<li>D = {0, 1, 2}. Our variable x, y and z can take a value from D, ie, be either equals to <em>0</em>, <em>1</em> or <em>2</em>. We can have for instance x = 1, y = 1 and z = 0.</li>
-<li>C = { =, &ne;, &lt; }. We have three types of constraint symbols here: <em>equal</em>, <em>different</em> and <em>less than</em>.</li>
-</ul>
-<p>Ok, now what? Well, to describe our problem, we have to build a formula from our CSP. This is a bit like playing to Lego: you combine blocks to build bigger blocks, then you combien your bigger blocks to create an object.</p>
-<p>Here, your blocks are your variables. You can combine them with a constraint symbol to build a bigger block, ie, a constraint. For instance, we can build the constraint (x=z), or the constraint (z&ne;y), etc.</p>
-<p>Then, we can build a formula by combining constraints. Combining means here we have a conjuction, ie a "and"-operator linking two constraints. A formula with the CSP describe above could be for instance</p>
-<p>(z=y) AND (y&ne;x) AND (x&lt;z)</p>
-<h2>A first example of a CSP formula </h2>
-<p>Concider the following CSP:</p>
-<ul>
-<li>V = {a, b, c, d}.</li>
-<li>D = {0, 1, 2}.</li>
-<li>C = { =, &ne;, &lt; }.</li>
-</ul>
-<p>and suppose our problem is modeled by the formula</p>
-<p>(a=b) AND (b&ne;d) AND (d&lt;c) AND (b&lt;c)</p>
-<p>A solution of our problem is a good evaluation of each variable to a value of the domain D. In other words, if we find a way to give a value from D to each variable of V such that all constraints are true (we also say, are satisfyed), then we have a solution to our problem.</p>
-<p>For instance, the evaluation a=1, b=1, c=2 and d=1 is not a solution of the formula, because the second constraint (b&ne;d) is not satisfyed (indeed (1&ne;1) is false).</p>
-<p>However, the evaluation a=1, b=1, c=2 and d=0 satisfies all constraints of the formula, and is then a solution to our problem.</p>
-<h2>A concrete problem modeled by a CSP formula </h2>
-<p>Ok, now how to model a problem through a CSP formula? This is not always trivial and require some experience. Let see how to model two famous graph problems with the CSP formalism.</p>
-<p>I assume the reader know what a graph is; otherwise here is the main idea: it is a set of vertices where some of them are linked by an edge. See the picture below, an example of graph with four vertices (named A, B, C and D). Graphs are simple mathematical objects but expresive enough to model complex problems, like finding the shortest path between two cities (your GPS use graphs!).</p>
-<div class="image">
-<img src="graph_template.png" alt="graph_template.png"/>
-<div class="caption">
-Figure 1: An example of a graph</div></div>
-<p> Let consider the 3-COLOR problem: Given a graph, is it possible to colorize each vertex with one of the three available colors (say, red, blue and green) such that there is no couple of vertices linked by an edge sharing the same color?</p>
-<p>Before continuing, think about:</p>
-<ul>
-<li>How could you define a CSP modelling the 3-COLOR problem?</li>
-<li>If I give you the graph above, how could you built a CSP formula to solve the 3-COLOR problem for this graph?</li>
-</ul>
-<p>TO CONTINUE</p>
-<h1>How to use GHOST? </h1>
-<p>TODO</p>
-<h1>How to define and solve my own CSP problem with GHOST? </h1>
-<p>TODO </p>
-</div></div><!-- contents -->
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 31 2020 15:18:47 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 16 2020 15:14:49 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

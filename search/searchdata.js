@@ -7,7 +7,7 @@ var indexSectionsWithContent =
   4: "cdeghioprsv~",
   5: "inrv",
   6: "os",
-  7: "dg"
+  7: "d"
 };
 
 var indexSectionNames =
