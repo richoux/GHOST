@@ -1,8 +1,8 @@
 GHOST [![1.0.1](https://img.shields.io/badge/stable-1.0.1-brightgreen.svg)](https://github.com/richoux/GHOST/releases/tag/1.0.1) [![1.0.x](https://img.shields.io/badge/latest-1.0.x-f57f17.svg)](https://github.com/richoux/GHOST/tree/develop)
 =====
 
-[![Actions Status](https://github.com/richoux/GHOST/workflows/Linux_Release_Test/badge.svg)](https://github.com/richoux/GHOST/actions)
-[![Actions Status](https://github.com/richoux/GHOST/workflows/Macos_Release_Test/badge.svg)](https://github.com/richoux/GHOST/actions)
+[![Actions Status](https://github.com/richoux/GHOST/workflows/Linux_Release_Test/badge.svg)](https://github.com/richoux/GHOST/actions)  
+[![Actions Status](https://github.com/richoux/GHOST/workflows/MacOS_Release_Test/badge.svg)](https://github.com/richoux/GHOST/actions)  
 [![Actions Status](https://github.com/richoux/GHOST/workflows/Windows_Release_Test/badge.svg)](https://github.com/richoux/GHOST/actions)
 
 [![License](https://img.shields.io/badge/License-GNU_GPL_v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
