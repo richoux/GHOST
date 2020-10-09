@@ -9,23 +9,39 @@ OPTION(TRACE "Compile GHOST to have a full execution trace, for debugging" OFF)
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
 CHECK_CXX_COMPILER_FLAG("-std=c++1y" COMPILER_SUPPORTS_CXX1Y)
+CHECK_CXX_COMPILER_FLAG("/std:c++14" COMPILER_SUPPORTS_CXX14_WIN)
 if(COMPILER_SUPPORTS_CXX14)
   set(CMAKE_CXX_FLAGS "-std=c++14")
 elseif(COMPILER_SUPPORTS_CXX1Y)
   set(CMAKE_CXX_FLAGS "-std=c++1y")
+elseif(COMPILER_SUPPORTS_CXX14_WIN)
+  set(CMAKE_CXX_FLAGS "/std:c++14")
 else()
   message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++14 support. Please use a different C++ compiler.")
 endif()
 
 # compilation options
-if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-  set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
-  add_definitions(-DDEBUG)
+if(WIN32)
+	if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+		set(CMAKE_CXX_FLAGS_DEBUG "/Zi /Od")
+		add_definitions(-DDEBUG)
+	else()
+		set(CMAKE_CXX_FLAGS_RELEASE "/O2")
+	endif()
 else()
-  set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-endif()
+	if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+		set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
+		add_definitions(-DDEBUG)
+	else()
+		set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+	endif()
+endif()	
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+if(WIN32)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Wall")
+else()
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
+endif()	
 
 # Switch between Adaptive Search (default) and experimental search algorithms
 option(EXPERIMENTAL "Enable experimental search algorithm" OFF)
@@ -44,13 +60,10 @@ endif()
 # add the binary tree to the search path for include files so that we will find headers
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-# add targets:
-# for the shared library
+# add the targets
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
-# for the static library
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
-# add both the dynamic and static version of the library
+# add the library
 add_library(ghost SHARED src/domain.cpp src/variable.cpp src/constraint.cpp src/objective.cpp src/solver.cpp)
 add_library(ghost_static STATIC src/domain.cpp src/variable.cpp src/constraint.cpp src/objective.cpp src/solver.cpp)
 
@@ -66,6 +79,7 @@ file(GLOB libMiscHeadersList
 
 # add the install targets
 install (TARGETS ghost DESTINATION "lib")
+install (TARGETS ghost_static DESTINATION "lib")
 install (FILES ${libHeadersList} DESTINATION "include/ghost")
 install (FILES ${libMiscHeadersList} DESTINATION "include/ghost/misc")
 
