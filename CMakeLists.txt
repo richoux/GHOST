@@ -30,17 +30,20 @@ if(WIN32)
 	endif()
 else()
 	if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-		set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
+		set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -fsanitize=address,undefined,leak")
 		add_definitions(-DDEBUG)
 	else()
 		set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 	endif()
 endif()	
 
+# add 'd' at the end of the library name compiled in Debug mode
+set(CMAKE_DEBUG_POSTFIX d)
+
 if(WIN32)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /permissive-")
 else()
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Wno-unused-parameter")
 endif()	
 
 # Switch between Adaptive Search (default) and experimental search algorithms
