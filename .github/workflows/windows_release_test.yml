@@ -54,4 +54,4 @@ jobs:
     - name: Run Test
       working-directory: ${{runner.workspace}}/GHOST/tests/build
       shell: cmd
-      run: copy "C:/Program Files (x86)/ghost/lib/ghost.dll" ../bin/Release/ && ctest -C Release
+      run: copy "C:\Program Files (x86)\ghost\lib\ghost.dll" "D:\a\GHOST\GHOST\tests\bin\Release\ghost.dll" && ctest -C Release
