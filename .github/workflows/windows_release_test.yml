@@ -54,4 +54,4 @@ jobs:
     - name: Run Test
       working-directory: ${{runner.workspace}}/GHOST/tests/build
       shell: cmd
-      run: ctest -C ${BUILD_TYPE}
+      run: ctest -C $BUILD_TYPE
