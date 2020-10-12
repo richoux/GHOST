@@ -49,7 +49,7 @@ jobs:
             
     - name: Build Test
       working-directory: ${{runner.workspace}}/GHOST/tests
-      run: mkdir build && cd build && cmake .. && cmake --build . --config Release
+      run: mkdir build && cd build && cmake .. -A "x64" && cmake --build . --config Release
   
     - name: Run Test
       working-directory: ${{runner.workspace}}/GHOST/tests/build
