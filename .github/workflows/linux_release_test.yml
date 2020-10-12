@@ -52,6 +52,6 @@ jobs:
       run: mkdir build && cd build && cmake .. && make 
   
     - name: Run Test
-      working-directory: ${{runner.workspace}}/GHOST/tests
+      working-directory: ${{runner.workspace}}/GHOST/tests/build
       shell: bash
-      run: for i in $(ls bin); do ./bin/$i; done
+      run: ctest

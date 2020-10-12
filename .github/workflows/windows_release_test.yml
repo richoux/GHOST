@@ -52,6 +52,6 @@ jobs:
       run: mkdir build && cd build && cmake .. && cmake --build . --config Release
   
     - name: Run Test
-      working-directory: ${{runner.workspace}}/GHOST/tests
+      working-directory: ${{runner.workspace}}/GHOST/tests/build
       shell: cmd
-      run: for %%i in (.\bin\*) do %%i
+      run: ctest

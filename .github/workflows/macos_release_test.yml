@@ -52,6 +52,6 @@ jobs:
       run: export CXXFLAGS=-isystem\ /usr/local/include && export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib" && cp /usr/local/lib/libgtest*.a . && mkdir build && cd build && cmake .. && make 
   
     - name: Run Test
-      working-directory: ${{runner.workspace}}/GHOST/tests
+      working-directory: ${{runner.workspace}}/GHOST/tests/build
       shell: bash
-      run: for i in $(ls bin); do ./bin/$i; done
+      run: ctest
