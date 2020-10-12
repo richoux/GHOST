@@ -45,7 +45,7 @@ jobs:
     - name: Install GHOST
       working-directory: ${{runner.workspace}}/GHOST/build
       shell: cmd
-      run: cmake --install . --config Release
+      run: cmake --install . --config Release && set PATH="C:\Program Files (x86)\ghost\lib\";%PATH%
             
     - name: Build Test
       working-directory: ${{runner.workspace}}/GHOST/tests
@@ -54,4 +54,4 @@ jobs:
     - name: Run Test
       working-directory: ${{runner.workspace}}/GHOST/tests/build
       shell: cmd
-      run: copy "C:\Program Files (x86)\ghost\lib\ghost.dll" "D:\a\GHOST\GHOST\tests\bin\Release\ghost.dll" && ctest -C Release
+      run: ctest -C Release
