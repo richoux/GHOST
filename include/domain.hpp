@@ -38,8 +38,6 @@
 
 #include "misc/randutils.hpp"
 
-using namespace std;
-
 namespace ghost
 {
 	//! This class encodes domains of your CSP/COP/CFN variables. You cannot inherits your own class from Domain.  
@@ -49,11 +47,11 @@ namespace ghost
 	 */
 	class Domain final
 	{
-		vector< int >	_domain;	//!< Vector of integers containing the current values of the domain.
-		vector< int >	_indexes;	//!< Vector of integers containing indexes of current values of the domain.
+		std::vector< int >	_domain;	//!< Vector of integers containing the current values of the domain.
+		std::vector< int >	_indexes;	//!< Vector of integers containing indexes of current values of the domain.
 		int	_minValue;	//!< Min value, used for indexes.
 		int	_maxValue;	//!< Max value.
-		size_t _size;		//!< Size of _domain, ie, number of elements it contains.
+		std::size_t _size;		//!< Size of _domain, ie, number of elements it contains.
 		//Random _random;	//!< A random generator used by the function randomValue.
 		mutable randutils::mt19937_rng _rng; 	//!< A neat random generator from randutils.hpp.
 
@@ -75,7 +73,7 @@ namespace ghost
 			int index;
 			int size;
 			indexException( int index, int size ) : index(index), size(size) {}
-			string message = "Wrong index " + to_string( index ) + " passed to Domain::get_value. An index should be between 0 (included) and " + to_string( size ) + " (excluded).\n";
+			std::string message = "Wrong index " + std::to_string( index ) + " passed to Domain::get_value. An index should be between 0 (included) and " + std::to_string( size ) + " (excluded).\n";
 			const char* what() const noexcept { return message.c_str(); }
 		};
     
@@ -85,7 +83,7 @@ namespace ghost
 			int min;
 			int max;
 			valueException( int value, int min, int max ) : value(value), min(min), max(max) {}
-			string message = "Wrong value " + to_string( value ) + " passed to Domain::index_of. A value should be between " + to_string(min) + " (included) and " + to_string(max) + " (included).\n";
+			std::string message = "Wrong value " + std::to_string( value ) + " passed to Domain::index_of. A value should be between " + std::to_string(min) + " (included) and " + std::to_string(max) + " (included).\n";
 			const char* what() const noexcept { return message.c_str(); }
 		};
     
@@ -104,7 +102,7 @@ namespace ghost
 		 *
 		 * \param domain A vector of int corresponding to the variable domain.
 		 */
-		Domain( const vector< int >& domain );
+		Domain( const std::vector< int >& domain );
 
 		/*!
 		 * Constructor taking a starting value 'startValue' and the domain of size 'size', 
@@ -113,7 +111,7 @@ namespace ghost
 		 * \param startValue An integer specifying what is the first value in the domain.
 		 * \param size A size_t specifying the number of elements in the domain.
 		 */
-		Domain( int startValue, size_t size );
+		Domain( int startValue, std::size_t size );
 
 		/*!
 		 * Unique copy constructor.
@@ -147,7 +145,7 @@ namespace ghost
 		 * 
 		 * \return A size_t corresponding to the size of the domain.
 		 */
-		inline size_t get_size() const
+		inline std::size_t get_size() const
 		{
 			return _size;
 		}
@@ -171,7 +169,7 @@ namespace ghost
 		 *
 		 * \return A const reference to the vector of integer within Domain representing the domain.
 		 */
-		inline const vector<int>& get_domain() const
+		inline const std::vector<int>& get_domain() const
 		{
 			return _domain;
 		}
@@ -192,10 +190,10 @@ namespace ghost
 		int index_of( int value ) const;
 
 		//! To have a nicer stream of Domain.
-		friend ostream& operator<<( ostream& os, const Domain& domain )
+		friend std::ostream& operator<<( std::ostream& os, const Domain& domain )
 		{
 			os << "Size: " <<  domain._size << "\nDomain: ";
-			copy( begin( domain._domain ), end( domain._domain ), ostream_iterator<int>( os, " " ) );
+			std::copy( std::begin( domain._domain ), std::end( domain._domain ), std::ostream_iterator<int>( os, " " ) );
 			return os << "\n";
 		}
 	};

@@ -39,8 +39,6 @@
 #include "variable.hpp"
 #include "misc/randutils.hpp"
 
-using namespace std;
-
 namespace ghost
 {
 	//! This class encodes objective functions of your COP/CFN, as well as the special class NullObjective for CSP.
@@ -61,15 +59,15 @@ namespace ghost
 	{
 		struct nanException : std::exception
 		{
-			const vector< Variable >&	variables;
-			string message;
+			const std::vector< Variable >&	variables;
+			std::string message;
 
-			nanException( const vector< Variable >&	variables ) : variables(variables)
+			nanException( const std::vector< Variable >&	variables ) : variables(variables)
 			{
 				message = "Objective required_cost returned a NaN value on variables (";
 				for( int i = 0; i < (int)variables.size() - 1; ++i )
-					message += to_string(variables[i].get_value()) + ", ";
-				message += to_string(variables[(int)variables.size() - 1].get_value()) + ")\n";
+					message += std::to_string(variables[i].get_value()) + ", ";
+				message += std::to_string(variables[(int)variables.size() - 1].get_value()) + ")\n";
 			}
 			const char* what() const noexcept { return message.c_str(); }
 		};
@@ -78,7 +76,7 @@ namespace ghost
     
 		//Random random; //!< Random generator used by the function heuristicValue.
 		mutable randutils::mt19937_rng rng; //!< A neat random generator from randutils.hpp.
-		string name; //!< String for the name of the objective object.
+		std::string name; //!< String for the name of the objective object.
 
 		//! Pure virtual function to compute the value of the objective function on the current configuration.
 		/*! 
@@ -92,7 +90,7 @@ namespace ghost
 		 * Unlike Constraint::required_cost, this output may be negative.
 		 * \sa cost
 		 */
-		virtual double required_cost( const vector< Variable >& variables ) const = 0;
+		virtual double required_cost( const std::vector< Variable >& variables ) const = 0;
 
 		//! Virtual function to apply the value heuristic used by the solver for non permutation problems.
 		/*! 
@@ -112,9 +110,9 @@ namespace ghost
 		 * \return The selected value according to the heuristic.
 		 * \sa heuristic_value
 		 */
-		virtual int	expert_heuristic_value( const vector< Variable >&	variables,
+		virtual int	expert_heuristic_value( const std::vector< Variable >&	variables,
 		                                    Variable& var,
-		                                    const vector< int >& possible_values ) const;
+		                                    const std::vector< int >& possible_values ) const;
 
 		//! Virtual function to apply the value heuristic used by the solver for permutation problems.
 		/*! 
@@ -131,7 +129,7 @@ namespace ghost
 		 * \return The address of the selected variable to swap with, according to the heuristic.
 		 * \sa heuristic_value
 		 */
-		virtual Variable* expert_heuristic_value( const vector< Variable* >& bad_variables ) const;
+		virtual Variable* expert_heuristic_value( const std::vector< Variable* >& bad_variables ) const;
 
 		//! Virtual function to perform satisfaction post-processing.
 		/*! 
@@ -148,9 +146,9 @@ namespace ghost
 		 * \param solution A reference to the vector of variables of the solution found by the solver. This vector may be updated, justifying a non const reference
 		 * \sa postprocess_satisfaction
 		 */
-		virtual void expert_postprocess_satisfaction( vector< Variable >&	variables,
+		virtual void expert_postprocess_satisfaction( std::vector< Variable >&	variables,
 		                                              double&	bestCost,
-		                                              vector< int >& solution ) const;
+		                                              std::vector< int >& solution ) const;
 
 		//! Virtual function to perform optimization post-processing.
 		/*! 
@@ -171,16 +169,16 @@ namespace ghost
 		 * \param solution A reference to the vector of variables of the solution found by the solver. This vector may be updated, justifying a non const reference
 		 * \sa postprocess_optimization
 		 */
-		virtual void expert_postprocess_optimization( vector< Variable >&	variables,
+		virtual void expert_postprocess_optimization( std::vector< Variable >&	variables,
 		                                              double&		bestCost,
-		                                              vector< int >&	solution ) const;
+		                                              std::vector< int >&	solution ) const;
 
 	public:
 		//! Unique constructor
 		/*!
 		 * \param name A const reference to a string to give the Objective object a specific name.
 		 */
-		Objective( const string& name );
+		Objective( const std::string& name );
 
 		//! Default copy contructor.
 		Objective( const Objective& other ) = default;
@@ -200,7 +198,7 @@ namespace ghost
 		 * @throw nanException
 		 * \sa required_cost
 		 */
-		inline double cost( const vector< Variable >& variables ) const
+		inline double cost( const std::vector< Variable >& variables ) const
 		{
 			double value = required_cost( variables );
 			if( std::isnan( value ) )
@@ -212,37 +210,37 @@ namespace ghost
 		/*! 
 		 * \sa expert_heuristic_value
 		 */
-		inline int heuristic_value( const vector< Variable >&	variables,
+		inline int heuristic_value( const std::vector< Variable >&	variables,
 		                            Variable&	var,
-		                            const vector< int >& possible_values ) const
+		                            const std::vector< int >& possible_values ) const
 		{ return expert_heuristic_value( variables, var, possible_values ); }
 
 		//! Inline function following the NVI idiom. Calling expert_heuristic_value.
 		/*! 
 		 * \sa expert_heuristic_value
 		 */
-		inline Variable* heuristic_value( const vector< Variable* >& bad_variables ) const
+		inline Variable* heuristic_value( const std::vector< Variable* >& bad_variables ) const
 		{ return expert_heuristic_value( bad_variables ); }
 
 		//! Inline function following the NVI idiom. Calling expert_postprocess_satisfaction.
 		/*! 
 		 * \sa expert_postprocess_satisfaction
 		 */
-		inline void postprocess_satisfaction( vector< Variable >&	variables,
+		inline void postprocess_satisfaction( std::vector< Variable >&	variables,
 		                                      double&	bestCost,
-		                                      vector< int >& solution ) const
+		                                      std::vector< int >& solution ) const
 		{ expert_postprocess_satisfaction( variables, bestCost, solution ); }
 
 		//! Inline function following the NVI idiom. Calling expert_postprocess_optimization.
 		/*! 
 		 * \sa expert_postprocess_optimization
 		 */
-		inline void postprocess_optimization( vector< Variable >&	variables,
+		inline void postprocess_optimization( std::vector< Variable >&	variables,
 		                                      double&	bestCost,
-		                                      vector< int >& solution ) const
+		                                      std::vector< int >& solution ) const
 		{ expert_postprocess_optimization( variables, bestCost, solution ); }
 
 		//! Inline accessor to get the name of the objective object.
-		inline string get_name() const { return name; }
+		inline std::string get_name() const { return name; }
 	};
 }

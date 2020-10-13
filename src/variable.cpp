@@ -32,7 +32,6 @@
 
 #include "variable.hpp"
 
-using namespace std;
 using namespace ghost;
 
 int Variable::NBER_VAR = 0;
@@ -46,7 +45,7 @@ Variable::Variable()
 	  _cache_value ( -1 )
 { }
 
-Variable::Variable( const string& name, const string& shortName, const Domain& domain, int index )
+Variable::Variable( const std::string& name, const std::string& shortName, const Domain& domain, int index )
 	: _id	( NBER_VAR++ ),
 	  _name	( name ),
 	  _shortName ( shortName ),
@@ -55,11 +54,11 @@ Variable::Variable( const string& name, const string& shortName, const Domain& d
 	  _cache_value ( domain.get_value( index ) )
 { }
 
-Variable::Variable( const string& name, const string& shortName, const vector<int>& domain, int index )
+Variable::Variable( const std::string& name, const std::string& shortName, const std::vector<int>& domain, int index )
 	: Variable( name, shortName, Domain{ domain }, index )
 { }
 
-Variable::Variable( const string& name, const string& shortName, int startValue, size_t size, int index )
+Variable::Variable( const std::string& name, const std::string& shortName, int startValue, std::size_t size, int index )
 	: Variable( name, shortName, Domain{ startValue, size }, index )
 { }
 

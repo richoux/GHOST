@@ -33,15 +33,15 @@ using namespace ghost;
 
 int Constraint::NBER_CTR = 0;
 
-Constraint::Constraint( const vector< reference_wrapper<Variable> >& variables )
+Constraint::Constraint( const std::vector< std::reference_wrapper<Variable> >& variables )
 	: variables	( variables ),
 	  id ( NBER_CTR++ )
 { }
 
 bool Constraint::has_variable( const Variable& var ) const
 {
-	auto it = find_if( variables.cbegin(),
-	                   variables.cend(),
-	                   [&]( auto& v ){ return v.get().get_id() == var.get_id(); } );
+	auto it = std::find_if( variables.cbegin(),
+	                        variables.cend(),
+	                        [&]( auto& v ){ return v.get().get_id() == var.get_id(); } );
 	return it != variables.cend();
 }  

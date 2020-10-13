@@ -40,8 +40,6 @@
 
 #include "variable.hpp"
 
-using namespace std;
-
 namespace ghost
 {
 	//! This class encodes constraints of your CSP/COP/CFN.
@@ -63,21 +61,21 @@ namespace ghost
 
 		struct nanException : std::exception
 		{
-			const vector< reference_wrapper<Variable> >& variables;
-			string message;
+			const std::vector< std::reference_wrapper<Variable> >& variables;
+			std::string message;
 
-			nanException( const vector< reference_wrapper<Variable> >& variables ) : variables(variables)
+			nanException( const std::vector< std::reference_wrapper<Variable> >& variables ) : variables(variables)
 			{
 				message = "Constraint required_cost returned a NaN value on variables (";
 				for( int i = 0; i < (int)variables.size() - 1; ++i )
-					message += to_string(variables[i].get().get_value()) + ", ";
-				message += to_string(variables[(int)variables.size() - 1].get().get_value()) + ")\n";
+					message += std::to_string(variables[i].get().get_value()) + ", ";
+				message += std::to_string(variables[(int)variables.size() - 1].get().get_value()) + ")\n";
 			}
 			const char* what() const noexcept { return message.c_str(); }
 		};
 
 	protected:
-		const vector< reference_wrapper<Variable> >& variables;	//!< Const reference to the vector of variable references composing the CSP/COP/CFN.
+		const std::vector< std::reference_wrapper<Variable> >& variables;	//!< Const reference to the vector of variable references composing the CSP/COP/CFN.
 		int id;	//!< Unique ID integer
 
 		//! Pure virtual function to compute the current cost of the constraint.
@@ -112,7 +110,7 @@ namespace ghost
 		/*!
 		 * \param variables A const reference to a vector of variable references composing the constraint.
 		 */
-		Constraint( const vector< reference_wrapper<Variable> >& variables );
+		Constraint( const std::vector< std::reference_wrapper<Variable> >& variables );
 
 		//! Default copy contructor.
 		Constraint( const Constraint& other ) = default;
@@ -153,9 +151,9 @@ namespace ghost
 		inline int get_id() const { return id; }
 
 		//! To have a nicer stream of Constraint.
-		friend ostream& operator<<( ostream& os, const Constraint& c )
+		friend std::ostream& operator<<( std::ostream& os, const Constraint& c )
 		{
-			return os << "Constraint type: " <<  typeid(c).name() << endl;
+			return os << "Constraint type: " <<  typeid(c).name() << "\n";
 		}
 	};
 }

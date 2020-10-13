@@ -31,19 +31,19 @@
 
 using namespace ghost;
 
-Objective::Objective( const string& name )
+Objective::Objective( const std::string& name )
 	: name(name)
 { }
   
-int Objective::expert_heuristic_value( const vector< Variable >& variables,
+int Objective::expert_heuristic_value( const std::vector< Variable >& variables,
                                        Variable& var,
-                                       const vector< int >& possible_values ) const
+                                       const std::vector< int >& possible_values ) const
 {
-	double minCost = numeric_limits<double>::max();
+	double minCost = std::numeric_limits<double>::max();
 	double simulatedCost;
   
 	int backup = var.get_value();
-	vector<int> bestValues;
+	std::vector<int> bestValues;
   
 	for( auto& v : possible_values )
 	{
@@ -66,18 +66,18 @@ int Objective::expert_heuristic_value( const vector< Variable >& variables,
 	return rng.pick( bestValues );
 }
   
-Variable* Objective::expert_heuristic_value( const vector< Variable* >& bad_variables ) const
+Variable* Objective::expert_heuristic_value( const std::vector< Variable* >& bad_variables ) const
 {
 	return rng.pick( bad_variables );
 }
  
-void Objective::expert_postprocess_satisfaction( vector< Variable >& variables,
+void Objective::expert_postprocess_satisfaction( std::vector< Variable >& variables,
                                                  double& bestCost,
-                                                 vector< int >&	solution ) const
+                                                 std::vector< int >&	solution ) const
 { }
 
-void Objective::expert_postprocess_optimization( vector< Variable >& variables,
+void Objective::expert_postprocess_optimization( std::vector< Variable >& variables,
                                                  double& bestCost,
-                                                 vector< int >&	solution ) const
+                                                 std::vector< int >&	solution ) const
 { }
 

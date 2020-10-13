@@ -36,8 +36,6 @@
 
 #include "domain.hpp"
 
-using namespace std;
-
 namespace ghost
 {
 	//! This class encodes variables of your CSP/COP/CFN. You cannot inherits your own class from Variable.
@@ -60,15 +58,15 @@ namespace ghost
 		static int NBER_VAR; //!< Static counter that increases each time one instanciates a Variable object.
 		int _id; //!< Unique ID integer taking the current value of NBER_VAR
 
-		string _name;	//!< A string to give a full name to the variable (for instance, "Barracks").
-		string _shortName; //!< A string to give a shorten name to the variable (for instance, "B").
+		std::string _name;	//!< A string to give a full name to the variable (for instance, "Barracks").
+		std::string _shortName; //!< A string to give a shorten name to the variable (for instance, "B").
 		Domain _domain;	//!< The domain of the variable.
 		int	_index;	//!< The domain's index corresponding to the current value of the variable.
 		int	_cache_value;	//!< Cache of the Variable current value.
     
 		//! Regular private Variable constructor
-		Variable( const string& name,
-		          const string& shortName,
+		Variable( const std::string& name,
+		          const std::string& shortName,
 		          const Domain& domain,
 		          int index = 0 );
 
@@ -90,9 +88,9 @@ namespace ghost
 		 * \param domain A const reference to the vector of integers composing the domain to create.
 		 * \param index The domain's index corresponding to the variable initial value. Zero by default.
 		 */
-		Variable( const string&	name,
-		          const string&	shortName,
-		          const vector<int>& domain,
+		Variable( const std::string&	name,
+		          const std::string&	shortName,
+		          const std::vector<int>& domain,
 		          int	index = 0 );
     
 		//! Second Variable constructor, with a starting value and a size for the domain.
@@ -103,10 +101,10 @@ namespace ghost
 		 * \param size A size_t corresponding to the size of the domain to create.
 		 * \param index The domain's index corresponding to the variable initial value. Zero by default.
 		 */
-		Variable( const string&	name,
-		          const string&	shortName,
+		Variable( const std::string&	name,
+		          const std::string&	shortName,
 		          int	startValue,
-		          size_t size,
+		          std::size_t size,
 		          int	index = 0 );
 
 		//! Variable copy constructor
@@ -132,7 +130,7 @@ namespace ghost
 		/*! Inline function returning what values are in the domain.
 		 * \return a const reference of the vector of values in to the variable domain.
 		 */
-		inline const vector<int>& possible_values() const { return _domain.get_domain(); }
+		inline const std::vector<int>& possible_values() const { return _domain.get_domain(); }
     
 		//! Inline function to get the current value of the variable.
 		/*! 
@@ -158,7 +156,7 @@ namespace ghost
 		 * \return a size_t equals to size of the domain of the variable.
 		 * \sa Domain
 		 */
-		inline size_t get_domain_size() const { return _domain.get_size(); }
+		inline std::size_t get_domain_size() const { return _domain.get_size(); }
 
 		//! Inline function returning the minimal value in the variable's domain.
 		/*! 
@@ -175,16 +173,16 @@ namespace ghost
 		inline int get_domain_max_value() const { return _domain.get_max_value(); }
 
 		//! Inline function to get the variable name.
-		inline string get_name() const { return _name; }
+		inline std::string get_name() const { return _name; }
 
 		//! Inline function to get the variable short name.
-		inline string get_short_name() const { return _shortName; }
+		inline std::string get_short_name() const { return _shortName; }
 
 		//! Inline function to get the unique id of the Variable object.
 		inline int get_id() const { return _id; }
 
 		//! To have a nicer stream of Variable.
-		friend ostream& operator<<( ostream& os, const Variable& v )
+		friend std::ostream& operator<<( std::ostream& os, const Variable& v )
 		{
 			return os
 				<< "Variable name: " << v._name

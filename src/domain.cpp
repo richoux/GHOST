@@ -35,29 +35,28 @@
 
 #include "domain.hpp"
 
-using namespace std;
 using namespace ghost;
 
-Domain::Domain( const vector< int >& domain )
+Domain::Domain( const std::vector< int >& domain )
 	: _domain	( domain ),
 	  _minValue	( *std::min_element( _domain.begin(), _domain.end() ) ),
 	  _maxValue	( *std::max_element( _domain.begin(), _domain.end() ) ),
 	  _size	( domain.size() )
 {
-	_indexes = vector<int>( _maxValue - _minValue + 1, -1 );
+	_indexes = std::vector<int>( _maxValue - _minValue + 1, -1 );
 	for( int i = 0 ; i < (int)_size ; ++i )
 		_indexes[ _domain[ i ] - _minValue ] = i ;
 }
 
-Domain::Domain( int startValue, size_t size )
-	: _domain	( vector<int>( size ) ),
+Domain::Domain( int startValue, std::size_t size )
+	: _domain	( std::vector<int>( size ) ),
 	  _minValue	( startValue ),
 	  _maxValue	( startValue + (int)size - 1 ),
 	  _size	( size )
 {
-	iota( begin( _domain ), end( _domain ), startValue );
+	std::iota( begin( _domain ), end( _domain ), startValue );
 
-	_indexes = vector<int>( _size, -1 );
+	_indexes = std::vector<int>( _size, -1 );
 	for( int i = 0 ; i < (int)_size ; ++i )
 		_indexes[ _domain[ i ] - _minValue ] = i;
 }

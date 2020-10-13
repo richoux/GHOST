@@ -46,8 +46,6 @@
 #include "misc/randutils.hpp"
 #include "objective.hpp"
 
-using namespace std;
-
 namespace ghost
 {
 	//! Solver is the class coding the solver itself.
@@ -67,11 +65,11 @@ namespace ghost
 	 */  
 	class Solver final
 	{
-		vector<Variable>&	_vecVariables; //!< Reference to the vector of variables.
-		vector<shared_ptr<Constraint>>&	_vecConstraints; //!< Reference to the vector of shared pointer constraints.
-		shared_ptr<Objective>	_objective; //!< Shared pointer of the objective function.
+		std::vector<Variable>&	_vecVariables; //!< Reference to the vector of variables.
+		std::vector<std::shared_ptr<Constraint>>&	_vecConstraints; //!< Reference to the vector of shared pointer constraints.
+		std::shared_ptr<Objective>	_objective; //!< Shared pointer of the objective function.
 
-		vector<int>	_weakTabuList; //!< The weak tabu list, frozing used variables for tabuTime iterations. 
+		std::vector<int>	_weakTabuList; //!< The weak tabu list, frozing used variables for tabuTime iterations. 
 		//Random _random; //!< The random generator used by the solver.
 		mutable randutils::mt19937_rng _rng; //!< A neat random generator from randutils.hpp.
 		double _bestSatCost; //!< The satisfaction cost of the best solution.
@@ -93,11 +91,11 @@ namespace ghost
 			NullObjective() : Objective("nullObjective") { }
       
 		private:
-			double required_cost( const vector< Variable >& variables ) const override { return 0.; }
+			double required_cost( const std::vector< Variable >& variables ) const override { return 0.; }
       
-			int expert_heuristic_value( const vector< Variable >&	variables,
+			int expert_heuristic_value( const std::vector< Variable >&	variables,
 			                            Variable&	var,
-			                            const vector< int >& valuesList ) const override
+			                            const std::vector< int >& valuesList ) const override
 			{
 				return rng.pick( valuesList );
 			}
@@ -111,7 +109,7 @@ namespace ghost
 			}
 		};
     
-		mutable map< Variable, vector< shared_ptr<Constraint> >, VarComp > _mapVarCtr; //!< Map to know in which constraints are each variable.
+		mutable std::map< Variable, std::vector< std::shared_ptr<Constraint> >, VarComp > _mapVarCtr; //!< Map to know in which constraints are each variable.
 
 		//! Set the initial configuration by calling monte_carlo_sampling() 'samplings' times.
 		/*!
@@ -134,46 +132,46 @@ namespace ghost
 		void decay_weak_tabu_list( bool& freeVariables );
 
 		//! To factorize code like if (best > current) then best=current and update configuration
-		void update_better_configuration( double& best, const double current, vector<int>& configuration );
+		void update_better_configuration( double& best, const double current, std::vector<int>& configuration );
 
 #if !defined(EXPERIMENTAL)
 		//! To compute the vector of variables which are principal culprits for not satisfying the problem
-		vector< Variable* > compute_worst_variables( bool freeVariables, const vector<double>& costVariables );
+		std::vector< Variable* > compute_worst_variables( bool freeVariables, const std::vector<double>& costVariables );
 #endif
     
 		//! Compute the cost of each constraints and fill up the vector costConstraints
-		double compute_constraints_costs( vector<double>& costConstraints ) const;
+		double compute_constraints_costs( std::vector<double>& costConstraints ) const;
 
 		//! Compute the variable cost of each variables and fill up vectors costVariables and costNonTabuVariables 
-		void compute_variables_costs( const vector<double>& costConstraints,
-		                              vector<double>&	costVariables,
-		                              vector<double>&	costNonTabuVariables,
+		void compute_variables_costs( const std::vector<double>& costConstraints,
+		                              std::vector<double>&	costVariables,
+		                              std::vector<double>&	costNonTabuVariables,
 		                              const double currentSatCost ) const;
 
 		//! Compute incrementally the now satisfaction cost IF we change the value of 'variable' by 'value' with a local move.
 		double simulate_local_move_cost( Variable	*variable,
 		                                 double	value,
-		                                 const vector<double>& costConstraints,
+		                                 const std::vector<double>& costConstraints,
 		                                 double	currentSatCost ) const;
 
 		//! Compute incrementally the now satisfaction cost IF we swap values of 'variable' with another variable.
 		double simulate_permutation_cost( Variable *worstVariable,
 		                                  Variable&	otherVariable,
-		                                  const vector<double>&	costConstraints,
+		                                  const std::vector<double>&	costConstraints,
 		                                  double currentSatCost ) const;
 
 		//! Function to make a local move, ie, to assign a given
 		void local_move( Variable	*variable,
-		                 vector<double>& costConstraints,
-		                 vector<double>& costVariables,
-		                 vector<double>& costNonTabuVariables,
+		                 std::vector<double>& costConstraints,
+		                 std::vector<double>& costVariables,
+		                 std::vector<double>& costNonTabuVariables,
 		                 double& currentSatCost );
 
 		//! Function to make a permutation move, ie, to assign a given
 		void permutation_move( Variable	*variable,
-		                       vector<double>& costConstraints,
-		                       vector<double>& costVariables,
-		                       vector<double>& costNonTabuVariables,
+		                       std::vector<double>& costConstraints,
+		                       std::vector<double>& costVariables,
+		                       std::vector<double>& costNonTabuVariables,
 		                       double& currentSatCost );
     
 	public:
@@ -184,9 +182,9 @@ namespace ghost
 		 * \param obj A shared pointer to the Objective.
 		 * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
 		 */
-		Solver( vector<Variable>&	vecVariables, 
-		        vector<shared_ptr<Constraint>>&	vecConstraints,
-		        shared_ptr<Objective>	objective,
+		Solver( std::vector<Variable>&	vecVariables, 
+		        std::vector<std::shared_ptr<Constraint>>&	vecConstraints,
+		        std::shared_ptr<Objective>	objective,
 		        bool permutationProblem = false );
 
 		//! Second Solver's constructor, without Objective
@@ -195,8 +193,8 @@ namespace ghost
 		 * \param vecConstraints A reference to the vector of shared pointer of Constraints.
 		 * \param permutationProblem A boolean indicating if we work on a permutation problem. False by default.
 		 */
-		Solver( vector<Variable>&	vecVariables, 
-		        vector<shared_ptr<Constraint>>&	vecConstraints,
+		Solver( std::vector<Variable>&	vecVariables, 
+		        std::vector<std::shared_ptr<Constraint>>&	vecConstraints,
 		        bool permutationProblem = false );
     
 		//! Solver's main function, to solve the given CSP/COP/CFN.
@@ -247,7 +245,7 @@ namespace ghost
 		 * \return True iff a solution has been found.
 		 */
 		bool solve( double& finalCost,
-		            vector<int>& finalSolution,
+		            std::vector<int>& finalSolution,
 		            double sat_timeout,
 		            double opt_timeout = 0.,
 		            bool no_random_starting_point = false );

@@ -35,8 +35,6 @@
 #include <functional>
 #include <algorithm>
 
-using namespace std;
-
 namespace ghost
 {
 	//! Use this class to generate pseudo-random numbers following a near-uniform distribution. 
@@ -52,10 +50,10 @@ namespace ghost
 	 */
 	class Random
 	{
-		random_device rd;
-		mutable mt19937 _rng;
+		std::random_device rd;
+		mutable std::mt19937 _rng;
 
-		mutable uniform_int_distribution<int>	_unif_dist;
+		mutable std::uniform_int_distribution<int>	_unif_dist;
 
 		//! Only used for the copy-and-swap idiom.
 		/*!
