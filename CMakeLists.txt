@@ -2,8 +2,6 @@ Cmake_minimum_required (VERSION 3.0)
 project (ghost)
 
 set( CMAKE_VERBOSE_MAKEFILE on )
-OPTION(BENCH "Compile GHOST for benchmarks" OFF)
-OPTION(TRACE "Compile GHOST to have a full execution trace, for debugging" OFF)
 
 # require a C++14-capable compiler
 include(CheckCXXCompilerFlag)
@@ -46,16 +44,19 @@ else()
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Wno-unused-parameter")
 endif()	
 
+# Options
 # Switch between Adaptive Search (default) and experimental search algorithms
 option(EXPERIMENTAL "Enable experimental search algorithm" OFF)
 if(EXPERIMENTAL)
   add_definitions(-DEXPERIMENTAL)
 endif()
 
+OPTION(BENCH "Compile GHOST for benchmarks" OFF)
 if(BENCH)
   add_definitions(-DBENCH)
 endif()
 
+OPTION(TRACE "Compile GHOST to have a full execution trace, for debugging" OFF)
 if(TRACE)
   add_definitions(-DTRACE)
 endif()
@@ -88,7 +89,11 @@ install (FILES ${libMiscHeadersList} DESTINATION "include/ghost/misc")
 
 # build a CPack driven installer package
 include (InstallRequiredSystemLibraries)
+set (CPACK_PACKAGE_NAME "GHOST")
 set (CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set (CPACK_PACKAGE_VERSION_MAJOR "1")
 set (CPACK_PACKAGE_VERSION_MINOR "0")
+set (CPACK_PACKAGE_VERSION_PATCH "1")
+set (CPACK_PACKAGE_CONTACT "florian.richoux@polytechnique.edu")
+set (CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 include (CPack)
