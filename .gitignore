@@ -10,6 +10,7 @@ doc/.zcache
 # CMake builds
 release*
 debug*
+build
 
 # CMake test builds
 tests/build*
