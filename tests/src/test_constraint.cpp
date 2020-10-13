@@ -30,8 +30,8 @@ public:
   ghost::Variable var2;
   ghost::Variable var3;
 
-  vector< std::reference_wrapper<ghost::Variable> > vec1;
-  vector< std::reference_wrapper<ghost::Variable> > vec2;
+	std::vector< std::reference_wrapper<ghost::Variable> > vec1;
+	std::vector< std::reference_wrapper<ghost::Variable> > vec2;
   
   MyConstraint *ctr1;
   MyConstraint *ctr2;
