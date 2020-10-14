@@ -121,7 +121,7 @@ namespace ghost
 		Domain( const Domain &other );
 
 		/*!
-		 * Copy assignment operator follwing the copy-and-swap idiom.
+		 * Copy assignment operator following the copy-and-swap idiom.
 		 * 
 		 * \param other A Domain object.
 		 */
@@ -135,20 +135,14 @@ namespace ghost
 		 * 
 		 * \sa Random
 		 */
-		inline int random_value() const
-		{
-			return _rng.pick( _domain );
-		}
+		inline int random_value() const	{ return _rng.pick( _domain ); }
 
 		/*!
 		 * Return the number of values currently composing the domain.
 		 * 
 		 * \return A size_t corresponding to the size of the domain.
 		 */
-		inline std::size_t get_size() const
-		{
-			return _size;
-		}
+		inline std::size_t get_size() const	{ return _size;	}
 
 		/*!
 		 * Return the minimal value in the domain
@@ -169,10 +163,7 @@ namespace ghost
 		 *
 		 * \return A const reference to the vector of integer within Domain representing the domain.
 		 */
-		inline const std::vector<int>& get_domain() const
-		{
-			return _domain;
-		}
+		inline const std::vector<int>& get_domain() const {	return _domain; }
 
 		/*!
 		 * Get the value at the given index. 
