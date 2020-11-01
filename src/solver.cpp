@@ -72,11 +72,17 @@ bool Solver::solve( double&	finalCost,
 	int tabuTimeLocalMin = std::max( 1, _number_variables / 2); // _number_variables - 1;
 	int tabuTimeSelected = std::max( 1, tabuTimeLocalMin / 2);
 
+	// Offsets are necessary in the case where a program is running several instances of solvers
+	// on different vectors of variables and constraints
+	// Find the smalled variable ID, and starts the offset from there
+	// TODO: use algorithm
 	_varOffset = _vecVariables[0]._id;
 	for( auto& v : _vecVariables )
 		if( v._id < _varOffset )
 			_varOffset = v._id;
     
+	// Find the smalled constraint ID, and starts the offset from there
+	// TODO: use algorithm
 	_ctrOffset = _vecConstraints[0]->get_id();
 	for( auto& c : _vecConstraints )
 		if( c->get_id() < _ctrOffset )
@@ -85,7 +91,6 @@ bool Solver::solve( double&	finalCost,
 #if defined(TRACE)
 	cout << "varOffset: " << _varOffset << ", ctrOffset: " << _ctrOffset << "\n";
 #endif
-
 	
 	std::chrono::duration<double,std::micro> elapsedTime(0);
 	std::chrono::duration<double,std::micro> elapsedTimeOptLoop(0);
