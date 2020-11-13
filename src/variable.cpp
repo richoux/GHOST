@@ -27,9 +27,6 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include <algorithm>
-#include <typeinfo>
-
 #include "variable.hpp"
 
 using namespace ghost;
@@ -39,50 +36,23 @@ int Variable::NBER_VAR = 0;
 Variable::Variable()
 	: _id	( -1 ),
 	  _name	( "" ),
-	  _shortName ( "" ),
-	  _domain	( Domain( 0, 0 ) ),
-	  _index ( -1 ),
-	  _cache_value ( -1 )
+	  _current_value ( -1 )
 { }
 
-Variable::Variable( const std::string& name, const std::string& shortName, const Domain& domain, int index )
+Variable::Variable( const std::string& name, const std::vector<int>& domain, int index )
 	: _id	( NBER_VAR++ ),
 	  _name	( name ),
-	  _shortName ( shortName ),
 	  _domain	( domain ),
-	  _index ( index ),
-	  _cache_value ( domain.get_value( index ) )
+	  _index ( domain.cbegin() + index ),
+	  _current_value ( domain.at( index ) )
 { }
 
-Variable::Variable( const std::string& name, const std::string& shortName, const std::vector<int>& domain, int index )
-	: Variable( name, shortName, Domain{ domain }, index )
-{ }
-
-Variable::Variable( const std::string& name, const std::string& shortName, int startValue, std::size_t size, int index )
-	: Variable( name, shortName, Domain{ startValue, size }, index )
-{ }
-
-Variable::Variable( const Variable &other )
-	: _id	( other._id ),
-	  _name	( other._name ),
-	  _shortName ( other._shortName ),
-	  _domain	( other._domain ),
-	  _index ( other._index ),
-	  _cache_value ( other._cache_value )
-{ }
-
-Variable& Variable::operator=( Variable other )
+Variable::Variable( const std::string& name, int startValue, std::size_t size, int index )
+	: _id	( NBER_VAR++ ),
+	  _name	( name ),
+	  _domain	( std::vector<int>(size) )
 {
-	this->swap( other );
-	return *this;
+	std::iota( _domain.begin(), _domain.end(), startValue );
+	_current_value = _domain.at( index );
+	_index = _domain.cbegin() + index;
 }
-
-void Variable::swap( Variable &other )
-{
-	std::swap( this->_id,	other._id );
-	std::swap( this->_name,	other._name );
-	std::swap( this->_shortName, other._shortName );
-	std::swap( this->_domain,	other._domain );
-	std::swap( this->_index, other._index );
-	std::swap( this->_cache_value, other._cache_value );
-}  

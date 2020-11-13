@@ -70,6 +70,19 @@ namespace ghost
 		//! Default private constructor
 		Variable();
 
+		struct valueException : std::exception
+		{
+			int value;
+			int min;
+			int max;
+			valueException( int value, int min, int max ) : value( value ), min( min ), max( max ) {}
+			std::string message = "Wrong value " + std::to_string( value ) + " passed to Variable::set_value. The given value does not belong to the domain and/or is not be between "
+				+ std::to_string( min ) + " (included) and "
+				+ std::to_string( max ) + " (included).\n";
+			const char* what() const noexcept { return message.c_str(); }
+		};
+
+		
 	public:
 
 		//! First Variable constructor, with the vector of domain values and the outside-the-scope value.
@@ -120,10 +133,10 @@ namespace ghost
 		inline void	set_value( int value )
 		{
 			std::vector<int>::const_iterator iterator = std::find( _domain.cbegin(), _domain.cend(), value );
-			if( iterator == _domain.end() )
-				throw plop;
+			if( iterator == _domain.cend() )
+				throw valueException( value, get_domain_min_value(), get_domain_max_value() );
 			
-			_index = _iterator;
+			_index = iterator;
 			_current_value = value;
 		}
 
@@ -137,13 +150,13 @@ namespace ghost
 		/*! 
 		 * \return the minimal value in the variable's domain.
 		 */
-		inline int get_domain_min_value() const { return *(_domain.begin()); }
+		inline int get_domain_min_value() const { return *( _domain.begin() ); }
 
 		//! Inline function returning the maximal value in the variable's domain.
 		/*! 
 		 * \return the maximal value in the variable's domain.
 		 */
-		inline int get_domain_max_value() const { return *(_domain.end() - 1); }
+		inline int get_domain_max_value() const { return *( _domain.end() - 1 ); }
 
 		//! Inline function to get the variable name.
 		inline std::string get_name() const { return _name; }
@@ -156,8 +169,8 @@ namespace ghost
 		{
 			return os
 				<< "Variable name: " << v._name
-				<< "\nShort name: " << v._shortName
-				<< "\nValue: " <<  v._domain.get_value( v._index )
+				<< "\nId: " <<  v._id
+				<< "\nValue: " <<  v._current_value
 				<< "\n-------";
 		}
 	};

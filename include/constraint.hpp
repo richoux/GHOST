@@ -39,13 +39,14 @@
 #include <string>
 
 #include "variable.hpp"
+#include "neighborhood.hpp"
 
 namespace ghost
 {
-	//! This class encodes constraints of your CSP/COP/CFN.
+	//! This class encodes constraints of your model.
 	/*! 
-	 * You cannot directly use this class Constraint to encode your CSP/COP/CFN
-	 * constraints, since this is an abstract class. To model a problem with GHOST, 
+	 * You cannot directly use this class Constraint to encode constrains of 
+	 * your model, since this is an abstract class. To declare a problem with GHOST, 
 	 * you have to make your own constraints by inheriting from this class. 
 	 * The same problem can be composed of several subclasses of Constraint.
 	 *
@@ -58,38 +59,39 @@ namespace ghost
 	class Constraint
 	{
 		static int NBER_CTR; //!< Static counter that increases each time one instanciates a Constraint object.
-
+		Neighborhood _neighborhood;
+		
 		struct nanException : std::exception
 		{
-			const std::vector< std::reference_wrapper<Variable> >& variables;
+			std::vector<Variable> variables;
 			std::string message;
 
-			nanException( const std::vector< std::reference_wrapper<Variable> >& variables ) : variables(variables)
+			nanException( const std::vector<Variable>& variables ) : variables(variables)
 			{
-				message = "Constraint required_cost returned a NaN value on variables (";
+				message = "Constraint required_error returned a NaN value on variables (";
 				for( int i = 0; i < (int)variables.size() - 1; ++i )
-					message += std::to_string(variables[i].get().get_value()) + ", ";
-				message += std::to_string(variables[(int)variables.size() - 1].get().get_value()) + ")\n";
+					message += std::to_string(variables[i].get_value()) + ", ";
+				message += std::to_string(variables[(int)variables.size() - 1].get_value()) + ")\n";
 			}
 			const char* what() const noexcept { return message.c_str(); }
 		};
 
 	protected:
-		const std::vector< std::reference_wrapper<Variable> >& variables;	//!< Const reference to the vector of variable references composing the CSP/COP/CFN.
 		int id;	//!< Unique ID integer
+		std::vector<Variable> variables;	//!<Vector of variable composing the model.
 
-		//! Pure virtual function to compute the current cost of the constraint.
+		//! Pure virtual function to compute the current error of the constraint.
 		/*!
 		 * This function is fundamental: it evalutes how much the current values of variables violate this contraint.
 		 * Let's consider the following example : consider the contraint (x = y).\n
-		 * If x = 42 and y = 42, then these values satify the contraint. The cost is then 0.\n
+		 * If x = 42 and y = 42, then these values satify the contraint. The error is then 0.\n
 		 * If x = 42 and y = 40, the constraint is not satified, but intuitively, we are closer to have a solution than with
-		 * x = 42 and y = 10,000. Thus the cost when y = 40 must be strictly lower than the cost when y = 10,000.\n
-		 * Thus, a required_cost candidate for the contraint (x = y) could be the function |x-y|.
+		 * x = 42 and y = 10,000. Thus the error when y = 40 must be strictly lower than the error when y = 10,000.\n
+		 * Thus, a required_error candidate for the contraint (x = y) could be the function |x-y|.
 		 * 
 		 * This function MUST returns a value greater than or equals to 0.
 		 *
-		 * We have the choice: if your are modeling a CSP or COP problem, then required_cost should outputs 0 if
+		 * We have the choice: if your are modeling a CSP or COP problem, then required_error should outputs 0 if
 		 * current values of variables satisfy your constraint, and something strictly higher than 0, like 1 
 		 * for instance, otherwise.
 		 * If you are modeling a CFN problem, then it still must outputs 0 for satisfying values of variables, 
@@ -97,20 +99,20 @@ namespace ghost
 		 * current values of variables are from satisfying your constraint.
 		 *
 		 * \warning Do not implement any side effect in this function. It is called by the solver 
-		 * to compute the constraint cost but also for some inner mechanisms (such as cost simulations).
+		 * to compute the constraint error but also for some inner mechanisms (such as error simulations).
 		 *
-		 * \return A positive double corresponding to the cost of the constraint with current variable values. 
+		 * \return A positive double corresponding to the error of the constraint with current variable values. 
 		 * Outputing 0 means current values are satisfying this constraint.
-		 * \sa cost
+		 * \sa error
 		 */
-		virtual double required_cost() const = 0;
+		virtual double required_error() const = 0;
 
 	public:
 		//! Unique constructor
 		/*!
-		 * \param variables A const reference to a vector of variable references composing the constraint.
+		 * \param variables A const reference to a vector of variable composing the constraint.
 		 */
-		Constraint( const std::vector< std::reference_wrapper<Variable> >& variables );
+		Constraint( const std::vector<Variable>& variables );
 
 		//! Default copy contructor.
 		Constraint( const Constraint& other ) = default;
@@ -125,14 +127,14 @@ namespace ghost
 		//! Default virtual destructor.
 		virtual ~Constraint() = default;
     
-		//! Inline function following the NVI idiom. Calling required_cost.
+		//! Inline function following the NVI idiom. Calling required_error.
 		/*!
 		 * @throw nanException
-		 * \sa required_cost
+		 * \sa required_error
 		 */
-		inline double cost() const
+		inline double error() const
 		{
-			double value = required_cost();
+			double value = required_error();
 			if( std::isnan( value ) )
 				throw nanException( variables );
 			return value;
