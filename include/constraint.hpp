@@ -31,6 +31,7 @@
 #pragma once
 
 #include <vector>
+#include <utility>
 #include <iostream>
 #include <typeinfo>
 #include <functional>
@@ -58,8 +59,12 @@ namespace ghost
 
 	class Constraint
 	{
+		friend class Solver;
+
 		static int NBER_CTR; //!< Static counter that increases each time one instanciates a Constraint object.
 		Neighborhood _neighborhood;
+		int _is_expert_delta_error_defined; // 0: unknown; 1: defined; 2: not defined
+		double _current_error;		
 		
 		struct nanException : std::exception
 		{
@@ -76,10 +81,24 @@ namespace ghost
 			const char* what() const noexcept { return message.c_str(); }
 		};
 
+		struct deltaErrorNotDefinedException : std::exception
+		{
+			std::string message;
+
+			nanException()
+			{
+				message = "Objective::expert_delta_error() has not been user-defined.\n";
+			}
+			const char* what() const noexcept { return message.c_str(); }
+		};
+
+		// To simulate the error delta between the previous and the new error.
+		double simulate() const;		 
+		
 	protected:
 		int id;	//!< Unique ID integer
 		std::vector<Variable> variables;	//!<Vector of variable composing the model.
-
+		
 		//! Pure virtual function to compute the current error of the constraint.
 		/*!
 		 * This function is fundamental: it evalutes how much the current values of variables violate this contraint.
@@ -107,6 +126,7 @@ namespace ghost
 		 */
 		virtual double required_error() const = 0;
 
+		virtual double expert_delta_error( const std::vector<std::pair<int, int>>& changes ) const;
 	public:
 		//! Unique constructor
 		/*!
@@ -152,10 +172,17 @@ namespace ghost
 		//! Inline function to get the unique id of the Constraint object.
 		inline int get_id() const { return id; }
 
-		//! To have a nicer stream of Constraint.
+		// To have a nicer stream of Constraint.
 		friend std::ostream& operator<<( std::ostream& os, const Constraint& c )
 		{
 			return os << "Constraint type: " <<  typeid(c).name() << "\n";
 		}
+
+		// To let the access of Constraint::simulate() to Solver::solve
+		friend bool Solver::solve( double& finalCost,
+		                           std::vector<int>& finalSolution,
+		                           double sat_timeout,
+		                           double opt_timeout,
+		                           bool no_random_starting_point );
 	};
 }

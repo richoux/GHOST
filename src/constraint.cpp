@@ -35,6 +35,7 @@ int Constraint::NBER_CTR = 0;
 
 Constraint::Constraint( const std::vector<Variable>& variables )
 	: _neighborhood( 1, 1.0, false, 0.0 ),
+	  _is_expert_delta_error_defined( 0 ),
 	  id ( NBER_CTR++ ),
 	  variables	( variables )
 { }
@@ -45,3 +46,9 @@ bool Constraint::has_variable( const Variable& var ) const
 	                     variables.cend(),
 	                     [&]( auto& v ){ return v.get_id() == var.get_id(); } ) != variables.cend();
 }  
+
+double Constraint::expert_delta_error( const std::vector<std::pair<int, int>>& changes ) const
+{
+	_is_expert_delta_error_defined = 2;
+	throw deltaErrorNotDefinedException();
+}

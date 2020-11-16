@@ -55,7 +55,8 @@ namespace ghost
 	 */
 	class Variable final
 	{
-		friend class Solver;
+		// Not sure friend Solver is necessary here; to check
+		// friend class Solver;
 		
 		static int NBER_VAR; //!< Static counter that increases each time one instanciates a Variable object.
 		int _id; //!< Unique ID integer taking the current value of NBER_VAR

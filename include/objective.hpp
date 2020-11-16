@@ -57,9 +57,11 @@ namespace ghost
 	 */
 	class Objective
 	{
+		mutable randutils::mt19937_rng _rng; //!< A neat random generator from randutils.hpp.
+
 		struct nanException : std::exception
 		{
-			const std::vector< Variable >&	variables;
+			std::vector< Variable >	variables;
 			std::string message;
 
 			nanException( const std::vector< Variable >&	variables ) : variables(variables)
@@ -73,24 +75,21 @@ namespace ghost
 		};
 	  
 	protected:
-    
-		//Random random; //!< Random generator used by the function heuristicValue.
-		mutable randutils::mt19937_rng rng; //!< A neat random generator from randutils.hpp.
 		std::string name; //!< String for the name of the objective object.
+		std::vector<Variable> variables;	//!<Vector of variable composing the model.
 
 		//! Pure virtual function to compute the value of the objective function on the current configuration.
 		/*! 
-		 * Like Constraint::required_cost, this function is fundamental: it evalutes the performance of the current values of the variables.
-		 * GHOST will search for variable values that will minimize the output of this function. If you are modelling a maximization problem, ie, 
+		 * Like Constraint::required_error, this function is fundamental: it evalutes the performance of the current values of the variables.
+		 * GHOST will search for variable values that will minimize the output of this function. If you are modeling a maximization problem, ie, 
 		 * a problem where its natural objective function f(x) = z is to try to find the highest possible z, you can simplify write this function 
 		 * such that it outputs -z. Values of variables minimizing -z will also maximize z.
 		 *
-		 * \param variables A const reference to the vector of variable of the CSP/COP/CFN.
 		 * \return A double corresponding to the value of the objective function on the current configuration. 
-		 * Unlike Constraint::required_cost, this output may be negative.
+		 * Unlike Constraint::required_error, this output may be negative.
 		 * \sa cost
 		 */
-		virtual double required_cost( const std::vector< Variable >& variables ) const = 0;
+		virtual double required_cost() const = 0;
 
 		//! Virtual function to apply the value heuristic used by the solver for non permutation problems.
 		/*! 
@@ -198,9 +197,9 @@ namespace ghost
 		 * @throw nanException
 		 * \sa required_cost
 		 */
-		inline double cost( const std::vector< Variable >& variables ) const
+		inline double cost() const
 		{
-			double value = required_cost( variables );
+			double value = required_cost();
 			if( std::isnan( value ) )
 				throw nanException( variables );
 			return value;
