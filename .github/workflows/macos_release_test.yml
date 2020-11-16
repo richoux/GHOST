@@ -1,6 +1,12 @@
 name: MacOS_Release_Test
 
-on: [push, pull_request]
+on:
+	push:
+		branches-ignore:
+			- 'feature/*'
+	pull_request:
+		branches-ignore:
+			- 'feature/*'
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
