@@ -58,7 +58,7 @@ namespace ghost
 		/*
 		  Why having both domain and indexes vectors?
 
-		  The domain vector contains integers modelling possible values of a variable. Such values can be 
+		  The domain vector contains integers modeling possible values of a variable. Such values can be 
 		  {7, -1, 3}. Then, your domain can be not canonically ordered and have 'holes', ie, non-contiguous integers.
 		  Thus, it can be more convient for Variable objects to handle the index of their value in the domain rather 
 		  than their value itself. Indeed, taking the next value in the domain is just incrementing the current index, 

@@ -81,7 +81,7 @@ namespace ghost
 		//! Pure virtual function to compute the value of the objective function on the current configuration.
 		/*! 
 		 * Like Constraint::required_cost, this function is fundamental: it evalutes the performance of the current values of the variables.
-		 * GHOST will search for variable values that will minimize the output of this function. If you are modelling a maximization problem, ie, 
+		 * GHOST will search for variable values that will minimize the output of this function. If you are modeling a maximization problem, ie, 
 		 * a problem where its natural objective function f(x) = z is to try to find the highest possible z, you can simplify write this function 
 		 * such that it outputs -z. Values of variables minimizing -z will also maximize z.
 		 *
