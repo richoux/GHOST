@@ -56,14 +56,13 @@ namespace ghost
 	 *
 	 * \sa Variable
 	 */
-
 	class Constraint
 	{
-		friend class Solver;
+		friend class ghost::Solver;
 
 		static int NBER_CTR; //!< Static counter that increases each time one instanciates a Constraint object.
 		Neighborhood _neighborhood;
-		int _is_expert_delta_error_defined; // 0: unknown; 1: defined; 2: not defined
+		mutable bool _is_expert_delta_error_defined;
 		double _current_error;		
 		
 		struct nanException : std::exception
@@ -85,7 +84,7 @@ namespace ghost
 		{
 			std::string message;
 
-			nanException()
+			deltaErrorNotDefinedException()
 			{
 				message = "Objective::expert_delta_error() has not been user-defined.\n";
 			}
@@ -93,7 +92,7 @@ namespace ghost
 		};
 
 		// To simulate the error delta between the previous and the new error.
-		double simulate() const;		 
+		double simulate( const std::vector<std::pair<int, int>>& changes );		 
 		
 	protected:
 		int id;	//!< Unique ID integer
@@ -178,11 +177,11 @@ namespace ghost
 			return os << "Constraint type: " <<  typeid(c).name() << "\n";
 		}
 
-		// To let the access of Constraint::simulate() to Solver::solve
-		friend bool Solver::solve( double& finalCost,
-		                           std::vector<int>& finalSolution,
-		                           double sat_timeout,
-		                           double opt_timeout,
-		                           bool no_random_starting_point );
+		// // To let the access of Constraint::simulate() to Solver::solve
+		// friend bool Solver::solve( double& finalCost,
+		//                            std::vector<int>& finalSolution,
+		//                            double sat_timeout,
+		//                            double opt_timeout,
+		//                            bool no_random_starting_point );
 	};
 }

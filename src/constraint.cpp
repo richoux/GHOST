@@ -27,6 +27,8 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
+#include <algorithm>
+
 #include "constraint.hpp"
 
 using namespace ghost;
@@ -35,10 +37,37 @@ int Constraint::NBER_CTR = 0;
 
 Constraint::Constraint( const std::vector<Variable>& variables )
 	: _neighborhood( 1, 1.0, false, 0.0 ),
-	  _is_expert_delta_error_defined( 0 ),
+	  _is_expert_delta_error_defined( true ),
 	  id ( NBER_CTR++ ),
 	  variables	( variables )
 { }
+
+double Constraint::simulate( const std::vector<std::pair<int, int>>& changes )
+{
+	if( _is_expert_delta_error_defined ) [[likely]]
+	{
+		return expert_delta_error( changes );
+	}
+	else
+	{
+		std::vector<int> copy_variables( variables.size() );
+		int index = 0;
+
+		for( auto&v : variables )
+			copy_variables[ index++ ] = v.get_value();
+		
+		for( auto& pair : changes )
+			variables.at( pair.first ).set_value( pair.second );
+
+		auto delta = error() - _current_error;
+
+		index = 0;
+		for( auto&v : variables )
+			v.set_value( copy_variables[ index++ ] );
+
+		return delta;
+	}
+}
 
 bool Constraint::has_variable( const Variable& var ) const
 {
@@ -49,6 +78,6 @@ bool Constraint::has_variable( const Variable& var ) const
 
 double Constraint::expert_delta_error( const std::vector<std::pair<int, int>>& changes ) const
 {
-	_is_expert_delta_error_defined = 2;
+	_is_expert_delta_error_defined = false;
 	throw deltaErrorNotDefinedException();
 }
