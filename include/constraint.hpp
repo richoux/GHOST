@@ -40,7 +40,6 @@
 #include <string>
 
 #include "variable.hpp"
-#include "neighborhood.hpp"
 
 namespace ghost
 {
@@ -51,17 +50,18 @@ namespace ghost
 	 * you have to make your own constraints by inheriting from this class. 
 	 * The same problem can be composed of several subclasses of Constraint.
 	 *
-	 * The only pure virtual Constraint function is required_cost, following the 
+	 * The only pure virtual Constraint method is required_cost, following the 
 	 * Non-Virtual Interface Idiom (see http://www.gotw.ca/publications/mill18.htm).
 	 *
 	 * \sa Variable
 	 */
 	class Constraint
 	{
-		friend class ghost::Solver;
+		friend class Solver;
 
-		static int NBER_CTR; //!< Static counter that increases each time one instanciates a Constraint object.
-		Neighborhood _neighborhood;
+		static int NBER_CTR; //!< Static counter that increases each time one instantiates a Constraint object.
+		int _id;	//!< Unique ID integer
+		std::vector<Variable> _variables;	//!<Vector of variable composing the model.
 		mutable bool _is_expert_delta_error_defined;
 		double _current_error;		
 		
@@ -95,19 +95,16 @@ namespace ghost
 		double simulate( const std::vector<std::pair<int, int>>& changes );		 
 		
 	protected:
-		int id;	//!< Unique ID integer
-		std::vector<Variable> variables;	//!<Vector of variable composing the model.
-		
-		//! Pure virtual function to compute the current error of the constraint.
+		//! Pure virtual method to compute the current error of the constraint.
 		/*!
-		 * This function is fundamental: it evalutes how much the current values of variables violate this contraint.
+		 * This method is fundamental: it evalutes how much the current values of variables violate this contraint.
 		 * Let's consider the following example : consider the contraint (x = y).\n
 		 * If x = 42 and y = 42, then these values satify the contraint. The error is then 0.\n
 		 * If x = 42 and y = 40, the constraint is not satified, but intuitively, we are closer to have a solution than with
 		 * x = 42 and y = 10,000. Thus the error when y = 40 must be strictly lower than the error when y = 10,000.\n
 		 * Thus, a required_error candidate for the contraint (x = y) could be the function |x-y|.
 		 * 
-		 * This function MUST returns a value greater than or equals to 0.
+		 * This method MUST returns a value greater than or equals to 0.
 		 *
 		 * We have the choice: if your are modeling a CSP or COP problem, then required_error should outputs 0 if
 		 * current values of variables satisfy your constraint, and something strictly higher than 0, like 1 
@@ -116,14 +113,15 @@ namespace ghost
 		 * but must outputs a value strictly higher than 0 otherwise, such that the higher this value, the further
 		 * current values of variables are from satisfying your constraint.
 		 *
-		 * \warning Do not implement any side effect in this function. It is called by the solver 
+		 * \warning Do not implement any side effect in this method. It is called by the solver 
 		 * to compute the constraint error but also for some inner mechanisms (such as error simulations).
 		 *
+		 * \param The vector of variables representing the current assignment.
 		 * \return A positive double corresponding to the error of the constraint with current variable values. 
 		 * Outputing 0 means current values are satisfying this constraint.
 		 * \sa error
 		 */
-		virtual double required_error() const = 0;
+		virtual double required_error( const std::vector<Variable>& variables ) const = 0;
 
 		virtual double expert_delta_error( const std::vector<std::pair<int, int>>& changes ) const;
 	public:
@@ -146,20 +144,30 @@ namespace ghost
 		//! Default virtual destructor.
 		virtual ~Constraint() = default;
     
-		//! Inline function following the NVI idiom. Calling required_error.
+		//! Calling required_error (indirectly).
 		/*!
 		 * @throw nanException
-		 * \sa required_error
+		 * \sa required_error, error
 		 */
 		inline double error() const
 		{
-			double value = required_error();
+			return error( _variables );
+		}
+
+		//! Method to compute the error of a given assignment, calling required_error.
+		/*!
+		 * @throw nanException
+		 * \sa required_error, error
+		 */
+		double error( const std::vector<Variable>& variables ) const
+		{
+			double value = required_error( variables );
 			if( std::isnan( value ) )
 				throw nanException( variables );
 			return value;
 		}
 
-		//! Function to determine if the constraint contains a given variable. 
+		//! Method to determine if the constraint contains a given variable. 
 		/*!
 		 * Given a variable, returns if it composes the constraint.
 		 *
@@ -168,8 +176,8 @@ namespace ghost
 		 */ 
 		bool has_variable( const Variable& var ) const;
 
-		//! Inline function to get the unique id of the Constraint object.
-		inline int get_id() const { return id; }
+		//! Inline method to get the unique id of the Constraint object.
+		inline int get_id() const { return _id; }
 
 		// To have a nicer stream of Constraint.
 		friend std::ostream& operator<<( std::ostream& os, const Constraint& c )

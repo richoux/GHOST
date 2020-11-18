@@ -43,7 +43,7 @@ namespace ghost
 	/*! 
 	 * In GHOST, all variables are discrete variables with a ghost::Domain containing intergers only 
 	 * (positive, negative or both). Since you cannot inherits from Variable, if your constraints 
-	 * or your objective functions need specific details about your variables (for instance, each variable models 
+	 * or your objective methods need specific details about your variables (for instance, each variable models 
 	 * an agent with 2D coordinates), you must store these data on your own containers side by side with 
 	 * the variables vector (see Constraint and Objective).
 	 *
@@ -69,7 +69,7 @@ namespace ghost
 		randutils::mt19937_rng _rng; 	//!< Neat random generator from randutils.hpp.
 
 		//! Default private constructor
-		Variable();
+		//Variable();
 
 		struct valueException : std::exception
 		{
@@ -85,7 +85,8 @@ namespace ghost
 
 		
 	public:
-
+		Variable() = default;		
+		
 		//! First Variable constructor, with the vector of domain values and the outside-the-scope value.
 		/*!
 		 * \param name A const reference of a string to give a full name to the variable (for instance, "Barracks").
@@ -108,25 +109,25 @@ namespace ghost
 		          std::size_t size,
 		          int	index = 0 );
 
-		//! Inline function initializing the variable to one random values of its domain.
+		//! Inline method initializing the variable to one random values of its domain.
 		inline void pick_random_value()
 		{
 			_current_value = _rng.pick( _domain );
 			_index = std::find( _domain.cbegin(), _domain.cend(), _current_value );
 		}
     
-		/*! Inline function returning what values are in the domain.
+		/*! Inline method returning what values are in the domain.
 		 * \return a copy of the vector of values composing the domain.
 		 */
 		inline std::vector<int> possible_values() const { return _domain; }
     
-		//! Inline function to get the current value of the variable.
+		//! Inline method to get the current value of the variable.
 		/*! 
 		 * \return An integer corresponding to the variable value. 
 		 */
 		inline int get_value() const { return _current_value; }
 
-		//! Inline function to set the value of the variable.
+		//! Inline method to set the value of the variable.
 		/*! 
 		 * If the given value is not in the domain, raises a valueException.
 		 * \param value An integer representing the new value to set.
@@ -141,28 +142,28 @@ namespace ghost
 			_current_value = value;
 		}
 
-		//! Inline function returning the size of the domain of the variable.
+		//! Inline method returning the size of the domain of the variable.
 		/*! 
 		 * \return a size_t equals to size of the domain of the variable.
 		 */
 		inline std::size_t get_domain_size() const { return _domain.size(); }
 
-		//! Inline function returning the minimal value in the variable's domain.
+		//! Inline method returning the minimal value in the variable's domain.
 		/*! 
 		 * \return the minimal value in the variable's domain.
 		 */
 		inline int get_domain_min_value() const { return *( _domain.begin() ); }
 
-		//! Inline function returning the maximal value in the variable's domain.
+		//! Inline method returning the maximal value in the variable's domain.
 		/*! 
 		 * \return the maximal value in the variable's domain.
 		 */
 		inline int get_domain_max_value() const { return *( _domain.end() - 1 ); }
 
-		//! Inline function to get the variable name.
+		//! Inline method to get the variable name.
 		inline std::string get_name() const { return _name; }
 
-		//! Inline function to get the unique id of the Variable object.
+		//! Inline method to get the unique id of the Variable object.
 		inline int get_id() const { return _id; }
 
 		//! To have a nicer stream of Variable.

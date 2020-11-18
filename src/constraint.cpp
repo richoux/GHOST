@@ -36,10 +36,9 @@ using namespace ghost;
 int Constraint::NBER_CTR = 0;
 
 Constraint::Constraint( const std::vector<Variable>& variables )
-	: _neighborhood( 1, 1.0, false, 0.0 ),
-	  _is_expert_delta_error_defined( true ),
-	  id ( NBER_CTR++ ),
-	  variables	( variables )
+	: _is_expert_delta_error_defined(true),
+	  _id(NBER_CTR++),
+	  _variables(variables)
 { }
 
 double Constraint::simulate( const std::vector<std::pair<int, int>>& changes )
@@ -50,30 +49,21 @@ double Constraint::simulate( const std::vector<std::pair<int, int>>& changes )
 	}
 	else
 	{
-		std::vector<int> copy_variables( variables.size() );
-		int index = 0;
-
-		for( auto&v : variables )
-			copy_variables[ index++ ] = v.get_value();
+		std::vector<Variable> copy_variables( _variables.size() );
+		std::copy( _variables.begin(), _variables.end(), copy_variables.begin() );
 		
 		for( auto& pair : changes )
-			variables.at( pair.first ).set_value( pair.second );
+			copy_variables.at( pair.first ).set_value( pair.second );
 
-		auto delta = error() - _current_error;
-
-		index = 0;
-		for( auto&v : variables )
-			v.set_value( copy_variables[ index++ ] );
-
-		return delta;
+		return error( copy_variables ) - _current_error;
 	}
 }
 
 bool Constraint::has_variable( const Variable& var ) const
 {
-	return std::find_if( variables.cbegin(),
-	                     variables.cend(),
-	                     [&]( auto& v ){ return v.get_id() == var.get_id(); } ) != variables.cend();
+	return std::find_if( _variables.cbegin(),
+	                     _variables.cend(),
+	                     [&]( auto& v ){ return v.get_id() == var.get_id(); } ) != _variables.cend();
 }  
 
 double Constraint::expert_delta_error( const std::vector<std::pair<int, int>>& changes ) const
