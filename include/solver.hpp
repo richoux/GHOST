@@ -64,11 +64,11 @@ namespace ghost
 	 */  
 	class Solver final
 	{
-		std::vector<Variable>& _variables; //!< Reference to the vector of variables.
-		std::vector<std::unique_ptr<Constraint>>&	_constraints; //!< Reference to the vector of shared pointer constraints.
+		std::vector<Variable> _variables; //!< Reference to the vector of variables.
+		std::vector<std::unique_ptr<Constraint>> _constraints; //!< Reference to the vector of shared pointer constraints.
 		std::unique_ptr<Objective> _objective; //!< Shared pointer of the objective function.
 
-		std::vector<int> _weak_tabu_list; //!< The weak tabu list, frozing used variables for tabuTime iterations. 
+		std::map<int, int> _weak_tabu_list; //!< The weak tabu list, frozing used variables for tabu_time iterations. Weak, because it can be violated. Implemented by a map<int variable_id, int number_of_iterations_before_getting_out_of_the_list>.
 		//Random _random; //!< The random generator used by the solver.
 		mutable randutils::mt19937_rng _rng; //!< A neat random generator from randutils.hpp.
 		double _best_sat_cost; //!< The satisfaction cost of the best solution.
@@ -76,9 +76,6 @@ namespace ghost
 		double _best_opt_cost; //!< The optimization cost of the best solution.
 		bool _is_optimization; //!< A boolean to know if it is a satisfaction or optimization run.
 		bool _permutation_problem; //!< A boolean to know if it is a permutation problem or not.
-		
-		int	_var_offset; //!< Offset to shift variables id, such that the first would be shifted to 0.
-		int	_ctr_offset; //!< Same for constraints.
 		int	_number_variables; //!< Size of the vector of variables.
     
 		//! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 
@@ -87,14 +84,14 @@ namespace ghost
 			using Objective::rng;
       
 		public:
-			NullObjective() : Objective("nullObjective") { }
+			NullObjective( const std::vector<Variable>& variables ) : Objective( "nullObjective", variables ) { }
       
 		private:
 			double required_cost( const std::vector<Variable>& variables ) const override { return 0.; }
       
 			int expert_heuristic_value( const std::vector<Variable>& variables,
-			                            Variable&	var,
-			                            const std::vector<int>& values_list ) const override
+			                            Variable& var,
+			                            const std::vector<int> values_list ) const override
 			{
 				return rng.pick( values_list );
 			}

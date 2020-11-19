@@ -55,8 +55,7 @@ namespace ghost
 	 */
 	class Variable final
 	{
-		// Not sure friend Solver is necessary here; to check
-		// friend class Solver;
+		friend class Solver;
 		
 		static int NBER_VAR; //!< Static counter that increases each time one instanciates a Variable object.
 		int _id; //!< Unique ID integer taking the current value of NBER_VAR
@@ -66,7 +65,7 @@ namespace ghost
 		std::vector<int>::const_iterator _index; //!< Constant domain iterator corresponding to the current value of the variable.
 		int	_current_value;	//!< Current value assigned to the variable.
 
-		randutils::mt19937_rng _rng; 	//!< Neat random generator from randutils.hpp.
+		randutils::mt19937_rng _rng; 	//!< Neat random generator from misc/randutils.hpp.
 
 		//! Default private constructor
 		//Variable();

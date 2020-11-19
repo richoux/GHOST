@@ -59,7 +59,6 @@ namespace ghost
 	{
 		std::string _name; //!< String for the name of the objective object.
 		std::vector<Variable> _variables;	//!<Vector of variable composing the model.
-		mutable randutils::mt19937_rng _rng; //!< A neat random generator from randutils.hpp.
 
 		struct nanException : std::exception
 		{
@@ -77,6 +76,8 @@ namespace ghost
 		};
 	  
 	protected:
+		mutable randutils::mt19937rng rng; //!< A neat random generator placed in misc/randutils.hpp, see https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html
+
 		//! Pure virtual method to compute the value of the objective function on the current configuration.
 		/*! 
 		 * Like Constraint::required_error, this method is fundamental: it evalutes the performance of the current values of the variables.

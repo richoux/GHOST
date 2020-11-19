@@ -38,7 +38,6 @@ Solver::Solver( std::vector<Variable>&	variables,
 	: _variables	( variables ), 
 	  _contraints	( contraints ),
 	  _objective ( objective ),
-	  _weak_tabu_list	( variables.size() ),
 	  _is_optimization	( objective == nullptr ? false : true ),
 	  _permutation_problem	( permutation_problem ),
 	  _number_variables	( variables.size() )
@@ -72,26 +71,6 @@ bool Solver::solve( double&	final_cost,
 	int tabu_time_local_min = std::max( 1, _number_variables / 2); // _number_variables - 1;
 	int tabu_time_selected = std::max( 1, tabu_time_local_min / 2);
 
-	// Offsets are necessary in the case where a program is running several instances of solvers
-	// on different vectors of variables and constraints
-	// Find the smalled variable ID, and starts the offset from there
-	// TODO: use algorithm
-	_var_offset = _variables[0]._id;
-	for( auto& v : _variables )
-		if( v._id < _var_offset )
-			_var_offset = v._id;
-    
-	// Find the smalled constraint ID, and starts the offset from there
-	// TODO: use algorithm
-	_ctr_offset = _contraints[0]->get_id();
-	for( auto& c : _contraints )
-		if( c->get_id() < _ctr_offset )
-			_ctr_offset = c->get_id();
-
-#if defined(TRACE)
-	cout << "var_offset: " << _var_offset << ", ctr_offset: " << _ctr_offset << "\n";
-#endif
-	
 	std::chrono::duration<double,std::micro> elapsed_time(0);
 	std::chrono::duration<double,std::micro> elapsed_time_opt_loop(0);
 	std::chrono::time_point<std::chrono::steady_clock> start;
@@ -106,7 +85,7 @@ bool Solver::solve( double&	final_cost,
 	// mt19937		rng( rd() );
 	
 	if( _objective == nullptr )
-		_objective = std::make_shared< NullObjective >();
+		_objective = std::make_shared< NullObjective >( _variables );
     
 	int opt_loop = 0;
 	int sat_loop = 0;
@@ -116,9 +95,9 @@ bool Solver::solve( double&	final_cost,
 	Variable* worst_variable;
 	double current_sat_cost;
 	double current_opt_cost;
-	std::vector< double > cost_constraints( _contraints.size(), 0. );
-	std::vector< double > cost_variables( _number_variables, 0. );
-	std::vector< double > cost_non_tabu_variables( _number_variables, 0. );
+	std::map< int, double > cost_constraints;
+	std::map< int, double > cost_variables;
+	std::map< int, double > cost_non_tabu_variables;
 
 	// In case final_solution is not a vector of the correct size,
 	// ie, equals to the number of variables.
@@ -148,7 +127,7 @@ bool Solver::solve( double&	final_cost,
 #endif
 		
 		// Reset weak tabu list
-		fill( _weak_tabu_list.begin(), _weak_tabu_list.end(), 0 );
+		_weak_tabu_list.clear();
 
 		// Reset the best satisfaction cost
 		_best_sat_cost_opt_loop = std::numeric_limits<double>::max();
@@ -158,8 +137,11 @@ bool Solver::solve( double&	final_cost,
 			++sat_loop;
 
 			// Reset variables and constraints costs
-			std::fill( cost_constraints.begin(), cost_constraints.end(), 0. );
-			std::fill( cost_variables.begin(), cost_variables.end(), 0. );
+			for( auto& c : _contraints )
+				cost_constraints.at( c._id ) = 0.0;
+
+			for( auto& v : _variables )
+				cost_variables.at( v._id ) = 0.0;
 
 			current_sat_cost = compute_constraints_costs( cost_constraints );
 
@@ -184,8 +166,9 @@ bool Solver::solve( double&	final_cost,
 
 #if defined(TRACE)
 			std::cout << "Tabu list: ";
-			for( auto& t : _weak_tabu_list )
-				std::cout << t << " ";
+			std::for_each( _weak_tabu_list.cbegin(),
+			               _weak_tabu_list.cend(),
+			               [](const auto& t){std::cout << " " << t.second;} );
 			std::cout << "\n";
 #endif
 
@@ -241,15 +224,17 @@ bool Solver::solve( double&	final_cost,
 				if( _best_sat_cost >= _best_sat_cost_opt_loop && _best_sat_cost > 0 )
 				{
 					_best_sat_cost = _best_sat_cost_opt_loop;
-					for( auto& v : _variables )
-						final_solution[ v._id - _var_offset ] = v.get_value();
+					std::transform( _variables.cbegin(),
+					                _variables.cend(),
+					                final_solution.begin(),
+					                [](const auto& v){ return v.get_value(); } );
 				}
 				// freeze the variable a bit
-				_weak_tabu_list[ worst_variable->_id - _var_offset ] = tabu_time_selected;
+				_weak_tabu_list.at( worst_variable->_id ) = tabu_time_selected;
 			}
 			else // local minima
 				// Mark worst_variable as weak tabu for tabu_time_local_min iterations.
-				_weak_tabu_list[ worst_variable->_id - _var_offset ] = tabu_time_local_min;
+				_weak_tabu_list.at( worst_variable->_id ) = tabu_time_local_min;
 
 			// for rounding errors
 			if( _best_sat_cost_opt_loop  < 1.0e-10 )
@@ -306,8 +291,8 @@ bool Solver::solve( double&	final_cost,
 	// Set the variables to the best solution values.
 	// Useful if the user prefer to directly use the vector of Variables
 	// to manipulate and exploit the solution.
-	for( auto& v : _variables )
-		v.set_value( final_solution[ v._id - _var_offset ] );
+	for( int i = 0 ; i < _number_variables; ++i )
+		_variables[ i ].set_value( final_solution[ i ] );
 
 #if defined(DEBUG) || defined(TRACE) || defined(BENCH)
 	std::cout << "############" << "\n";
@@ -340,17 +325,17 @@ bool Solver::solve( double&	final_cost,
 
 double Solver::compute_constraints_costs( std::vector<double>& cost_constraints ) const
 {
-	double satisfactionCost = 0.;
+	double satisfaction_cost = 0.;
 	double cost;
   
 	for( auto& c : _contraints )
 	{
 		cost = c->cost();
-		cost_constraints[ c->get_id() - _ctr_offset ] = cost;
-		satisfactionCost += cost;    
+		cost_constraints.at( c._id ) = cost;
+		satisfaction_cost += cost;    
 	}
 
-	return satisfactionCost;
+	return satisfaction_cost;
 }
 
 void Solver::compute_variables_costs( const std::vector<double>&	cost_constraints,
@@ -359,18 +344,16 @@ void Solver::compute_variables_costs( const std::vector<double>&	cost_constraint
                                       const double current_sat_cost ) const
 {
 	int id;
-    
-	std::fill( cost_non_tabu_variables.begin(), cost_non_tabu_variables.end(), 0. );
-
+	
 	for( auto& v : _variables )
 	{
-		id = v._id - _var_offset;
-    
 		for( auto& c : _map_var_ctr[ v ] )
-			cost_variables[ id ] += cost_constraints[ c->get_id() - _ctr_offset ];
+			cost_variables.at( v._id ) += cost_constraints.at( c._id );
 
-		if( _weak_tabu_list[ id ] == 0 )
-			cost_non_tabu_variables[ id ] = cost_variables[ id ];
+		if( _weak_tabu_list.at( v._id ) == 0 )
+			cost_non_tabu_variables.at( v._id ) = cost_variables.at( v._id );
+		else
+			cost_non_tabu_variables.at( v._id ) = 0.0;
 	}
 }
 
@@ -408,9 +391,6 @@ void Solver::set_initial_configuration( int samplings )
 
 			for( int i = 0; i < _number_variables; ++i )
 				_variables[ i ].set_value( best_values[ i ] );
-    
-			// for( auto& v : _variables )
-			//   v.set_value( best_values[ v._id - _var_offset ] );
 		}
 	}
 	else
@@ -464,15 +444,9 @@ void Solver::random_permutations()
 
 void Solver::decay_weak_tabu_list( bool& free_variables ) 
 {
-	for( int i = 0 ; i < (int)_weak_tabu_list.size() ; ++i )
-	{
-		if( _weak_tabu_list[i] == 0 )
-			free_variables = true;
-		else
-			--_weak_tabu_list[i];
-
-		assert( _weak_tabu_list[i] >= 0 );
-	}
+	std::for_each( _weak_tabu_list.begin(),
+	               _weak_tabu_list.end(),
+	               [](auto& t){ t.second == 0 ? free_variables : --t.second; assert( t.second >= 0); } );
 }
 
 void Solver::update_better_configuration( double&	best,
@@ -483,8 +457,6 @@ void Solver::update_better_configuration( double&	best,
 
 	for( int i = 0; i < _number_variables; ++i )
 		configuration[ i ] = _variables[ i ].get_value();
-	// for( auto& v : _variables )
-	//   configuration[ v._id - _var_offset ] = v.get_value();
 }
 
 #if !defined(EXPERIMENTAL)
@@ -498,17 +470,16 @@ std::vector< Variable* > Solver::compute_worst_variables( bool free_variables,
   
 	for( auto& v : _variables )
 	{
-		id = v._id - _var_offset;
-		if( !free_variables || _weak_tabu_list[ id ] == 0 )
+		if( !free_variables || _weak_tabu_list.at( v._id ) == 0 )
 		{
-			if( worst_variableCost < cost_variables[ id ] )
+			if( worst_variableCost < cost_variables[ v._id ] )
 			{
-				worst_variableCost = cost_variables[ id ];
+				worst_variableCost = cost_variables[ v._id ];
 				worst_variable_list.clear();
 				worst_variable_list.push_back( &v );
 			}
 			else 
-				if( worst_variableCost == cost_variables[ id ] )
+				if( worst_variableCost == cost_variables[ v._id ] )
 					worst_variable_list.push_back( &v );	  
 		}
 	}
@@ -527,7 +498,7 @@ double Solver::simulate_local_move_cost( Variable* variable,
 
 	variable->set_value( value );
 	for( auto& c : _map_var_ctr[ *variable ] )
-		new_current_sat_cost += ( c->cost() - cost_constraints[ c->get_id() - _ctr_offset ] );
+		new_current_sat_cost += ( c->cost() - cost_constraints.at( c._id ) );
 
 	return new_current_sat_cost;
 }
@@ -538,22 +509,25 @@ double Solver::simulate_permutation_cost( Variable*	worst_variable,
                                           double current_sat_cost ) const
 {
 	double new_current_sat_cost = current_sat_cost;
-	std::vector<bool> done( cost_constraints.size(), false );
+	std::map<int, bool> done;
+	for( auto& c : _contraints )
+		done.at( c._id ) = false;
 
 	std::swap( worst_variable->_index, other_variable._index );
 	std::swap( worst_variable->_cache_value, other_variable._cache_value );
     
 	for( auto& c : _map_var_ctr[ *worst_variable ] )
 	{
-		new_current_sat_cost += ( c->cost() - cost_constraints[ c->get_id() - _ctr_offset ] );
-		done[ c->get_id() - _ctr_offset ] = true;
+		
+		new_current_sat_cost += ( c->cost() - cost_constraints.at( c._id ) );
+		done.at( c._id ) = true;
 	}
 
 	// The following was commented to avoid branch misses, but it appears to be slower than
 	// the commented block that follows.
 	for( auto& c : _map_var_ctr[ other_variable ] )
-		if( !done[ c->get_id() - _ctr_offset ] )
-			new_current_sat_cost += ( c->cost() - cost_constraints[ c->get_id() - _ctr_offset ] );
+		if( !done.at( c._id ) )
+			new_current_sat_cost += ( c->cost() - cost_constraints.at( c._id ) );
 
 	// vector< shared_ptr<Constraint> > diff;
 	// std::set_difference( _map_var_ctr[ other_variable ].begin(), _map_var_ctr[ other_variable ].end(),
