@@ -36,9 +36,9 @@ using namespace ghost;
 int Constraint::NBER_CTR = 0;
 
 Constraint::Constraint( const std::vector<Variable>& variables )
-	: _is_expert_delta_error_defined(true),
-	  _id(NBER_CTR++),
-	  _variables(variables)
+	: _is_expert_delta_error_defined( true ),
+	  _id( NBER_CTR++ ),
+	  _variables( variables )
 { }
 
 double Constraint::simulate( const std::vector<std::pair<int, int>>& changes )

@@ -65,7 +65,7 @@ namespace ghost
 	class Solver final
 	{
 		std::vector<Variable> _variables; //!< Reference to the vector of variables.
-		std::vector<std::unique_ptr<Constraint>> _constraints; //!< Reference to the vector of shared pointer constraints.
+		std::vector<std::shared_ptr<Constraint>> _constraints; //!< Reference to the vector of shared pointer constraints.
 		std::unique_ptr<Objective> _objective; //!< Shared pointer of the objective function.
 
 		std::map<int, int> _weak_tabu_list; //!< The weak tabu list, frozing used variables for tabu_time iterations. Weak, because it can be violated. Implemented by a map<int variable_id, int number_of_iterations_before_getting_out_of_the_list>.
@@ -101,11 +101,11 @@ namespace ghost
 		{
 			bool operator()( const Variable& lhs, const Variable& rhs ) const
 			{
-				return lhs.get_id() < rhs.get_id();
+				return lhs._id < rhs._id;
 			}
 		};
     
-		mutable std::map< Variable, std::vector< std::shared_ptr<Constraint> >, VarComp > _map_var_ctr; //!< Map to know in which constraints are each variable.
+		mutable std::map< int, std::vector< std::shared_ptr<Constraint> >, VarComp > _map_var_ctr; //!< Map to know in which constraints each variable are.
 
 		//! Set the initial configuration by calling monte_carlo_sampling() 'samplings' times.
 		/*!
@@ -174,23 +174,23 @@ namespace ghost
 		//! Solver's regular constructor
 		/*!
 		 * \param variables A reference to the vector of Variables.
-		 * \param contraints A reference to the vector of shared pointer of Constraints.
+		 * \param constraints A reference to the vector of shared pointer of Constraints.
 		 * \param obj A shared pointer to the Objective.
 		 * \param permutation_problem A boolean indicating if we work on a permutation problem. False by default.
 		 */
-		Solver( std::vector<Variable>& variables, 
-		        std::vector<std::shared_ptr<Constraint>>&	contraints,
-		        std::shared_ptr<Objective> objective,
+		Solver( const std::vector<Variable>& variables, 
+		        const std::vector<std::shared_ptr<Constraint>>&	constraints,
+		        std::unique_ptr<Objective> objective,
 		        bool permutation_problem = false );
 
 		//! Second Solver's constructor, without Objective
 		/*!
 		 * \param variables A reference to the vector of Variables.
-		 * \param contraints A reference to the vector of shared pointer of Constraints.
+		 * \param constraints A reference to the vector of shared pointer of Constraints.
 		 * \param permutation_problem A boolean indicating if we work on a permutation problem. False by default.
 		 */
-		Solver( std::vector<Variable>& variables, 
-		        std::vector<std::shared_ptr<Constraint>>&	contraints,
+		Solver( const std::vector<Variable>& variables, 
+		        const std::vector<std::shared_ptr<Constraint>>&	constraints,
 		        bool permutation_problem = false );
     
 		//! Solver's main function, to solve the given CSP/COP/CFN.

@@ -32,8 +32,8 @@
 using namespace ghost;
 
 Objective::Objective( std::string name, const std::vector<Variable>& variables )
-	: _name(name),
-	  _variables(variables)
+	: _name( name ),
+	  _variables( variables )
 { }
   
 int Objective::expert_heuristic_value( const std::vector<Variable>& variables,

@@ -40,17 +40,17 @@ int Variable::NBER_VAR = 0;
 // { }
 
 Variable::Variable( const std::string& name, const std::vector<int>& domain, int index )
-	: _id(NBER_VAR++),
-	  _name(name),
-	  _domain(domain),
-	  _index(domain.cbegin() + index),
-	  _current_value(domain.at( index ))
+	: _id( NBER_VAR++ ),
+	  _name( name ),
+	  _domain( domain ),
+	  _index( domain.cbegin() + index ),
+	  _current_value( domain.at( index ) )
 { }
 
 Variable::Variable( const std::string& name, int startValue, std::size_t size, int index )
-	: _id(NBER_VAR++),
-	  _name(name),
-	  _domain(std::vector<int>( size ))
+	: _id( NBER_VAR++ ),
+	  _name( name ),
+	  _domain( std::vector<int>( size ) )
 {
 	std::iota( _domain.begin(), _domain.end(), startValue );
 	_current_value = _domain.at( index );

@@ -31,29 +31,28 @@
 
 using namespace ghost;
 
-Solver::Solver( std::vector<Variable>&	variables, 
-                std::vector<std::shared_ptr<Constraint>>&	contraints,
-                std::shared_ptr<Objective>	objective,
+Solver::Solver( const std::vector<Variable>&	variables, 
+                const std::vector<std::shared_ptr<Constraint>>&	constraints,
+                std::unique_ptr<Objective>	objective,
                 bool permutation_problem )
-	: _variables	( variables ), 
-	  _contraints	( contraints ),
-	  _objective ( objective ),
-	  _is_optimization	( objective == nullptr ? false : true ),
-	  _permutation_problem	( permutation_problem ),
-	  _number_variables	( variables.size() )
+	: _variables ( variables ), 
+	  _constraints ( constraints ),
+	  _objective ( std::move( objective ) ),
+	  _is_optimization ( _objective == nullptr ? false : true ),
+	  _permutation_problem ( permutation_problem ),
+	  _number_variables ( variables.size() )
 {
-	for( auto& var : variables )
-		for( auto& ctr : contraints )
+	for( const auto& var : variables )
+		for( auto& ctr : constraints )
 			if( ctr->has_variable( var ) )
-				_map_var_ctr[ var ].push_back( ctr );
+				_map_var_ctr[ var._id ].push_back( ctr );
 }
 
-Solver::Solver( std::vector<Variable>&	variables, 
-                std::vector<std::shared_ptr<Constraint>>&	contraints,
+Solver::Solver( const std::vector<Variable>&	variables, 
+                const std::vector<std::shared_ptr<Constraint>>&	constraints,
                 bool permutation_problem )
-	: Solver( variables, contraints, nullptr, permutation_problem )
+	: Solver( variables, constraints, nullptr, permutation_problem )
 { }
-  
 
 bool Solver::solve( double&	final_cost,
                     std::vector<int>& final_solution,
@@ -81,11 +80,8 @@ bool Solver::solve( double&	final_cost,
 	std::chrono::duration<double,std::micro> timer_postprocess_sat(0);
 	std::chrono::duration<double,std::micro> timer_postprocess_opt(0);
 
-	// random_device	rd;
-	// mt19937		rng( rd() );
-	
 	if( _objective == nullptr )
-		_objective = std::make_shared< NullObjective >( _variables );
+		_objective = std::make_unique<NullObjective>( _variables );
     
 	int opt_loop = 0;
 	int sat_loop = 0;
@@ -137,8 +133,8 @@ bool Solver::solve( double&	final_cost,
 			++sat_loop;
 
 			// Reset variables and constraints costs
-			for( auto& c : _contraints )
-				cost_constraints.at( c._id ) = 0.0;
+			for( auto& c : _constraints )
+				cost_constraints.at( c->_id ) = 0.0;
 
 			for( auto& v : _variables )
 				cost_variables.at( v._id ) = 0.0;
@@ -328,10 +324,10 @@ double Solver::compute_constraints_costs( std::vector<double>& cost_constraints 
 	double satisfaction_cost = 0.;
 	double cost;
   
-	for( auto& c : _contraints )
+	for( auto& c : _constraints )
 	{
 		cost = c->cost();
-		cost_constraints.at( c._id ) = cost;
+		cost_constraints.at( c->_id ) = cost;
 		satisfaction_cost += cost;    
 	}
 
@@ -347,8 +343,8 @@ void Solver::compute_variables_costs( const std::vector<double>&	cost_constraint
 	
 	for( auto& v : _variables )
 	{
-		for( auto& c : _map_var_ctr[ v ] )
-			cost_variables.at( v._id ) += cost_constraints.at( c._id );
+		for( auto& c : _map_var_ctr[ v._id ] )
+			cost_variables.at( v._id ) += cost_constraints.at( c->_id );
 
 		if( _weak_tabu_list.at( v._id ) == 0 )
 			cost_non_tabu_variables.at( v._id ) = cost_variables.at( v._id );
@@ -379,7 +375,7 @@ void Solver::set_initial_configuration( int samplings )
 			{
 				monte_carlo_sampling();
 				current_sat_cost = 0.;
-				for( auto& c : _contraints )
+				for( auto& c : _constraints )
 					current_sat_cost += c->cost();
       
 				if( best_sat_cost > current_sat_cost )
@@ -407,7 +403,7 @@ void Solver::set_initial_configuration( int samplings )
 		{
 			random_permutations();
 			current_sat_cost = 0.;
-			for( auto& c : _contraints )
+			for( auto& c : _constraints )
 				current_sat_cost += c->cost();
 			
 			if( best_sat_cost > current_sat_cost )
@@ -497,8 +493,8 @@ double Solver::simulate_local_move_cost( Variable* variable,
 	double new_current_sat_cost = current_sat_cost;
 
 	variable->set_value( value );
-	for( auto& c : _map_var_ctr[ *variable ] )
-		new_current_sat_cost += ( c->cost() - cost_constraints.at( c._id ) );
+	for( auto& c : _map_var_ctr[ variable._id ] )
+		new_current_sat_cost += ( c->cost() - cost_constraints.at( c->_id ) );
 
 	return new_current_sat_cost;
 }
@@ -510,24 +506,24 @@ double Solver::simulate_permutation_cost( Variable*	worst_variable,
 {
 	double new_current_sat_cost = current_sat_cost;
 	std::map<int, bool> done;
-	for( auto& c : _contraints )
-		done.at( c._id ) = false;
+	for( auto& c : _constraints )
+		done.at( c->_id ) = false;
 
 	std::swap( worst_variable->_index, other_variable._index );
 	std::swap( worst_variable->_cache_value, other_variable._cache_value );
     
-	for( auto& c : _map_var_ctr[ *worst_variable ] )
+	for( auto& c : _map_var_ctr[ worst_variable._id ] )
 	{
 		
-		new_current_sat_cost += ( c->cost() - cost_constraints.at( c._id ) );
-		done.at( c._id ) = true;
+		new_current_sat_cost += ( c->cost() - cost_constraints.at( c->_id ) );
+		done.at( c->_id ) = true;
 	}
 
 	// The following was commented to avoid branch misses, but it appears to be slower than
 	// the commented block that follows.
-	for( auto& c : _map_var_ctr[ other_variable ] )
-		if( !done.at( c._id ) )
-			new_current_sat_cost += ( c->cost() - cost_constraints.at( c._id ) );
+	for( auto& c : _map_var_ctr[ other_variable._id ] )
+		if( !done.at( c->_id ) )
+			new_current_sat_cost += ( c->cost() - cost_constraints.at( c->_id ) );
 
 	// vector< shared_ptr<Constraint> > diff;
 	// std::set_difference( _map_var_ctr[ other_variable ].begin(), _map_var_ctr[ other_variable ].end(),
