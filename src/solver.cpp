@@ -31,76 +31,76 @@
 
 using namespace ghost;
 
-Solver::Solver( std::vector<Variable>&	vecVariables, 
-                std::vector<std::shared_ptr<Constraint>>&	vecConstraints,
+Solver::Solver( std::vector<Variable>&	variables, 
+                std::vector<std::shared_ptr<Constraint>>&	contraints,
                 std::shared_ptr<Objective>	objective,
-                bool permutationProblem )
-	: _vecVariables	( vecVariables ), 
-	  _vecConstraints	( vecConstraints ),
+                bool permutation_problem )
+	: _variables	( variables ), 
+	  _contraints	( contraints ),
 	  _objective ( objective ),
-	  _weakTabuList	( vecVariables.size() ),
-	  _isOptimization	( objective == nullptr ? false : true ),
-	  _permutationProblem	( permutationProblem ),
-	  _number_variables	( vecVariables.size() )
+	  _weak_tabu_list	( variables.size() ),
+	  _is_optimization	( objective == nullptr ? false : true ),
+	  _permutation_problem	( permutation_problem ),
+	  _number_variables	( variables.size() )
 {
-	for( auto& var : vecVariables )
-		for( auto& ctr : vecConstraints )
+	for( auto& var : variables )
+		for( auto& ctr : contraints )
 			if( ctr->has_variable( var ) )
-				_mapVarCtr[ var ].push_back( ctr );
+				_map_var_ctr[ var ].push_back( ctr );
 }
 
-Solver::Solver( std::vector<Variable>&	vecVariables, 
-                std::vector<std::shared_ptr<Constraint>>&	vecConstraints,
-                bool permutationProblem )
-	: Solver( vecVariables, vecConstraints, nullptr, permutationProblem )
+Solver::Solver( std::vector<Variable>&	variables, 
+                std::vector<std::shared_ptr<Constraint>>&	contraints,
+                bool permutation_problem )
+	: Solver( variables, contraints, nullptr, permutation_problem )
 { }
   
 
-bool Solver::solve( double&	finalCost,
-                    std::vector<int>& finalSolution,
-                    double satTimeout,
-                    double optTimeout,
+bool Solver::solve( double&	final_cost,
+                    std::vector<int>& final_solution,
+                    double sat_timeout,
+                    double opt_timeout,
                     bool no_random_starting_point )
 {
-	//satTimeout *= 1000; // timeouts in microseconds
-	if( optTimeout == 0 )
-		optTimeout = satTimeout * 10;
+	//sat_timeout *= 1000; // timeouts in microseconds
+	if( opt_timeout == 0 )
+		opt_timeout = sat_timeout * 10;
 	//else
-	//optTimeout *= 1000;
+	//opt_timeout *= 1000;
 
 	// The only parameter of Solver<Variable, Constraint>::solve outside timeouts
-	int tabuTimeLocalMin = std::max( 1, _number_variables / 2); // _number_variables - 1;
-	int tabuTimeSelected = std::max( 1, tabuTimeLocalMin / 2);
+	int tabu_time_local_min = std::max( 1, _number_variables / 2); // _number_variables - 1;
+	int tabu_time_selected = std::max( 1, tabu_time_local_min / 2);
 
 	// Offsets are necessary in the case where a program is running several instances of solvers
 	// on different vectors of variables and constraints
 	// Find the smalled variable ID, and starts the offset from there
 	// TODO: use algorithm
-	_varOffset = _vecVariables[0]._id;
-	for( auto& v : _vecVariables )
-		if( v._id < _varOffset )
-			_varOffset = v._id;
+	_var_offset = _variables[0]._id;
+	for( auto& v : _variables )
+		if( v._id < _var_offset )
+			_var_offset = v._id;
     
 	// Find the smalled constraint ID, and starts the offset from there
 	// TODO: use algorithm
-	_ctrOffset = _vecConstraints[0]->get_id();
-	for( auto& c : _vecConstraints )
-		if( c->get_id() < _ctrOffset )
-			_ctrOffset = c->get_id();
+	_ctr_offset = _contraints[0]->get_id();
+	for( auto& c : _contraints )
+		if( c->get_id() < _ctr_offset )
+			_ctr_offset = c->get_id();
 
 #if defined(TRACE)
-	cout << "varOffset: " << _varOffset << ", ctrOffset: " << _ctrOffset << "\n";
+	cout << "var_offset: " << _var_offset << ", ctr_offset: " << _ctr_offset << "\n";
 #endif
 	
-	std::chrono::duration<double,std::micro> elapsedTime(0);
-	std::chrono::duration<double,std::micro> elapsedTimeOptLoop(0);
+	std::chrono::duration<double,std::micro> elapsed_time(0);
+	std::chrono::duration<double,std::micro> elapsed_time_opt_loop(0);
 	std::chrono::time_point<std::chrono::steady_clock> start;
-	std::chrono::time_point<std::chrono::steady_clock> startOptLoop;
-	std::chrono::time_point<std::chrono::steady_clock> startPostprocess;
+	std::chrono::time_point<std::chrono::steady_clock> start_opt_loop;
+	std::chrono::time_point<std::chrono::steady_clock> start_postprocess;
 	start = std::chrono::steady_clock::now();
 
-	std::chrono::duration<double,std::micro> timerPostProcessSat(0);
-	std::chrono::duration<double,std::micro> timerPostProcessOpt(0);
+	std::chrono::duration<double,std::micro> timer_postprocess_sat(0);
+	std::chrono::duration<double,std::micro> timer_postprocess_opt(0);
 
 	// random_device	rd;
 	// mt19937		rng( rd() );
@@ -108,29 +108,29 @@ bool Solver::solve( double&	finalCost,
 	if( _objective == nullptr )
 		_objective = std::make_shared< NullObjective >();
     
-	int optLoop = 0;
-	int satLoop = 0;
+	int opt_loop = 0;
+	int sat_loop = 0;
 
-	double costBeforePostProc = std::numeric_limits<double>::max();
+	double cost_before_postprocess = std::numeric_limits<double>::max();
   
-	Variable* worstVariable;
-	double currentSatCost;
-	double currentOptCost;
-	std::vector< double > costConstraints( _vecConstraints.size(), 0. );
-	std::vector< double > costVariables( _number_variables, 0. );
-	std::vector< double > costNonTabuVariables( _number_variables, 0. );
+	Variable* worst_variable;
+	double current_sat_cost;
+	double current_opt_cost;
+	std::vector< double > cost_constraints( _contraints.size(), 0. );
+	std::vector< double > cost_variables( _number_variables, 0. );
+	std::vector< double > cost_non_tabu_variables( _number_variables, 0. );
 
-	// In case finalSolution is not a vector of the correct size,
+	// In case final_solution is not a vector of the correct size,
 	// ie, equals to the number of variables.
-	finalSolution.resize( _number_variables );
+	final_solution.resize( _number_variables );
   
-	_bestSatCost = std::numeric_limits<double>::max();
-	_bestOptCost = std::numeric_limits<double>::max();
+	_best_sat_cost = std::numeric_limits<double>::max();
+	_best_opt_cost = std::numeric_limits<double>::max();
   
 	do // optimization loop
 	{
-		startOptLoop = std::chrono::steady_clock::now();
-		++optLoop;
+		start_opt_loop = std::chrono::steady_clock::now();
+		++opt_loop;
 
 		// start from a random configuration, if no_random_starting_point is false
 		if( !no_random_starting_point )
@@ -142,241 +142,241 @@ bool Solver::solve( double&	finalCost,
 
 #if defined(TRACE)
 		std::cout << "Generate new config: ";
-		for( auto& v : _vecVariables )
+		for( auto& v : _variables )
 			std::cout << v.get_value() << " ";
 		std::cout << "\n";
 #endif
 		
 		// Reset weak tabu list
-		fill( _weakTabuList.begin(), _weakTabuList.end(), 0 );
+		fill( _weak_tabu_list.begin(), _weak_tabu_list.end(), 0 );
 
 		// Reset the best satisfaction cost
-		_bestSatCostOptLoop = std::numeric_limits<double>::max();
+		_best_sat_cost_opt_loop = std::numeric_limits<double>::max();
 
 		do // satisfaction loop 
 		{
-			++satLoop;
+			++sat_loop;
 
 			// Reset variables and constraints costs
-			std::fill( costConstraints.begin(), costConstraints.end(), 0. );
-			std::fill( costVariables.begin(), costVariables.end(), 0. );
+			std::fill( cost_constraints.begin(), cost_constraints.end(), 0. );
+			std::fill( cost_variables.begin(), cost_variables.end(), 0. );
 
-			currentSatCost = compute_constraints_costs( costConstraints );
+			current_sat_cost = compute_constraints_costs( cost_constraints );
 
 #if defined(TRACE)
 			std::cout << "Cost of constraints: ";
-			for( int i = 0; i < costConstraints.size(); ++i )
-				std::cout << "c[" << i << "]=" << costConstraints[i] << ", ";
+			for( int i = 0; i < cost_constraints.size(); ++i )
+				std::cout << "c[" << i << "]=" << cost_constraints[i] << ", ";
 			std::cout << "\n";
 #endif
 
-			compute_variables_costs( costConstraints, costVariables, costNonTabuVariables, currentSatCost );
+			compute_variables_costs( cost_constraints, cost_variables, cost_non_tabu_variables, current_sat_cost );
 
 #if defined(TRACE)
 			std::cout << "Cost of variables: ";
-			for( int i = 0; i < costVariables.size(); ++i )
-				std::cout << _vecVariables[i].get_name() << "=" << costVariables[i] << ", ";
+			for( int i = 0; i < cost_variables.size(); ++i )
+				std::cout << _variables[i].get_name() << "=" << cost_variables[i] << ", ";
 			std::cout << "\n";
 #endif
 			
-			bool freeVariables = false;
-			decay_weak_tabu_list( freeVariables );
+			bool free_variables = false;
+			decay_weak_tabu_list( free_variables );
 
 #if defined(TRACE)
 			std::cout << "Tabu list: ";
-			for( auto& t : _weakTabuList )
+			for( auto& t : _weak_tabu_list )
 				std::cout << t << " ";
 			std::cout << "\n";
 #endif
 
 #if !defined(EXPERIMENTAL)
-			auto worstVariableList = compute_worst_variables( freeVariables, costVariables );
+			auto worst_variable_list = compute_worst_variables( free_variables, cost_variables );
 
 #if defined(TRACE)
 			std::cout << "Candidate variables: ";
-			for( auto& w : worstVariableList )
+			for( auto& w : worst_variable_list )
 				std::cout << w->get_name() << " ";
 			std::cout << "\n";
 #endif
 
-			if( worstVariableList.size() > 1 )
-				worstVariable = _rng.pick( worstVariableList );
+			if( worst_variable_list.size() > 1 )
+				worst_variable = _rng.pick( worst_variable_list );
 			else
-				worstVariable = worstVariableList[0];
+				worst_variable = worst_variable_list[0];
 
 #if defined(TRACE)
-			std::cout << "Picked variable: " << worstVariable->get_name() << "\n";
+			std::cout << "Picked variable: " << worst_variable->get_name() << "\n";
 #endif
 
 #else
-			if( freeVariables )
+			if( free_variables )
 			{
-				// discrete_distribution<int> distribution { costNonTabuVariables.begin(), costNonTabuVariables.end() };
-				// worstVariable = &(_vecVariables[ distribution( rng ) ]);
-				worstVariable = &(_vecVariables[ _rng.variate<int, std::discrete_distribution>( costNonTabuVariables ) ]);
+				// discrete_distribution<int> distribution { cost_non_tabu_variables.begin(), cost_non_tabu_variables.end() };
+				// worst_variable = &(_variables[ distribution( rng ) ]);
+				worst_variable = &(_variables[ _rng.variate<int, std::discrete_distribution>( cost_non_tabu_variables ) ]);
 			}
 			else
 			{
-				// discrete_distribution<int> distribution { costVariables.begin(), costVariables.end() };
-				// worstVariable = &(_vecVariables[ distribution( rng ) ]);
-				worstVariable = &(_vecVariables[ _rng.variate<int, std::discrete_distribution>( costVariables ) ]);
+				// discrete_distribution<int> distribution { cost_variables.begin(), cost_variables.end() };
+				// worst_variable = &(_variables[ distribution( rng ) ]);
+				worst_variable = &(_variables[ _rng.variate<int, std::discrete_distribution>( cost_variables ) ]);
 			}      
 #endif
 			
-			if( _permutationProblem )
-				permutation_move( worstVariable, costConstraints, costVariables, costNonTabuVariables, currentSatCost );
+			if( _permutation_problem )
+				permutation_move( worst_variable, cost_constraints, cost_variables, cost_non_tabu_variables, current_sat_cost );
 			else
-				local_move( worstVariable, costConstraints, costVariables, costNonTabuVariables, currentSatCost );
+				local_move( worst_variable, cost_constraints, cost_variables, cost_non_tabu_variables, current_sat_cost );
 
-			if( _bestSatCostOptLoop > currentSatCost )
+			if( _best_sat_cost_opt_loop > current_sat_cost )
 			{
-				_bestSatCostOptLoop = currentSatCost;
+				_best_sat_cost_opt_loop = current_sat_cost;
 
 #if defined(TRACE)
-				std::cout << "New cost: " << currentSatCost << ", New config: ";
-				for( auto& v : _vecVariables )
+				std::cout << "New cost: " << current_sat_cost << ", New config: ";
+				for( auto& v : _variables )
 					std::cout << v.get_value() << " ";
 				std::cout << "\n";
 #endif
-				if( _bestSatCost >= _bestSatCostOptLoop && _bestSatCost > 0 )
+				if( _best_sat_cost >= _best_sat_cost_opt_loop && _best_sat_cost > 0 )
 				{
-					_bestSatCost = _bestSatCostOptLoop;
-					for( auto& v : _vecVariables )
-						finalSolution[ v._id - _varOffset ] = v.get_value();
+					_best_sat_cost = _best_sat_cost_opt_loop;
+					for( auto& v : _variables )
+						final_solution[ v._id - _var_offset ] = v.get_value();
 				}
 				// freeze the variable a bit
-				_weakTabuList[ worstVariable->_id - _varOffset ] = tabuTimeSelected;
+				_weak_tabu_list[ worst_variable->_id - _var_offset ] = tabu_time_selected;
 			}
 			else // local minima
-				// Mark worstVariable as weak tabu for tabuTimeLocalMin iterations.
-				_weakTabuList[ worstVariable->_id - _varOffset ] = tabuTimeLocalMin;
+				// Mark worst_variable as weak tabu for tabu_time_local_min iterations.
+				_weak_tabu_list[ worst_variable->_id - _var_offset ] = tabu_time_local_min;
 
 			// for rounding errors
-			if( _bestSatCostOptLoop  < 1.0e-10 )
+			if( _best_sat_cost_opt_loop  < 1.0e-10 )
 			{
-				_bestSatCostOptLoop = 0;
-				_bestSatCost = 0;
+				_best_sat_cost_opt_loop = 0;
+				_best_sat_cost = 0;
 			}
 			
-			elapsedTimeOptLoop = std::chrono::steady_clock::now() - startOptLoop;
-			elapsedTime = std::chrono::steady_clock::now() - start;
+			elapsed_time_opt_loop = std::chrono::steady_clock::now() - start_opt_loop;
+			elapsed_time = std::chrono::steady_clock::now() - start;
 		} // satisfaction loop
-		while( _bestSatCostOptLoop > 0. && elapsedTimeOptLoop.count() < satTimeout && elapsedTime.count() < optTimeout );
+		while( _best_sat_cost_opt_loop > 0. && elapsed_time_opt_loop.count() < sat_timeout && elapsed_time.count() < opt_timeout );
 
-		if( _bestSatCostOptLoop == 0. )
+		if( _best_sat_cost_opt_loop == 0. )
 		{
-			currentOptCost = _objective->cost( _vecVariables );
-			if( _bestOptCost > currentOptCost )
+			current_opt_cost = _objective->cost( _variables );
+			if( _best_opt_cost > current_opt_cost )
 			{
-				update_better_configuration( _bestOptCost, currentOptCost, finalSolution );
+				update_better_configuration( _best_opt_cost, current_opt_cost, final_solution );
 				
-				startPostprocess = std::chrono::steady_clock::now();
-				_objective->postprocess_satisfaction( _vecVariables, _bestOptCost, finalSolution );
-				timerPostProcessSat = std::chrono::steady_clock::now() - startPostprocess;
+				start_postprocess = std::chrono::steady_clock::now();
+				_objective->postprocess_satisfaction( _variables, _best_opt_cost, final_solution );
+				timer_postprocess_sat = std::chrono::steady_clock::now() - start_postprocess;
 			}
 		}
     
-		elapsedTime = std::chrono::steady_clock::now() - start;
+		elapsed_time = std::chrono::steady_clock::now() - start;
 	} // optimization loop
-	//while( elapsedTime.count() < optTimeout );
-	while( elapsedTime.count() < optTimeout && ( _isOptimization || _bestOptCost > 0. ) );
+	//while( elapsed_time.count() < opt_timeout );
+	while( elapsed_time.count() < opt_timeout && ( _is_optimization || _best_opt_cost > 0. ) );
 
-	if( _bestSatCost == 0. && _isOptimization )
+	if( _best_sat_cost == 0. && _is_optimization )
 	{
-		costBeforePostProc = _bestOptCost;
+		cost_before_postprocess = _best_opt_cost;
 
-		startPostprocess = std::chrono::steady_clock::now();
-		_objective->postprocess_optimization( _vecVariables, _bestOptCost, finalSolution );
-		timerPostProcessOpt = std::chrono::steady_clock::now() - startPostprocess;							     
+		start_postprocess = std::chrono::steady_clock::now();
+		_objective->postprocess_optimization( _variables, _best_opt_cost, final_solution );
+		timer_postprocess_opt = std::chrono::steady_clock::now() - start_postprocess;							     
 	}
 
-	if( _isOptimization )
+	if( _is_optimization )
 	{
-		if( _bestOptCost < 0 )
+		if( _best_opt_cost < 0 )
 		{
-			_bestOptCost = -_bestOptCost;
-			costBeforePostProc = -costBeforePostProc;
+			_best_opt_cost = -_best_opt_cost;
+			cost_before_postprocess = -cost_before_postprocess;
 		}
     
-		finalCost = _bestOptCost;
+		final_cost = _best_opt_cost;
 	}
 	else
-		finalCost = _bestSatCost;
+		final_cost = _best_sat_cost;
 
 	// Set the variables to the best solution values.
 	// Useful if the user prefer to directly use the vector of Variables
 	// to manipulate and exploit the solution.
-	for( auto& v : _vecVariables )
-		v.set_value( finalSolution[ v._id - _varOffset ] );
+	for( auto& v : _variables )
+		v.set_value( final_solution[ v._id - _var_offset ] );
 
 #if defined(DEBUG) || defined(TRACE) || defined(BENCH)
 	std::cout << "############" << "\n";
       
-	if( !_isOptimization )
+	if( !_is_optimization )
 		std::cout << "SATISFACTION run" << "\n";
 	else
 		std::cout << "OPTIMIZATION run with objective " << _objective->get_name() << "\n";
 
-	std::cout << "Elapsed time: " << elapsedTime.count() / 1000 << "ms\n"
-	          << "Satisfaction cost: " << _bestSatCost << "\n"
-	          << "Number of optization loops: " << optLoop << "\n"
-	          << "Number of satisfaction loops: " << satLoop << "\n";
+	std::cout << "Elapsed time: " << elapsed_time.count() / 1000 << "ms\n"
+	          << "Satisfaction cost: " << _best_sat_cost << "\n"
+	          << "Number of optization loops: " << opt_loop << "\n"
+	          << "Number of satisfaction loops: " << sat_loop << "\n";
 
-	if( _isOptimization )
-		std::cout << "Optimization cost: " << _bestOptCost << "\n"
-		          << "Opt Cost BEFORE post-processing: " << costBeforePostProc << "\n";
+	if( _is_optimization )
+		std::cout << "Optimization cost: " << _best_opt_cost << "\n"
+		          << "Opt Cost BEFORE post-processing: " << cost_before_postprocess << "\n";
   
-	if( timerPostProcessSat.count() > 0 )
-		std::cout << "Satisfaction post-processing time: " << timerPostProcessSat.count() / 1000 << "\n"; 
+	if( timer_postprocess_sat.count() > 0 )
+		std::cout << "Satisfaction post-processing time: " << timer_postprocess_sat.count() / 1000 << "\n"; 
 
-	if( timerPostProcessOpt.count() > 0 )
-		std::cout << "Optimization post-processing time: " << timerPostProcessOpt.count() / 1000 << "\n"; 
+	if( timer_postprocess_opt.count() > 0 )
+		std::cout << "Optimization post-processing time: " << timer_postprocess_opt.count() / 1000 << "\n"; 
 
 	std::cout << "\n";
 #endif
           
-	return _bestSatCost == 0.;
+	return _best_sat_cost == 0.;
 }
 
-double Solver::compute_constraints_costs( std::vector<double>& costConstraints ) const
+double Solver::compute_constraints_costs( std::vector<double>& cost_constraints ) const
 {
 	double satisfactionCost = 0.;
 	double cost;
   
-	for( auto& c : _vecConstraints )
+	for( auto& c : _contraints )
 	{
 		cost = c->cost();
-		costConstraints[ c->get_id() - _ctrOffset ] = cost;
+		cost_constraints[ c->get_id() - _ctr_offset ] = cost;
 		satisfactionCost += cost;    
 	}
 
 	return satisfactionCost;
 }
 
-void Solver::compute_variables_costs( const std::vector<double>&	costConstraints,
-                                      std::vector<double>&	costVariables,
-                                      std::vector<double>&	costNonTabuVariables,
-                                      const double currentSatCost ) const
+void Solver::compute_variables_costs( const std::vector<double>&	cost_constraints,
+                                      std::vector<double>&	cost_variables,
+                                      std::vector<double>&	cost_non_tabu_variables,
+                                      const double current_sat_cost ) const
 {
 	int id;
     
-	std::fill( costNonTabuVariables.begin(), costNonTabuVariables.end(), 0. );
+	std::fill( cost_non_tabu_variables.begin(), cost_non_tabu_variables.end(), 0. );
 
-	for( auto& v : _vecVariables )
+	for( auto& v : _variables )
 	{
-		id = v._id - _varOffset;
+		id = v._id - _var_offset;
     
-		for( auto& c : _mapVarCtr[ v ] )
-			costVariables[ id ] += costConstraints[ c->get_id() - _ctrOffset ];
+		for( auto& c : _map_var_ctr[ v ] )
+			cost_variables[ id ] += cost_constraints[ c->get_id() - _ctr_offset ];
 
-		if( _weakTabuList[ id ] == 0 )
-			costNonTabuVariables[ id ] = costVariables[ id ];
+		if( _weak_tabu_list[ id ] == 0 )
+			cost_non_tabu_variables[ id ] = cost_variables[ id ];
 	}
 }
 
 void Solver::set_initial_configuration( int samplings )
 {
-	if( !_permutationProblem )
+	if( !_permutation_problem )
 	{
 		if( samplings == 1 )
 		{
@@ -387,30 +387,30 @@ void Solver::set_initial_configuration( int samplings )
 			// To avoid weird samplings numbers like 0 or -1
 			samplings = std::max( 2, samplings );
     
-			double bestSatCost = std::numeric_limits<double>::max();
-			double currentSatCost;
+			double best_sat_cost = std::numeric_limits<double>::max();
+			double current_sat_cost;
 
-			std::vector<int> bestValues( _number_variables, 0 );
+			std::vector<int> best_values( _number_variables, 0 );
     
 			for( int i = 0 ; i < samplings ; ++i )
 			{
 				monte_carlo_sampling();
-				currentSatCost = 0.;
-				for( auto& c : _vecConstraints )
-					currentSatCost += c->cost();
+				current_sat_cost = 0.;
+				for( auto& c : _contraints )
+					current_sat_cost += c->cost();
       
-				if( bestSatCost > currentSatCost )
-					update_better_configuration( bestSatCost, currentSatCost, bestValues );
+				if( best_sat_cost > current_sat_cost )
+					update_better_configuration( best_sat_cost, current_sat_cost, best_values );
 
-				if( currentSatCost == 0. )
+				if( current_sat_cost == 0. )
 					break;
 			}
 
 			for( int i = 0; i < _number_variables; ++i )
-				_vecVariables[ i ].set_value( bestValues[ i ] );
+				_variables[ i ].set_value( best_values[ i ] );
     
-			// for( auto& v : _vecVariables )
-			//   v.set_value( bestValues[ v._id - _varOffset ] );
+			// for( auto& v : _variables )
+			//   v.set_value( best_values[ v._id - _var_offset ] );
 		}
 	}
 	else
@@ -418,60 +418,60 @@ void Solver::set_initial_configuration( int samplings )
 		// To avoid weird samplings numbers like 0 or -1
 		samplings = std::max( 1, samplings );
 		
-		double bestSatCost = std::numeric_limits<double>::max();
-		double currentSatCost;
+		double best_sat_cost = std::numeric_limits<double>::max();
+		double current_sat_cost;
 		
-		std::vector<int> bestValues( _number_variables, 0 );
+		std::vector<int> best_values( _number_variables, 0 );
 		
 		for( int i = 0 ; i < samplings ; ++i )
 		{
 			random_permutations();
-			currentSatCost = 0.;
-			for( auto& c : _vecConstraints )
-				currentSatCost += c->cost();
+			current_sat_cost = 0.;
+			for( auto& c : _contraints )
+				current_sat_cost += c->cost();
 			
-			if( bestSatCost > currentSatCost )
-				update_better_configuration( bestSatCost, currentSatCost, bestValues );
+			if( best_sat_cost > current_sat_cost )
+				update_better_configuration( best_sat_cost, current_sat_cost, best_values );
 			
-			if( currentSatCost == 0. )
+			if( current_sat_cost == 0. )
 				break;
 		}
 		
 		for( int i = 0; i < _number_variables; ++i )
-			_vecVariables[ i ].set_value( bestValues[ i ] );
+			_variables[ i ].set_value( best_values[ i ] );
 	}
 }
 
 void Solver::monte_carlo_sampling()
 {
-	for( auto& v : _vecVariables )
+	for( auto& v : _variables )
 		v.pick_random_value();
 }
 
 void Solver::random_permutations()
 {
-	for( unsigned int i = 0; i < _vecVariables.size() - 1; ++i )
-		for( unsigned int j = i + 1; j < _vecVariables.size(); ++j )
+	for( unsigned int i = 0; i < _variables.size() - 1; ++i )
+		for( unsigned int j = i + 1; j < _variables.size(); ++j )
 		{
 			// About 50% to do a swap for each couple (var_i, var_j)
 			if( _rng.uniform( 0, 1 ) == 0 )
 			{
-				std::swap( _vecVariables[i]._index, _vecVariables[j]._index );
-				std::swap( _vecVariables[i]._cache_value, _vecVariables[j]._cache_value );
+				std::swap( _variables[i]._index, _variables[j]._index );
+				std::swap( _variables[i]._cache_value, _variables[j]._cache_value );
 			}
 		}
 }
 
-void Solver::decay_weak_tabu_list( bool& freeVariables ) 
+void Solver::decay_weak_tabu_list( bool& free_variables ) 
 {
-	for( int i = 0 ; i < (int)_weakTabuList.size() ; ++i )
+	for( int i = 0 ; i < (int)_weak_tabu_list.size() ; ++i )
 	{
-		if( _weakTabuList[i] == 0 )
-			freeVariables = true;
+		if( _weak_tabu_list[i] == 0 )
+			free_variables = true;
 		else
-			--_weakTabuList[i];
+			--_weak_tabu_list[i];
 
-		assert( _weakTabuList[i] >= 0 );
+		assert( _weak_tabu_list[i] >= 0 );
 	}
 }
 
@@ -482,119 +482,119 @@ void Solver::update_better_configuration( double&	best,
 	best = current;
 
 	for( int i = 0; i < _number_variables; ++i )
-		configuration[ i ] = _vecVariables[ i ].get_value();
-	// for( auto& v : _vecVariables )
-	//   configuration[ v._id - _varOffset ] = v.get_value();
+		configuration[ i ] = _variables[ i ].get_value();
+	// for( auto& v : _variables )
+	//   configuration[ v._id - _var_offset ] = v.get_value();
 }
 
 #if !defined(EXPERIMENTAL)
-std::vector< Variable* > Solver::compute_worst_variables( bool freeVariables,
-                                                          const std::vector<double>& costVariables )
+std::vector< Variable* > Solver::compute_worst_variables( bool free_variables,
+                                                          const std::vector<double>& cost_variables )
 {
 	// Here, we look at neighbor configurations with the lowest cost.
-	std::vector< Variable* > worstVariableList;
-	double worstVariableCost = 0.;
+	std::vector< Variable* > worst_variable_list;
+	double worst_variableCost = 0.;
 	int id;
   
-	for( auto& v : _vecVariables )
+	for( auto& v : _variables )
 	{
-		id = v._id - _varOffset;
-		if( !freeVariables || _weakTabuList[ id ] == 0 )
+		id = v._id - _var_offset;
+		if( !free_variables || _weak_tabu_list[ id ] == 0 )
 		{
-			if( worstVariableCost < costVariables[ id ] )
+			if( worst_variableCost < cost_variables[ id ] )
 			{
-				worstVariableCost = costVariables[ id ];
-				worstVariableList.clear();
-				worstVariableList.push_back( &v );
+				worst_variableCost = cost_variables[ id ];
+				worst_variable_list.clear();
+				worst_variable_list.push_back( &v );
 			}
 			else 
-				if( worstVariableCost == costVariables[ id ] )
-					worstVariableList.push_back( &v );	  
+				if( worst_variableCost == cost_variables[ id ] )
+					worst_variable_list.push_back( &v );	  
 		}
 	}
   
-	return worstVariableList;
+	return worst_variable_list;
 }
 #endif
   
 // NO VALUE BACKED-UP!
 double Solver::simulate_local_move_cost( Variable* variable,
                                          double	value,
-                                         const std::vector<double>& costConstraints,
-                                         double	currentSatCost ) const
+                                         const std::vector<double>& cost_constraints,
+                                         double	current_sat_cost ) const
 {
-	double newCurrentSatCost = currentSatCost;
+	double new_current_sat_cost = current_sat_cost;
 
 	variable->set_value( value );
-	for( auto& c : _mapVarCtr[ *variable ] )
-		newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() - _ctrOffset ] );
+	for( auto& c : _map_var_ctr[ *variable ] )
+		new_current_sat_cost += ( c->cost() - cost_constraints[ c->get_id() - _ctr_offset ] );
 
-	return newCurrentSatCost;
+	return new_current_sat_cost;
 }
 
-double Solver::simulate_permutation_cost( Variable*	worstVariable,
-                                          Variable&	otherVariable,
-                                          const std::vector<double>&	costConstraints,
-                                          double currentSatCost ) const
+double Solver::simulate_permutation_cost( Variable*	worst_variable,
+                                          Variable&	other_variable,
+                                          const std::vector<double>&	cost_constraints,
+                                          double current_sat_cost ) const
 {
-	double newCurrentSatCost = currentSatCost;
-	std::vector<bool> done( costConstraints.size(), false );
+	double new_current_sat_cost = current_sat_cost;
+	std::vector<bool> done( cost_constraints.size(), false );
 
-	std::swap( worstVariable->_index, otherVariable._index );
-	std::swap( worstVariable->_cache_value, otherVariable._cache_value );
+	std::swap( worst_variable->_index, other_variable._index );
+	std::swap( worst_variable->_cache_value, other_variable._cache_value );
     
-	for( auto& c : _mapVarCtr[ *worstVariable ] )
+	for( auto& c : _map_var_ctr[ *worst_variable ] )
 	{
-		newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() - _ctrOffset ] );
-		done[ c->get_id() - _ctrOffset ] = true;
+		new_current_sat_cost += ( c->cost() - cost_constraints[ c->get_id() - _ctr_offset ] );
+		done[ c->get_id() - _ctr_offset ] = true;
 	}
 
 	// The following was commented to avoid branch misses, but it appears to be slower than
 	// the commented block that follows.
-	for( auto& c : _mapVarCtr[ otherVariable ] )
-		if( !done[ c->get_id() - _ctrOffset ] )
-			newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() - _ctrOffset ] );
+	for( auto& c : _map_var_ctr[ other_variable ] )
+		if( !done[ c->get_id() - _ctr_offset ] )
+			new_current_sat_cost += ( c->cost() - cost_constraints[ c->get_id() - _ctr_offset ] );
 
 	// vector< shared_ptr<Constraint> > diff;
-	// std::set_difference( _mapVarCtr[ otherVariable ].begin(), _mapVarCtr[ otherVariable ].end(),
-	//                      _mapVarCtr[ *worstVariable ].begin(), _mapVarCtr[ *worstVariable ].end(),
+	// std::set_difference( _map_var_ctr[ other_variable ].begin(), _map_var_ctr[ other_variable ].end(),
+	//                      _map_var_ctr[ *worst_variable ].begin(), _map_var_ctr[ *worst_variable ].end(),
 	//                      std::inserter( diff, diff.begin() ) );
 
 	// for( auto& c : diff )
-	// 	newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() - _ctrOffset ] );
+	// 	new_current_sat_cost += ( c->cost() - cost_constraints[ c->get_id() - _ctr_offset ] );
 
 	// We must roll back to the previous state before returning the new cost value. 
-	std::swap( worstVariable->_index, otherVariable._index );
-	std::swap( worstVariable->_cache_value, otherVariable._cache_value );
+	std::swap( worst_variable->_index, other_variable._index );
+	std::swap( worst_variable->_cache_value, other_variable._cache_value );
 
-	return newCurrentSatCost;
+	return new_current_sat_cost;
 }
 
 void Solver::local_move( Variable* variable,
-                         std::vector<double>& costConstraints,
-                         std::vector<double>& costVariables,
-                         std::vector<double>& costNonTabuVariables,
-                         double& currentSatCost )
+                         std::vector<double>& cost_constraints,
+                         std::vector<double>& cost_variables,
+                         std::vector<double>& cost_non_tabu_variables,
+                         double& current_sat_cost )
 {
 	// Here, we look at values in the variable domain
 	// leading to the lowest satisfaction cost.
-	double newCurrentSatCost = 0.0;
-	std::vector< int > bestValuesList;
-	int bestValue;
-	double bestCost = std::numeric_limits<double>::max();
+	double new_current_sat_cost = 0.0;
+	std::vector< int > best_values_list;
+	int best_value;
+	double best_cost = std::numeric_limits<double>::max();
   
 	for( auto& val : variable->possible_values() )
 	{
-		newCurrentSatCost = simulate_local_move_cost( variable, val, costConstraints, currentSatCost );
-		if( bestCost > newCurrentSatCost )
+		new_current_sat_cost = simulate_local_move_cost( variable, val, cost_constraints, current_sat_cost );
+		if( best_cost > new_current_sat_cost )
 		{
-			bestCost = newCurrentSatCost;
-			bestValuesList.clear();
-			bestValuesList.push_back( val );
+			best_cost = new_current_sat_cost;
+			best_values_list.clear();
+			best_values_list.push_back( val );
 		}
 		else 
-			if( bestCost == newCurrentSatCost )
-				bestValuesList.push_back( val );	  
+			if( best_cost == new_current_sat_cost )
+				best_values_list.push_back( val );	  
 	}
 
 	// If several values lead to the same best satisfaction cost,
@@ -603,64 +603,64 @@ void Solver::local_move( Variable* variable,
 	// improving the most the optimization cost, or a random value
 	// among values improving the most the optimization cost if there
 	// are some ties.
-	if( bestValuesList.size() > 1 )
-		bestValue = _objective->heuristic_value( _vecVariables, *variable, bestValuesList );
+	if( best_values_list.size() > 1 )
+		best_value = _objective->heuristic_value( _variables, *variable, best_values_list );
 	else
-		bestValue = bestValuesList[0];
+		best_value = best_values_list[0];
 
-	variable->set_value( bestValue );
-	currentSatCost = bestCost;
-	// for( auto& c : _mapVarCtr[ *variable ] )
-	//   costConstraints[ c->get_id() - _ctrOffset ] = c->cost();
+	variable->set_value( best_value );
+	current_sat_cost = best_cost;
+	// for( auto& c : _map_var_ctr[ *variable ] )
+	//   cost_constraints[ c->get_id() - _ctr_offset ] = c->cost();
 
-	// compute_variables_costs( costConstraints, costVariables, costNonTabuVariables, currentSatCost );
+	// compute_variables_costs( cost_constraints, cost_variables, cost_non_tabu_variables, current_sat_cost );
 }
 
 void Solver::permutation_move( Variable* variable,
-                               std::vector<double>& costConstraints,
-                               std::vector<double>& costVariables,
-                               std::vector<double>& costNonTabuVariables,
-                               double& currentSatCost )
+                               std::vector<double>& cost_constraints,
+                               std::vector<double>& cost_variables,
+                               std::vector<double>& cost_non_tabu_variables,
+                               double& current_sat_cost )
 {
 	// Here, we look at values in the variable domain
 	// leading to the lowest satisfaction cost.
-	double newCurrentSatCost = 0.0;
-	std::vector< Variable* > bestVarToSwapList;
-	Variable* bestVarToSwap;
-	double bestCost = std::numeric_limits<double>::max();
+	double new_current_sat_cost = 0.0;
+	std::vector< Variable* > best_var_to_swap_list;
+	Variable* best_var_to_swap;
+	double best_cost = std::numeric_limits<double>::max();
 
 #if defined(TRACE)
-	std::cout << "Current cost before permutation: " << currentSatCost << "\n";
+	std::cout << "Current cost before permutation: " << current_sat_cost << "\n";
 #endif
 
 	
-	for( auto& otherVariable : _vecVariables )
+	for( auto& other_variable : _variables )
 	{
 		// Next line is replaced by a simpler conditional since there were A LOT of branch misses!
-		//if( otherVariable._id == variable->_id || otherVariable._index == variable->_index )
-		if( otherVariable._id == variable->_id )
+		//if( other_variable._id == variable->_id || other_variable._index == variable->_index )
+		if( other_variable._id == variable->_id )
 			continue;
     
-		newCurrentSatCost = simulate_permutation_cost( variable, otherVariable, costConstraints, currentSatCost );
+		new_current_sat_cost = simulate_permutation_cost( variable, other_variable, cost_constraints, current_sat_cost );
 
 #if defined(TRACE)
-		std::cout << "Cost if permutation between " << variable->_id << " and " << otherVariable._id << ": " << newCurrentSatCost << "\n";
+		std::cout << "Cost if permutation between " << variable->_id << " and " << other_variable._id << ": " << new_current_sat_cost << "\n";
 #endif
 
-		if( bestCost > newCurrentSatCost )
+		if( best_cost > new_current_sat_cost )
 		{
 #if defined(TRACE)
 			std::cout << "This is a new best cost.\n";
 #endif
 			
-			bestCost = newCurrentSatCost;
-			bestVarToSwapList.clear();
-			bestVarToSwapList.push_back( &otherVariable );
+			best_cost = new_current_sat_cost;
+			best_var_to_swap_list.clear();
+			best_var_to_swap_list.push_back( &other_variable );
 		}
 		else 
-			if( bestCost == newCurrentSatCost )
+			if( best_cost == new_current_sat_cost )
 			{
-				bestVarToSwapList.push_back( &otherVariable );
+				best_var_to_swap_list.push_back( &other_variable );
 #if defined(TRACE)
 				std::cout << "Tie cost with the best one.\n";
 #endif
@@ -671,12 +671,12 @@ void Solver::permutation_move( Variable* variable,
 	// // then we have 10% of chance to escapte from the plateau
 	// // by picking up a random variable (giving a worst global cost)
 	// // to permute with.
-	// if( bestCost == currentSatCost && _rng.uniform( 0, 99 ) < 10 )
+	// if( best_cost == current_sat_cost && _rng.uniform( 0, 99 ) < 10 )
 	// {
 	// 	do
 	// 	{
-	// 		bestVarToSwap = _rng.pick( _vecVariables );
-	// 	} while( bestVarToSwap._id == variable->_id || std::find_if( bestVarToSwapList.begin(), bestVarToSwapList.end(), [&bestVarToSwap](auto& v){ return v._id == bestVarToSwap._id; } ) != bestVarToSwapList.end() );
+	// 		best_var_to_swap = _rng.pick( _variables );
+	// 	} while( best_var_to_swap._id == variable->_id || std::find_if( best_var_to_swap_list.begin(), best_var_to_swap_list.end(), [&best_var_to_swap](auto& v){ return v._id == best_var_to_swap._id; } ) != best_var_to_swap_list.end() );
 	// }
 	// else
 	// {
@@ -686,31 +686,31 @@ void Solver::permutation_move( Variable* variable,
 	// improving the most the optimization cost, or a random value
 	// among values improving the most the optimization cost if there
 	// are some ties.
-	if( bestVarToSwapList.size() > 1 )
-		bestVarToSwap = _objective->heuristic_value( bestVarToSwapList );
+	if( best_var_to_swap_list.size() > 1 )
+		best_var_to_swap = _objective->heuristic_value( best_var_to_swap_list );
 	else
-		bestVarToSwap = bestVarToSwapList[0];
+		best_var_to_swap = best_var_to_swap_list[0];
 	// }
 
 #if defined(TRACE)
-	std::cout << "Permutation will be done between " << variable->_id << " and " << bestVarToSwap->_id << ".\n";
+	std::cout << "Permutation will be done between " << variable->_id << " and " << best_var_to_swap->_id << ".\n";
 #endif
 
-	std::swap( variable->_index, bestVarToSwap->_index );
-	std::swap( variable->_cache_value, bestVarToSwap->_cache_value );
+	std::swap( variable->_index, best_var_to_swap->_index );
+	std::swap( variable->_cache_value, best_var_to_swap->_cache_value );
 
-	currentSatCost = bestCost;
-	// vector<bool> compted( costConstraints.size(), false );
+	current_sat_cost = best_cost;
+	// vector<bool> compted( cost_constraints.size(), false );
   
-	// for( auto& c : _mapVarCtr[ *variable ] )
+	// for( auto& c : _map_var_ctr[ *variable ] )
 	// {
-	// 	newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() - _ctrOffset ] );
-	// 	compted[ c->get_id() - _ctrOffset ] = true;
+	// 	new_current_sat_cost += ( c->cost() - cost_constraints[ c->get_id() - _ctr_offset ] );
+	// 	compted[ c->get_id() - _ctr_offset ] = true;
 	// }
   
-	// for( auto& c : _mapVarCtr[ bestVarToSwap ] )
-	// 	if( !compted[ c->get_id() - _ctrOffset ] )
-	// 		newCurrentSatCost += ( c->cost() - costConstraints[ c->get_id() - _ctrOffset ] );
+	// for( auto& c : _map_var_ctr[ best_var_to_swap ] )
+	// 	if( !compted[ c->get_id() - _ctr_offset ] )
+	// 		new_current_sat_cost += ( c->cost() - cost_constraints[ c->get_id() - _ctr_offset ] );
 
-	// compute_variables_costs( costConstraints, costVariables, costNonTabuVariables, newCurrentSatCost );
+	// compute_variables_costs( cost_constraints, cost_variables, cost_non_tabu_variables, new_current_sat_cost );
 }
