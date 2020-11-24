@@ -76,7 +76,7 @@ namespace ghost
 		};
 	  
 	protected:
-		mutable randutils::mt19937rng rng; //!< A neat random generator placed in misc/randutils.hpp, see https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html
+		mutable randutils::mt19937_rng rng; //!< A neat random generator placed in misc/randutils.hpp, see https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html
 
 		//! Pure virtual method to compute the value of the objective function on the current configuration.
 		/*! 

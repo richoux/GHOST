@@ -57,7 +57,7 @@ namespace ghost
 	 */
 	class Constraint
 	{
-		friend class Solver;
+		friend class Solver<>;
 
 		static int NBER_CTR; //!< Static counter that increases each time one instantiates a Constraint object.
 		int _id;	//!< Unique ID integer
@@ -91,6 +91,9 @@ namespace ghost
 			const char* what() const noexcept { return message.c_str(); }
 		};
 
+		// Update a variable assignment
+		void update_variable( const Variable& variable );
+		
 		// To simulate the error delta between the previous and the new error.
 		double simulate( const std::vector<std::pair<int, int>>& changes );		 
 		

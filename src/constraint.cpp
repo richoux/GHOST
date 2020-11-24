@@ -28,6 +28,7 @@
  */
 
 #include <algorithm>
+#include <iterator>
 
 #include "constraint.hpp"
 
@@ -40,6 +41,13 @@ Constraint::Constraint( const std::vector<Variable>& variables )
 	  _id( NBER_CTR++ ),
 	  _variables( variables )
 { }
+
+void Constraint::update_variable( const Variable& variable )
+{
+	auto iterator = std::find_if( _variables.begin(), _variables.end(), [&variable](auto& v){ return (v.get_id() == variable.get_id()); });
+	if( iterator != _variables.end() )
+		iterator->set_value( variable.get_value() );
+}
 
 double Constraint::simulate( const std::vector<std::pair<int, int>>& changes )
 {
