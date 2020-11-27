@@ -31,6 +31,7 @@
 #pragma once
 
 #include <vector>
+#include <map>
 #include <utility>
 #include <iostream>
 #include <typeinfo>
@@ -57,11 +58,12 @@ namespace ghost
 	 */
 	class Constraint
 	{
-		friend class Solver<>;
+		template <typename ... ConstraintType> friend class Solver;
 
-		static int NBER_CTR; //!< Static counter that increases each time one instantiates a Constraint object.
-		int _id;	//!< Unique ID integer
-		std::vector<Variable> _variables;	//!<Vector of variable composing the model.
+		static unsigned int NBER_CTR; //!< Static counter that increases each time one instantiates a Constraint object.
+		unsigned int _id;	//!< Unique ID integer
+		std::vector<Variable> _variables;	//!< Vector of variable composing the model.
+		std::map<unsigned int,int> _id_mapping; // Mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the constraint.
 		mutable bool _is_expert_delta_error_defined;
 		double _current_error;		
 		
@@ -73,9 +75,9 @@ namespace ghost
 			nanException( const std::vector<Variable>& variables ) : variables(variables)
 			{
 				message = "Constraint required_error returned a NaN value on variables (";
-				for( int i = 0; i < (int)variables.size() - 1; ++i )
-					message += std::to_string(variables[i].get_value()) + ", ";
-				message += std::to_string(variables[(int)variables.size() - 1].get_value()) + ")\n";
+				for( int i = 0; i < static_cast<int>( variables.size() ) - 1; ++i )
+					message += std::to_string( variables[i].get_value() ) + ", ";
+				message += std::to_string( variables[ static_cast<int>( variables.size() ) - 1 ].get_value() ) + ")\n";
 			}
 			const char* what() const noexcept { return message.c_str(); }
 		};
@@ -86,13 +88,27 @@ namespace ghost
 
 			deltaErrorNotDefinedException()
 			{
-				message = "Objective::expert_delta_error() has not been user-defined.\n";
+				message = "Constraint::expert_delta_error() has not been user-defined.\n";
 			}
 			const char* what() const noexcept { return message.c_str(); }
 		};
 
-		// Update a variable assignment
-		void update_variable( const Variable& variable );
+		struct variableOutOfTheScope : std::exception
+		{
+			std::string message;
+
+			variableOutOfTheScope( unsigned int var_id, unsigned int ctr_id )
+			{
+				message = "Variable ID " + std::to_string( var_id ) + " is not in the scope of Constraint ID " + std::to_string( ctr_id ) + ".\n";
+			}
+			const char* what() const noexcept { return message.c_str(); }
+		};
+
+		// Update a variable assignment.
+		inline void update_variable( unsigned int variable_id, int new_value ) { _variables[ _id_mapping[ variable_id ] ].set_value( new_value ); }
+
+		// Making the mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the constraint. 
+		void make_variable_id_mapping( unsigned int new_id, unsigned int original_id );
 		
 		// To simulate the error delta between the previous and the new error.
 		double simulate( const std::vector<std::pair<int, int>>& changes );		 

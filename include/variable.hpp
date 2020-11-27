@@ -55,10 +55,10 @@ namespace ghost
 	 */
 	class Variable final
 	{
-		friend class Solver<>;
+		template <typename ... ConstraintType> friend class Solver;
 		
-		static int NBER_VAR; //!< Static counter that increases each time one instanciates a Variable object.
-		int _id; //!< Unique ID integer taking the current value of NBER_VAR
+		static unsigned int NBER_VAR; //!< Static counter that increases each time one instanciates a Variable object.
+		unsigned int _id; //!< Unique ID integer taking the current value of NBER_VAR
 		std::string _name;	//!< String to give a full name to the variable (for instance, "Barracks").
 
 		std::vector<int> _domain; //!< The domain, i.e., the 'set' of values the variable can take.

@@ -35,7 +35,16 @@ Objective::Objective( std::string name, const std::vector<Variable>& variables )
 	: _name( name ),
 	  _variables( variables )
 { }
-  
+
+void Objective::make_variable_id_mapping( unsigned int new_id, unsigned int original_id )
+{
+	auto iterator = std::find_if( _variables.begin(), _variables.end(), [&](auto& v){ return v.get_id() == original_id; } );
+	if( iterator == _variables.end() )
+		throw variableOutOfTheScope( original_id, _name );
+
+	_id_mapping.at( new_id ) = static_cast<int>( iterator - _variables.begin() );
+}
+
 int Objective::expert_heuristic_value( const std::vector<Variable>& variables,
                                        Variable& var,
                                        const std::vector<int>& possible_values ) const
@@ -67,7 +76,7 @@ int Objective::expert_heuristic_value( const std::vector<Variable>& variables,
 	return rng.pick( bestValues );
 }
   
-Variable Objective::expert_heuristic_value( const std::vector<Variable>& bad_variables ) const
+int Objective::expert_heuristic_value( const std::vector<unsigned int>& bad_variables ) const
 {
 	return rng.pick( bad_variables );
 }

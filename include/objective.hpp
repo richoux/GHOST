@@ -33,6 +33,7 @@
 #include <algorithm>
 #include <limits>
 #include <vector>
+#include <map>
 #include <cmath> // for isnan
 #include <exception>
 
@@ -57,8 +58,11 @@ namespace ghost
 	 */
 	class Objective
 	{
+		template <typename ... ConstraintType> friend class Solver;
+
 		std::string _name; //!< String for the name of the objective object.
 		std::vector<Variable> _variables;	//!<Vector of variable composing the model.
+		std::map<unsigned int,int> _id_mapping; // Mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the objective function.
 
 		struct nanException : std::exception
 		{
@@ -68,12 +72,27 @@ namespace ghost
 			nanException( const std::vector< Variable >&	variables ) : variables(variables)
 			{
 				message = "Objective required_cost returned a NaN value on variables (";
-				for( int i = 0; i < (int)variables.size() - 1; ++i )
-					message += std::to_string(variables[i].get_value()) + ", ";
-				message += std::to_string(variables[(int)variables.size() - 1].get_value()) + ")\n";
+				for( int i = 0; i < static_cast<int>( variables.size() ) - 1; ++i )
+					message += std::to_string( variables[i].get_value() ) + ", ";
+				message += std::to_string( variables[ static_cast<int>( variables.size() ) - 1 ].get_value() ) + ")\n";
 			}
 			const char* what() const noexcept { return message.c_str(); }
 		};
+
+		struct variableOutOfTheScope : std::exception
+		{
+			std::string message;
+
+			variableOutOfTheScope( unsigned int var_id, std::string name )
+			{
+				message = "Variable ID " + std::to_string( var_id ) + " is not in the scope of the Objective function " + name + ".\n";
+			}
+			const char* what() const noexcept { return message.c_str(); }
+		};
+
+
+		// Making the mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the objective function. 
+		void make_variable_id_mapping( unsigned int new_id, unsigned int original_id );
 	  
 	protected:
 		mutable randutils::mt19937_rng rng; //!< A neat random generator placed in misc/randutils.hpp, see https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html
@@ -129,7 +148,7 @@ namespace ghost
 		 * \return The address of the selected variable to swap with, according to the heuristic.
 		 * \sa heuristic_value
 		 */
-		virtual Variable expert_heuristic_value( const std::vector<Variable>& bad_variables ) const;
+		virtual int expert_heuristic_value( const std::vector<unsigned int>& bad_variables ) const;
 
 		//! Virtual method to perform satisfaction post-processing.
 		/*! 
@@ -229,7 +248,7 @@ namespace ghost
 		/*! 
 		 * \sa expert_heuristic_value
 		 */
-		inline Variable heuristic_value( const std::vector<Variable>& bad_variables ) const
+		inline int heuristic_value( const std::vector<unsigned int>& bad_variables ) const
 		{ return expert_heuristic_value( bad_variables ); }
 
 		//! Inline method following the NVI idiom. Calling expert_postprocess_satisfaction.

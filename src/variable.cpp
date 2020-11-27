@@ -27,31 +27,35 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
+#include <limits>
+
 #include "variable.hpp"
 
 using namespace ghost;
 
-int Variable::NBER_VAR = 0;
-
-// Variable::Variable()
-// 	: _id(-1),
-// 	  _name(""),
-// 	  _current_value(-1)
-// { }
+unsigned int Variable::NBER_VAR = 0;
 
 Variable::Variable( const std::string& name, const std::vector<int>& domain, int index )
-	: _id( NBER_VAR++ ),
-	  _name( name ),
+	: _name( name ),
 	  _domain( domain ),
 	  _index( domain.cbegin() + index ),
 	  _current_value( domain.at( index ) )
-{ }
+{
+	if( NBER_VAR < std::numeric_limits<unsigned int>::max() )
+		_id = NBER_VAR++;
+	else
+		_id = NBER_VAR = 0;
+}
 
 Variable::Variable( const std::string& name, int startValue, std::size_t size, int index )
-	: _id( NBER_VAR++ ),
-	  _name( name ),
+	: _name( name ),
 	  _domain( std::vector<int>( size ) )
 {
+	if( NBER_VAR < std::numeric_limits<unsigned int>::max() )
+		_id = NBER_VAR++;
+	else
+		_id = NBER_VAR = 0;
+
 	std::iota( _domain.begin(), _domain.end(), startValue );
 	_current_value = _domain.at( index );
 	_index = _domain.cbegin() + index;

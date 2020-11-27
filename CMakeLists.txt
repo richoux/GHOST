@@ -31,7 +31,7 @@ else()
 		set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -fsanitize=address,undefined,leak -fno-omit-frame-pointer")
 		add_definitions(-DDEBUG)
 	else()
-		set(CMAKE_CXX_FLAGS_RELEASE "-O3 -march=native")
+		set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 	endif()
 endif()	
 

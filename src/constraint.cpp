@@ -29,24 +29,31 @@
 
 #include <algorithm>
 #include <iterator>
+#include <limits>
 
 #include "constraint.hpp"
 
 using namespace ghost;
 
-int Constraint::NBER_CTR = 0;
+unsigned int Constraint::NBER_CTR = 0;
 
 Constraint::Constraint( const std::vector<Variable>& variables )
 	: _is_expert_delta_error_defined( true ),
-	  _id( NBER_CTR++ ),
 	  _variables( variables )
-{ }
-
-void Constraint::update_variable( const Variable& variable )
 {
-	auto iterator = std::find_if( _variables.begin(), _variables.end(), [&variable](auto& v){ return (v.get_id() == variable.get_id()); });
-	if( iterator != _variables.end() )
-		iterator->set_value( variable.get_value() );
+	if( NBER_CTR < std::numeric_limits<unsigned int>::max() )
+		_id = NBER_CTR++;
+	else
+		_id = NBER_CTR = 0;
+}
+
+void Constraint::make_variable_id_mapping( unsigned int new_id, unsigned int original_id )
+{
+	auto iterator = std::find_if( _variables.begin(), _variables.end(), [&](auto& v){ return v.get_id() == original_id; } );
+	if( iterator == _variables.end() )
+		throw variableOutOfTheScope( original_id, _id );
+
+	_id_mapping.at( new_id ) = static_cast<int>( iterator - _variables.begin() );
 }
 
 double Constraint::simulate( const std::vector<std::pair<int, int>>& changes )
