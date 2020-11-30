@@ -85,7 +85,6 @@ namespace ghost
 		double _best_sat_cost_opt_loop; //!< The satisfaction cost of the best solution in the current optimization loop.
 		double _best_opt_cost; //!< The optimization cost of the best solution.
 		bool _is_optimization; //!< A boolean to know if it is a satisfaction or optimization run.
-		bool _permutation_problem; //!< A boolean to know if it is a permutation problem or not.
 		unsigned int _number_variables; //!< Size of the vector of variables.
 		unsigned int _number_constraints; //!< Size of the vector of constraints.
 		std::vector<std::vector<unsigned int> > _map_var_ctr; //!< Map to know in which constraints each variable are.
@@ -121,7 +120,7 @@ namespace ghost
 		 */
 		void set_initial_configuration( int samplings = 1 )
 		{
-			if( !_permutation_problem )
+			if( !_neighborhood.is_permutation )
 			{
 				if( samplings == 1 )
 				{
@@ -398,7 +397,6 @@ namespace ghost
 			std::cout << "Current cost before permutation: " << current_sat_cost << "\n";
 #endif
 
-	
 			for( unsigned int other_variable_id = 0; other_variable_id < _number_variables; ++other_variable_id )
 			{
 				// Next line is replaced by a simpler conditional since there were A LOT of branch misses!
@@ -497,7 +495,6 @@ namespace ghost
 			  _objective ( std::move( objective ) ),
 			  _neighborhood ( { 1, 1.0, permutation_problem, 0.0 } ),
 			  _is_optimization ( _objective == nullptr ? false : true ),
-			  _permutation_problem ( permutation_problem ),
 			  _number_variables ( static_cast<unsigned int>( variables.size() ) ),
 			  _number_constraints ( static_cast<unsigned int>( constraints.size() ) ),
 			  _map_var_ctr ( std::vector<std::vector<unsigned int> >( _number_variables ) ),
@@ -506,7 +503,7 @@ namespace ghost
 			  _cost_constraints( std::vector<double>( _number_constraints, 0.0 ) ),
 			  _cost_non_tabu_variables( std::vector<double>( _number_variables, 0.0 ) )
 		{
-			if( _objective == nullptr )
+			if( !_is_optimization )
 				_objective = std::make_unique<NullObjective>( _variables );
 
 			// Set the id of each constraint object to be their index in the _constraints vector
@@ -744,7 +741,7 @@ namespace ghost
 					}      
 #endif
 			
-					if( _permutation_problem )
+					if( _neighborhood.is_permutation )
 						permutation_move( worst_variable, current_sat_cost );
 					else
 						local_move( worst_variable, current_sat_cost );
