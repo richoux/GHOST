@@ -3,7 +3,7 @@ project (ghost)
 
 set( CMAKE_VERBOSE_MAKEFILE on )
 
-# require a C++14-capable compiler
+# require a C++17-capable compiler
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++17" COMPILER_SUPPORTS_CXX17)
 CHECK_CXX_COMPILER_FLAG("-std=c++1z" COMPILER_SUPPORTS_CXX1Z)

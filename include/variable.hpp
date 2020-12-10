@@ -59,16 +59,17 @@ namespace ghost
 		
 		static unsigned int NBER_VAR; //!< Static counter that increases each time one instanciates a Variable object.
 		unsigned int _id; //!< Unique ID integer taking the current value of NBER_VAR
-		std::string _name;	//!< String to give a full name to the variable (for instance, "Barracks").
+		std::string _name;	//!< String to give a name to the variable, helpful to debug/trace.
 
-		std::vector<int> _domain; //!< The domain, i.e., the 'set' of values the variable can take.
+		std::vector<int> _domain; //!< The domain, i.e., the vector of values the variable can take.
+
+		// TODO: (const_)iterator or int?
 		std::vector<int>::const_iterator _index; //!< Constant domain iterator corresponding to the current value of the variable.
 		int	_current_value;	//!< Current value assigned to the variable.
-
+		int _min_value;
+		int _max_value;
+		
 		randutils::mt19937_rng _rng; 	//!< Neat random generator from misc/randutils.hpp.
-
-		//! Default private constructor
-		//Variable();
 
 		struct valueException : std::exception
 		{
@@ -115,11 +116,16 @@ namespace ghost
 			_index = std::find( _domain.cbegin(), _domain.cend(), _current_value );
 		}
     
-		/*! Inline method returning what values are in the domain.
-		 * \return a copy of the vector of values composing the domain.
+		/*! Inline method returning all values in the domain.
+		 * \return a copy of the vector of these values.
 		 */
-		inline std::vector<int> possible_values() const { return _domain; }
-    
+		inline std::vector<int> get_full_domain() const { return _domain; }
+
+		/*! Method returning a range of values from the domain.
+		 * \return a copy of the vector of these values.
+		 */
+		std::vector<int> get_partial_domain( int range ) const;
+
 		//! Inline method to get the current value of the variable.
 		/*! 
 		 * \return An integer corresponding to the variable value. 
@@ -151,13 +157,13 @@ namespace ghost
 		/*! 
 		 * \return the minimal value in the variable's domain.
 		 */
-		inline int get_domain_min_value() const { return *( _domain.begin() ); }
+		inline int get_domain_min_value() const { return _min_value; }
 
 		//! Inline method returning the maximal value in the variable's domain.
 		/*! 
 		 * \return the maximal value in the variable's domain.
 		 */
-		inline int get_domain_max_value() const { return *( _domain.end() - 1 ); }
+		inline int get_domain_max_value() const { return _max_value; }
 
 		//! Inline method to get the variable name.
 		inline std::string get_name() const { return _name; }
