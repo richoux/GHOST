@@ -38,8 +38,8 @@ using namespace ghost;
 unsigned int Constraint::NBER_CTR = 0;
 
 Constraint::Constraint( const std::vector<Variable>& variables )
-	: _is_expert_delta_error_defined( true ),
-	  _variables( variables )
+	: _variables( variables ),
+	  _is_expert_delta_error_defined( true )
 {
 	if( NBER_CTR < std::numeric_limits<unsigned int>::max() )
 		_id = NBER_CTR++;
@@ -56,7 +56,7 @@ void Constraint::make_variable_id_mapping( unsigned int new_id, unsigned int ori
 	_id_mapping.at( new_id ) = static_cast<int>( iterator - _variables.begin() );
 }
 
-double Constraint::simulate( const std::vector<std::pair<int, int>>& changes )
+double Constraint::simulate( const std::vector<std::pair<unsigned int, int>>& changes )
 {
 	if( _is_expert_delta_error_defined ) [[likely]]
 	{
@@ -81,7 +81,7 @@ bool Constraint::has_variable( const Variable& var ) const
 	                     [&]( auto& v ){ return v.get_id() == var.get_id(); } ) != _variables.cend();
 }  
 
-double Constraint::expert_delta_error( const std::vector<std::pair<int, int>>& changes ) const
+double Constraint::expert_delta_error( const std::vector<std::pair<unsigned int, int>>& changes ) const
 {
 	_is_expert_delta_error_defined = false;
 	throw deltaErrorNotDefinedException();

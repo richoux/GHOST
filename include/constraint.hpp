@@ -111,7 +111,7 @@ namespace ghost
 		void make_variable_id_mapping( unsigned int new_id, unsigned int original_id );
 		
 		// To simulate the error delta between the previous and the new error.
-		double simulate( const std::vector<std::pair<int, int>>& changes );		 
+		double simulate( const std::vector<std::pair<unsigned int, int>>& changes );		 
 		
 	protected:
 		//! Pure virtual method to compute the current error of the constraint.
@@ -142,7 +142,7 @@ namespace ghost
 		 */
 		virtual double required_error( const std::vector<Variable>& variables ) const = 0;
 
-		virtual double expert_delta_error( const std::vector<std::pair<int, int>>& changes ) const;
+		virtual double expert_delta_error( const std::vector<std::pair<unsigned int, int>>& changes ) const;
 	public:
 		//! Unique constructor
 		/*!
