@@ -49,8 +49,6 @@
 
 namespace ghost
 {
-	using subconfiguration = std::vector<std::pair<unsigned int, int>>;
-	
 	template<typename ... ConstraintType>
 	std::vector<std::variant<ConstraintType ...>> initiate_vector_constraints()
 	{
@@ -79,8 +77,6 @@ namespace ghost
 		std::vector<std::variant<ConstraintType ...>> _constraints; //!< Reference to the vector of shared pointer constraints.
 		std::unique_ptr<Objective> _objective; //!< Shared pointer of the objective function.
 
-		Neighborhood _neighborhood;
-
 		//Random _random; //!< The random generator used by the solver.
 		randutils::mt19937_rng _rng; //!< A neat random generator from randutils.hpp.
 
@@ -108,6 +104,9 @@ namespace ghost
 		double _current_opt_cost;
 		double _cost_before_postprocess;
 
+		Neighborhood _neighborhood;
+		std::vector< std::vector<int> > _neighbors; 
+		
 		//! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 
 		class NullObjective : public Objective
 		{
@@ -551,7 +550,6 @@ namespace ghost
 			: _variables ( variables ), 
 			  _constraints ( constraints ),
 			  _objective ( std::move( objective ) ),
-			  _neighborhood ( { 1, 1.0, permutation_problem, 0.0 } ),
 			  _is_optimization ( _objective == nullptr ? false : true ),
 			  _no_random_starting_point( false ),
 			  _free_variables( true ),
@@ -570,7 +568,8 @@ namespace ghost
 			  _best_opt_cost( std::numeric_limits<double>::max() ),
 			  _current_sat_error( std::numeric_limits<double>::max() ),
 			  _current_opt_cost( std::numeric_limits<double>::max() ),
-			  _cost_before_postprocess( std::numeric_limits<double>::max() )
+			  _cost_before_postprocess( std::numeric_limits<double>::max() ),
+			  _neighborhood ( { 1, 1.0, permutation_problem, 1.0 } )
 		{
 			if( !_is_optimization )
 				_objective = std::make_unique<NullObjective>( _variables );
@@ -710,15 +709,45 @@ namespace ghost
 					_worst_variable = _rng.variate<int, std::discrete_distribution>( _error_variables );
 #endif
 				
-				// Compute neighbor configurations
-				subconfiguration changes;
+				// Compute neighbors
+				// 1. First, get all subdomains to consider from variables to change.
+				std::vector< std::vector<int> > domains( _worst_variables_list.size() );
+				int domains_index = 0;
+				int cartesian_size = 1;
 				for( auto& variable_id : _worst_variables_list )
 				{
 					int neighborhood_range = std::max( 1, static_cast<int>( std::round( _variables[ variable_id ].get_domain_size() * neighborhood.get_domain_span() ) ) );
-					for( auto& value : _variables[ variable_id ].get_partial_domain( neighborhood_range ) )
-						changes.emplace_back( variable_id, value );
+					domains[ domains_index ] = _variables[ variable_id ].get_partial_domain( neighborhood_range );
+					cartesian_size *= domains[ domains_index++ ].size();
 				}
+
+				// 2. Then compute their Cartesian product.
+				std::vector<int> current_configuration( _number_variables );
+				std::transform( _variables.begin(), _variables.end(), current_configuration.begin(), [&]( const auto& var ){ return var.value; } );
+				std::vector< std::vector<int> > candidates( cartesian_size, current_configuration );
+				int intermediate_cartesian = 1;
 				
+				for( int domains_iteration = 0 ; domains_iteration < domains_index ; ++domains_iteration )
+				{
+					int candidates_index = 0;
+					
+					for( int repeat_domain = 0 ; repeat_domain < ( cartesian_size / static_cast<int>( domains[ domains_iteration ].size() ) ) ; repeat_domain += intermediate_cartesian )
+						for( auto& value : domains[ domains_iteration ] )
+							for( int repeat_value = 0 ; repeat_value < intermediate_cartesian ; ++repeat_value )
+								candidates[candidates_index++][ _worst_variables_list[domains_iteration] ] = value;
+
+					intermediate_cartesian *= static_cast<int>( domains[ domains_iteration ].size() );
+				}
+						
+				// 3. And finally, randomly extract a Neighborhood::exploration_rate percentage of them
+				if( neighborhood.get_exploration_rate() == 1.0 )
+					_neighbors = candidates;
+				else
+				{
+					int size_to_explore = std::max( 1, static_cast<int>( std::round( candidates.size() * neighborhood.get_exploration_rate() ) ) );
+					_rng.shuffle( candidates );
+					_neighbors = std::vector<int>( candidates.begin(), candidates.begin() + size_to_explore );
+				}				
 				
 				// Simulate delta errors (or errors is not Constraint::expert_delta_error method
 				// is defined) for each neighbor

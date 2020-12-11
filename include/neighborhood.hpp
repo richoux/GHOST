@@ -33,10 +33,12 @@
 
 class Neighborhood final
 {
-	int _number_variables;
-	double _domain_span;
-	bool _is_permutation;
-	double _randomness_rate;
+	int _number_variables; // Number of variables to consider in the neighborhood
+	double _domain_span; // Proportion of domains to consider.
+	                     // 1 means the full domain, 0.5 means half of it around the current variable value
+	bool _is_permutation; // Is a permutation neighborhood or not.
+	double _exploration_rate; // Within the neighborhood, what proportion to explore.
+	                          // 1 means the entire neighborhood, 0.5 means half of it (randomly selected). 
 
 	struct rangeException : std::exception
 	{
@@ -54,24 +56,24 @@ public:
 	Neighborhood( int number_variables,
 	              double domain_span,
 	              bool is_permutation,
-	              double randomness_rate )
+	              double exploration_rate )
 		: _number_variables ( number_variables ),
 		  _is_permutation ( is_permutation )
 	{
 		if( domain_span < 0 || domain_span > 1 )
 			throw rangeException( domain_span );
 		
-		if( randomness_rate < 0 || randomness_rate > 1 )
-			throw rangeException( randomness_rate );
+		if( exploration_rate < 0 || exploration_rate > 1 )
+			throw rangeException( exploration_rate );
 
 		_domain_span = domain_span;
-		_randomness_rate = randomness_rate;
+		_exploration_rate = exploration_rate;
 	}
 
 	inline int get_number_variables() { return _number_variables; }
 	inline double get_domain_span() { return _domain_span; }
 	inline bool is_permutation() { return _is_permutation; }
-	inline double get_randomness_rate() { return _randomness_rate; }
+	inline double get_exploration_rate() { return _exploration_rate; }
 
 	inline void set_number_variables( int number_variable ) { _number_variables = number_variable; }
 	inline void set_domain_span( double domain_span )
@@ -81,10 +83,10 @@ public:
 		_domain_span = domain_span;
 	}
 	inline void set_is_permutation( bool is_permutation ) { _is_permutation = is_permutation; }
-	inline void set_randomness_rate( double randomness_rate )
+	inline void set_exploration_rate( double exploration_rate )
 	{
-		if( randomness_rate < 0 || randomness_rate > 1 )
-			throw rangeException( randomness_rate );
-		_randomness_rate = randomness_rate;
+		if( exploration_rate < 0 || exploration_rate > 1 )
+			throw rangeException( exploration_rate );
+		_exploration_rate = exploration_rate;
 	}	
 };
