@@ -142,7 +142,8 @@ namespace ghost
 		 */
 		virtual double required_error( const std::vector<Variable>& variables ) const = 0;
 
-		virtual double expert_delta_error( const std::vector<std::pair<unsigned int, int>>& changes ) const;
+		virtual double expert_delta_error( unsigned int variable_id, int new_value ) const;
+
 	public:
 		//! Unique constructor
 		/*!
@@ -186,6 +187,23 @@ namespace ghost
 			return value;
 		}
 
+		//! Method to compute the delta error of the current assignment, giving the variable id and its new value. Calling expert_delta_error.
+		/*!
+		 * @throw nanException
+		 * \sa expert_delta_error
+		 */
+		double delta_error( unsigned int variable_id, int new_value ) const
+		{
+			double value = expert_delta_error( variable_id, new_value );
+			if( std::isnan( value ) )
+			{
+				auto changed_variables = _variables;
+				changed_variables[ _id_mapping[ variable_id ] ].set_value( new_value );
+				throw nanException( changed_variables );
+			}
+			return value;
+		}
+		
 		//! Method to determine if the constraint contains a given variable. 
 		/*!
 		 * Given a variable, returns if it composes the constraint.
@@ -198,6 +216,8 @@ namespace ghost
 		//! Inline method to get the unique id of the Constraint object.
 		inline int get_id() const { return _id; }
 
+		inline bool is_expert_delta_error_defined() { return _is_expert_delta_error_defined; }
+		
 		// To have a nicer stream of Constraint.
 		friend std::ostream& operator<<( std::ostream& os, const Constraint& c )
 		{

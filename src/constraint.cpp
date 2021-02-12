@@ -81,7 +81,7 @@ bool Constraint::has_variable( const Variable& var ) const
 	                     [&]( auto& v ){ return v.get_id() == var.get_id(); } ) != _variables.cend();
 }  
 
-double Constraint::expert_delta_error( const std::vector<std::pair<unsigned int, int>>& changes ) const
+double Constraint::expert_delta_error( unsigned int variable_id, int new_value ) const
 {
 	_is_expert_delta_error_defined = false;
 	throw deltaErrorNotDefinedException();

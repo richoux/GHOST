@@ -218,7 +218,7 @@ namespace ghost
 			// Send the current variables assignment to the constraints.
 			for( unsigned int variable_id = 0 ; variable_id < _number_variables ; ++variable_id )
 				for( unsigned int constraint_id : _matrix_var_ctr[ variable_id ] )
-					std::visit( [&](Constraint& ctr){ return ctr.update_variable( variable_id, _variables[ variable_id ].get_value() ); }, _constraints[ constraint_id ] );
+					std::visit( [&](Constraint& ctr){ ctr.update_variable( variable_id, _variables[ variable_id ].get_value() ); }, _constraints[ constraint_id ] );
 
 			// Recompute constraint costs and get the total current cost
 			_current_sat_error = compute_constraints_errors();
@@ -559,8 +559,8 @@ namespace ghost
 
 			// Set the id of each constraint object to be their index in the _constraints vector
 			for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
-				std::visit( [&](Constraint& ctr){ ctr._id = constraint_id; }, _constraints[ constraint_id ] );			
-		
+				std::visit( [&](Constraint& ctr){ ctr._id = constraint_id; }, _constraints[ constraint_id ] );
+			
 			for( unsigned int variable_id = 0; variable_id < _number_variables; ++variable_id )
 			{
 				// Get the original id of each variable to make the mapping between the variable's id in the solver and its id within constraints (i.e., its original id)
@@ -693,66 +693,135 @@ namespace ghost
 // 				else
 // 					_worst_variable = _rng.variate<int, std::discrete_distribution>( _error_variables );
 // #endif
-				
-				// Compute neighbors
-				// 1. First, get all subdomains to consider from variables to change.
-				std::vector< std::vector<int> > domains( _worst_variables_list.size() );
-				int domains_index = 0;
-				int cartesian_size = 1;
-				for( auto& variable_id : _worst_variables_list )
-				{
-					int neighborhood_range = std::max( 1, static_cast<int>( std::round( _variables[ variable_id ].get_domain_size() * neighborhood.get_domain_span() ) ) );
-					domains[ domains_index ] = _variables[ variable_id ].get_partial_domain( neighborhood_range );
-					cartesian_size *= domains[ domains_index++ ].size();
-				}
 
-				// WARNING: Cartesian product is certainly computation-intensive.
-				// It is certainly better to start with a unique variable to change, and have a closer look at the neighborhood in a second time.
-				
-				// 2. Then compute their Cartesian product.
-				std::vector<int> current_configuration( _number_variables );
-				std::transform( _variables.begin(), _variables.end(), current_configuration.begin(), [&]( const auto& var ){ return var.value; } );
-				std::vector< std::vector<int> > candidates( cartesian_size, current_configuration );
-				int intermediate_cartesian = 1;
+				auto variable_to_change = _rng.pick( _worst_variables_list );
+				// So far, we consider full domains only.
+				auto domain_to_explore = _variables[ variable_to_change ].get_full_domain();
 
-				for( int domains_iteration = 0 ; domains_iteration < domains_index ; ++domains_iteration )
-				{
-					int candidates_index = 0;
+				// // If we consider neighborhood with more than one variable
+				// // Compute neighbors
+				// // 1. First, get all subdomains to consider from variables to change.
+				// std::vector< std::vector<int> > domains( _worst_variables_list.size() );
+				// int domains_index = 0;
+				// int cartesian_size = 1;
+				// for( auto& variable_id : _worst_variables_list )
+				// {
+				// 	int neighborhood_range = std::max( 1, static_cast<int>( std::round( _variables[ variable_id ].get_domain_size() * neighborhood.get_domain_span() ) ) );
+				// 	domains[ domains_index ] = _variables[ variable_id ].get_partial_domain( neighborhood_range );
+				// 	cartesian_size *= domains[ domains_index++ ].size();
+				// }
+				
+				// // WARNING: Cartesian product is certainly computation-intensive.
+				// // 2. Then compute their Cartesian product.
+				// std::vector<int> current_configuration( _number_variables );
+				// std::transform( _variables.begin(), _variables.end(), current_configuration.begin(), [&]( const auto& var ){ return var.value; } );
+				// std::vector< std::vector<int> > candidates( cartesian_size, current_configuration );
+				// int intermediate_cartesian = 1;
+
+				// for( int domains_iteration = 0 ; domains_iteration < domains_index ; ++domains_iteration )
+				// {
+				// 	int candidates_index = 0;
 					
-					for( int repeat_domain = 0 ; repeat_domain < ( cartesian_size / static_cast<int>( domains[ domains_iteration ].size() ) ) ; repeat_domain += intermediate_cartesian )
-						for( auto& value : domains[ domains_iteration ] )
-							for( int repeat_value = 0 ; repeat_value < intermediate_cartesian ; ++repeat_value )
-								candidates[candidates_index++][ _worst_variables_list[domains_iteration] ] = value;
+				// 	for( int repeat_domain = 0 ; repeat_domain < ( cartesian_size / static_cast<int>( domains[ domains_iteration ].size() ) ) ; repeat_domain += intermediate_cartesian )
+				// 		for( auto& value : domains[ domains_iteration ] )
+				// 			for( int repeat_value = 0 ; repeat_value < intermediate_cartesian ; ++repeat_value )
+				// 				candidates[candidates_index++][ _worst_variables_list[domains_iteration] ] = value;
 
-					intermediate_cartesian *= static_cast<int>( domains[ domains_iteration ].size() );
-				}
+				// 	intermediate_cartesian *= static_cast<int>( domains[ domains_iteration ].size() );
+				// }
 						
-				// 3. And finally, randomly extract a Neighborhood::exploration_rate percentage of them
-				if( neighborhood.get_exploration_rate() == 1.0 )
-					_neighbors = candidates;
-				else
-				{
-					int size_to_explore = std::max( 1, static_cast<int>( std::round( candidates.size() * neighborhood.get_exploration_rate() ) ) );
-					_rng.shuffle( candidates );
-					_neighbors = std::vector<int>( candidates.begin(), candidates.begin() + size_to_explore );
-				}				
+				// // 3. And finally, randomly extract a Neighborhood::exploration_rate percentage of them
+				// if( neighborhood.get_exploration_rate() == 1.0 )
+				// 	_neighbors = candidates;
+				// else
+				// {
+				// 	int size_to_explore = std::max( 1, static_cast<int>( std::round( candidates.size() * neighborhood.get_exploration_rate() ) ) );
+				// 	_rng.shuffle( candidates );
+				// 	_neighbors = std::vector<int>( candidates.begin(), candidates.begin() + size_to_explore );
+				// }				
 				
 				// Simulate delta errors (or errors is not Constraint::expert_delta_error method
 				// is defined) for each neighbor
-
+				std::map<int, vector<double>> delta_errors;
+				for( auto& new_value : domain_to_explore )
+				{
+					delta_errors[ new_value ];
+					
+					for( unsigned int constraint_id : _matrix_var_ctr[ variable_to_change ] )
+					{
+						if( std::visit( [&](Constraint& ctr){ return ctr.is_expert_delta_error_defined(); }, _constraints[ constraint_id ] ) )
+						{
+							try
+							{
+								delta_errors[ new_value ].push_back( std::visit( [&](Constraint& ctr){ return ctr.delta_error( variable_to_change, new_value ); }, _constraints[ constraint_id ] ) );
+							}
+							catch( deltaErrorNotDefinedException exception )
+							{
+								auto changed_variables = _constraints[ constraint_id ]._variables;
+								changed_variables[ _constraints[ constraint_id ]._id_mapping[ variable_to_change ] ].set_value( new_value );
+								delta_errors[ new_value ].push_back( std::visit( [&](Constraint& ctr){ return ctr.error( changed_variables ); }, _constraints[ constraint_id ] ) );
+							}
+						}
+						else
+						{
+							auto changed_variables = _constraints[ constraint_id ]._variables;
+							changed_variables[ _constraints[ constraint_id ]._id_mapping[ variable_to_change ] ].set_value( new_value );
+							delta_errors[ new_value ].push_back( std::visit( [&](Constraint& ctr){ return ctr.error( changed_variables ); }, _constraints[ constraint_id ] ) );
+						}
+					}
+				}
+				
 				// Select the next current configuration (local move)
+				std::vector<int> candidate_values;
+				double min_conflict = std::numeric_limits<double>::max();
+				std::map<int, double> cumulated_delta_errors;
+				for( auto& deltas : delta_errors )
+					cumulated_delta_errors[ deltas.first ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
+					
+				for( auto& deltas : cumulated_delta_errors )
+				{
+					if( min_conflict > deltas.second )
+					{
+						candidate_values.clear();
+						candidate_values.push_back( deltas.first );
+						min_conflict = deltas.second;
+					}
+					else
+						if( min_conflict == deltas.second )
+							candidate_values.push_back( deltas.first );
+				}
 
-				// Apply local changes (or global changes is not Constraint::expert_delta_error
-				// method is defined)
-
-				// Update constraint/variables errors and the objective function cost
-
-				// Restart mechanism to escape local minima
-
+				auto new_value = _rng.pick( candidate_values );
+				
+				// Apply local changes (or global changes if Constraint::expert_delta_error is not defined)
+				// And update constraint/variables errors.
+				if( min_conflict < 0.0 )
+				{
+					_current_sat_error += min_conflict;
+					_best_sat_error = _current_sat_error;
+					_variables[ variable_to_change ].set_value( new_value );
+					int delta_index = 0;
+					for( unsigned int constraint_id : _matrix_var_ctr[ variable_to_change ] )
+					{
+						_error_constraints[ constraint_id ] += delta_errors.at( new_value )[ delta_index++ ];
+						std::visit( [&](Constraint& ctr){ ctr.update_variable( variable_to_change, new_value ); }, _constraints[ constraint_id ] );
+					}
+								
+					// Update the objective function cost
+					_current_opt_cost = _objective->cost();
+				}
+				else
+					if( min_conflict == 0.0 && _rng.uniform(0.0, 1.0) >= 0.1 )
+					{
+					_variables[ variable_to_change ].set_value( new_value );
+					for( unsigned int constraint_id : _matrix_var_ctr[ variable_to_change ] )
+						std::visit( [&](Constraint& ctr){ ctr.update_variable( variable_to_change, new_value ); }, _constraints[ constraint_id ] );
+					}
+					else // Restart mechanism to escape local minima / plateau
+						restart();
 				
 				elapsed_time = std::chrono::steady_clock::now() - start;
 			}
-
 			
 			do // optimization loop
 			{
