@@ -243,37 +243,59 @@ namespace ghost
 		 */
 		bool decay_weak_tabu_list()
 		{
-			bool free_variables = false;
-			std::for_each( _weak_tabu_list.begin(),
-			               _weak_tabu_list.end(),
-			               [&](auto& t){ t == 0 ? free_variables = true : --t; assert( t >= 0); } );
-			return free_variables;
+			std::transform( _weak_tabu_list.begin(),
+			                _weak_tabu_list.end(),
+			                _weak_tabu_list.begin(),
+			                [&] (int tabu) -> int { return std::max( 0, tabu - 1 ); } );
+
+			return std::any( _weak_tabu_list.begin(), _weak_tabu_list.end(), [](int tabu){ return tabu == 0; });
+			// bool free_variables = false;
+			// std::for_each( _weak_tabu_list.begin(),
+			//                _weak_tabu_list.end(),
+			//                [&](auto& t){ t == 0 ? free_variables = true : --t; assert( t >= 0); } );
+			// return free_variables;
 		}
 
-//READ_FROM_THERE
+
 #if !defined(EXPERIMENTAL) 
 		//! To compute the vector of variables which are principal culprits for not satisfying the problem
 		void compute_worst_variables()
 		{
-			// Here, we look at neighbor configurations with the lowest cost.
-			double _worst_variableCost = 0.;
-			_number_worst_variables = 0;
+			// double worst_variableCost = 0.;
+			// _number_worst_variables = 0;
 
-			for( int id = 0; id < _number_variables; ++id )
-			{
-				if( !_free_variables || _weak_tabu_list[ id ] == 0 )
-				{
-					if( _worst_variableCost < _error_variables[ id ] )
-					{
-						_worst_variableCost = _error_variables[ id ];
-						_number_worst_variables = 0;
-						_worst_variables_list[ _number_worst_variables++ ] = id;
-					}
-					else
-						if( _worst_variableCost == _error_variables[ id ] )
-							_worst_variables_list[ _number_worst_variables++ ] = id;
-				}
-			}
+			// for( int id = 0 ; id < _number_variables ; ++id )
+			// {
+			// 	if( worst_variableCost < _error_variables[ id ] )
+			// 	{
+			// 		worst_variableCost = _error_variables[ id ];
+			// 		_number_worst_variables = 0;
+			// 		_worst_variables_list[ _number_worst_variables++ ] = id;
+			// 	}
+			// 	else
+			// 		if( worst_variableCost == _error_variables[ id ] )
+			// 			_worst_variables_list[ _number_worst_variables++ ] = id;
+			// }
+
+			double worst_variable_cost = *( std::max_element( _error_variables.begin(), _error_variables.end() ) );
+			_worst_variables_list.clear();
+			for( unsigned int variable_id = 0; variable_id < _number_variables; ++variable_id )
+				if( _error_variables[ variable_id ] == worst_variable_cost )
+					_worst_variables_list.push_back( variable_id );
+			
+			
+			// double worst_variableCost = 0.;
+			
+			// for( unsigned int variable_id = 0; variable_id < _number_variables; ++variable_id )
+			// 	if( worst_variableCost < _error_variables[ variable_id ] )
+			// 	{
+			// 		_worst_variables_list.clear();
+			// 		_worst_variables_list.push_back( variable_id );
+			// 		worst_variableCost = _error_variables[ variable_id ];
+			// 	}
+			// 	else
+			// 		if( worst_variableCost == _error_variables[ variable_id ] )
+			// 			_worst_variables_list.push_back( variable_id );
 		}
 #endif
 
@@ -283,7 +305,7 @@ namespace ghost
 			double satisfaction_cost = 0.;
 			double cost;
 
-			for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
+			for( unsigned int constraint_id = 0 ; constraint_id < _number_constraints ; ++constraint_id )
 			{
 				cost = call_cost( constraint_id );
 				//cost = _constraints[ id ].cost();
@@ -656,19 +678,21 @@ namespace ghost
 				++search_iterations;
 				
 				// Estimate which variables need to be changed
-#if !defined(EXPERIMENTAL)
 				compute_worst_variables();
+				
+// #if !defined(EXPERIMENTAL)
+// 				compute_worst_variables();
 
-				if( _number_worst_variables > 1 )
-					_worst_variable = _rng.pick( _worst_variables_list );
-				else
-					_worst_variable = _worst_variables_list[ 0 ];
-#else
-				if( _free_variables )
-					_worst_variable = _rng.variate<int, std::discrete_distribution>( _error_non_tabu_variables );
-				else
-					_worst_variable = _rng.variate<int, std::discrete_distribution>( _error_variables );
-#endif
+// 				if( _number_worst_variables > 1 )
+// 					_worst_variable = _rng.pick( _worst_variables_list );
+// 				else
+// 					_worst_variable = _worst_variables_list[ 0 ];
+// #else
+// 				if( _free_variables )
+// 					_worst_variable = _rng.variate<int, std::discrete_distribution>( _error_non_tabu_variables );
+// 				else
+// 					_worst_variable = _rng.variate<int, std::discrete_distribution>( _error_variables );
+// #endif
 				
 				// Compute neighbors
 				// 1. First, get all subdomains to consider from variables to change.
@@ -682,12 +706,15 @@ namespace ghost
 					cartesian_size *= domains[ domains_index++ ].size();
 				}
 
+				// WARNING: Cartesian product is certainly computation-intensive.
+				// It is certainly better to start with a unique variable to change, and have a closer look at the neighborhood in a second time.
+				
 				// 2. Then compute their Cartesian product.
 				std::vector<int> current_configuration( _number_variables );
 				std::transform( _variables.begin(), _variables.end(), current_configuration.begin(), [&]( const auto& var ){ return var.value; } );
 				std::vector< std::vector<int> > candidates( cartesian_size, current_configuration );
 				int intermediate_cartesian = 1;
-				
+
 				for( int domains_iteration = 0 ; domains_iteration < domains_index ; ++domains_iteration )
 				{
 					int candidates_index = 0;
