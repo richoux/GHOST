@@ -110,8 +110,8 @@ namespace ghost
 		// Making the mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the constraint. 
 		void make_variable_id_mapping( unsigned int new_id, unsigned int original_id );
 		
-		// To simulate the error delta between the previous and the new error.
-		double simulate( const std::vector<std::pair<unsigned int, int>>& changes );		 
+		// To simulate the error delta between the current configuration and the candidate configuration.
+		double simulate_delta( unsigned int variable_id, int new_value );		 
 		
 	protected:
 		//! Pure virtual method to compute the current error of the constraint.
@@ -179,30 +179,14 @@ namespace ghost
 		 * @throw nanException
 		 * \sa required_error, error
 		 */
-		double error( const std::vector<Variable>& variables ) const
-		{
-			double value = required_error( variables );
-			if( std::isnan( value ) )
-				throw nanException( variables );
-			return value;
-		}
+		double error( const std::vector<Variable>& variables ) const;
 
 		//! Method to compute the delta error of the current assignment, giving the variable id and its new value. Calling expert_delta_error.
 		/*!
 		 * @throw nanException
 		 * \sa expert_delta_error
 		 */
-		double delta_error( unsigned int variable_id, int new_value ) const
-		{
-			double value = expert_delta_error( variable_id, new_value );
-			if( std::isnan( value ) )
-			{
-				auto changed_variables = _variables;
-				changed_variables[ _id_mapping[ variable_id ] ].set_value( new_value );
-				throw nanException( changed_variables );
-			}
-			return value;
-		}
+		double delta_error( unsigned int variable_id, int new_value ) const;
 		
 		//! Method to determine if the constraint contains a given variable. 
 		/*!
@@ -217,6 +201,8 @@ namespace ghost
 		inline int get_id() const { return _id; }
 
 		inline bool is_expert_delta_error_defined() { return _is_expert_delta_error_defined; }
+
+		std::vector<unsigned int> get_variable_ids();
 		
 		// To have a nicer stream of Constraint.
 		friend std::ostream& operator<<( std::ostream& os, const Constraint& c )

@@ -56,21 +56,20 @@ void Constraint::make_variable_id_mapping( unsigned int new_id, unsigned int ori
 	_id_mapping.at( new_id ) = static_cast<int>( iterator - _variables.begin() );
 }
 
-double Constraint::simulate( const std::vector<std::pair<unsigned int, int>>& changes )
+double Constraint::simulate_delta( unsigned int variable_id, int new_value )
 {
 	if( _is_expert_delta_error_defined ) [[likely]]
 	{
-		return expert_delta_error( changes );
+		return delta_error( variable_id, new_value );
 	}
 	else
 	{
-		std::vector<Variable> copy_variables( _variables.size() );
-		std::copy( _variables.begin(), _variables.end(), copy_variables.begin() );
-		
-		for( auto& pair : changes )
-			copy_variables.at( pair.first ).set_value( pair.second );
+		int copy_value = _variables[ _id_mapping[ variable_id ] ].get_value();
+		_variables[ _id_mapping[ variable_id ] ].set_value( new_value );
+		auto error = error();
+		_variables[ _id_mapping[ variable_id ] ].set_value( copy_value );
 
-		return error( copy_variables ) - _current_error;
+		return error - _current_error;
 	}
 }
 
@@ -84,5 +83,32 @@ bool Constraint::has_variable( const Variable& var ) const
 double Constraint::expert_delta_error( unsigned int variable_id, int new_value ) const
 {
 	_is_expert_delta_error_defined = false;
-	throw deltaErrorNotDefinedException();
+	//throw deltaErrorNotDefinedException();
+}
+
+double Constraint::error( const std::vector<Variable>& variables ) const
+{
+	double value = required_error( variables );
+	if( std::isnan( value ) )
+		throw nanException( variables );
+	return value;
+}
+
+double Constraint::delta_error( unsigned int variable_id, int new_value ) const
+{
+	double value = expert_delta_error( variable_id, new_value );
+	if( std::isnan( value ) )
+	{
+		auto changed_variables = _variables;
+		changed_variables[ _id_mapping[ variable_id ] ].set_value( new_value );
+		throw nanException( changed_variables );
+	}
+	return value;
+}
+
+std::vector<unsigned int> Constraint::get_variable_ids()
+{
+	std::vector<unsigned int> ids( _variables.size() );
+	std::transform( _id_mapping.begin(), _id_mapping.end(), ids.begin(), [&](auto& pair){ return pair.first; } );
+	return ids;	
 }
