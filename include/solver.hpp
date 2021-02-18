@@ -95,7 +95,6 @@ namespace ghost
 		std::vector<double> _error_non_tabu_variables;
 
 		double _best_sat_error; //!< The satisfaction cost of the best solution.
-		double _best_sat_error_opt_loop; //!< The satisfaction cost of the best solution in the current optimization loop.
 		double _best_opt_cost; //!< The optimization cost of the best solution.
 		double _current_sat_error;
 		double _current_opt_cost;
@@ -326,202 +325,6 @@ namespace ghost
 			for( unsigned int variable_id = 0; variable_id < _number_variables; ++variable_id )
 				for( unsigned int constraint_id : _matrix_var_ctr[ variable_id ] )
 					_error_variables[ variable_id ] += _error_constraints[ constraint_id ];
-		}
-
-		//! Compute incrementally the now satisfaction cost IF we change the value of 'variable' by 'value' with a local move.
-		double simulate_local_move_error( unsigned int variable_id,
-		                                  int value,
-		                                  double _current_sat_error )
-		{
-			double new_current_sat_error = _current_sat_error;
-
-			for( unsigned int constraint_id : _matrix_var_ctr[ variable_id ] )
-			{
-				call_update_variable( constraint_id, variable_id, value );
-				new_current_sat_error += ( call_error( constraint_id ) - _error_constraints[ constraint_id ] );
-			}
-
-			return new_current_sat_error;
-		}
-
-
-		//! Compute incrementally the now satisfaction cost IF we swap values of 'variable' with another variable.
-		double simulate_permutation_error( unsigned int _worst_variable,
-		                                  unsigned int other_variable,
-		                                  double _current_sat_error )
-		{
-			double new_current_sat_error = _current_sat_error;
-			std::vector<bool> done( _number_constraints, false );
-
-			std::swap( _variables[ _worst_variable ]._index, _variables[ other_variable ]._index );
-			std::swap( _variables[ _worst_variable ]._current_value, _variables[ other_variable ]._current_value );
-
-			for( unsigned int constraint_id : _matrix_var_ctr[ _worst_variable ] )
-			{
-
-				new_current_sat_error += ( call_error( constraint_id ) - _error_constraints[ constraint_id ] );
-				done[ constraint_id ] = true;
-			}
-
-			// The following was commented to avoid branch misses, but it appears to be slower than
-			// the commented block that follows.
-			for( unsigned int constraint_id : _matrix_var_ctr[ other_variable ] )
-				if( !done[ constraint_id ] )
-					new_current_sat_error += ( call_error( constraint_id ) - _error_constraints[ constraint_id ] );
-
-			// vector< shared_ptr<Constraint> > diff;
-			// std::set_difference( _matrix_var_ctr[ other_variable ].begin(), _matrix_var_ctr[ other_variable ].end(),
-			//                      _matrix_var_ctr[ *_worst_variable ].begin(), _matrix_var_ctr[ *_worst_variable ].end(),
-			//                      std::inserter( diff, diff.begin() ) );
-
-			// for( auto& c : diff )
-			// 	new_current_sat_error += ( c->cost() - _error_constraints[ c->get_id() - _ctr_offset ] );
-
-			// We must roll back to the previous state before returning the new cost value. 
-			std::swap( _variables[ _worst_variable ]._index, _variables[ other_variable ]._index );
-			std::swap( _variables[ _worst_variable ]._current_value, _variables[ other_variable ]._current_value );
-
-			return new_current_sat_error;
-		}
-
-		//! Function to make a local move, ie, to assign a given
-		void local_move( unsigned int variable_id,
-		                 double& _current_sat_error )
-		{
-			// Here, we look at values in the variable domain
-			// leading to the lowest satisfaction cost.
-			double new_current_sat_error = 0.0;
-			std::vector<int> best_values_list;
-			int best_value;
-			double best_cost = std::numeric_limits<double>::max();
-
-			for( auto& val : _variables[ variable_id ].get_full_domain() )
-			{
-				new_current_sat_error = simulate_local_move_error( variable_id, val, _current_sat_error );
-				if( best_cost > new_current_sat_error )
-				{
-					best_cost = new_current_sat_error;
-					best_values_list.clear();
-					best_values_list.push_back( val );
-				}
-				else
-					if( best_cost == new_current_sat_error )
-						best_values_list.push_back( val );
-			}
-
-			// If several values lead to the same best satisfaction cost,
-			// call Objective::heuristic_value has a tie-break.
-			// By default, Objective::heuristic_value returns the value
-			// improving the most the optimization cost, or a random value
-			// among values improving the most the optimization cost if there
-			// are some ties.
-			if( best_values_list.size() > 1 )
-				best_value = _objective->heuristic_value( _variables, _variables[ variable_id ], best_values_list );
-			else
-				best_value = best_values_list[0];
-
-			_variables[ variable_id ].set_value( best_value );
-			_current_sat_error = best_cost;
-			// for( auto& c : _matrix_var_ctr[ *variable ] )
-			//   _error_constraints[ c->get_id() - _ctr_offset ] = c->cost();
-
-			// compute_variables_errors( _current_sat_error );
-		}
-
-		//! Function to make a permutation move, ie, to assign a given
-		void permutation_move( unsigned int variable_id,
-		                       double& _current_sat_error )
-		{
-			// Here, we look at values in the variable domain
-			// leading to the lowest satisfaction cost.
-			double new_current_sat_error = 0.0;
-			std::vector< unsigned int > best_var_to_swap_list;
-			unsigned int best_var_to_swap;
-			double best_cost = std::numeric_limits<double>::max();
-
-#if defined(TRACE)
-			std::cout << "Current error before permutation: " << _current_sat_error << "\n";
-#endif
-
-			for( unsigned int other_variable_id = 0; other_variable_id < _number_variables; ++other_variable_id )
-			{
-				// Next line is replaced by a simpler conditional since there were A LOT of branch misses!
-				//if( other_variable._id == variable->_id || other_variable._index == variable->_index )
-				if( other_variable_id == variable_id )
-					continue;
-
-				new_current_sat_error = simulate_permutation_error( variable_id, other_variable_id, _current_sat_error );
-
-#if defined(TRACE)
-				std::cout << "Error if permutation between " << variable_id << " and " << other_variable_id << ": " << new_current_sat_error << "\n";
-#endif
-
-				if( best_cost > new_current_sat_error )
-				{
-#if defined(TRACE)
-					std::cout << "This is a new best error.\n";
-#endif
-
-					best_cost = new_current_sat_error;
-					best_var_to_swap_list.clear();
-					best_var_to_swap_list.push_back( other_variable_id );
-				}
-				else 
-					if( best_cost == new_current_sat_error )
-					{
-						best_var_to_swap_list.push_back( other_variable_id );
-#if defined(TRACE)
-						std::cout << "Tie error with the best one.\n";
-#endif
-					}
-			}
-
-			// // If the best cost found so far leads to a plateau,
-			// // then we have 10% of chance to escapte from the plateau
-			// // by picking up a random variable (giving a worst global cost)
-			// // to permute with.
-			// if( best_cost == _current_sat_error && _rng.uniform( 0, 99 ) < 10 )
-			// {
-			// 	do
-			// 	{
-			// 		best_var_to_swap = _rng.pick( _variables );
-			// 	} while( best_var_to_swap._id == variable->_id || std::find_if( best_var_to_swap_list.begin(), best_var_to_swap_list.end(), [&](auto& v){ return v._id == best_var_to_swap._id; } ) != best_var_to_swap_list.end() );
-			// }
-			// else
-			// {
-			// If several values lead to the same best satisfaction cost,
-			// call Objective::heuristic_value has a tie-break.
-			// By default, Objective::heuristic_value returns the value
-			// improving the most the optimization cost, or a random value
-			// among values improving the most the optimization cost if there
-			// are some ties.
-			if( best_var_to_swap_list.size() > 1 )
-				best_var_to_swap = _objective->heuristic_value( best_var_to_swap_list );
-			else
-				best_var_to_swap = best_var_to_swap_list[0];
-			// }
-
-#if defined(TRACE)
-			std::cout << "Permutation will be done between " << variable_id << " and " << best_var_to_swap << ".\n";
-#endif
-
-			std::swap( _variables[ variable_id ]._index, _variables[ best_var_to_swap ]._index );
-			std::swap( _variables[ variable_id ]._current_value, _variables[ best_var_to_swap ]._current_value );
-
-			_current_sat_error = best_cost;
-			// vector<bool> compted( _error_constraints.size(), false );
-  
-			// for( auto& c : _matrix_var_ctr[ *variable ] )
-			// {
-			// 	new_current_sat_error += ( c->cost() - _error_constraints[ c->get_id() - _ctr_offset ] );
-			// 	compted[ c->get_id() - _ctr_offset ] = true;
-			// }
-  
-			// for( auto& c : _matrix_var_ctr[ best_var_to_swap ] )
-			// 	if( !compted[ c->get_id() - _ctr_offset ] )
-			// 		new_current_sat_error += ( c->cost() - _error_constraints[ c->get_id() - _ctr_offset ] );
-
-			// compute_variables_errors( new_current_sat_error );
 		}
     
 	public:
@@ -789,12 +592,82 @@ namespace ghost
 				//TODO: need to handle optimization loop, where sat error is 0 and we try to improve the objective cost.
 				
 				// Apply local changes, update constraint/variables errors and objective cost
-				// if the global error is better OR if it is a plateau under some probabilities (currently 90% of chance to stay on a plateau)
-				if( min_conflict < 0.0 || ( min_conflict == 0.0 && _rng.uniform(0.0, 1.0) >= 0.1 ) )
+				// if the global error is better or if we are on a plateau
+				if( min_conflict <= 0.0 )
 				{
+					// if we are about to satisfy all constraints
+					// and we are dealing with an optimization problem...
+					if( _current_sat_error + min_conflict == 0.0 && _is_optimization )
+					{
+						_objective->update_variable( variable_to_change, new_value );
+						double candidate_opt_cost = _objective->cost();
+						
+						// ...then we have to check if the objective function is improved...
+						if( _current_opt_cost > candidate_opt_cost )
+						{
+							_current_opt_cost = candidate_opt_cost;
+							if( _best_opt_cost > _current_opt_cost )
+							{
+								_best_opt_cost = _current_opt_cost;
+								std::transform( _variables.begin(),
+								                _variables.end(),
+								                final_solution.begin(),
+								                [&](auto& var){ return var.get_value(); } );
+							}
+
+							// for consistency, we still need to update changes in constraints' variables
+							for( unsigned int constraint_id : _matrix_var_ctr[ variable_to_change ] )
+								call_update_variable( constraint_id, variable_to_change, new_value );						
+							
+							elapsed_time = std::chrono::steady_clock::now() - start;
+							continue; // continue while loop
+						}
+						else
+							// ...otherwise, if we are on a plateau, we either walk on it or restart
+							if( _current_opt_cost == candidate_opt_cost )
+							{
+								if( _rng.uniform(0.0, 1.0) < 0.1 )
+								{
+									elapsed_time = std::chrono::steady_clock::now() - start;
+									restart();
+								}
+								else
+								{
+									// for consistency, we still need to update changes in constraints' variables
+									for( unsigned int constraint_id : _matrix_var_ctr[ variable_to_change ] )
+										call_update_variable( constraint_id, variable_to_change, new_value );						
+									
+									elapsed_time = std::chrono::steady_clock::now() - start;
+									continue;
+								}
+							}
+						  // finally, if the objective function returns a higher cost than the current one,
+						  // we restart
+							else
+							{
+								elapsed_time = std::chrono::steady_clock::now() - start;
+								restart();
+							}
+					}
+					else
+						// otherwise, if it is a plateau:
+						// we have 10% of chance to reset, 90% to walk on the plateau
+						if( min_conflict == 0.0 && _rng.uniform(0.0, 1.0) < 0.1 )
+						{
+							elapsed_time = std::chrono::steady_clock::now() - start;
+							restart();
+						}
+
+					// The rest of the code in that block deals with candidates
+					// where some constraints remains to be satisfied
+					// (or eventually, this is the first solution we have found)
 					_current_sat_error += min_conflict;
-					_best_sat_error = _current_sat_error;
 					_variables[ variable_to_change ].set_value( new_value );
+
+					// TODO: postprocess must handle constraint/variable error changes
+					// if( _current_sat_error == 0.0 )
+					// 	_objective->postprocess_satisfaction( _variables, _current_opt_cost, final_solution );
+
 					int delta_index = 0;
 					for( unsigned int constraint_id : _matrix_var_ctr[ variable_to_change ] )
 					{
@@ -805,30 +678,37 @@ namespace ghost
 							
 						call_update_variable( constraint_id, variable_to_change, new_value );						
 					}
+
+					// if this is the best candidate we found so far, save it.
+					if( _best_sat_error > _current_sat_error )
+					{
+						_best_sat_error = _current_sat_error;
+						std::transform( _variables.begin(),
+						                _variables.end(),
+						                final_solution.begin(),
+						                [&](auto& var){ return var.get_value(); } );
+					}
 					
 					// Update the objective function cost
+					_objective->update_variable( variable_to_change, new_value );
 					_current_opt_cost = _objective->cost();
 				}
-				else // Restart mechanism to escape local minima / plateau
+				else // Restart mechanism to escape local minima
+				{
+					elapsed_time = std::chrono::steady_clock::now() - start;
 					restart();
+				}
 				
 				elapsed_time = std::chrono::steady_clock::now() - start;
 			}
 						
-			for( int i = 0 ; i < _number_variables ; ++i )
-				final_solution[ i ] = _variables[ i ].get_value();
-			
-			start_postprocess = std::chrono::steady_clock::now();
-			_objective->postprocess_satisfaction( _variables, _best_opt_cost, final_solution );
-			timer_postprocess_sat = std::chrono::steady_clock::now() - start_postprocess;
-
 			if( _best_sat_error == 0. && _is_optimization )
 			{
 				_cost_before_postprocess = _best_opt_cost;
 
 				start_postprocess = std::chrono::steady_clock::now();
 				_objective->postprocess_optimization( _variables, _best_opt_cost, final_solution );
-				timer_postprocess_opt = std::chrono::steady_clock::now() - start_postprocess;							     
+				timer_postprocess_opt = std::chrono::steady_clock::now() - start_postprocess;
 			}
 
 			if( _is_optimization )
@@ -860,15 +740,14 @@ namespace ghost
 
 			std::cout << "Elapsed time: " << elapsed_time.count() / 1000 << "ms\n"
 			          << "Satisfaction error: " << _best_sat_error << "\n"
-			          << "Number of optization loops: " << opt_loop << "\n"
-			          << "Number of satisfaction loops: " << sat_loop << "\n";
+			          << "Number of search iterations: " << search_iterations << "\n";
 
 			if( _is_optimization )
 				std::cout << "Optimization cost: " << _best_opt_cost << "\n"
 				          << "Opt Cost BEFORE post-processing: " << _cost_before_postprocess << "\n";
   
-			if( timer_postprocess_sat.count() > 0 )
-				std::cout << "Satisfaction post-processing time: " << timer_postprocess_sat.count() / 1000 << "\n"; 
+			// if( timer_postprocess_sat.count() > 0 )
+			// 	std::cout << "Satisfaction post-processing time: " << timer_postprocess_sat.count() / 1000 << "\n"; 
 
 			if( timer_postprocess_opt.count() > 0 )
 				std::cout << "Optimization post-processing time: " << timer_postprocess_opt.count() / 1000 << "\n"; 

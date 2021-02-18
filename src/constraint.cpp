@@ -66,7 +66,7 @@ double Constraint::simulate_delta( unsigned int variable_id, int new_value )
 	{
 		int copy_value = _variables[ _id_mapping[ variable_id ] ].get_value();
 		_variables[ _id_mapping[ variable_id ] ].set_value( new_value );
-		auto error = error();
+		auto error = this->error();
 		_variables[ _id_mapping[ variable_id ] ].set_value( copy_value );
 
 		return error - _current_error;
@@ -100,7 +100,7 @@ double Constraint::delta_error( unsigned int variable_id, int new_value ) const
 	if( std::isnan( value ) )
 	{
 		auto changed_variables = _variables;
-		changed_variables[ _id_mapping[ variable_id ] ].set_value( new_value );
+		changed_variables[ _id_mapping.at( variable_id ) ].set_value( new_value );
 		throw nanException( changed_variables );
 	}
 	return value;

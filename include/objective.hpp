@@ -90,6 +90,8 @@ namespace ghost
 			const char* what() const noexcept { return message.c_str(); }
 		};
 
+		// Update a variable assignment.
+		inline void update_variable( unsigned int variable_id, int new_value ) { _variables[ _id_mapping[ variable_id ] ].set_value( new_value ); }
 
 		// Making the mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the objective function. 
 		void make_variable_id_mapping( unsigned int new_id, unsigned int original_id );
