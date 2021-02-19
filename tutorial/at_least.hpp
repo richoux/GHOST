@@ -13,9 +13,9 @@ class AtLeast : public ghost::Constraint
 	std::vector<ObjectData> object_data;
 	double k;
 
-	double required_cost() const override;
+	double required_error( const std::vector<ghost::Variable>& variables ) const override;
 public:
-	AtLeast( const std::vector< std::reference_wrapper<ghost::Variable> >& variables,
+	AtLeast( const std::vector<ghost::Variable>& variables,
 	         const std::vector<ObjectData>& object_data,
 	         double k );
 };
