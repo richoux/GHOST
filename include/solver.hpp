@@ -49,12 +49,15 @@
 
 namespace ghost
 {
-	template<typename ... ConstraintType>
-	std::vector<std::variant<ConstraintType ...>> initiate_vector_constraints()
-	{
-		return std::vector<std::variant<ConstraintType ...>>();
-	}
+	// template<typename ... ConstraintType>
+	// std::vector<std::variant<ConstraintType ...>> initiate_vector_constraints()
+	// {
+	// 	return std::vector<std::variant<ConstraintType ...>>();
+	// }
 
+
+
+	
 	//! Solver is the class coding the solver itself.
 	/*!
 	 * To solve a problem instance, you must instanciate a Solver object, then run Solver::solve.
@@ -154,7 +157,7 @@ namespace ghost
 					
 					if( best_sat_error > current_sat_error )
 					{
-						best_sat_cost = current_sat_cost;
+						best_sat_error = current_sat_error;
 												
 						for( int i = 0 ; i < _number_variables ; ++i )
 							best_values[ i ] = _variables[ i ].get_value();
@@ -196,7 +199,6 @@ namespace ghost
 		{
 			_best_sat_error = std::numeric_limits<double>::max();
 			_best_opt_cost = std::numeric_limits<double>::max();
-			_best_sat_error_opt_loop = std::numeric_limits<double>::max();
 
 			// Reset weak tabu list
 			std::fill( _weak_tabu_list.begin(), _weak_tabu_list.end(), 0 ); 
@@ -251,7 +253,7 @@ namespace ghost
 			                _weak_tabu_list.begin(),
 			                [&] (int tabu) -> int { return std::max( 0, tabu - 1 ); } );
 
-			return std::any( _weak_tabu_list.begin(), _weak_tabu_list.end(), [](int tabu){ return tabu == 0; });
+			return std::any_of( _weak_tabu_list.begin(), _weak_tabu_list.end(), [](int tabu){ return tabu == 0; });
 			// bool free_variables = false;
 			// std::for_each( _weak_tabu_list.begin(),
 			//                _weak_tabu_list.end(),
@@ -350,13 +352,11 @@ namespace ghost
 			  _matrix_var_ctr ( std::vector<std::vector<unsigned int> >( _number_variables ) ),
 			  _weak_tabu_list( std::vector<int>( _number_variables, 0 ) ),
 			  _worst_variables_list( std::vector<unsigned int>( _number_variables, 0 ) ),
-			  _number_worst_variables( 0 ),
 			  _error_variables( std::vector<double>( _number_variables, 0.0 ) ),
 			  _error_constraints( std::vector<double>( _number_constraints, 0.0 ) ),
 			  _error_non_tabu_variables( std::vector<double>( _number_variables, 0.0 ) ),
 			  _worst_variable( 0 ),
 			  _best_sat_error( std::numeric_limits<double>::max() ),
-			  _best_sat_error_opt_loop( std::numeric_limits<double>::max() ),
 			  _best_opt_cost( std::numeric_limits<double>::max() ),
 			  _current_sat_error( std::numeric_limits<double>::max() ),
 			  _current_opt_cost( std::numeric_limits<double>::max() ),
@@ -391,7 +391,14 @@ namespace ghost
 
 			// Determine if expert_delta_error has been user defined or not for each constraint
 			for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
-				std::visit( [&](Constraint& ctr){ ctr.expert_delta_error( _variables[0], _variables[0].get_value() ); }, _constraints[ constraint_id ] );
+				try
+				{
+					std::visit( [&](Constraint& ctr){ ctr.expert_delta_error( 0, _variables[0].get_value() ); }, _constraints[ constraint_id ] );
+				}
+				catch( std::exception e )
+				{
+					e.what();
+				}
 		}
 
 		//! Second Solver's constructor, without Objective
@@ -562,7 +569,7 @@ namespace ghost
 				// }				
 				
 				// Simulate delta errors (or errors is not Constraint::expert_delta_error method is defined) for each neighbor
-				std::map<int, vector<double>> delta_errors;
+				std::map<int, std::vector<double>> delta_errors;
 				for( auto new_value : domain_to_explore )
 					for( unsigned int constraint_id : _matrix_var_ctr[ variable_to_change ] )
 						delta_errors[ new_value ].push_back( std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( variable_to_change, new_value ); }, _constraints[ constraint_id ] ) );
@@ -673,7 +680,7 @@ namespace ghost
 					{
 						auto delta = delta_errors.at( new_value )[ delta_index++ ];
 						_error_constraints[ constraint_id ] += delta;
-						for( unsigned int variable_id : std::visit( [&](Constraint& ctr){ ctr.get_variable_ids(); }, _constraints[ constraint_id ] ) )
+						for( unsigned int variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, _constraints[ constraint_id ] ) )
 							_error_variables[ variable_id ] += delta;
 							
 						call_update_variable( constraint_id, variable_to_change, new_value );						

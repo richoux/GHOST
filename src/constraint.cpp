@@ -53,7 +53,7 @@ void Constraint::make_variable_id_mapping( unsigned int new_id, unsigned int ori
 	if( iterator == _variables.end() )
 		throw variableOutOfTheScope( original_id, _id );
 
-	_id_mapping.at( new_id ) = static_cast<int>( iterator - _variables.begin() );
+	_id_mapping[ new_id ] = static_cast<int>( iterator - _variables.begin() );
 }
 
 double Constraint::simulate_delta( unsigned int variable_id, int new_value )
@@ -83,7 +83,7 @@ bool Constraint::has_variable( const Variable& var ) const
 double Constraint::expert_delta_error( unsigned int variable_id, int new_value ) const
 {
 	_is_expert_delta_error_defined = false;
-	//throw deltaErrorNotDefinedException();
+	throw deltaErrorNotDefinedException();
 }
 
 double Constraint::error( const std::vector<Variable>& variables ) const

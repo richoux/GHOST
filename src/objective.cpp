@@ -42,7 +42,7 @@ void Objective::make_variable_id_mapping( unsigned int new_id, unsigned int orig
 	if( iterator == _variables.end() )
 		throw variableOutOfTheScope( original_id, _name );
 
-	_id_mapping.at( new_id ) = static_cast<int>( iterator - _variables.begin() );
+	_id_mapping[ new_id ] = static_cast<int>( iterator - _variables.begin() );
 }
 
 int Objective::expert_heuristic_value( const std::vector<Variable>& variables,
