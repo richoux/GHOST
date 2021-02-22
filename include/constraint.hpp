@@ -207,7 +207,9 @@ namespace ghost
 		// To have a nicer stream of Constraint.
 		friend std::ostream& operator<<( std::ostream& os, const Constraint& c )
 		{
-			return os << "Constraint type: " <<  typeid(c).name() << "\n";
+			return os << "Constraint type: " <<  typeid(c).name()
+			          << "\nId: " <<  c._id
+			          << "\n########";
 		}
 
 		// // To let the access of Constraint::simulate() to Solver::solve

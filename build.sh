@@ -58,7 +58,7 @@ function trace()
 {
     mkdir -p $RELEASETRACE
     cd $RELEASETRACE
-    cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTRACE=ON -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
+    cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DGHOST_TRACE=ON -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
     make
     sudo make install    
 }
@@ -67,7 +67,7 @@ function bench()
 {
     mkdir -p $RELEASEBENCH
     cd $RELEASEBENCH
-    cmake -DCMAKE_BUILD_TYPE=Release -DBENCH=ON -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
+    cmake -DCMAKE_BUILD_TYPE=Release -DGHOST_BENCH=ON -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
     make
     sudo make install    
 }
@@ -75,34 +75,34 @@ function bench()
 function clean()
 {
     if [ -d "$RELEASE" ]; then 
-	cd $RELEASE
-	make clean
-	sudo rm -fr *
-	cd ..
+				cd $RELEASE
+				make clean
+				sudo rm -fr *
+				cd ..
     fi
     if [ -d "$RELEASEBENCH" ]; then 
-	cd $RELEASEBENCH
-	make clean
-	sudo rm -fr *
-	cd ..
+				cd $RELEASEBENCH
+				make clean
+				sudo rm -fr *
+				cd ..
     fi
     if [ -d "$RELEASETRACE" ]; then 
-	cd $RELEASETRACE
-	make clean
-	sudo rm -fr *
-	cd ..
+				cd $RELEASETRACE
+				make clean
+				sudo rm -fr *
+				cd ..
     fi
     if [ -d "$DEBUG" ]; then 
-	cd $DEBUG
-	make clean
-	sudo rm -fr *
-	cd ..
+				cd $DEBUG
+				make clean
+				sudo rm -fr *
+				cd ..
     fi
     if [ -d "build" ]; then 
-	cd build
-	make clean
-	sudo rm -fr *
-	cd ..
+				cd build
+				make clean
+				sudo rm -fr *
+				cd ..
     fi
 }
 
@@ -123,11 +123,11 @@ function tests()
 function first_compile()
 {
     if [ "$OS" == "Linux" ]; then
-	echo -e "\n\n${RED}>>> If you compile ${GREEN}GHOST${RED} for the ${CYAN}first time${RED}, you probably need to run the following command: ${ORANGE}sudo ldconfig${NC}"
+				echo -e "\n\n${RED}>>> If you compile ${GREEN}GHOST${RED} for the ${CYAN}first time${RED}, you probably need to run the following command: ${ORANGE}sudo ldconfig${NC}"
     fi
 
     if [ "$OS" == "Darwin" ]; then
-	echo -e "\n\n${RED}>>> If you compile ${GREEN}GHOST${RED} for the ${CYAN}first time${RED}, you probably need to run the following command: ${ORANGE}sudo update_dyld_shared_cache${NC}"
+				echo -e "\n\n${RED}>>> If you compile ${GREEN}GHOST${RED} for the ${CYAN}first time${RED}, you probably need to run the following command: ${ORANGE}sudo update_dyld_shared_cache${NC}"
     fi
 }
 
@@ -144,7 +144,7 @@ fi
 
 if [ $# -eq 2 ]; then
     if [ "$2" == "EXP" ]; then
-	EXPERIMENTAL="-DEXPERIMENTAL=ON"
+				EXPERIMENTAL="-DGHOST_EXPERIMENTAL=ON"
     fi
 fi
 

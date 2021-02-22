@@ -174,11 +174,17 @@ namespace ghost
 		//! To have a nicer stream of Variable.
 		friend std::ostream& operator<<( std::ostream& os, const Variable& v )
 		{
+			std::string domain = "";
+			for( auto value : v.get_full_domain() )
+				domain += std::to_string( value ) + std::string( ", " );
+				// domain << value << ", ";
+			
 			return os
 				<< "Variable name: " << v._name
 				<< "\nId: " <<  v._id
 				<< "\nValue: " <<  v._current_value
-				<< "\n-------";
+				<< "\nDomain: " << domain
+				<< "\n--------";
 		}
 	};
 }

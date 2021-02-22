@@ -50,8 +50,8 @@ int main()
 	
 	std::unique_ptr<ghost::Objective> objective = std::make_unique<MaxValue>( variables, object_data );
 #else
-// We won't accept any object combinations with a total value below 16000
-	AtLeast at_least_value( variables, object_data, 16000 );
+// We won't accept any object combinations with a total value below 15000
+	AtLeast at_least_value( variables, object_data, 15000 );
 	
 	std::vector<std::variant<Capacity, AtLeast>> constraints{ capacity, at_least_value };
 #endif

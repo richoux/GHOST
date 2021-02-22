@@ -4,8 +4,8 @@ EXEC_CFN_SAT=tutorial_cfn_sat
 EXEC_CFN_OPT=tutorial_cfn_opt
 
 # Compiler flags
-CXXFIRSTFLAGS= -O3 -DBENCH -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter
-CXXFIRSTFLAGSDEBUG= -g -O0 -DBENCH -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter -fsanitize=address
+CXXFIRSTFLAGS= -O3 -DGHOST_BENCH -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter
+CXXFIRSTFLAGSDEBUG= -g -O0 -DGHOST_BENCH -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter -fsanitize=address
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)

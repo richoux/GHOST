@@ -236,7 +236,17 @@ namespace ghost
 				throw nanException( variables );
 			return value;
 		}
-	  
+
+		double simulate_cost( unsigned int variable_id, int new_value )
+		{
+			auto& var = _variables[ _id_mapping[ variable_id ] ];
+			int backup_value = var.get_value();
+			var.set_value( new_value );
+			auto cost = this->cost( _variables );
+			var.set_value( backup_value );
+			return cost;
+		}
+		
 		//! Inline method following the NVI idiom. Calling expert_heuristic_value.
 		/*! 
 		 * \sa expert_heuristic_value
@@ -273,5 +283,13 @@ namespace ghost
 
 		//! Inline accessor to get the name of the objective object.
 		inline std::string get_name() const { return _name; }
+
+		// To have a nicer stream of Objective.
+		friend std::ostream& operator<<( std::ostream& os, const Objective& o )
+		{
+			return os << "Objective name: " <<  o._name
+			          << "\n********";
+		}
+
 	};
 }
