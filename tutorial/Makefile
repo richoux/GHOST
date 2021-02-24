@@ -5,6 +5,7 @@ EXEC_CFN_OPT=tutorial_cfn_opt
 
 # Compiler flags
 CXXFIRSTFLAGS= -O3 -DGHOST_BENCH -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter
+CXXFIRSTFLAGSTRACE= -O3 -DGHOST_TRACE -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter
 CXXFIRSTFLAGSDEBUG= -g -O0 -DGHOST_BENCH -W -Wall -Wextra -pedantic -Wno-sign-compare -Wno-unused-parameter -fsanitize=address
 
 UNAME_S := $(shell uname -s)
@@ -54,6 +55,9 @@ debug: CXXFLAGS= $(CXXFLAGSDEBUG)
 debug: LDFLAGS= $(LDFLAGSDEBUG)
 debug: LDFLAGSSTATIC= $(LDFLAGSSTATICDEBUG)
 debug: $(EXEC)
+
+trace: CXXFIRSTFLAGS= $(CXXFIRSTFLAGSTRACE)
+trace: $(EXEC)
 
 $(BINDIR)/$(DYNDIR)/$(EXEC_CSP): $(OBJDIR)/object_data.o $(OBJDIR)/constraint_capacity.o $(OBJDIR)/at_least.o $(OBJDIR)/main.o
 	$(CXX) -o $@ $^ $(LDFLAGS)

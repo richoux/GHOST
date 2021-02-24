@@ -111,7 +111,7 @@ namespace ghost
 		void make_variable_id_mapping( unsigned int new_id, unsigned int original_id );
 		
 		// To simulate the error delta between the current configuration and the candidate configuration.
-		double simulate_delta( unsigned int variable_id, int new_value );		 
+		double simulate_delta( const std::vector<unsigned int>& variable_ids, const std::vector<int>& new_values );		 
 		
 	protected:
 		//! Pure virtual method to compute the current error of the constraint.
@@ -142,7 +142,7 @@ namespace ghost
 		 */
 		virtual double required_error( const std::vector<Variable>& variables ) const = 0;
 
-		virtual double expert_delta_error( unsigned int variable_id, int new_value ) const;
+		virtual double expert_delta_error( const std::vector<unsigned int>& variable_ids, const std::vector<int>& new_values ) const;
 
 	public:
 		//! Unique constructor
@@ -186,7 +186,7 @@ namespace ghost
 		 * @throw nanException
 		 * \sa expert_delta_error
 		 */
-		double delta_error( unsigned int variable_id, int new_value ) const;
+		double delta_error( const std::vector<unsigned int>& variable_ids, const std::vector<int>& new_values ) const;
 		
 		//! Method to determine if the constraint contains a given variable. 
 		/*!

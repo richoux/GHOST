@@ -56,18 +56,24 @@ void Constraint::make_variable_id_mapping( unsigned int new_id, unsigned int ori
 	_id_mapping[ new_id ] = static_cast<int>( iterator - _variables.begin() );
 }
 
-double Constraint::simulate_delta( unsigned int variable_id, int new_value )
+double Constraint::simulate_delta( const std::vector<unsigned int>& variable_ids, const std::vector<int>& new_values )
 {
 	if( _is_expert_delta_error_defined ) [[likely]]
 	{
-		return delta_error( variable_id, new_value );
+		return delta_error( variable_ids, new_values );
 	}
 	else
 	{
-		int copy_value = _variables[ _id_mapping[ variable_id ] ].get_value();
-		_variables[ _id_mapping[ variable_id ] ].set_value( new_value );
+		std::vector<int> backup_values( new_values.size() );
+		std::copy( new_values.begin(), new_values.end(), backup_values.begin() );
+		
+		for( int i = 0 ; i < static_cast<int>( new_values.size() ) ; ++i )
+			_variables[ _id_mapping[ variable_ids[ i ] ] ].set_value( new_values[ i ] );
+		
 		auto error = this->error();
-		_variables[ _id_mapping[ variable_id ] ].set_value( copy_value );
+
+		for( int i = 0 ; i < static_cast<int>( new_values.size() ) ; ++i )
+			_variables[ _id_mapping[ variable_ids[ i ] ] ].set_value( backup_values[ i ] );
 
 		return error - _current_error;
 	}
@@ -80,7 +86,7 @@ bool Constraint::has_variable( const Variable& var ) const
 	                     [&]( auto& v ){ return v.get_id() == var.get_id(); } ) != _variables.cend();
 }  
 
-double Constraint::expert_delta_error( unsigned int variable_id, int new_value ) const
+double Constraint::expert_delta_error( const std::vector<unsigned int>& variable_ids, const std::vector<int>& new_values ) const
 {
 	_is_expert_delta_error_defined = false;
 	throw deltaErrorNotDefinedException();
@@ -94,13 +100,14 @@ double Constraint::error( const std::vector<Variable>& variables ) const
 	return value;
 }
 
-double Constraint::delta_error( unsigned int variable_id, int new_value ) const
+double Constraint::delta_error( const std::vector<unsigned int>& variable_ids, const std::vector<int>& new_values ) const
 {
-	double value = expert_delta_error( variable_id, new_value );
+	double value = expert_delta_error( variable_ids, new_values );
 	if( std::isnan( value ) )
 	{
 		auto changed_variables = _variables;
-		changed_variables[ _id_mapping.at( variable_id ) ].set_value( new_value );
+		for( int i = 0 ; i < static_cast<int>( new_values.size() ) ; ++i )
+			changed_variables[ _id_mapping.at( variable_ids[ i ] ) ].set_value( new_values[ i ] );
 		throw nanException( changed_variables );
 	}
 	return value;

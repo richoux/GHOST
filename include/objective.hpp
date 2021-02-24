@@ -237,13 +237,16 @@ namespace ghost
 			return value;
 		}
 
-		double simulate_cost( unsigned int variable_id, int new_value )
+		double simulate_cost( const std::vector<unsigned int>& variable_ids, const std::vector<int>& new_values )
 		{
-			auto& var = _variables[ _id_mapping[ variable_id ] ];
-			int backup_value = var.get_value();
-			var.set_value( new_value );
+			
+			std::vector<int> backup_values( new_values.size() );
+			std::copy( new_values.begin(), new_values.end(), backup_values.begin() );
+			for( int i = 0 ; i < static_cast<int>( variable_ids.size() ) ; ++i )
+				_variables[ _id_mapping[ variable_ids[ i ] ] ].set_value( new_values[ i ] );
 			auto cost = this->cost( _variables );
-			var.set_value( backup_value );
+			for( int i = 0 ; i < static_cast<int>( variable_ids.size() ) ; ++i )
+				_variables[ _id_mapping[ variable_ids[ i ] ] ].set_value( backup_values[ i ] );
 			return cost;
 		}
 		

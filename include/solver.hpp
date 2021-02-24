@@ -84,18 +84,20 @@ namespace ghost
 
 		bool _is_optimization; //!< A boolean to know if it is a satisfaction or optimization run.
 		bool _no_random_starting_point;
-		bool _free_variables;
+		// bool _free_variables;
 		unsigned int _number_variables; //!< Size of the vector of variables.
 		unsigned int _number_constraints; //!< Size of the vector of constraints.
 		std::vector<std::vector<unsigned int> > _matrix_var_ctr; //!< Matrix to know in which constraints each variable is.
-		std::vector<int> _weak_tabu_list; //!< The weak tabu list, frozing used variables for tabu_time iterations.
-		                                  // Weak, because it can be violated.
+		int _previously_selected_variable_index;
+		// std::vector<int> _weak_tabu_list; //!< The weak tabu list, frozing used variables for tabu_time iterations.
+		//                                   // Weak, because it can be violated.
+
 		unsigned int _worst_variable;
 		std::vector<unsigned int> _worst_variables_list;
 
 		//std::vector<double> _error_constraints;
 		std::vector<double> _error_variables;
-		std::vector<double> _error_non_tabu_variables;
+		// std::vector<double> _error_non_tabu_variables;
 
 		double _best_sat_error; //!< The satisfaction cost of the best solution.
 		double _best_opt_cost; //!< The optimization cost of the best solution.
@@ -104,8 +106,9 @@ namespace ghost
 		double _cost_before_postprocess;
 		int    _restarts;
 
-		Neighborhood _neighborhood;
-		std::vector< std::vector<int> > _neighbors;
+		bool _is_permutation_problem;
+		// Neighborhood _neighborhood;
+		// std::vector< std::vector<int> > _neighbors;
 
 		//! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 
 		class NullObjective : public Objective
@@ -161,7 +164,7 @@ namespace ghost
 		 */
 		void set_initial_configuration( int samplings = 1 )
 		{
-			if( !_neighborhood.is_permutation() && samplings <= 1 )
+			if( !_is_permutation_problem && samplings <= 1 )
 				monte_carlo_sampling();
 			else
 			{			
@@ -174,7 +177,7 @@ namespace ghost
 				
 				for( int i = 0 ; i < samplings ; ++i )
 				{
-					if( _neighborhood.is_permutation() )
+					if( _is_permutation_problem )
 						random_permutations();
 					else
 						monte_carlo_sampling();
@@ -229,7 +232,8 @@ namespace ghost
 		void restart()
 		{
 			++_restarts;
-
+			_previously_selected_variable_index = -1;
+			
 #if defined(GHOST_TRACE)
 			std::cout << "Call restart()\n"
 			          << "Number of times this function has been called: " << _restarts << "\n";
@@ -237,7 +241,7 @@ namespace ghost
 #endif
 			
 			// Reset weak tabu list
-			std::fill( _weak_tabu_list.begin(), _weak_tabu_list.end(), 0 ); 
+			// std::fill( _weak_tabu_list.begin(), _weak_tabu_list.end(), 0 ); 
 
 			// Start from a random configuration, if no_random_starting_point is false
 			if( !_no_random_starting_point )
@@ -266,9 +270,17 @@ namespace ghost
 				_objective->update_variable( variable_id, _variables[ variable_id ].get_value() );
 			}
 			
-			// Recompute constraint costs and get the total current cost
+			// (Re)compute constraint error and get the total current satisfaction error
 			_current_sat_error = compute_constraints_errors();
-
+			// (Re)compute the current optimization cost
+			if( _is_optimization )
+			{
+				if( _current_sat_error == 0 ) [[unlikely]]
+					_current_opt_cost = _objective->cost();
+				else
+					_current_opt_cost = std::numeric_limits<double>::max();
+			}
+			
 #if defined(GHOST_TRACE)
 			std::cout << "After calling compute_constraints_errors()\n";
 			print_constraints_errors();
@@ -284,8 +296,8 @@ namespace ghost
 			print_variables_errors();
 #endif
 
-			std::copy( _error_variables.begin(), _error_variables.end(), _error_non_tabu_variables.begin() );
-			_free_variables = true;
+			// std::copy( _error_variables.begin(), _error_variables.end(), _error_non_tabu_variables.begin() );
+			// _free_variables = true;
 		}
 
 		inline double call_error( unsigned int constraint_id )
@@ -307,20 +319,20 @@ namespace ghost
 		/*!
 		 * \return True iff there is at least one free variable, ie, untabu.
 		 */
-		bool decay_weak_tabu_list()
-		{
-			std::transform( _weak_tabu_list.begin(),
-			                _weak_tabu_list.end(),
-			                _weak_tabu_list.begin(),
-			                [&] (int tabu) -> int { return std::max( 0, tabu - 1 ); } );
+		// bool decay_weak_tabu_list()
+		// {
+		// 	std::transform( _weak_tabu_list.begin(),
+		// 	                _weak_tabu_list.end(),
+		// 	                _weak_tabu_list.begin(),
+		// 	                [&] (int tabu) -> int { return std::max( 0, tabu - 1 ); } );
 
-			return std::any_of( _weak_tabu_list.begin(), _weak_tabu_list.end(), [](int tabu){ return tabu == 0; });
-			// bool free_variables = false;
-			// std::for_each( _weak_tabu_list.begin(),
-			//                _weak_tabu_list.end(),
-			//                [&](auto& t){ t == 0 ? free_variables = true : --t; assert( t >= 0); } );
-			// return free_variables;
-		}
+		// 	return std::any_of( _weak_tabu_list.begin(), _weak_tabu_list.end(), [](int tabu){ return tabu == 0; });
+		// 	// bool free_variables = false;
+		// 	// std::for_each( _weak_tabu_list.begin(),
+		// 	//                _weak_tabu_list.end(),
+		// 	//                [&](auto& t){ t == 0 ? free_variables = true : --t; assert( t >= 0); } );
+		// 	// return free_variables;
+		// }
 
 
 #if !defined(GHOST_EXPERIMENTAL) 
@@ -346,7 +358,7 @@ namespace ghost
 			double worst_variable_cost = *( std::max_element( _error_variables.begin(), _error_variables.end() ) );
 			_worst_variables_list.clear();
 			for( unsigned int variable_id = 0; variable_id < _number_variables; ++variable_id )
-				if( _error_variables[ variable_id ] == worst_variable_cost )
+				if( _error_variables[ variable_id ] == worst_variable_cost && variable_id != _previously_selected_variable_index )
 					_worst_variables_list.push_back( variable_id );
 			
 			
@@ -390,7 +402,55 @@ namespace ghost
 				for( unsigned int constraint_id : _matrix_var_ctr[ variable_id ] )
 					_error_variables[ variable_id ] += get_constraint_error( constraint_id ); // _error_constraints[ constraint_id ];
 		}
-    
+
+		void update_errors_and_cost( unsigned int variable_to_change, int new_value, std::map< int, std::vector<double>>& delta_errors )
+		{
+			int delta_index = 0;
+			if( !_is_permutation_problem )
+			{
+				for( unsigned int constraint_id : _matrix_var_ctr[ variable_to_change ] )
+				{
+					auto delta = delta_errors.at( new_value )[ delta_index++ ];
+					//_error_constraints[ constraint_id ] += delta;
+					std::visit( [&](Constraint& ctr){ ctr._current_error += delta; }, _constraints[ constraint_id ] );
+					for( unsigned int variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, _constraints[ constraint_id ] ) )
+						_error_variables[ variable_id ] += delta;
+					
+					call_update_variable( constraint_id, variable_to_change, new_value );						
+				}
+			}
+			else
+			{
+				std::vector<bool> constraint_checked( _constraints.size(), false );
+				int current_value = _variables[ variable_to_change ].get_value();
+				int next_value = _variables[ new_value ].get_value();
+				
+				for( unsigned int constraint_id : _matrix_var_ctr[ variable_to_change ] )
+				{
+					constraint_checked[ constraint_id ] = true;
+					auto delta = delta_errors.at( new_value )[ delta_index++ ];
+					//_error_constraints[ constraint_id ] += delta;
+					std::visit( [&](Constraint& ctr){ ctr._current_error += delta; }, _constraints[ constraint_id ] );
+					for( unsigned int variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, _constraints[ constraint_id ] ) )
+						_error_variables[ variable_id ] += delta;
+					
+					call_update_variable( constraint_id, variable_to_change, next_value );						
+				}
+				
+				for( unsigned int constraint_id : _matrix_var_ctr[ new_value ] )
+					if( !constraint_checked[ constraint_id ] )
+					{
+						auto delta = delta_errors.at( new_value )[ delta_index++ ];
+						//_error_constraints[ constraint_id ] += delta;
+						std::visit( [&](Constraint& ctr){ ctr._current_error += delta; }, _constraints[ constraint_id ] );
+						for( unsigned int variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, _constraints[ constraint_id ] ) )
+							_error_variables[ variable_id ] += delta;
+						
+						call_update_variable( constraint_id, new_value, current_value );						
+					}
+			}
+		}
+		
 	public:
 		//! Solver's regular constructor
 		/*!
@@ -408,15 +468,16 @@ namespace ghost
 			  _objective ( std::move( objective ) ),
 			  _is_optimization ( _objective == nullptr ? false : true ),
 			  _no_random_starting_point( false ),
-			  _free_variables( true ),
+			  // _free_variables( true ),
 			  _number_variables ( static_cast<unsigned int>( variables.size() ) ),
 			  _number_constraints ( static_cast<unsigned int>( constraints.size() ) ),
 			  _matrix_var_ctr ( std::vector<std::vector<unsigned int> >( _number_variables ) ),
-			  _weak_tabu_list( std::vector<int>( _number_variables, 0 ) ),
+			  _previously_selected_variable_index ( -1 ),
+			  //_weak_tabu_list( std::vector<int>( _number_variables, 0 ) ),
 			  _worst_variables_list( std::vector<unsigned int>( _number_variables, 0 ) ),
 			  _error_variables( std::vector<double>( _number_variables, 0.0 ) ),
 			  //_error_constraints( std::vector<double>( _number_constraints, 0.0 ) ),
-			  _error_non_tabu_variables( std::vector<double>( _number_variables, 0.0 ) ),
+			  //_error_non_tabu_variables( std::vector<double>( _number_variables, 0.0 ) ),
 			  _worst_variable( 0 ),
 			  _best_sat_error( std::numeric_limits<double>::max() ),
 			  _best_opt_cost( std::numeric_limits<double>::max() ),
@@ -424,7 +485,8 @@ namespace ghost
 			  _current_opt_cost( std::numeric_limits<double>::max() ),
 			  _cost_before_postprocess( std::numeric_limits<double>::max() ),
 			  _restarts( 0 ),
-			  _neighborhood ( { 1, 1.0, permutation_problem, 1.0 } )
+			  _is_permutation_problem( permutation_problem )
+			  // _neighborhood ( { 1, 1.0, permutation_problem, 1.0 } )
 		{
 			if( !_is_optimization )
 				_objective = std::make_unique<NullObjective>( _variables );
@@ -456,7 +518,7 @@ namespace ghost
 			for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
 				try
 				{
-					std::visit( [&](Constraint& ctr){ ctr.expert_delta_error( 0, _variables[0].get_value() ); }, _constraints[ constraint_id ] );
+					std::visit( [&](Constraint& ctr){ ctr.expert_delta_error( std::vector<unsigned int>{0}, std::vector<int>{_variables[0].get_value()} ); }, _constraints[ constraint_id ] );
 				}
 				catch( std::exception e )
 				{
@@ -544,19 +606,16 @@ namespace ghost
 		            double timeout,
 		            bool no_random_starting_point = false )
 		{
-			// TODO: Continue optimization after satisfaction
 			// TODO: No random starting point / resume feature
-			// TODO: Manage Tabu list
 			// TODO: Antidote search
-			// TODO: Permutations
 			// TODO: Neighborhood
 			// TODO: Postprocess
 
 			_no_random_starting_point = no_random_starting_point;
 			
 			// The only parameter of Solver<Variable, Constraint>::solve outside timeouts
-			int tabu_time_local_min = std::max( static_cast<unsigned int>( 1 ), _number_variables / 2); // _number_variables - 1;
-			int tabu_time_selected = std::max( 1, tabu_time_local_min / 2);
+			// int tabu_time_local_min = std::max( static_cast<unsigned int>( 1 ), _number_variables / 2); // _number_variables - 1;
+			// int tabu_time_selected = std::max( 1, tabu_time_local_min / 2);
 
 			std::chrono::duration<double,std::micro> elapsed_time( 0 );
 			std::chrono::time_point<std::chrono::steady_clock> start( std::chrono::steady_clock::now() );
@@ -603,7 +662,8 @@ namespace ghost
 // #endif
 
 				auto variable_to_change = _rng.pick( _worst_variables_list );
-
+				_previously_selected_variable_index = variable_to_change;
+				
 #if defined(GHOST_TRACE)
 				std::cout << "Number of loop iteration: " << search_iterations << "\n";
 				std::cout << "Worst variables list:\n";
@@ -613,73 +673,84 @@ namespace ghost
 				          << _variables[ variable_to_change ] << "\n\n";
 #endif
 
+				double min_conflict = std::numeric_limits<double>::max();
+				double new_value;
 				// So far, we consider full domains only.
 				auto domain_to_explore = _variables[ variable_to_change ].get_full_domain();
 				// Remove the current value
 				domain_to_explore.erase( std::find( domain_to_explore.begin(), domain_to_explore.end(), _variables[ variable_to_change ].get_value() ) );
-				
-				// // If we consider neighborhood with more than one variable
-				// // Compute neighbors
-				// // 1. First, get all subdomains to consider from variables to change.
-				// std::vector< std::vector<int> > domains( _worst_variables_list.size() );
-				// int domains_index = 0;
-				// int cartesian_size = 1;
-				// for( auto& variable_id : _worst_variables_list )
-				// {
-				// 	int neighborhood_range = std::max( 1, static_cast<int>( std::round( _variables[ variable_id ].get_domain_size() * neighborhood.get_domain_span() ) ) );
-				// 	domains[ domains_index ] = _variables[ variable_id ].get_partial_domain( neighborhood_range );
-				// 	cartesian_size *= domains[ domains_index++ ].size();
-				// }
-				
-				// // WARNING: Cartesian product is certainly computation-intensive.
-				// // 2. Then compute their Cartesian product.
-				// std::vector<int> current_configuration( _number_variables );
-				// std::transform( _variables.begin(), _variables.end(), current_configuration.begin(), [&]( const auto& var ){ return var.value; } );
-				// std::vector< std::vector<int> > candidates( cartesian_size, current_configuration );
-				// int intermediate_cartesian = 1;
-
-				// for( int domains_iteration = 0 ; domains_iteration < domains_index ; ++domains_iteration )
-				// {
-				// 	int candidates_index = 0;
-					
-				// 	for( int repeat_domain = 0 ; repeat_domain < ( cartesian_size / static_cast<int>( domains[ domains_iteration ].size() ) ) ; repeat_domain += intermediate_cartesian )
-				// 		for( auto& value : domains[ domains_iteration ] )
-				// 			for( int repeat_value = 0 ; repeat_value < intermediate_cartesian ; ++repeat_value )
-				// 				candidates[candidates_index++][ _worst_variables_list[domains_iteration] ] = value;
-
-				// 	intermediate_cartesian *= static_cast<int>( domains[ domains_iteration ].size() );
-				// }
-						
-				// // 3. And finally, randomly extract a Neighborhood::exploration_rate percentage of them
-				// if( neighborhood.get_exploration_rate() == 1.0 )
-				// 	_neighbors = candidates;
-				// else
-				// {
-				// 	int size_to_explore = std::max( 1, static_cast<int>( std::round( candidates.size() * neighborhood.get_exploration_rate() ) ) );
-				// 	_rng.shuffle( candidates );
-				// 	_neighbors = std::vector<int>( candidates.begin(), candidates.begin() + size_to_explore );
-				// }				
-				
-				// Simulate delta errors (or errors is not Constraint::expert_delta_error method is defined) for each neighbor
 				std::map<int, std::vector<double>> delta_errors;
-				for( auto new_value : domain_to_explore )
-					for( unsigned int constraint_id : _matrix_var_ctr[ variable_to_change ] )
-					{
-						delta_errors[ new_value ].push_back( std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( variable_to_change, new_value ); }, _constraints[ constraint_id ] ) );
+
+				if( !_is_permutation_problem )
+				{
+					// Simulate delta errors (or errors is not Constraint::expert_delta_error method is defined) for each neighbor
+					for( auto new_value : domain_to_explore )
+						for( unsigned int constraint_id : _matrix_var_ctr[ variable_to_change ] )
+						{
+							delta_errors[ new_value ].push_back( std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( std::vector<unsigned int>{variable_to_change}, std::vector<int>{new_value} ); },
+							                                                 _constraints[ constraint_id ] ) );
 #if defined(GHOST_TRACE)
-						std::cout << "Delta error of Constraint num. " << constraint_id << " with the value " << new_value << ": " << std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( variable_to_change, new_value ); }, _constraints[ constraint_id ] ) << "\n";
+							std::cout << "Delta error of Constraint num. " << constraint_id
+							          << " with the value " << new_value
+							          << ": " << std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( std::vector<unsigned int>{variable_to_change}, std::vector<int>{new_value} ); },
+							                                 _constraints[ constraint_id ] ) << "\n";
 #endif
-					}
+						}
+				}
+				else
+				{
+					for( unsigned int variable_id = 0 ; variable_id < _number_variables; ++variable_id )
+						// look at other variables than the selected one, with other values but contained into the selected variable's domain
+						if( variable_id != variable_to_change
+						    && std::find( domain_to_explore.begin(), domain_to_explore.end(), _variables[ variable_id ].get_value() ) != domain_to_explore.end()
+						    && _variables[ variable_id ].get_value() != _variables[ variable_to_change ].get_value() )
+						{
+							std::vector<bool> constraint_checked( _constraints.size(), false );
+							int current_value = _variables[ variable_to_change ].get_value();
+							new_value = _variables[ variable_id ].get_value();
+							
+							for( unsigned int constraint_id : _matrix_var_ctr[ variable_to_change ] )
+							{
+								constraint_checked[ constraint_id ] = true;
+								delta_errors[ variable_id ].push_back( std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( std::vector<unsigned int>{variable_to_change, variable_id}, std::vector<int>{new_value, current_value} ); },
+								                                                   _constraints[ constraint_id ] ) );
+#if defined(GHOST_TRACE)
+								std::cout << "Delta error of Constraint num. " << constraint_id
+								          << " by switching var[" << variable_to_change << "]=" << current_value << " and var[" << variable_id << "]=" << new_value
+								          << ": " << std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( std::vector<unsigned int>{variable_to_change, variable_id}, std::vector<int>{new_value, current_value} ); },
+								                                 _constraints[ constraint_id ] ) << "\n";
+#endif
+							}
+
+							// Since we are switching the value of two variables, we need to also look at the delta error impact of changing the value of the non-selected variable
+							for( unsigned int constraint_id : _matrix_var_ctr[ variable_id ] )
+								if( !constraint_checked[ constraint_id ] )
+								{
+									delta_errors[ variable_id ].push_back( std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( std::vector<unsigned int>{variable_to_change, variable_id}, std::vector<int>{new_value, current_value} ); },
+									                                                   _constraints[ constraint_id ] ) );
+#if defined(GHOST_TRACE)
+									std::cout << "Delta error of Constraint num. " << constraint_id
+									          << " by switching var[" << variable_to_change << "]=" << current_value << " and var[" << variable_id << "]=" << new_value
+									          << ": " << std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( std::vector<unsigned int>{variable_to_change, variable_id}, std::vector<int>{new_value, current_value} ); },
+									                                 _constraints[ constraint_id ] ) << "\n";
+#endif
+								}
+						}
+				}
 				
 				// Select the next current configuration (local move)
 				std::vector<int> candidate_values;
-				double min_conflict = std::numeric_limits<double>::max();
 				std::map<int, double> cumulated_delta_errors;
 				for( auto& deltas : delta_errors )
 				{
 					cumulated_delta_errors[ deltas.first ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
 #if defined(GHOST_TRACE)
-					std::cout << "Cumulated error for the value " << deltas.first << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
+					if( _is_permutation_problem )
+						std::cout << "Cumulated error for switching var[" << variable_to_change << "]=" << _variables[ variable_to_change ].get_value()
+						          << " and var[" << deltas.first << "]=" << _variables[ deltas.first ].get_value()
+						          << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
+					else
+						std::cout << "Cumulated error for the value " << deltas.first << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
 #endif
 				}
 				
@@ -696,15 +767,19 @@ namespace ghost
 							candidate_values.push_back( deltas.first );
 				}
 				
-				double new_value;
 				// if we deal with an optimization problem, find the value minimizing to objective function
 				if( _is_optimization )
 				{
 					// to change/test with heuristic_value
 					double objective_cost = std::numeric_limits<double>::max();
+					double simulate_objective_function;
 					for( int value : candidate_values )
 					{
-						auto simulate_objective_function = _objective->simulate_cost( variable_to_change, value );
+						if( _is_permutation_problem )
+							simulate_objective_function = _objective->simulate_cost( std::vector<unsigned int>{variable_to_change, value}, std::vector<int>{_variables[ value ].get_value(),_variables[ variable_to_change ].get_value()} );
+						else
+							simulate_objective_function = _objective->simulate_cost( std::vector<unsigned int>{variable_to_change}, std::vector<int>{value} );
+						
 						if( objective_cost > simulate_objective_function )
 						{
 							objective_cost = simulate_objective_function;
@@ -719,12 +794,15 @@ namespace ghost
 				std::cout << "Min conflict value candidates list: ";
 				for( auto val : candidate_values )
 					std::cout << val << ", ";
-				std::cout << "\nPicked value for min conflict: "
-				          << new_value << "\n"
-				          << "Delta: " << min_conflict << "\n\n";
+				if( _is_permutation_problem )
+					std::cout << "\nPicked variable index for min conflict: "
+					          << new_value << "\n"
+					          << "Delta: " << min_conflict << "\n\n";
+				else
+					std::cout << "\nPicked value for min conflict: "
+					          << new_value << "\n"
+					          << "Delta: " << min_conflict << "\n\n";
 #endif
-				
-				//TODO: need to handle optimization loop, where sat error is 0 and we try to improve the objective cost.
 				
 				// Apply local changes, update constraint/variables errors and objective cost
 				// if the global error is better or if we are on a plateau
@@ -739,8 +817,21 @@ namespace ghost
 #endif
 						double previous_sat_error = _current_sat_error;
 						_current_sat_error += min_conflict;
-						_variables[ variable_to_change ].set_value( new_value );
-						_objective->update_variable( variable_to_change, new_value );
+						if( _is_permutation_problem )
+						{
+							int current_value = _variables[ variable_to_change ].get_value();
+							int next_value = _variables[ new_value ].get_value();
+							_variables[ variable_to_change ].set_value( next_value );
+							_variables[ new_value ].set_value( current_value );
+							_objective->update_variable( variable_to_change, next_value );
+							_objective->update_variable( new_value, current_value );
+						}
+						else
+						{
+							_variables[ variable_to_change ].set_value( new_value );
+							_objective->update_variable( variable_to_change, new_value );
+						}
+						
 						double candidate_opt_cost = _objective->cost();
 
 						// if this is the best candidate we found so far, save it.
@@ -776,17 +867,7 @@ namespace ghost
 							}
 
 							// for consistency, we still need to update changes in constraints' variables and errors
-							int delta_index = 0;
-							for( unsigned int constraint_id : _matrix_var_ctr[ variable_to_change ] )
-							{
-								auto delta = delta_errors.at( new_value )[ delta_index++ ];
-								//_error_constraints[ constraint_id ] += delta;
-								std::visit( [&](Constraint& ctr){ ctr._current_error += delta; }, _constraints[ constraint_id ] );
-									for( unsigned int variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, _constraints[ constraint_id ] ) )
-										_error_variables[ variable_id ] += delta;
-								
-								call_update_variable( constraint_id, variable_to_change, new_value );						
-							}
+							update_errors_and_cost( variable_to_change, new_value, delta_errors );
 							
 							elapsed_time = std::chrono::steady_clock::now() - start;
 							continue; // continue while loop
@@ -814,20 +895,16 @@ namespace ghost
 									std::cout << "Exploring the plateau.\n";
 #endif
 									// for consistency, we still need to update changes in constraints' variables and errors
-									int delta_index = 0;
-									for( unsigned int constraint_id : _matrix_var_ctr[ variable_to_change ] )
+									update_errors_and_cost( variable_to_change, new_value, delta_errors );
+									if( !_is_permutation_problem )
+										_objective->update_variable( variable_to_change, new_value );
+									else
 									{
-										auto delta = delta_errors.at( new_value )[ delta_index++ ];
-										//_error_constraints[ constraint_id ] += delta;
-										std::visit( [&](Constraint& ctr){ ctr._current_error += delta; }, _constraints[ constraint_id ] );
-											for( unsigned int variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, _constraints[ constraint_id ] ) )
-												_error_variables[ variable_id ] += delta;
-										
-										call_update_variable( constraint_id, variable_to_change, new_value );						
+										int temp_value = _variables[ variable_to_change ].get_value();
+										_objective->update_variable( variable_to_change, _variables[ new_value ].get_value() );
+										_objective->update_variable( new_value, temp_value );
 									}
-									
-									_objective->update_variable( variable_to_change, new_value );
-									
+																		
 									elapsed_time = std::chrono::steady_clock::now() - start;
 									continue;
 								}
@@ -862,23 +939,31 @@ namespace ghost
 					// where some constraints remains to be satisfied
 					// (or eventually, this is the first solution we have found)
 					_current_sat_error += min_conflict;
-					_variables[ variable_to_change ].set_value( new_value );
 
 					// TODO: postprocess must handle constraint/variable error changes
 					// if( _current_sat_error == 0.0 )
 					// 	_objective->postprocess_satisfaction( _variables, _current_opt_cost, final_solution );
 
-					int delta_index = 0;
-					for( unsigned int constraint_id : _matrix_var_ctr[ variable_to_change ] )
+					if( !_is_permutation_problem )
 					{
-						auto delta = delta_errors.at( new_value )[ delta_index++ ];
-						//_error_constraints[ constraint_id ] += delta;
-						std::visit( [&](Constraint& ctr){ ctr._current_error += delta; }, _constraints[ constraint_id ] );
-						for( unsigned int variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, _constraints[ constraint_id ] ) )
-							_error_variables[ variable_id ] += delta;
-							
-						call_update_variable( constraint_id, variable_to_change, new_value );						
+						_variables[ variable_to_change ].set_value( new_value );
+						if( _is_optimization )
+							_objective->update_variable( variable_to_change, new_value );
 					}
+					else
+					{
+							int current_value = _variables[ variable_to_change ].get_value();
+							int next_value = _variables[ new_value ].get_value();
+							_variables[ variable_to_change ].set_value( next_value );
+							_variables[ new_value ].set_value( current_value );
+							if( _is_optimization )
+							{
+								_objective->update_variable( variable_to_change, next_value );
+								_objective->update_variable( new_value, current_value );
+							}
+					}
+					
+					update_errors_and_cost( variable_to_change, new_value, delta_errors );
 
 					// if this is the best candidate we found so far, save it.
 					if( _best_sat_error > _current_sat_error )
@@ -894,8 +979,8 @@ namespace ghost
 					}
 					
 					// Update the objective function cost
-					_objective->update_variable( variable_to_change, new_value );
-					_current_opt_cost = _objective->cost();
+					if( _is_optimization )
+						_current_opt_cost = _objective->cost();
 				}
 				else // Restart mechanism to escape local minima
 				{
