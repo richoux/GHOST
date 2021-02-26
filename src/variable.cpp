@@ -38,7 +38,6 @@ unsigned int Variable::NBER_VAR = 0;
 Variable::Variable( const std::string& name, const std::vector<int>& domain, int index )
 	: _name( name ),
 	  _domain( domain ),
-	  _index( _domain.cbegin() + index ),
 	  _current_value( domain.at( index ) ),
 	  _min_value( *( std::min_element( _domain.begin(), _domain.end() ) ) ),
 	  _max_value( *( std::max_element( _domain.begin(), _domain.end() ) ) )
@@ -62,7 +61,6 @@ Variable::Variable( const std::string& name, int startValue, std::size_t size, i
 
 	std::iota( _domain.begin(), _domain.end(), startValue );
 	_current_value = _domain.at( index );
-	_index = _domain.cbegin() + index;
 }
 
 std::vector<int> Variable::get_partial_domain( int range ) const
@@ -77,7 +75,7 @@ std::vector<int> Variable::get_partial_domain( int range ) const
 		//        |
 		//        ^
 		//      index
-		int index = std::distance( _domain.cbegin(), _index );
+		int index = std::distance( _domain.cbegin(), std::find( _domain.cbegin(), _domain.cend(), _current_value ) );
 		int start_position = index - static_cast<int>( range / 2 );
 
 		if( start_position >= 0 )

@@ -45,48 +45,75 @@ void Objective::make_variable_id_mapping( unsigned int new_id, unsigned int orig
 	_id_mapping[ new_id ] = static_cast<int>( iterator - _variables.begin() );
 }
 
-int Objective::expert_heuristic_value( const std::vector<Variable>& variables,
-                                       Variable& var,
+double Objective::cost() const
+{
+	double value = required_cost( _variables );
+	if( std::isnan( value ) )
+		throw nanException( _variables );
+	return value;
+}
+
+// double Objective::simulate_cost( const std::vector<unsigned int>& variable_ids, const std::vector<int>& new_values )
+// {			
+// 	std::vector<int> backup_values( new_values.size() );
+// 		std::copy( new_values.begin(), new_values.end(), backup_values.begin() );
+		
+// 	for( int i = 0 ; i < static_cast<int>( variable_ids.size() ) ; ++i )
+// 		_variables[ _id_mapping[ variable_ids[ i ] ] ].set_value( new_values[ i ] );
+	
+// 	auto cost = this->cost();
+	
+// 	for( int i = 0 ; i < static_cast<int>( variable_ids.size() ) ; ++i )
+// 		_variables[ _id_mapping[ variable_ids[ i ] ] ].set_value( backup_values[ i ] );
+	
+// 	return cost;
+// }
+
+int Objective::expert_heuristic_value( std::vector<Variable> variables,
+                                       int variable_index,
                                        const std::vector<int>& possible_values ) const
 {
-	double minCost = std::numeric_limits<double>::max();
-	double simulatedCost;
-  
+	double min_cost = std::numeric_limits<double>::max();
+	double simulated_cost;
+
+	auto& var = variables[ variable_index ];
 	int backup = var.get_value();
-	std::vector<int> bestValues;
+	std::vector<int> best_values;
   
 	for( auto& v : possible_values )
 	{
 		var.set_value( v );
-		simulatedCost = cost( variables );
+		simulated_cost = required_cost( variables );
     
-		if( minCost > simulatedCost )
+		if( min_cost > simulated_cost )
 		{
-			minCost = simulatedCost;
-			bestValues.clear();
-			bestValues.push_back( v );
+			min_cost = simulated_cost;
+			best_values.clear();
+			best_values.push_back( v );
 		}
 		else
-			if( minCost == simulatedCost )
-				bestValues.push_back( v );
+			if( min_cost == simulated_cost )
+				best_values.push_back( v );
 	}
   
 	var.set_value( backup );
   
-	return rng.pick( bestValues );
+	return rng.pick( best_values );
 }
   
-int Objective::expert_heuristic_value( const std::vector<unsigned int>& bad_variables ) const
+unsigned int Objective::expert_heuristic_value_permutation( std::vector<Variable> variables,
+                                                            int variable_index,
+                                                            const std::vector<int>& bad_variables ) const
 {
 	return rng.pick( bad_variables );
 }
  
-void Objective::expert_postprocess_satisfaction( std::vector<Variable>& variables,
+void Objective::expert_postprocess_satisfaction( const std::vector<Variable>& variables,
                                                  double& bestCost,
                                                  std::vector<int>& solution ) const
 { }
 
-void Objective::expert_postprocess_optimization( std::vector<Variable>& variables,
+void Objective::expert_postprocess_optimization( const std::vector<Variable>& variables,
                                                  double& bestCost,
                                                  std::vector<int>& solution ) const
 { }

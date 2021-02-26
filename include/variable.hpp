@@ -41,9 +41,9 @@ namespace ghost
 {
 	//! This class encodes variables of your model. You cannot inherits your own class from Variable.
 	/*! 
-	 * In GHOST, all variables are discrete variables with a ghost::Domain containing intergers only 
+	 * In GHOST, all variables are discrete variables with a domain containing integers only 
 	 * (positive, negative or both). Since you cannot inherits from Variable, if your constraints 
-	 * or your objective methods need specific details about your variables (for instance, each variable models 
+	 * or your objective function need specific details about your variables (for instance, each variable models 
 	 * an agent with 2D coordinates), you must store these data on your own containers side by side with 
 	 * the variables vector (see Constraint and Objective).
 	 *
@@ -56,21 +56,17 @@ namespace ghost
 	class Variable final
 	{
 		template <typename ... ConstraintType> friend class Solver;
-		
-		static unsigned int NBER_VAR; //!< Static counter that increases each time one instanciates a Variable object.
-		unsigned int _id; //!< Unique ID integer taking the current value of NBER_VAR
+
 		std::string _name;	//!< String to give a name to the variable, helpful to debug/trace.
-
 		std::vector<int> _domain; //!< The domain, i.e., the vector of values the variable can take.
+		unsigned int _id; //!< Unique ID integer
 
-		// TODO: (const_)iterator or int?
-		std::vector<int>::const_iterator _index; //!< Constant domain iterator corresponding to the current value of the variable.
-		int	_current_value;	//!< Current value assigned to the variable.
-		int _min_value;
-		int _max_value;
-		
-		randutils::mt19937_rng _rng; 	//!< Neat random generator from misc/randutils.hpp.
-
+		static unsigned int NBER_VAR; // Static counter that increases each time one instanciates a Variable object.
+		int	_current_value;	// Current value assigned to the variable.
+		int _min_value; // minimal value in the domain
+		int _max_value; // maximal value in the domain
+		randutils::mt19937_rng _rng; 	// Neat random generator from misc/randutils.hpp.
+				
 		struct valueException : std::exception
 		{
 			int value;
@@ -83,6 +79,8 @@ namespace ghost
 			const char* what() const noexcept { return message.c_str(); }
 		};
 
+		// Assign to the variable a random values from its domain.
+		inline void pick_random_value()	{	_current_value = _rng.pick( _domain ); }
 		
 	public:
 		Variable() = default;		
@@ -108,13 +106,6 @@ namespace ghost
 		          int	startValue,
 		          std::size_t size,
 		          int	index = 0 );
-
-		//! Inline method initializing the variable to one random values of its domain.
-		inline void pick_random_value()
-		{
-			_current_value = _rng.pick( _domain );
-			_index = std::find( _domain.cbegin(), _domain.cend(), _current_value );
-		}
     
 		/*! Inline method returning all values in the domain.
 		 * \return a copy of the vector of these values.
@@ -132,18 +123,15 @@ namespace ghost
 		 */
 		inline int get_value() const { return _current_value; }
 
-		//! Inline method to set the value of the variable.
-		/*! 
+		//! Set the value of the variable.
+		/*!
 		 * If the given value is not in the domain, raises a valueException.
-		 * \param value An integer representing the new value to set.
-		 */
+		*/
 		inline void	set_value( int value )
 		{
-			std::vector<int>::const_iterator iterator = std::find( _domain.cbegin(), _domain.cend(), value );
-			if( iterator == _domain.cend() )
+			if( std::find( _domain.cbegin(), _domain.cend(), value ) == _domain.cend() )
 				throw valueException( value, get_domain_min_value(), get_domain_max_value() );
 			
-			_index = iterator;
 			_current_value = value;
 		}
 
@@ -168,7 +156,7 @@ namespace ghost
 		//! Inline method to get the variable name.
 		inline std::string get_name() const { return _name; }
 
-		//! Inline method to get the unique id of the Variable object.
+		//! Give the unique id of the Variable object.
 		inline int get_id() const { return _id; }
 
 		//! To have a nicer stream of Variable.

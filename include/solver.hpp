@@ -121,8 +121,8 @@ namespace ghost
 		private:
 			double required_cost( const std::vector<Variable>& variables ) const override { return 0.0; }
 
-			int expert_heuristic_value( const std::vector<Variable>& variables,
-			                            Variable& var,
+			int expert_heuristic_value( std::vector<Variable> variables,
+			                            int variable_index,
 			                            const std::vector<int>& values_list ) const override
 			{
 				return rng.pick( values_list );
@@ -223,7 +223,6 @@ namespace ghost
 					// 50% to do a swap for each couple (var_i, var_j)
 					if( _rng.uniform( 0, 1 ) == 0 )
 					{
-						std::swap( _variables[i]._index,         _variables[j]._index );
 						std::swap( _variables[i]._current_value, _variables[j]._current_value );
 					}
 				}
@@ -259,7 +258,7 @@ namespace ghost
 			// Reset constraints costs
 			//std::fill( _error_constraints.begin(), _error_constraints.end(), 0.0 ); 
 			for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
-				std::visit( [&](Constraint& ctr){ ctr._current_error = 0.0; }, _constraints[ constraint_id ] );
+				std::visit( [&](Constraint& ctr){ ctr.current_error = 0.0; }, _constraints[ constraint_id ] );
 
 			// Send the current variables assignment to the constraints.
 			for( unsigned int variable_id = 0 ; variable_id < _number_variables ; ++variable_id )
@@ -312,7 +311,7 @@ namespace ghost
 
 		inline double get_constraint_error( unsigned int constraint_id )
 		{
-			return std::visit( [&](Constraint& ctr){ return ctr._current_error; }, _constraints[ constraint_id ] );
+			return std::visit( [&](Constraint& ctr){ return ctr.current_error; }, _constraints[ constraint_id ] );
 		}
 		
 		//! Decreasing values in tabuList
@@ -387,7 +386,7 @@ namespace ghost
 			{
 				error = call_error( constraint_id );
 				// _error_constraints[ constraint_id ] = error;
-				std::visit( [&](Constraint& ctr){ ctr._current_error = error; }, _constraints[ constraint_id ] );
+				std::visit( [&](Constraint& ctr){ ctr.current_error = error; }, _constraints[ constraint_id ] );
 
 				satisfaction_error += error;
 			}
@@ -412,7 +411,7 @@ namespace ghost
 				{
 					auto delta = delta_errors.at( new_value )[ delta_index++ ];
 					//_error_constraints[ constraint_id ] += delta;
-					std::visit( [&](Constraint& ctr){ ctr._current_error += delta; }, _constraints[ constraint_id ] );
+					std::visit( [&](Constraint& ctr){ ctr.current_error += delta; }, _constraints[ constraint_id ] );
 					for( unsigned int variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, _constraints[ constraint_id ] ) )
 						_error_variables[ variable_id ] += delta;
 					
@@ -430,7 +429,7 @@ namespace ghost
 					constraint_checked[ constraint_id ] = true;
 					auto delta = delta_errors.at( new_value )[ delta_index++ ];
 					//_error_constraints[ constraint_id ] += delta;
-					std::visit( [&](Constraint& ctr){ ctr._current_error += delta; }, _constraints[ constraint_id ] );
+					std::visit( [&](Constraint& ctr){ ctr.current_error += delta; }, _constraints[ constraint_id ] );
 					for( unsigned int variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, _constraints[ constraint_id ] ) )
 						_error_variables[ variable_id ] += delta;
 					
@@ -442,7 +441,7 @@ namespace ghost
 					{
 						auto delta = delta_errors.at( new_value )[ delta_index++ ];
 						//_error_constraints[ constraint_id ] += delta;
-						std::visit( [&](Constraint& ctr){ ctr._current_error += delta; }, _constraints[ constraint_id ] );
+						std::visit( [&](Constraint& ctr){ ctr.current_error += delta; }, _constraints[ constraint_id ] );
 						for( unsigned int variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, _constraints[ constraint_id ] ) )
 							_error_variables[ variable_id ] += delta;
 						
@@ -505,7 +504,7 @@ namespace ghost
 
 				// Save the id of each constraint where the current variable appears in.
 				for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
-					if(	std::visit( [&](Constraint& ctr){ return ctr.has_variable( _variables[ variable_id ] ); }, _constraints[ constraint_id ] ) )
+					if(	std::visit( [&](Constraint& ctr){ return ctr.has_variable( original_variable_id ); }, _constraints[ constraint_id ] ) )
 					{
 						_matrix_var_ctr[ variable_id ].push_back( constraint_id );
 						std::visit( [&](Constraint& ctr){ ctr.make_variable_id_mapping( variable_id, original_variable_id ); }, _constraints[ constraint_id ] );
@@ -561,7 +560,7 @@ namespace ghost
 		 * Here how it works: if at least one solution is found, at the end of the computation, it will write in the two first
 		 * parameters finalCost and finalSolution the cost of the best solution found and the value of each variable.\n
 		 * For a satisfaction problem (without any objective function), the cost of a solution is the sum of the cost of each
-		 * problem constraint (computated by Constraint::required_cost). For an optimization problem, the cost is the value outputed
+		 * problem constraint (computated by Constraint::required_error). For an optimization problem, the cost is the value outputed
 		 * by Objective::required_cost.\n
 		 * For both, the lower value the better: A satisfaction cost of 0 means we have a solution to a satisfaction problem (ie, 
 		 * all constraints are satisfied). An optimization cost should be as low as possible: GHOST is handling minimization problems 
@@ -770,22 +769,27 @@ namespace ghost
 				// if we deal with an optimization problem, find the value minimizing to objective function
 				if( _is_optimization )
 				{
-					// to change/test with heuristic_value
-					double objective_cost = std::numeric_limits<double>::max();
-					double simulate_objective_function;
-					for( int value : candidate_values )
-					{
-						if( _is_permutation_problem )
-							simulate_objective_function = _objective->simulate_cost( std::vector<unsigned int>{variable_to_change, value}, std::vector<int>{_variables[ value ].get_value(),_variables[ variable_to_change ].get_value()} );
-						else
-							simulate_objective_function = _objective->simulate_cost( std::vector<unsigned int>{variable_to_change}, std::vector<int>{value} );
+					if( _is_permutation_problem )
+						new_value = _objective->heuristic_value_permutation( variable_to_change, candidate_values );
+					else
+						new_value = _objective->heuristic_value( variable_to_change, candidate_values );
+					
+					// // to change/test with heuristic_value
+					// double objective_cost = std::numeric_limits<double>::max();
+					// double simulate_objective_function;
+					// for( int value : candidate_values )
+					// {
+					// 	if( _is_permutation_problem )
+					// 		simulate_objective_function = _objective->simulate_cost( std::vector<unsigned int>{variable_to_change, value}, std::vector<int>{_variables[ value ].get_value(),_variables[ variable_to_change ].get_value()} );
+					// 	else
+					// 		simulate_objective_function = _objective->simulate_cost( std::vector<unsigned int>{variable_to_change}, std::vector<int>{value} );
 						
-						if( objective_cost > simulate_objective_function )
-						{
-							objective_cost = simulate_objective_function;
-							new_value = value;
-						}
-					}
+					// 	if( objective_cost > simulate_objective_function )
+					// 	{
+					// 		objective_cost = simulate_objective_function;
+					// 		new_value = value;
+					// 	}
+					// }
 				}
 				else
 					new_value = _rng.pick( candidate_values );
@@ -1000,7 +1004,7 @@ namespace ghost
 				_cost_before_postprocess = _best_opt_cost;
 
 				start_postprocess = std::chrono::steady_clock::now();
-				_objective->postprocess_optimization( _variables, _best_opt_cost, final_solution );
+				_objective->postprocess_optimization( _best_opt_cost, final_solution );
 				timer_postprocess_opt = std::chrono::steady_clock::now() - start_postprocess;
 			}
 

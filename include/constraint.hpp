@@ -60,13 +60,13 @@ namespace ghost
 	{
 		template <typename ... ConstraintType> friend class Solver;
 
-		static unsigned int NBER_CTR; //!< Static counter that increases each time one instantiates a Constraint object.
-		unsigned int _id;	//!< Unique ID integer
-		std::vector<Variable> _variables;	//!< Vector of variable composing the model.
+		std::vector<Variable> _variables;	//!< Vector of variables in the scope of the constraint.
+
+		static unsigned int NBER_CTR; // Static counter that increases each time one instantiates a Constraint object.
+		unsigned int _id;	// Unique ID integer
 		std::map<unsigned int,int> _id_mapping; // Mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the constraint.
-		mutable bool _is_expert_delta_error_defined;
-		double _current_error;		
-		
+		mutable bool _is_expert_delta_error_defined; // Boolean telling if expert_delta_error() is overrided or not.
+
 		struct nanException : std::exception
 		{
 			std::vector<Variable> variables;
@@ -110,11 +110,33 @@ namespace ghost
 		// Making the mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the constraint. 
 		void make_variable_id_mapping( unsigned int new_id, unsigned int original_id );
 		
+		inline bool is_expert_delta_error_defined() { return _is_expert_delta_error_defined; }
+
+		// Call required_error() after getting sure the error does give a nan, rise an exception otherwise.
+		double error() const;
+			
+		// Compute the delta error of the current assignment, giving a vector of variable ids and their candidate values.
+		// Calling expert_delta_error after making the conversion of variables ids.
+		// Getting sure the delta error does give a nan, rise an exception otherwise.
+		double delta_error( const std::vector<unsigned int>& variable_ids, const std::vector<int>& candidate_values ) const;
+
 		// To simulate the error delta between the current configuration and the candidate configuration.
-		double simulate_delta( const std::vector<unsigned int>& variable_ids, const std::vector<int>& new_values );		 
-		
+		// This calls delta_error() if the user overrided it, otherwise it makes the simulation 'by hand' and calls error()
+		double simulate_delta( const std::vector<unsigned int>& variable_ids, const std::vector<int>& candidate_values );
+
+		// Determine if the constraint contains a variable given its id. 
+		bool has_variable( unsigned int var_id ) const;
+
+		// Inline method to get the unique id of the Constraint object.
+		inline int get_id() const { return _id; }
+
+		// Return ids of variable objects in _variables.
+		std::vector<unsigned int> get_variable_ids();
+
 	protected:
-		//! Pure virtual method to compute the current error of the constraint.
+		double current_error; //!< Current error of the constraint
+		
+		//! Pure virtual method to compute the error of the constraint with the current assignment in Constraint::_variables.
 		/*!
 		 * This method is fundamental: it evalutes how much the current values of variables violate this contraint.
 		 * Let's consider the following example : consider the contraint (x = y).\n
@@ -128,21 +150,45 @@ namespace ghost
 		 * We have the choice: if your are modeling a CSP or COP problem, then required_error should outputs 0 if
 		 * current values of variables satisfy your constraint, and something strictly higher than 0, like 1 
 		 * for instance, otherwise.
-		 * If you are modeling a CFN problem, then it still must outputs 0 for satisfying values of variables, 
+		 * If you are modeling an EFSP/EFOP problem, then it still must outputs 0 for satisfying values of variables, 
 		 * but must outputs a value strictly higher than 0 otherwise, such that the higher this value, the further
 		 * current values of variables are from satisfying your constraint.
 		 *
 		 * \warning Do not implement any side effect in this method. It is called by the solver 
 		 * to compute the constraint error but also for some inner mechanisms (such as error simulations).
 		 *
-		 * \param The vector of variables representing the current assignment.
-		 * \return A positive double corresponding to the error of the constraint with current variable values. 
-		 * Outputing 0 means current values are satisfying this constraint.
-		 * \sa error
+		 * \param variables A const reference of The vector of variables in the scope of the constraint. The solver is calling this method with
+		 * Constraint::_variables as input. This is mostly to have the same interface than Objective::required_cost.
+		 * \return A positive double corresponding to the error of the constraint.
+		 * Outputing 0 means that given variable values satisfy the constraint. 
 		 */
 		virtual double required_error( const std::vector<Variable>& variables ) const = 0;
 
-		virtual double expert_delta_error( const std::vector<unsigned int>& variable_ids, const std::vector<int>& new_values ) const;
+		//! Virtual method to compute the difference, or delta, between the current error and a the error of a candidate assignment.
+		/*!
+		 * The current assignment, as well as its error, are automatically stored in the class Constraint.
+		 * Giving a vector of variable indexes and their respective candidate value, this methods ouputs the difference between the 
+		 * error of the current assignment in Constraint::_variables and the error we would get if we assign new candidate values to variables given as input.
+		 *
+		 * The ouput can be negative, positive, or equals to 0. If the candidate error is strictly lower (then better) than the current error, 
+		 * the ouput is negative. If errors are the same, the ouputs equals to 0. Finally, if the candidate error is strictly higher (then worth) 
+		 * than the current error, the ouput is positive.
+		 * 
+		 * For instance, let's assume the constraint is #find a better example#
+		 * 
+		 * If your problem is modeled as an EFSP/EFOP, then this method is VERY important to have faster computation. Although optional (the solver still works without it),
+		 * we strongly advise you to define it properly, unless your required_error method is trivial to compute. Having this method may make a big difference for the solver 
+		 * to quickly find better solutions.
+		 * However, if your problem is modeled as an CSP/COP, you can just skip implementing this method.
+		 *
+		 * \warning Do not implement any side effect in this method. It is called by the solver 
+		 * to compute the constraint error but also for some inner mechanisms (such as error simulations).
+		 *
+		 * \param The vector of variables indexes and the vector of their respective candidate values.
+		 * \return A double corresponding to the difference between the current error of the constraint and the error you would get if you assign candidate 
+		 * values to given variables.
+		 */
+		virtual double expert_delta_error( const std::vector<unsigned int>& variable_indexes, const std::vector<int>& candidate_values ) const;
 
 	public:
 		//! Unique constructor
@@ -162,47 +208,7 @@ namespace ghost
 		Constraint& operator=( Constraint&& other ) = delete;
     
 		//! Default virtual destructor.
-		virtual ~Constraint() = default;
-    
-		//! Calling required_error (indirectly).
-		/*!
-		 * @throw nanException
-		 * \sa required_error, error
-		 */
-		inline double error() const
-		{
-			return error( _variables );
-		}
-
-		//! Method to compute the error of a given assignment, calling required_error.
-		/*!
-		 * @throw nanException
-		 * \sa required_error, error
-		 */
-		double error( const std::vector<Variable>& variables ) const;
-
-		//! Method to compute the delta error of the current assignment, giving the variable id and its new value. Calling expert_delta_error.
-		/*!
-		 * @throw nanException
-		 * \sa expert_delta_error
-		 */
-		double delta_error( const std::vector<unsigned int>& variable_ids, const std::vector<int>& new_values ) const;
-		
-		//! Method to determine if the constraint contains a given variable. 
-		/*!
-		 * Given a variable, returns if it composes the constraint.
-		 *
-		 * \param var A variable.
-		 * \return True iff the constraint contains var.
-		 */ 
-		bool has_variable( const Variable& var ) const;
-
-		//! Inline method to get the unique id of the Constraint object.
-		inline int get_id() const { return _id; }
-
-		inline bool is_expert_delta_error_defined() { return _is_expert_delta_error_defined; }
-
-		std::vector<unsigned int> get_variable_ids();
+		virtual ~Constraint() = default;  
 		
 		// To have a nicer stream of Constraint.
 		friend std::ostream& operator<<( std::ostream& os, const Constraint& c )
@@ -211,12 +217,5 @@ namespace ghost
 			          << "\nId: " <<  c._id
 			          << "\n########";
 		}
-
-		// // To let the access of Constraint::simulate() to Solver::solve
-		// friend bool Solver::solve( double& finalCost,
-		//                            std::vector<int>& finalSolution,
-		//                            double sat_timeout,
-		//                            double opt_timeout,
-		//                            bool no_random_starting_point );
 	};
 }
