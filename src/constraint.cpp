@@ -39,6 +39,7 @@ unsigned int Constraint::NBER_CTR = 0;
 
 Constraint::Constraint( const std::vector<Variable>& variables )
 	: _variables( variables ),
+	  _current_error( std::numeric_limits<double>::max() ),
 	  _is_expert_delta_error_defined( true )
 {
 	if( NBER_CTR < std::numeric_limits<unsigned int>::max() )
@@ -46,6 +47,14 @@ Constraint::Constraint( const std::vector<Variable>& variables )
 	else
 		_id = NBER_CTR = 0;
 }
+
+void Constraint::update_variable( unsigned int variable_index, int new_value )
+{
+	update_constraint( _variables, _id_mapping[ variable_index ], new_value );
+	_variables[ _id_mapping[ variable_index ] ].set_value( new_value );
+}
+
+void Constraint::update_constraint( const std::vector<Variable>& variables, unsigned int variable_index, int new_value ) { }
 
 void Constraint::make_variable_id_mapping( unsigned int new_id, unsigned int original_id )
 {
@@ -64,60 +73,60 @@ double Constraint::error() const
 	return value;
 }
 
-double Constraint::delta_error( const std::vector<unsigned int>& variable_ids, const std::vector<int>& new_values ) const
+double Constraint::delta_error( const std::vector<unsigned int>& variables_index, const std::vector<int>& new_values ) const
 {
-	std::vector<unsigned int> converted_indexes( variable_ids.size() );
-	std::transform( variable_ids.begin(), variable_ids.end(), converted_indexes.begin(), [&](unsigned int index){ return static_cast<unsigned int>( _id_mapping.at( index ) ); } );
+	std::vector<unsigned int> converted_indexes( variables_index.size() );
+	std::transform( variables_index.begin(), variables_index.end(), converted_indexes.begin(), [&](unsigned int index){ return static_cast<unsigned int>( _id_mapping.at( index ) ); } );
 	
-	double value = expert_delta_error( converted_indexes, new_values );
+	double value = expert_delta_error( _variables, converted_indexes, new_values );
 	if( std::isnan( value ) )
 	{
 		auto changed_variables = _variables;
 		for( int i = 0 ; i < static_cast<int>( new_values.size() ) ; ++i )
-			changed_variables[ _id_mapping.at( variable_ids[ i ] ) ].set_value( new_values[ i ] );
+			changed_variables[ _id_mapping.at( variables_index[ i ] ) ].set_value( new_values[ i ] );
 		throw nanException( changed_variables );
 	}
 	return value;
 }
 
-double Constraint::simulate_delta( const std::vector<unsigned int>& variable_ids, const std::vector<int>& new_values )
+double Constraint::simulate_delta( const std::vector<unsigned int>& variables_index, const std::vector<int>& new_values )
 {
 	if( _is_expert_delta_error_defined ) [[likely]]
 	{
-		return delta_error( variable_ids, new_values );
+		return delta_error( variables_index, new_values );
 	}
 	else
 	{
 		std::vector<int> backup_values( new_values.size() );
-		std::copy( new_values.begin(), new_values.end(), backup_values.begin() );
+		std::transform( variables_index.begin(), variables_index.end(), backup_values.begin(), [&](auto var_index){ return _variables[ _id_mapping[var_index] ].get_value(); } );
 		
 		for( int i = 0 ; i < static_cast<int>( new_values.size() ) ; ++i )
-			_variables[ _id_mapping[ variable_ids[ i ] ] ].set_value( new_values[ i ] );
+			_variables[ _id_mapping[ variables_index[ i ] ] ].set_value( new_values[ i ] );
 		
 		auto error = this->error();
 
 		for( int i = 0 ; i < static_cast<int>( new_values.size() ) ; ++i )
-			_variables[ _id_mapping[ variable_ids[ i ] ] ].set_value( backup_values[ i ] );
+			_variables[ _id_mapping[ variables_index[ i ] ] ].set_value( backup_values[ i ] );
 
-		return error - current_error;
+		return error - _current_error;
 	}
 }
 
-bool Constraint::has_variable( unsigned int var_id ) const
+bool Constraint::has_variable_unshifted( unsigned int var_id ) const
 {
 	return std::find_if( _variables.cbegin(),
 	                     _variables.cend(),
 	                     [&]( auto& v ){ return v.get_id() == var_id; } ) != _variables.cend();
 }  
 
-std::vector<unsigned int> Constraint::get_variable_ids()
+std::vector<unsigned int> Constraint::get_variable_ids() const
 {
 	std::vector<unsigned int> ids( _variables.size() );
 	std::transform( _id_mapping.begin(), _id_mapping.end(), ids.begin(), [&](auto& pair){ return pair.first; } );
 	return ids;	
 }
 
-double Constraint::expert_delta_error( const std::vector<unsigned int>& variable_indexes, const std::vector<int>& candidate_values ) const
+double Constraint::expert_delta_error( const std::vector<Variable>& variables, const std::vector<unsigned int>& variable_indexes, const std::vector<int>& candidate_values ) const
 {
 	_is_expert_delta_error_defined = false;
 	throw deltaErrorNotDefinedException();

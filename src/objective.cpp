@@ -36,6 +36,14 @@ Objective::Objective( std::string name, const std::vector<Variable>& variables )
 	  _variables( variables )
 { }
 
+void Objective::update_variable( unsigned int variable_id, int new_value )
+{
+	_variables[ _id_mapping[ variable_id ] ].set_value( new_value );
+	update_objective( _variables, _id_mapping[ variable_id ], new_value );
+}
+
+void Objective::update_objective( const std::vector<Variable>& variables, unsigned int variable_id, int new_value ) { }
+
 void Objective::make_variable_id_mapping( unsigned int new_id, unsigned int original_id )
 {
 	auto iterator = std::find_if( _variables.begin(), _variables.end(), [&](auto& v){ return v.get_id() == original_id; } );

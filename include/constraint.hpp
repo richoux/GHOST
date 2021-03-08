@@ -61,6 +61,7 @@ namespace ghost
 		template <typename ... ConstraintType> friend class Solver;
 
 		std::vector<Variable> _variables;	//!< Vector of variables in the scope of the constraint.
+		double _current_error; //!< Current error of the constraint. 
 
 		static unsigned int NBER_CTR; // Static counter that increases each time one instantiates a Constraint object.
 		unsigned int _id;	// Unique ID integer
@@ -105,8 +106,11 @@ namespace ghost
 		};
 
 		// Update a variable assignment.
-		inline void update_variable( unsigned int variable_id, int new_value ) { _variables[ _id_mapping[ variable_id ] ].set_value( new_value ); }
+		void update_variable( unsigned int variable_index, int new_value );
 
+		// To allow users to update their inner constraint data structure after assigning to a variable a new value. Called with _variables.
+		virtual void update_constraint( const std::vector<Variable>& variables, unsigned int variable_index, int new_value );
+		
 		// Making the mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the constraint. 
 		void make_variable_id_mapping( unsigned int new_id, unsigned int original_id );
 		
@@ -115,27 +119,28 @@ namespace ghost
 		// Call required_error() after getting sure the error does give a nan, rise an exception otherwise.
 		double error() const;
 			
-		// Compute the delta error of the current assignment, giving a vector of variable ids and their candidate values.
-		// Calling expert_delta_error after making the conversion of variables ids.
+		// Compute the delta error of the current assignment, giving a vector of variables index and their candidate values.
+		// Calling expert_delta_error after making the conversion of variables index.
 		// Getting sure the delta error does give a nan, rise an exception otherwise.
-		double delta_error( const std::vector<unsigned int>& variable_ids, const std::vector<int>& candidate_values ) const;
+		double delta_error( const std::vector<unsigned int>& variables_index, const std::vector<int>& candidate_values ) const;
 
 		// To simulate the error delta between the current configuration and the candidate configuration.
 		// This calls delta_error() if the user overrided it, otherwise it makes the simulation 'by hand' and calls error()
-		double simulate_delta( const std::vector<unsigned int>& variable_ids, const std::vector<int>& candidate_values );
+		double simulate_delta( const std::vector<unsigned int>& variables_index, const std::vector<int>& candidate_values );
 
 		// Determine if the constraint contains a variable given its id. 
-		bool has_variable( unsigned int var_id ) const;
+		inline bool has_variable( unsigned int var_id ) const { return _id_mapping.contains( var_id ) ; }
+
+		// Determine if the constraint contains a variable given its id. 
+		bool has_variable_unshifted( unsigned int var_id ) const;
 
 		// Inline method to get the unique id of the Constraint object.
 		inline int get_id() const { return _id; }
 
 		// Return ids of variable objects in _variables.
-		std::vector<unsigned int> get_variable_ids();
+		std::vector<unsigned int> get_variable_ids() const;
 
 	protected:
-		double current_error; //!< Current error of the constraint
-		
 		//! Pure virtual method to compute the error of the constraint with the current assignment in Constraint::_variables.
 		/*!
 		 * This method is fundamental: it evalutes how much the current values of variables violate this contraint.
@@ -154,10 +159,10 @@ namespace ghost
 		 * but must outputs a value strictly higher than 0 otherwise, such that the higher this value, the further
 		 * current values of variables are from satisfying your constraint.
 		 *
-		 * \warning Do not implement any side effect in this method. It is called by the solver 
+		 * \warning DO NOT implement any side effect in this method. It is called by the solver 
 		 * to compute the constraint error but also for some inner mechanisms (such as error simulations).
 		 *
-		 * \param variables A const reference of The vector of variables in the scope of the constraint. The solver is calling this method with
+		 * \param variables A const reference of the vector of variables in the scope of the constraint. The solver is calling this method with
 		 * Constraint::_variables as input. This is mostly to have the same interface than Objective::required_cost.
 		 * \return A positive double corresponding to the error of the constraint.
 		 * Outputing 0 means that given variable values satisfy the constraint. 
@@ -181,15 +186,23 @@ namespace ghost
 		 * to quickly find better solutions.
 		 * However, if your problem is modeled as an CSP/COP, you can just skip implementing this method.
 		 *
-		 * \warning Do not implement any side effect in this method. It is called by the solver 
-		 * to compute the constraint error but also for some inner mechanisms (such as error simulations).
+		 * \warning DO NOT implement any side effect in this method. It is called by the solver 
+		 * to compute the constraint delta error but also for some inner mechanisms (such as error simulations).
 		 *
+		 * \param variables A const reference of the vector of variables in the scope of the constraint. The solver is calling this method with
+		 * Constraint::_variables as input.
 		 * \param The vector of variables indexes and the vector of their respective candidate values.
 		 * \return A double corresponding to the difference between the current error of the constraint and the error you would get if you assign candidate 
 		 * values to given variables.
 		 */
-		virtual double expert_delta_error( const std::vector<unsigned int>& variable_indexes, const std::vector<int>& candidate_values ) const;
+		virtual double expert_delta_error( const std::vector<Variable>& variables, const std::vector<unsigned int>& variable_indexes, const std::vector<int>& candidate_values ) const;
 
+		//! Inline method returning the current error of the constraint (automatically updated by the solver). This is useful to implement expert_delta_error.
+		/*!
+		 * \sa expert_delta_error
+		 */
+		inline double get_current_error() const { return _current_error; }
+		
 	public:
 		//! Unique constructor
 		/*!
