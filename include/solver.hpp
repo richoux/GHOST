@@ -132,22 +132,21 @@ namespace ghost
 		};
 
 #if defined(GHOST_TRACE)
-		void print_variables()
-		{
-			std::cout << "Variables: ";
-			for( auto& var : _variables )
-				std::cout << var.get_value() << " ";
-			std::cout << "\n\n";
-		}
-
 		void print_errors()
 		{
-			std::cout << "Errors:\n";
+			std::cout << "Constraint errors:\n";
 			for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
 			{
 				std::cout << "Constraint num. " << constraint_id << "=" << get_constraint_error( constraint_id ) << ": ";
+				bool mark_comma = false;
 				for( auto variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, _constraints[ constraint_id ] ) )
-					std::cout << "v[" << variable_id << "]=" << _variables[variable_id].get_value() << ", ";
+				{
+					if( mark_comma )
+						std::cout << ", ";
+					else
+						mark_comma = true;
+					std::cout << "v[" << variable_id << "]=" << _variables[variable_id].get_value();
+				}
 				std::cout << "\n";
 			}
 
@@ -156,8 +155,15 @@ namespace ghost
 			for( unsigned int variable_id = 0 ; variable_id < _number_variables ; ++variable_id )
 			{
 				std::cout << "v[" << variable_id << "]=" << _error_variables[variable_id] << ": ";
+				bool mark_plus = false;
 				for( unsigned int constraint_id : _matrix_var_ctr[ variable_id ] )
-					std::cout << "c[" << constraint_id << "]=" << get_constraint_error( constraint_id ) << " + ";
+				{
+					if( mark_plus )
+						std::cout << " + ";
+					else
+						mark_plus = true;
+					std::cout << "c[" << constraint_id << "]=" << get_constraint_error( constraint_id );
+				}
 				std::cout << "\n";				
 			}
 			
@@ -206,7 +212,7 @@ namespace ghost
 						if( _best_sat_error > best_sat_error )
 						{
 #if defined(GHOST_TRACE)
-							std::cout << "Update _best_sat_error in set_initial_configuration(): before " << _best_sat_error << ", now " << best_sat_error << "\n";
+							std::cout << "Improve the satisfaction error: before " << _best_sat_error << ", now " << best_sat_error << "\n";
 #endif
 							_best_sat_error = best_sat_error;
 						}
@@ -251,12 +257,6 @@ namespace ghost
 			++_restarts;
 			_previously_selected_variable_index = -1;
 			_must_compute_worst_variables_list = true;
-
-#if defined(GHOST_TRACE)
-			std::cout << "Call restart()\n"
-			          << "Number of times this function has been called: " << _restarts << "\n";
-			print_variables();
-#endif
 			
 			// Reset weak tabu list
 			// std::fill( _weak_tabu_list.begin(), _weak_tabu_list.end(), 0 ); 
@@ -270,8 +270,8 @@ namespace ghost
 				_no_random_starting_point = false;
 
 #if defined(GHOST_TRACE)
-			std::cout << "After calling set_initial_configuration()\n";
-			print_variables();
+			std::cout << "Number of restarts performed so far: " << _restarts << "\n";
+			_print->print_candidate( _variables );
 #endif
 			
 			// Reset constraints costs
@@ -302,11 +302,6 @@ namespace ghost
 			std::fill( _error_variables.begin(), _error_variables.end(), 0.0 ); 
 			// Recompute them
 			compute_variables_errors();
-
-#if defined(GHOST_TRACE)
-			std::cout << "After calling compute_variables_errors()\n";
-			print_errors();
-#endif
 		}
 
 		inline double call_error( unsigned int constraint_id )
@@ -316,9 +311,6 @@ namespace ghost
 
 		inline void call_update_variable( unsigned int constraint_id, unsigned int variable_id, int value )
 		{
-#if defined(GHOST_TRACE)
-			std::cout << "Call_update_variable on constraint " << constraint_id << " for var[" << variable_id << "]=" << value << "\n";
-#endif
 			std::visit( [&](Constraint& ctr){ ctr.update_variable( variable_id, value ); }, _constraints[ constraint_id ] );
 		}
 
@@ -368,7 +360,6 @@ namespace ghost
 			// }
 
 #if defined(GHOST_TRACE)
-			std::cout << "Calling compute_worst_variables()\n";
 			print_errors();
 #endif
 			
@@ -557,7 +548,7 @@ namespace ghost
 				}
 
 #if defined(GHOST_TRACE)
-			std::cout << "Creating a Solver object\n"
+			std::cout << "Creating a Solver object\n\n"
 			          << "Variables:\n";
 
 			for( auto& variable : _variables )
@@ -709,11 +700,11 @@ namespace ghost
 				_print->print_candidate( _variables );
 				std::cout << "\n\nNumber of loop iteration: " << search_iterations << "\n";
 				std::cout << "Last variable id selected: " << _previously_selected_variable_index << "\n";
-				std::cout << "Worst variables list:\n";
-				for( auto id : _worst_variables_list )
-					std::cout << _variables[ id ] << "\n";
-				std::cout << "\nPicked worst variable:\n"
-				          << _variables[ variable_to_change ] << "\n\n";
+				std::cout << "Worst variables list: v[" << _worst_variables_list[0] << "]=" << _variables[ _worst_variables_list[0] ].get_value();
+				
+				for( int i = 1 ; i < static_cast<int>( _worst_variables_list.size() ) ; ++i )
+					std::cout << ", v[" << _worst_variables_list[i] << "]=" << _variables[ _worst_variables_list[i] ].get_value();
+				std::cout << "\nPicked worst variable: v[" << variable_to_change << "]=" << _variables[ variable_to_change ].get_value() << "\n\n";
 #endif
 				_worst_variables_list.erase( std::find( _worst_variables_list.begin(), _worst_variables_list.end(), variable_to_change ) );
 				_previously_selected_variable_index = variable_to_change;
@@ -728,19 +719,8 @@ namespace ghost
 					// Simulate delta errors (or errors is not Constraint::expert_delta_error method is defined) for each neighbor
 					for( auto candidate_value : domain_to_explore )
 						for( unsigned int constraint_id : _matrix_var_ctr[ variable_to_change ] )
-						{
-#if defined(GHOST_TRACE)
-							auto simulation = std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( std::vector<unsigned int>{variable_to_change}, std::vector<int>{candidate_value} ); }, _constraints[ constraint_id ] );
-							delta_errors[ candidate_value ].push_back( simulation );
-							
-							std::cout << "Delta error of Constraint num. " << constraint_id
-							          << " with the value " << candidate_value
-							          << ": " << simulation << "\n\n";
-#else
 							delta_errors[ candidate_value ].push_back( std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( std::vector<unsigned int>{variable_to_change}, std::vector<int>{candidate_value} ); },
 							                                                       _constraints[ constraint_id ] ) );							
-#endif
-						}
 				}
 				else
 				{
@@ -763,54 +743,19 @@ namespace ghost
 
 								// check if the other variable also belongs to the constraint scope
 								if( std::visit( [&](Constraint& ctr){ return ctr.has_variable( variable_id ); }, _constraints[ constraint_id ] ) )
-								{
-#if defined(GHOST_TRACE)
-									auto simulation = std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( std::vector<unsigned int>{variable_to_change, variable_id}, std::vector<int>{candidate_value, current_value} ); }, _constraints[ constraint_id ] );
-
-									delta_errors[ variable_id ].push_back( simulation );
-									std::cout << "Delta error of Constraint num. " << constraint_id
-									          << " by switching var[" << variable_to_change << "]=" << current_value << " and var[" << variable_id << "]=" << candidate_value
-									          << ": " << simulation << "\n\n";
-#else
 									delta_errors[ variable_id ].push_back( std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( std::vector<unsigned int>{variable_to_change, variable_id}, std::vector<int>{candidate_value, current_value} ); },
 									                                                   _constraints[ constraint_id ] ) );
-#endif
-								}
 								else
-								{
-#if defined(GHOST_TRACE)
-									auto simulation = std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( std::vector<unsigned int>{variable_to_change}, std::vector<int>{candidate_value} ); },
-									                              _constraints[ constraint_id ] );
-									delta_errors[ variable_id ].push_back( simulation );
-									
-									std::cout << "Delta error of Constraint num. " << constraint_id
-									          << " with the value " << candidate_value
-									          << ": " << simulation << "\n\n";
-#else
 									delta_errors[ variable_id ].push_back( std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( std::vector<unsigned int>{variable_to_change}, std::vector<int>{candidate_value} ); },
 									                                                   _constraints[ constraint_id ] ) );
-#endif
-								}
 							}
 
 							// Since we are switching the value of two variables, we need to also look at the delta error impact of changing the value of the non-selected variable
 							for( unsigned int constraint_id : _matrix_var_ctr[ variable_id ] )
 								// No need to look at constraint where variable_to_change also appears.
 								if( !constraint_checked[ constraint_id ] )
-								{
-#if defined(GHOST_TRACE)
-									auto simulation = std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( std::vector<unsigned int>{variable_id}, std::vector<int>{current_value} ); },
-									                              _constraints[ constraint_id ] );
-									delta_errors[ variable_id ].push_back( simulation );
-									
-									std::cout << "Delta error of Constraint num. " << constraint_id
-									          << " with the value " << current_value
-									          << ": " << simulation << "\n\n";
-#else
 									delta_errors[ variable_id ].push_back( std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( std::vector<unsigned int>{variable_id}, std::vector<int>{current_value} ); },
 									                                                   _constraints[ constraint_id ] ) );
-#endif
-								}
 						}
 				}
 				
@@ -824,11 +769,11 @@ namespace ghost
 					cumulated_delta_errors[ deltas.first ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
 #if defined(GHOST_TRACE)
 					if( _is_permutation_problem )
-						std::cout << "Cumulated error for switching var[" << variable_to_change << "]=" << _variables[ variable_to_change ].get_value()
-						          << " and var[" << deltas.first << "]=" << _variables[ deltas.first ].get_value()
+						std::cout << "Error for switching var[" << variable_to_change << "]=" << _variables[ variable_to_change ].get_value()
+						          << " with var[" << deltas.first << "]=" << _variables[ deltas.first ].get_value()
 						          << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
 					else
-						std::cout << "Cumulated error for the value " << deltas.first << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
+						std::cout << "Error for the value " << deltas.first << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
 #endif
 				}
 				
@@ -874,9 +819,9 @@ namespace ghost
 					new_value = _rng.pick( candidate_values );
 
 #if defined(GHOST_TRACE)
-				std::cout << "Min conflict value candidates list: ";
-				for( auto val : candidate_values )
-					std::cout << val << ", ";
+				std::cout << "Min conflict value candidates list: " << candidate_values[0];
+				for( int i = 1 ; i < static_cast<int>( candidate_values.size() ); ++i )
+					std::cout << ", " << candidate_values[i];
 				if( _is_permutation_problem )
 					std::cout << "\nPicked variable index for min conflict: "
 					          << new_value << "\n"
@@ -935,13 +880,13 @@ namespace ghost
 						if( previous_sat_error > 0.0 || _current_opt_cost > candidate_opt_cost )
 						{
 #if defined(GHOST_TRACE)
-							std::cout << "The objective function is improved. Now: " << candidate_opt_cost << ", before: " << _current_opt_cost << "\n";
+							std::cout << "The objective function is improved. Before: " << _current_opt_cost << ", now: " << candidate_opt_cost << "\n";
 #endif
 							_current_opt_cost = candidate_opt_cost;
 							if( _best_opt_cost > _current_opt_cost )
 							{
 #if defined(GHOST_TRACE)
-						std::cout << "The objective function value is the best one so far. Now: " << _current_opt_cost << ", before: " << _best_opt_cost << "\n";
+								std::cout << "The objective function value is the best one so far. Before: " << _best_opt_cost << ", now: " << _current_opt_cost << "\n";
 #endif
 								_best_opt_cost = _current_opt_cost;
 								std::transform( _variables.begin(),
@@ -1130,6 +1075,8 @@ namespace ghost
 
 			// Print solution
 			_print->print_candidate( _variables );
+
+			std::cout << "\n";
 			
 			if( !_is_optimization )
 				std::cout << "SATISFACTION run" << "\n";
