@@ -1,11 +1,12 @@
 #include "max_value.hpp"
 
-MaxValue::MaxValue( const std::vector<ObjectData>& object_data )
-	: Objective( "Max value" ),
+MaxValue::MaxValue( const std::vector<ghost::Variable>& variables,
+                    const std::vector<ObjectData>& object_data )
+	: Objective( "Max value", variables ),
 	  object_data ( object_data )
 { }
 
-double MaxValue::required_cost( const std::vector< ghost::Variable >& variables ) const
+double MaxValue::required_cost( const std::vector<ghost::Variable>& variables ) const
 {
 	double total_value = 0.0;
 

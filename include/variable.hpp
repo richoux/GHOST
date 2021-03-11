@@ -10,7 +10,7 @@
  * milliseconds is needed. It is a generalization of the Wall-in project.
  * Please visit https://github.com/richoux/GHOST for further information.
  * 
- * Copyright (C) 2014-2020 Florian Richoux
+ * Copyright (C) 2014-2021 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or 
@@ -33,16 +33,17 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
 
-#include "domain.hpp"
+#include "misc/randutils.hpp"
 
 namespace ghost
 {
-	//! This class encodes variables of your CSP/COP/CFN. You cannot inherits your own class from Variable.
+	//! This class encodes variables of your model. You cannot inherits your own class from Variable.
 	/*! 
-	 * In GHOST, all variables are discrete variables with a ghost::Domain containing intergers only 
+	 * In GHOST, all variables are discrete variables with a domain containing integers only 
 	 * (positive, negative or both). Since you cannot inherits from Variable, if your constraints 
-	 * or your objective functions need specific details about your variables (for instance, each variable models 
+	 * or your objective function need specific details about your variables (for instance, each variable models 
 	 * an agent with 2D coordinates), you must store these data on your own containers side by side with 
 	 * the variables vector (see Constraint and Objective).
 	 *
@@ -50,145 +51,128 @@ namespace ghost
 	 * (stored in the variable's domain) and your variable additional data (such as 2D coordinates for instance). 
 	 * You must manage additional data with your own data structures or classes.
 	 *
-	 * \sa Domain Constraint Objective
+	 * \sa Constraint Objective
 	 */
 	class Variable final
 	{
-		friend class Solver;
-		static int NBER_VAR; //!< Static counter that increases each time one instanciates a Variable object.
-		int _id; //!< Unique ID integer taking the current value of NBER_VAR
+		template <typename ... ConstraintType> friend class Solver;
 
-		std::string _name;	//!< A string to give a full name to the variable (for instance, "Barracks").
-		std::string _shortName; //!< A string to give a shorten name to the variable (for instance, "B").
-		Domain _domain;	//!< The domain of the variable.
-		int	_index;	//!< The domain's index corresponding to the current value of the variable.
-		int	_cache_value;	//!< Cache of the Variable current value.
-    
-		//! Regular private Variable constructor
-		Variable( const std::string& name,
-		          const std::string& shortName,
-		          const Domain& domain,
-		          int index = 0 );
+		std::string _name;	//!< String to give a name to the variable, helpful to debug/trace.
+		std::vector<int> _domain; //!< The domain, i.e., the vector of values the variable can take.
+		unsigned int _id; //!< Unique ID integer
 
-		//! Default private constructor
-		Variable();
-    
-		//! For the copy-and-swap idiom
-		void swap( Variable &other );
+		static unsigned int NBER_VAR; // Static counter that increases each time one instanciates a Variable object.
+		int	_current_value;	// Current value assigned to the variable.
+		int _min_value; // minimal value in the domain
+		int _max_value; // maximal value in the domain
+		randutils::mt19937_rng _rng; 	// Neat random generator from misc/randutils.hpp.
+				
+		struct valueException : std::exception
+		{
+			int value;
+			int min;
+			int max;
+			valueException( int value, int min, int max ) : value( value ), min( min ), max( max ) {}
+			std::string message = "Wrong value " + std::to_string( value ) + " passed to Variable::set_value. The given value does not belong to the domain and/or is not be between "
+				+ std::to_string( min ) + " (included) and "
+				+ std::to_string( max ) + " (included).\n";
+			const char* what() const noexcept { return message.c_str(); }
+		};
 
+		// Assign to the variable a random values from its domain.
+		inline void pick_random_value()	{	_current_value = _rng.pick( _domain ); }
+		
 	public:
-    
-		// //! The default Variable constructor is disabled.
-		// Variable() = delete;
-
+		Variable() = default;		
+		
 		//! First Variable constructor, with the vector of domain values and the outside-the-scope value.
 		/*!
 		 * \param name A const reference of a string to give a full name to the variable (for instance, "Barracks").
-		 * \param shortName A const reference of a string to give a shorten name to the variable (for instance, "B").
 		 * \param domain A const reference to the vector of integers composing the domain to create.
 		 * \param index The domain's index corresponding to the variable initial value. Zero by default.
 		 */
 		Variable( const std::string&	name,
-		          const std::string&	shortName,
 		          const std::vector<int>& domain,
 		          int	index = 0 );
     
 		//! Second Variable constructor, with a starting value and a size for the domain.
 		/*!
 		 * \param name A const reference of a string to give a full name to the variable (for instance, "Barracks").
-		 * \param shortName A const reference of a string to give a shorten name to the variable (for instance, "B").
 		 * \param startValue An integer representing the first value of the domain. The creating domain will then be the interval [startValue, startValue + size].
 		 * \param size A size_t corresponding to the size of the domain to create.
 		 * \param index The domain's index corresponding to the variable initial value. Zero by default.
 		 */
 		Variable( const std::string&	name,
-		          const std::string&	shortName,
 		          int	startValue,
 		          std::size_t size,
 		          int	index = 0 );
-
-		//! Variable copy constructor
-		/*!
-		 * \param other A const reference to a Variable object.
-		 */
-		Variable( const Variable &other );
-
-		//! Variable's copy assignment operator
-		/*!
-		 * The copy-and-swap idiom is applyed here.
-		 * 
-		 * \param other A Variable object.
-		 */
-		Variable& operator=( Variable other );
-
-		//! Default Variable destructor.
-		~Variable() = default;
-
-		//! Inline function initializing the variable to one random values of its domain.
-		inline void pick_random_value() { set_value( _domain.random_value() ); }
     
-		/*! Inline function returning what values are in the domain.
-		 * \return a const reference of the vector of values in to the variable domain.
+		/*! Inline method returning all values in the domain.
+		 * \return a copy of the vector of these values.
 		 */
-		inline const std::vector<int>& possible_values() const { return _domain.get_domain(); }
-    
-		//! Inline function to get the current value of the variable.
+		inline std::vector<int> get_full_domain() const { return _domain; }
+
+		/*! Method returning a range of values from the domain.
+		 * \return a copy of the vector of these values.
+		 */
+		std::vector<int> get_partial_domain( int range ) const;
+
+		//! Inline method to get the current value of the variable.
 		/*! 
 		 * \return An integer corresponding to the variable value. 
-		 * \sa Domain
 		 */
-		inline int get_value() const { return _cache_value; }
+		inline int get_value() const { return _current_value; }
 
-		//! Inline function to set the value of the variable.
-		/*! 
+		//! Set the value of the variable.
+		/*!
 		 * If the given value is not in the domain, raises a valueException.
-		 * \param value An integer representing the new value to set.
-		 * \sa Domain
-		 */
+		*/
 		inline void	set_value( int value )
 		{
-			_index = _domain.index_of( value );
-			_cache_value = value;
+			if( std::find( _domain.cbegin(), _domain.cend(), value ) == _domain.cend() )
+				throw valueException( value, get_domain_min_value(), get_domain_max_value() );
+			
+			_current_value = value;
 		}
 
-		//! Inline function returning the size of the domain of the variable.
+		//! Inline method returning the size of the domain of the variable.
 		/*! 
 		 * \return a size_t equals to size of the domain of the variable.
-		 * \sa Domain
 		 */
-		inline std::size_t get_domain_size() const { return _domain.get_size(); }
+		inline std::size_t get_domain_size() const { return _domain.size(); }
 
-		//! Inline function returning the minimal value in the variable's domain.
+		//! Inline method returning the minimal value in the variable's domain.
 		/*! 
 		 * \return the minimal value in the variable's domain.
-		 * \sa Domain
 		 */
-		inline int get_domain_min_value() const { return _domain.get_min_value(); }
+		inline int get_domain_min_value() const { return _min_value; }
 
-		//! Inline function returning the maximal value in the variable's domain.
+		//! Inline method returning the maximal value in the variable's domain.
 		/*! 
 		 * \return the maximal value in the variable's domain.
-		 * \sa Domain
 		 */
-		inline int get_domain_max_value() const { return _domain.get_max_value(); }
+		inline int get_domain_max_value() const { return _max_value; }
 
-		//! Inline function to get the variable name.
+		//! Inline method to get the variable name.
 		inline std::string get_name() const { return _name; }
 
-		//! Inline function to get the variable short name.
-		inline std::string get_short_name() const { return _shortName; }
-
-		//! Inline function to get the unique id of the Variable object.
+		//! Give the unique id of the Variable object.
 		inline int get_id() const { return _id; }
 
 		//! To have a nicer stream of Variable.
 		friend std::ostream& operator<<( std::ostream& os, const Variable& v )
 		{
+			std::string domain = "";
+			for( auto value : v.get_full_domain() )
+				domain += std::to_string( value ) + std::string( ", " );
+				// domain << value << ", ";
+			
 			return os
 				<< "Variable name: " << v._name
-				<< "\nShort name: " << v._shortName
-				<< "\nValue: " <<  v._domain.get_value( v._index )
-				<< "\n-------";
+				<< "\nId: " <<  v._id
+				<< "\nValue: " <<  v._current_value
+				<< "\nDomain: " << domain
+				<< "\n--------";
 		}
 	};
 }

@@ -2,8 +2,7 @@
 
 OS="$(uname)"
 RELEASE="release"
-RELEASEBENCH="release-bench"
-RELEASETRACE="release-trace"
+RELEASEDBGINFO="release_with_debug_info"
 DEBUG="debug"
 OSX="_osx"
 BACKPWD="$PWD"
@@ -24,15 +23,14 @@ NC='\033[0m' # No Color
 
 if [ "$OS" == "Darwin" ]; then
     RELEASE="$RELEASE$OSX"
-    RELEASEBENCH="$RELEASEBENCH$OSX"
-    RELEASETRACE="$RELEASETRACE$OSX"
+    RELEASEDBGINFO="$RELEASEDBGINFO$OSX"
     DEBUG="$DEBUG$OSX"
     CXX="clang++"
 fi
 
 function usage()
 {
-    echo "$0: usage: build.sh [release|bench|trace|debug|clean|doc|tests] [EXP]"
+    echo "$0: usage: build.sh [release|rel_dbg_info|debug|clean|doc|tests] [EXP]"
     exit 1
 }
 
@@ -54,20 +52,11 @@ function debug()
     sudo make install
 }
 
-function trace()
+function rel_dbg_info()
 {
-    mkdir -p $RELEASETRACE
-    cd $RELEASETRACE
-    cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTRACE=ON -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
-    make
-    sudo make install    
-}
-
-function bench()
-{
-    mkdir -p $RELEASEBENCH
-    cd $RELEASEBENCH
-    cmake -DCMAKE_BUILD_TYPE=Release -DBENCH=ON -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
+    mkdir -p $RELEASEDBGINFO
+    cd $RELEASEDBGINFO
+    cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
     make
     sudo make install    
 }
@@ -75,34 +64,28 @@ function bench()
 function clean()
 {
     if [ -d "$RELEASE" ]; then 
-	cd $RELEASE
-	make clean
-	sudo rm -fr *
-	cd ..
+				cd $RELEASE
+				make clean
+				sudo rm -fr *
+				cd ..
     fi
-    if [ -d "$RELEASEBENCH" ]; then 
-	cd $RELEASEBENCH
-	make clean
-	sudo rm -fr *
-	cd ..
-    fi
-    if [ -d "$RELEASETRACE" ]; then 
-	cd $RELEASETRACE
-	make clean
-	sudo rm -fr *
-	cd ..
+    if [ -d "$RELEASEDBGINFO" ]; then 
+				cd $RELEASEDBGINFO
+				make clean
+				sudo rm -fr *
+				cd ..
     fi
     if [ -d "$DEBUG" ]; then 
-	cd $DEBUG
-	make clean
-	sudo rm -fr *
-	cd ..
+				cd $DEBUG
+				make clean
+				sudo rm -fr *
+				cd ..
     fi
     if [ -d "build" ]; then 
-	cd build
-	make clean
-	sudo rm -fr *
-	cd ..
+				cd build
+				make clean
+				sudo rm -fr *
+				cd ..
     fi
 }
 
@@ -123,11 +106,11 @@ function tests()
 function first_compile()
 {
     if [ "$OS" == "Linux" ]; then
-	echo -e "\n\n${RED}>>> If you compile ${GREEN}GHOST${RED} for the ${CYAN}first time${RED}, you probably need to run the following command: ${ORANGE}sudo ldconfig${NC}"
+				echo -e "\n\n${RED}>>> If you compile ${GREEN}GHOST${RED} for the ${CYAN}first time${RED}, you probably need to run the following command: ${ORANGE}sudo ldconfig${NC}"
     fi
 
     if [ "$OS" == "Darwin" ]; then
-	echo -e "\n\n${RED}>>> If you compile ${GREEN}GHOST${RED} for the ${CYAN}first time${RED}, you probably need to run the following command: ${ORANGE}sudo update_dyld_shared_cache${NC}"
+				echo -e "\n\n${RED}>>> If you compile ${GREEN}GHOST${RED} for the ${CYAN}first time${RED}, you probably need to run the following command: ${ORANGE}sudo update_dyld_shared_cache${NC}"
     fi
 }
 
@@ -144,7 +127,7 @@ fi
 
 if [ $# -eq 2 ]; then
     if [ "$2" == "EXP" ]; then
-	EXPERIMENTAL="-DEXPERIMENTAL=ON"
+				EXPERIMENTAL="-DGHOST_EXPERIMENTAL=ON"
     fi
 fi
 
@@ -153,12 +136,9 @@ if [ "$1" == "release" ]; then
     first_compile
     cd $BACKPWD
     exit 0
-elif [ "$1" == "bench" ]; then
-    bench
-    cd $BACKPWD
-    exit 0
-elif [ "$1" == "trace" ]; then
-    trace
+elif [ "$1" == "rel_dbg_info" ]; then
+    rel_dbg_info
+    first_compile
     cd $BACKPWD
     exit 0
 elif [ "$1" == "debug" ]; then

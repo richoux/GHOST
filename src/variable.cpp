@@ -10,7 +10,7 @@
  * milliseconds is needed. It is a generalization of the Wall-in project.
  * Please visit https://github.com/richoux/GHOST for further information.
  * 
- * Copyright (C) 2014-2020 Florian Richoux
+ * Copyright (C) 2014-2021 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or 
@@ -27,62 +27,105 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include <algorithm>
-#include <typeinfo>
+#include <limits>
 
 #include "variable.hpp"
 
 using namespace ghost;
 
-int Variable::NBER_VAR = 0;
+unsigned int Variable::NBER_VAR = 0;
 
-Variable::Variable()
-	: _id	( -1 ),
-	  _name	( "" ),
-	  _shortName ( "" ),
-	  _domain	( Domain( 0, 0 ) ),
-	  _index ( -1 ),
-	  _cache_value ( -1 )
-{ }
-
-Variable::Variable( const std::string& name, const std::string& shortName, const Domain& domain, int index )
-	: _id	( NBER_VAR++ ),
-	  _name	( name ),
-	  _shortName ( shortName ),
-	  _domain	( domain ),
-	  _index ( index ),
-	  _cache_value ( domain.get_value( index ) )
-{ }
-
-Variable::Variable( const std::string& name, const std::string& shortName, const std::vector<int>& domain, int index )
-	: Variable( name, shortName, Domain{ domain }, index )
-{ }
-
-Variable::Variable( const std::string& name, const std::string& shortName, int startValue, std::size_t size, int index )
-	: Variable( name, shortName, Domain{ startValue, size }, index )
-{ }
-
-Variable::Variable( const Variable &other )
-	: _id	( other._id ),
-	  _name	( other._name ),
-	  _shortName ( other._shortName ),
-	  _domain	( other._domain ),
-	  _index ( other._index ),
-	  _cache_value ( other._cache_value )
-{ }
-
-Variable& Variable::operator=( Variable other )
+Variable::Variable( const std::string& name, const std::vector<int>& domain, int index )
+	: _name( name ),
+	  _domain( domain ),
+	  _current_value( domain.at( index ) ),
+	  _min_value( *( std::min_element( _domain.begin(), _domain.end() ) ) ),
+	  _max_value( *( std::max_element( _domain.begin(), _domain.end() ) ) )
 {
-	this->swap( other );
-	return *this;
+	if( NBER_VAR < std::numeric_limits<unsigned int>::max() )
+		_id = NBER_VAR++;
+	else
+		_id = NBER_VAR = 0;
 }
 
-void Variable::swap( Variable &other )
+Variable::Variable( const std::string& name, int startValue, std::size_t size, int index )
+	: _name( name ),
+	  _domain( std::vector<int>( size ) ),
+	  _min_value( startValue ),
+	  _max_value( startValue + static_cast<int>( size ) - 1 )
 {
-	std::swap( this->_id,	other._id );
-	std::swap( this->_name,	other._name );
-	std::swap( this->_shortName, other._shortName );
-	std::swap( this->_domain,	other._domain );
-	std::swap( this->_index, other._index );
-	std::swap( this->_cache_value, other._cache_value );
-}  
+	if( NBER_VAR < std::numeric_limits<unsigned int>::max() )
+		_id = NBER_VAR++;
+	else
+		_id = NBER_VAR = 0;
+
+	std::iota( _domain.begin(), _domain.end(), startValue );
+	_current_value = _domain.at( index );
+}
+
+std::vector<int> Variable::get_partial_domain( int range ) const
+{
+	if( range == static_cast<int>( _domain.size() ) )
+		return _domain;
+	else
+	{
+		std::vector<int> partial_domain( range );
+		
+		// [---xxxIxxx-]
+		//        |
+		//        ^
+		//      index
+		int index = std::distance( _domain.cbegin(), std::find( _domain.cbegin(), _domain.cend(), _current_value ) );
+		int start_position = index - static_cast<int>( range / 2 );
+
+		if( start_position >= 0 )
+		{
+			// [---xxxIxxx-]
+			//     |
+			//     ^
+			// start_position
+			if( index + ( range - static_cast<int>( range / 2 ) ) <= static_cast<int>( _domain.size() ) )
+			{
+				std::copy( _domain.begin() + start_position,
+				           _domain.begin() + start_position + range,
+				           partial_domain.begin() );
+			}
+			// [xx----xxxIx]
+			//   |
+			//   ^
+			// end_position
+			else
+			{
+				int end_position = index + ( range - static_cast<int>( range / 2 ) ) - static_cast<int>( _domain.size() );
+				std::copy( _domain.begin(),
+				           _domain.begin() + end_position,
+				           partial_domain.begin() );
+				
+				std::copy( _domain.begin() + start_position,
+				           _domain.end(),
+				           partial_domain.begin() + end_position );
+			}
+		}
+		// [xIxxx----xx]
+		//      |    |
+		//      |    ^
+		//      | start_position
+		//      ^
+		//  end_position
+		else
+		{
+			int end_position = index + ( range - static_cast<int>( range / 2 ) );
+			// Remember: start_position is negative here
+			start_position += static_cast<int>( _domain.size() );
+			std::copy( _domain.begin(),
+			           _domain.begin() + end_position,
+			           partial_domain.begin() );
+
+			std::copy( _domain.begin() + start_position,
+			           _domain.end(),
+			           partial_domain.begin() + end_position );
+		}
+		
+		return partial_domain;
+	}
+}
