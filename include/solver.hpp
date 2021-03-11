@@ -311,6 +311,7 @@ namespace ghost
 #if defined(GHOST_TRACE)
 			std::cout << "Number of restarts performed so far: " << _restarts << "\n";
 			_print->print_candidate( _variables );
+			std::cout << "\n";
 #endif
 			
 			// Reset constraints costs
@@ -346,11 +347,10 @@ namespace ghost
 		void reset()
 		{
 			++_resets;
-			_previously_selected_variable_index = -1;
 			_must_compute_worst_variables_list = true;
 
 			// max between 2 variables and 10% of variables
-			int percent_to_reset = std::max( 2, static_cast<int>( _number_variables * 0.1 ) );
+			int percent_to_reset = std::max( 2, static_cast<int>( std::ceil( _number_variables * 0.1 ) ) );
 			
 			if( _is_permutation_problem )
 				random_permutations( percent_to_reset );
@@ -360,6 +360,7 @@ namespace ghost
 #if defined(GHOST_TRACE)
 			std::cout << "Number of resets performed so far: " << _resets << "\n";
 			_print->print_candidate( _variables );
+			std::cout << "\n";
 #endif
 			
 			// Reset constraints costs
@@ -914,10 +915,12 @@ namespace ghost
 				if( _is_permutation_problem )
 					std::cout << "\nPicked variable index for min conflict: "
 					          << new_value << "\n"
+					          << "Current error: " << _current_sat_error << "\n"
 					          << "Delta: " << min_conflict << "\n\n";
 				else
 					std::cout << "\nPicked value for min conflict: "
 					          << new_value << "\n"
+					          << "Current error: " << _current_sat_error << "\n"
 					          << "Delta: " << min_conflict << "\n\n";
 #endif
 				
@@ -955,7 +958,7 @@ namespace ghost
 						if( _best_sat_error > _current_sat_error )
 						{
 #if defined(GHOST_TRACE)
-							std::cout << "This is the best satisfaction error we have found so far (in an optimization problem). Before: " << _best_sat_error << ", now: " << _current_sat_error << "\n";
+							std::cout << "Best satisfaction error so far (in an optimization problem). Before: " << _best_sat_error << ", now: " << _current_sat_error << "\n";
 #endif
 							_best_sat_error = _current_sat_error;
 							std::transform( _variables.begin(),
@@ -969,13 +972,13 @@ namespace ghost
 						if( previous_sat_error > 0.0 || _current_opt_cost > candidate_opt_cost )
 						{
 #if defined(GHOST_TRACE)
-							std::cout << "The objective function is improved. Before: " << _current_opt_cost << ", now: " << candidate_opt_cost << "\n";
+							std::cout << "Improve the objective. Before: " << _current_opt_cost << ", now: " << candidate_opt_cost << "\n";
 #endif
 							_current_opt_cost = candidate_opt_cost;
 							if( _best_opt_cost > _current_opt_cost )
 							{
 #if defined(GHOST_TRACE)
-								std::cout << "The objective function value is the best one so far. Before: " << _best_opt_cost << ", now: " << _current_opt_cost << "\n";
+								std::cout << "Best objective function value so far. Before: " << _best_opt_cost << ", now: " << _current_opt_cost << "\n";
 #endif
 								_best_opt_cost = _current_opt_cost;
 								std::transform( _variables.begin(),
@@ -1097,7 +1100,7 @@ namespace ghost
 					if( _best_sat_error > _current_sat_error )
 					{
 #if defined(GHOST_TRACE)
-						std::cout << "This is the best satisfaction error we have found so far. Before: " << _best_sat_error << ", now: " << _current_sat_error << "\n";
+						std::cout << "Best satisfaction error so far. Before: " << _best_sat_error << ", now: " << _current_sat_error << "\n";
 #endif
 						_best_sat_error = _current_sat_error;
 						std::transform( _variables.begin(),
