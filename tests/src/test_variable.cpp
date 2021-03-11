@@ -173,97 +173,98 @@ TEST_F(VariableTest, PartialDomains)
   EXPECT_THAT( var_ctor4->get_partial_domain( 1 ), ::testing::ElementsAre( 8 ) );
 }
 
-TEST_F(VariableTest, RandomValue)
-{
-	var_ctor1.pick_random_value();
-	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
-	var_ctor1.pick_random_value();
-	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
-	var_ctor1.pick_random_value();
-	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
-	var_ctor1.pick_random_value();
-	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
-	var_ctor1.pick_random_value();
-	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
-	var_ctor1.pick_random_value();
-	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
-	var_ctor1.pick_random_value();
-	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
-	var_ctor1.pick_random_value();
-	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
-	var_ctor1.pick_random_value();
-	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
-	var_ctor1.pick_random_value();
-	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
-	var_ctor1.pick_random_value();
-	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
-	var_ctor1.pick_random_value();
-	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
-	var_ctor1.pick_random_value();
-	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
-	var_ctor1.pick_random_value();
-	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
-	var_ctor1.pick_random_value();
-	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
+// Variable::pick_random_value() is private since GHOST v3
+// TEST_F(VariableTest, RandomValue)
+// {
+// 	var_ctor1.pick_random_value();
+// 	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
+// 	var_ctor1.pick_random_value();
+// 	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
+// 	var_ctor1.pick_random_value();
+// 	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
+// 	var_ctor1.pick_random_value();
+// 	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
+// 	var_ctor1.pick_random_value();
+// 	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
+// 	var_ctor1.pick_random_value();
+// 	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
+// 	var_ctor1.pick_random_value();
+// 	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
+// 	var_ctor1.pick_random_value();
+// 	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
+// 	var_ctor1.pick_random_value();
+// 	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
+// 	var_ctor1.pick_random_value();
+// 	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
+// 	var_ctor1.pick_random_value();
+// 	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
+// 	var_ctor1.pick_random_value();
+// 	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
+// 	var_ctor1.pick_random_value();
+// 	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
+// 	var_ctor1.pick_random_value();
+// 	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
+// 	var_ctor1.pick_random_value();
+// 	EXPECT_TRUE( CanFind( true, var_ctor1.get_value() ) );
 
-	var_ctor2->pick_random_value();
-	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
-	var_ctor2->pick_random_value();
-	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
-	var_ctor2->pick_random_value();
-	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
-	var_ctor2->pick_random_value();
-	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
-	var_ctor2->pick_random_value();
-	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
-	var_ctor2->pick_random_value();
-	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
-	var_ctor2->pick_random_value();
-	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
-	var_ctor2->pick_random_value();
-	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
-	var_ctor2->pick_random_value();
-	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
-	var_ctor2->pick_random_value();
-	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
-	var_ctor2->pick_random_value();
-	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
-	var_ctor2->pick_random_value();
-	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
-	var_ctor2->pick_random_value();
-	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
-	var_ctor2->pick_random_value();
-	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
-	var_ctor2->pick_random_value();
-	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
+// 	var_ctor2->pick_random_value();
+// 	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
+// 	var_ctor2->pick_random_value();
+// 	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
+// 	var_ctor2->pick_random_value();
+// 	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
+// 	var_ctor2->pick_random_value();
+// 	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
+// 	var_ctor2->pick_random_value();
+// 	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
+// 	var_ctor2->pick_random_value();
+// 	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
+// 	var_ctor2->pick_random_value();
+// 	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
+// 	var_ctor2->pick_random_value();
+// 	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
+// 	var_ctor2->pick_random_value();
+// 	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
+// 	var_ctor2->pick_random_value();
+// 	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
+// 	var_ctor2->pick_random_value();
+// 	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
+// 	var_ctor2->pick_random_value();
+// 	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
+// 	var_ctor2->pick_random_value();
+// 	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
+// 	var_ctor2->pick_random_value();
+// 	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
+// 	var_ctor2->pick_random_value();
+// 	EXPECT_TRUE( CanFind( false, var_ctor2->get_value() ) );
 
-	std::vector<int> count(5);
+// 	std::vector<int> count(5);
 
-	for( int i = 0 ; i < 10000 ; ++i )
-	{
-		var_ctor4->pick_random_value();
-		++count[ var_ctor4->get_value() - 4 ];
-	}
+// 	for( int i = 0 ; i < 10000 ; ++i )
+// 	{
+// 		var_ctor4->pick_random_value();
+// 		++count[ var_ctor4->get_value() - 4 ];
+// 	}
 
-	// random draw distribution should be between 18% and 22% for each number
-	EXPECT_GE( (double)count[0] / 100, 18 );
-	EXPECT_GE( (double)count[1] / 100, 18 );
-	EXPECT_GE( (double)count[2] / 100, 18 );
-	EXPECT_GE( (double)count[3] / 100, 18 );
-	EXPECT_GE( (double)count[4] / 100, 18 );
+// 	// random draw distribution should be between 18% and 22% for each number
+// 	EXPECT_GE( (double)count[0] / 100, 18 );
+// 	EXPECT_GE( (double)count[1] / 100, 18 );
+// 	EXPECT_GE( (double)count[2] / 100, 18 );
+// 	EXPECT_GE( (double)count[3] / 100, 18 );
+// 	EXPECT_GE( (double)count[4] / 100, 18 );
 
-	EXPECT_LE( (double)count[0] / 100, 22 );
-	EXPECT_LE( (double)count[1] / 100, 22 );
-	EXPECT_LE( (double)count[2] / 100, 22 );
-	EXPECT_LE( (double)count[3] / 100, 22 );
-	EXPECT_LE( (double)count[4] / 100, 22 );
+// 	EXPECT_LE( (double)count[0] / 100, 22 );
+// 	EXPECT_LE( (double)count[1] / 100, 22 );
+// 	EXPECT_LE( (double)count[2] / 100, 22 );
+// 	EXPECT_LE( (double)count[3] / 100, 22 );
+// 	EXPECT_LE( (double)count[4] / 100, 22 );
 
-	// std::cout << (double)count[0] / 100 << "% "
-	//           << (double)count[1] / 100 << "% "
-	//           << (double)count[2] / 100 << "% "
-	//           << (double)count[3] / 100 << "% "
-	//           << (double)count[4] / 100 << "%\n";
-}
+// 	// std::cout << (double)count[0] / 100 << "% "
+// 	//           << (double)count[1] / 100 << "% "
+// 	//           << (double)count[2] / 100 << "% "
+// 	//           << (double)count[3] / 100 << "% "
+// 	//           << (double)count[4] / 100 << "%\n";
+// }
 
 int main(int argc, char **argv)
 {
