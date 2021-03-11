@@ -68,8 +68,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 # add the library
-add_library(ghost SHARED src/variable.cpp src/constraint.cpp src/objective.cpp)
-add_library(ghost_static STATIC src/variable.cpp src/constraint.cpp src/objective.cpp)
+add_library(ghost SHARED src/variable.cpp src/constraint.cpp src/objective.cpp src/misc/print.cpp)
+add_library(ghost_static STATIC src/variable.cpp src/constraint.cpp src/objective.cpp src/misc/print.cpp)
 
 #gather headers list
 file(GLOB libHeadersList
@@ -91,7 +91,7 @@ install (FILES ${libMiscHeadersList} DESTINATION "include/ghost/misc")
 include (InstallRequiredSystemLibraries)
 set (CPACK_PACKAGE_NAME "GHOST")
 set (CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
-set (CPACK_PACKAGE_VERSION_MAJOR "2")
+set (CPACK_PACKAGE_VERSION_MAJOR "3")
 set (CPACK_PACKAGE_VERSION_MINOR "0")
 set (CPACK_PACKAGE_VERSION_PATCH "0")
 set (CPACK_PACKAGE_CONTACT "florian.richoux@polytechnique.edu")

@@ -27,4 +27,38 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
+#include <iostream>
+#include <iomanip>
+#include <limits>
+#include <cmath>
 
+#include "misc/print.hpp"
+
+using namespace ghost;
+
+void Print::print_candidate( const std::vector<Variable>& variables ) const
+{
+	if( !variables.empty() )
+	{
+		std::cout << "Variables:\n";
+		int max_element = std::numeric_limits<int>::min();
+		for( const auto& var : variables )
+			if( max_element < var.get_value() )
+				max_element = var.get_value();
+		
+		int indent_values = std::ceil( std::log10( max_element ) ) + 1;
+		int indent_indexes = std::ceil( std::log10( static_cast<int>( variables.size() ) ) );
+		for( int i = 0 ; i < static_cast<int>( variables.size() ) ; ++i )
+		{
+			if( i % 10 == 0 )
+			{
+				if( i != 0 )
+					std::cout << "\n";
+				std::cout << "v[" << std::setw( indent_indexes ) << i << "]:" << std::setw( indent_values ) << variables[i].get_value();
+			}
+			else
+				std::cout << ", v[" << std::setw( indent_indexes ) << i << "]:" << std::setw( indent_values ) << variables[i].get_value();
+		}
+		std::cout << "\n";
+	}
+}

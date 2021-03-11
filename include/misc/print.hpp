@@ -27,4 +27,17 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
+#pragma once
 
+#include <vector>
+
+#include "../variable.hpp"
+
+namespace ghost
+{
+	class Print
+	{
+	public:
+		virtual void print_candidate( const std::vector<Variable>& variables ) const;
+	};	
+}

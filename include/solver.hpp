@@ -44,8 +44,8 @@
 #include "variable.hpp"
 #include "constraint.hpp"
 #include "objective.hpp"
-#include "neighborhood.hpp"
 #include "misc/randutils.hpp"
+#include "misc/print.hpp"
 
 namespace ghost
 {
@@ -109,6 +109,9 @@ namespace ghost
 		// Neighborhood _neighborhood;
 		// std::vector< std::vector<int> > _neighbors;
 
+		std::unique_ptr<Print> _print; //!< Unique pointer of the printer of solution/candidates.
+
+		
 		//! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 
 		class NullObjective : public Objective
 		{
@@ -129,41 +132,6 @@ namespace ghost
 		};
 
 #if defined(GHOST_TRACE)
-		void print_solution()
-		{
-			int size_side = static_cast<int>( std::sqrt( _number_variables ) );
-			int size_side_small_square = static_cast<int>( std::sqrt( size_side ) );
-			
-			std::cout << "Solution:";
-			
-			for( int i = 0; i < _number_variables; ++i )
-			{
-				if( i%size_side == 0 )
-				{
-					std::cout << "\n";
-					
-					if( ( i/size_side) % size_side_small_square == 0 )
-						for( int j = 0; j <= 2*size_side + size_side_small_square + 1; ++j )
-							std::cout << "-";
-					
-					std::cout << "\n";
-				}
-				
-				if( i%size_side_small_square == 0 && i%size_side != 0)
-					std::cout << "   " << _variables[i].get_value();
-				else
-					std::cout << " " << _variables[i].get_value();
-			}
-			
-			std::cout << "\n";
-			
-			for( int j = 0; j <= 2*size_side + size_side_small_square + 1; ++j )
-				std::cout << "-";
-			
-			std::cout << "\n";
-		}
-		
-		
 		void print_variables()
 		{
 			std::cout << "Variables: ";
@@ -512,15 +480,17 @@ namespace ghost
 	public:
 		//! Solver's regular constructor
 		/*!
-		 * \param variables A reference to the vector of Variables.
-		 * \param constraints A reference to the vector of shared pointer of Constraints.
-		 * \param obj A shared pointer to the Objective.
+		 * \param variables A const reference to the vector of Variables.
+		 * \param constraints A const reference to the vector of variant Constraint-derivated objects.
+		 * \param obj A unique pointer to the Objective.
 		 * \param permutation_problem A boolean indicating if we work on a permutation problem. False by default.
+		 * \param print A unique pointer to the printer of solution/candidates (useful to debug your model).
 		 */
 		Solver( const std::vector<Variable>& variables, 
 		        const std::vector<std::variant<ConstraintType ...>>&	constraints,
 		        std::unique_ptr<Objective> objective,
-		        bool permutation_problem = false )
+		        bool permutation_problem = false,
+		        std::unique_ptr<Print> print = nullptr )
 			: _variables ( variables ), 
 			  _constraints ( constraints ),
 			  _objective ( std::move( objective ) ),
@@ -542,12 +512,16 @@ namespace ghost
 			  _current_opt_cost( std::numeric_limits<double>::max() ),
 			  _cost_before_postprocess( std::numeric_limits<double>::max() ),
 			  _restarts( 0 ),
-			  _is_permutation_problem( permutation_problem )
+			  _is_permutation_problem( permutation_problem ),
+			  _print ( std::move( print ) )
 			  // _neighborhood ( { 1, 1.0, permutation_problem, 1.0 } )
 		{
 			if( !_is_optimization )
 				_objective = std::make_unique<NullObjective>( _variables );
 
+			if( _print == nullptr )
+				_print = std::make_unique<Print>();
+			
 			// Set the id of each constraint object to be their index in the _constraints vector
 			for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
 				std::visit( [&](Constraint& ctr){ ctr._id = constraint_id; }, _constraints[ constraint_id ] );
@@ -601,14 +575,16 @@ namespace ghost
 
 		//! Second Solver's constructor, without Objective
 		/*!
-		 * \param variables A reference to the vector of Variables.
-		 * \param constraints A reference to the vector of shared pointer of Constraints.
+		 * \param variables A const reference to the vector of Variables.
+		 * \param constraints A const reference to the vector of variant Constraint-derivated objects.
 		 * \param permutation_problem A boolean indicating if we work on a permutation problem. False by default.
+		 * \param print A unique pointer to the printer of solution/candidates (useful to debug your model).
 		 */
 		Solver( const std::vector<Variable>& variables, 
 		        const std::vector<std::variant<ConstraintType ...>>&	constraints,
-		        bool permutation_problem = false )
-			: Solver( variables, constraints, nullptr, permutation_problem )
+		        bool permutation_problem = false,
+		        std::unique_ptr<Print> print = nullptr )
+			: Solver( variables, constraints, nullptr, permutation_problem, std::move( print ) )
 		{ }
     
 		//! Solver's main function, to solve the given CSP/COP/CFN.
@@ -730,7 +706,7 @@ namespace ghost
 				// 	std::cout << "\n";
 				// }
 				// std::cout << "\n";
-				print_solution();
+				_print->print_candidate( _variables );
 				std::cout << "\n\nNumber of loop iteration: " << search_iterations << "\n";
 				std::cout << "Last variable id selected: " << _previously_selected_variable_index << "\n";
 				std::cout << "Worst variables list:\n";
@@ -1151,7 +1127,10 @@ namespace ghost
 
 #if defined(GHOST_DEBUG) || defined(GHOST_TRACE) || defined(GHOST_BENCH)
 			std::cout << "############" << "\n";
-      
+
+			// Print solution
+			_print->print_candidate( _variables );
+			
 			if( !_is_optimization )
 				std::cout << "SATISFACTION run" << "\n";
 			else
