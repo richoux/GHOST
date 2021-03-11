@@ -25,7 +25,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: ilammy/msvc-dev-cmd@v1.4.1
-		
+
     - name: Install gtest manually
       run: git clone https://github.com/google/googletest.git && cd googletest && mkdir build && cd build && cmake .. -DGTEST_CREATE_SHARED_LIBRARY=1 -Dgtest_force_shared_crt=ON -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON && cmake --build . --config Release && cmake --install . --config Release
 
