@@ -104,6 +104,7 @@ namespace ghost
 		double _current_opt_cost;
 		double _cost_before_postprocess;
 		int    _restarts;
+		int    _resets;
 
 		bool _is_permutation_problem;
 		// Neighborhood _neighborhood;
@@ -232,24 +233,62 @@ namespace ghost
 		}
 
 		//! Sample an configuration
-		void monte_carlo_sampling()
+		void monte_carlo_sampling( int number_variables = -1 )
 		{
-			for( auto& v : _variables )
-				v.pick_random_value();
+			if( number_variables == -1 )
+				number_variables = _number_variables;
+
+			std::vector<int> variables_index( _number_variables );
+			std::iota( variables_index.begin(), variables_index.end(), 0 );
+			_rng.shuffle( variables_index );
+			
+			for( int i = 0 ; i < number_variables ; ++i )
+				_variables[ variables_index[ i ] ].pick_random_value();
 		}
 
 		//! Sample an configuration for permutation problems
-		void random_permutations()
+		void random_permutations( int number_variables = -1 )
 		{
-			for( unsigned int i = 0 ; i < _variables.size() - 1 ; ++i )
-				for( unsigned int j = i + 1 ; j < _variables.size() ; ++j )
-				{
-					// 50% to do a swap for each couple (var_i, var_j)
-					if( _rng.uniform( 0, 1 ) == 0 )
+			if( number_variables == -1 )
+			{
+				for( unsigned int i = 0 ; i < _variables.size() - 1 ; ++i )
+					for( unsigned int j = i + 1 ; j < _variables.size() ; ++j )
 					{
-						std::swap( _variables[i]._current_value, _variables[j]._current_value );
+						// 50% to do a swap for each couple (var_i, var_j)
+						if( _rng.uniform( 0, 1 ) == 0
+						    && i != j
+						    && _variables[ i ].get_value() != _variables[ j ].get_value()
+						    && std::find( _variables[ j ].get_full_domain().begin(),
+						                  _variables[ j ].get_full_domain().end(),
+						                  _variables[ i ].get_value() ) != _variables[ j ].get_full_domain().end()
+						    && std::find( _variables[ i ].get_full_domain().begin(),
+						                  _variables[ i ].get_full_domain().end(),
+						                  _variables[ j ].get_value() ) != _variables[ i ].get_full_domain().end() )
+						{
+							std::swap( _variables[i]._current_value, _variables[j]._current_value );
+						}
 					}
-				}
+			}
+			else
+			{
+				std::vector<int> variables_index_A( _number_variables );
+				std::vector<int> variables_index_B( _number_variables );
+				std::iota( variables_index_A.begin(), variables_index_A.end(), 0 );
+				std::iota( variables_index_B.begin(), variables_index_B.end(), 0 );
+				_rng.shuffle( variables_index_A );
+				_rng.shuffle( variables_index_B );
+
+				for( int i = 0 ; i < number_variables ; ++i )
+					if( variables_index_A[i] != variables_index_B[i]
+					    && _variables[ variables_index_A[i] ].get_value() != _variables[ variables_index_B[i] ].get_value()
+					    && std::find( _variables[ variables_index_B[i] ].get_full_domain().begin(),
+					                  _variables[ variables_index_B[i] ].get_full_domain().end(),
+					                  _variables[ variables_index_A[i] ].get_value() ) != _variables[ variables_index_B[i] ].get_full_domain().end()
+					    && std::find( _variables[ variables_index_A[i] ].get_full_domain().begin(),
+					                  _variables[ variables_index_A[i] ].get_full_domain().end(),
+					                  _variables[ variables_index_B[i] ].get_value() ) != _variables[ variables_index_A[i] ].get_full_domain().end() )
+						std::swap( _variables[ variables_index_A[i] ]._current_value, _variables[ variables_index_B[i] ]._current_value );
+			}
 		}
 
 		void restart()
@@ -271,6 +310,55 @@ namespace ghost
 
 #if defined(GHOST_TRACE)
 			std::cout << "Number of restarts performed so far: " << _restarts << "\n";
+			_print->print_candidate( _variables );
+#endif
+			
+			// Reset constraints costs
+			for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
+				std::visit( [&](Constraint& ctr){ ctr._current_error = 0.0; }, _constraints[ constraint_id ] );
+
+			// Send the current variables assignment to the constraints.
+			for( unsigned int variable_id = 0 ; variable_id < _number_variables ; ++variable_id )
+			{
+				for( unsigned int constraint_id : _matrix_var_ctr[ variable_id ] )
+					call_update_variable( constraint_id, variable_id, _variables[ variable_id ].get_value() );
+
+				_objective->update_variable( variable_id, _variables[ variable_id ].get_value() );
+			}
+			
+			// (Re)compute constraint error and get the total current satisfaction error
+			_current_sat_error = compute_constraints_errors();
+			// (Re)compute the current optimization cost
+			if( _is_optimization )
+			{
+				if( _current_sat_error == 0 ) [[unlikely]]
+					_current_opt_cost = _objective->cost();
+				else
+					_current_opt_cost = std::numeric_limits<double>::max();
+			}
+			
+			// Reset variable costs
+			std::fill( _error_variables.begin(), _error_variables.end(), 0.0 ); 
+			// Recompute them
+			compute_variables_errors();
+		}
+
+		void reset()
+		{
+			++_resets;
+			_previously_selected_variable_index = -1;
+			_must_compute_worst_variables_list = true;
+
+			// max between 2 variables and 10% of variables
+			int percent_to_reset = std::max( 2, static_cast<int>( _number_variables * 0.1 ) );
+			
+			if( _is_permutation_problem )
+				random_permutations( percent_to_reset );
+			else
+				monte_carlo_sampling( percent_to_reset );
+
+#if defined(GHOST_TRACE)
+			std::cout << "Number of resets performed so far: " << _resets << "\n";
 			_print->print_candidate( _variables );
 #endif
 			
@@ -503,6 +591,7 @@ namespace ghost
 			  _current_opt_cost( std::numeric_limits<double>::max() ),
 			  _cost_before_postprocess( std::numeric_limits<double>::max() ),
 			  _restarts( 0 ),
+			  _resets( 0 ),
 			  _is_permutation_problem( permutation_problem ),
 			  _print ( std::move( print ) )
 			  // _neighborhood ( { 1, 1.0, permutation_problem, 1.0 } )
@@ -915,10 +1004,10 @@ namespace ghost
 								if( _worst_variables_list.empty() && _rng.uniform(0.0, 1.0) < 0.1 )
 								{
 #if defined(GHOST_TRACE)
-									std::cout << "Restart!\n";
+									std::cout << "Reset!\n";
 #endif
 									elapsed_time = std::chrono::steady_clock::now() - start;
-									restart();
+									reset();
 									continue;
 								}
 								else
@@ -952,10 +1041,10 @@ namespace ghost
 							else
 							{
 #if defined(GHOST_TRACE)
-								std::cout << "The objective function cost is worst. Restart.\n";
+								std::cout << "The objective function cost is worst. Reset.\n";
 #endif
 								elapsed_time = std::chrono::steady_clock::now() - start;
-								restart();
+								reset();
 								continue;
 							}
 						}
@@ -966,10 +1055,10 @@ namespace ghost
 						if( min_conflict == 0.0 && _worst_variables_list.empty() && _rng.uniform(0.0, 1.0) < 0.1 )
 						{
 #if defined(GHOST_TRACE)
-						std::cout << "It is a satisfaction plateau and we restart.\n";
+						std::cout << "It is a satisfaction plateau and we reset.\n";
 #endif
 							elapsed_time = std::chrono::steady_clock::now() - start;
-							restart();
+							reset();
 							continue;
 						}
 
@@ -1027,12 +1116,12 @@ namespace ghost
 				else // Explore other worst variables, or restart mechanism to escape local minima if there are no other such variables
 				{
 #if defined(GHOST_TRACE)
-					std::cout << "The satisfaction error is worst. Restart.\n";
+					std::cout << "The satisfaction error is worst. Reset.\n";
 #endif
 					if( _worst_variables_list.empty() )
 					{
 						elapsed_time = std::chrono::steady_clock::now() - start;
-						restart();
+						reset();
 						continue;
 					}
 					else
@@ -1086,7 +1175,8 @@ namespace ghost
 			std::cout << "Elapsed time: " << elapsed_time.count() / 1000 << "ms\n"
 			          << "Satisfaction error: " << _best_sat_error << "\n"
 			          << "Number of search iterations: " << search_iterations << "\n"
-			          << "Number of restarts: " << _restarts << "\n";
+			          << "Number of restarts: " << _restarts << "\n"
+			          << "Number of resets: " << _resets << "\n";
 
 			if( _is_optimization )
 				std::cout << "Optimization cost: " << _best_opt_cost << "\n"
