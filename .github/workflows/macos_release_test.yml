@@ -11,7 +11,7 @@ on:
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
-  CXX: clang++-9
+  CXX: clang++
   EXPERIMENTAL: ""
 
 jobs:
@@ -23,10 +23,16 @@ jobs:
     runs-on: macos-latest
 
     steps:
+    - uses: actions/checkout@v2
+
+		- name: Update clang
+      run: |
+        brew update
+        brew upgrade llvm
+				export CXX="/usr/local/opt/llvm/bin/clang++"
+
     - name: Install gtest manually
       run: git clone https://github.com/google/googletest.git && cd googletest && mkdir build && cd build && cmake .. && make && sudo make install
-
-    - uses: actions/checkout@v2
 
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
