@@ -1,4 +1,4 @@
-GHOST [![1.0.1](https://img.shields.io/badge/stable-1.0.1-brightgreen.svg)](https://github.com/richoux/GHOST/releases/tag/1.0.1) [![1.0.x](https://img.shields.io/badge/latest-1.0.x-f57f17.svg)](https://github.com/richoux/GHOST/tree/develop)
+GHOST [![2.0.0](https://img.shields.io/badge/stable-2.0.0-brightgreen.svg)](https://github.com/richoux/GHOST/releases/tag/2.0.0) [![2.0.x](https://img.shields.io/badge/latest-2.0.x-f57f17.svg)](https://github.com/richoux/GHOST/tree/develop)
 =====
 
 [![Actions Status](https://github.com/richoux/GHOST/workflows/Linux_Release_Test/badge.svg)](https://github.com/richoux/GHOST/actions)  
