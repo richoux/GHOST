@@ -49,15 +49,6 @@
 
 namespace ghost
 {
-	// template<typename ... ConstraintType>
-	// std::vector<std::variant<ConstraintType ...>> initiate_vector_constraints()
-	// {
-	// 	return std::vector<std::variant<ConstraintType ...>>();
-	// }
-
-
-
-	
 	//! Solver is the class coding the solver itself.
 	/*!
 	 * To solve a problem instance, you must instanciate a Solver object, then run Solver::solve.
@@ -88,14 +79,12 @@ namespace ghost
 		unsigned int _number_variables; //!< Size of the vector of variables.
 		unsigned int _number_constraints; //!< Size of the vector of constraints.
 		std::vector<std::vector<unsigned int> > _matrix_var_ctr; //!< Matrix to know in which constraints each variable is.
-		//int _previously_selected_variable_index;
 		std::vector<int> _tabu_list; //!< The tabu list, frozing used variables for tabu_time iterations.
 		
 		std::vector<unsigned int> _worst_variables_list;
 		bool _must_compute_worst_variables_list;
 		
 		std::vector<double> _error_variables;
-		// std::vector<double> _error_non_tabu_variables;
 
 		double _best_sat_error; //!< The satisfaction cost of the best solution.
 		double _best_opt_cost; //!< The optimization cost of the best solution.
@@ -293,7 +282,6 @@ namespace ghost
 		void restart()
 		{
 			++_restarts;
-			//_previously_selected_variable_index = -1;
 			_must_compute_worst_variables_list = true;
 			
 			//Reset tabu list
@@ -421,31 +409,11 @@ namespace ghost
 		//! To compute the vector of variables which are principal culprits for not satisfying the problem
 		void compute_worst_variables()
 		{
-			// double worst_variableCost = 0.0;
-			// _number_worst_variables = 0;
-
-			// for( int id = 0 ; id < _number_variables ; ++id )
-			// {
-			// 	if( worst_variableCost < _error_variables[ id ] )
-			// 	{
-			// 		worst_variableCost = _error_variables[ id ];
-			// 		_number_worst_variables = 0;
-			// 		_worst_variables_list[ _number_worst_variables++ ] = id;
-			// 	}
-			// 	else
-			// 		if( worst_variableCost == _error_variables[ id ] )
-			// 			_worst_variables_list[ _number_worst_variables++ ] = id;
-			// }
-
 #if defined(GHOST_TRACE)
 			print_errors();
 #endif
-			
-			// double worst_variable_cost = *( std::max_element( _error_variables.begin(), _error_variables.end() ) );
-			// _worst_variables_list.clear();
 			double worst_variable_cost = -1;
 			for( unsigned int variable_id = 0; variable_id < _number_variables; ++variable_id )
-				// if( worst_variable_cost <= _error_variables[ variable_id ] && variable_id != _previously_selected_variable_index )
 				if( worst_variable_cost <= _error_variables[ variable_id ] && _tabu_list[ variable_id ] == 0 )
 				{
 					if( worst_variable_cost < _error_variables[ variable_id ] )
@@ -458,20 +426,6 @@ namespace ghost
 						if( worst_variable_cost == _error_variables[ variable_id ] )
 							_worst_variables_list.push_back( variable_id );
 				}
-			
-			
-			// double worst_variableCost = 0.0;
-			
-			// for( unsigned int variable_id = 0; variable_id < _number_variables; ++variable_id )
-			// 	if( worst_variableCost < _error_variables[ variable_id ] )
-			// 	{
-			// 		_worst_variables_list.clear();
-			// 		_worst_variables_list.push_back( variable_id );
-			// 		worst_variableCost = _error_variables[ variable_id ];
-			// 	}
-			// 	else
-			// 		if( worst_variableCost == _error_variables[ variable_id ] )
-			// 			_worst_variables_list.push_back( variable_id );
 		}
 #endif
 
@@ -492,7 +446,7 @@ namespace ghost
 			return satisfaction_error;
 		}
 
-		//! Compute the variable cost of each variables and fill up maps _error_variables and _error_non_tabu_variables 
+		//! Compute the variable cost of each variables and fill up _error_variables 
 		void compute_variables_errors()
 		{
 			for( unsigned int variable_id = 0; variable_id < _number_variables; ++variable_id )
@@ -566,16 +520,13 @@ namespace ghost
 			  _objective ( std::move( objective ) ),
 			  _is_optimization ( _objective == nullptr ? false : true ),
 			  _no_random_starting_point( false ),
-			  // _free_variables( true ),
 			  _number_variables ( static_cast<unsigned int>( variables.size() ) ),
 			  _number_constraints ( static_cast<unsigned int>( constraints.size() ) ),
 			  _matrix_var_ctr ( std::vector<std::vector<unsigned int> >( _number_variables ) ),
-			  //_previously_selected_variable_index ( -1 ),
 			  _tabu_list( std::vector<int>( _number_variables, 0 ) ),
 			  _worst_variables_list( std::vector<unsigned int>( _number_variables, 0 ) ),
 			  _must_compute_worst_variables_list( true ),
 			  _error_variables( std::vector<double>( _number_variables, 0.0 ) ),
-			  //_error_non_tabu_variables( std::vector<double>( _number_variables, 0.0 ) ),
 			  _best_sat_error( std::numeric_limits<double>::max() ),
 			  _best_opt_cost( std::numeric_limits<double>::max() ),
 			  _current_sat_error( std::numeric_limits<double>::max() ),
@@ -770,17 +721,8 @@ namespace ghost
 				auto variable_to_change = _rng.pick( _worst_variables_list );
 				
 #if defined(GHOST_TRACE)
-				// for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
-				// {
-				// 	std::cout << "Scope of constraint num. " << constraint_id << ": ";
-				// 	for( auto variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, _constraints[ constraint_id ] ) )
-				// 		std::cout << "v[" << variable_id << "]=" << _variables[variable_id].get_value() << " ";
-				// 	std::cout << "\n";
-				// }
-				// std::cout << "\n";
 				_print->print_candidate( _variables );
 				std::cout << "\n\nNumber of loop iteration: " << search_iterations << "\n";
-				//std::cout << "Last variable id selected: " << _previously_selected_variable_index << "\n";
 				std::cout << "Tabu list:";
 				for( int i = 0 ; i < _number_variables ; ++i )
 					if( _tabu_list[i] > 0 )
@@ -791,7 +733,6 @@ namespace ghost
 				std::cout << "\nPicked worst variable: v[" << variable_to_change << "]=" << _variables[ variable_to_change ].get_value() << "\n\n";
 #endif
 				_worst_variables_list.erase( std::find( _worst_variables_list.begin(), _worst_variables_list.end(), variable_to_change ) );
-				// _previously_selected_variable_index = variable_to_change;
 				// So far, we consider full domains only.
 				auto domain_to_explore = _variables[ variable_to_change ].get_full_domain();
 				// Remove the current value
