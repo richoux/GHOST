@@ -49,15 +49,6 @@
 
 namespace ghost
 {
-	// template<typename ... ConstraintType>
-	// std::vector<std::variant<ConstraintType ...>> initiate_vector_constraints()
-	// {
-	// 	return std::vector<std::variant<ConstraintType ...>>();
-	// }
-
-
-
-	
 	//! Solver is the class coding the solver itself.
 	/*!
 	 * To solve a problem instance, you must instanciate a Solver object, then run Solver::solve.
@@ -88,14 +79,13 @@ namespace ghost
 		unsigned int _number_variables; //!< Size of the vector of variables.
 		unsigned int _number_constraints; //!< Size of the vector of constraints.
 		std::vector<std::vector<unsigned int> > _matrix_var_ctr; //!< Matrix to know in which constraints each variable is.
-		//int _previously_selected_variable_index;
 		std::vector<int> _tabu_list; //!< The tabu list, frozing used variables for tabu_time iterations.
+		int _number_tabu_variables; //!< Number of variables marked as tabu.
 		
 		std::vector<unsigned int> _worst_variables_list;
 		bool _must_compute_worst_variables_list;
 		
 		std::vector<double> _error_variables;
-		// std::vector<double> _error_non_tabu_variables;
 
 		double _best_sat_error; //!< The satisfaction cost of the best solution.
 		double _best_opt_cost; //!< The optimization cost of the best solution.
@@ -293,12 +283,12 @@ namespace ghost
 		void restart()
 		{
 			++_restarts;
-			//_previously_selected_variable_index = -1;
 			_must_compute_worst_variables_list = true;
 			
 			//Reset tabu list
 			std::fill( _tabu_list.begin(), _tabu_list.end(), 0 ); 
-
+			_number_tabu_variables = 0;
+			
 			// Start from a random configuration, if no_random_starting_point is false
 			if( !_no_random_starting_point )
 				set_initial_configuration( 10 );
@@ -347,6 +337,10 @@ namespace ghost
 		{
 			++_resets;
 			_must_compute_worst_variables_list = true;
+
+			//Reset tabu list
+			std::fill( _tabu_list.begin(), _tabu_list.end(), 0 ); 
+			_number_tabu_variables = 0;
 
 			// max between 2 variables and 10% of variables
 			int percent_to_reset = std::max( 2, static_cast<int>( std::ceil( _number_variables * 0.1 ) ) );
@@ -410,10 +404,19 @@ namespace ghost
 		// Decreasing values within the tabu list
 		void decay_tabu_list()
 		{
-			std::transform( _tabu_list.begin(),
-			                _tabu_list.end(),
-			                _tabu_list.begin(),
-			                [&] (int tabu) -> int { return std::max( 0, tabu - 1 ); } );
+			for( int i = 0 ; i < _number_variables ; ++i )
+			{
+				if( _tabu_list[i] > 0 )
+				{
+					if( _tabu_list[i] == 1 )
+						--_number_tabu_variables;
+					--_tabu_list[i];
+				}
+			}			
+			// std::transform( _tabu_list.begin(),
+			//                 _tabu_list.end(),
+			//                 _tabu_list.begin(),
+			//                 [&] (int tabu) -> int { return std::max( 0, tabu - 1 ); } );
 		}
 
 
@@ -421,31 +424,11 @@ namespace ghost
 		//! To compute the vector of variables which are principal culprits for not satisfying the problem
 		void compute_worst_variables()
 		{
-			// double worst_variableCost = 0.0;
-			// _number_worst_variables = 0;
-
-			// for( int id = 0 ; id < _number_variables ; ++id )
-			// {
-			// 	if( worst_variableCost < _error_variables[ id ] )
-			// 	{
-			// 		worst_variableCost = _error_variables[ id ];
-			// 		_number_worst_variables = 0;
-			// 		_worst_variables_list[ _number_worst_variables++ ] = id;
-			// 	}
-			// 	else
-			// 		if( worst_variableCost == _error_variables[ id ] )
-			// 			_worst_variables_list[ _number_worst_variables++ ] = id;
-			// }
-
 #if defined(GHOST_TRACE)
 			print_errors();
 #endif
-			
-			// double worst_variable_cost = *( std::max_element( _error_variables.begin(), _error_variables.end() ) );
-			// _worst_variables_list.clear();
 			double worst_variable_cost = -1;
 			for( unsigned int variable_id = 0; variable_id < _number_variables; ++variable_id )
-				// if( worst_variable_cost <= _error_variables[ variable_id ] && variable_id != _previously_selected_variable_index )
 				if( worst_variable_cost <= _error_variables[ variable_id ] && _tabu_list[ variable_id ] == 0 )
 				{
 					if( worst_variable_cost < _error_variables[ variable_id ] )
@@ -458,20 +441,6 @@ namespace ghost
 						if( worst_variable_cost == _error_variables[ variable_id ] )
 							_worst_variables_list.push_back( variable_id );
 				}
-			
-			
-			// double worst_variableCost = 0.0;
-			
-			// for( unsigned int variable_id = 0; variable_id < _number_variables; ++variable_id )
-			// 	if( worst_variableCost < _error_variables[ variable_id ] )
-			// 	{
-			// 		_worst_variables_list.clear();
-			// 		_worst_variables_list.push_back( variable_id );
-			// 		worst_variableCost = _error_variables[ variable_id ];
-			// 	}
-			// 	else
-			// 		if( worst_variableCost == _error_variables[ variable_id ] )
-			// 			_worst_variables_list.push_back( variable_id );
 		}
 #endif
 
@@ -492,7 +461,7 @@ namespace ghost
 			return satisfaction_error;
 		}
 
-		//! Compute the variable cost of each variables and fill up maps _error_variables and _error_non_tabu_variables 
+		//! Compute the variable cost of each variables and fill up _error_variables 
 		void compute_variables_errors()
 		{
 			for( unsigned int variable_id = 0; variable_id < _number_variables; ++variable_id )
@@ -554,28 +523,23 @@ namespace ghost
 		 * \param constraints A const reference to the vector of variant Constraint-derivated objects.
 		 * \param obj A unique pointer to the Objective.
 		 * \param permutation_problem A boolean indicating if we work on a permutation problem. False by default.
-		 * \param print A unique pointer to the printer of solution/candidates (useful to debug your model).
 		 */
 		Solver( const std::vector<Variable>& variables, 
 		        const std::vector<std::variant<ConstraintType ...>>&	constraints,
 		        std::unique_ptr<Objective> objective,
-		        bool permutation_problem = false,
-		        std::unique_ptr<Print> print = nullptr )
+		        bool permutation_problem = false )
 			: _variables ( variables ), 
 			  _constraints ( constraints ),
 			  _objective ( std::move( objective ) ),
 			  _is_optimization ( _objective == nullptr ? false : true ),
 			  _no_random_starting_point( false ),
-			  // _free_variables( true ),
 			  _number_variables ( static_cast<unsigned int>( variables.size() ) ),
 			  _number_constraints ( static_cast<unsigned int>( constraints.size() ) ),
 			  _matrix_var_ctr ( std::vector<std::vector<unsigned int> >( _number_variables ) ),
-			  //_previously_selected_variable_index ( -1 ),
 			  _tabu_list( std::vector<int>( _number_variables, 0 ) ),
 			  _worst_variables_list( std::vector<unsigned int>( _number_variables, 0 ) ),
 			  _must_compute_worst_variables_list( true ),
 			  _error_variables( std::vector<double>( _number_variables, 0.0 ) ),
-			  //_error_non_tabu_variables( std::vector<double>( _number_variables, 0.0 ) ),
 			  _best_sat_error( std::numeric_limits<double>::max() ),
 			  _best_opt_cost( std::numeric_limits<double>::max() ),
 			  _current_sat_error( std::numeric_limits<double>::max() ),
@@ -583,15 +547,11 @@ namespace ghost
 			  _cost_before_postprocess( std::numeric_limits<double>::max() ),
 			  _restarts( 0 ),
 			  _resets( 0 ),
-			  _is_permutation_problem( permutation_problem ),
-			  _print ( std::move( print ) )
+			  _is_permutation_problem( permutation_problem )
 			  // _neighborhood ( { 1, 1.0, permutation_problem, 1.0 } )
 		{
 			if( !_is_optimization )
 				_objective = std::make_unique<NullObjective>( _variables );
-
-			if( _print == nullptr )
-				_print = std::make_unique<Print>();
 			
 			// Set the id of each constraint object to be their index in the _constraints vector
 			for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
@@ -649,13 +609,11 @@ namespace ghost
 		 * \param variables A const reference to the vector of Variables.
 		 * \param constraints A const reference to the vector of variant Constraint-derivated objects.
 		 * \param permutation_problem A boolean indicating if we work on a permutation problem. False by default.
-		 * \param print A unique pointer to the printer of solution/candidates (useful to debug your model).
 		 */
 		Solver( const std::vector<Variable>& variables, 
 		        const std::vector<std::variant<ConstraintType ...>>&	constraints,
-		        bool permutation_problem = false,
-		        std::unique_ptr<Print> print = nullptr )
-			: Solver( variables, constraints, nullptr, permutation_problem, std::move( print ) )
+		        bool permutation_problem = false )
+			: Solver( variables, constraints, nullptr, permutation_problem )
 		{ }
     
 		//! Solver's main function, to solve the given CSP/COP/CFN.
@@ -703,12 +661,14 @@ namespace ghost
 		 * \param sat_timeout The satisfaction timeout in microseconds.
 		 * \param opt_timeout The optimization timeout in microseconds (optionnal, equals to 10 times sat_timeout is not set).
 		 * \param no_random_starting_point A Boolean to indicate if the solver should not start from a random starting point. This is necessary in particular to use the resume feature.
+		 * \param print A unique pointer to the printer of solution/candidates (useful to debug your model).
 		 * \return True iff a solution has been found.
 		 */
 		bool solve( double& final_cost,
 		            std::vector<int>& final_solution,
 		            double timeout,
-		            bool no_random_starting_point = false )
+		            bool no_random_starting_point = false,
+		            std::unique_ptr<Print> print = nullptr )
 		{
 			// TODO: No random starting point / resume feature
 			// TODO: Antidote search
@@ -716,9 +676,13 @@ namespace ghost
 			// TODO: Postprocess
 
 			_no_random_starting_point = no_random_starting_point;
+			if( print != nullptr )
+				_print = std::move( print );
+			else
+				_print = std::make_unique<Print>();
 			
 			// The only parameter of Solver<Variable, Constraint>::solve outside timeouts
-			int tabu_time_local_min = std::max( std::min( 5, static_cast<int>( _number_variables ) ), static_cast<int>( std::ceil( _number_variables / 5 ) ) ) + 1;
+			int tabu_time_local_min = std::max( std::min( 5, static_cast<int>( _number_variables ) - 1 ), static_cast<int>( std::ceil( _number_variables / 5 ) ) ) + 1;
 			int tabu_time_selected = 2;
 			
 			std::chrono::duration<double,std::micro> elapsed_time( 0 );
@@ -767,20 +731,20 @@ namespace ghost
 // 					_worst_variable = _rng.variate<int, std::discrete_distribution>( _error_variables );
 // #endif
 
+				if( _worst_variables_list.empty() )
+				{
+#if defined(GHOST_TRACE)
+					std::cout << "No variables left to be changed: reset.\n";
+#endif					
+					reset();
+					continue;
+				}
+				
 				auto variable_to_change = _rng.pick( _worst_variables_list );
 				
 #if defined(GHOST_TRACE)
-				// for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
-				// {
-				// 	std::cout << "Scope of constraint num. " << constraint_id << ": ";
-				// 	for( auto variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, _constraints[ constraint_id ] ) )
-				// 		std::cout << "v[" << variable_id << "]=" << _variables[variable_id].get_value() << " ";
-				// 	std::cout << "\n";
-				// }
-				// std::cout << "\n";
 				_print->print_candidate( _variables );
 				std::cout << "\n\nNumber of loop iteration: " << search_iterations << "\n";
-				//std::cout << "Last variable id selected: " << _previously_selected_variable_index << "\n";
 				std::cout << "Tabu list:";
 				for( int i = 0 ; i < _number_variables ; ++i )
 					if( _tabu_list[i] > 0 )
@@ -791,7 +755,6 @@ namespace ghost
 				std::cout << "\nPicked worst variable: v[" << variable_to_change << "]=" << _variables[ variable_to_change ].get_value() << "\n\n";
 #endif
 				_worst_variables_list.erase( std::find( _worst_variables_list.begin(), _worst_variables_list.end(), variable_to_change ) );
-				// _previously_selected_variable_index = variable_to_change;
 				// So far, we consider full domains only.
 				auto domain_to_explore = _variables[ variable_to_change ].get_full_domain();
 				// Remove the current value
@@ -947,6 +910,7 @@ namespace ghost
 						}
 
 						_tabu_list[ variable_to_change ] = tabu_time_selected;
+						++_number_tabu_variables;
 						
 						double candidate_opt_cost = _objective->cost();
 
@@ -1001,13 +965,17 @@ namespace ghost
 								// if no variables with the same worst error remain to explore, or with 10% of chance, we restart.
 								if( _worst_variables_list.empty() || _rng.uniform(0.0, 1.0) < 0.1 )
 								{
-#if defined(GHOST_TRACE)
-									std::cout << "Reset!\n";
-#endif
 									// it is a plateau, not a local minimum, but let's make as tabu this variable anyway
 									_tabu_list[ variable_to_change ] = tabu_time_local_min;
+									++_number_tabu_variables;
+									if( _number_tabu_variables >= tabu_time_local_min )
+									{
+#if defined(GHOST_TRACE)
+										std::cout << "Reset!\n";
+#endif
+										reset();
+									}
 									elapsed_time = std::chrono::steady_clock::now() - start;
-									reset();
 									continue;
 								}
 								else
@@ -1043,11 +1011,18 @@ namespace ghost
 							else
 							{
 #if defined(GHOST_TRACE)
-								std::cout << "The objective function cost is worst. Reset.\n";
+								std::cout << "The objective function cost is worst.\n";
 #endif
 								_tabu_list[ variable_to_change ] = tabu_time_local_min;
+								++_number_tabu_variables;
+								if( _number_tabu_variables >= tabu_time_local_min )
+								{
+#if defined(GHOST_TRACE)
+									std::cout << "Reset!\n";
+#endif
+									reset();
+								}
 								elapsed_time = std::chrono::steady_clock::now() - start;
-								reset();
 								continue;
 							}
 						}
@@ -1058,12 +1033,19 @@ namespace ghost
 						if( min_conflict == 0.0 && ( _worst_variables_list.empty() || _rng.uniform(0.0, 1.0) < 0.1 ) )
 						{
 #if defined(GHOST_TRACE)
-							std::cout << "It is a satisfaction plateau and we reset.\n";
+							std::cout << "Satisfaction plateau.\n";
 #endif
 							// it is a plateau, not a local minimum, but let's make as tabu this variable anyway
 							_tabu_list[ variable_to_change ] = tabu_time_local_min;
+							++_number_tabu_variables;
+							if( _number_tabu_variables >= tabu_time_local_min )
+							{
+#if defined(GHOST_TRACE)
+								std::cout << "Reset!\n";
+#endif
+								reset();
+							}
 							elapsed_time = std::chrono::steady_clock::now() - start;
-							reset();
 							continue;
 						}
 
@@ -1096,6 +1078,7 @@ namespace ghost
 					}
 
 					_tabu_list[ variable_to_change ] = tabu_time_selected;
+					++_number_tabu_variables;
 
 					// work for both permutation and non-permutation problems
 					update_errors_and_cost( variable_to_change, new_value, delta_errors );
@@ -1123,13 +1106,20 @@ namespace ghost
 				else // Explore other worst variables, or restart mechanism to escape local minima if there are no other such variables
 				{
 #if defined(GHOST_TRACE)
-					std::cout << "The satisfaction error is worst. Reset.\n";
+					std::cout << "The satisfaction error is worst.\n";
 #endif
 					if( _worst_variables_list.empty() )
 					{
 						_tabu_list[ variable_to_change ] = tabu_time_local_min;
+						++_number_tabu_variables;
+						if( _number_tabu_variables >= tabu_time_local_min )
+						{
+#if defined(GHOST_TRACE)
+							std::cout << "Reset!\n";
+#endif
+							reset();
+						}
 						elapsed_time = std::chrono::steady_clock::now() - start;
-						reset();
 						continue;
 					}
 					else
