@@ -80,6 +80,7 @@ namespace ghost
 		unsigned int _number_constraints; //!< Size of the vector of constraints.
 		std::vector<std::vector<unsigned int> > _matrix_var_ctr; //!< Matrix to know in which constraints each variable is.
 		std::vector<int> _tabu_list; //!< The tabu list, frozing used variables for tabu_time iterations.
+		int _tabu_threshold;
 		int _tabu_time_local_min; //!< Number of local moves a variable of a local minimum is marked tabu.
 		int _tabu_time_selected; //!< Number of local moves a selected variable is marked tabu.
 		
@@ -415,7 +416,7 @@ namespace ghost
 #endif
 			if( std::count_if( _tabu_list.begin(),
 			                   _tabu_list.end(),
-			                   [&](int end_tabu){ return end_tabu > _local_moves; } ) >= _tabu_time_local_min )
+			                   [&](int end_tabu){ return end_tabu > _local_moves; } ) >= _tabu_threshold )
 				_worst_variables_list.clear();
 			else
 			{
@@ -601,7 +602,9 @@ namespace ghost
 			  _number_constraints ( static_cast<unsigned int>( constraints.size() ) ),
 			  _matrix_var_ctr ( std::vector<std::vector<unsigned int> >( _number_variables ) ),
 			  _tabu_list( std::vector<int>( _number_variables, 0 ) ),
-			  _tabu_time_local_min( std::max( std::min( 5, static_cast<int>( _number_variables ) - 1 ), static_cast<int>( std::ceil( _number_variables / 5 ) ) ) + 1 ),
+			  _tabu_threshold( static_cast<int>( std::ceil( std::sqrt( _number_variables ) ) ) ),
+			  // _tabu_time_local_min( std::max( std::min( 5, static_cast<int>( _number_variables ) - 1 ), static_cast<int>( std::ceil( _number_variables / 5 ) ) ) + 1 ),
+			  _tabu_time_local_min( std::max( 2, _tabu_threshold ) ),
 			  _tabu_time_selected( 0 ),
 			  _worst_variables_list( std::vector<unsigned int>( _number_variables, 0 ) ),
 			  _must_compute_worst_variables_list( true ),
@@ -785,7 +788,7 @@ namespace ghost
 			// In case final_solution is not a vector of the correct size,
 			// ie, equals to the number of variables.
 			final_solution.resize( _number_variables );
-
+	
 			// Call restart to initialize data structures.
 			restart();
 
@@ -833,9 +836,10 @@ namespace ghost
 #if defined(GHOST_TRACE)
 				_print->print_candidate( _variables );
 				std::cout << "\n\nNumber of loop iteration: " << _search_iterations << "\n";
+				std::cout << "Number of local moves performed: " << _local_moves << "\n";
 				std::cout << "Tabu list:";
 				for( int i = 0 ; i < _number_variables ; ++i )
-					if( _tabu_list[i] > 0 )
+					if( _tabu_list[i] > _local_moves )
 						std::cout << " v[" << i << "]:" << _tabu_list[i];
 				std::cout << "\nWorst variables list: v[" << _worst_variables_list[0] << "]=" << _variables[ _worst_variables_list[0] ].get_value();
 				for( int i = 1 ; i < static_cast<int>( _worst_variables_list.size() ) ; ++i )
@@ -1127,6 +1131,14 @@ namespace ghost
 			for( unsigned int variable_id = 0 ; variable_id < _number_variables; ++variable_id )
 				_variables[ variable_id ].set_value( final_solution[ variable_id ] );
 
+#if defined(GHOST_TRACE)			              
+			std::cout << "@@@@@@@@@@@@" << "\n";
+			std::cout << "Variables of local minimum are frozen for: " << _tabu_time_local_min << " local moves.\n"
+			          << "Selected variables are frozen for: " << _tabu_time_selected << " local moves.\n";
+			int percent_to_reset = std::max( 2, static_cast<int>( std::ceil( _number_variables * 0.1 ) ) );
+			std::cout << percent_to_reset << " variables are reset when " << _tabu_threshold << " variables are frozen.\n";
+#endif
+			
 #if defined(GHOST_DEBUG) || defined(GHOST_TRACE) || defined(GHOST_BENCH)
 			std::cout << "############" << "\n";
 
