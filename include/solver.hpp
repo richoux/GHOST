@@ -658,7 +658,7 @@ namespace ghost
 				}
 				catch( std::exception e )
 				{
-					std::cerr << e.what();
+					std::cerr << "No expert_delta_error method defined for constraint num. " << constraint_id << "\n";
 				}
 
 #if defined(GHOST_TRACE)
@@ -1131,15 +1131,12 @@ namespace ghost
 			for( unsigned int variable_id = 0 ; variable_id < _number_variables; ++variable_id )
 				_variables[ variable_id ].set_value( final_solution[ variable_id ] );
 
-#if defined(GHOST_TRACE)			              
+#if defined(GHOST_DEBUG) || defined(GHOST_TRACE) || defined(GHOST_BENCH)
 			std::cout << "@@@@@@@@@@@@" << "\n";
 			std::cout << "Variables of local minimum are frozen for: " << _tabu_time_local_min << " local moves.\n"
 			          << "Selected variables are frozen for: " << _tabu_time_selected << " local moves.\n";
 			int percent_to_reset = std::max( 2, static_cast<int>( std::ceil( _number_variables * 0.1 ) ) );
 			std::cout << percent_to_reset << " variables are reset when " << _tabu_threshold << " variables are frozen.\n";
-#endif
-			
-#if defined(GHOST_DEBUG) || defined(GHOST_TRACE) || defined(GHOST_BENCH)
 			std::cout << "############" << "\n";
 
 			// Print solution
