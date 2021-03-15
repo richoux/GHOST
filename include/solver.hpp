@@ -80,7 +80,8 @@ namespace ghost
 		unsigned int _number_constraints; //!< Size of the vector of constraints.
 		std::vector<std::vector<unsigned int> > _matrix_var_ctr; //!< Matrix to know in which constraints each variable is.
 		std::vector<int> _tabu_list; //!< The tabu list, frozing used variables for tabu_time iterations.
-		int _number_tabu_variables; //!< Number of variables marked as tabu.
+		int _tabu_time_local_min; //!< Number of local moves a variable of a local minimum is marked tabu.
+		int _tabu_time_selected; //!< Number of local moves a selected variable is marked tabu.
 		
 		std::vector<unsigned int> _worst_variables_list;
 		bool _must_compute_worst_variables_list;
@@ -92,9 +93,16 @@ namespace ghost
 		double _current_sat_error;
 		double _current_opt_cost;
 		double _cost_before_postprocess;
-		int    _restarts;
-		int    _resets;
 
+		// stats variables (however _local_moves is important for the solver logic)
+		int _restarts;
+		int _resets;
+		int _local_moves;
+		int _search_iterations;
+		int _local_minimum;
+		int _plateau_moves;
+		int _plateau_local_minimum;
+		
 		bool _is_permutation_problem;
 		// Neighborhood _neighborhood;
 		// std::vector< std::vector<int> > _neighbors;
@@ -287,7 +295,6 @@ namespace ghost
 			
 			//Reset tabu list
 			std::fill( _tabu_list.begin(), _tabu_list.end(), 0 ); 
-			_number_tabu_variables = 0;
 			
 			// Start from a random configuration, if no_random_starting_point is false
 			if( !_no_random_starting_point )
@@ -340,7 +347,6 @@ namespace ghost
 
 			//Reset tabu list
 			std::fill( _tabu_list.begin(), _tabu_list.end(), 0 ); 
-			_number_tabu_variables = 0;
 
 			// max between 2 variables and 10% of variables
 			int percent_to_reset = std::max( 2, static_cast<int>( std::ceil( _number_variables * 0.1 ) ) );
@@ -401,48 +407,35 @@ namespace ghost
 			return std::visit( [&](Constraint& ctr){ return ctr._current_error; }, _constraints[ constraint_id ] );
 		}
 		
-		// Decreasing values within the tabu list
-		void decay_tabu_list()
-		{
-			for( int i = 0 ; i < _number_variables ; ++i )
-			{
-				if( _tabu_list[i] > 0 )
-				{
-					if( _tabu_list[i] == 1 )
-						--_number_tabu_variables;
-					--_tabu_list[i];
-				}
-			}			
-			// std::transform( _tabu_list.begin(),
-			//                 _tabu_list.end(),
-			//                 _tabu_list.begin(),
-			//                 [&] (int tabu) -> int { return std::max( 0, tabu - 1 ); } );
-		}
-
-
-#if !defined(GHOST_EXPERIMENTAL) 
 		//! To compute the vector of variables which are principal culprits for not satisfying the problem
 		void compute_worst_variables()
 		{
 #if defined(GHOST_TRACE)
 			print_errors();
 #endif
-			double worst_variable_cost = -1;
-			for( unsigned int variable_id = 0; variable_id < _number_variables; ++variable_id )
-				if( worst_variable_cost <= _error_variables[ variable_id ] && _tabu_list[ variable_id ] == 0 )
-				{
-					if( worst_variable_cost < _error_variables[ variable_id ] )
+			if( std::count_if( _tabu_list.begin(),
+			                   _tabu_list.end(),
+			                   [&](int end_tabu){ return end_tabu > _local_moves; } ) >= _tabu_time_local_min )
+				_worst_variables_list.clear();
+			else
+			{
+				double worst_variable_cost = -1;
+				
+				for( unsigned int variable_id = 0; variable_id < _number_variables; ++variable_id )
+					if( worst_variable_cost <= _error_variables[ variable_id ] && _tabu_list[ variable_id ] <= _local_moves )
 					{
-						_worst_variables_list.clear();
-						_worst_variables_list.push_back( variable_id );
-						worst_variable_cost = _error_variables[ variable_id ];
-					}
-					else
-						if( worst_variable_cost == _error_variables[ variable_id ] )
+						if( worst_variable_cost < _error_variables[ variable_id ] )
+						{
+							_worst_variables_list.clear();
 							_worst_variables_list.push_back( variable_id );
-				}
+							worst_variable_cost = _error_variables[ variable_id ];
+						}
+						else
+							if( worst_variable_cost == _error_variables[ variable_id ] )
+								_worst_variables_list.push_back( variable_id );
+					}
+			}
 		}
-#endif
 
 		//! Compute the cost of each constraints
 		double compute_constraints_errors()
@@ -469,7 +462,7 @@ namespace ghost
 					_error_variables[ variable_id ] += get_constraint_error( constraint_id );
 		}
 
-		void update_errors_and_cost( unsigned int variable_to_change, int new_value, const std::map< int, std::vector<double>>& delta_errors )
+		void update_errors( unsigned int variable_to_change, int new_value, const std::map< int, std::vector<double>>& delta_errors )
 		{
 			int delta_index = 0;
 			if( !_is_permutation_problem )
@@ -515,6 +508,77 @@ namespace ghost
 					}
 			}
 		}
+
+		// A. Local move (perform local move and update variables/constraints/objective function)
+		void local_move( unsigned int variable_to_change, int new_value, int min_conflict, const std::map< int, std::vector<double>>& delta_errors )
+		{
+			++_local_moves;
+			_current_sat_error += min_conflict;
+			_tabu_list[ variable_to_change ] = _tabu_time_selected + _local_moves;
+			_must_compute_worst_variables_list = true;
+	
+			if( _is_permutation_problem )
+			{
+				int current_value = _variables[ variable_to_change ].get_value();
+				int next_value = _variables[ new_value ].get_value();
+				_variables[ variable_to_change ].set_value( next_value );
+				_variables[ new_value ].set_value( current_value );
+
+				if( _is_optimization )
+				{
+					_objective->update_variable( variable_to_change, next_value );
+					_objective->update_variable( new_value, current_value );
+				}
+			}
+			else
+			{
+				_variables[ variable_to_change ].set_value( new_value );
+				
+				if( _is_optimization )
+					_objective->update_variable( variable_to_change, new_value );
+			}
+
+			update_errors( variable_to_change, new_value, delta_errors );
+		}
+		
+		// B. Plateau management (local move on the plateau, but 10% of chance to escape it, mark the variables as tabu and loop to 2.)
+		// Return true iff the solver escapes from the plateau.
+		void plateau_management( unsigned int variable_to_change, int new_value, const std::map< int, std::vector<double>>& delta_errors )
+		{
+			if( _rng.uniform(0, 100) <= 10 )
+			{
+				_tabu_list[ variable_to_change ] = _tabu_time_local_min + _local_moves;
+				_must_compute_worst_variables_list = true;
+				++_plateau_local_minimum;
+#if defined(GHOST_TRACE)
+				std::cout << "Escape from plateau; variables marked as tabu.\n";
+#endif
+			}
+			else
+			{
+				local_move( variable_to_change, new_value, 0, delta_errors );
+				++_plateau_moves;
+			}
+		}
+		
+		// C. local minimum management (if there are no other worst variables to try, mark the variables as tabu and loop to 2.
+		//                              Otherwise try them first, but with 10% of chance, the solver marks the variables as tabu and loop to 2)
+		void local_minimum_management( unsigned int variable_to_change, int new_value, bool no_other_variables_to_try )
+		{
+			if( no_other_variables_to_try || _rng.uniform(0, 100) <= 10 )
+			{
+				_tabu_list[ variable_to_change ] = _tabu_time_local_min + _local_moves;
+				_must_compute_worst_variables_list = true;
+				++_local_minimum;
+			}
+			else
+			{
+#if defined(GHOST_TRACE)
+				std::cout << "Try other variables: not a local minimum yet.\n";
+#endif
+				_must_compute_worst_variables_list = false;
+			}
+		}
 		
 	public:
 		//! Solver's regular constructor
@@ -537,6 +601,8 @@ namespace ghost
 			  _number_constraints ( static_cast<unsigned int>( constraints.size() ) ),
 			  _matrix_var_ctr ( std::vector<std::vector<unsigned int> >( _number_variables ) ),
 			  _tabu_list( std::vector<int>( _number_variables, 0 ) ),
+			  _tabu_time_local_min( std::max( std::min( 5, static_cast<int>( _number_variables ) - 1 ), static_cast<int>( std::ceil( _number_variables / 5 ) ) ) + 1 ),
+			  _tabu_time_selected( 0 ),
 			  _worst_variables_list( std::vector<unsigned int>( _number_variables, 0 ) ),
 			  _must_compute_worst_variables_list( true ),
 			  _error_variables( std::vector<double>( _number_variables, 0.0 ) ),
@@ -545,8 +611,13 @@ namespace ghost
 			  _current_sat_error( std::numeric_limits<double>::max() ),
 			  _current_opt_cost( std::numeric_limits<double>::max() ),
 			  _cost_before_postprocess( std::numeric_limits<double>::max() ),
-			  _restarts( 0 ),
+			  _restarts( -1 ),
 			  _resets( 0 ),
+			  _local_moves( 0 ),
+			  _search_iterations( 0 ),
+			  _local_minimum( 0 ),
+			  _plateau_moves( 0 ),
+			  _plateau_local_minimum( 0 ),
 			  _is_permutation_problem( permutation_problem )
 			  // _neighborhood ( { 1, 1.0, permutation_problem, 1.0 } )
 		{
@@ -670,21 +741,37 @@ namespace ghost
 		            bool no_random_starting_point = false,
 		            std::unique_ptr<Print> print = nullptr )
 		{
-			// TODO: No random starting point / resume feature
+			// TODO: Resume feature
 			// TODO: Antidote search
 			// TODO: Neighborhood
 			// TODO: Postprocess
 
+			// 1. Initialization
+			// 2. Choice of worst variable(s) to change
+			// 3. Choice of their new value
+			// 4. Error improved => make local move
+			// 5. Same error
+			// 5.a. Optimization cost improved => make local move
+			// 5.b. Same optimization cost => plateau
+			// 5.c. Worst optimization cost => local minimum
+			// 5.d. Not an optimization problem => plateau
+			// 6. Worst error => local minimum
+			
+			// A. Local move (perform local move and update variables/constraints/objective function)
+			// B. Plateau management (local move on the plateau, but x% of chance to escape it, mark the variables as tabu and loop to 2.)
+			// C. local minimum management (if there are no other worst variables to try, mark the variables as tabu and loop to 2.
+			//                              Otherwise try them first, but with x% of chance, the solver marks the variables as tabu and loop to 2)
+
+
+			/********************
+			* 1. Initialization *
+			*********************/
 			_no_random_starting_point = no_random_starting_point;
 			if( print != nullptr )
 				_print = std::move( print );
 			else
 				_print = std::make_unique<Print>();
-			
-			// The only parameter of Solver<Variable, Constraint>::solve outside timeouts
-			int tabu_time_local_min = std::max( std::min( 5, static_cast<int>( _number_variables ) - 1 ), static_cast<int>( std::ceil( _number_variables / 5 ) ) ) + 1;
-			int tabu_time_selected = 2;
-			
+						
 			std::chrono::duration<double,std::micro> elapsed_time( 0 );
 			std::chrono::time_point<std::chrono::steady_clock> start( std::chrono::steady_clock::now() );
 			std::chrono::time_point<std::chrono::steady_clock> start_postprocess;
@@ -694,8 +781,7 @@ namespace ghost
 			
 			_best_sat_error = std::numeric_limits<double>::max();
 			_best_opt_cost = std::numeric_limits<double>::max();
-			int search_iterations = 0;
-
+			
 			// In case final_solution is not a vector of the correct size,
 			// ie, equals to the number of variables.
 			final_solution.resize( _number_variables );
@@ -710,9 +796,11 @@ namespace ghost
 			while( elapsed_time.count() < timeout
 			       && ( _best_sat_error > 0.0 || ( _best_sat_error == 0.0 && _is_optimization ) ) )
 			{
-				++search_iterations;
-				decay_tabu_list();
+				++_search_iterations;
 				
+				/********************************************
+				 * 2. Choice of worst variable(s) to change *
+				 ********************************************/
 				// Estimate which variables need to be changed
 				if( _must_compute_worst_variables_list )
 					compute_worst_variables();
@@ -744,7 +832,7 @@ namespace ghost
 				
 #if defined(GHOST_TRACE)
 				_print->print_candidate( _variables );
-				std::cout << "\n\nNumber of loop iteration: " << search_iterations << "\n";
+				std::cout << "\n\nNumber of loop iteration: " << _search_iterations << "\n";
 				std::cout << "Tabu list:";
 				for( int i = 0 ; i < _number_variables ; ++i )
 					if( _tabu_list[i] > 0 )
@@ -754,6 +842,10 @@ namespace ghost
 					std::cout << ", v[" << _worst_variables_list[i] << "]=" << _variables[ _worst_variables_list[i] ].get_value();
 				std::cout << "\nPicked worst variable: v[" << variable_to_change << "]=" << _variables[ variable_to_change ].get_value() << "\n\n";
 #endif
+
+				/********************************
+				 * 3. Choice of their new value *
+				 ********************************/
 				_worst_variables_list.erase( std::find( _worst_variables_list.begin(), _worst_variables_list.end(), variable_to_change ) );
 				// So far, we consider full domains only.
 				auto domain_to_explore = _variables[ variable_to_change ].get_full_domain();
@@ -880,254 +972,132 @@ namespace ghost
 					          << "Current error: " << _current_sat_error << "\n"
 					          << "Delta: " << min_conflict << "\n\n";
 #endif
-				
-				// Apply local changes, update constraint/variables errors and objective cost
-				// if the global error is better or if we are on a plateau
-				if( min_conflict <= 0.0 )
+
+				/****************************************
+				 * 4. Error improved => make local move *
+				 ****************************************/
+				if( min_conflict < 0.0 )
 				{
-					// if we are about to satisfy all constraints
-					// and we are dealing with an optimization problem...
-					if( _current_sat_error + min_conflict == 0.0 && _is_optimization )
-					{
 #if defined(GHOST_TRACE)
-						std::cout << "All constraints are about to be satisfied and this is an optimization problem.\n";
+					std::cout << "Global error improved (" << _current_sat_error << " -> " << _current_sat_error+min_conflict << "): make local move.\n";
 #endif
-						double previous_sat_error = _current_sat_error;
-						_current_sat_error += min_conflict;
-						if( _is_permutation_problem )
-						{
-							int current_value = _variables[ variable_to_change ].get_value();
-							int next_value = _variables[ new_value ].get_value();
-							_variables[ variable_to_change ].set_value( next_value );
-							_variables[ new_value ].set_value( current_value );
-							_objective->update_variable( variable_to_change, next_value );
-							_objective->update_variable( new_value, current_value );
-						}
-						else
-						{
-							_variables[ variable_to_change ].set_value( new_value );
-							_objective->update_variable( variable_to_change, new_value );
-						}
-
-						_tabu_list[ variable_to_change ] = tabu_time_selected;
-						++_number_tabu_variables;
-						
-						double candidate_opt_cost = _objective->cost();
-
-						if( _best_sat_error > _current_sat_error )
-						{
-#if defined(GHOST_TRACE)
-							std::cout << "Best satisfaction error so far (in an optimization problem). Before: " << _best_sat_error << ", now: " << _current_sat_error << "\n";
-#endif
-							_best_sat_error = _current_sat_error;
-							std::transform( _variables.begin(),
-							                _variables.end(),
-							                final_solution.begin(),
-							                [&](auto& var){ return var.get_value(); } );
-						}
-						
-						// ...then we have to check if the satisfaction error or the objective function is improved...
-						// (we have previous_sat_error > 0.0 iff this is the first time we satisfy all constraints)
-						if( previous_sat_error > 0.0 || _current_opt_cost > candidate_opt_cost )
-						{
-#if defined(GHOST_TRACE)
-							std::cout << "Improve the objective. Before: " << _current_opt_cost << ", now: " << candidate_opt_cost << "\n";
-#endif
-							_current_opt_cost = candidate_opt_cost;
-							if( _best_opt_cost > _current_opt_cost )
-							{
-#if defined(GHOST_TRACE)
-								std::cout << "Best objective function value so far. Before: " << _best_opt_cost << ", now: " << _current_opt_cost << "\n";
-#endif
-								_best_opt_cost = _current_opt_cost;
-								std::transform( _variables.begin(),
-								                _variables.end(),
-								                final_solution.begin(),
-								                [&](auto& var){ return var.get_value(); } );
-							}
-
-							// for consistency, we still need to update changes in constraints' variables and errors.
-							// work for both permutation and non-permutation problems.
-							update_errors_and_cost( variable_to_change, new_value, delta_errors );
-							
-							_must_compute_worst_variables_list = true;
-							elapsed_time = std::chrono::steady_clock::now() - start;
-							continue; // continue while loop
-						}
-						else
-						{
-							// ...otherwise, if we are on a plateau, we either walk on it or restart
-							if( _current_opt_cost == candidate_opt_cost )
-							{
-#if defined(GHOST_TRACE)
-								std::cout << "We are on an objective function cost plateau.\n";
-#endif
-								// if no variables with the same worst error remain to explore, or with 10% of chance, we restart.
-								if( _worst_variables_list.empty() || _rng.uniform(0.0, 1.0) < 0.1 )
-								{
-									// it is a plateau, not a local minimum, but let's make as tabu this variable anyway
-									_tabu_list[ variable_to_change ] = tabu_time_local_min;
-									++_number_tabu_variables;
-									if( _number_tabu_variables >= tabu_time_local_min )
-									{
-#if defined(GHOST_TRACE)
-										std::cout << "Reset!\n";
-#endif
-										reset();
-									}
-									elapsed_time = std::chrono::steady_clock::now() - start;
-									continue;
-								}
-								else
-								{
-#if defined(GHOST_TRACE)
-									std::cout << "Exploring the plateau.\n";
-#endif
-									if( !_worst_variables_list.empty() )
-										_must_compute_worst_variables_list = false;
-									else
-										_must_compute_worst_variables_list = true;
-									
-									// for consistency, we still need to update changes in constraints' variables and errors
-									// work for both permutation and non-permutation problems.
-									update_errors_and_cost( variable_to_change, new_value, delta_errors );
-
-									// updates already done lines 940-941/946. TODO: to check
-									// if( !_is_permutation_problem )
-									// 	_objective->update_variable( variable_to_change, new_value );
-									// else
-									// {
-									// 	int temp_value = _variables[ variable_to_change ].get_value();
-									// 	_objective->update_variable( variable_to_change, _variables[ new_value ].get_value() );
-									// 	_objective->update_variable( new_value, temp_value );
-									// }
-																		
-									elapsed_time = std::chrono::steady_clock::now() - start;
-									continue;
-								}
-							}
-							// finally, if the objective function returns a higher cost than the current one,
-							// we restart
-							else
-							{
-#if defined(GHOST_TRACE)
-								std::cout << "The objective function cost is worst.\n";
-#endif
-								_tabu_list[ variable_to_change ] = tabu_time_local_min;
-								++_number_tabu_variables;
-								if( _number_tabu_variables >= tabu_time_local_min )
-								{
-#if defined(GHOST_TRACE)
-									std::cout << "Reset!\n";
-#endif
-									reset();
-								}
-								elapsed_time = std::chrono::steady_clock::now() - start;
-								continue;
-							}
-						}
-					}
-					else
-						// otherwise, if it is a plateau (both for satisfaction and optimization problems) and we have no other worst variables to explore:
-						// we have 10% of chance to reset, 90% to walk on the plateau
-						if( min_conflict == 0.0 && ( _worst_variables_list.empty() || _rng.uniform(0.0, 1.0) < 0.1 ) )
-						{
-#if defined(GHOST_TRACE)
-							std::cout << "Satisfaction plateau.\n";
-#endif
-							// it is a plateau, not a local minimum, but let's make as tabu this variable anyway
-							_tabu_list[ variable_to_change ] = tabu_time_local_min;
-							++_number_tabu_variables;
-							if( _number_tabu_variables >= tabu_time_local_min )
-							{
-#if defined(GHOST_TRACE)
-								std::cout << "Reset!\n";
-#endif
-								reset();
-							}
-							elapsed_time = std::chrono::steady_clock::now() - start;
-							continue;
-						}
-
-					// The rest of the code in that block deals with candidates
-					// where some constraints remains to be satisfied
-					// (or eventually, this is the first solution we have found)
-					_current_sat_error += min_conflict;
-
-					// TODO: postprocess must handle constraint/variable error changes
-					// if( _current_sat_error == 0.0 )
-					// 	_objective->postprocess_satisfaction( _variables, _current_opt_cost, final_solution );
-
-					if( !_is_permutation_problem )
-					{
-						_variables[ variable_to_change ].set_value( new_value );
-						if( _is_optimization )
-							_objective->update_variable( variable_to_change, new_value );
-					}
-					else
-					{
-							int current_value = _variables[ variable_to_change ].get_value();
-							int next_value = _variables[ new_value ].get_value();
-							_variables[ variable_to_change ].set_value( next_value );
-							_variables[ new_value ].set_value( current_value );
-							if( _is_optimization )
-							{
-								_objective->update_variable( variable_to_change, next_value );
-								_objective->update_variable( new_value, current_value );
-							}
-					}
-
-					_tabu_list[ variable_to_change ] = tabu_time_selected;
-					++_number_tabu_variables;
-
-					// work for both permutation and non-permutation problems
-					update_errors_and_cost( variable_to_change, new_value, delta_errors );
-
-					// if this is the best candidate we found so far, save it.
-					if( _best_sat_error > _current_sat_error )
-					{
-#if defined(GHOST_TRACE)
-						std::cout << "Best satisfaction error so far. Before: " << _best_sat_error << ", now: " << _current_sat_error << "\n";
-#endif
-						_best_sat_error = _current_sat_error;
-						std::transform( _variables.begin(),
-						                _variables.end(),
-						                final_solution.begin(),
-						                [&](auto& var){ return var.get_value(); } );
-					}
-					
-					// Update the objective function cost
+					local_move( variable_to_change, new_value, min_conflict, delta_errors );
 					if( _is_optimization )
 						_current_opt_cost = _objective->cost();
-
-					if( min_conflict < 0.0 || _worst_variables_list.empty() )
-						_must_compute_worst_variables_list = true;
 				}
-				else // Explore other worst variables, or restart mechanism to escape local minima if there are no other such variables
+				else
+				{
+					/*****************
+					 * 5. Same error *
+					 *****************/
+					if( min_conflict == 0.0 )
+					{
+#if defined(GHOST_TRACE)
+						std::cout << "Global error stable; ";
+#endif
+						if( _is_optimization )
+						{
+							double candidate_opt_cost;
+							if( _is_permutation_problem )
+							{
+								int backup_variable_to_change = _variables[ variable_to_change ].get_value();
+								int backup_variable_new_value = _variables[ new_value ].get_value();
+								_objective->update_variable( variable_to_change, backup_variable_new_value );
+								_objective->update_variable( new_value, backup_variable_to_change );
+								candidate_opt_cost = _objective->cost();
+								_objective->update_variable( variable_to_change, backup_variable_to_change );
+								_objective->update_variable( new_value, backup_variable_new_value );
+							}
+							else
+							{
+								int backup = _variables[ variable_to_change ].get_value();
+								_objective->update_variable( variable_to_change, new_value );
+								candidate_opt_cost = _objective->cost();
+								_objective->update_variable( variable_to_change, backup );
+							}
+
+							/******************************************************
+							 * 5.a. Optimization cost improved => make local move *
+							 ******************************************************/
+							if( _current_opt_cost > candidate_opt_cost )
+							{								
+#if defined(GHOST_TRACE)
+								std::cout << "optimization cost improved (" _current_opt_cost << " -> " << candidate_opt_cost << "): make local move.\n";
+#endif
+								local_move( variable_to_change, new_value, min_conflict, delta_errors );
+								_current_opt_cost = candidate_opt_cost;
+							}
+							else
+								/******************************************
+								 * 5.b. Same optimization cost => plateau *
+								 ******************************************/
+								if( _current_opt_cost == candidate_opt_cost )
+								{
+#if defined(GHOST_TRACE)
+									std::cout << "optimization cost stable (" << _current_opt_cost << "): plateau.\n";
+#endif
+									plateau_management( variable_to_change, new_value, delta_errors );
+								}
+								else // _current_opt_cost < candidate_opt_cost
+								{
+									/*************************************************
+									 * 5.c. Worst optimization cost => local minimum *
+									 *************************************************/
+#if defined(GHOST_TRACE)
+									std::cout << "optimization cost increase (" _current_opt_cost << " -> " << candidate_opt_cost << "): local minimum.\n";
+#endif
+									local_minimum_management( variable_to_change, new_value, _worst_variables_list.empty() );
+								}
+						}
+						else
+						{
+							/***********************************************
+							 * 5.d. Not an optimization problem => plateau *
+							 ***********************************************/
+#if defined(GHOST_TRACE)
+							std::cout << "no optimization: plateau.\n";
+#endif
+							plateau_management( variable_to_change, new_value, delta_errors );
+						}
+					}
+					else // min_conflict > 0.0
+					{
+						/***********************************
+						 * 6. Worst error => local minimum *
+						 ***********************************/
+#if defined(GHOST_TRACE)
+						std::cout << "Global error increase: local minimum.\n";
+#endif
+						local_minimum_management( variable_to_change, new_value, _worst_variables_list.empty() );
+					}
+				}
+
+				if( _best_sat_error > _current_sat_error )
 				{
 #if defined(GHOST_TRACE)
-					std::cout << "The satisfaction error is worst.\n";
+					std::cout << "Best satisfaction error so far (in an optimization problem). Before: " << _best_sat_error << ", now: " << _current_sat_error << "\n";
 #endif
-					if( _worst_variables_list.empty() )
-					{
-						_tabu_list[ variable_to_change ] = tabu_time_local_min;
-						++_number_tabu_variables;
-						if( _number_tabu_variables >= tabu_time_local_min )
-						{
-#if defined(GHOST_TRACE)
-							std::cout << "Reset!\n";
-#endif
-							reset();
-						}
-						elapsed_time = std::chrono::steady_clock::now() - start;
-						continue;
-					}
-					else
-						_must_compute_worst_variables_list = false;
+					_best_sat_error = _current_sat_error;
+					std::transform( _variables.begin(),
+					                _variables.end(),
+					                final_solution.begin(),
+					                [&](auto& var){ return var.get_value(); } );
 				}
-				
+
+				if( _is_optimization && _best_opt_cost > _current_opt_cost )
+				{
+#if defined(GHOST_TRACE)
+					std::cout << "Best objective function value so far. Before: " << _best_opt_cost << ", now: " << _current_opt_cost << "\n";
+#endif
+					_best_opt_cost = _current_opt_cost;
+					std::transform( _variables.begin(),
+					                _variables.end(),
+					                final_solution.begin(),
+					                [&](auto& var){ return var.get_value(); } );
+				}
+
 				elapsed_time = std::chrono::steady_clock::now() - start;
-			}
+			} // while loop
 						
 			if( _best_sat_error == 0.0 && _is_optimization )
 			{
@@ -1172,12 +1142,14 @@ namespace ghost
 
 			std::cout << "Elapsed time: " << elapsed_time.count() / 1000 << "ms\n"
 			          << "Satisfaction error: " << _best_sat_error << "\n"
-			          << "Number of search iterations: " << search_iterations << "\n"
-			          << "Number of restarts: " << _restarts << "\n"
-			          << "Number of resets: " << _resets << "\n";
+			          << "Number of search iterations: " << _search_iterations << "\n"
+			          << "Number of local moves: " << _local_moves << " (including on plateau: " << _plateau_moves << ")\n"
+			          << "Number of local minimum: " << _local_minimum << " (including on plateau: " << _plateau_local_minimum << ")\n"
+			          << "Number of resets: " << _resets << "\n"
+			          << "Number of restarts: " << _restarts << "\n";
 
 			if( _is_optimization )
-				std::cout << "Optimization cost: " << _best_opt_cost << "\n"
+				std::cout << "\nOptimization cost: " << _best_opt_cost << "\n"
 				          << "Opt Cost BEFORE post-processing: " << _cost_before_postprocess << "\n";
   
 			// if( timer_postprocess_sat.count() > 0 )
