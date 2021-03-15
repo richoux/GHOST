@@ -1022,7 +1022,7 @@ namespace ghost
 							if( _current_opt_cost > candidate_opt_cost )
 							{								
 #if defined(GHOST_TRACE)
-								std::cout << "optimization cost improved (" _current_opt_cost << " -> " << candidate_opt_cost << "): make local move.\n";
+								std::cout << "optimization cost improved (" << _current_opt_cost << " -> " << candidate_opt_cost << "): make local move.\n";
 #endif
 								local_move( variable_to_change, new_value, min_conflict, delta_errors );
 								_current_opt_cost = candidate_opt_cost;
@@ -1044,7 +1044,7 @@ namespace ghost
 									 * 5.c. Worst optimization cost => local minimum *
 									 *************************************************/
 #if defined(GHOST_TRACE)
-									std::cout << "optimization cost increase (" _current_opt_cost << " -> " << candidate_opt_cost << "): local minimum.\n";
+									std::cout << "optimization cost increase (" << _current_opt_cost << " -> " << candidate_opt_cost << "): local minimum.\n";
 #endif
 									local_minimum_management( variable_to_change, new_value, _worst_variables_list.empty() );
 								}
