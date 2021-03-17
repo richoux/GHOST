@@ -40,6 +40,7 @@
 #include <chrono>
 #include <memory>
 #include <iterator>
+#include <thread>
 
 #include "variable.hpp"
 #include "constraint.hpp"
@@ -49,17 +50,39 @@
 
 namespace ghost
 {
+	//! Options is a structure containing all optional arguments for Solver::solve.
 	struct Options
 	{
-		bool custom_starting_point;
-		bool is_resume;
-		std::unique_ptr<Print> print;
-
+		bool custom_starting_point; //!< To force starting the search on a custom variables assignment.
+		bool resume_search; //!< Allowing stop-and-resume computation.
+		bool parallel_runs; //<! To enable parallel runs of the solver. Using all avaiable cores (including hyper-threaded cores) if number_threads is not specified.
+		unsigned int number_threads; //<! Number of threads the solver will use for the search.
+		std::shared_ptr<Print> print; //!< Allowing custom solution print (by derivating a class from ghost::Print)
+		int tabu_time_local_min; //!< Number of local moves a variable of a local minimum is marked tabu.
+		int tabu_time_selected; //!< Number of local moves a selected variable is marked tabu.
+		int reset_threshold; //!< Number of variables marked as tabu required to trigger a reset.
+		int restart_threshold; //!< Trigger a resart every 'restart_threshold' reset.
+		int percent_to_reset; //<! Percentage of variables to randomly change the value at each reset.
+		
 		Options()
 			: custom_starting_point( false ),
-			  is_resume( false ),
-			  print( std::make_unique<Print>() );
-	}
+			  resume_search( false ),
+			  parallel_runs( false ),
+			  number_threads( std::max( (unsigned)1, std::thread::hardware_concurrency() ) ), // std::thread::hardware_concurrency() returns 0 if it is not able to detect the number of threads
+			  print( std::make_shared<Print>() ),
+			  tabu_time_local_min( -1 ),
+			  tabu_time_selected( -1 ),
+			  reset_threshold( -1 ),
+			  restart_threshold( -1 ),
+			  percent_to_reset( -1 )
+		{ }
+
+		~Options() = default;
+		Options( const Options& other ) = default;
+		Options( Options&& other ) = default;
+		Options& operator=( const Options& other ) = default;
+		Options& operator=( Options&& other ) = default;		
+	};
 
 	//! Solver is the class coding the solver itself.
 	/*!
@@ -86,16 +109,12 @@ namespace ghost
 		randutils::mt19937_rng _rng; //!< A neat random generator from randutils.hpp.
 
 		bool _is_optimization; //!< A boolean to know if it is a satisfaction or optimization run.
-		bool _no_random_starting_point;
 		std::vector<Variable> _variables_at_start; //!< Vector of Variable objects with values given at the launch of the solver.
 
 		unsigned int _number_variables; //!< Size of the vector of variables.
 		unsigned int _number_constraints; //!< Size of the vector of constraints.
 		std::vector<std::vector<unsigned int> > _matrix_var_ctr; //!< Matrix to know in which constraints each variable is.
 		std::vector<int> _tabu_list; //!< The tabu list, frozing used variables for tabu_time iterations.
-		int _tabu_time_local_min; //!< Number of local moves a variable of a local minimum is marked tabu.
-		int _tabu_time_selected; //!< Number of local moves a selected variable is marked tabu.
-		int _tabu_threshold;
 		
 		std::vector<unsigned int> _worst_variables_list;
 		bool _must_compute_worst_variables_list;
@@ -121,7 +140,7 @@ namespace ghost
 		// Neighborhood _neighborhood;
 		// std::vector< std::vector<int> > _neighbors;
 
-		std::unique_ptr<Print> _print; //!< Unique pointer of the printer of solution/candidates.
+		Options _options; //!< Options for the solver (see the struct Options).
 
 		
 		//! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 
@@ -302,37 +321,34 @@ namespace ghost
 			}
 		}
 
-		void restart()
+		void initialize_variable_values()
 		{
-			++_restarts;
-			_must_compute_worst_variables_list = true;
-			
-			//Reset tabu list
-			std::fill( _tabu_list.begin(), _tabu_list.end(), 0 ); 
-			
-			// Start from a random configuration, if no_random_starting_point is false
-			if( !_no_random_starting_point )
-				set_initial_configuration( 10 );
-			else
+			if( _options.custom_starting_point || _options.resume_search )
+			{
+				if( _options.resume_search )
+					_options.resume_search = false;
 				for( int i = 0 ; i < _number_variables ; ++i )
 					_variables[i].set_value( _variables_at_start[i].get_value() );
-				
-#if defined(GHOST_TRACE)
-			std::cout << "Number of restarts performed so far: " << _restarts << "\n";
-			_print->print_candidate( _variables );
-			std::cout << "\n";
-#endif
-			
+			}
+			else
+				set_initial_configuration( 10 );			
+		}
+
+		void initialize_data_structures()
+		{
+			_must_compute_worst_variables_list = true;
+			std::fill( _tabu_list.begin(), _tabu_list.end(), 0 ); 
+
 			// Reset constraints costs
 			for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
 				std::visit( [&](Constraint& ctr){ ctr._current_error = 0.0; }, _constraints[ constraint_id ] );
-
+			
 			// Send the current variables assignment to the constraints.
 			for( unsigned int variable_id = 0 ; variable_id < _number_variables ; ++variable_id )
 			{
 				for( unsigned int constraint_id : _matrix_var_ctr[ variable_id ] )
 					call_update_variable( constraint_id, variable_id, _variables[ variable_id ].get_value() );
-
+				
 				_objective->update_variable( variable_id, _variables[ variable_id ].get_value() );
 			}
 			
@@ -352,62 +368,40 @@ namespace ghost
 			// Recompute them
 			compute_variables_errors();
 		}
-
+				
 		void reset()
 		{
 			++_resets;
-			if( _resets % _number_variables == 0 )
-			{
-				restart();
-				return;
-			}
-			_must_compute_worst_variables_list = true;
-
-			//Reset tabu list
-			std::fill( _tabu_list.begin(), _tabu_list.end(), 0 ); 
-
-			// max between 2 variables and 10% of variables
-			int percent_to_reset = std::max( 2, static_cast<int>( std::ceil( _number_variables * 0.1 ) ) );
 			
-			if( _is_permutation_problem )
-				random_permutations( percent_to_reset );
-			else
-				monte_carlo_sampling( percent_to_reset );
+			// if we reach the restart threshold, do a restart instead of a reset
+			if( _resets % _options.restart_threshold == 0 )
+			{
+				++_restarts;
 
+				// Start from a given starting configuration, or a random one.
+				initialize_variable_values();
+				
 #if defined(GHOST_TRACE)
-			std::cout << "Number of resets performed so far: " << _resets << "\n";
-			_print->print_candidate( _variables );
-			std::cout << "\n";
+				std::cout << "Number of restarts performed so far: " << _restarts << "\n";
+				_options.print->print_candidate( _variables );
+				std::cout << "\n";
 #endif
-			
-			// Reset constraints costs
-			for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
-				std::visit( [&](Constraint& ctr){ ctr._current_error = 0.0; }, _constraints[ constraint_id ] );
-
-			// Send the current variables assignment to the constraints.
-			for( unsigned int variable_id = 0 ; variable_id < _number_variables ; ++variable_id )
-			{
-				for( unsigned int constraint_id : _matrix_var_ctr[ variable_id ] )
-					call_update_variable( constraint_id, variable_id, _variables[ variable_id ].get_value() );
-
-				_objective->update_variable( variable_id, _variables[ variable_id ].get_value() );
 			}
-			
-			// (Re)compute constraint error and get the total current satisfaction error
-			_current_sat_error = compute_constraints_errors();
-			// (Re)compute the current optimization cost
-			if( _is_optimization )
+			else // real reset
 			{
-				if( _current_sat_error == 0 ) [[unlikely]]
-					_current_opt_cost = _objective->cost();
+				if( _is_permutation_problem )
+					random_permutations( _options.percent_to_reset );
 				else
-					_current_opt_cost = std::numeric_limits<double>::max();
+					monte_carlo_sampling( _options.percent_to_reset );
+				
+#if defined(GHOST_TRACE)
+				std::cout << "Number of resets performed so far: " << _resets << "\n";
+				_options.print->print_candidate( _variables );
+				std::cout << "\n";
+#endif
 			}
 			
-			// Reset variable costs
-			std::fill( _error_variables.begin(), _error_variables.end(), 0.0 ); 
-			// Recompute them
-			compute_variables_errors();
+			initialize_data_structures();
 		}
 
 		inline double call_error( unsigned int constraint_id )
@@ -433,7 +427,7 @@ namespace ghost
 #endif
 			if( std::count_if( _tabu_list.begin(),
 			                   _tabu_list.end(),
-			                   [&](int end_tabu){ return end_tabu > _local_moves; } ) >= _tabu_threshold )
+			                   [&](int end_tabu){ return end_tabu > _local_moves; } ) >= _options.reset_threshold )
 				_worst_variables_list.clear();
 			else
 			{
@@ -532,7 +526,7 @@ namespace ghost
 		{
 			++_local_moves;
 			_current_sat_error += min_conflict;
-			_tabu_list[ variable_to_change ] = _tabu_time_selected + _local_moves;
+			_tabu_list[ variable_to_change ] = _options.tabu_time_selected + _local_moves;
 			_must_compute_worst_variables_list = true;
 	
 			if( _is_permutation_problem )
@@ -565,7 +559,7 @@ namespace ghost
 		{
 			if( _rng.uniform(0, 100) <= 10 )
 			{
-				_tabu_list[ variable_to_change ] = _tabu_time_local_min + _local_moves;
+				_tabu_list[ variable_to_change ] = _options.tabu_time_local_min + _local_moves;
 				_must_compute_worst_variables_list = true;
 				++_plateau_local_minimum;
 #if defined(GHOST_TRACE)
@@ -585,7 +579,7 @@ namespace ghost
 		{
 			if( no_other_variables_to_try || _rng.uniform(0, 100) <= 10 )
 			{
-				_tabu_list[ variable_to_change ] = _tabu_time_local_min + _local_moves;
+				_tabu_list[ variable_to_change ] = _options.tabu_time_local_min + _local_moves;
 				_must_compute_worst_variables_list = true;
 				++_local_minimum;
 			}
@@ -615,16 +609,10 @@ namespace ghost
 			  _objective ( std::move( objective ) ),
 			  _variables_at_start( variables ),
 			  _is_optimization ( _objective == nullptr ? false : true ),
-			  _no_random_starting_point( false ),
 			  _number_variables ( static_cast<unsigned int>( variables.size() ) ),
 			  _number_constraints ( static_cast<unsigned int>( constraints.size() ) ),
 			  _matrix_var_ctr ( std::vector<std::vector<unsigned int> >( _number_variables ) ),
 			  _tabu_list( std::vector<int>( _number_variables, 0 ) ),
-			  _tabu_time_local_min( std::max( std::min( 5, static_cast<int>( _number_variables ) - 1 ), static_cast<int>( std::ceil( _number_variables / 5 ) ) ) + 1 ),
-			  //_tabu_time_local_min( std::max( 2, _tabu_threshold ) ),
-			  _tabu_time_selected( 0 ),
-			  _tabu_threshold( _tabu_time_local_min ),
-			  //_tabu_threshold( static_cast<int>( std::ceil( std::sqrt( _number_variables ) ) ) ),
 			  _worst_variables_list( std::vector<unsigned int>( _number_variables, 0 ) ),
 			  _must_compute_worst_variables_list( true ),
 			  _error_variables( std::vector<double>( _number_variables, 0.0 ) ),
@@ -633,7 +621,7 @@ namespace ghost
 			  _current_sat_error( std::numeric_limits<double>::max() ),
 			  _current_opt_cost( std::numeric_limits<double>::max() ),
 			  _cost_before_postprocess( std::numeric_limits<double>::max() ),
-			  _restarts( -1 ),
+			  _restarts( 0 ),
 			  _resets( 0 ),
 			  _local_moves( 0 ),
 			  _search_iterations( 0 ),
@@ -753,17 +741,14 @@ namespace ghost
 		 * \param finalSolution The configuration of the best solution found, ie, a reference to the vector of assignements of each variable.
 		 * \param sat_timeout The satisfaction timeout in microseconds.
 		 * \param opt_timeout The optimization timeout in microseconds (optionnal, equals to 10 times sat_timeout is not set).
-		 * \param no_random_starting_point A Boolean to indicate if the solver should not start from a random starting point. This is necessary in particular to use the resume feature.
-		 * \param print A unique pointer to the printer of solution/candidates (useful to debug your model).
+		 * \param options A reference to an Options object containing options such as a solution printer, Booleans indicating if the solver must start with a custom variable assignment, etc.
 		 * \return True iff a solution has been found.
 		 */
 		bool solve( double& final_cost,
 		            std::vector<int>& final_solution,
 		            double timeout,
-		            bool no_random_starting_point = false,
-		            std::unique_ptr<Print> print = nullptr )
+		            Options& options )
 		{
-			// TODO: Resume feature
 			// TODO: Antidote search
 			// TODO: Neighborhood
 			// TODO: Postprocess
@@ -788,12 +773,25 @@ namespace ghost
 			/********************
 			* 1. Initialization *
 			*********************/
-			_no_random_starting_point = no_random_starting_point;
-			if( print != nullptr )
-				_print = std::move( print );
-			else
-				_print = std::make_unique<Print>();
-						
+			_options = options;
+			
+			if( _options.tabu_time_local_min == -1 )
+				_options.tabu_time_local_min = std::max( std::min( 5, static_cast<int>( _number_variables ) - 1 ), static_cast<int>( std::ceil( _number_variables / 5 ) ) ) + 1;
+			  //_options.tabu_time_local_min = std::max( 2, _tabu_threshold ) );
+
+			if( _options.tabu_time_selected == -1 )
+				_options.tabu_time_selected = 0;
+
+			if( _options.reset_threshold == -1 ) 
+				_options.reset_threshold = _options.tabu_time_local_min;
+			  //_options.reset_threshold = static_cast<int>( std::ceil( std::sqrt( _number_variables ) ) );
+
+			if( _options.restart_threshold == -1 ) 
+				_options.restart_threshold = _number_variables;
+
+			if( _options.percent_to_reset == -1 )
+				_options.percent_to_reset = std::max( 2, static_cast<int>( std::ceil( _number_variables * 0.1 ) ) ); // 10%
+				
 			std::chrono::duration<double,std::micro> elapsed_time( 0 );
 			std::chrono::time_point<std::chrono::steady_clock> start( std::chrono::steady_clock::now() );
 			std::chrono::time_point<std::chrono::steady_clock> start_postprocess;
@@ -808,9 +806,9 @@ namespace ghost
 			// ie, equals to the number of variables.
 			final_solution.resize( _number_variables );
 	
-			// Call restart to initialize data structures.
-			restart();
-
+			initialize_variable_values();
+			initialize_data_structures();
+			
 			elapsed_time = std::chrono::steady_clock::now() - start;
 
 			// While timeout is not reached, and the solver didn't satisfied
@@ -853,7 +851,7 @@ namespace ghost
 				auto variable_to_change = _rng.pick( _worst_variables_list );
 				
 #if defined(GHOST_TRACE)
-				_print->print_candidate( _variables );
+				_options.print->print_candidate( _variables );
 				std::cout << "\n\nNumber of loop iteration: " << _search_iterations << "\n";
 				std::cout << "Number of local moves performed: " << _local_moves << "\n";
 				std::cout << "Tabu list:";
@@ -1151,15 +1149,20 @@ namespace ghost
 				_variables[ variable_id ].set_value( final_solution[ variable_id ] );
 
 #if defined(GHOST_DEBUG) || defined(GHOST_TRACE) || defined(GHOST_BENCH)
-			std::cout << "@@@@@@@@@@@@" << "\n";
-			std::cout << "Variables of local minimum are frozen for: " << _tabu_time_local_min << " local moves.\n"
-			          << "Selected variables are frozen for: " << _tabu_time_selected << " local moves.\n";
-			int percent_to_reset = std::max( 2, static_cast<int>( std::ceil( _number_variables * 0.1 ) ) );
-			std::cout << percent_to_reset << " variables are reset when " << _tabu_threshold << " variables are frozen.\n";
-			std::cout << "############" << "\n";
+			std::cout << "@@@@@@@@@@@@" << "\n"
+			          << "Options:\n"
+			          << "Started from a custom variables assignment: " << ( _options.custom_starting_point ? "true" : "false" ) << "\n"
+			          << "Search resumed from a previous run: " << ( _options.resume_search ? "true" : "false" ) << "\n"
+			          << "Parallel search: " << ( _options.parallel_runs ? "true" : "false" ) << "\n"
+			          << "Number of threads (not used if no parallel search): " << _options.number_threads << "\n"
+			          << "Variables of local minimum are frozen for: " << _options.tabu_time_local_min << " local moves.\n"
+			          << "Selected variables are frozen for: " << _options.tabu_time_selected << " local moves.\n"
+			          << _options.percent_to_reset << " variables are reset when " << _options.reset_threshold << " variables are frozen.\n"
+			          << "Do a restart each time " << _options.restart_threshold << " resets are performed.\n"
+			          << "############" << "\n";
 
 			// Print solution
-			_print->print_candidate( _variables );
+			_options.print->print_candidate( _variables );
 
 			std::cout << "\n";
 			
@@ -1191,5 +1194,12 @@ namespace ghost
           
 			return _best_sat_error == 0.0;
 		}
+
+		//! Call Solver::solve with default options.
+		bool solve( double& final_cost, std::vector<int>& final_solution, double timeout )
+		{
+			return solve( final_cost, final_solution, timeout, Options() );
+		}
+
 	};
 }
