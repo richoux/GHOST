@@ -49,6 +49,18 @@
 
 namespace ghost
 {
+	struct Options
+	{
+		bool custom_starting_point;
+		bool is_resume;
+		std::unique_ptr<Print> print;
+
+		Options()
+			: custom_starting_point( false ),
+			  is_resume( false ),
+			  print( std::make_unique<Print>() );
+	}
+
 	//! Solver is the class coding the solver itself.
 	/*!
 	 * To solve a problem instance, you must instanciate a Solver object, then run Solver::solve.
@@ -75,14 +87,15 @@ namespace ghost
 
 		bool _is_optimization; //!< A boolean to know if it is a satisfaction or optimization run.
 		bool _no_random_starting_point;
+		std::vector<Variable> _variables_at_start; //!< Vector of Variable objects with values given at the launch of the solver.
 
 		unsigned int _number_variables; //!< Size of the vector of variables.
 		unsigned int _number_constraints; //!< Size of the vector of constraints.
 		std::vector<std::vector<unsigned int> > _matrix_var_ctr; //!< Matrix to know in which constraints each variable is.
 		std::vector<int> _tabu_list; //!< The tabu list, frozing used variables for tabu_time iterations.
-		int _tabu_threshold;
 		int _tabu_time_local_min; //!< Number of local moves a variable of a local minimum is marked tabu.
 		int _tabu_time_selected; //!< Number of local moves a selected variable is marked tabu.
+		int _tabu_threshold;
 		
 		std::vector<unsigned int> _worst_variables_list;
 		bool _must_compute_worst_variables_list;
@@ -301,10 +314,9 @@ namespace ghost
 			if( !_no_random_starting_point )
 				set_initial_configuration( 10 );
 			else
-				// From the second turn in this loop, start from a random configuration
-				// TODO: What if users REALLY want to start searching from their own starting point?
-				_no_random_starting_point = false;
-
+				for( int i = 0 ; i < _number_variables ; ++i )
+					_variables[i].set_value( _variables_at_start[i].get_value() );
+				
 #if defined(GHOST_TRACE)
 			std::cout << "Number of restarts performed so far: " << _restarts << "\n";
 			_print->print_candidate( _variables );
@@ -344,6 +356,11 @@ namespace ghost
 		void reset()
 		{
 			++_resets;
+			if( _resets % _number_variables == 0 )
+			{
+				restart();
+				return;
+			}
 			_must_compute_worst_variables_list = true;
 
 			//Reset tabu list
@@ -596,16 +613,18 @@ namespace ghost
 			: _variables ( variables ), 
 			  _constraints ( constraints ),
 			  _objective ( std::move( objective ) ),
+			  _variables_at_start( variables ),
 			  _is_optimization ( _objective == nullptr ? false : true ),
 			  _no_random_starting_point( false ),
 			  _number_variables ( static_cast<unsigned int>( variables.size() ) ),
 			  _number_constraints ( static_cast<unsigned int>( constraints.size() ) ),
 			  _matrix_var_ctr ( std::vector<std::vector<unsigned int> >( _number_variables ) ),
 			  _tabu_list( std::vector<int>( _number_variables, 0 ) ),
-			  _tabu_threshold( static_cast<int>( std::ceil( std::sqrt( _number_variables ) ) ) ),
-			  // _tabu_time_local_min( std::max( std::min( 5, static_cast<int>( _number_variables ) - 1 ), static_cast<int>( std::ceil( _number_variables / 5 ) ) ) + 1 ),
-			  _tabu_time_local_min( std::max( 2, _tabu_threshold ) ),
+			  _tabu_time_local_min( std::max( std::min( 5, static_cast<int>( _number_variables ) - 1 ), static_cast<int>( std::ceil( _number_variables / 5 ) ) ) + 1 ),
+			  //_tabu_time_local_min( std::max( 2, _tabu_threshold ) ),
 			  _tabu_time_selected( 0 ),
+			  _tabu_threshold( _tabu_time_local_min ),
+			  //_tabu_threshold( static_cast<int>( std::ceil( std::sqrt( _number_variables ) ) ) ),
 			  _worst_variables_list( std::vector<unsigned int>( _number_variables, 0 ) ),
 			  _must_compute_worst_variables_list( true ),
 			  _error_variables( std::vector<double>( _number_variables, 0.0 ) ),
