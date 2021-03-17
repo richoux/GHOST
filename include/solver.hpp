@@ -63,6 +63,7 @@ namespace ghost
 		int reset_threshold; //!< Number of variables marked as tabu required to trigger a reset.
 		int restart_threshold; //!< Trigger a resart every 'restart_threshold' reset.
 		int percent_to_reset; //<! Percentage of variables to randomly change the value at each reset.
+		int number_start_samplings; //!< Number of variable assignments the solver randomly draw, if custom_starting_point and resume_search are false.
 		
 		Options()
 			: custom_starting_point( false ),
@@ -74,7 +75,8 @@ namespace ghost
 			  tabu_time_selected( -1 ),
 			  reset_threshold( -1 ),
 			  restart_threshold( -1 ),
-			  percent_to_reset( -1 )
+			  percent_to_reset( -1 ),
+			  number_start_samplings( 10 )
 		{ }
 
 		~Options() = default;
@@ -208,58 +210,54 @@ namespace ghost
 		 * the configuration with the lowest satisfaction cost. If some of them reach 0, it keeps 
 		 * the configuration with the best optimization cost.
 		 */
-		void set_initial_configuration( int samplings = 1 )
+		void set_initial_configuration( int samplings )
 		{
-			if( !_is_permutation_problem && samplings <= 1 )
-				monte_carlo_sampling();
-			else
-			{			
-				double best_sat_error = std::numeric_limits<double>::max();
-				double current_sat_error;
-				std::vector<int> best_values( _number_variables, 0 );
-
-				// To avoid weird samplings numbers like 0 or -1
-				samplings = std::max( 1, samplings );
-				
-				for( int i = 0 ; i < samplings ; ++i )
+			double best_sat_error = std::numeric_limits<double>::max();
+			double current_sat_error;
+			std::vector<int> best_values( _number_variables, 0 );
+			
+			// To avoid weird samplings numbers like 0 or -1
+			samplings = std::max( 1, samplings );
+			int loops = 0;
+			
+			// In case we directly start with a solution, or something closed to be a solution
+			do
+			{
+				if( loops > 0)
 				{
 					if( _is_permutation_problem )
 						random_permutations();
 					else
 						monte_carlo_sampling();
-					
-					current_sat_error = 0.0;
-					for( unsigned int constraint_id = 0 ; constraint_id < _number_constraints ; ++constraint_id )
-					{
-						for( auto variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, _constraints[ constraint_id ] ) )
-							call_update_variable( constraint_id, variable_id, _variables[ variable_id ].get_value() );
-						current_sat_error += call_error( constraint_id );
-					}
-					
-					if( best_sat_error > current_sat_error )
-					{
-						best_sat_error = current_sat_error;
-
-						if( _best_sat_error > best_sat_error )
-						{
-#if defined(GHOST_TRACE)
-							std::cout << "Improve the satisfaction error: before " << _best_sat_error << ", now " << best_sat_error << "\n";
-#endif
-							_best_sat_error = best_sat_error;
-						}
-						
-						for( int i = 0 ; i < _number_variables ; ++i )
-							best_values[ i ] = _variables[ i ].get_value();
-					}
-					
-					if( current_sat_error == 0.0 )
-						break;
 				}
-
-				// use std::algorithm?
-				for( unsigned int variable_id = 0 ; variable_id < _number_variables ; ++variable_id )
-					_variables[ variable_id ].set_value( best_values[ variable_id ] );
-			}
+				
+				current_sat_error = 0.0;
+				for( unsigned int constraint_id = 0 ; constraint_id < _number_constraints ; ++constraint_id )
+				{
+					for( auto variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, _constraints[ constraint_id ] ) )
+						call_update_variable( constraint_id, variable_id, _variables[ variable_id ].get_value() );
+					current_sat_error += call_error( constraint_id );
+				}
+				
+				if( best_sat_error > current_sat_error )
+				{
+					best_sat_error = current_sat_error;
+					
+					if( _best_sat_error > best_sat_error )
+					{
+#if defined GHOST_TRACE
+						std::cout << "Better starting configuration found. Previous error: " << _best_sat_error << ", now: " << best_sat_error << "\n";
+#endif
+						_best_sat_error = best_sat_error;
+					}
+					for( int i = 0 ; i < _number_variables ; ++i )
+							best_values[ i ] = _variables[ i ].get_value();
+				}
+				++loops;
+			} while( loops < samplings && current_sat_error > 0.0 );
+			
+			for( unsigned int variable_id = 0 ; variable_id < _number_variables ; ++variable_id )
+				_variables[ variable_id ].set_value( best_values[ variable_id ] );
 		}
 
 		//! Sample an configuration
@@ -331,7 +329,7 @@ namespace ghost
 					_variables[i].set_value( _variables_at_start[i].get_value() );
 			}
 			else
-				set_initial_configuration( 10 );			
+				set_initial_configuration( _options.number_start_samplings );			
 		}
 
 		void initialize_data_structures()
@@ -1155,10 +1153,11 @@ namespace ghost
 			          << "Search resumed from a previous run: " << ( _options.resume_search ? "true" : "false" ) << "\n"
 			          << "Parallel search: " << ( _options.parallel_runs ? "true" : "false" ) << "\n"
 			          << "Number of threads (not used if no parallel search): " << _options.number_threads << "\n"
-			          << "Variables of local minimum are frozen for: " << _options.tabu_time_local_min << " local moves.\n"
-			          << "Selected variables are frozen for: " << _options.tabu_time_selected << " local moves.\n"
-			          << _options.percent_to_reset << " variables are reset when " << _options.reset_threshold << " variables are frozen.\n"
-			          << "Do a restart each time " << _options.restart_threshold << " resets are performed.\n"
+			          << "Number of variable assignments samplings at start (if custom start and resume are set to false): " << _options.number_start_samplings << "\n"
+			          << "Variables of local minimum are frozen for: " << _options.tabu_time_local_min << " local moves\n"
+			          << "Selected variables are frozen for: " << _options.tabu_time_selected << " local moves\n"
+			          << _options.percent_to_reset << " variables are reset when " << _options.reset_threshold << " variables are frozen\n"
+			          << "Do a restart each time " << _options.restart_threshold << " resets are performed\n"
 			          << "############" << "\n";
 
 			// Print solution
