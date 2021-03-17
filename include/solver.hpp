@@ -1149,9 +1149,9 @@ namespace ghost
 #if defined(GHOST_DEBUG) || defined(GHOST_TRACE) || defined(GHOST_BENCH)
 			std::cout << "@@@@@@@@@@@@" << "\n"
 			          << "Options:\n"
-			          << "Started from a custom variables assignment: " << ( _options.custom_starting_point ? "true" : "false" ) << "\n"
-			          << "Search resumed from a previous run: " << ( _options.resume_search ? "true" : "false" ) << "\n"
-			          << "Parallel search: " << ( _options.parallel_runs ? "true" : "false" ) << "\n"
+			          << "Started from a custom variables assignment: " << std::boolalpha << _options.custom_starting_point << "\n"
+			          << "Search resumed from a previous run: " << std::boolalpha << _options.resume_search << "\n"
+			          << "Parallel search: " << std::boolalpha << _options.parallel_runs << "\n"
 			          << "Number of threads (not used if no parallel search): " << _options.number_threads << "\n"
 			          << "Number of variable assignments samplings at start (if custom start and resume are set to false): " << _options.number_start_samplings << "\n"
 			          << "Variables of local minimum are frozen for: " << _options.tabu_time_local_min << " local moves\n"
