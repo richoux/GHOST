@@ -59,6 +59,7 @@ namespace ghost
 	class Objective
 	{
 		template <typename ... ConstraintType> friend class Solver;
+		template <typename ... ConstraintType> friend class SearchUnit;
 
 		std::string _name; //!< Name of the objective object.
 		std::vector<Variable> _variables; //!<Vector of variables of the model.

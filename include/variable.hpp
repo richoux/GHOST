@@ -56,6 +56,7 @@ namespace ghost
 	class Variable final
 	{
 		template <typename ... ConstraintType> friend class Solver;
+		template <typename ... ConstraintType> friend class SearchUnit;
 
 		std::string _name;	//!< String to give a name to the variable, helpful to debug/trace.
 		std::vector<int> _domain; //!< The domain, i.e., the vector of values the variable can take.
