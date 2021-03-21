@@ -867,7 +867,6 @@ namespace ghost
 							int current_value = variables[ variable_to_change ].get_value();
 							int candidate_value = variables[ variable_id ].get_value();
 
-							// TODO BUG THREADS
 							for( const unsigned int constraint_id : matrix_var_ctr.at( variable_to_change ) )
 							{
 								constraint_checked[ constraint_id ] = true;
