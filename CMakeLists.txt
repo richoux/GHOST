@@ -18,6 +18,18 @@ else()
   message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++20 support. Please use a different C++ compiler.")
 endif()
 
+# require g++-10, or MSVC 19.28 (for jthread). Clang does not support jthread yet.
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "10")
+    message(FATAL_ERROR "GCC version must be at least 10 to compile GHOST.")
+  endif()
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "19.28")
+    message(FATAL_ERROR "MSVC version must be at least 19.28 to compile GHOST.")
+  endif()
+#elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+endif()
+
 # compilation options
 if(WIN32)
 	if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
@@ -51,15 +63,11 @@ if(GHOST_EXPERIMENTAL)
   add_definitions(-DGHOST_EXPERIMENTAL)
 endif()
 
-OPTION(GHOST_BENCH "Compile GHOST for benchmarks" OFF)
-if(GHOST_BENCH)
-  add_definitions(-DGHOST_BENCH)
+option(NO_ASAN "Disable fsanitizer" OFF)
+if(NO_ASAN)
+	set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 endif()
 
-OPTION(GHOST_TRACE "Compile GHOST to have a full execution trace, for debugging" OFF)
-if(GHOST_TRACE)
-  add_definitions(-DGHOST_TRACE)
-endif()
 
 # add the binary tree to the search path for include files so that we will find headers
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)

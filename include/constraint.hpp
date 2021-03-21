@@ -58,8 +58,8 @@ namespace ghost
 	 */
 	class Constraint
 	{
-		template <typename ... ConstraintType> friend class Solver;
-		template <typename ... ConstraintType> friend class SearchUnit;
+		template <typename ObjectiveType, typename ... ConstraintType> friend class Solver;
+		template <typename ObjectiveType, typename ... ConstraintType> friend class SearchUnit;
 
 		std::vector<Variable> _variables;	//!< Vector of variables in the scope of the constraint.
 		double _current_error; //!< Current error of the constraint. 
