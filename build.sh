@@ -30,7 +30,7 @@ fi
 
 function usage()
 {
-    echo "$0: usage: build.sh [release|rel_dbg_info|debug|clean|doc|tests] [EXP]"
+    echo "$0: usage: build.sh [release|rel_dbg_info|debug|debug_no_asan|clean|doc|tests] [EXP]"
     exit 1
 }
 
@@ -48,6 +48,15 @@ function debug()
     mkdir -p $DEBUG
     cd $DEBUG
     cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
+    make
+    sudo make install
+}
+
+function debug_no_asan()
+{
+    mkdir -p $DEBUG
+    cd $DEBUG
+    cmake -DCMAKE_BUILD_TYPE=Debug -DNO_ASAN=ON -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
     make
     sudo make install
 }
@@ -143,6 +152,10 @@ elif [ "$1" == "rel_dbg_info" ]; then
     exit 0
 elif [ "$1" == "debug" ]; then
     debug
+    cd $BACKPWD
+    exit 0
+elif [ "$1" == "debug_no_asan" ]; then
+    debug_no_asan
     cd $BACKPWD
     exit 0
 elif [ "$1" == "clean" ]; then

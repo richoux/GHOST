@@ -58,7 +58,8 @@ namespace ghost
 	 */
 	class Objective
 	{
-		template <typename ... ConstraintType> friend class Solver;
+		template <typename ObjectiveType, typename ... ConstraintType> friend class Solver;
+		template <typename ObjectiveType, typename ... ConstraintType> friend class SearchUnit;
 
 		std::string _name; //!< Name of the objective object.
 		std::vector<Variable> _variables; //!<Vector of variables of the model.
@@ -235,9 +236,18 @@ namespace ghost
 		Objective( std::string name, const std::vector<Variable>& variables );
 
 		//! Default copy contructor.
-		Objective( const Objective& other ) = default;
+		Objective( const Objective& other )
+			: _name ( other._name ),
+			  _variables ( other._variables ),
+			  _id_mapping ( other._id_mapping )
+		{ }
+		
 		//! Default move contructor.
-		Objective( Objective&& other ) = default;
+		Objective( Objective&& other )
+			: _name ( other._name ),
+			  _variables ( other._variables ),
+			  _id_mapping ( other._id_mapping )
+		{ }
 
 		//! Copy assignment operator disabled.
 		Objective& operator=( const Objective& other ) = delete;
