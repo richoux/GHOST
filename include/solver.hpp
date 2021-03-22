@@ -30,6 +30,8 @@
 
 #pragma once
 
+#include <iostream>
+#include <iomanip>
 #include <cassert>
 #include <cmath>
 #include <limits>
@@ -136,7 +138,7 @@ namespace ghost
 		std::promise<void> _stop_search_signal;
 		std::future<void> _stop_search_check;
 
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 		void print_errors()
 		{
 			std::cout << "Constraint errors:\n";
@@ -356,7 +358,7 @@ namespace ghost
 				// Start from a given starting configuration, or a random one.
 				initialize_variable_values();
 				
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 				std::cout << "Number of restarts performed so far: " << restarts << "\n";
 				options.print->print_candidate( variables );
 				std::cout << "\n";
@@ -369,7 +371,7 @@ namespace ghost
 				else
 					monte_carlo_sampling( options.percent_to_reset );
 				
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 				std::cout << "Number of resets performed so far: " << resets << "\n";
 				options.print->print_candidate( variables );
 				std::cout << "\n";
@@ -393,11 +395,12 @@ namespace ghost
 		{
 			return std::visit( [&](Constraint& ctr){ return ctr._current_error; }, constraints[ constraint_id ] );
 		}
-		
+
+#if defined ADAPTIVE_SEARCH
 		//! To compute the vector of variables which are principal culprits for not satisfying the problem
 		void compute_worst_variables()
 		{
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 			print_errors();
 #endif
 			if( std::count_if( tabu_list.begin(),
@@ -423,7 +426,16 @@ namespace ghost
 					}
 			}
 		}
-
+#else // end ADAPTIVE_SEARCH ; start ANTIDOTE_SEARCH
+		std::vector<double> mask_tabu( std::vector<double> error_variables )
+		{
+			for( unsigned int variable_id = 0; variable_id < number_variables; ++variable_id )
+				if( tabu_list[ variable_id ] > local_moves )
+					error_variables[ variable_id ] = 0.0;
+			return error_variables;
+		}
+#endif // end ANTIDOTE_SEARCH
+		
 		//! Compute the cost of each constraints
 		double compute_constraints_errors()
 		{
@@ -441,7 +453,7 @@ namespace ghost
 			return satisfaction_error;
 		}
 
-		//! Compute the variable cost of each variables and fill up _error_variables 
+		//! Compute the variable cost of each variables and fill up error_variables 
 		void compute_variables_errors()
 		{
 			for( unsigned int variable_id = 0; variable_id < number_variables; ++variable_id )
@@ -537,7 +549,7 @@ namespace ghost
 				tabu_list[ variable_to_change ] = options.tabu_time_local_min + local_moves;
 				must_compute_worst_variables_list = true;
 				++plateau_local_minimum;
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 				std::cout << "Escape from plateau; variables marked as tabu.\n";
 #endif
 			}
@@ -560,7 +572,7 @@ namespace ghost
 			}
 			else
 			{
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 				std::cout << "Try other variables: not a local minimum yet.\n";
 #endif
 				must_compute_worst_variables_list = false;
@@ -646,7 +658,7 @@ namespace ghost
 			  is_permutation_problem ( permutation_problem ),
 			  options ( options )
 		{
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 			std::cout << "Creating a search unit\n";
 #endif
 		}
@@ -779,6 +791,8 @@ namespace ghost
 			
 			elapsed_time = std::chrono::steady_clock::now() - start;
 			using namespace std::chrono_literals;
+
+			unsigned int variable_to_change;
 			
 			// While timeout is not reached, and the solver didn't satisfied
 			// all constraints OR it is working on an optimization problem, continue the search.
@@ -792,10 +806,11 @@ namespace ghost
 				 * 1. Choice of worst variable(s) to change *
 				 ********************************************/
 				// Estimate which variables need to be changed
+#if defined ADAPTIVE_SEARCH
 				if( must_compute_worst_variables_list )
 					compute_worst_variables();
 
-// #if !defined(GHOST_EXPERIMENTAL)
+// #if !defined GHOST_EXPERIMENTAL
 // 				compute_worst_variables();
 
 // 				if( _number_worst_variables > 1 )
@@ -811,16 +826,20 @@ namespace ghost
 
 				if( worst_variables_list.empty() )
 				{
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 					std::cout << "No variables left to be changed: reset.\n";
 #endif					
 					reset();
 					continue;
 				}
 				
-				auto variable_to_change = rng.pick( worst_variables_list );
+				variable_to_change = rng.pick( worst_variables_list );
+#else // end ADAPTIVE_SEARCH ; start ANTIDOTE_SEARCH
+				auto masked_error_variables = mask_tabu( error_variables );
+				variable_to_change = rng.variate<unsigned int, std::discrete_distribution>( masked_error_variables.begin(), masked_error_variables.end() );
+#endif // end ANTIDOTE_SEARCH
 				
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 				options.print->print_candidate( variables );
 				std::cout << "\n\nNumber of loop iteration: " << search_iterations << "\n";
 				std::cout << "Number of local moves performed: " << local_moves << "\n";
@@ -828,11 +847,22 @@ namespace ghost
 				for( int i = 0 ; i < number_variables ; ++i )
 					if( tabu_list[i] > local_moves )
 						std::cout << " v[" << i << "]:" << tabu_list[i];
+#if defined ADAPTIVE_SEARCH
 				std::cout << "\nWorst variables list: v[" << worst_variables_list[0] << "]=" << variables[ worst_variables_list[0] ].get_value();
 				for( int i = 1 ; i < static_cast<int>( worst_variables_list.size() ) ; ++i )
 					std::cout << ", v[" << worst_variables_list[i] << "]=" << variables[ worst_variables_list[i] ].get_value();
 				std::cout << "\nPicked worst variable: v[" << variable_to_change << "]=" << variables[ variable_to_change ].get_value() << "\n\n";
-#endif
+#else // end ADAPTIVE_SEARCH ; start ANTIDOTE_SEARCH
+				auto distrib = std::discrete_distribution<unsigned int>( masked_error_variables.begin(), masked_error_variables.end() );
+				std::vector<int> vec( number_variables, 0 );
+				for( int n = 0 ; n < 10000 ; ++n )
+					++vec[ rng.variate<unsigned int, std::discrete_distribution>( distrib ) ];
+				auto max_occurence = *( std::max_element( vec.begin(), vec.end() ) );
+				std::cout << "Variable errors (normalized):\n";
+				for( int n = 0 ; n < number_variables ; ++n )
+					std::cout << "v[" << n << "]: " << std::fixed << std::setprecision(3) << static_cast<double>( vec[n] ) / max_occurence << "\n";
+#endif // end ANTIDOTE_SEARCH
+#endif // end GHOST_TRACE
 
 				/********************************
 				 * 2. Choice of their new value *
@@ -890,14 +920,16 @@ namespace ghost
 				}
 				
 				// Select the next current configuration (local move)
-				std::vector<int> candidate_values;
-				std::map<int, double> cumulated_delta_errors;
-				double min_conflict = std::numeric_limits<double>::max();
 				double new_value;
+				double min_conflict = std::numeric_limits<double>::max();
+				std::vector<int> candidate_values;
+				
+#if defined ADAPTIVE_SEARCH
+				std::map<int, double> cumulated_delta_errors;
 				for( const auto& deltas : delta_errors )
 				{
 					cumulated_delta_errors[ deltas.first ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 					if( is_permutation_problem )
 						std::cout << "Error for switching var[" << variable_to_change << "]=" << variables[ variable_to_change ].get_value()
 						          << " with var[" << deltas.first << "]=" << variables[ deltas.first ].get_value()
@@ -906,7 +938,7 @@ namespace ghost
 						std::cout << "Error for the value " << deltas.first << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
 #endif
 				}
-				
+
 				for( const auto& deltas : cumulated_delta_errors )
 				{
 					if( min_conflict > deltas.second )
@@ -947,8 +979,44 @@ namespace ghost
 				}
 				else
 					new_value = rng.pick( candidate_values );
+#else // end ADAPTIVE_SEARCH ; start ANTIDOTE_SEARCH
+				std::vector<double> cumulated_delta_errors( delta_errors.size() );
+				std::vector<int> cumulated_delta_errors_variable_index_correspondance( delta_errors.size() ); // longest variable name ever
 
-#if defined(GHOST_TRACE)
+				int index = 0;
+				
+				for( const auto& deltas : delta_errors )
+				{
+					cumulated_delta_errors[ index ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
+					cumulated_delta_errors_variable_index_correspondance[ index ] = deltas.first;
+#if defined GHOST_TRACE
+					if( is_permutation_problem )
+						std::cout << "Error for switching var[" << variable_to_change << "]=" << variables[ variable_to_change ].get_value()
+						          << " with var[" << deltas.first << "]=" << variables[ deltas.first ].get_value()
+						          << ": " << cumulated_delta_errors[ index ] << "\n";
+					else
+						std::cout << "Error for the value " << deltas.first << ": " << cumulated_delta_errors[ index ] << "\n";
+#endif
+					++index;
+				}
+
+				index = rng.variate<int, std::discrete_distribution>( cumulated_delta_errors.begin(), cumulated_delta_errors.end() );
+				min_conflict = cumulated_delta_errors[ index ];
+				new_value = cumulated_delta_errors_variable_index_correspondance[ index ];
+				
+#if defined GHOST_TRACE
+				auto distrib_value = std::discrete_distribution<int>( cumulated_delta_errors.begin(), cumulated_delta_errors.end() );
+				std::vector<int> vec_value( domain_to_explore.size(), 0 );
+				for( int n = 0 ; n < 10000 ; ++n )
+					++vec_value[ rng.variate<int, std::discrete_distribution>( distrib_value ) ];
+				max_occurence = *( std::max_element( vec_value.begin(), vec_value.end() ) );
+				std::cout << "Cumulated delta error distribution (normalized):\n";
+				for( int n = 0 ; n < domain_to_explore.size() ; ++n )
+					std::cout << "val " <<  domain_to_explore[ n ] << ": " << std::fixed << std::setprecision(3) << static_cast<double>( vec_value[n] ) / max_occurence << "\n";
+#endif // end GHOST_TRACE
+#endif // end ANTIDOTE_SEARCH
+					
+#if defined ADAPTIVE_SEARCH && defined GHOST_TRACE
 				std::cout << "Min conflict value candidates list: " << candidate_values[0];
 				for( int i = 1 ; i < static_cast<int>( candidate_values.size() ); ++i )
 					std::cout << ", " << candidate_values[i];
@@ -969,7 +1037,7 @@ namespace ghost
 				 ****************************************/
 				if( min_conflict < 0.0 )
 				{
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 					std::cout << "Global error improved (" << current_sat_error << " -> " << current_sat_error + min_conflict << "): make local move.\n";
 #endif
 					local_move( variable_to_change, new_value, min_conflict, delta_errors );
@@ -983,7 +1051,7 @@ namespace ghost
 					 *****************/
 					if( min_conflict == 0.0 )
 					{
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 						std::cout << "Global error stable; ";
 #endif
 						if( is_optimization )
@@ -1012,7 +1080,7 @@ namespace ghost
 							 ******************************************************/
 							if( current_opt_cost > candidate_opt_cost )
 							{								
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 								std::cout << "optimization cost improved (" << current_opt_cost << " -> " << candidate_opt_cost << "): make local move.\n";
 #endif
 								local_move( variable_to_change, new_value, min_conflict, delta_errors );
@@ -1024,7 +1092,7 @@ namespace ghost
 								 ******************************************/
 								if( current_opt_cost == candidate_opt_cost )
 								{
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 									std::cout << "optimization cost stable (" << current_opt_cost << "): plateau.\n";
 #endif
 									plateau_management( variable_to_change, new_value, delta_errors );
@@ -1034,7 +1102,7 @@ namespace ghost
 									/*************************************************
 									 * 4.c. Worst optimization cost => local minimum *
 									 *************************************************/
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 									std::cout << "optimization cost increase (" << current_opt_cost << " -> " << candidate_opt_cost << "): local minimum.\n";
 #endif
 									local_minimum_management( variable_to_change, new_value, worst_variables_list.empty() );
@@ -1045,7 +1113,7 @@ namespace ghost
 							/***********************************************
 							 * 4.d. Not an optimization problem => plateau *
 							 ***********************************************/
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 							std::cout << "no optimization: plateau.\n";
 #endif
 							plateau_management( variable_to_change, new_value, delta_errors );
@@ -1056,7 +1124,7 @@ namespace ghost
 						/***********************************
 						 * 5. Worst error => local minimum *
 						 ***********************************/
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 						std::cout << "Global error increase: local minimum.\n";
 #endif
 						local_minimum_management( variable_to_change, new_value, worst_variables_list.empty() );
@@ -1065,7 +1133,7 @@ namespace ghost
 
 				if( best_sat_error > current_sat_error )
 				{
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 					std::cout << "Best satisfaction error so far (in an optimization problem). Before: " << best_sat_error << ", now: " << current_sat_error << "\n";
 #endif
 					best_sat_error = current_sat_error;
@@ -1077,7 +1145,7 @@ namespace ghost
 
 				if( is_optimization && best_opt_cost > current_opt_cost )
 				{
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 					std::cout << "Best objective function value so far. Before: " << best_opt_cost << ", now: " << current_opt_cost << "\n";
 #endif
 					best_opt_cost = current_opt_cost;
@@ -1241,7 +1309,7 @@ namespace ghost
 					std::cerr << "No expert_delta_error method defined for constraint num. " << constraint_id << "\n";
 				}
 
-#if defined(GHOST_TRACE)
+#if defined GHOST_TRACE
 			std::cout << "Creating a Solver object\n\n"
 			          << "Variables:\n";
 
@@ -1359,7 +1427,7 @@ namespace ghost
 			bool solution_found;			
 			bool is_sequential;
 
-#if defined(GHOST_DEBUG) || defined(GHOST_TRACE) || defined(GHOST_BENCH)
+#if defined GHOST_DEBUG || defined GHOST_TRACE || defined GHOST_BENCH
 			// this is to make proper benchmarks with 1 thread.
 			is_sequential = !_options.parallel_runs;
 #else
@@ -1536,7 +1604,7 @@ namespace ghost
 			elapsed_time = std::chrono::steady_clock::now() - start;
 			chrono_full_computation = elapsed_time.count();
 			
-#if defined(GHOST_DEBUG) || defined(GHOST_TRACE) || defined(GHOST_BENCH)
+#if defined GHOST_DEBUG || defined GHOST_TRACE || defined GHOST_BENCH
 			std::cout << "@@@@@@@@@@@@" << "\n"
 			          << "Options:\n"
 			          << "Started from a custom variables assignment: " << std::boolalpha << _options.custom_starting_point << "\n"
