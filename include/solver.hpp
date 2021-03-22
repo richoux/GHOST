@@ -1357,9 +1357,17 @@ namespace ghost
 			// ie, equals to the number of variables.
 			final_solution.resize( _number_variables );
 			bool solution_found;			
+			bool is_sequential;
+
+#if defined(GHOST_DEBUG) || defined(GHOST_TRACE) || defined(GHOST_BENCH)
+			// this is to make proper benchmarks with 1 thread.
+			is_sequential = !_options.parallel_runs;
+#else
+			is_sequential = ( !_options.parallel_runs || _options.number_threads == 1 );
+#endif
 			
 			// sequential runs
-			if( !_options.parallel_runs || _options.number_threads == 1 )
+			if( is_sequential )
 			{
 				SearchUnit search_unit( _variables,
 				                        _constraints,
