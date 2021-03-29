@@ -1317,7 +1317,7 @@ namespace ghost
 				std::cout << variable << "\n";
 
 			std::cout << "\nConstraints:\n";
-			for( const auto& constraint : _constraints )
+			for( auto& constraint : _constraints )
 				std::visit( [&](Constraint& ctr){ std::cout << ctr << "\n"; }, constraint );
 			
 			std::cout << "\nObjective function:\n"
