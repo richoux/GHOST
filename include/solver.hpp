@@ -1713,7 +1713,8 @@ namespace ghost
 		//! Call Solver::solve with default options.
 		bool solve( double& final_cost, std::vector<int>& final_solution, double timeout )
 		{
-			return solve( final_cost, final_solution, timeout, Options() );
+			Options options;
+			return solve( final_cost, final_solution, timeout, options );
 		}
 
 	};
