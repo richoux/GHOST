@@ -27,7 +27,6 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include <iostream>
 #include <iomanip>
 #include <limits>
 #include <cmath>
@@ -36,11 +35,13 @@
 
 using namespace ghost;
 
-void Print::print_candidate( const std::vector<Variable>& variables ) const
+std::stringstream Print::print_candidate( const std::vector<Variable>& variables ) const
 {
+	std::stringstream stream;
+	
 	if( !variables.empty() )
 	{
-		std::cout << "Variables:\n";
+		stream << "Variables:\n";
 		int max_element = std::numeric_limits<int>::min();
 		for( const auto& var : variables )
 			if( max_element < var.get_value() )
@@ -53,12 +54,14 @@ void Print::print_candidate( const std::vector<Variable>& variables ) const
 			if( i % 10 == 0 )
 			{
 				if( i != 0 )
-					std::cout << "\n";
-				std::cout << "v[" << std::setw( indent_indexes ) << i << "]:" << std::setw( indent_values ) << variables[i].get_value();
+					stream << "\n";
+				stream << "v[" << std::setw( indent_indexes ) << i << "]:" << std::setw( indent_values ) << variables[i].get_value();
 			}
 			else
-				std::cout << ", v[" << std::setw( indent_indexes ) << i << "]:" << std::setw( indent_values ) << variables[i].get_value();
+				stream << ", v[" << std::setw( indent_indexes ) << i << "]:" << std::setw( indent_values ) << variables[i].get_value();
 		}
-		std::cout << "\n";
+		stream << "\n";
 	}
+
+	return stream;
 }

@@ -33,7 +33,8 @@ using namespace ghost;
 
 Objective::Objective( std::string name, const std::vector<Variable>& variables )
 	: _name( name ),
-	  _variables( variables )
+	  _variables( variables ),
+	  _is_optimization( true )
 { }
 
 void Objective::update_variable( unsigned int variable_id, int new_value )

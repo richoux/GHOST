@@ -29,6 +29,7 @@
 
 #pragma once
 
+#include <sstream>
 #include <vector>
 
 #include "../variable.hpp"
@@ -38,6 +39,6 @@ namespace ghost
 	class Print
 	{
 	public:
-		virtual void print_candidate( const std::vector<Variable>& variables ) const;
+		virtual std::stringstream print_candidate( const std::vector<Variable>& variables ) const;
 	};	
 }

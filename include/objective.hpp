@@ -63,7 +63,8 @@ namespace ghost
 
 		std::string _name; //!< Name of the objective object.
 		std::vector<Variable> _variables; //!<Vector of variables of the model.
-
+		bool _is_optimization;
+		
 		std::map<unsigned int,int> _id_mapping; // Mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the objective function.
 
 		struct nanException : std::exception
@@ -228,6 +229,8 @@ namespace ghost
 		                                              double&	best_cost,
 		                                              std::vector<int>&	solution ) const;
 
+		inline void is_not_optimization() { _is_optimization = false; }
+
 	public:
 		//! Unique constructor
 		/*!
@@ -239,6 +242,7 @@ namespace ghost
 		Objective( const Objective& other )
 			: _name ( other._name ),
 			  _variables ( other._variables ),
+			  _is_optimization( other._is_optimization ),
 			  _id_mapping ( other._id_mapping )
 		{ }
 		
@@ -246,6 +250,7 @@ namespace ghost
 		Objective( Objective&& other )
 			: _name ( other._name ),
 			  _variables ( other._variables ),
+			  _is_optimization ( other._is_optimization ),
 			  _id_mapping ( other._id_mapping )
 		{ }
 
@@ -260,6 +265,8 @@ namespace ghost
 		//! Inline accessor to get the name of the objective object.
 		inline std::string get_name() const { return _name; }
 
+		inline bool is_optimization() const { return _is_optimization; }
+		
 		// To have a nicer stream of Objective.
 		friend std::ostream& operator<<( std::ostream& os, const Objective& o )
 		{
