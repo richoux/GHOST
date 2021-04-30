@@ -27,7 +27,6 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-
 #pragma once
 
 #include <iostream>
@@ -128,7 +127,7 @@ namespace ghost
 			  number_start_samplings( other.number_start_samplings )
 		{	}
 		
-		Options& operator=( Options other )
+		Options& operator=( const Options& other )
 		{
 			if( this != &other )
 			{
