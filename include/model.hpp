@@ -36,30 +36,38 @@
 #include "constraint.hpp"
 #include "objective.hpp"
 
-class NullObjective;
-
-template<typename ObjectiveType = NullObjective, typename ... ConstraintType>
-class Model
+namespace ghost
 {
-protected:
-	std::vector<Variable> variables; 
-	std::vector<std::shared_ptr<Constraint>> constraints; 
-	ObjectiveType objective;
+	class NullObjective;
 
-public:
-	Model( const std::vector<Variable>& variables, 
-	       const std::vector<std::shared_ptr<Constraint>>&	constraints,
-	       ObjectiveType objective )
-		: variables( variables ),
-		  constraints( constraints ),
-		  objective( objective )
-	{ }
+	template<typename ObjectiveType = NullObjective, typename ... ConstraintType>
+	struct Model
+	{
+		std::vector<Variable> variables; 
+		std::vector<std::shared_ptr<Constraint>> constraints; 
+		ObjectiveType objective;
 
-	Model( const Model& other ) = default;
-	Model( Model&& other ) = default;	
+		Model( const std::vector<Variable>& variables, 
+		       const std::vector<std::shared_ptr<Constraint>>&	constraints,
+		       ObjectiveType objective )
+			: variables( variables ),
+			  constraints( constraints ),
+			  objective( objective )
+		{ }
+
+		Model( const Model& other ) = default;
+		Model( Model&& other ) = default;	
 	
-	Model& operator=( const Model& other ) = delete;
-	Model& operator=( Model&& other ) = delete;	
+		Model& operator=( const Model& other ) = default;
+		Model& operator=( Model&& other ) = default;	
 
-	virtual ~Model() = default;
-};
+		virtual ~Model() = default;
+	};
+
+	template<typename ObjectiveType = NullObjective, typename ... ConstraintType>
+	class FactoryModel
+	{
+	public:
+		virtual std::unique_ptr< Model<ObjectiveType, ConstraintType...> > make_model() = 0;
+	};
+}

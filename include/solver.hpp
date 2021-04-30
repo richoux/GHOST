@@ -47,6 +47,7 @@
 #include "variable.hpp"
 #include "constraint.hpp"
 #include "objective.hpp"
+#include "model.hpp"
 #include "misc/randutils.hpp"
 #include "misc/print.hpp"
 
@@ -1260,8 +1261,10 @@ namespace ghost
 	{
 		std::vector<Variable> _variables; //!< Vector of Variable objects.
 		std::vector<std::variant<ConstraintType ...>> _constraints; //!< Vector of Constraint variants.
-		ObjectiveType _objective; //!< Shared pointer of the objective function.
-
+		ObjectiveType _objective; //!< Objective function object.
+		std::unique_ptr< Model<ObjectiveType, ConstraintType...> > _model; //!< Necessary for parallel computing if some resources are shared among constraints and/or the objective function
+		std::shared_ptr< FactoryModel<ObjectiveType, ConstraintType...> > _factory_model; //!< Factory building the model
+		
 		unsigned int _number_variables; //!< Size of the vector of variables.
 		unsigned int _number_constraints; //!< Size of the vector of constraints.
 		std::vector<std::vector<unsigned int> > _matrix_var_ctr; //!< Matrix to know in which constraints each variable is.
@@ -1290,25 +1293,58 @@ namespace ghost
 
 		bool _is_permutation_problem;
 		Options _options; //!< Options for the solver (see the struct Options).
+
+		void initialize_data_structures( std::vector<Variable>& variables,
+		                                 std::vector<std::variant<ConstraintType ...>>& constraints,
+		                                 ObjectiveType& objective,
+		                                 std::vector<std::vector<unsigned int> >& matrix_var_ctr )
+		{
+			// Set the id of each constraint object to be their index in the _constraints vector
+			for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
+				std::visit( [&](Constraint& ctr){ ctr._id = constraint_id; }, constraints[ constraint_id ] );
+
+			matrix_var_ctr.resize( _number_variables );
+			
+			for( unsigned int variable_id = 0; variable_id < _number_variables; ++variable_id )
+			{
+				// Get the original id of each variable to make the mapping between the variable's id in the solver and its id within constraints (i.e., its original id)
+				unsigned int original_variable_id = variables[ variable_id ]._id;
+				
+				// Set the id of each variable object to be their index in the _variables vector
+				variables[ variable_id ]._id = variable_id;
+				
+				// Save the id of each constraint where the current variable appears in.
+				for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
+					if(	std::visit( [&](Constraint& ctr){ return ctr.has_variable_unshifted( original_variable_id ); }, constraints[ constraint_id ] ) )
+					{
+						matrix_var_ctr[ variable_id ].push_back( constraint_id );
+						std::visit( [&](Constraint& ctr){ ctr.make_variable_id_mapping( variable_id, original_variable_id ); }, constraints[ constraint_id ] );
+					}
+
+				objective.make_variable_id_mapping( variable_id, original_variable_id );			
+			}
+
+			// Determine if expert_delta_error has been user defined or not for each constraint
+			for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
+				try
+				{
+					std::visit( [&](Constraint& ctr){ ctr.expert_delta_error( variables, std::vector<unsigned int>{0}, std::vector<int>{variables[0].get_value()} ); }, constraints[ constraint_id ] );
+				}
+				catch( std::exception e )
+				{
+					std::cerr << "No expert_delta_error method defined for constraint num. " << constraint_id << "\n";
+				}
+		}
 		
 	public:
 		//! Solver's regular constructor
 		/*!
-		 * \param variables A const reference to the vector of Variables.
-		 * \param constraints A const reference to the vector of variant Constraint-derivated objects.
-		 * \param obj A shared pointer to the Objective.
+		 * \param model A shared pointer to the Model object.
 		 * \param permutation_problem A boolean indicating if we work on a permutation problem. False by default.
 		 */
-		Solver( const std::vector<Variable>& variables, 
-		        const std::vector<std::variant<ConstraintType ...>>&	constraints,
-		        ObjectiveType objective,
+		Solver( std::shared_ptr< FactoryModel<ObjectiveType, ConstraintType...> > factory_model,
 		        bool permutation_problem = false )
-			: _variables ( variables ), 
-			  _constraints ( constraints ),
-			  _objective ( objective ),
-			  _number_variables ( static_cast<unsigned int>( variables.size() ) ),
-			  _number_constraints ( static_cast<unsigned int>( constraints.size() ) ),
-			  _matrix_var_ctr ( std::vector<std::vector<unsigned int> >( _number_variables ) ),
+			: _factory_model( factory_model ),
 			  _best_sat_error( std::numeric_limits<double>::max() ),
 			  _best_opt_cost( std::numeric_limits<double>::max() ),
 			  _cost_before_postprocess( std::numeric_limits<double>::max() ),
@@ -1328,68 +1364,41 @@ namespace ghost
 			  _plateau_local_minimum( 0 ),
 			  _is_permutation_problem( permutation_problem )
 		{
-			// Set the id of each constraint object to be their index in the _constraints vector
-			for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
-				std::visit( [&](Constraint& ctr){ ctr._id = constraint_id; }, _constraints[ constraint_id ] );
+			_model = std::move( _factory_model->make_model() );
 			
-			for( unsigned int variable_id = 0; variable_id < _number_variables; ++variable_id )
-			{
-				// Get the original id of each variable to make the mapping between the variable's id in the solver and its id within constraints (i.e., its original id)
-				unsigned int original_variable_id = _variables[ variable_id ]._id;
-				
-				// Set the id of each variable object to be their index in the _variables vector
-				_variables[ variable_id ]._id = variable_id;
+			_number_variables = static_cast<unsigned int>( _model->variables.size() );
+			_number_constraints = static_cast<unsigned int>( _model->constraints.size() );
 
-				// Save the id of each constraint where the current variable appears in.
-				for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
-					if(	std::visit( [&](Constraint& ctr){ return ctr.has_variable_unshifted( original_variable_id ); }, _constraints[ constraint_id ] ) )
-					{
-						_matrix_var_ctr[ variable_id ].push_back( constraint_id );
-						std::visit( [&](Constraint& ctr){ ctr.make_variable_id_mapping( variable_id, original_variable_id ); }, _constraints[ constraint_id ] );
-					}
-
-				_objective.make_variable_id_mapping( variable_id, original_variable_id );
-			}
-
-			// Determine if expert_delta_error has been user defined or not for each constraint
-			for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
-				try
-				{
-					std::visit( [&](Constraint& ctr){ ctr.expert_delta_error( _variables, std::vector<unsigned int>{0}, std::vector<int>{_variables[0].get_value()} ); }, _constraints[ constraint_id ] );
-				}
-				catch( std::exception e )
-				{
-					std::cerr << "No expert_delta_error method defined for constraint num. " << constraint_id << "\n";
-				}
+			initialize_data_structures( _model->variables, _model->constraints, _model->objective, _matrix_var_ctr );
 
 #if defined GHOST_TRACE
 			std::cout << "Creating a Solver object\n\n"
 			          << "Variables:\n";
 
-			for( const auto& variable : _variables )
+			for( const auto& variable : _model->variables )
 				std::cout << variable << "\n";
 
 			std::cout << "\nConstraints:\n";
-			for( auto& constraint : _constraints )
+			for( auto& constraint : _model->constraints )
 				std::visit( [&](Constraint& ctr){ std::cout << ctr << "\n"; }, constraint );
 			
 			std::cout << "\nObjective function:\n"
-			          << _objective << "\n";
+			          << _model->objective << "\n";
 #endif
 		}
 
-		//! Second Solver's constructor, without Objective
-		/*!
-		 * \param variables A const reference to the vector of Variables.
-		 * \param constraints A const reference to the vector of variant Constraint-derivated objects.
-		 * \param permutation_problem A boolean indicating if we work on a permutation problem. False by default.
-		 */
-		Solver( const std::vector<Variable>& variables, 
-		        const std::vector<std::variant<ConstraintType ...>>&	constraints,
-		        bool permutation_problem = false )
-			//: Solver( variables, constraints, nullptr, permutation_problem )
-			: Solver( variables, constraints, NullObjective( variables ), permutation_problem )
-		{ }
+		// //! Second Solver's constructor, without Objective
+		// /*!
+		//  * \param variables A const reference to the vector of Variables.
+		//  * \param constraints A const reference to the vector of variant Constraint-derivated objects.
+		//  * \param permutation_problem A boolean indicating if we work on a permutation problem. False by default.
+		//  */
+		// Solver( const std::vector<Variable>& variables, 
+		//         const std::vector<std::variant<ConstraintType ...>>&	constraints,
+		//         bool permutation_problem = false )
+		// 	//: Solver( variables, constraints, nullptr, permutation_problem )
+		// 	: Solver( variables, constraints, NullObjective( variables ), permutation_problem )
+		// { }
     
 		//! Solver's main function, to solve the given CSP/COP/CFN.
 		/*!
@@ -1529,14 +1538,19 @@ namespace ghost
 				std::vector<SearchUnit<ObjectiveType, ConstraintType ...> > units;
 				units.reserve( _options.number_threads );
 				std::vector<std::thread> unit_threads;
-				
+
 				for( int i = 0 ; i < _options.number_threads; ++i )
-					units.emplace_back( _variables,
-					                    _constraints,
-					                    _objective,
+				{
+					_model = std::move( _factory_model->make_model() );
+					initialize_data_structures( _model->variables, _model->constraints, _model->objective, _matrix_var_ctr );
+					
+					units.emplace_back( _model->variables,
+					                    _model->constraints,
+					                    _model->objective,
 					                    _matrix_var_ctr,
 					                    _is_permutation_problem,
 					                    _options );
+				}
 				
 				std::vector<std::future<bool>> units_future;
 				std::vector<bool> units_terminated( _options.number_threads, false );
