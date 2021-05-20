@@ -38,18 +38,19 @@
 
 namespace ghost
 {
-	class NullObjective;
-
-	template<typename ObjectiveType = NullObjective, typename ... ConstraintType>
+	/***********/
+	/** Model **/
+	/***********/
 	struct Model
 	{
 		std::vector<Variable> variables; 
 		std::vector<std::shared_ptr<Constraint>> constraints; 
-		ObjectiveType objective;
+		std::shared_ptr<Objective> objective;
 
+		Model() { };
 		Model( const std::vector<Variable>& variables, 
 		       const std::vector<std::shared_ptr<Constraint>>&	constraints,
-		       ObjectiveType objective )
+		       const std::shared_ptr<Objective>& objective )
 			: variables( variables ),
 			  constraints( constraints ),
 			  objective( objective )
@@ -59,15 +60,34 @@ namespace ghost
 		Model( Model&& other ) = default;	
 	
 		Model& operator=( const Model& other ) = default;
-		Model& operator=( Model&& other ) = default;	
+		Model& operator=( Model&& other )
+		{
+			variables = other.variables;
+			constraints = other.constraints;
+			objective = other.objective;
+		}
 
 		virtual ~Model() = default;
 	};
 
-	template<typename ObjectiveType = NullObjective, typename ... ConstraintType>
+	/******************/
+	/** FactoryModel **/
+	/******************/
 	class FactoryModel
 	{
+	protected:
+		std::vector<Variable> variables; 
+		std::vector<std::shared_ptr<Constraint>> constraints; 
+		std::shared_ptr<Objective> objective;
+
 	public:
-		virtual std::unique_ptr< Model<ObjectiveType, ConstraintType...> > make_model() = 0;
+		FactoryModel( const std::vector<Variable>& variables ) 
+			: variables( variables ),
+			  objective( make_shared<NullObjective>( variables ) )
+		{ }
+
+		~FactoryModel() = default;
+
+		virtual std::shared_ptr<Model> make_model()	= 0;
 	};
 }

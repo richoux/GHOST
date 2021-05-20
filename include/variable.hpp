@@ -55,8 +55,8 @@ namespace ghost
 	 */
 	class Variable final
 	{
-		template <typename ObjectiveType, typename ... ConstraintType> friend class Solver;
-		template <typename ObjectiveType, typename ... ConstraintType> friend class SearchUnit;
+		template<typename FactoryModelType> friend class Solver;
+		friend class SearchUnit;
 
 		std::string _name;	//!< String to give a name to the variable, helpful to debug/trace.
 		std::vector<int> _domain; //!< The domain, i.e., the vector of values the variable can take.
@@ -158,7 +158,7 @@ namespace ghost
 		inline std::string get_name() const { return _name; }
 
 		//! Give the unique id of the Variable object.
-		inline int get_id() const { return _id; }
+		inline unsigned int get_id() const { return _id; }
 
 		//! To have a nicer stream of Variable.
 		friend std::ostream& operator<<( std::ostream& os, const Variable& v )

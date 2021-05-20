@@ -58,8 +58,8 @@ namespace ghost
 	 */
 	class Objective
 	{
-		template <typename ObjectiveType, typename ... ConstraintType> friend class Solver;
-		template <typename ObjectiveType, typename ... ConstraintType> friend class SearchUnit;
+		template<typename FactoryModelType> friend class Solver;
+		friend class SearchUnit;
 
 		std::string _name; //!< Name of the objective object.
 		std::vector<Variable> _variables; //!<Vector of variables of the model.
@@ -256,6 +256,7 @@ namespace ghost
 
 		//! Copy assignment operator disabled.
 		Objective& operator=( const Objective& other ) = delete;
+		
 		//! Move assignment operator disabled.
 		Objective& operator=( Objective&& other ) = delete;
 
@@ -273,6 +274,28 @@ namespace ghost
 			return os << "Objective name: " <<  o._name
 			          << "\n********";
 		}
+	};
 
+	/*******************/
+	/** NullObjective **/
+	/*******************/
+	//! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 
+	class NullObjective : public Objective
+	{
+	public:
+		NullObjective( const std::vector<Variable>& variables ) : Objective( "nullObjective", variables )
+		{
+			this->is_not_optimization();
+		}
+		
+	private:
+		double required_cost( const std::vector<Variable>& variables ) const override { return 0.0; }
+		
+		int expert_heuristic_value( std::vector<Variable> variables,
+		                            int variable_index,
+		                            const std::vector<int>& values_list ) const override
+		{
+			return rng.pick( values_list );
+		}
 	};
 }

@@ -37,7 +37,6 @@
 #include <random>
 #include <algorithm>
 #include <vector>
-#include <variant>
 #include <chrono>
 #include <memory>
 #include <iterator>
@@ -100,6 +99,7 @@ namespace ghost
 		{ }
 
 		~Options() = default;
+
 		Options( const Options& other )
 			: custom_starting_point( other.custom_starting_point ),
 			  resume_search( other.resume_search ),
@@ -128,7 +128,7 @@ namespace ghost
 			  number_start_samplings( other.number_start_samplings )
 		{	}
 		
-		Options& operator=( const Options& other )
+		Options& operator=( Options& other )
 		{
 			if( this != &other )
 			{
@@ -147,9 +147,10 @@ namespace ghost
 
 			return *this;
 		}
+
+		// Options& operator=( Options&& other ) ?
 	};
 
-	template<typename ObjectiveType, typename ... ConstraintType>
 	class SearchUnit
 	{
 		std::promise<void> _stop_search_signal;
@@ -167,9 +168,10 @@ namespace ghost
 			COUT << "Constraint errors:\n";
 			for( unsigned int constraint_id = 0; constraint_id < number_constraints; ++constraint_id )
 			{
-				COUT << "Constraint num. " << constraint_id << "=" << get_constraint_error( constraint_id ) << ": ";
+				COUT << "Constraint num. " << constraint_id << "=" << constraints[ constraint_id ]->_current_error << ": ";
 				bool mark_comma = false;
-				for( const auto variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, constraints[ constraint_id ] ) )
+
+				for( const auto variable_id : constraints[ constraint_id ]->get_variable_ids() )
 				{
 					if( mark_comma )
 						COUT << ", ";
@@ -177,6 +179,7 @@ namespace ghost
 						mark_comma = true;
 					COUT << "v[" << variable_id << "]=" << variables[variable_id].get_value();
 				}
+				
 				COUT << "\n";
 			}
 
@@ -192,7 +195,8 @@ namespace ghost
 						COUT << " + ";
 					else
 						mark_plus = true;
-					COUT << "c[" << constraint_id << "]=" << get_constraint_error( constraint_id );
+
+					COUT << "c[" << constraint_id << "]=" << constraints[ constraint_id ]->_current_error;
 				}
 				COUT << "\n";				
 			}
@@ -227,9 +231,10 @@ namespace ghost
 				current_sat_error = 0.0;
 				for( unsigned int constraint_id = 0 ; constraint_id < number_constraints ; ++constraint_id )
 				{
-					for( const auto variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, constraints[ constraint_id ] ) )
-						call_update_variable( constraint_id, variable_id, variables[ variable_id ].get_value() );
-					current_sat_error += call_error( constraint_id );
+					for( const auto variable_id : constraints[ constraint_id ]->get_variable_ids() )
+						constraints[ constraint_id ]->update_variable( variable_id, variables[ variable_id ].get_value() );
+
+					current_sat_error += constraints[ constraint_id ]->error();
 				}
 				
 				if( best_sat_error_so_far > current_sat_error )
@@ -336,24 +341,24 @@ namespace ghost
 
 			// Reset constraints costs
 			for( unsigned int constraint_id = 0; constraint_id < number_constraints; ++constraint_id )
-				std::visit( [&](Constraint& ctr){ ctr._current_error = 0.0; }, constraints[ constraint_id ] );
+				constraints[ constraint_id ]->_current_error = 0.0;
 			
 			// Send the current variables assignment to the constraints.
 			for( unsigned int variable_id = 0 ; variable_id < number_variables ; ++variable_id )
 			{
 				for( const unsigned int constraint_id : matrix_var_ctr.at( variable_id ) )
-					call_update_variable( constraint_id, variable_id, variables[ variable_id ].get_value() );
+					constraints[ constraint_id ]->update_variable( variable_id, variables[ variable_id ].get_value() );
 				
-				objective.update_variable( variable_id, variables[ variable_id ].get_value() );
+				objective->update_variable( variable_id, variables[ variable_id ].get_value() );
 			}
 			
 			// (Re)compute constraint error and get the total current satisfaction error
 			current_sat_error = compute_constraints_errors();
 			// (Re)compute the current optimization cost
-			if( objective.is_optimization() )
+			if( objective->is_optimization() )
 			{
 				if( current_sat_error == 0 ) [[unlikely]]
-					current_opt_cost = objective.cost();
+					current_opt_cost = objective->cost();
 				else
 					current_opt_cost = std::numeric_limits<double>::max();
 			}
@@ -397,21 +402,6 @@ namespace ghost
 			}
 			
 			initialize_data_structures();
-		}
-
-		inline double call_error( unsigned int constraint_id )
-		{
-			return std::visit( [&](Constraint& ctr){ return ctr.error(); }, constraints[ constraint_id ] );
-		}
-
-		inline void call_update_variable( unsigned int constraint_id, unsigned int variable_id, int value )
-		{
-			std::visit( [&](Constraint& ctr){ ctr.update_variable( variable_id, value ); }, constraints[ constraint_id ] );
-		}
-
-		inline double get_constraint_error( unsigned int constraint_id )
-		{
-			return std::visit( [&](Constraint& ctr){ return ctr._current_error; }, constraints[ constraint_id ] );
 		}
 
 #if not defined ANTIDOTE_VARIABLE // ADAPTIVE_SEARCH
@@ -470,9 +460,8 @@ namespace ghost
 
 			for( unsigned int constraint_id = 0 ; constraint_id < number_constraints ; ++constraint_id )
 			{
-				error = call_error( constraint_id );
-				std::visit( [&](Constraint& ctr){ ctr._current_error = error; }, constraints[ constraint_id ] );
-
+				error = constraints[ constraint_id ]->error();
+				constraints[ constraint_id ]->_current_error = error;				
 				satisfaction_error += error;
 			}
 
@@ -484,7 +473,7 @@ namespace ghost
 		{
 			for( unsigned int variable_id = 0; variable_id < number_variables; ++variable_id )
 				for( const unsigned int constraint_id : matrix_var_ctr.at( variable_id ) )
-					error_variables[ variable_id ] += get_constraint_error( constraint_id );
+					error_variables[ variable_id ] += constraints[ constraint_id ]->_current_error;
 		}
 
 		void update_errors( unsigned int variable_to_change, int new_value, const std::map< int, std::vector<double>>& delta_errors )
@@ -495,11 +484,12 @@ namespace ghost
 				for( const unsigned int constraint_id : matrix_var_ctr.at( variable_to_change ) )
 				{
 					auto delta = delta_errors.at( new_value )[ delta_index++ ];
-					std::visit( [&](Constraint& ctr){ ctr._current_error += delta; }, constraints[ constraint_id ] );
-					for( const unsigned int variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, constraints[ constraint_id ] ) )
+					constraints[ constraint_id ]->_current_error += delta;
+					
+					for( const unsigned int variable_id : constraints[ constraint_id ]->get_variable_ids() )
 						error_variables[ variable_id ] += delta;
 					
-					call_update_variable( constraint_id, variable_to_change, new_value );						
+					constraints[ constraint_id ]->update_variable( variable_to_change, new_value );
 				}
 			}
 			else
@@ -512,24 +502,27 @@ namespace ghost
 				{
 					constraint_checked[ constraint_id ] = true;
 					auto delta = delta_errors.at( new_value )[ delta_index++ ];
-					std::visit( [&](Constraint& ctr){ ctr._current_error += delta; }, constraints[ constraint_id ] );
-					for( const unsigned int variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, constraints[ constraint_id ] ) )
+					constraints[ constraint_id ]->_current_error += delta;
+
+					for( const unsigned int variable_id : constraints[ constraint_id ]->get_variable_ids() )
 						error_variables[ variable_id ] += delta;
 					
-					call_update_variable( constraint_id, variable_to_change, current_value );
-					if(	std::visit( [&](Constraint& ctr){ return ctr.has_variable( new_value ); }, constraints[ constraint_id ] ) )
-						call_update_variable( constraint_id, new_value, next_value );						
+					constraints[ constraint_id ]->update_variable( variable_to_change, current_value );
+
+					if( constraints[ constraint_id ]->has_variable( new_value ) )
+						constraints[ constraint_id ]->update_variable( new_value, next_value );
 				}
 				
 				for( const unsigned int constraint_id : matrix_var_ctr.at( new_value ) )
 					if( !constraint_checked[ constraint_id ] )
 					{
 						auto delta = delta_errors.at( new_value )[ delta_index++ ];
-						std::visit( [&](Constraint& ctr){ ctr._current_error += delta; }, constraints[ constraint_id ] );
-						for( const unsigned int variable_id : std::visit( [&](Constraint& ctr){ return ctr.get_variable_ids(); }, constraints[ constraint_id ] ) )
+						constraints[ constraint_id ]->_current_error += delta;
+
+						for( const unsigned int variable_id : constraints[ constraint_id ]->get_variable_ids() )
 							error_variables[ variable_id ] += delta;
-						
-						call_update_variable( constraint_id, new_value, next_value );						
+
+						constraints[ constraint_id ]->update_variable( new_value, next_value );
 					}
 			}
 		}
@@ -549,18 +542,18 @@ namespace ghost
 				variables[ variable_to_change ].set_value( next_value );
 				variables[ new_value ].set_value( current_value );
 
-				if( objective.is_optimization() )
+				if( objective->is_optimization() )
 				{
-					objective.update_variable( variable_to_change, next_value );
-					objective.update_variable( new_value, current_value );
+					objective->update_variable( variable_to_change, next_value );
+					objective->update_variable( new_value, current_value );
 				}
 			}
 			else
 			{
 				variables[ variable_to_change ].set_value( new_value );
 				
-				if( objective.is_optimization() )
-					objective.update_variable( variable_to_change, new_value );
+				if( objective->is_optimization() )
+					objective->update_variable( variable_to_change, new_value );
 			}
 
 			update_errors( variable_to_change, new_value, delta_errors );
@@ -607,8 +600,8 @@ namespace ghost
 
 	public:
 		std::vector<Variable> variables; 
-		std::vector<std::variant<ConstraintType ...>> constraints; 
-		ObjectiveType objective;
+		std::vector<std::shared_ptr<Constraint>> constraints; 
+		std::shared_ptr<Objective> objective;
 
 		std::vector<Variable> variables_at_start; 
 		randutils::mt19937_rng rng; 
@@ -647,8 +640,8 @@ namespace ghost
 		Options options;
 
 		SearchUnit( const std::vector<Variable>& variables, 
-		            const std::vector<std::variant<ConstraintType ...>>&	constraints,
-		            ObjectiveType objective,
+		            const std::vector<std::shared_ptr<Constraint>>&	constraints,
+		            const std::shared_ptr<Objective>& objective,
 		            const std::vector<std::vector<unsigned int>>& matrix_var_ctr,
 		            bool permutation_problem,
 		            const Options& options )
@@ -686,8 +679,7 @@ namespace ghost
 			  _stop_search_check( std::move( unit._stop_search_check ) ),
 			  variables ( unit.variables ), 
 			  constraints ( unit.constraints ),
-			  // objective ( nullptr ),
-			  objective ( unit.objective ),
+			  objective ( nullptr ),
 			  variables_at_start ( unit.variables_at_start ),
 			  number_variables ( unit.number_variables ),
 			  number_constraints ( unit.number_constraints ),
@@ -715,8 +707,8 @@ namespace ghost
 #if defined GHOST_TRACE_PARALLEL
 			_log_trace = std::move( unit._log_trace );
 #endif
-			// objective = unit.objective;
-			// unit.objective = nullptr;
+			objective = unit.objective;
+			unit.objective = nullptr;
 		}
 		
 		SearchUnit& operator=( SearchUnit && unit )
@@ -729,7 +721,7 @@ namespace ghost
 			variables = unit.variables; 
 			constraints = unit.constraints;
 			objective = unit.objective;
-			// unit.objective = nullptr;
+			unit.objective = nullptr;
 			variables_at_start = unit.variables_at_start;
 			number_variables = unit.number_variables;
 			number_constraints = unit.number_constraints;
@@ -834,7 +826,7 @@ namespace ghost
 			// all constraints OR it is working on an optimization problem, continue the search.
 			while( !stop_search_requested()
 			       &&  elapsed_time.count() < timeout
-			       && ( best_sat_error > 0.0 || ( best_sat_error == 0.0 && objective.is_optimization() ) ) )
+			       && ( best_sat_error > 0.0 || ( best_sat_error == 0.0 && objective->is_optimization() ) ) )
 			{
 				++search_iterations;
 				
@@ -916,8 +908,7 @@ namespace ghost
 					// Simulate delta errors (or errors is not Constraint::expert_delta_error method is defined) for each neighbor
 					for( const auto candidate_value : domain_to_explore )
 						for( const unsigned int constraint_id : matrix_var_ctr.at( variable_to_change ) )
-							delta_errors[ candidate_value ].push_back( std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( std::vector<unsigned int>{variable_to_change}, std::vector<int>{candidate_value} ); },
-							                                                       constraints[ constraint_id ] ) );							
+							delta_errors[ candidate_value ].push_back( constraints[ constraint_id ]->simulate_delta( std::vector<unsigned int>{variable_to_change}, std::vector<int>{candidate_value} ) );
 				}
 				else
 				{
@@ -939,20 +930,20 @@ namespace ghost
 								constraint_checked[ constraint_id ] = true;
 								
 								// check if the other variable also belongs to the constraint scope
-								if( std::visit( [&](Constraint& ctr){ return ctr.has_variable( variable_id ); }, constraints[ constraint_id ] ) )
-									delta_errors[ variable_id ].push_back( std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( std::vector<unsigned int>{variable_to_change, variable_id}, std::vector<int>{candidate_value, current_value} ); },
-									                                                   constraints[ constraint_id ] ) );
+								if( constraints[ constraint_id ]->has_variable( variable_id ) )
+									delta_errors[ variable_id ].push_back( constraints[ constraint_id ]->simulate_delta( std::vector<unsigned int>{variable_to_change, variable_id},
+										                                                                                   std::vector<int>{candidate_value, current_value} ) );
 								else
-									delta_errors[ variable_id ].push_back( std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( std::vector<unsigned int>{variable_to_change}, std::vector<int>{candidate_value} ); },
-									                                                   constraints[ constraint_id ] ) );
+									delta_errors[ variable_id ].push_back( constraints[ constraint_id ]->simulate_delta( std::vector<unsigned int>{variable_to_change},
+										                                                                                   std::vector<int>{candidate_value} ) );
 							}
 							
 							// Since we are switching the value of two variables, we need to also look at the delta error impact of changing the value of the non-selected variable
 							for( const unsigned int constraint_id : matrix_var_ctr.at( variable_id ) )
 								// No need to look at constraint where variable_to_change also appears.
 								if( !constraint_checked[ constraint_id ] )
-									delta_errors[ variable_id ].push_back( std::visit( [&](Constraint& ctr){ return ctr.simulate_delta( std::vector<unsigned int>{variable_id}, std::vector<int>{current_value} ); },
-									                                                   constraints[ constraint_id ] ) );
+									delta_errors[ variable_id ].push_back( constraints[ constraint_id ]->simulate_delta( std::vector<unsigned int>{variable_id},
+										                                                                                   std::vector<int>{current_value} ) );
 						}
 				}
 				
@@ -990,12 +981,12 @@ namespace ghost
 				}
 				
 				// if we deal with an optimization problem, find the value minimizing to objective function
-				if( objective.is_optimization() )
+				if( objective->is_optimization() )
 				{
 					if( is_permutation_problem )
-						new_value = static_cast<int>( objective.heuristic_value_permutation( variable_to_change, candidate_values ) );
+						new_value = static_cast<int>( objective->heuristic_value_permutation( variable_to_change, candidate_values ) );
 					else
-						new_value = objective.heuristic_value( variable_to_change, candidate_values );
+						new_value = objective->heuristic_value( variable_to_change, candidate_values );
 					
 					// // to change/test with heuristic_value
 					// double objective_cost = std::numeric_limits<double>::max();
@@ -1094,8 +1085,8 @@ namespace ghost
 					COUT << "Global error improved (" << current_sat_error << " -> " << current_sat_error + min_conflict << "): make local move.\n";
 #endif
 					local_move( variable_to_change, new_value, min_conflict, delta_errors );
-					if( objective.is_optimization() )
-						current_opt_cost = objective.cost();
+					if( objective->is_optimization() )
+						current_opt_cost = objective->cost();
 				}
 				else
 				{
@@ -1107,25 +1098,25 @@ namespace ghost
 #if defined GHOST_TRACE
 						COUT << "Global error stable; ";
 #endif
-						if( objective.is_optimization() )
+						if( objective->is_optimization() )
 						{
 							double candidate_opt_cost;
 							if( is_permutation_problem )
 							{
 								int backup_variable_to_change = variables[ variable_to_change ].get_value();
 								int backup_variable_new_value = variables[ new_value ].get_value();
-								objective.update_variable( variable_to_change, backup_variable_new_value );
-								objective.update_variable( new_value, backup_variable_to_change );
-								candidate_opt_cost = objective.cost();
-								objective.update_variable( variable_to_change, backup_variable_to_change );
-								objective.update_variable( new_value, backup_variable_new_value );
+								objective->update_variable( variable_to_change, backup_variable_new_value );
+								objective->update_variable( new_value, backup_variable_to_change );
+								candidate_opt_cost = objective->cost();
+								objective->update_variable( variable_to_change, backup_variable_to_change );
+								objective->update_variable( new_value, backup_variable_new_value );
 							}
 							else
 							{
 								int backup = variables[ variable_to_change ].get_value();
-								objective.update_variable( variable_to_change, new_value );
-								candidate_opt_cost = objective.cost();
-								objective.update_variable( variable_to_change, backup );
+								objective->update_variable( variable_to_change, new_value );
+								candidate_opt_cost = objective->cost();
+								objective->update_variable( variable_to_change, backup );
 							}
 
 							/******************************************************
@@ -1196,7 +1187,7 @@ namespace ghost
 					                [&](auto& var){ return var.get_value(); } );
 				}
 				else
-					if( objective.is_optimization() && current_sat_error == 0.0 && best_opt_cost > current_opt_cost )
+					if( objective->is_optimization() && current_sat_error == 0.0 && best_opt_cost > current_opt_cost )
 					{
 #if defined GHOST_TRACE
 						COUT << "Best objective function value so far. Before: " << best_opt_cost << ", now: " << current_opt_cost << "\n";
@@ -1218,28 +1209,6 @@ namespace ghost
 #endif
 		}
 	};
-
-	//! NullObjective is used when no objective functions have been given to the solver (ie, for pure satisfaction runs). 
-	class NullObjective : public Objective
-	{
-		//using Objective::rng;
-		
-	public:
-		NullObjective( const std::vector<Variable>& variables ) : Objective( "nullObjective", variables )
-		{
-			this->is_not_optimization();
-		}
-		
-	private:
-		double required_cost( const std::vector<Variable>& variables ) const override { return 0.0; }
-		
-		int expert_heuristic_value( std::vector<Variable> variables,
-		                            int variable_index,
-		                            const std::vector<int>& values_list ) const override
-		{
-			return rng.pick( values_list );
-		}
-	};
 	
 	//! Solver is the class coding the solver itself.
 	/*!
@@ -1256,14 +1225,10 @@ namespace ghost
 	 *
 	 * \sa Variable, Constraint, Objective
 	 */
-	template<typename ObjectiveType = NullObjective, typename ... ConstraintType>
-	class Solver final
+	template<typename FactoryModelType> class Solver final
 	{
-		std::vector<Variable> _variables; //!< Vector of Variable objects.
-		std::vector<std::variant<ConstraintType ...>> _constraints; //!< Vector of Constraint variants.
-		ObjectiveType _objective; //!< Objective function object.
-		std::unique_ptr< Model<ObjectiveType, ConstraintType...> > _model; //!< Necessary for parallel computing if some resources are shared among constraints and/or the objective function
-		std::shared_ptr< FactoryModel<ObjectiveType, ConstraintType...> > _factory_model; //!< Factory building the model
+		FactoryModelType _factory_model; //!< Factory building the model
+		std::shared_ptr<Model> _model; //!< Necessary for parallel computing if some resources are shared among constraints and/or the objective function
 		
 		unsigned int _number_variables; //!< Size of the vector of variables.
 		unsigned int _number_constraints; //!< Size of the vector of constraints.
@@ -1295,14 +1260,14 @@ namespace ghost
 		Options _options; //!< Options for the solver (see the struct Options).
 
 		void initialize_data_structures( std::vector<Variable>& variables,
-		                                 std::vector<std::variant<ConstraintType ...>>& constraints,
-		                                 ObjectiveType& objective,
+		                                 std::vector<std::shared_ptr<Constraint>>& constraints,
+		                                 std::shared_ptr<Objective>& objective,
 		                                 std::vector<std::vector<unsigned int> >& matrix_var_ctr )
 		{
 			// Set the id of each constraint object to be their index in the _constraints vector
 			for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
-				std::visit( [&](Constraint& ctr){ ctr._id = constraint_id; }, constraints[ constraint_id ] );
-
+				constraints[ constraint_id ]->_id = constraint_id;
+			
 			matrix_var_ctr.resize( _number_variables );
 			
 			for( unsigned int variable_id = 0; variable_id < _number_variables; ++variable_id )
@@ -1315,20 +1280,21 @@ namespace ghost
 				
 				// Save the id of each constraint where the current variable appears in.
 				for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
-					if(	std::visit( [&](Constraint& ctr){ return ctr.has_variable_unshifted( original_variable_id ); }, constraints[ constraint_id ] ) )
+					if( constraints[ constraint_id ]->has_variable_unshifted( original_variable_id ) )
 					{
 						matrix_var_ctr[ variable_id ].push_back( constraint_id );
-						std::visit( [&](Constraint& ctr){ ctr.make_variable_id_mapping( variable_id, original_variable_id ); }, constraints[ constraint_id ] );
+						constraints[ constraint_id ]->make_variable_id_mapping( variable_id, original_variable_id );
 					}
 
-				objective.make_variable_id_mapping( variable_id, original_variable_id );			
+				objective->make_variable_id_mapping( variable_id, original_variable_id );			
 			}
 
 			// Determine if expert_delta_error has been user defined or not for each constraint
 			for( unsigned int constraint_id = 0; constraint_id < _number_constraints; ++constraint_id )
 				try
 				{
-					std::visit( [&](Constraint& ctr){ ctr.expert_delta_error( variables, std::vector<unsigned int>{0}, std::vector<int>{variables[0].get_value()} ); }, constraints[ constraint_id ] );
+					// std::visit( [&](Constraint& ctr){ ctr.expert_delta_error( variables, std::vector<unsigned int>{0}, std::vector<int>{variables[0].get_value()} ); }, constraints[ constraint_id ] );
+					constraints[ constraint_id ]->expert_delta_error( variables, std::vector<unsigned int>{0}, std::vector<int>{variables[0].get_value()} );
 				}
 				catch( std::exception e )
 				{
@@ -1342,9 +1308,10 @@ namespace ghost
 		 * \param model A shared pointer to the Model object.
 		 * \param permutation_problem A boolean indicating if we work on a permutation problem. False by default.
 		 */
-		Solver( std::shared_ptr< FactoryModel<ObjectiveType, ConstraintType...> > factory_model,
+		Solver( FactoryModelType& factory_model,
 		        bool permutation_problem = false )
 			: _factory_model( factory_model ),
+			  _model( factory_model.make_model() ),
 			  _best_sat_error( std::numeric_limits<double>::max() ),
 			  _best_opt_cost( std::numeric_limits<double>::max() ),
 			  _cost_before_postprocess( std::numeric_limits<double>::max() ),
@@ -1363,12 +1330,10 @@ namespace ghost
 			  _plateau_moves( 0 ),
 			  _plateau_local_minimum( 0 ),
 			  _is_permutation_problem( permutation_problem )
-		{
-			_model = std::move( _factory_model->make_model() );
-			
+		{			
 			_number_variables = static_cast<unsigned int>( _model->variables.size() );
 			_number_constraints = static_cast<unsigned int>( _model->constraints.size() );
-
+			
 			initialize_data_structures( _model->variables, _model->constraints, _model->objective, _matrix_var_ctr );
 
 #if defined GHOST_TRACE
@@ -1379,27 +1344,14 @@ namespace ghost
 				std::cout << variable << "\n";
 
 			std::cout << "\nConstraints:\n";
-			for( auto& constraint : _model->constraints )
-				std::visit( [&](Constraint& ctr){ std::cout << ctr << "\n"; }, constraint );
+			for( auto constraint : _model->constraints )
+				std::cout << *constraint << "\n";
 			
 			std::cout << "\nObjective function:\n"
-			          << _model->objective << "\n";
+			          << *_model->objective << "\n";
 #endif
 		}
 
-		// //! Second Solver's constructor, without Objective
-		// /*!
-		//  * \param variables A const reference to the vector of Variables.
-		//  * \param constraints A const reference to the vector of variant Constraint-derivated objects.
-		//  * \param permutation_problem A boolean indicating if we work on a permutation problem. False by default.
-		//  */
-		// Solver( const std::vector<Variable>& variables, 
-		//         const std::vector<std::variant<ConstraintType ...>>&	constraints,
-		//         bool permutation_problem = false )
-		// 	//: Solver( variables, constraints, nullptr, permutation_problem )
-		// 	: Solver( variables, constraints, NullObjective( variables ), permutation_problem )
-		// { }
-    
 		//! Solver's main function, to solve the given CSP/COP/CFN.
 		/*!
 		 * This function is the heart of GHOST's solver: it will try to find a solution within a limited time. If it finds such a solution, 
@@ -1482,7 +1434,7 @@ namespace ghost
 
 			if( _options.percent_to_reset == -1 )
 				_options.percent_to_reset = std::max( 2, static_cast<int>( std::ceil( _number_variables * 0.1 ) ) ); // 10%
-				
+
 			std::chrono::duration<double,std::micro> elapsed_time( 0 );
 			std::chrono::time_point<std::chrono::steady_clock> start( std::chrono::steady_clock::now() );
 			std::chrono::time_point<std::chrono::steady_clock> start_postprocess;
@@ -1509,9 +1461,9 @@ namespace ghost
 			// sequential runs
 			if( is_sequential )
 			{
-				SearchUnit search_unit( _variables,
-				                        _constraints,
-				                        _objective,
+				SearchUnit search_unit( _model->variables,
+				                        _model->constraints,
+				                        _model->objective,
 				                        _matrix_var_ctr,
 				                        _is_permutation_problem,
 				                        _options );
@@ -1520,7 +1472,8 @@ namespace ghost
 				
 				search_unit.search( timeout );
 				elapsed_time = std::chrono::steady_clock::now() - start;
-				
+				chrono_search = elapsed_time.count();
+
 				solution_found = unit_future.get();
 				final_solution = search_unit.final_solution;
 				_best_sat_error = search_unit.best_sat_error;
@@ -1535,19 +1488,22 @@ namespace ghost
 			}
 			else // call threads
 			{
-				std::vector<SearchUnit<ObjectiveType, ConstraintType ...> > units;
+				std::vector<SearchUnit> units;
 				units.reserve( _options.number_threads );
 				std::vector<std::thread> unit_threads;
 
 				for( int i = 0 ; i < _options.number_threads; ++i )
 				{
-					_model = std::move( _factory_model->make_model() );
-					initialize_data_structures( _model->variables, _model->constraints, _model->objective, _matrix_var_ctr );
+					// Instantiate one model per thread
+					auto model_thread = _factory_model.make_model();
+					std::vector<std::vector<unsigned int> > matrix_var_ctr_thread;
+
+					initialize_data_structures( model_thread->variables, model_thread->constraints, model_thread->objective, matrix_var_ctr_thread );
 					
-					units.emplace_back( _model->variables,
-					                    _model->constraints,
-					                    _model->objective,
-					                    _matrix_var_ctr,
+					units.emplace_back( model_thread->variables,
+					                    model_thread->constraints,
+					                    model_thread->objective,
+					                    matrix_var_ctr_thread,
 					                    _is_permutation_problem,
 					                    _options );
 				}
@@ -1557,7 +1513,7 @@ namespace ghost
 				
 				for( int i = 0 ; i < _options.number_threads; ++i )
 				{
-					unit_threads.emplace_back( &SearchUnit<ObjectiveType, ConstraintType ...>::search, &units.at(i), timeout );
+					unit_threads.emplace_back( &SearchUnit::search, &units.at(i), timeout );
 					units.at( i ).get_thread_id( unit_threads.at( i ).get_id() );
 					units_future.emplace_back( units.at( i ).solution_found.get_future() );
 				}
@@ -1573,7 +1529,7 @@ namespace ghost
 					{
 						if( !units_terminated[ thread_number ] && units_future.at( thread_number ).wait_for( std::chrono::microseconds( 0 ) ) == std::future_status::ready )
 						{
-							if( _objective.is_optimization() )
+							if( _model->objective->is_optimization() )
 							{
 								++number_timeouts;
 								units_terminated[ thread_number ] = true;
@@ -1670,7 +1626,7 @@ namespace ghost
 							final_solution = units.at( i ).final_solution;
 							_best_sat_error = units.at( i ).best_sat_error;
 						}
-						if( _objective.is_optimization() && _best_sat_error == 0.0 )
+						if( _model->objective->is_optimization() && _best_sat_error == 0.0 )
 							if( units.at( i ).best_sat_error == 0.0 && _best_opt_cost > units.at( i ).best_opt_cost )
 							{
 								final_solution = units.at( i ).final_solution;
@@ -1688,16 +1644,16 @@ namespace ghost
 				}
 			}
 			
-			if( solution_found && _objective.is_optimization() )
+			if( solution_found && _model->objective->is_optimization() )
 			{
 				_cost_before_postprocess = _best_opt_cost;
 
 				start_postprocess = std::chrono::steady_clock::now();
-				_objective.postprocess_optimization( _best_opt_cost, final_solution );
+				_model->objective->postprocess_optimization( _best_opt_cost, final_solution );
 				timer_postprocess_opt = std::chrono::steady_clock::now() - start_postprocess;
 			}
 
-			if( _objective.is_optimization() )
+			if( _model->objective->is_optimization() )
 			{
 				if( _best_opt_cost < 0 )
 				{
@@ -1714,7 +1670,7 @@ namespace ghost
 			// Useful if the user prefer to directly use the vector of Variables
 			// to manipulate and exploit the solution.
 			for( unsigned int variable_id = 0 ; variable_id < _number_variables; ++variable_id )
-				_variables[ variable_id ].set_value( final_solution[ variable_id ] );
+				_model->variables[ variable_id ].set_value( final_solution[ variable_id ] );
 
 			elapsed_time = std::chrono::steady_clock::now() - start;
 			chrono_full_computation = elapsed_time.count();
@@ -1745,14 +1701,14 @@ namespace ghost
 			          << "############" << "\n";
 
 			// Print solution
-			std::cout << _options.print->print_candidate( _variables ).str();
+			std::cout << _options.print->print_candidate( _model->variables ).str();
 
 			std::cout << "\n";
 			
-			if( !_objective.is_optimization() )
+			if( !_model->objective->is_optimization() )
 				std::cout << "SATISFACTION run" << "\n";
 			else
-				std::cout << "OPTIMIZATION run with objective " << _objective.get_name() << "\n";
+				std::cout << "OPTIMIZATION run with objective " << _model->objective->get_name() << "\n";
 
 			std::cout << "Permutation problem: " << std::boolalpha << _is_permutation_problem << "\n"
 			          << "Time budget: " << timeout / 1000 << "ms\n"
@@ -1772,7 +1728,7 @@ namespace ghost
 				          << "Total number of resets: " << _resets_total << "\n"
 				          << "Total number of restarts: " << _restarts_total << "\n";
 			
-			if( _objective.is_optimization() )
+			if( _model->objective->is_optimization() )
 				std::cout << "\nOptimization cost: " << _best_opt_cost << "\n"
 				          << "Opt Cost BEFORE post-processing: " << _cost_before_postprocess << "\n";
   
