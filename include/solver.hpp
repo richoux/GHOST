@@ -1404,6 +1404,14 @@ namespace ghost
 		            double timeout,
 		            Options& options )
 		{
+			std::chrono::time_point<std::chrono::steady_clock> start_wall_clock( std::chrono::steady_clock::now() );
+			std::chrono::time_point<std::chrono::steady_clock> start_search;
+			std::chrono::time_point<std::chrono::steady_clock> start_postprocess;
+			std::chrono::duration<double,std::micro> elapsed_time( 0 );
+
+			std::chrono::duration<double,std::micro> timer_postprocess_sat( 0 );
+			std::chrono::duration<double,std::micro> timer_postprocess_opt( 0 );
+
 			/*****************
 			* Initialization *
 			******************/
@@ -1435,13 +1443,6 @@ namespace ghost
 			if( _options.percent_to_reset == -1 )
 				_options.percent_to_reset = std::max( 2, static_cast<int>( std::ceil( _number_variables * 0.1 ) ) ); // 10%
 
-			std::chrono::duration<double,std::micro> elapsed_time( 0 );
-			std::chrono::time_point<std::chrono::steady_clock> start( std::chrono::steady_clock::now() );
-			std::chrono::time_point<std::chrono::steady_clock> start_postprocess;
-
-			std::chrono::duration<double,std::micro> timer_postprocess_sat( 0 );
-			std::chrono::duration<double,std::micro> timer_postprocess_opt( 0 );
-
 			double chrono_search;
 			double chrono_full_computation;
 			
@@ -1469,9 +1470,10 @@ namespace ghost
 				                        _options );
 				
 				std::future<bool> unit_future = search_unit.solution_found.get_future();
-				
+
+				start_search = std::chrono::steady_clock::now();
 				search_unit.search( timeout );
-				elapsed_time = std::chrono::steady_clock::now() - start;
+				elapsed_time = std::chrono::steady_clock::now() - start_search;
 				chrono_search = elapsed_time.count();
 
 				solution_found = unit_future.get();
@@ -1510,7 +1512,9 @@ namespace ghost
 				
 				std::vector<std::future<bool>> units_future;
 				std::vector<bool> units_terminated( _options.number_threads, false );
-				
+
+				start_search = std::chrono::steady_clock::now();
+
 				for( int i = 0 ; i < _options.number_threads; ++i )
 				{
 					unit_threads.emplace_back( &SearchUnit::search, &units.at(i), timeout );
@@ -1575,7 +1579,7 @@ namespace ghost
 					}
 				}
 				
-				elapsed_time = std::chrono::steady_clock::now() - start;
+				elapsed_time = std::chrono::steady_clock::now() - start_search;
 				chrono_search = elapsed_time.count();
 
 				// Collect all interesting data before terminating threads.
@@ -1672,7 +1676,7 @@ namespace ghost
 			for( unsigned int variable_id = 0 ; variable_id < _number_variables; ++variable_id )
 				_model->variables[ variable_id ].set_value( final_solution[ variable_id ] );
 
-			elapsed_time = std::chrono::steady_clock::now() - start;
+			elapsed_time = std::chrono::steady_clock::now() - start_wall_clock;
 			chrono_full_computation = elapsed_time.count();
 			
 #if defined GHOST_DEBUG || defined GHOST_TRACE || defined GHOST_BENCH
