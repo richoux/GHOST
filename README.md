@@ -1,4 +1,4 @@
-![](https://github.com/richoux/GHOST/banner/GHOST_banner.png)
+![](https://github.com/richoux/GHOST/wiki/images/GHOST_banner.png)
 
 [![2.0.0](https://img.shields.io/badge/stable-2.0.0-brightgreen.svg)](https://github.com/richoux/GHOST/releases/tag/2.0.0)
 [![2.0.x](https://img.shields.io/badge/latest-2.0.x-f57f17.svg)](https://github.com/richoux/GHOST/tree/develop)
