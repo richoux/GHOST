@@ -55,7 +55,6 @@ namespace ghost
 	 */
 	class Variable final
 	{
-		template<typename FactoryModelType> friend class Solver;
 		friend class SearchUnit;
 
 		std::string _name;	//!< String to give a name to the variable, helpful to debug/trace.

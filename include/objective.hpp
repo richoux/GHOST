@@ -58,26 +58,25 @@ namespace ghost
 	 */
 	class Objective
 	{
-		template<typename FactoryModelType> friend class Solver;
 		friend class SearchUnit;
 
 		std::string _name; //!< Name of the objective object.
-		std::vector<Variable> _variables; //!<Vector of variables of the model.
+		std::vector<Variable*> _ptr_variables; //!<Vector of variables of the model.
 		bool _is_optimization;
 		
-		std::map<unsigned int,int> _id_mapping; // Mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the objective function.
+		// std::map<unsigned int,int> _id_mapping; // Mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the objective function.
 
 		struct nanException : std::exception
 		{
-			std::vector< Variable >	variables;
+			std::vector<Variable*> variables;
 			std::string message;
 
-			nanException( const std::vector< Variable >&	variables ) : variables(variables)
+			nanException( const std::vector<Variable*>& variables ) : variables(variables)
 			{
 				message = "Objective required_cost returned a NaN value on variables (";
 				for( int i = 0; i < static_cast<int>( variables.size() ) - 1; ++i )
-					message += std::to_string( variables[i].get_value() ) + ", ";
-				message += std::to_string( variables[ static_cast<int>( variables.size() ) - 1 ].get_value() ) + ")\n";
+					message += std::to_string( variables[i]->get_value() ) + ", ";
+				message += std::to_string( variables[ static_cast<int>( variables.size() ) - 1 ]->get_value() ) + ")\n";
 			}
 			const char* what() const noexcept { return message.c_str(); }
 		};
@@ -94,41 +93,38 @@ namespace ghost
 		};
 
 		// Update a variable assignment.
-		void update_variable( unsigned int variable_id, int new_value );
-
-		// To allow users to update their inner objective function data structure after assigning to a variable a new value. Called with _variables.
-		virtual void update_objective( const std::vector<Variable>& variables, unsigned int variable_id, int new_value );
+		// void update_variable( unsigned int variable_id, int new_value );
 
 		// Making the mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the objective function. 
-		void make_variable_id_mapping( unsigned int new_id, unsigned int original_id );
+		// void make_variable_id_mapping( unsigned int new_id, unsigned int original_id );
 
-		// Call required_cost() on Objective::_variables after getting sure the cost does give a nan, rise an exception otherwise.
+		// Call required_cost() on Objective::_ptr_variables after getting sure the cost does give a nan, rise an exception otherwise.
 		double cost() const;
 
 		// // To simulate the cost between the current configuration and the candidate configuration.
 		// // Call cost().
 		// double simulate_cost( const std::vector<unsigned int>& variable_ids, const std::vector<int>& new_values );
 
-		// Call expert_heuristic_value on Objective::_variables.
+		// Call expert_heuristic_value on Objective::_ptr_variables.
 		inline int heuristic_value( unsigned int variable_index, const std::vector<int>& possible_values ) const
-		{ return expert_heuristic_value( _variables, _id_mapping.at( variable_index ), possible_values ); }
+		{ return expert_heuristic_value( _ptr_variables, _id_mapping.at( variable_index ), possible_values ); }
 
-		// Call expert_heuristic_value_permutation on Objective::_variables.
-		inline unsigned int heuristic_value_permutation( unsigned int variable_index, const std::vector<int>& bad_variables ) const
-		{ return expert_heuristic_value_permutation( _variables, _id_mapping.at( variable_index ), bad_variables ); }
+		// Call expert_heuristic_value_permutation on Objective::_ptr_variables.
+		inline unsigned int heuristic_value_permutation( unsigned int variable_index, const std::vector<int>& bad_ptr_variables ) const
+		{ return expert_heuristic_value_permutation( _ptr_variables, _id_mapping.at( variable_index ), bad_ptr_variables ); }
 
-		// Call expert_postprocess_satisfaction on Objective::_variables.
+		// Call expert_postprocess_satisfaction on Objective::_ptr_variables.
 		inline void postprocess_satisfaction( double& best_error, std::vector<int>& solution ) const
-		{ expert_postprocess_satisfaction( _variables, best_error, solution ); }
+		{ expert_postprocess_satisfaction( _ptr_variables, best_error, solution ); }
 			
-		// Call expert_postprocess_optimization on Objective::_variables.
+		// Call expert_postprocess_optimization on Objective::_ptr_variables.
 		inline void postprocess_optimization( double& best_cost, std::vector<int>& solution ) const
-		{ expert_postprocess_optimization( _variables, best_cost, solution ); }
+		{ expert_postprocess_optimization( _ptr_variables, best_cost, solution ); }
 			
 	protected:
 		mutable randutils::mt19937_rng rng; //!< A neat random generator placed in misc/randutils.hpp, see https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html
 
-		//! Pure virtual method to compute the value of the objective function on the current assignment in Objective::_variables .
+		//! Pure virtual method to compute the value of the objective function on the current assignment in Objective::_ptr_variables .
 		/*! 
 		 * Like Constraint::required_error, this method is fundamental: it evalutes the performance of the current values of the variables.
 		 * GHOST will search for variable values that will minimize the output of this method. If you are modeling a maximization problem, ie, 
@@ -136,12 +132,12 @@ namespace ghost
 		 * such that it outputs -z. Values of variables minimizing -z will also maximize z.
 		 *
 		 * \param variables A const reference of the vector of variables in the scope of the objective function. The solver is calling this method with
-		 * Objective::_variables as input. Giving a vector of variables as input here allow us to make cost simulations without modifying
-		 * the value of Objective::_variables.
+		 * Objective::_ptr_variables as input. Giving a vector of variables as input here allow us to make cost simulations without modifying
+		 * the value of Objective::_ptr_variables.
 		 * \return A double corresponding to the value of the objective function on the current configuration. 
 		 * Unlike Constraint::required_error, this output may be negative.
 		 */
-		virtual double required_cost( const std::vector<Variable>& variables ) const = 0;
+		virtual double required_cost( const std::vector<Variable*>& variables ) const = 0;
 
 		//! Virtual method to apply the value heuristic used by the solver for non permutation problems.
 		/*! 
@@ -156,12 +152,12 @@ namespace ghost
 		 * know what you are doing.
 		 *
 		 * \param variables A const reference of the vector of variables in the scope of the objective function. The solver is calling this method with
-		 * Objective::_variables as input.
-		 * \param variable_index The index of the variable to change in the vector Objective::_variables.
+		 * Objective::_ptr_variables as input.
+		 * \param variable_index The index of the variable to change in the vector Objective::_ptr_variables.
 		 * \param possible_values A const reference to the vector of possible values of the variable to change. 
 		 * \return The selected value according to the heuristic.
 		 */
-		virtual int expert_heuristic_value( std::vector<Variable> variables,
+		virtual int expert_heuristic_value( const std::vector<Variable*>& variables,
 		                                    int variable_index,
 		                                    const std::vector<int>& possible_values ) const;
 
@@ -170,20 +166,20 @@ namespace ghost
 		 * While dealing with permutation problems, the solver calls this method to apply an eventual
 		 * user-defined heuristic to choose a variable to swap the value with.
 		 *
-		 * By default, it returns a random variable from the bad_variables vector in input.
+		 * By default, it returns a random variable from the bad_ptr_variables vector in input.
 		 *
 		 * Like all methods prefixed by 'expert_', you should override this method only if you 
 		 * know what you are doing.
 		 *
 		 * \param variables A const reference of the vector of variables in the scope of the objective function. The solver is calling this method with
-		 * Objective::_variables as input.
-		 * \param variable_index The index of the variable to change in the vector Objective::_variables.
-		 * \param bad_variables A const reference to the vector of candidate variables the solver may swap the value with.
+		 * Objective::_ptr_variables as input.
+		 * \param variable_index The index of the variable to change in the vector Objective::_ptr_variables.
+		 * \param bad_ptr_variables A const reference to the vector of candidate variables the solver may swap the value with.
 		 * \return The index of the selected variable to swap with, according to the heuristic.
 		 */
-		virtual unsigned int expert_heuristic_value_permutation( std::vector<Variable> variables,
+		virtual unsigned int expert_heuristic_value_permutation( const std::vector<Variable*>& variables,
 		                                                         int variable_index,
-		                                                         const std::vector<int>& bad_variables ) const;
+		                                                         const std::vector<int>& bad_ptr_variables ) const;
 
 		//! Virtual method to perform satisfaction post-processing.
 		/*! 
@@ -196,12 +192,12 @@ namespace ghost
 		 * know what you are doing.
 		 * 
 		 * \param variables A const reference of the vector of variables in the scope of the objective function. The solver is calling this method with
-		 * Objective::_variables as input.
+		 * Objective::_ptr_variables as input.
 		 * \param best_error A reference to the double representing the best satisfaction error found by the solver so far. Its value may be updated, justifying a non const reference.
 		 * \param solution A reference to the vector of variables of the solution found by the solver. This vector may be updated, justifying a non const reference
 		 * \sa postprocess_satisfaction
 		 */
-		virtual void expert_postprocess_satisfaction( const std::vector<Variable>& variables,
+		virtual void expert_postprocess_satisfaction( const std::vector<Variable*>& variables,
 		                                              double&	best_error,
 		                                              std::vector<int>& solution ) const;
 
@@ -220,12 +216,12 @@ namespace ghost
 		 * you give to Solver::solve.  
 		 * 
 		 * \param variables A const reference of the vector of variables in the scope of the objective function. The solver is calling this method with
-		 * Objective::_variables as input.
+		 * Objective::_ptr_variables as input.
 		 * \param best_cost A reference to the double representing the best optimization cost found by the solver so far. Its value may be updated, justifying a non const reference.
 		 * \param solution A reference to the vector of variables of the solution found by the solver. This vector may be updated, justifying a non const reference
 		 * \sa postprocess_optimization
 		 */
-		virtual void expert_postprocess_optimization( const std::vector<Variable>& variables,
+		virtual void expert_postprocess_optimization( const std::vector<Variable*>& variables,
 		                                              double&	best_cost,
 		                                              std::vector<int>&	solution ) const;
 
@@ -241,7 +237,7 @@ namespace ghost
 		//! Default copy contructor.
 		Objective( const Objective& other )
 			: _name ( other._name ),
-			  _variables ( other._variables ),
+			  _ptr_variables ( other._ptr_variables ),
 			  _is_optimization( other._is_optimization ),
 			  _id_mapping ( other._id_mapping )
 		{ }
@@ -249,7 +245,7 @@ namespace ghost
 		//! Default move contructor.
 		Objective( Objective&& other )
 			: _name ( other._name ),
-			  _variables ( other._variables ),
+			  _ptr_variables ( other._ptr_variables ),
 			  _is_optimization ( other._is_optimization ),
 			  _id_mapping ( other._id_mapping )
 		{ }
@@ -283,15 +279,15 @@ namespace ghost
 	class NullObjective : public Objective
 	{
 	public:
-		NullObjective( const std::vector<Variable>& variables ) : Objective( "nullObjective", variables )
+		NullObjective( const std::vector<Variable*>& variables ) : Objective( "nullObjective", variables )
 		{
 			this->is_not_optimization();
 		}
 		
 	private:
-		double required_cost( const std::vector<Variable>& variables ) const override { return 0.0; }
+		double required_cost( const std::vector<Variable*>& variables ) const override { return 0.0; }
 		
-		int expert_heuristic_value( std::vector<Variable> variables,
+		int expert_heuristic_value( const std::vector<Variable*>& variables,
 		                            int variable_index,
 		                            const std::vector<int>& values_list ) const override
 		{

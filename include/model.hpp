@@ -35,39 +35,42 @@
 #include "variable.hpp"
 #include "constraint.hpp"
 #include "objective.hpp"
+#include "auxiliary_data.hpp"
 
 namespace ghost
 {
 	/***********/
 	/** Model **/
 	/***********/
-	struct Model
+	struct Model final
 	{
 		std::vector<Variable> variables; 
 		std::vector<std::shared_ptr<Constraint>> constraints; 
 		std::shared_ptr<Objective> objective;
+		std::shared_ptr<AuxiliaryData> auxiliary_data;
 
-		Model() { };
+		//Model() { };
 		Model( const std::vector<Variable>& variables, 
 		       const std::vector<std::shared_ptr<Constraint>>&	constraints,
-		       const std::shared_ptr<Objective>& objective )
+		       const std::shared_ptr<Objective>& objective,
+		       const std::shared_ptr<AuxiliaryData>& auxiliary_data )
 			: variables( variables ),
 			  constraints( constraints ),
-			  objective( objective )
+			  objective( objective ),
+			  auxiliary_data ( auxiliary_data )
 		{ }
 
-		Model( const Model& other ) = default;
-		Model( Model&& other ) = default;	
+		// Model( const Model& other ) = default;
+		// Model( Model&& other ) = default;	
 	
-		Model& operator=( const Model& other ) = default;
-		Model& operator=( Model&& other )
-		{
-			variables = other.variables;
-			constraints = other.constraints;
-			objective = other.objective;
-		}
-
-		virtual ~Model() = default;
+		// Model& operator=( const Model& other ) = default;
+		// Model& operator=( Model&& other )
+		// {
+		// 	variables = other.variables;
+		// 	constraints = other.constraints;
+		// 	objective = other.objective;
+		// 	data = other.data;
+		// }
 	};
 
 	/******************/
@@ -79,15 +82,19 @@ namespace ghost
 		std::vector<Variable> variables; 
 		std::vector<std::shared_ptr<Constraint>> constraints; 
 		std::shared_ptr<Objective> objective;
+		std::shared_ptr<AuxiliaryData> auxiliary_data;
 
 	public:
 		FactoryModel( const std::vector<Variable>& variables ) 
 			: variables( variables ),
-			  objective( make_shared<NullObjective>( variables ) )
+			  objective( make_shared<NullObjective>( variables ) ),
+			  auxiliary_data( make_shared<NullAuxiliaryData>() )
 		{ }
 
-		~FactoryModel() = default;
+		virtual ~FactoryModel() = default;
 
-		virtual std::shared_ptr<Model> make_model()	= 0;
+		virtual Model make_model() = 0;
+
+		unsigned int get_number_variables() { return static_cast<unsigned int>( variables.size() ); }
 	};
 }

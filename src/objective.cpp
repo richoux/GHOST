@@ -33,32 +33,34 @@ using namespace ghost;
 
 Objective::Objective( std::string name, const std::vector<Variable>& variables )
 	: _name( name ),
-	  _variables( variables ),
 	  _is_optimization( true )
-{ }
-
-void Objective::update_variable( unsigned int variable_id, int new_value )
 {
-	_variables[ _id_mapping[ variable_id ] ].set_value( new_value );
-	update_objective( _variables, _id_mapping[ variable_id ], new_value );
+	std::transform( variables.begin(),
+	                variables.end(),
+	                std::back_inserter( _ptr_variables ),
+	                [&](const Variable &v){ return &v; } );
 }
 
-void Objective::update_objective( const std::vector<Variable>& variables, unsigned int variable_id, int new_value ) { }
+// void Objective::update_variable( unsigned int variable_id, int new_value )
+// {
+// 	_variables[ _id_mapping[ variable_id ] ].set_value( new_value );
+// 	update_objective( _variables, _id_mapping[ variable_id ], new_value );
+// }
 
-void Objective::make_variable_id_mapping( unsigned int new_id, unsigned int original_id )
-{
-	auto iterator = std::find_if( _variables.begin(), _variables.end(), [&](auto& v){ return v.get_id() == original_id; } );
-	if( iterator == _variables.end() )
-		throw variableOutOfTheScope( original_id, _name );
+// void Objective::make_variable_id_mapping( unsigned int new_id, unsigned int original_id )
+// {
+// 	auto iterator = std::find_if( _variables.begin(), _variables.end(), [&](auto& v){ return v.get_id() == original_id; } );
+// 	if( iterator == _variables.end() )
+// 		throw variableOutOfTheScope( original_id, _name );
 
-	_id_mapping[ new_id ] = static_cast<int>( iterator - _variables.begin() );
-}
+// 	_id_mapping[ new_id ] = static_cast<int>( iterator - _variables.begin() );
+// }
 
 double Objective::cost() const
 {
-	double value = required_cost( _variables );
+	double value = required_cost( _ptr_variables );
 	if( std::isnan( value ) )
-		throw nanException( _variables );
+		throw nanException( _ptr_variables );
 	return value;
 }
 
@@ -68,30 +70,30 @@ double Objective::cost() const
 // 		std::copy( new_values.begin(), new_values.end(), backup_values.begin() );
 		
 // 	for( int i = 0 ; i < static_cast<int>( variable_ids.size() ) ; ++i )
-// 		_variables[ _id_mapping[ variable_ids[ i ] ] ].set_value( new_values[ i ] );
+// 		_ptr_variables[ _id_mapping[ variable_ids[ i ] ] ].set_value( new_values[ i ] );
 	
 // 	auto cost = this->cost();
 	
 // 	for( int i = 0 ; i < static_cast<int>( variable_ids.size() ) ; ++i )
-// 		_variables[ _id_mapping[ variable_ids[ i ] ] ].set_value( backup_values[ i ] );
+// 		_ptr_variables[ _id_mapping[ variable_ids[ i ] ] ].set_value( backup_values[ i ] );
 	
 // 	return cost;
 // }
 
-int Objective::expert_heuristic_value( std::vector<Variable> variables,
+int Objective::expert_heuristic_value( const std::vector<Variable*>& variables,
                                        int variable_index,
                                        const std::vector<int>& possible_values ) const
 {
 	double min_cost = std::numeric_limits<double>::max();
 	double simulated_cost;
 
-	auto& var = variables[ variable_index ];
-	int backup = var.get_value();
+	auto var = variables[ variable_index ];
+	int backup = var->get_value();
 	std::vector<int> best_values;
   
-	for( auto& v : possible_values )
+	for( auto v : possible_values )
 	{
-		var.set_value( v );
+		var->set_value( v );
 		simulated_cost = required_cost( variables );
     
 		if( min_cost > simulated_cost )
@@ -105,24 +107,24 @@ int Objective::expert_heuristic_value( std::vector<Variable> variables,
 				best_values.push_back( v );
 	}
   
-	var.set_value( backup );
+	var->set_value( backup );
   
 	return rng.pick( best_values );
 }
   
-unsigned int Objective::expert_heuristic_value_permutation( std::vector<Variable> variables,
+unsigned int Objective::expert_heuristic_value_permutation( const std::vector<Variable*>& variables,
                                                             int variable_index,
                                                             const std::vector<int>& bad_variables ) const
 {
 	return rng.pick( bad_variables );
 }
  
-void Objective::expert_postprocess_satisfaction( const std::vector<Variable>& variables,
+void Objective::expert_postprocess_satisfaction( const std::vector<Variable*>& variables,
                                                  double& bestCost,
                                                  std::vector<int>& solution ) const
 { }
 
-void Objective::expert_postprocess_optimization( const std::vector<Variable>& variables,
+void Objective::expert_postprocess_optimization( const std::vector<Variable*>& variables,
                                                  double& bestCost,
                                                  std::vector<int>& solution ) const
 { }

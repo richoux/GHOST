@@ -58,10 +58,9 @@ namespace ghost
 	 */
 	class Constraint
 	{
-		template<typename FactoryModelType> friend class Solver;
 		friend class SearchUnit;
 
-		std::vector<Variable> _variables;	//!< Vector of variables in the scope of the constraint.
+		std::vector<Variable*> _ptr_variables;	//!< Vector of variables in the scope of the constraint.
 		double _current_error; //!< Current error of the constraint. 
 
 		static unsigned int NBER_CTR; // Static counter that increases each time one instantiates a Constraint object.
@@ -71,15 +70,15 @@ namespace ghost
 
 		struct nanException : std::exception
 		{
-			std::vector<Variable> variables;
+			std::vector<Variable*> variables;
 			std::string message;
 
-			nanException( const std::vector<Variable>& variables ) : variables(variables)
+			nanException( const std::vector<Variable*>& variables ) : variables(variables)
 			{
 				message = "Constraint required_error returned a NaN value on variables (";
 				for( int i = 0; i < static_cast<int>( variables.size() ) - 1; ++i )
-					message += std::to_string( variables[i].get_value() ) + ", ";
-				message += std::to_string( variables[ static_cast<int>( variables.size() ) - 1 ].get_value() ) + ")\n";
+					message += std::to_string( variables[i]->get_value() ) + ", ";
+				message += std::to_string( variables[ static_cast<int>( variables.size() ) - 1 ]->get_value() ) + ")\n";
 			}
 			const char* what() const noexcept { return message.c_str(); }
 		};
@@ -101,16 +100,13 @@ namespace ghost
 
 			variableOutOfTheScope( unsigned int var_id, unsigned int ctr_id )
 			{
-				message = "Variable ID " + std::to_string( var_id ) + " is not in the scope of Constraint ID " + std::to_string( ctr_id ) + ".\n";
+				message = "Variable* ID " + std::to_string( var_id ) + " is not in the scope of Constraint ID " + std::to_string( ctr_id ) + ".\n";
 			}
 			const char* what() const noexcept { return message.c_str(); }
 		};
 
 		// Update a variable assignment.
-		void update_variable( unsigned int variable_index, int new_value );
-
-		// To allow users to update their inner constraint data structure after assigning to a variable a new value. Called with _variables.
-		virtual void update_constraint( const std::vector<Variable>& variables, unsigned int variable_index, int new_value );
+		// void update_variable( unsigned int variable_index, int new_value );
 		
 		// Making the mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the constraint. 
 		void make_variable_id_mapping( unsigned int new_id, unsigned int original_id );
@@ -138,11 +134,11 @@ namespace ghost
 		// Inline method to get the unique id of the Constraint object.
 		inline int get_id() const { return _id; }
 
-		// Return ids of variable objects in _variables.
+		// Return ids of variable objects in _ptr_variables.
 		std::vector<unsigned int> get_variable_ids() const;
 
 	protected:
-		//! Pure virtual method to compute the error of the constraint with the current assignment in Constraint::_variables.
+		//! Pure virtual method to compute the error of the constraint with the current assignment in Constraint::_ptr_variables.
 		/*!
 		 * This method is fundamental: it evalutes how much the current values of variables violate this contraint.
 		 * Let's consider the following example : consider the contraint (x = y).\n
@@ -164,17 +160,17 @@ namespace ghost
 		 * to compute the constraint error but also for some inner mechanisms (such as error simulations).
 		 *
 		 * \param variables A const reference of the vector of variables in the scope of the constraint. The solver is calling this method with
-		 * Constraint::_variables as input. This is mostly to have the same interface than Objective::required_cost.
+		 * Constraint::_ptr_variables as input. This is mostly to have the same interface than Objective::required_cost.
 		 * \return A positive double corresponding to the error of the constraint.
 		 * Outputing 0 means that given variable values satisfy the constraint. 
 		 */
-		virtual double required_error( const std::vector<Variable>& variables ) const = 0;
+		virtual double required_error( const std::vector<Variable*>& variables ) const = 0;
 
 		//! Virtual method to compute the difference, or delta, between the current error and a the error of a candidate assignment.
 		/*!
 		 * The current assignment, as well as its error, are automatically stored in the class Constraint.
 		 * Giving a vector of variable indexes and their respective candidate value, this methods ouputs the difference between the 
-		 * error of the current assignment in Constraint::_variables and the error we would get if we assign new candidate values to variables given as input.
+		 * error of the current assignment in Constraint::_ptr_variables and the error we would get if we assign new candidate values to variables given as input.
 		 *
 		 * The ouput can be negative, positive, or equals to 0. If the candidate error is strictly lower (then better) than the current error, 
 		 * the ouput is negative. If errors are the same, the ouputs equals to 0. Finally, if the candidate error is strictly higher (then worth) 
@@ -191,12 +187,12 @@ namespace ghost
 		 * to compute the constraint delta error but also for some inner mechanisms (such as error simulations).
 		 *
 		 * \param variables A const reference of the vector of variables in the scope of the constraint. The solver is calling this method with
-		 * Constraint::_variables as input.
+		 * Constraint::_ptr_variables as input.
 		 * \param The vector of variables indexes and the vector of their respective candidate values.
 		 * \return A double corresponding to the difference between the current error of the constraint and the error you would get if you assign candidate 
 		 * values to given variables.
 		 */
-		virtual double expert_delta_error( const std::vector<Variable>& variables, const std::vector<unsigned int>& variable_indexes, const std::vector<int>& candidate_values ) const;
+		virtual double expert_delta_error( const std::vector<Variable*>& variables, const std::vector<unsigned int>& variable_indexes, const std::vector<int>& candidate_values ) const;
 
 		//! Inline method returning the current error of the constraint (automatically updated by the solver). This is useful to implement expert_delta_error.
 		/*!
