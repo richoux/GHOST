@@ -31,6 +31,7 @@
 
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 #include "variable.hpp"
 #include "constraint.hpp"
@@ -49,28 +50,10 @@ namespace ghost
 		std::shared_ptr<Objective> objective;
 		std::shared_ptr<AuxiliaryData> auxiliary_data;
 
-		//Model() { };
-		Model( const std::vector<Variable>& variables, 
+		Model( std::vector<Variable>&& variables, 
 		       const std::vector<std::shared_ptr<Constraint>>&	constraints,
 		       const std::shared_ptr<Objective>& objective,
-		       const std::shared_ptr<AuxiliaryData>& auxiliary_data )
-			: variables( variables ),
-			  constraints( constraints ),
-			  objective( objective ),
-			  auxiliary_data ( auxiliary_data )
-		{ }
-
-		// Model( const Model& other ) = default;
-		// Model( Model&& other ) = default;	
-	
-		// Model& operator=( const Model& other ) = default;
-		// Model& operator=( Model&& other )
-		// {
-		// 	variables = other.variables;
-		// 	constraints = other.constraints;
-		// 	objective = other.objective;
-		// 	data = other.data;
-		// }
+		       const std::shared_ptr<AuxiliaryData>& auxiliary_data );
 	};
 
 	/******************/
@@ -78,23 +61,26 @@ namespace ghost
 	/******************/
 	class FactoryModel
 	{
+		template<typename FactoryModelType> friend class Solver;
+
+		std::vector<Variable> _variables_origin; 
+		std::vector<Variable> _variables_copy; 
+		
+		Model make_model();
+		inline int get_number_variables() { return static_cast<int>( _variables_origin.size() ); }
+
 	protected:
-		std::vector<Variable> variables; 
+		std::vector<Variable*> ptr_variables; 
 		std::vector<std::shared_ptr<Constraint>> constraints; 
 		std::shared_ptr<Objective> objective;
 		std::shared_ptr<AuxiliaryData> auxiliary_data;
 
 	public:
-		FactoryModel( const std::vector<Variable>& variables ) 
-			: variables( variables ),
-			  objective( make_shared<NullObjective>( variables ) ),
-			  auxiliary_data( make_shared<NullAuxiliaryData>() )
-		{ }
-
+		FactoryModel( const std::vector<Variable>& variables );
 		virtual ~FactoryModel() = default;
 
-		virtual Model make_model() = 0;
-
-		unsigned int get_number_variables() { return static_cast<unsigned int>( variables.size() ); }
+		virtual void declare_constraints() = 0;
+		virtual void declare_objective();
+		virtual void declare_auxiliary_data();
 	};
 }

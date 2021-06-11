@@ -31,23 +31,19 @@
 
 using namespace ghost;
 
-Objective::Objective( std::string name, const std::vector<Variable>& variables )
+Objective::Objective( std::string name, const std::vector<Variable*>& variables )
 	: _name( name ),
+	  _ptr_variables( variables ),
 	  _is_optimization( true )
-{
-	std::transform( variables.begin(),
-	                variables.end(),
-	                std::back_inserter( _ptr_variables ),
-	                [&](const Variable &v){ return &v; } );
-}
+{ }
 
-// void Objective::update_variable( unsigned int variable_id, int new_value )
+// void Objective::update_variable( int variable_id, int new_value )
 // {
 // 	_variables[ _id_mapping[ variable_id ] ].set_value( new_value );
 // 	update_objective( _variables, _id_mapping[ variable_id ], new_value );
 // }
 
-// void Objective::make_variable_id_mapping( unsigned int new_id, unsigned int original_id )
+// void Objective::make_variable_id_mapping( int new_id, int original_id )
 // {
 // 	auto iterator = std::find_if( _variables.begin(), _variables.end(), [&](auto& v){ return v.get_id() == original_id; } );
 // 	if( iterator == _variables.end() )
@@ -64,7 +60,7 @@ double Objective::cost() const
 	return value;
 }
 
-// double Objective::simulate_cost( const std::vector<unsigned int>& variable_ids, const std::vector<int>& new_values )
+// double Objective::simulate_cost( const std::vector<int>& variable_ids, const std::vector<int>& new_values )
 // {			
 // 	std::vector<int> backup_values( new_values.size() );
 // 		std::copy( new_values.begin(), new_values.end(), backup_values.begin() );
@@ -112,9 +108,9 @@ int Objective::expert_heuristic_value( const std::vector<Variable*>& variables,
 	return rng.pick( best_values );
 }
   
-unsigned int Objective::expert_heuristic_value_permutation( const std::vector<Variable*>& variables,
-                                                            int variable_index,
-                                                            const std::vector<int>& bad_variables ) const
+int Objective::expert_heuristic_value_permutation( const std::vector<Variable*>& variables,
+                                                   int variable_index,
+                                                   const std::vector<int>& bad_variables ) const
 {
 	return rng.pick( bad_variables );
 }

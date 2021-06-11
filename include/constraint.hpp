@@ -60,26 +60,37 @@ namespace ghost
 	{
 		friend class SearchUnit;
 
-		std::vector<Variable*> _ptr_variables;	//!< Vector of variables in the scope of the constraint.
+		std::vector<Variable*> _variables;
+		std::vector<int> _variables_index; // to know where are the constraint's variables in the global variable vector
+		std::map<int,int> _variables_position; // to know where are global variables in the constraint's variables vector 
+		
 		double _current_error; //!< Current error of the constraint. 
 
-		static unsigned int NBER_CTR; // Static counter that increases each time one instantiates a Constraint object.
-		unsigned int _id;	// Unique ID integer
-		std::map<unsigned int,int> _id_mapping; // Mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the constraint.
+		int _id;	// Unique ID integer
 		mutable bool _is_expert_delta_error_defined; // Boolean telling if expert_delta_error() is overrided or not.
 
 		struct nanException : std::exception
 		{
-			std::vector<Variable*> variables;
+			std::vector<Variable*> ptr_variables;
+			std::vector<Variable> variables;
 			std::string message;
 
-			nanException( const std::vector<Variable*>& variables ) : variables(variables)
+			nanException( const std::vector<Variable*>& ptr_variables ) : ptr_variables(ptr_variables)
 			{
 				message = "Constraint required_error returned a NaN value on variables (";
-				for( int i = 0; i < static_cast<int>( variables.size() ) - 1; ++i )
-					message += std::to_string( variables[i]->get_value() ) + ", ";
-				message += std::to_string( variables[ static_cast<int>( variables.size() ) - 1 ]->get_value() ) + ")\n";
+				for( int i = 0; i < static_cast<int>( ptr_variables.size() ) - 1; ++i )
+					message += std::to_string( ptr_variables[i]->get_value() ) + ", ";
+				message += std::to_string( ptr_variables[ static_cast<int>( ptr_variables.size() ) - 1 ]->get_value() ) + ")\n";
 			}
+
+			nanException( const std::vector<Variable>& variables ) : variables(variables)
+			{
+				message = "Constraint expert_delta_error returned a NaN value on variables (";
+				for( int i = 0; i < static_cast<int>( variables.size() ) - 1; ++i )
+					message += std::to_string( variables[i].get_value() ) + ", ";
+				message += std::to_string( variables[ static_cast<int>( variables.size() ) - 1 ].get_value() ) + ")\n";
+			}
+
 			const char* what() const noexcept { return message.c_str(); }
 		};
 
@@ -98,7 +109,7 @@ namespace ghost
 		{
 			std::string message;
 
-			variableOutOfTheScope( unsigned int var_id, unsigned int ctr_id )
+			variableOutOfTheScope( int var_id, int ctr_id )
 			{
 				message = "Variable* ID " + std::to_string( var_id ) + " is not in the scope of Constraint ID " + std::to_string( ctr_id ) + ".\n";
 			}
@@ -106,10 +117,10 @@ namespace ghost
 		};
 
 		// Update a variable assignment.
-		// void update_variable( unsigned int variable_index, int new_value );
+		// void update_variable( int variable_index, int new_value );
 		
 		// Making the mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the constraint. 
-		void make_variable_id_mapping( unsigned int new_id, unsigned int original_id );
+		// void make_variable_id_mapping( int new_id, int original_id );
 		
 		inline bool is_expert_delta_error_defined() { return _is_expert_delta_error_defined; }
 
@@ -119,23 +130,22 @@ namespace ghost
 		// Compute the delta error of the current assignment, giving a vector of variables index and their candidate values.
 		// Calling expert_delta_error after making the conversion of variables index.
 		// Getting sure the delta error does give a nan, rise an exception otherwise.
-		double delta_error( const std::vector<unsigned int>& variables_index, const std::vector<int>& candidate_values ) const;
+		double delta_error( const std::vector<int>& variables_index, const std::vector<int>& candidate_values ) const;
 
 		// To simulate the error delta between the current configuration and the candidate configuration.
 		// This calls delta_error() if the user overrided it, otherwise it makes the simulation 'by hand' and calls error()
-		double simulate_delta( const std::vector<unsigned int>& variables_index, const std::vector<int>& candidate_values );
+		double simulate_delta( const std::vector<int>& variables_index, const std::vector<int>& candidate_values );
 
 		// Determine if the constraint contains a variable given its id. 
-		inline bool has_variable( unsigned int var_id ) const { return _id_mapping.contains( var_id ) ; }
-
-		// Determine if the constraint contains a variable given its id. 
-		bool has_variable_unshifted( unsigned int var_id ) const;
-
-		// Inline method to get the unique id of the Constraint object.
-		inline int get_id() const { return _id; }
+		bool has_variable( int var_id ) const;
 
 		// Return ids of variable objects in _ptr_variables.
-		std::vector<unsigned int> get_variable_ids() const;
+		inline std::vector<int> get_variable_ids() const { return _variables_index; }
+
+		inline void update( int index, int new_value ) { expert_update_if_delta_error_defined( _variables, _variables_position[ index ], new_value ); }
+		
+		// To allow users to update their inner constraint data structure after assigning to a variable a new value.
+		virtual void expert_update_if_delta_error_defined( const std::vector<Variable*>& variables, int variable_index, int new_value );
 
 	protected:
 		//! Pure virtual method to compute the error of the constraint with the current assignment in Constraint::_ptr_variables.
@@ -192,20 +202,23 @@ namespace ghost
 		 * \return A double corresponding to the difference between the current error of the constraint and the error you would get if you assign candidate 
 		 * values to given variables.
 		 */
-		virtual double expert_delta_error( const std::vector<Variable*>& variables, const std::vector<unsigned int>& variable_indexes, const std::vector<int>& candidate_values ) const;
+		virtual double expert_delta_error( const std::vector<Variable*>& variables, const std::vector<int>& variable_indexes, const std::vector<int>& candidate_values ) const;
 
 		//! Inline method returning the current error of the constraint (automatically updated by the solver). This is useful to implement expert_delta_error.
 		/*!
 		 * \sa expert_delta_error
 		 */
 		inline double get_current_error() const { return _current_error; }
-		
+
+		// Inline method to get the unique id of the Constraint object.
+		inline int get_id() const { return _id; }
+
 	public:
 		//! Unique constructor
 		/*!
 		 * \param variables A const reference to a vector of variable composing the constraint.
 		 */
-		Constraint( const std::vector<Variable>& variables );
+		Constraint( const std::vector<int>& variables_index );
 
 		//! Default copy contructor.
 		Constraint( const Constraint& other ) = default;

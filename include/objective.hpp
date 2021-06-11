@@ -38,7 +38,7 @@
 #include <exception>
 
 #include "variable.hpp"
-#include "misc/randutils.hpp"
+#include "thirdparty/randutils.hpp"
 
 namespace ghost
 {
@@ -58,13 +58,14 @@ namespace ghost
 	 */
 	class Objective
 	{
+		template<typename FactoryModelType> friend class Solver;
 		friend class SearchUnit;
 
 		std::string _name; //!< Name of the objective object.
 		std::vector<Variable*> _ptr_variables; //!<Vector of variables of the model.
 		bool _is_optimization;
 		
-		// std::map<unsigned int,int> _id_mapping; // Mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the objective function.
+		// std::map<int,int> _id_mapping; // Mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the objective function.
 
 		struct nanException : std::exception
 		{
@@ -85,7 +86,7 @@ namespace ghost
 		{
 			std::string message;
 
-			variableOutOfTheScope( unsigned int var_id, std::string name )
+			variableOutOfTheScope( int var_id, std::string name )
 			{
 				message = "Variable ID " + std::to_string( var_id ) + " is not in the scope of the Objective function " + name + ".\n";
 			}
@@ -93,25 +94,27 @@ namespace ghost
 		};
 
 		// Update a variable assignment.
-		// void update_variable( unsigned int variable_id, int new_value );
+		// void update_variable( int variable_id, int new_value );
 
 		// Making the mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the objective function. 
-		// void make_variable_id_mapping( unsigned int new_id, unsigned int original_id );
+		// void make_variable_id_mapping( int new_id, int original_id );
 
 		// Call required_cost() on Objective::_ptr_variables after getting sure the cost does give a nan, rise an exception otherwise.
 		double cost() const;
 
 		// // To simulate the cost between the current configuration and the candidate configuration.
 		// // Call cost().
-		// double simulate_cost( const std::vector<unsigned int>& variable_ids, const std::vector<int>& new_values );
+		// double simulate_cost( const std::vector<int>& variable_ids, const std::vector<int>& new_values );
 
 		// Call expert_heuristic_value on Objective::_ptr_variables.
-		inline int heuristic_value( unsigned int variable_index, const std::vector<int>& possible_values ) const
-		{ return expert_heuristic_value( _ptr_variables, _id_mapping.at( variable_index ), possible_values ); }
+		inline int heuristic_value( int variable_index, const std::vector<int>& possible_values ) const
+		//{ return expert_heuristic_value( _ptr_variables, _id_mapping.at( variable_index ), possible_values ); }
+		{ return expert_heuristic_value( _ptr_variables, variable_index, possible_values ); }
 
 		// Call expert_heuristic_value_permutation on Objective::_ptr_variables.
-		inline unsigned int heuristic_value_permutation( unsigned int variable_index, const std::vector<int>& bad_ptr_variables ) const
-		{ return expert_heuristic_value_permutation( _ptr_variables, _id_mapping.at( variable_index ), bad_ptr_variables ); }
+		inline int heuristic_value_permutation( int variable_index, const std::vector<int>& bad_ptr_variables ) const
+		//{ return expert_heuristic_value_permutation( _ptr_variables, _id_mapping.at( variable_index ), bad_ptr_variables ); }
+		{ return expert_heuristic_value_permutation( _ptr_variables, variable_index, bad_ptr_variables ); }
 
 		// Call expert_postprocess_satisfaction on Objective::_ptr_variables.
 		inline void postprocess_satisfaction( double& best_error, std::vector<int>& solution ) const
@@ -122,7 +125,7 @@ namespace ghost
 		{ expert_postprocess_optimization( _ptr_variables, best_cost, solution ); }
 			
 	protected:
-		mutable randutils::mt19937_rng rng; //!< A neat random generator placed in misc/randutils.hpp, see https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html
+		mutable randutils::mt19937_rng rng; //!< A neat random generator implemented in thirdparty/randutils.hpp, see https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html
 
 		//! Pure virtual method to compute the value of the objective function on the current assignment in Objective::_ptr_variables .
 		/*! 
@@ -177,9 +180,9 @@ namespace ghost
 		 * \param bad_ptr_variables A const reference to the vector of candidate variables the solver may swap the value with.
 		 * \return The index of the selected variable to swap with, according to the heuristic.
 		 */
-		virtual unsigned int expert_heuristic_value_permutation( const std::vector<Variable*>& variables,
-		                                                         int variable_index,
-		                                                         const std::vector<int>& bad_ptr_variables ) const;
+		virtual int expert_heuristic_value_permutation( const std::vector<Variable*>& variables,
+		                                                int variable_index,
+		                                                const std::vector<int>& bad_ptr_variables ) const;
 
 		//! Virtual method to perform satisfaction post-processing.
 		/*! 
@@ -232,22 +235,22 @@ namespace ghost
 		/*!
 		 * \param name A const reference to a string to give the Objective object a specific name.
 		 */
-		Objective( std::string name, const std::vector<Variable>& variables );
+		Objective( std::string name, const std::vector<Variable*>& variables );
 
 		//! Default copy contructor.
 		Objective( const Objective& other )
 			: _name ( other._name ),
 			  _ptr_variables ( other._ptr_variables ),
-			  _is_optimization( other._is_optimization ),
-			  _id_mapping ( other._id_mapping )
+			  _is_optimization( other._is_optimization )
+			  //_id_mapping ( other._id_mapping )
 		{ }
 		
 		//! Default move contructor.
 		Objective( Objective&& other )
 			: _name ( other._name ),
 			  _ptr_variables ( other._ptr_variables ),
-			  _is_optimization ( other._is_optimization ),
-			  _id_mapping ( other._id_mapping )
+			  _is_optimization ( other._is_optimization )
+			  //_id_mapping ( other._id_mapping )
 		{ }
 
 		//! Copy assignment operator disabled.

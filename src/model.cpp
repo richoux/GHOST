@@ -27,18 +27,48 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include <algorithm>
-
-#include "auxiliary_data.hpp"
+#include "model.hpp"
 
 using namespace ghost;
 
-AuxiliaryData::AuxiliaryData( const std::vector<Variable*>& variables )
-	: ptr_variables( variables )
+Model::Model( std::vector<Variable>&& moved_variables, 
+              const std::vector<std::shared_ptr<Constraint>>&	constraints,
+              const std::shared_ptr<Objective>& objective,
+              const std::shared_ptr<AuxiliaryData>& auxiliary_data )
+	: variables( std::move( moved_variables ) ),
+	  constraints( constraints ),
+	  objective( objective ),
+	  auxiliary_data ( auxiliary_data )
 { }
 
-void AuxiliaryData::update()
+FactoryModel::FactoryModel( const std::vector<Variable>& variables ) 
+	: _variables_origin( variables ),
+	  ptr_variables( std::vector<Variable*>( variables.size() ) )
+{	}
+
+Model FactoryModel::make_model()
 {
-	for( int i = 0 ; i < static_cast<int>( ptr_variables.size() ) ; ++i )
-		update( i, ptr_variables[i]->get_value() );
+	_variables_copy = std::vector<Variable>( _variables_origin.size() );
+	std::copy( _variables_origin.begin(), _variables_origin.end(), _variables_copy.begin() );
+	std::transform( _variables_copy.begin(),
+	                _variables_copy.end(),
+	                ptr_variables.begin(),
+	                [&](Variable& var){ return &var; } );
+	
+	constraints.clear();
+	declare_auxiliary_data();
+	declare_constraints();
+	declare_objective();
+
+	return Model( std::move( _variables_copy ), constraints, objective, auxiliary_data );
+}
+
+void FactoryModel::declare_objective()
+{
+	objective = std::make_shared<NullObjective>( ptr_variables );
+}
+
+void FactoryModel::declare_auxiliary_data()
+{
+	auxiliary_data = std::make_shared<NullAuxiliaryData>( ptr_variables );
 }
