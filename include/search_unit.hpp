@@ -768,7 +768,7 @@ namespace ghost
 			// While timeout is not reached, and the solver didn't satisfied
 			// all constraints OR it is working on an optimization problem, continue the search.
 			while( !stop_search_requested()
-			       &&  elapsed_time.count() < timeout
+			       &&  elapsed_time.count() < timeout * 1000
 			       && ( best_sat_error > 0.0 || ( best_sat_error == 0.0 && model.objective->is_optimization() ) ) )
 			{
 				++search_iterations;

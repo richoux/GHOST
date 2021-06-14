@@ -516,7 +516,7 @@ namespace ghost
 				std::cout << "OPTIMIZATION run with objective " << _model.objective->get_name() << "\n";
 
 			std::cout << "Permutation problem: " << std::boolalpha << _is_permutation_problem << "\n"
-			          << "Time budget: " << timeout / 1000 << "ms\n"
+			          << "Time budget: " << timeout << "ms\n"
 			          << "Search time: " << chrono_search / 1000 << "ms\n"
 			          << "Wall-clock time (full program): " << chrono_full_computation / 1000 << "ms\n"
 			          << "Satisfaction error: " << _best_sat_error << "\n"
@@ -556,53 +556,14 @@ namespace ghost
 			return solve( final_cost, final_solution, timeout, options );
 		}
 
-		//! Call Solver::solve with a chrono literal timeout in seconds
-		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::seconds timeout, Options& options )
-		{
-			return solve( final_cost, final_solution, std::chrono::duration_cast<std::chrono::microseconds>(timeout).count(), options );
-		}
-
-		//! Call Solver::solve with a chrono literal timeout in seconds and default options.
-		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::seconds timeout )
-		{
-			Options options;
-			return solve( final_cost, final_solution, timeout, options );
-		}
-
 		//! Call Solver::solve with a chrono literal timeout in milliseconds
 		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::milliseconds timeout, Options& options )
-		{
-			return solve( final_cost, final_solution, std::chrono::duration_cast<std::chrono::microseconds>(timeout).count(), options );
-		}
-
-		//! Call Solver::solve with a chrono literal timeout in milliseconds and default options.
-		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::milliseconds timeout )
-		{
-			Options options;
-			return solve( final_cost, final_solution, timeout, options );
-		}
-
-		//! Call Solver::solve with a chrono literal timeout in microseconds
-		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::microseconds timeout, Options& options )
 		{
 			return solve( final_cost, final_solution, timeout.count(), options );
 		}
 
-		//! Call Solver::solve with a chrono literal timeout in microseconds and default options.
-		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::microseconds timeout )
-		{
-			Options options;
-			return solve( final_cost, final_solution, timeout, options );
-		}
-
-		//! Call Solver::solve with a chrono literal timeout in nanoseconds
-		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::nanoseconds timeout, Options& options )
-		{
-			return solve( final_cost, final_solution, std::chrono::duration_cast<std::chrono::microseconds>(timeout).count(), options );
-		}
-
-		//! Call Solver::solve with a chrono literal timeout in nanoseconds and default options.
-		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::nanoseconds timeout )
+		//! Call Solver::solve with a chrono literal timeout in milliseconds and default options.
+		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::milliseconds timeout )
 		{
 			Options options;
 			return solve( final_cost, final_solution, timeout, options );
