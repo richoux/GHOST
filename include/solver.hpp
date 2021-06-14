@@ -556,6 +556,58 @@ namespace ghost
 			return solve( final_cost, final_solution, timeout, options );
 		}
 
+		//! Call Solver::solve with a chrono literal timeout in seconds
+		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::seconds timeout, Options& options )
+		{
+			return solve( final_cost, final_solution, std::chrono::duration_cast<std::chrono::microseconds>(timeout).count(), options );
+		}
+
+		//! Call Solver::solve with a chrono literal timeout in seconds and default options.
+		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::seconds timeout )
+		{
+			Options options;
+			return solve( final_cost, final_solution, timeout, options );
+		}
+
+		//! Call Solver::solve with a chrono literal timeout in milliseconds
+		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::milliseconds timeout, Options& options )
+		{
+			return solve( final_cost, final_solution, std::chrono::duration_cast<std::chrono::microseconds>(timeout).count(), options );
+		}
+
+		//! Call Solver::solve with a chrono literal timeout in milliseconds and default options.
+		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::milliseconds timeout )
+		{
+			Options options;
+			return solve( final_cost, final_solution, timeout, options );
+		}
+
+		//! Call Solver::solve with a chrono literal timeout in microseconds
+		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::microseconds timeout, Options& options )
+		{
+			return solve( final_cost, final_solution, timeout.count(), options );
+		}
+
+		//! Call Solver::solve with a chrono literal timeout in microseconds and default options.
+		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::microseconds timeout )
+		{
+			Options options;
+			return solve( final_cost, final_solution, timeout, options );
+		}
+
+		//! Call Solver::solve with a chrono literal timeout in nanoseconds
+		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::nanoseconds timeout, Options& options )
+		{
+			return solve( final_cost, final_solution, std::chrono::duration_cast<std::chrono::microseconds>(timeout).count(), options );
+		}
+
+		//! Call Solver::solve with a chrono literal timeout in nanoseconds and default options.
+		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::nanoseconds timeout )
+		{
+			Options options;
+			return solve( final_cost, final_solution, timeout, options );
+		}
+
 		inline std::vector<Variable> get_variables() { return _model.variables; }
 	};
 }
