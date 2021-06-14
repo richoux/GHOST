@@ -27,33 +27,34 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include <algorithm>
+#pragma once
 
-#include "auxiliary_data.hpp"
+#include <vector>
+#include <memory>
 
-using namespace ghost;
+#include "model.hpp"
 
-AuxiliaryData::AuxiliaryData( const std::vector<int>& variables_index )
-	: _variables_index( variables_index )
-{ }
-
-AuxiliaryData::AuxiliaryData( const std::vector<Variable>& variables )
-	: _variables_index( std::vector<int>( variables.size() ) )
+namespace ghost
 {
-	std::transform( variables.begin(),
-	                variables.end(),
-	                _variables_index.begin(),
-	                [&](const auto& v){ return v.get_id(); } );
-}
+	class FactoryModel
+	{
+		template<typename FactoryModelType> friend class Solver;
 
-void AuxiliaryData::update( int index, int new_value )
-{
-	if( _variables_position.count( index) > 0 )
-		update( _variables, _variables_position.at( index ), new_value );
-}
+		Model make_model();
+	protected:
+		std::vector<Variable> variables; 
+		std::vector<std::shared_ptr<Constraint>> constraints; 
+		std::shared_ptr<Objective> objective;
+		std::shared_ptr<AuxiliaryData> auxiliary_data;
 
-void AuxiliaryData::update()
-{
-	for( int i = 0 ; i < static_cast<int>( _variables.size() ) ; ++i )
-		update( _variables, i, _variables[i]->get_value() );
+	public:
+		virtual ~FactoryModel() = default;
+
+		virtual void declare_variables() = 0;
+		virtual void declare_constraints() = 0;
+		virtual void declare_objective();
+		virtual void declare_auxiliary_data();
+
+		inline int get_number_variables() { return static_cast<int>( variables.size() ); }
+	};
 }

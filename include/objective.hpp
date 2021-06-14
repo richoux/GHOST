@@ -60,9 +60,12 @@ namespace ghost
 	{
 		template<typename FactoryModelType> friend class Solver;
 		friend class SearchUnit;
+		friend class FactoryModel;
 
 		std::string _name; //!< Name of the objective object.
-		std::vector<Variable*> _ptr_variables; //!<Vector of variables of the model.
+		std::vector<Variable*> _variables; //!<Vector of variables of the model.
+		std::vector<int> _variables_index; // to know where are the constraint's variables in the global variable vector
+		std::map<int,int> _variables_position; // to know where are global variables in the constraint's variables vector 
 		bool _is_optimization;
 		
 		// std::map<int,int> _id_mapping; // Mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the objective function.
@@ -108,21 +111,19 @@ namespace ghost
 
 		// Call expert_heuristic_value on Objective::_ptr_variables.
 		inline int heuristic_value( int variable_index, const std::vector<int>& possible_values ) const
-		//{ return expert_heuristic_value( _ptr_variables, _id_mapping.at( variable_index ), possible_values ); }
-		{ return expert_heuristic_value( _ptr_variables, variable_index, possible_values ); }
+		{ return expert_heuristic_value( _variables, _variables_position.at( variable_index ), possible_values ); }
 
 		// Call expert_heuristic_value_permutation on Objective::_ptr_variables.
 		inline int heuristic_value_permutation( int variable_index, const std::vector<int>& bad_ptr_variables ) const
-		//{ return expert_heuristic_value_permutation( _ptr_variables, _id_mapping.at( variable_index ), bad_ptr_variables ); }
-		{ return expert_heuristic_value_permutation( _ptr_variables, variable_index, bad_ptr_variables ); }
+		{ return expert_heuristic_value_permutation( _variables, _variables_position.at( variable_index ), bad_ptr_variables ); }
 
 		// Call expert_postprocess_satisfaction on Objective::_ptr_variables.
 		inline void postprocess_satisfaction( double& best_error, std::vector<int>& solution ) const
-		{ expert_postprocess_satisfaction( _ptr_variables, best_error, solution ); }
+		{ expert_postprocess_satisfaction( _variables, best_error, solution ); }
 			
 		// Call expert_postprocess_optimization on Objective::_ptr_variables.
 		inline void postprocess_optimization( double& best_cost, std::vector<int>& solution ) const
-		{ expert_postprocess_optimization( _ptr_variables, best_cost, solution ); }
+		{ expert_postprocess_optimization( _variables, best_cost, solution ); }
 			
 	protected:
 		mutable randutils::mt19937_rng rng; //!< A neat random generator implemented in thirdparty/randutils.hpp, see https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html
@@ -231,31 +232,25 @@ namespace ghost
 		inline void is_not_optimization() { _is_optimization = false; }
 
 	public:
-		//! Unique constructor
+		//! Constructor taking variable indexes
 		/*!
 		 * \param name A const reference to a string to give the Objective object a specific name.
 		 */
-		Objective( std::string name, const std::vector<Variable*>& variables );
+		Objective( std::string name, const std::vector<int>& variables_index );
+
+		//! Constructor taking variables
+		/*!
+		 * \param name A const reference to a string to give the Objective object a specific name.
+		 */
+		Objective( std::string name, const std::vector<Variable>& variables );
 
 		//! Default copy contructor.
-		Objective( const Objective& other )
-			: _name ( other._name ),
-			  _ptr_variables ( other._ptr_variables ),
-			  _is_optimization( other._is_optimization )
-			  //_id_mapping ( other._id_mapping )
-		{ }
-		
+		Objective( const Objective& other ) = default;
 		//! Default move contructor.
-		Objective( Objective&& other )
-			: _name ( other._name ),
-			  _ptr_variables ( other._ptr_variables ),
-			  _is_optimization ( other._is_optimization )
-			  //_id_mapping ( other._id_mapping )
-		{ }
+		Objective( Objective&& other ) = default;
 
 		//! Copy assignment operator disabled.
 		Objective& operator=( const Objective& other ) = delete;
-		
 		//! Move assignment operator disabled.
 		Objective& operator=( Objective&& other ) = delete;
 
@@ -282,19 +277,12 @@ namespace ghost
 	class NullObjective : public Objective
 	{
 	public:
-		NullObjective( const std::vector<Variable*>& variables ) : Objective( "nullObjective", variables )
+		NullObjective() : Objective( "nullObjective", std::vector<int>{0} )
 		{
 			this->is_not_optimization();
 		}
 		
 	private:
 		double required_cost( const std::vector<Variable*>& variables ) const override { return 0.0; }
-		
-		int expert_heuristic_value( const std::vector<Variable*>& variables,
-		                            int variable_index,
-		                            const std::vector<int>& values_list ) const override
-		{
-			return rng.pick( values_list );
-		}
 	};
 }

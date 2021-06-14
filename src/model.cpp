@@ -40,35 +40,3 @@ Model::Model( std::vector<Variable>&& moved_variables,
 	  objective( objective ),
 	  auxiliary_data ( auxiliary_data )
 { }
-
-FactoryModel::FactoryModel( const std::vector<Variable>& variables ) 
-	: _variables_origin( variables ),
-	  ptr_variables( std::vector<Variable*>( variables.size() ) )
-{	}
-
-Model FactoryModel::make_model()
-{
-	_variables_copy = std::vector<Variable>( _variables_origin.size() );
-	std::copy( _variables_origin.begin(), _variables_origin.end(), _variables_copy.begin() );
-	std::transform( _variables_copy.begin(),
-	                _variables_copy.end(),
-	                ptr_variables.begin(),
-	                [&](Variable& var){ return &var; } );
-	
-	constraints.clear();
-	declare_auxiliary_data();
-	declare_constraints();
-	declare_objective();
-
-	return Model( std::move( _variables_copy ), constraints, objective, auxiliary_data );
-}
-
-void FactoryModel::declare_objective()
-{
-	objective = std::make_shared<NullObjective>( ptr_variables );
-}
-
-void FactoryModel::declare_auxiliary_data()
-{
-	auxiliary_data = std::make_shared<NullAuxiliaryData>( ptr_variables );
-}

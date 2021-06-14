@@ -86,6 +86,7 @@ namespace ghost
 	 */
 	template<typename FactoryModelType> class Solver final
 	{
+		Model _model;
 		FactoryModelType _factory_model; //!< Factory building the model
 		
 		int _number_variables; //!< Size of the vector of variables.
@@ -124,7 +125,6 @@ namespace ghost
 		Solver( const FactoryModelType& factory_model,
 		        bool permutation_problem = false )
 			: _factory_model( factory_model ),
-			  _number_variables( _factory_model.get_number_variables() ),
 			  _best_sat_error( std::numeric_limits<double>::max() ),
 			  _best_opt_cost( std::numeric_limits<double>::max() ),
 			  _cost_before_postprocess( std::numeric_limits<double>::max() ),
@@ -208,6 +208,10 @@ namespace ghost
 			/*****************
 			* Initialization *
 			******************/
+			// Only to get the number of variables
+			_factory_model.declare_variables();
+			_number_variables = _factory_model.get_number_variables();
+
 			_options = options;
 			
 			if( _options.tabu_time_local_min == -1 )
@@ -244,8 +248,7 @@ namespace ghost
 			final_solution.resize( _number_variables );
 			bool solution_found = false;			
 			bool is_sequential;
-			std::shared_ptr<Objective> objective;
-			std::vector<Variable> variables;
+			bool is_optimization;
 			
 #if defined GHOST_DEBUG || defined GHOST_TRACE || defined GHOST_BENCH
 			// this is to make proper benchmarks/debugging with 1 thread.
@@ -261,7 +264,7 @@ namespace ghost
 				                        _is_permutation_problem,
 				                        _options );
 
-				objective = search_unit.get_objective();
+				is_optimization = search_unit.is_optimization();
 				std::future<bool> unit_future = search_unit.solution_found.get_future();
 				
 				start_search = std::chrono::steady_clock::now();
@@ -281,7 +284,7 @@ namespace ghost
 				_plateau_moves = search_unit.plateau_moves;
 				_plateau_local_minimum = search_unit.plateau_local_minimum;
 
-				variables = std::move( search_unit.transfer_variables() );				
+				_model = std::move( search_unit.transfer_model() );				
 			}
 			else // call threads
 			{
@@ -297,7 +300,7 @@ namespace ghost
 					                    _options );
 				}
 
-				objective = units[0].get_objective();
+				is_optimization = units[0].is_optimization();
 				
 				std::vector<std::future<bool>> units_future;
 				std::vector<bool> units_terminated( _options.number_threads, false );
@@ -322,7 +325,7 @@ namespace ghost
 					{
 						if( !units_terminated[ thread_number ] && units_future.at( thread_number ).wait_for( std::chrono::microseconds( 0 ) ) == std::future_status::ready )
 						{
-							if( objective->is_optimization() )
+							if( is_optimization )
 							{
 								++number_timeouts;
 								units_terminated[ thread_number ] = true;
@@ -403,8 +406,7 @@ namespace ghost
 					_local_minimum = units.at( winning_thread ).local_minimum;
 					_plateau_moves = units.at( winning_thread ).plateau_moves;
 					_plateau_local_minimum = units.at( winning_thread ).plateau_local_minimum;
-					objective = units.at( winning_thread ).get_objective();
-					variables = std::move( units.at( winning_thread ).transfer_variables() );
+					_model = std::move( units.at( winning_thread ).transfer_model() );
 				}
 				else
 				{
@@ -419,7 +421,7 @@ namespace ghost
 							best_non_solution = i;
 							_best_sat_error = units.at( i ).best_sat_error;
 						}
-						if( objective->is_optimization() && _best_sat_error == 0.0 )
+						if( is_optimization && _best_sat_error == 0.0 )
 							if( units.at( i ).best_sat_error == 0.0 && _best_opt_cost > units.at( i ).best_opt_cost )
 							{
 								best_non_solution = i;
@@ -435,8 +437,7 @@ namespace ghost
 					_local_minimum = units.at( best_non_solution ).local_minimum;
 					_plateau_moves = units.at( best_non_solution ).plateau_moves;
 					_plateau_local_minimum = units.at( best_non_solution ).plateau_local_minimum;
-					objective = units.at( best_non_solution ).get_objective();
-					variables = std::move( units.at( best_non_solution ).transfer_variables() );
+					_model = std::move( units.at( best_non_solution ).transfer_model() );
 				}
 
 				for( auto& thread: unit_threads )
@@ -448,16 +449,16 @@ namespace ghost
 				}
 			}
 			
-			if( solution_found && objective->is_optimization() )
+			if( solution_found && is_optimization )
 			{
 				_cost_before_postprocess = _best_opt_cost;
 
 				start_postprocess = std::chrono::steady_clock::now();
-				objective->postprocess_optimization( _best_opt_cost, final_solution );
+				_model.objective->postprocess_optimization( _best_opt_cost, final_solution );
 				timer_postprocess_opt = std::chrono::steady_clock::now() - start_postprocess;
 			}
 
-			if( objective->is_optimization() )
+			if( is_optimization )
 			{
 				if( _best_opt_cost < 0 )
 				{
@@ -474,7 +475,7 @@ namespace ghost
 			// Useful if the user prefer to directly use the vector of Variables
 			// to manipulate and exploit the solution.
 			for( int variable_id = 0 ; variable_id < _number_variables; ++variable_id )
-				variables[ variable_id ].set_value( final_solution[ variable_id ] );
+				_model.variables[ variable_id ].set_value( final_solution[ variable_id ] );
 
 			elapsed_time = std::chrono::steady_clock::now() - start_wall_clock;
 			chrono_full_computation = elapsed_time.count();
@@ -505,14 +506,14 @@ namespace ghost
 			          << "############" << "\n";
 
 			// Print solution
-			std::cout << _options.print->print_candidate( variables ).str();
+			std::cout << _options.print->print_candidate( _model.variables ).str();
 
 			std::cout << "\n";
 			
-			if( !objective->is_optimization() )
+			if( !is_optimization )
 				std::cout << "SATISFACTION run" << "\n";
 			else
-				std::cout << "OPTIMIZATION run with objective " << objective->get_name() << "\n";
+				std::cout << "OPTIMIZATION run with objective " << _model.objective->get_name() << "\n";
 
 			std::cout << "Permutation problem: " << std::boolalpha << _is_permutation_problem << "\n"
 			          << "Time budget: " << timeout / 1000 << "ms\n"
@@ -532,7 +533,7 @@ namespace ghost
 				          << "Total number of resets: " << _resets_total << "\n"
 				          << "Total number of restarts: " << _restarts_total << "\n";
 			
-			if( objective->is_optimization() )
+			if( is_optimization )
 				std::cout << "\nOptimization cost: " << _best_opt_cost << "\n"
 				          << "Opt Cost BEFORE post-processing: " << _cost_before_postprocess << "\n";
   
@@ -555,5 +556,6 @@ namespace ghost
 			return solve( final_cost, final_solution, timeout, options );
 		}
 
+		inline std::vector<Variable> get_variables() { return _model.variables; }
 	};
 }

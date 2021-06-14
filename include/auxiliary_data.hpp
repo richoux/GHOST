@@ -30,6 +30,7 @@
 #pragma once
 
 #include <vector>
+#include <map>
 
 #include "variable.hpp"
 
@@ -40,16 +41,34 @@ namespace ghost
 	/*******************/
 	class AuxiliaryData
 	{
-	protected:
-		std::vector<Variable*> ptr_variables;
-		
-	public:
-		AuxiliaryData( const std::vector<Variable*>& variables );
-		
-		virtual ~AuxiliaryData() = default;
+		friend class SearchUnit;
+		friend class FactoryModel;
+
+		std::vector<Variable*> _variables;
+		std::vector<int> _variables_index; // to know where are the constraint's variables in the global variable vector
+		std::map<int,int> _variables_position; // to know where are global variables in the constraint's variables vector 
 
 		void update();		
-		virtual void update( int index, int new_value ) = 0;
+		void update( int index, int new_value );		
+
+	protected:
+		virtual void update( const std::vector<Variable*>& variables, int index, int new_value ) = 0;
+	
+	public:
+		AuxiliaryData( const std::vector<int>& variables_index );
+		AuxiliaryData( const std::vector<Variable>& variables );
+				
+		//! Default copy contructor.
+		AuxiliaryData( const AuxiliaryData& other ) = default;
+		//! Default move contructor.
+		AuxiliaryData( AuxiliaryData&& other ) = default;
+    
+		//! Copy assignment operator disabled.
+		AuxiliaryData& operator=( const AuxiliaryData& other ) = delete;
+		//! Move assignment operator disabled.
+		AuxiliaryData& operator=( AuxiliaryData&& other ) = delete;
+
+		virtual ~AuxiliaryData() = default;
 	};
 	
 	/***********************/
@@ -59,10 +78,10 @@ namespace ghost
 	class NullAuxiliaryData : public AuxiliaryData
 	{
 	public:
-		NullAuxiliaryData( const std::vector<Variable*>& variables )
-			: AuxiliaryData( variables )
+		NullAuxiliaryData()
+			: AuxiliaryData( std::vector<int>{0} )
 		{ }
 		
-		void update( int index, int new_value ) override { }
+		void update( const std::vector<Variable*>& variables, int index, int new_value ) override { }
 	};
 }

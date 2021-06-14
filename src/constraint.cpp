@@ -42,6 +42,18 @@ Constraint::Constraint( const std::vector<int>& variables_index )
 	  _is_expert_delta_error_defined( true )
 { }
 
+Constraint::Constraint( const std::vector<Variable>& variables )
+	: _variables_index( std::vector<int>( variables.size() ) ),
+	  _current_error( std::numeric_limits<double>::max() ),
+	  _id( 0 ),
+	  _is_expert_delta_error_defined( true )
+{
+	std::transform( variables.begin(),
+	                variables.end(),
+	                _variables_index.begin(),
+	                [&](const auto& v){ return v.get_id(); } );
+}
+
 double Constraint::error() const
 {
 	double value = required_error( _variables );

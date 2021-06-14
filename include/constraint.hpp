@@ -59,6 +59,7 @@ namespace ghost
 	class Constraint
 	{
 		friend class SearchUnit;
+		friend class FactoryModel;
 
 		std::vector<Variable*> _variables;
 		std::vector<int> _variables_index; // to know where are the constraint's variables in the global variable vector
@@ -144,9 +145,6 @@ namespace ghost
 
 		inline void update( int index, int new_value ) { expert_update_if_delta_error_defined( _variables, _variables_position[ index ], new_value ); }
 		
-		// To allow users to update their inner constraint data structure after assigning to a variable a new value.
-		virtual void expert_update_if_delta_error_defined( const std::vector<Variable*>& variables, int variable_index, int new_value );
-
 	protected:
 		//! Pure virtual method to compute the error of the constraint with the current assignment in Constraint::_ptr_variables.
 		/*!
@@ -204,6 +202,9 @@ namespace ghost
 		 */
 		virtual double expert_delta_error( const std::vector<Variable*>& variables, const std::vector<int>& variable_indexes, const std::vector<int>& candidate_values ) const;
 
+		// To allow users to update their inner constraint data structure after assigning to a variable a new value.
+		virtual void expert_update_if_delta_error_defined( const std::vector<Variable*>& variables, int variable_index, int new_value );
+
 		//! Inline method returning the current error of the constraint (automatically updated by the solver). This is useful to implement expert_delta_error.
 		/*!
 		 * \sa expert_delta_error
@@ -214,11 +215,17 @@ namespace ghost
 		inline int get_id() const { return _id; }
 
 	public:
-		//! Unique constructor
+		//! Constructor taking variable indexes
 		/*!
 		 * \param variables A const reference to a vector of variable composing the constraint.
 		 */
 		Constraint( const std::vector<int>& variables_index );
+
+		//! Constructor taking variables
+		/*!
+		 * \param variables A const reference to a vector of variable composing the constraint.
+		 */
+		Constraint( const std::vector<Variable>& variables );
 
 		//! Default copy contructor.
 		Constraint( const Constraint& other ) = default;

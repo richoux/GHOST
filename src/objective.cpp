@@ -31,50 +31,30 @@
 
 using namespace ghost;
 
-Objective::Objective( std::string name, const std::vector<Variable*>& variables )
+Objective::Objective( std::string name, const std::vector<int>& variables_index )
 	: _name( name ),
-	  _ptr_variables( variables ),
+	  _variables_index( variables_index ),
 	  _is_optimization( true )
 { }
 
-// void Objective::update_variable( int variable_id, int new_value )
-// {
-// 	_variables[ _id_mapping[ variable_id ] ].set_value( new_value );
-// 	update_objective( _variables, _id_mapping[ variable_id ], new_value );
-// }
-
-// void Objective::make_variable_id_mapping( int new_id, int original_id )
-// {
-// 	auto iterator = std::find_if( _variables.begin(), _variables.end(), [&](auto& v){ return v.get_id() == original_id; } );
-// 	if( iterator == _variables.end() )
-// 		throw variableOutOfTheScope( original_id, _name );
-
-// 	_id_mapping[ new_id ] = static_cast<int>( iterator - _variables.begin() );
-// }
+Objective::Objective( std::string name, const std::vector<Variable>& variables )
+	: _name( name ),
+	  _variables_index( std::vector<int>( variables.size() ) ),
+	  _is_optimization( true )
+{
+	std::transform( variables.begin(),
+	                variables.end(),
+	                _variables_index.begin(),
+	                [&](const auto& v){ return v.get_id(); } );
+}
 
 double Objective::cost() const
 {
-	double value = required_cost( _ptr_variables );
+	double value = required_cost( _variables );
 	if( std::isnan( value ) )
-		throw nanException( _ptr_variables );
+		throw nanException( _variables );
 	return value;
 }
-
-// double Objective::simulate_cost( const std::vector<int>& variable_ids, const std::vector<int>& new_values )
-// {			
-// 	std::vector<int> backup_values( new_values.size() );
-// 		std::copy( new_values.begin(), new_values.end(), backup_values.begin() );
-		
-// 	for( int i = 0 ; i < static_cast<int>( variable_ids.size() ) ; ++i )
-// 		_ptr_variables[ _id_mapping[ variable_ids[ i ] ] ].set_value( new_values[ i ] );
-	
-// 	auto cost = this->cost();
-	
-// 	for( int i = 0 ; i < static_cast<int>( variable_ids.size() ) ; ++i )
-// 		_ptr_variables[ _id_mapping[ variable_ids[ i ] ] ].set_value( backup_values[ i ] );
-	
-// 	return cost;
-// }
 
 int Objective::expert_heuristic_value( const std::vector<Variable*>& variables,
                                        int variable_index,

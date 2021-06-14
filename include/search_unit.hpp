@@ -281,35 +281,13 @@ namespace ghost
 		void initialize_data_structures( Model& model,
 		                                 std::vector<std::vector<int> >& matrix_var_ctr )
 		{
-			// Set the id of each constraint object to be their index in the _constraints vector
-			for( int constraint_id = 0; constraint_id < number_constraints; ++constraint_id )
-			{
-				model.constraints[ constraint_id ]->_id = constraint_id;
-				// Set also constraints' variables and their internal data structures
-				for( int index = 0 ; index < static_cast<int>( model.constraints[ constraint_id ]->_variables_index.size() ) ; ++index )
-				{
-					model.constraints[ constraint_id ]->_variables.push_back( &model.variables[ model.constraints[ constraint_id ]->_variables_index[ index ] ] );
-					model.constraints[ constraint_id ]->_variables_position[ model.constraints[ constraint_id ]->_variables_index[ index ] ] = index;
-				}
-			}
-	
 			matrix_var_ctr.resize( number_variables );
 			
+			// Save the id of each constraint where the current variable appears in.
 			for( int variable_id = 0; variable_id < number_variables; ++variable_id )
-			{
-				// Set the id of each variable object to be their index in the _variables vector
-				model.variables[ variable_id ]._id = variable_id;
-				
-				// Save the id of each constraint where the current variable appears in.
 				for( int constraint_id = 0; constraint_id < number_constraints; ++constraint_id )
 					if( model.constraints[ constraint_id ]->has_variable( variable_id ) )
-					{
 						matrix_var_ctr[ variable_id ].push_back( constraint_id );
-						//model.constraints[ constraint_id ]->make_variable_id_mapping( variable_id, original_variable_id );
-					}
-
-				//model.objective->make_variable_id_mapping( variable_id, original_variable_id );			
-			}
 
 			// Determine if expert_delta_error has been user defined or not for each constraint
 			for( int constraint_id = 0; constraint_id < number_constraints; ++constraint_id )
@@ -738,8 +716,8 @@ namespace ghost
 
 		// Request the thread to stop searching
 		inline void stop_search()	{	_stop_search_signal.set_value(); }
-		inline std::vector<Variable>&& transfer_variables() { return std::move( model.variables ); }
-		inline std::shared_ptr<Objective> get_objective() { return model.objective; }
+		inline Model&& transfer_model() { return std::move( model ); }
+		inline bool is_optimization() { return model.objective->is_optimization(); }
 		
 		// Method doing the search; called by Solver::solve (eventually in several threads).
 		// Return true iff a solution has been found
