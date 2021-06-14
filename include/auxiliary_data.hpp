@@ -55,6 +55,7 @@ namespace ghost
 		virtual void update( const std::vector<Variable*>& variables, int index, int new_value ) = 0;
 	
 	public:
+		AuxiliaryData();
 		AuxiliaryData( const std::vector<int>& variables_index );
 		AuxiliaryData( const std::vector<Variable>& variables );
 				
@@ -79,7 +80,7 @@ namespace ghost
 	{
 	public:
 		NullAuxiliaryData()
-			: AuxiliaryData( std::vector<int>{0} )
+			: AuxiliaryData()
 		{ }
 		
 		void update( const std::vector<Variable*>& variables, int index, int new_value ) override { }

@@ -33,6 +33,10 @@
 
 using namespace ghost;
 
+AuxiliaryData::AuxiliaryData()
+	: _variables_index( std::vector<int>{0} )
+{ }
+
 AuxiliaryData::AuxiliaryData( const std::vector<int>& variables_index )
 	: _variables_index( variables_index )
 { }
