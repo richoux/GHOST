@@ -27,11 +27,11 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "factory_model.hpp"
+#include "model_builder.hpp"
 
 using namespace ghost;
 
-Model FactoryModel::make_model()
+Model ModelBuilder::build_model()
 {
 	variables.clear();
 	constraints.clear();
@@ -77,12 +77,12 @@ Model FactoryModel::make_model()
 	return Model( std::move( variables ), constraints, objective, auxiliary_data );
 }
 
-void FactoryModel::declare_objective()
+void ModelBuilder::declare_objective()
 {
 	objective = std::make_shared<NullObjective>();
 }
 
-void FactoryModel::declare_auxiliary_data()
+void ModelBuilder::declare_auxiliary_data()
 {
 	auxiliary_data = std::make_shared<NullAuxiliaryData>();
 }

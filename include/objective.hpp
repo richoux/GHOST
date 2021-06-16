@@ -58,9 +58,9 @@ namespace ghost
 	 */
 	class Objective
 	{
-		template<typename FactoryModelType> friend class Solver;
+		template<typename ModelBuilderType> friend class Solver;
 		friend class SearchUnit;
-		friend class FactoryModel;
+		friend class ModelBuilder;
 
 		std::string _name; //!< Name of the objective object.
 		std::vector<Variable*> _variables; //!<Vector of variables of the model.

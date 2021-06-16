@@ -80,8 +80,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 # add the library
-add_library(ghost SHARED src/variable.cpp src/constraint.cpp src/objective.cpp src/auxiliary_data.cpp src/model.cpp src/factory_model.cpp src/options.cpp src/print.cpp)
-add_library(ghost_static STATIC src/variable.cpp src/constraint.cpp src/objective.cpp src/auxiliary_data.cpp src/model.cpp src/factory_model.cpp src/options.cpp src/print.cpp)
+add_library(ghost SHARED src/variable.cpp src/constraint.cpp src/objective.cpp src/auxiliary_data.cpp src/model.cpp src/model_builder.cpp src/options.cpp src/print.cpp)
+add_library(ghost_static STATIC src/variable.cpp src/constraint.cpp src/objective.cpp src/auxiliary_data.cpp src/model.cpp src/model_builder.cpp src/options.cpp src/print.cpp)
 
 #gather headers list
 file(GLOB libHeadersList

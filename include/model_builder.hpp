@@ -36,11 +36,12 @@
 
 namespace ghost
 {
-	class FactoryModel
+	class ModelBuilder
 	{
-		template<typename FactoryModelType> friend class Solver;
+		template<typename ModelBuilderType> friend class Solver;
 
-		Model make_model();
+		Model build_model();
+		
 	protected:
 		std::vector<Variable> variables; 
 		std::vector<std::shared_ptr<Constraint>> constraints; 
@@ -48,7 +49,7 @@ namespace ghost
 		std::shared_ptr<AuxiliaryData> auxiliary_data;
 
 	public:
-		virtual ~FactoryModel() = default;
+		virtual ~ModelBuilder() = default;
 
 		virtual void declare_variables() = 0;
 		virtual void declare_constraints() = 0;

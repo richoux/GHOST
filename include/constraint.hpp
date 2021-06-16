@@ -59,7 +59,7 @@ namespace ghost
 	class Constraint
 	{
 		friend class SearchUnit;
-		friend class FactoryModel;
+		friend class ModelBuilder;
 
 		std::vector<Variable*> _variables;
 		std::vector<int> _variables_index; // to know where are the constraint's variables in the global variable vector

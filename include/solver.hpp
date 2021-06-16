@@ -47,6 +47,7 @@
 #include "objective.hpp"
 #include "auxiliary_data.hpp"
 #include "model.hpp"
+#include "model_builder.hpp"
 #include "options.hpp"
 #include "search_unit.hpp"
 
@@ -84,10 +85,10 @@ namespace ghost
 	 *
 	 * \sa Variable, Constraint, Objective
 	 */
-	template<typename FactoryModelType> class Solver final
+	template<typename ModelBuilderType> class Solver final
 	{
 		Model _model;
-		FactoryModelType _factory_model; //!< Factory building the model
+		ModelBuilderType _model_builder; //!< Factory building the model
 		
 		int _number_variables; //!< Size of the vector of variables.
 
@@ -122,9 +123,9 @@ namespace ghost
 		 * \param model A shared pointer to the Model object.
 		 * \param permutation_problem A boolean indicating if we work on a permutation problem. False by default.
 		 */
-		Solver( const FactoryModelType& factory_model,
+		Solver( const ModelBuilderType& model_builder,
 		        bool permutation_problem = false )
-			: _factory_model( factory_model ),
+			: _model_builder( model_builder ),
 			  _best_sat_error( std::numeric_limits<double>::max() ),
 			  _best_opt_cost( std::numeric_limits<double>::max() ),
 			  _cost_before_postprocess( std::numeric_limits<double>::max() ),
@@ -209,8 +210,8 @@ namespace ghost
 			* Initialization *
 			******************/
 			// Only to get the number of variables
-			_factory_model.declare_variables();
-			_number_variables = _factory_model.get_number_variables();
+			_model_builder.declare_variables();
+			_number_variables = _model_builder.get_number_variables();
 
 			_options = options;
 			
@@ -260,7 +261,7 @@ namespace ghost
 			// sequential runs
 			if( is_sequential )
 			{
-				SearchUnit search_unit( _factory_model.make_model(),
+				SearchUnit search_unit( _model_builder.build_model(),
 				                        _is_permutation_problem,
 				                        _options );
 
@@ -295,7 +296,7 @@ namespace ghost
 				for( int i = 0 ; i < _options.number_threads; ++i )
 				{
 					// Instantiate one model per thread
-					units.emplace_back( _factory_model.make_model(),
+					units.emplace_back( _model_builder.build_model(),
 					                    _is_permutation_problem,
 					                    _options );
 				}
