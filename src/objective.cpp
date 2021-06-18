@@ -31,16 +31,18 @@
 
 using namespace ghost;
 
-Objective::Objective( std::string name, const std::vector<int>& variables_index )
-	: _name( name ),
-	  _variables_index( variables_index ),
-	  _is_optimization( true )
+Objective::Objective( const std::vector<int>& variables_index, bool is_maximization, const std::string& name )
+	: _variables_index( variables_index ),
+	  _is_optimization( true ),
+	  _is_maximization( is_maximization ),
+	  _name( name )
 { }
 
-Objective::Objective( std::string name, const std::vector<Variable>& variables )
-	: _name( name ),
-	  _variables_index( std::vector<int>( variables.size() ) ),
-	  _is_optimization( true )
+Objective::Objective( const std::vector<Variable>& variables, bool is_maximization, const std::string& name )
+	: _variables_index( std::vector<int>( variables.size() ) ),
+	  _is_optimization( true ),
+	  _is_maximization( is_maximization ),
+	  _name( name )
 {
 	std::transform( variables.begin(),
 	                variables.end(),
@@ -48,11 +50,32 @@ Objective::Objective( std::string name, const std::vector<Variable>& variables )
 	                [&](const auto& v){ return v.get_id(); } );
 }
 
+Objective::Objective( const std::vector<int>& variables_index, const std::string& name )
+	: Objective( variables_index, false, name )
+{ }
+
+Objective::Objective( const std::vector<Variable>& variables, const std::string& name )
+	: Objective( variables, false, name )
+{ }
+
+Objective::Objective( const std::vector<int>& variables_index, const char* name )
+	: Objective( variables_index, false, std::string( name ) )
+{ }
+
+Objective::Objective( const std::vector<Variable>& variables, const char* name )
+	: Objective( variables, false, std::string( name ) )
+{ }
+
 double Objective::cost() const
 {
 	double value = required_cost( _variables );
+	
 	if( std::isnan( value ) )
 		throw nanException( _variables );
+	
+	if( _is_maximization )
+		value *= -1;
+	
 	return value;
 }
 
@@ -71,7 +94,10 @@ int Objective::expert_heuristic_value( const std::vector<Variable*>& variables,
 	{
 		var->set_value( v );
 		simulated_cost = required_cost( variables );
-    
+
+		if( _is_maximization )
+			simulated_cost *= -1;
+		
 		if( min_cost > simulated_cost )
 		{
 			min_cost = simulated_cost;

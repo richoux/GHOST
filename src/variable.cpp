@@ -33,25 +33,36 @@
 
 using namespace ghost;
 
-Variable::Variable( const std::string& name, const std::vector<int>& domain, int index )
-	: _name( name ),
-	  _domain( domain ),
+Variable::Variable( const std::vector<int>& domain, const std::string& name, int index )
+	: _domain( domain ),
 	  _id( 0 ),
+	  _name( name ),
 	  _current_value( domain.at( index ) ),
 	  _min_value( *( std::min_element( _domain.begin(), _domain.end() ) ) ),
 	  _max_value( *( std::max_element( _domain.begin(), _domain.end() ) ) )
 { }
 
-Variable::Variable( const std::string& name, int startValue, std::size_t size, int index )
-	: _name( name ),
-	  _domain( std::vector<int>( size ) ),
+Variable::Variable( int startValue, std::size_t size, const std::string& name, int index )
+	: _domain( std::vector<int>( size ) ),
 	  _id( 0 ),
+	  _name( name ),
 	  _min_value( startValue ),
 	  _max_value( startValue + static_cast<int>( size ) - 1 )
 {
 	std::iota( _domain.begin(), _domain.end(), startValue );
 	_current_value = _domain.at( index );
 }
+
+Variable::Variable( const std::vector<int>& domain,
+                    int	index )
+	: Variable( domain, std::string(), index )
+{ }
+
+Variable::Variable( int startValue,
+                    std::size_t size,
+                    int	index )
+	: Variable( startValue, size, std::string(), index )
+{ }
 
 std::vector<int> Variable::get_partial_domain( int range ) const
 {

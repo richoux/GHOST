@@ -274,7 +274,6 @@ namespace ghost
 				chrono_search = elapsed_time.count();
 
 				solution_found = unit_future.get();
-				final_solution = search_unit.final_solution;
 				_best_sat_error = search_unit.best_sat_error;
 				_best_opt_cost = search_unit.best_opt_cost;
 				_restarts = search_unit.restarts;
@@ -284,6 +283,7 @@ namespace ghost
 				_local_minimum = search_unit.local_minimum;
 				_plateau_moves = search_unit.plateau_moves;
 				_plateau_local_minimum = search_unit.plateau_local_minimum;
+				//final_solution = search_unit.final_solution;
 
 				_model = std::move( search_unit.transfer_model() );				
 			}
@@ -396,7 +396,7 @@ namespace ghost
 #if defined GHOST_TRACE
 					std::cout << "Parallel run, thread number " << winning_thread << " has found a solution.\n";
 #endif
-					final_solution = units.at( winning_thread ).final_solution;
+					//final_solution = units.at( winning_thread ).final_solution;
 					_best_sat_error = units.at( winning_thread ).best_sat_error;
 					_best_opt_cost = units.at( winning_thread ).best_opt_cost;
 
@@ -430,7 +430,7 @@ namespace ghost
 							}
 					}
 
-					final_solution = units.at( best_non_solution ).final_solution;
+					//final_solution = units.at( best_non_solution ).final_solution;
 					_restarts = units.at( best_non_solution ).restarts;
 					_resets = units.at( best_non_solution ).resets;
 					_local_moves = units.at( best_non_solution ).local_moves;
@@ -449,6 +449,11 @@ namespace ghost
 					thread.join();
 				}
 			}
+
+			std::transform( _model.variables.begin(),
+			                _model.variables.end(),
+			                final_solution.begin(),
+			                [&](auto& var){ return var.get_value(); } );
 			
 			if( solution_found && is_optimization )
 			{
@@ -471,12 +476,12 @@ namespace ghost
 			}
 			else
 				final_cost = _best_sat_error;
-
+			
 			// Set the variables to the best solution values.
 			// Useful if the user prefer to directly use the vector of Variables
 			// to manipulate and exploit the solution.
-			for( int variable_id = 0 ; variable_id < _number_variables; ++variable_id )
-				_model.variables[ variable_id ].set_value( final_solution[ variable_id ] );
+			// for( int variable_id = 0 ; variable_id < _number_variables; ++variable_id )
+			// 	_model.variables[ variable_id ].set_value( final_solution[ variable_id ] );
 
 			elapsed_time = std::chrono::steady_clock::now() - start_wall_clock;
 			chrono_full_computation = elapsed_time.count();
@@ -514,8 +519,14 @@ namespace ghost
 			if( !is_optimization )
 				std::cout << "SATISFACTION run" << "\n";
 			else
+			{
 				std::cout << "OPTIMIZATION run with objective " << _model.objective->get_name() << "\n";
-
+				if( _model.objective->is_maximization() )
+					std::cout << _model.objective->get_name() << " must be maximized.\n";
+				else
+					std::cout << _model.objective->get_name() << " must be minimized.\n";					
+			}
+			
 			std::cout << "Permutation problem: " << std::boolalpha << _is_permutation_problem << "\n"
 			          << "Time budget: " << timeout << "ms\n"
 			          << "Search time: " << chrono_search / 1000 << "ms\n"

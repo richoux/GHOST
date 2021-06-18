@@ -39,7 +39,11 @@ Model ModelBuilder::build_model()
 	declare_variables();
 	// Set the id of each variable object to be their index in the _variables vector
 	for( int variable_id = 0 ; variable_id < static_cast<int>( variables.size() ) ; ++variable_id )
+	{
 		variables[ variable_id ]._id = variable_id;
+		if( variables[ variable_id ]._name.empty() )
+			variables[ variable_id ]._name = "v" + std::to_string( variable_id );
+	}
 
 	// Auxiliary data may be needed by the constraints and the objective function,
 	// so it must be defined before them.

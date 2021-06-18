@@ -58,9 +58,9 @@ namespace ghost
 		friend class SearchUnit;
 		friend class ModelBuilder;
 
-		std::string _name;	//!< String to give a name to the variable, helpful to debug/trace.
 		std::vector<int> _domain; //!< The domain, i.e., the vector of values the variable can take.
 		int _id; //!< Unique ID integer
+		std::string _name;	//!< String to give a name to the variable, helpful to debug/trace.
 
 		int	_current_value;	// Current value assigned to the variable.
 		int _min_value; // minimal value in the domain
@@ -91,8 +91,8 @@ namespace ghost
 		 * \param domain A const reference to the vector of integers composing the domain to create.
 		 * \param index The domain's index corresponding to the variable initial value. Zero by default.
 		 */
-		Variable( const std::string&	name,
-		          const std::vector<int>& domain,
+		Variable( const std::vector<int>& domain,
+		          const std::string& name = std::string(),
 		          int	index = 0 );
     
 		//! Second Variable constructor, with a starting value and a size for the domain.
@@ -102,11 +102,18 @@ namespace ghost
 		 * \param size A size_t corresponding to the size of the domain to create.
 		 * \param index The domain's index corresponding to the variable initial value. Zero by default.
 		 */
-		Variable( const std::string&	name,
-		          int	startValue,
+		Variable( int startValue,
 		          std::size_t size,
+		          const std::string& name = std::string(),
 		          int	index = 0 );
-    
+
+		Variable( const std::vector<int>& domain,
+		          int	index );
+
+		Variable( int startValue,
+		          std::size_t size,
+		          int	index );
+
 		/*! Inline method returning all values in the domain.
 		 * \return a copy of the vector of these values.
 		 */

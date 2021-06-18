@@ -62,11 +62,12 @@ namespace ghost
 		friend class SearchUnit;
 		friend class ModelBuilder;
 
-		std::string _name; //!< Name of the objective object.
 		std::vector<Variable*> _variables; //!<Vector of variables of the model.
 		std::vector<int> _variables_index; // to know where are the constraint's variables in the global variable vector
 		std::map<int,int> _variables_position; // to know where are global variables in the constraint's variables vector 
 		bool _is_optimization;
+		bool _is_maximization;
+		std::string _name; //!< Name of the objective object.
 		
 		// std::map<int,int> _id_mapping; // Mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the objective function.
 
@@ -236,13 +237,19 @@ namespace ghost
 		/*!
 		 * \param name A const reference to a string to give the Objective object a specific name.
 		 */
-		Objective( std::string name, const std::vector<int>& variables_index );
+		Objective( const std::vector<int>& variables_index, bool is_maximization = false, const std::string& name = std::string( "Objective" ) );
 
 		//! Constructor taking variables
 		/*!
 		 * \param name A const reference to a string to give the Objective object a specific name.
 		 */
-		Objective( std::string name, const std::vector<Variable>& variables );
+		Objective( const std::vector<Variable>& variables, bool is_maximization = false, const std::string& name = std::string( "Objective" ) );
+
+		Objective( const std::vector<int>& variables_index, const std::string& name );
+		Objective( const std::vector<Variable>& variables, const std::string& name );
+
+		Objective( const std::vector<int>& variables_index, const char* name );
+		Objective( const std::vector<Variable>& variables, const char* name );
 
 		//! Default copy contructor.
 		Objective( const Objective& other ) = default;
@@ -261,6 +268,7 @@ namespace ghost
 		inline std::string get_name() const { return _name; }
 
 		inline bool is_optimization() const { return _is_optimization; }
+		inline bool is_maximization() const { return _is_maximization; }
 		
 		// To have a nicer stream of Objective.
 		friend std::ostream& operator<<( std::ostream& os, const Objective& o )
@@ -277,7 +285,7 @@ namespace ghost
 	class NullObjective : public Objective
 	{
 	public:
-		NullObjective() : Objective( "nullObjective", std::vector<int>{0} )
+		NullObjective() : Objective( std::vector<int>{0}, false, "nullObjective" )
 		{
 			this->is_not_optimization();
 		}

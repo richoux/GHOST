@@ -242,11 +242,6 @@ namespace ghost
 					model.variables[i].set_value( variables_at_start[i].get_value() );
 
 				model.auxiliary_data->update();
-				
-				std::transform( model.variables.begin(),
-				                model.variables.end(),
-				                final_solution.begin(),
-				                [&](auto& var){ return var.get_value(); } );
 			}
 			else
 				set_initial_configuration( options.number_start_samplings );			
@@ -267,7 +262,7 @@ namespace ghost
 			if( model.objective->is_optimization() )
 			{
 				if( current_sat_error == 0 ) [[unlikely]]
-					                             current_opt_cost = model.objective->cost();
+					current_opt_cost = model.objective->cost();
 				else
 					current_opt_cost = std::numeric_limits<double>::max();
 			}
@@ -1158,6 +1153,9 @@ namespace ghost
 
 				elapsed_time = std::chrono::steady_clock::now() - start;
 			} // while loop
+
+			for( int i = 0 ; i < number_variables ; ++i )
+				model.variables[i].set_value( final_solution[i] );
 
 			solution_found.set_value( best_sat_error == 0.0 );
 
