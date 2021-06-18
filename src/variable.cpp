@@ -34,7 +34,7 @@
 
 using namespace ghost;
 
-Variable::Variable( const std::vector<int>& domain, const std::string& name, int index )
+Variable::Variable( const std::vector<int>& domain, int index, const std::string& name )
 	: _domain( domain ),
 	  _id( 0 ),
 	  _name( name ),
@@ -43,7 +43,7 @@ Variable::Variable( const std::vector<int>& domain, const std::string& name, int
 	  _max_value( *( std::max_element( _domain.begin(), _domain.end() ) ) )
 { }
 
-Variable::Variable( int startValue, std::size_t size, const std::string& name, int index )
+Variable::Variable( int startValue, std::size_t size, int index, const std::string& name )
 	: _domain( std::vector<int>( size ) ),
 	  _id( 0 ),
 	  _name( name ),
@@ -55,14 +55,14 @@ Variable::Variable( int startValue, std::size_t size, const std::string& name, i
 }
 
 Variable::Variable( const std::vector<int>& domain,
-                    int	index )
-	: Variable( domain, std::string(), index )
+                    const std::string& name )
+	: Variable( domain, 0, name )
 { }
 
 Variable::Variable( int startValue,
                     std::size_t size,
-                    int	index )
-	: Variable( startValue, size, std::string(), index )
+                    const std::string& name )
+	: Variable( startValue, size, 0, name )
 { }
 
 std::vector<int> Variable::get_partial_domain( int range ) const

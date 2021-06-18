@@ -5,7 +5,7 @@
 class VariableTest : public ::testing::Test
 {
 public:
-	ghost::Variable var_ctor1 { std::vector<int>{1,9,5,7,3}, "var_ctor1", 3 };
+	ghost::Variable var_ctor1 { std::vector<int>{1,9,5,7,3}, 3, "var_ctor1" };
 	ghost::Variable *var_ctor2;
   ghost::Variable *var_ctor3;
   ghost::Variable *var_ctor4;

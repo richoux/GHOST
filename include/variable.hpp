@@ -92,8 +92,8 @@ namespace ghost
 		 * \param index The domain's index corresponding to the variable initial value. Zero by default.
 		 */
 		Variable( const std::vector<int>& domain,
-		          const std::string& name = std::string(),
-		          int	index = 0 );
+		          int	index = 0,
+		          const std::string& name = std::string() );
     
 		//! Second Variable constructor, with a starting value and a size for the domain.
 		/*!
@@ -104,15 +104,15 @@ namespace ghost
 		 */
 		Variable( int startValue,
 		          std::size_t size,
-		          const std::string& name = std::string(),
-		          int	index = 0 );
+		          int	index = 0,
+		          const std::string& name = std::string() );
 
 		Variable( const std::vector<int>& domain,
-		          int	index );
+		          const std::string& name );
 
 		Variable( int startValue,
 		          std::size_t size,
-		          int	index );
+		          const std::string& name );
 
 		/*! Inline method returning all values in the domain.
 		 * \return a copy of the vector of these values.
