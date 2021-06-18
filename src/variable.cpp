@@ -28,6 +28,7 @@
  */
 
 #include <limits>
+#include <numeric>
 
 #include "variable.hpp"
 

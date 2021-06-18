@@ -40,6 +40,7 @@
 #include <iterator>
 #include <thread>
 #include <future>
+#include <numeric>
 
 #include "variable.hpp"
 #include "constraint.hpp"
