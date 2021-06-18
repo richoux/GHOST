@@ -7,7 +7,7 @@
 
 class MyConstraint : public ghost::Constraint
 {
-  double required_cost() const override
+  double required_cost( const std::vector<Variable*>& variables ) const override
   {
     return 0.;
   }
@@ -15,12 +15,8 @@ class MyConstraint : public ghost::Constraint
 public:
   MyConstraint() = default;
   
-  MyConstraint( const std::vector< std::reference_wrapper<ghost::Variable> >& variables )
+  MyConstraint( const std::vector< ghost::Variable >& variables )
     : Constraint( variables ) {}
-
-  ghost::Variable& get_var( int index ) const { return variables[index]; }
-  int number_variables() const { return variables.size(); }
-  
 };
 
 class ConstraintTest : public ::testing::Test
@@ -30,16 +26,16 @@ public:
   ghost::Variable var2;
   ghost::Variable var3;
 
-	std::vector< std::reference_wrapper<ghost::Variable> > vec1;
-	std::vector< std::reference_wrapper<ghost::Variable> > vec2;
+	std::vector< ghost::Variable > vec1;
+	std::vector< ghost::Variable > vec2;
   
   MyConstraint *ctr1;
   MyConstraint *ctr2;
 
   ConstraintTest()
-    : var1 { "v1", "v1", {1,3,5,7,9} },
-      var2 { "v2", "v2", {2,4,6,8} },
-      var3 { "v3", "v3", {1,2,3,4,5,6,7,8,9} }
+    : var1 { {1,3,5,7,9} },
+      var2 { {2,4,6,8} },
+      var3 { {1,2,3,4,5,6,7,8,9} }
   {
     vec1 = { var1, var2 };
     vec2 = { var1, var3 };
@@ -54,18 +50,19 @@ public:
   }
 };
 
-TEST_F(ConstraintTest, IDs)
-{
-  EXPECT_EQ( ctr1->get_id(), 0 );
-  EXPECT_EQ( ctr2->get_id(), 1 );
-}
+// Constraint::_id is not generated anymore by Constraint constructors since GHOST v2
+// TEST_F(ConstraintTest, IDs)
+// {
+//   EXPECT_EQ( ctr1->get_id(), 0 );
+//   EXPECT_EQ( ctr2->get_id(), 1 );
+// }
 
 TEST_F(ConstraintTest, Copy)
 {
   MyConstraint ctr_copy1( *ctr1 );
   
-  EXPECT_EQ( ctr1->get_id(), 2 );
-  EXPECT_EQ( ctr_copy1.get_id(), 2 );
+  // EXPECT_EQ( ctr1->get_id(), 2 );
+  // EXPECT_EQ( ctr_copy1.get_id(), 2 );
 
   EXPECT_TRUE( ctr_copy1.has_variable( var1 ) );
   EXPECT_TRUE( ctr_copy1.has_variable( var2 ) );

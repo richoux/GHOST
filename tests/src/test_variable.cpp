@@ -5,17 +5,16 @@
 class VariableTest : public ::testing::Test
 {
 public:
-	ghost::Variable var_ctor1 { "var_ctor1", std::vector<int>{1,9,5,7,3}, 3 };
+	ghost::Variable var_ctor1 { std::vector<int>{1,9,5,7,3}, "var_ctor1", 3 };
 	ghost::Variable *var_ctor2;
   ghost::Variable *var_ctor3;
   ghost::Variable *var_ctor4;
 
   VariableTest()
   {
-	  // var_ctor1 = new ghost::Variable( "var_ctor1", std::vector<int>{1,9,5,7,3}, 3 );
-    var_ctor2 = new ghost::Variable( "var_ctor2", std::vector<int>{2,8,6,4,0} );
-    var_ctor3 = new ghost::Variable( "var_ctor3", 7, 10, 1 );
-    var_ctor4 = new ghost::Variable( "var_ctor4", 4, 5 );
+	  var_ctor2 = new ghost::Variable( std::vector<int>{2,8,6,4,0}, "var_ctor2" );
+    var_ctor3 = new ghost::Variable( 7, 10, 1 );
+    var_ctor4 = new ghost::Variable( 4, 5, "var_ctor4" );
   }
 
   ~VariableTest()
@@ -49,35 +48,36 @@ public:
   }
 };
 
-// Warning: each test calls the constructor of VariableTest,
-// so 4 new variables are created each time, with new IDs.
-TEST_F(VariableTest, IdAndCopy)
-{
-  ghost::Variable var_copy1( var_ctor1 );
-  ghost::Variable var_copy2( *var_ctor2 );
-  ghost::Variable var_copy3( *var_ctor3 );
-  var_copy3 = var_ctor1;
+// Variable::_id is not generated anymore by Variable constructors since GHOST v2
+// // Warning: each test calls the constructor of VariableTest,
+// // so 4 new variables are created each time, with new IDs.
+// TEST_F(VariableTest, IdAndCopy)
+// {
+//   ghost::Variable var_copy1( var_ctor1 );
+//   ghost::Variable var_copy2( *var_ctor2 );
+//   ghost::Variable var_copy3( *var_ctor3 );
+//   var_copy3 = var_ctor1;
   
-  EXPECT_EQ( var_ctor1.get_id(), 0 );
-  EXPECT_EQ( var_ctor2->get_id(), 1 );
-  EXPECT_EQ( var_ctor3->get_id(), 2 );
-  EXPECT_EQ( var_ctor4->get_id(), 3 );
+//   EXPECT_EQ( var_ctor1.get_id(), 0 );
+//   EXPECT_EQ( var_ctor2->get_id(), 1 );
+//   EXPECT_EQ( var_ctor3->get_id(), 2 );
+//   EXPECT_EQ( var_ctor4->get_id(), 3 );
   
-  EXPECT_EQ( var_copy1.get_id(), 0 );
-  EXPECT_EQ( var_copy2.get_id(), 1 );
-  EXPECT_EQ( var_copy3.get_id(), 0 );
+//   EXPECT_EQ( var_copy1.get_id(), 0 );
+//   EXPECT_EQ( var_copy2.get_id(), 1 );
+//   EXPECT_EQ( var_copy3.get_id(), 0 );
 
-  EXPECT_EQ( var_copy1.get_domain_size(), 5 );
-  EXPECT_EQ( var_copy2.get_domain_size(), 5 );
+//   EXPECT_EQ( var_copy1.get_domain_size(), 5 );
+//   EXPECT_EQ( var_copy2.get_domain_size(), 5 );
 
-  EXPECT_EQ( var_copy1.get_name(), "var_ctor1" );
-  EXPECT_EQ( var_copy2.get_name(), "var_ctor2" );
+//   EXPECT_EQ( var_copy1.get_name(), "var_ctor1" );
+//   EXPECT_EQ( var_copy2.get_name(), "var_ctor2" );
 
-  EXPECT_EQ( var_copy2.get_value(), 2 );
-  var_copy2.set_value( 8 );
-  EXPECT_EQ( var_copy2.get_value(), 8 );
-  EXPECT_EQ( var_ctor2->get_value(), 2 );
-}
+//   EXPECT_EQ( var_copy2.get_value(), 2 );
+//   var_copy2.set_value( 8 );
+//   EXPECT_EQ( var_copy2.get_value(), 8 );
+//   EXPECT_EQ( var_ctor2->get_value(), 2 );
+// }
 
 TEST_F(VariableTest, Exceptions)
 {
@@ -106,7 +106,7 @@ TEST_F(VariableTest, Names)
 {
   EXPECT_EQ( var_ctor1.get_name(), "var_ctor1" );
   EXPECT_EQ( var_ctor2->get_name(), "var_ctor2" );
-  EXPECT_EQ( var_ctor3->get_name(), "var_ctor3" );
+  EXPECT_EQ( var_ctor3->get_name(), "" );
   EXPECT_EQ( var_ctor4->get_name(), "var_ctor4" );
 }
 
@@ -173,7 +173,7 @@ TEST_F(VariableTest, PartialDomains)
   EXPECT_THAT( var_ctor4->get_partial_domain( 1 ), ::testing::ElementsAre( 8 ) );
 }
 
-// Variable::pick_random_value() is private since GHOST v3
+// Variable::pick_random_value() is private since GHOST v2
 // TEST_F(VariableTest, RandomValue)
 // {
 // 	var_ctor1.pick_random_value();
