@@ -29,28 +29,34 @@
 
 #pragma once
 
-#include <vector>
 #include <memory>
 #include <algorithm>
 
-#include "variable.hpp"
-#include "constraint.hpp"
-#include "objective.hpp"
-#include "auxiliary_data.hpp"
+#include "print.hpp"
 
 namespace ghost
 {
-	struct Model final
+	//! Options is a structure containing all optional arguments for Solver::solve.
+	struct Options
 	{
-		std::vector<Variable> variables; 
-		std::vector<std::shared_ptr<Constraint>> constraints; 
-		std::shared_ptr<Objective> objective;
-		std::shared_ptr<AuxiliaryData> auxiliary_data;
+		bool custom_starting_point; //!< To force starting the search on a custom variables assignment.
+		bool resume_search; //!< Allowing stop-and-resume computation.
+		bool parallel_runs; //<! To enable parallel runs of the solver. Using all avaiable cores (including hyper-threaded cores) if number_threads is not specified.
+		int number_threads; //<! Number of threads the solver will use for the search.
+		std::shared_ptr<Print> print; //!< Allowing custom solution print (by derivating a class from ghost::Print)
+		int tabu_time_local_min; //!< Number of local moves a variable of a local minimum is marked tabu.
+		int tabu_time_selected; //!< Number of local moves a selected variable is marked tabu.
+		int reset_threshold; //!< Number of variables marked as tabu required to trigger a reset.
+		int restart_threshold; //!< Trigger a resart every 'restart_threshold' reset.
+		int percent_to_reset; //<! Percentage of variables to randomly change the value at each reset.
+		int number_start_samplings; //!< Number of variable assignments the solver randomly draw, if custom_starting_point and resume_search are false.
+		
+		Options();
+		~Options() = default;
 
-		Model() = default;
-		Model( std::vector<Variable>&& variables, 
-		       const std::vector<std::shared_ptr<Constraint>>&	constraints,
-		       const std::shared_ptr<Objective>& objective,
-		       const std::shared_ptr<AuxiliaryData>& auxiliary_data );
+		Options( const Options& other );
+		Options( Options&& other );
+		
+		Options& operator=( Options& other );
 	};
 }

@@ -6,7 +6,6 @@ RELEASEDBGINFO="release_with_debug_info"
 DEBUG="debug"
 OSX="_osx"
 BACKPWD="$PWD"
-EXPERIMENTAL=""
 CXX="g++"
 
 RED='\033[0;31m'
@@ -30,71 +29,65 @@ fi
 
 function usage()
 {
-    echo "$0: usage: build.sh [release|rel_dbg_info|debug|debug_no_asan|clean|doc|tests] [EXP]"
+    echo "$0: usage: build.sh [release|rel_dbg_info|debug|debug_no_asan|clean|doc|tests]"
     exit 1
 }
 
 function release()
 {
-    mkdir -p $RELEASE
-    cd $RELEASE
-    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
+    mkdir -p build/$RELEASE
+    cd build/$RELEASE
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=$CXX ../..
     make
     sudo make install
 }
 
 function debug()
 {
-    mkdir -p $DEBUG
-    cd $DEBUG
-    cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
+    mkdir -p build/$DEBUG
+    cd build/$DEBUG
+    cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=$CXX ../..
     make
     sudo make install
 }
 
 function debug_no_asan()
 {
-    mkdir -p $DEBUG
-    cd $DEBUG
-    cmake -DCMAKE_BUILD_TYPE=Debug -DNO_ASAN=ON -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
+    mkdir -p build/$DEBUG
+    cd build/$DEBUG
+    cmake -DCMAKE_BUILD_TYPE=Debug -DNO_ASAN=ON -DCMAKE_CXX_COMPILER=$CXX ../..
     make
     sudo make install
 }
 
 function rel_dbg_info()
 {
-    mkdir -p $RELEASEDBGINFO
-    cd $RELEASEDBGINFO
-    cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
+    mkdir -p build/$RELEASEDBGINFO
+    cd build/$RELEASEDBGINFO
+    cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_COMPILER=$CXX ../..
     make
     sudo make install    
 }
 
 function clean()
 {
-    if [ -d "$RELEASE" ]; then 
-				cd $RELEASE
+    if [ -d "build/$RELEASE" ]; then 
+				cd build/$RELEASE
 				make clean
 				sudo rm -fr *
-				cd ..
+				cd $BACKPWD
     fi
-    if [ -d "$RELEASEDBGINFO" ]; then 
-				cd $RELEASEDBGINFO
+    if [ -d "$build/RELEASEDBGINFO" ]; then 
+				cd build/$RELEASEDBGINFO
 				make clean
 				sudo rm -fr *
-				cd ..
+				cd $BACKPWD
     fi
-    if [ -d "$DEBUG" ]; then 
-				cd $DEBUG
+    if [ -d "$build/DEBUG" ]; then 
+				cd build/$DEBUG
 				make clean
 				sudo rm -fr *
-				cd ..
-    fi
-    if [ -d "build" ]; then 
-				cd build
-				make clean
-				sudo rm -fr *
-				cd ..
+				cd $BACKPWD
     fi
 }
 
@@ -132,12 +125,6 @@ if [ $# -eq 0 ]; then
     first_compile
     cd $BACKPWD
     exit 0
-fi
-
-if [ $# -eq 2 ]; then
-    if [ "$2" == "EXP" ]; then
-				EXPERIMENTAL="-DGHOST_EXPERIMENTAL=ON"
-    fi
 fi
 
 if [ "$1" == "release" ]; then

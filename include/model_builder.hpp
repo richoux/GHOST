@@ -31,26 +31,31 @@
 
 #include <vector>
 #include <memory>
-#include <algorithm>
 
-#include "variable.hpp"
-#include "constraint.hpp"
-#include "objective.hpp"
-#include "auxiliary_data.hpp"
+#include "model.hpp"
 
 namespace ghost
 {
-	struct Model final
+	class ModelBuilder
 	{
+		template<typename ModelBuilderType> friend class Solver;
+
+		Model build_model();
+		
+	protected:
 		std::vector<Variable> variables; 
 		std::vector<std::shared_ptr<Constraint>> constraints; 
 		std::shared_ptr<Objective> objective;
 		std::shared_ptr<AuxiliaryData> auxiliary_data;
 
-		Model() = default;
-		Model( std::vector<Variable>&& variables, 
-		       const std::vector<std::shared_ptr<Constraint>>&	constraints,
-		       const std::shared_ptr<Objective>& objective,
-		       const std::shared_ptr<AuxiliaryData>& auxiliary_data );
+	public:
+		virtual ~ModelBuilder() = default;
+
+		virtual void declare_variables() = 0;
+		virtual void declare_constraints() = 0;
+		virtual void declare_objective();
+		virtual void declare_auxiliary_data();
+
+		inline int get_number_variables() { return static_cast<int>( variables.size() ); }
 	};
 }

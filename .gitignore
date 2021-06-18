@@ -1,4 +1,5 @@
 # Tiled source files
+./include/*~
 ./src/*~
 test/src/*~
 
@@ -8,9 +9,7 @@ doc/latex
 doc/.zcache
 
 # CMake builds
-release*
-debug*
-build
+build/*
 
 # CMake test builds
 tests/build*

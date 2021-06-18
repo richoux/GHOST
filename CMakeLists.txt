@@ -3,31 +3,34 @@ project (ghost)
 
 set( CMAKE_VERBOSE_MAKEFILE on )
 
-# require a C++20-capable compiler
+# require a C++17-capable compiler
 include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("-std=c++20" COMPILER_SUPPORTS_CXX20)
-CHECK_CXX_COMPILER_FLAG("-std=c++2a" COMPILER_SUPPORTS_CXX2A)
-CHECK_CXX_COMPILER_FLAG("/std:c++20" COMPILER_SUPPORTS_CXX20_WIN)
-if(COMPILER_SUPPORTS_CXX20)
-  set(CMAKE_CXX_FLAGS "-std=c++20")
-elseif(COMPILER_SUPPORTS_CXX2A)
-  set(CMAKE_CXX_FLAGS "-std=c++2a")
-elseif(COMPILER_SUPPORTS_CXX20_WIN)
-  set(CMAKE_CXX_FLAGS "/std:c++20")
+CHECK_CXX_COMPILER_FLAG("-std=c++17" COMPILER_SUPPORTS_CXX17)
+CHECK_CXX_COMPILER_FLAG("-std=c++1z" COMPILER_SUPPORTS_CXX1Z)
+CHECK_CXX_COMPILER_FLAG("/std:c++17" COMPILER_SUPPORTS_CXX17_WIN)
+if(COMPILER_SUPPORTS_CXX17)
+  set(CMAKE_CXX_FLAGS "-std=c++17")
+elseif(COMPILER_SUPPORTS_CXX1Z)
+  set(CMAKE_CXX_FLAGS "-std=c++1z")
+elseif(COMPILER_SUPPORTS_CXX17_WIN)
+  set(CMAKE_CXX_FLAGS "/std:c++17")
 else()
-  message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++20 support. Please use a different C++ compiler.")
+  message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++17 support. Please use a different C++ compiler.")
 endif()
 
-# require g++-10, or MSVC 19.28 (for jthread). Clang does not support jthread yet.
+# require g++-7, clang 6 or or MSVC 19.14
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "10")
-    message(FATAL_ERROR "GCC version must be at least 10 to compile GHOST.")
+  if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "7")
+    message(FATAL_ERROR "GCC version must be at least 7 to compile GHOST.")
+  endif()
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "6")
+    message(FATAL_ERROR "Clang version must be at least 6 to compile GHOST.")
   endif()
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-  if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "19.28")
-    message(FATAL_ERROR "MSVC version must be at least 19.28 to compile GHOST.")
+  if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "19.14")
+    message(FATAL_ERROR "MSVC version must be at least 19.14 to compile GHOST.")
   endif()
-#elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 endif()
 
 # compilation options
@@ -40,7 +43,7 @@ if(WIN32)
 	endif()
 else()
 	if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-		set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -fsanitize=address,undefined,leak -fno-omit-frame-pointer -static-libasan")
+		set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -fno-omit-frame-pointer -fsanitize=address,undefined,leak -static-libasan")
 		add_definitions(-DGHOST_DEBUG)
 	else()
 		set(CMAKE_CXX_FLAGS_RELEASE "-O3")
@@ -71,29 +74,35 @@ endif()
 
 # add the binary tree to the search path for include files so that we will find headers
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # add the targets
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 # add the library
-add_library(ghost SHARED src/variable.cpp src/constraint.cpp src/objective.cpp src/misc/print.cpp)
-add_library(ghost_static STATIC src/variable.cpp src/constraint.cpp src/objective.cpp src/misc/print.cpp)
+add_library(ghost SHARED src/variable.cpp src/constraint.cpp src/objective.cpp src/auxiliary_data.cpp src/model.cpp src/model_builder.cpp src/options.cpp src/print.cpp)
+add_library(ghost_static STATIC src/variable.cpp src/constraint.cpp src/objective.cpp src/auxiliary_data.cpp src/model.cpp src/model_builder.cpp src/options.cpp src/print.cpp)
 
 #gather headers list
 file(GLOB libHeadersList
   "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp"
   )
 
-#gather misc headers list
-file(GLOB libMiscHeadersList
-  "${CMAKE_CURRENT_SOURCE_DIR}/include/misc/*.hpp"
+#gather external headers list
+file(GLOB libExternalHeadersList
+  "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/randutils.hpp"
   )
+
+target_include_directories(ghost PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/thirdparty/>
+  $<INSTALL_INTERFACE:include/ghost/thirdparty>
+)
 
 # add the install targets
 install (TARGETS ghost DESTINATION "lib")
 install (TARGETS ghost_static DESTINATION "lib")
 install (FILES ${libHeadersList} DESTINATION "include/ghost")
-install (FILES ${libMiscHeadersList} DESTINATION "include/ghost/misc")
+install (FILES ${libExternalHeadersList} DESTINATION "include/ghost/thirdparty")
 
 # build a CPack driven installer package
 include (InstallRequiredSystemLibraries)

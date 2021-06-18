@@ -27,41 +27,18 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include <iomanip>
-#include <limits>
-#include <cmath>
+#pragma once
 
-#include "misc/print.hpp"
+#include <sstream>
+#include <vector>
 
-using namespace ghost;
+#include "variable.hpp"
 
-std::stringstream Print::print_candidate( const std::vector<Variable>& variables ) const
+namespace ghost
 {
-	std::stringstream stream;
-	
-	if( !variables.empty() )
+	class Print
 	{
-		stream << "Variables:\n";
-		int max_element = std::numeric_limits<int>::min();
-		for( const auto& var : variables )
-			if( max_element < var.get_value() )
-				max_element = var.get_value();
-		
-		int indent_values = std::ceil( std::log10( max_element ) ) + 1;
-		int indent_indexes = std::ceil( std::log10( static_cast<int>( variables.size() ) ) );
-		for( int i = 0 ; i < static_cast<int>( variables.size() ) ; ++i )
-		{
-			if( i % 10 == 0 )
-			{
-				if( i != 0 )
-					stream << "\n";
-				stream << "v[" << std::setw( indent_indexes ) << i << "]:" << std::setw( indent_values ) << variables[i].get_value();
-			}
-			else
-				stream << ", v[" << std::setw( indent_indexes ) << i << "]:" << std::setw( indent_values ) << variables[i].get_value();
-		}
-		stream << "\n";
-	}
-
-	return stream;
+	public:
+		virtual std::stringstream print_candidate( const std::vector<Variable>& variables ) const;
+	};	
 }

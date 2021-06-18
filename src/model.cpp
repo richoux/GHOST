@@ -27,30 +27,16 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#pragma once
+#include "model.hpp"
 
-#include <vector>
-#include <memory>
-#include <algorithm>
+using namespace ghost;
 
-#include "variable.hpp"
-#include "constraint.hpp"
-#include "objective.hpp"
-#include "auxiliary_data.hpp"
-
-namespace ghost
-{
-	struct Model final
-	{
-		std::vector<Variable> variables; 
-		std::vector<std::shared_ptr<Constraint>> constraints; 
-		std::shared_ptr<Objective> objective;
-		std::shared_ptr<AuxiliaryData> auxiliary_data;
-
-		Model() = default;
-		Model( std::vector<Variable>&& variables, 
-		       const std::vector<std::shared_ptr<Constraint>>&	constraints,
-		       const std::shared_ptr<Objective>& objective,
-		       const std::shared_ptr<AuxiliaryData>& auxiliary_data );
-	};
-}
+Model::Model( std::vector<Variable>&& moved_variables, 
+              const std::vector<std::shared_ptr<Constraint>>&	constraints,
+              const std::shared_ptr<Objective>& objective,
+              const std::shared_ptr<AuxiliaryData>& auxiliary_data )
+	: variables( std::move( moved_variables ) ),
+	  constraints( constraints ),
+	  objective( objective ),
+	  auxiliary_data ( auxiliary_data )
+{ }

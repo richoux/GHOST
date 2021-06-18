@@ -35,7 +35,7 @@
 #include <string>
 #include <algorithm>
 
-#include "misc/randutils.hpp"
+#include "thirdparty/randutils.hpp"
 
 namespace ghost
 {
@@ -55,18 +55,17 @@ namespace ghost
 	 */
 	class Variable final
 	{
-		template<typename FactoryModelType> friend class Solver;
 		friend class SearchUnit;
+		friend class ModelBuilder;
 
-		std::string _name;	//!< String to give a name to the variable, helpful to debug/trace.
 		std::vector<int> _domain; //!< The domain, i.e., the vector of values the variable can take.
-		unsigned int _id; //!< Unique ID integer
+		int _id; //!< Unique ID integer
+		std::string _name;	//!< String to give a name to the variable, helpful to debug/trace.
 
-		static unsigned int NBER_VAR; // Static counter that increases each time one instanciates a Variable object.
 		int	_current_value;	// Current value assigned to the variable.
 		int _min_value; // minimal value in the domain
 		int _max_value; // maximal value in the domain
-		randutils::mt19937_rng _rng; 	// Neat random generator from misc/randutils.hpp.
+		randutils::mt19937_rng _rng; 	// Neat random generator implemented in thirdparty/randutils.hpp, see https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html
 				
 		struct valueException : std::exception
 		{
@@ -92,8 +91,8 @@ namespace ghost
 		 * \param domain A const reference to the vector of integers composing the domain to create.
 		 * \param index The domain's index corresponding to the variable initial value. Zero by default.
 		 */
-		Variable( const std::string&	name,
-		          const std::vector<int>& domain,
+		Variable( const std::vector<int>& domain,
+		          const std::string& name = std::string(),
 		          int	index = 0 );
     
 		//! Second Variable constructor, with a starting value and a size for the domain.
@@ -103,11 +102,18 @@ namespace ghost
 		 * \param size A size_t corresponding to the size of the domain to create.
 		 * \param index The domain's index corresponding to the variable initial value. Zero by default.
 		 */
-		Variable( const std::string&	name,
-		          int	startValue,
+		Variable( int startValue,
 		          std::size_t size,
+		          const std::string& name = std::string(),
 		          int	index = 0 );
-    
+
+		Variable( const std::vector<int>& domain,
+		          int	index );
+
+		Variable( int startValue,
+		          std::size_t size,
+		          int	index );
+
 		/*! Inline method returning all values in the domain.
 		 * \return a copy of the vector of these values.
 		 */
@@ -158,7 +164,7 @@ namespace ghost
 		inline std::string get_name() const { return _name; }
 
 		//! Give the unique id of the Variable object.
-		inline unsigned int get_id() const { return _id; }
+		inline int get_id() const { return _id; }
 
 		//! To have a nicer stream of Variable.
 		friend std::ostream& operator<<( std::ostream& os, const Variable& v )
