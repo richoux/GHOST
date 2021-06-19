@@ -81,6 +81,19 @@ Model ModelBuilder::build_model()
 	return Model( std::move( variables ), constraints, objective, auxiliary_data );
 }
 
+void ModelBuilder::create_n_variables( int number, const std::vector<int>& domain, int index )
+{
+	for( int i = 0 ; i < number ; ++i )
+		variables.emplace_back( domain, index );
+}
+
+void ModelBuilder::create_n_variables( int number, int starting_value, std::size_t size, int index )
+{
+	for( int i = 0 ; i < number ; ++i )
+		variables.emplace_back( starting_value, size, index );
+}
+
+
 void ModelBuilder::declare_objective()
 {
 	objective = std::make_shared<NullObjective>();

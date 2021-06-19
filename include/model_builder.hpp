@@ -56,6 +56,9 @@ namespace ghost
 		virtual void declare_objective();
 		virtual void declare_auxiliary_data();
 
+		void create_n_variables( int number, const std::vector<int>& domain, int index = 0 );
+		void create_n_variables( int number, int starting_value, std::size_t size, int index = 0 );
+
 		inline int get_number_variables() { return static_cast<int>( variables.size() ); }
 	};
 }

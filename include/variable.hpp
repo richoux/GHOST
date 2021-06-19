@@ -102,7 +102,7 @@ namespace ghost
 		 * \param size A size_t corresponding to the size of the domain to create.
 		 * \param index The domain's index corresponding to the variable initial value. Zero by default.
 		 */
-		Variable( int startValue,
+		Variable( int starting_value,
 		          std::size_t size,
 		          int	index = 0,
 		          const std::string& name = std::string() );
@@ -110,7 +110,7 @@ namespace ghost
 		Variable( const std::vector<int>& domain,
 		          const std::string& name );
 
-		Variable( int startValue,
+		Variable( int starting_value,
 		          std::size_t size,
 		          const std::string& name );
 

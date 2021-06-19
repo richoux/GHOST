@@ -43,14 +43,14 @@ Variable::Variable( const std::vector<int>& domain, int index, const std::string
 	  _max_value( *( std::max_element( _domain.begin(), _domain.end() ) ) )
 { }
 
-Variable::Variable( int startValue, std::size_t size, int index, const std::string& name )
+Variable::Variable( int starting_value, std::size_t size, int index, const std::string& name )
 	: _domain( std::vector<int>( size ) ),
 	  _id( 0 ),
 	  _name( name ),
-	  _min_value( startValue ),
-	  _max_value( startValue + static_cast<int>( size ) - 1 )
+	  _min_value( starting_value ),
+	  _max_value( starting_value + static_cast<int>( size ) - 1 )
 {
-	std::iota( _domain.begin(), _domain.end(), startValue );
+	std::iota( _domain.begin(), _domain.end(), starting_value );
 	_current_value = _domain.at( index );
 }
 
@@ -59,10 +59,10 @@ Variable::Variable( const std::vector<int>& domain,
 	: Variable( domain, 0, name )
 { }
 
-Variable::Variable( int startValue,
+Variable::Variable( int starting_value,
                     std::size_t size,
                     const std::string& name )
-	: Variable( startValue, size, 0, name )
+	: Variable( starting_value, size, 0, name )
 { }
 
 std::vector<int> Variable::get_partial_domain( int range ) const
