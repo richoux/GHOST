@@ -37,7 +37,7 @@ Options::Options()
 	: custom_starting_point( false ),
 	  resume_search( false ),
 	  parallel_runs( false ),
-	  number_threads( std::max( 1, static_cast<int>( std::thread::hardware_concurrency() ) ) ), // std::thread::hardware_concurrency() returns 0 if it is not able to detect the number of threads
+	  number_threads( std::max( 2, static_cast<int>( std::thread::hardware_concurrency() ) ) ), // std::thread::hardware_concurrency() returns 0 if it is not able to detect the number of threads
 	  print( std::make_shared<Print>() ),
 	  tabu_time_local_min( -1 ),
 	  tabu_time_selected( -1 ),
