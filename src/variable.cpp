@@ -67,67 +67,70 @@ Variable::Variable( int starting_value,
 
 std::vector<int> Variable::get_partial_domain( int range ) const
 {
-	if( range == static_cast<int>( _domain.size() ) )
+	if( range >= static_cast<int>( _domain.size() ) )
 		return _domain;
 	else
-	{
-		std::vector<int> partial_domain( range );
-		
-		// [---xxxIxxx-]
-		//        |
-		//        ^
-		//      index
-		int index = std::distance( _domain.cbegin(), std::find( _domain.cbegin(), _domain.cend(), _current_value ) );
-		int start_position = index - static_cast<int>( range / 2 );
-
-		if( start_position >= 0 )
+		if( range <= 0 )
+			return std::vector<int>{};
+		else
 		{
+			std::vector<int> partial_domain( range );
+		
 			// [---xxxIxxx-]
-			//     |
-			//     ^
-			// start_position
-			if( index + ( range - static_cast<int>( range / 2 ) ) <= static_cast<int>( _domain.size() ) )
+			//        |
+			//        ^
+			//      index
+			int index = std::distance( _domain.cbegin(), std::find( _domain.cbegin(), _domain.cend(), _current_value ) );
+			int start_position = index - static_cast<int>( range / 2 );
+
+			if( start_position >= 0 )
 			{
-				std::copy( _domain.begin() + start_position,
-				           _domain.begin() + start_position + range,
-				           partial_domain.begin() );
+				// [---xxxIxxx-]
+				//     |
+				//     ^
+				// start_position
+				if( index + ( range - static_cast<int>( range / 2 ) ) <= static_cast<int>( _domain.size() ) )
+				{
+					std::copy( _domain.begin() + start_position,
+					           _domain.begin() + start_position + range,
+					           partial_domain.begin() );
+				}
+				// [xx----xxxIx]
+				//   |
+				//   ^
+				// end_position
+				else
+				{
+					int end_position = index + ( range - static_cast<int>( range / 2 ) ) - static_cast<int>( _domain.size() );
+					std::copy( _domain.begin(),
+					           _domain.begin() + end_position,
+					           partial_domain.begin() );
+				
+					std::copy( _domain.begin() + start_position,
+					           _domain.end(),
+					           partial_domain.begin() + end_position );
+				}
 			}
-			// [xx----xxxIx]
-			//   |
-			//   ^
-			// end_position
+			// [xIxxx----xx]
+			//      |    |
+			//      |    ^
+			//      | start_position
+			//      ^
+			//  end_position
 			else
 			{
-				int end_position = index + ( range - static_cast<int>( range / 2 ) ) - static_cast<int>( _domain.size() );
+				int end_position = index + ( range - static_cast<int>( range / 2 ) );
+				// Remember: start_position is negative here
+				start_position += static_cast<int>( _domain.size() );
 				std::copy( _domain.begin(),
 				           _domain.begin() + end_position,
 				           partial_domain.begin() );
-				
+
 				std::copy( _domain.begin() + start_position,
 				           _domain.end(),
 				           partial_domain.begin() + end_position );
 			}
-		}
-		// [xIxxx----xx]
-		//      |    |
-		//      |    ^
-		//      | start_position
-		//      ^
-		//  end_position
-		else
-		{
-			int end_position = index + ( range - static_cast<int>( range / 2 ) );
-			// Remember: start_position is negative here
-			start_position += static_cast<int>( _domain.size() );
-			std::copy( _domain.begin(),
-			           _domain.begin() + end_position,
-			           partial_domain.begin() );
-
-			std::copy( _domain.begin() + start_position,
-			           _domain.end(),
-			           partial_domain.begin() + end_position );
-		}
 		
-		return partial_domain;
-	}
+			return partial_domain;
+		}
 }

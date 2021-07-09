@@ -119,7 +119,7 @@ namespace ghost
 		 */
 		inline std::vector<int> get_full_domain() const { return _domain; }
 
-		/*! Method returning a range of values from the domain.
+		/*! Method returning the range of values [current_value - range/2 [mod domain_size], current_value + range/2 [mod domain_size]] from the domain.
 		 * \return a copy of the vector of these values.
 		 */
 		std::vector<int> get_partial_domain( int range ) const;
