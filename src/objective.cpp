@@ -68,11 +68,14 @@ Objective::Objective( const std::vector<Variable>& variables, const char* name )
 
 double Objective::cost() const
 {
-	double value = v_cost( _variables );
+	double value = required_cost( _variables );
 	
 	if( std::isnan( value ) )
 		throw nanException( _variables );
-	
+
+	if( _is_maximization )
+		value *= -1;
+		
 	return value;
 }
 
@@ -127,13 +130,3 @@ void Objective::expert_postprocess_optimization( const std::vector<Variable*>& v
                                                  double& bestCost,
                                                  std::vector<int>& solution ) const
 { }
-
-double Minimize::v_cost( const std::vector<Variable*>& variables ) const
-{
-	return required_cost( variables );
-}
-
-double Maximize::v_cost( const std::vector<Variable*>& variables ) const
-{
-	return - required_cost( variables );
-}
