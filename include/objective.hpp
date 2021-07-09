@@ -62,6 +62,10 @@ namespace ghost
 		friend class SearchUnit;
 		friend class ModelBuilder;
 
+		friend class NullObjective;
+		friend class Minimize;
+		friend class Maximize;
+
 		std::vector<Variable*> _variables; //!<Vector of variables of the model.
 		std::vector<int> _variables_index; // to know where are the constraint's variables in the global variable vector
 		std::map<int,int> _variables_position; // to know where are global variables in the constraint's variables vector 
@@ -97,13 +101,25 @@ namespace ghost
 			const char* what() const noexcept { return message.c_str(); }
 		};
 
+		//! Constructor taking variable indexes
+		/*!
+		 * \param name A const reference to a string to give the Objective object a specific name.
+		 */
+		Objective( const std::vector<int>& variables_index, bool is_maximization, const std::string& name );
+
+		//! Constructor taking variables
+		/*!
+		 * \param name A const reference to a string to give the Objective object a specific name.
+		 */
+		Objective( const std::vector<Variable>& variables, bool is_maximization, const std::string& name );
+
 		// Update a variable assignment.
 		// void update_variable( int variable_id, int new_value );
 
 		// Making the mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the objective function. 
 		// void make_variable_id_mapping( int new_id, int original_id );
 
-		// Call required_cost() on Objective::_ptr_variables after getting sure the cost does give a nan, rise an exception otherwise.
+		// Call required_cost() on Objective::_ptr_variables after making sure the cost does not give a nan, rise an exception otherwise.
 		double cost() const;
 
 		// // To simulate the cost between the current configuration and the candidate configuration.
@@ -233,24 +249,6 @@ namespace ghost
 		inline void is_not_optimization() { _is_optimization = false; }
 
 	public:
-		//! Constructor taking variable indexes
-		/*!
-		 * \param name A const reference to a string to give the Objective object a specific name.
-		 */
-		Objective( const std::vector<int>& variables_index, bool is_maximization = false, const std::string& name = std::string( "Objective" ) );
-
-		//! Constructor taking variables
-		/*!
-		 * \param name A const reference to a string to give the Objective object a specific name.
-		 */
-		Objective( const std::vector<Variable>& variables, bool is_maximization = false, const std::string& name = std::string( "Objective" ) );
-
-		Objective( const std::vector<int>& variables_index, const std::string& name );
-		Objective( const std::vector<Variable>& variables, const std::string& name );
-
-		Objective( const std::vector<int>& variables_index, const char* name );
-		Objective( const std::vector<Variable>& variables, const char* name );
-
 		//! Default copy contructor.
 		Objective( const Objective& other ) = default;
 		//! Default move contructor.
@@ -292,5 +290,67 @@ namespace ghost
 		
 	private:
 		double required_cost( const std::vector<Variable*>& variables ) const override { return 0.0; }
+	};
+
+	/**************/
+	/** Minimize **/
+	/**************/
+	class Minimize : public Objective
+	{
+	public:
+		Minimize( const std::vector<int>& variables_index )
+			: Objective( variables_index, false, std::string( "Minimize" ) )
+		{	}
+			
+		Minimize( const std::vector<Variable>& variables )
+			: Objective( variables, false, std::string( "Minimize" ) )
+		{	}
+			
+		Minimize( const std::vector<int>& variables_index, const std::string& name )
+			: Objective( variables_index, false, name )
+		{	}
+
+		Minimize( const std::vector<Variable>& variables, const std::string& name )
+			: Objective( variables, false, name )
+		{	}
+
+		Minimize( const std::vector<int>& variables_index, const char* name )
+			: Objective( variables_index, false, std::string( name ) )
+		{	}
+
+		Minimize( const std::vector<Variable>& variables, const char* name )
+			: Objective( variables, false, std::string( name ) )
+		{	}
+	};
+
+	/**************/
+	/** Maximize **/
+	/**************/
+	class Maximize : public Objective
+	{
+	public:
+		Maximize( const std::vector<int>& variables_index )
+			: Objective( variables_index, true, std::string( "Maximize" ) )
+		{	}
+			
+		Maximize( const std::vector<Variable>& variables )
+			: Objective( variables, true, std::string( "Maximize" ) )
+		{	}
+			
+		Maximize( const std::vector<int>& variables_index, const std::string& name )
+			: Objective( variables_index, true, name )
+		{	}
+
+		Maximize( const std::vector<Variable>& variables, const std::string& name )
+			: Objective( variables, true, name )
+		{	}
+
+		Maximize( const std::vector<int>& variables_index, const char* name )
+			: Objective( variables_index, true, std::string( name ) )
+		{	}
+
+		Maximize( const std::vector<Variable>& variables, const char* name )
+			: Objective( variables, true, std::string( name ) )
+		{	}
 	};
 }
