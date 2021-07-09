@@ -103,7 +103,7 @@ namespace ghost
 		// Making the mapping between the variable's id in the solver (new_id) and its position in the vector of variables within the objective function. 
 		// void make_variable_id_mapping( int new_id, int original_id );
 
-		// Call required_cost() on Objective::_ptr_variables after getting sure the cost does give a nan, rise an exception otherwise.
+		// Call v_cost() on Objective::_ptr_variables after making sure the cost does not give a nan, rise an exception otherwise.
 		double cost() const;
 
 		// // To simulate the cost between the current configuration and the candidate configuration.
@@ -128,6 +128,9 @@ namespace ghost
 			
 	protected:
 		mutable randutils::mt19937_rng rng; //!< A neat random generator implemented in thirdparty/randutils.hpp, see https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html
+
+		// Call required_cost(). Allow the class Maximize to return the opposite value -required_cost.
+		virtual double v_cost( const std::vector<Variable*>& variables ) const = 0;
 
 		//! Pure virtual method to compute the value of the objective function on the current assignment in Objective::_ptr_variables .
 		/*! 
@@ -291,6 +294,75 @@ namespace ghost
 		}
 		
 	private:
+		double v_cost( const std::vector<Variable*>& variables ) const final { return 0.0; }
 		double required_cost( const std::vector<Variable*>& variables ) const override { return 0.0; }
+	};
+
+	/**************/
+	/** Minimize **/
+	/**************/
+	class Minimize : public Objective
+	{
+	public:
+		Minimize( const std::vector<int>& variables_index )
+			: Objective( variables_index, false, "Minimize" )
+		{	}
+			
+		Minimize( const std::vector<Variable>& variables )
+			: Objective( variables, false, "Minimize" )
+		{	}
+			
+		Minimize( const std::vector<int>& variables_index, const std::string& name )
+			: Objective( variables_index, false, name )
+		{	}
+
+		Minimize( const std::vector<Variable>& variables, const std::string& name )
+			: Objective( variables, false, name )
+		{	}
+
+		Minimize( const std::vector<int>& variables_index, const char* name )
+			: Objective( variables_index, false, name )
+		{	}
+
+		Minimize( const std::vector<Variable>& variables, const char* name )
+			: Objective( variables, false, name )
+		{	}
+
+	private:
+		double v_cost( const std::vector<Variable*>& variables ) const final;
+	};
+
+	/**************/
+	/** Maximize **/
+	/**************/
+	class Maximize : public Objective
+	{
+	public:
+		Maximize( const std::vector<int>& variables_index )
+			: Objective( variables_index, true, "Maximize" )
+		{	}
+			
+		Maximize( const std::vector<Variable>& variables )
+			: Objective( variables, true, "Maximize" )
+		{	}
+			
+		Maximize( const std::vector<int>& variables_index, const std::string& name )
+			: Objective( variables_index, true, name )
+		{	}
+
+		Maximize( const std::vector<Variable>& variables, const std::string& name )
+			: Objective( variables, true, name )
+		{	}
+
+		Maximize( const std::vector<int>& variables_index, const char* name )
+			: Objective( variables_index, true, name )
+		{	}
+
+		Maximize( const std::vector<Variable>& variables, const char* name )
+			: Objective( variables, true, name )
+		{	}
+
+	private:
+		double v_cost( const std::vector<Variable*>& variables ) const final;
 	};
 }
