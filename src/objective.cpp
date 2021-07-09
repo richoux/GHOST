@@ -50,22 +50,6 @@ Objective::Objective( const std::vector<Variable>& variables, bool is_maximizati
 	                [&](const auto& v){ return v.get_id(); } );
 }
 
-Objective::Objective( const std::vector<int>& variables_index, const std::string& name )
-	: Objective( variables_index, false, name )
-{ }
-
-Objective::Objective( const std::vector<Variable>& variables, const std::string& name )
-	: Objective( variables, false, name )
-{ }
-
-Objective::Objective( const std::vector<int>& variables_index, const char* name )
-	: Objective( variables_index, false, std::string( name ) )
-{ }
-
-Objective::Objective( const std::vector<Variable>& variables, const char* name )
-	: Objective( variables, false, std::string( name ) )
-{ }
-
 double Objective::cost() const
 {
 	double value = required_cost( _variables );

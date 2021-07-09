@@ -105,19 +105,13 @@ namespace ghost
 		/*!
 		 * \param name A const reference to a string to give the Objective object a specific name.
 		 */
-		Objective( const std::vector<int>& variables_index, bool is_maximization = false, const std::string& name = std::string( "Objective" ) );
+		Objective( const std::vector<int>& variables_index, bool is_maximization, const std::string& name );
 
 		//! Constructor taking variables
 		/*!
 		 * \param name A const reference to a string to give the Objective object a specific name.
 		 */
-		Objective( const std::vector<Variable>& variables, bool is_maximization = false, const std::string& name = std::string( "Objective" ) );
-
-		Objective( const std::vector<int>& variables_index, const std::string& name );
-		Objective( const std::vector<Variable>& variables, const std::string& name );
-
-		Objective( const std::vector<int>& variables_index, const char* name );
-		Objective( const std::vector<Variable>& variables, const char* name );
+		Objective( const std::vector<Variable>& variables, bool is_maximization, const std::string& name );
 
 		// Update a variable assignment.
 		// void update_variable( int variable_id, int new_value );
@@ -305,11 +299,11 @@ namespace ghost
 	{
 	public:
 		Minimize( const std::vector<int>& variables_index )
-			: Objective( variables_index, false, "Minimize" )
+			: Objective( variables_index, false, std::string( "Minimize" ) )
 		{	}
 			
 		Minimize( const std::vector<Variable>& variables )
-			: Objective( variables, false, "Minimize" )
+			: Objective( variables, false, std::string( "Minimize" ) )
 		{	}
 			
 		Minimize( const std::vector<int>& variables_index, const std::string& name )
@@ -321,11 +315,11 @@ namespace ghost
 		{	}
 
 		Minimize( const std::vector<int>& variables_index, const char* name )
-			: Objective( variables_index, false, name )
+			: Objective( variables_index, false, std::string( name ) )
 		{	}
 
 		Minimize( const std::vector<Variable>& variables, const char* name )
-			: Objective( variables, false, name )
+			: Objective( variables, false, std::string( name ) )
 		{	}
 	};
 
@@ -336,11 +330,11 @@ namespace ghost
 	{
 	public:
 		Maximize( const std::vector<int>& variables_index )
-			: Objective( variables_index, true, "Maximize" )
+			: Objective( variables_index, true, std::string( "Maximize" ) )
 		{	}
 			
 		Maximize( const std::vector<Variable>& variables )
-			: Objective( variables, true, "Maximize" )
+			: Objective( variables, true, std::string( "Maximize" ) )
 		{	}
 			
 		Maximize( const std::vector<int>& variables_index, const std::string& name )
@@ -352,11 +346,11 @@ namespace ghost
 		{	}
 
 		Maximize( const std::vector<int>& variables_index, const char* name )
-			: Objective( variables_index, true, name )
+			: Objective( variables_index, true, std::string( name ) )
 		{	}
 
 		Maximize( const std::vector<Variable>& variables, const char* name )
-			: Objective( variables, true, name )
+			: Objective( variables, true, std::string( name ) )
 		{	}
 	};
 }
