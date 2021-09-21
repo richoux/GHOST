@@ -29,7 +29,7 @@ fi
 
 function usage()
 {
-    echo "$0: usage: build.sh [release|rel_dbg_info|debug|debug_no_asan|clean|doc|tests]"
+    echo "$0: usage: build.sh [release|rel_dbg_info|debug|debug_no_asan|clean|doc|tests|tutorial]"
     exit 1
 }
 
@@ -105,6 +105,15 @@ function tests()
     make
 }
 
+function tutorial()
+{
+    cd tutorial
+    mkdir -p build
+    cd build
+    cmake ..
+    make
+}
+
 function first_compile()
 {
     if [ "$OS" == "Linux" ]; then
@@ -155,6 +164,10 @@ elif [ "$1" == "doc" ]; then
     exit 0
 elif [ "$1" == "tests" ]; then
     tests
+    cd $BACKPWD
+    exit 0
+elif [ "$1" == "tutorial" ]; then
+    tutorial
     cd $BACKPWD
     exit 0
 else
