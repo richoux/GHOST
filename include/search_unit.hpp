@@ -457,7 +457,7 @@ namespace ghost
 		}
 
 		// A. Local move (perform local move and update variables/constraints/objective function)
-		void local_move( int variable_to_change, int new_value, int min_conflict, const std::map< int, std::vector<double>>& delta_errors )
+		void local_move( int variable_to_change, int new_value, double min_conflict, const std::map< int, std::vector<double>>& delta_errors )
 		{
 			++local_moves;
 			current_sat_error += min_conflict;
