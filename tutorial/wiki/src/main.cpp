@@ -26,9 +26,10 @@ int main()
 	std::vector<int> solution;
 
 	// Run the solver with a 500 microseconds budget
-	solver.solve( cost, solution, 500us );
+	bool found = solver.solve( cost, solution, 500us );
 	
 	// After 300 microseconds, the solver will write in cost and solution the best solution it has found.
+	found ? std::cout << "Solution found\n" : std::cout << "Solution not found\n";
 	std::cout << "Cost: " << cost << "\nSolution:";
 	for( auto v : solution )
 		std::cout << " " << v;
