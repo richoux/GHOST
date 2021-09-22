@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.1)
-project (ghost_tutorial)
+project (ghost_tutorial_wiki)
 
 set( CMAKE_VERBOSE_MAKEFILE on )
 
@@ -34,8 +34,6 @@ if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fsanitize=address,undefined,leak")
 	set(CMAKE_EXE_FLAGS_DEBUG "-fsanitize=address,undefined,leak")
 endif()
-
-set(CMAKE_EXE_FLAGS "-DGHOST_BENCH -pthread")
 
 ## These two lines are the reason why we need CMake version 3.1.0+
 set(THREADS_PREFER_PTHREAD_FLAG ON)

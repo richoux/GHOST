@@ -77,14 +77,32 @@ function clean()
 				sudo rm -fr *
 				cd $BACKPWD
     fi
-    if [ -d "$build/RELEASEDBGINFO" ]; then 
+    if [ -d "build/$RELEASEDBGINFO" ]; then 
 				cd build/$RELEASEDBGINFO
 				make clean
 				sudo rm -fr *
 				cd $BACKPWD
     fi
-    if [ -d "$build/DEBUG" ]; then 
+    if [ -d "build/$DEBUG" ]; then 
 				cd build/$DEBUG
+				make clean
+				sudo rm -fr *
+				cd $BACKPWD
+    fi
+		if [ -d "tests/build" ]; then 
+				cd tests/build/
+				make clean
+				sudo rm -fr *
+				cd $BACKPWD
+    fi
+		if [ -d "tutorial/wiki/build" ]; then 
+				cd tutorial/wiki/build/
+				make clean
+				sudo rm -fr *
+				cd $BACKPWD
+    fi
+		if [ -d "tutorial/video/build" ]; then 
+				cd tutorial/video/build/
 				make clean
 				sudo rm -fr *
 				cd $BACKPWD
@@ -108,6 +126,12 @@ function tests()
 function tutorial()
 {
     cd tutorial
+		cd wiki
+    mkdir -p build
+    cd build
+    cmake ..
+    make
+		cd ../../video
     mkdir -p build
     cd build
     cmake ..

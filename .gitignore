@@ -15,4 +15,5 @@ build/*
 tests/build*
 
 # tutorial obj and bin
-tutorial/build/*
+tutorial/wiki/build/*
+tutorial/video/build/*
