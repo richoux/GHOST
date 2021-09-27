@@ -20,6 +20,6 @@ public:
 	          int capacity )
 		: Constraint( variables ),
 		  _object_size( std::move( object_size ) ),
-		  _capacity ( capacity )
+		  _capacity( capacity )
 	{	}
 };
