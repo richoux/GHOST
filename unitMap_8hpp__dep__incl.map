@@ -1,6 +1,0 @@
-<map id="include/misc/unitMap.hpp" name="include/misc/unitMap.hpp">
-<area shape="rect" id="node2" href="$targetSelectionConstraint_8hpp.html" title="include/constraints\l/targetSelectionConstraint.hpp" alt="" coords="5,81,203,122"/>
-<area shape="rect" id="node4" href="$targetSelectionDomain_8cpp.html" title="src/domains/targetSelection\lDomain.cpp" alt="" coords="228,81,412,122"/>
-<area shape="rect" id="node5" href="$unitMap_8cpp.html" title="src/misc/unitMap.cpp" alt="" coords="436,88,583,115"/>
-<area shape="rect" id="node3" href="$targetSelectionConstraint_8cpp.html" title="src/constraints/targetSelection\lConstraint.cpp" alt="" coords="5,171,203,213"/>
-</map>

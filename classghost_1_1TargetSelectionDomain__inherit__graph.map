@@ -1,3 +1,0 @@
-<map id="ghost::TargetSelectionDomain" name="ghost::TargetSelectionDomain">
-<area shape="rect" id="node2" href="$classghost_1_1Domain.html" title="{ghost::Domain\&lt; Unit \&gt;\n|# size\l# domains\l# initialDomain\l# random\l|+ Domain()\l+ Domain()\l+ restart()\l+ wipe()\l+ rebuild()\l+ randomValue()\l+ valuesOf()\l+ resetDomain()\l+ resetAllDomains()\l+ getSize()\l+ add()\l+ clear()\l# v_restart()\l# v_wipe()\l# v_rebuild()\l}" alt="" coords="27,6,180,333"/>
-</map>

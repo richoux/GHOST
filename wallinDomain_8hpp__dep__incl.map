@@ -1,9 +1,0 @@
-<map id="include/domains/wallinDomain.hpp" name="include/domains/wallinDomain.hpp">
-<area shape="rect" id="node2" href="$wallinConstraint_8hpp.html" title="include/constraints\l/wallinConstraint.hpp" alt="" coords="140,81,284,122"/>
-<area shape="rect" id="node3" href="$wallinTerran_8hpp.html" title="include/misc/wallinTerran.hpp" alt="" coords="5,171,200,197"/>
-<area shape="rect" id="node6" href="$wallinProtoss_8hpp.html" title="include/misc/wallinProtoss.hpp" alt="" coords="308,88,511,115"/>
-<area shape="rect" id="node7" href="$wallinObjective_8hpp.html" title="include/objectives\l/wallinObjective.hpp" alt="" coords="535,81,673,122"/>
-<area shape="rect" id="node8" href="$wallinDomain_8cpp.html" title="src/domains/wallinDomain.cpp" alt="" coords="697,88,896,115"/>
-<area shape="rect" id="node4" href="$wallinConstraint_8cpp.html" title="src/constraints/wallinConstraint.cpp" alt="" coords="225,171,455,197"/>
-<area shape="rect" id="node5" href="$wallinObjective_8cpp.html" title="src/objectives/wallinObjective.cpp" alt="" coords="486,171,705,197"/>
-</map>

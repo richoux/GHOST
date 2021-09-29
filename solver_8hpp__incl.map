@@ -1,7 +1,0 @@
-<map id="include/solver.hpp" name="include/solver.hpp">
-<area shape="rect" id="node11" href="$variable_8hpp.html" title="variable.hpp" alt="" coords="869,155,961,181"/>
-<area shape="rect" id="node14" href="$domain_8hpp.html" title="domain.hpp" alt="" coords="788,229,877,256"/>
-<area shape="rect" id="node16" href="$randutils_8hpp.html" title="misc/randutils.hpp" alt="" coords="431,304,559,331"/>
-<area shape="rect" id="node26" href="$constraint_8hpp.html" title="constraint.hpp" alt="" coords="919,80,1023,107"/>
-<area shape="rect" id="node29" href="$objective_8hpp.html" title="objective.hpp" alt="" coords="471,80,570,107"/>
-</map>

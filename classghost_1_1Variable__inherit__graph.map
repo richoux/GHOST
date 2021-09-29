@@ -1,5 +1,0 @@
-<map id="ghost::Variable" name="ghost::Variable">
-<area shape="rect" id="node2" href="$classghost_1_1Action.html" title="{ghost::Action\n|&#45; data\l|+ Action()\l+ Action()\l+ Action()\l+ operator=()\l+ isSelected()\l+ getData()\l+ getSecondsRequired()\l+ getCostMineral()\l+ getCostGas()\l+ getCostSupply()\land 8 more...\l&#45; swap()\l}" alt="" coords="5,462,168,701"/>
-<area shape="rect" id="node3" href="$classghost_1_1Building.html" title="{ghost::Building\n|&#45; length\l&#45; height\l&#45; gapTop\l&#45; gapRight\l&#45; gapBottom\l&#45; gapLeft\l&#45; race\l&#45; treedepth\l|+ Building()\l+ Building()\l+ Building()\l+ operator=()\l+ getLength()\l+ getHeight()\l+ getSurface()\l+ getGapTop()\l+ getGapRight()\l+ getGapBottom()\l+ getGapLeft()\l+ isSelected()\l+ getRace()\l+ getRaceString()\l+ getTreedepth()\l&#45; swap()\l}" alt="" coords="193,381,319,781"/>
-<area shape="rect" id="node4" href="$classghost_1_1Unit.html" title="{ghost::Unit\n|&#45; data\l|+ Unit()\l+ Unit()\l+ Unit()\l+ Unit()\l+ operator=()\l+ isSelected()\l+ takeHit()\l+ isDead()\l+ canShoot()\l+ justShot()\land 30 more...\l&#45; swap()\l}" alt="" coords="344,462,451,701"/>
-</map>

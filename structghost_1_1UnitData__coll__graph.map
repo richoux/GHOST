@@ -1,5 +1,0 @@
-<map id="ghost::UnitData" name="ghost::UnitData">
-<area shape="rect" id="node2" href="$structghost_1_1Range.html" title="{ghost::Range\n|+ min\l+ max\l|}" alt="" coords="5,13,104,105"/>
-<area shape="rect" id="node3" href="$structghost_1_1Splash.html" title="{ghost::Splash\n|+ ray1\l+ ray2\l+ ray3\l|}" alt="" coords="129,5,231,112"/>
-<area shape="rect" id="node4" href="$structghost_1_1Coord.html" title="{ghost::Coord\n|+ x\l+ y\l|}" alt="" coords="255,13,352,105"/>
-</map>

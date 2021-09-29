@@ -1,7 +1,0 @@
-<map id="include/misc/actionFactory.hpp" name="include/misc/actionFactory.hpp">
-<area shape="rect" id="node2" href="$buildorderConstraint_8hpp.html" title="include/constraints\l/buildorderConstraint.hpp" alt="" coords="42,81,208,122"/>
-<area shape="rect" id="node4" href="$main_8cpp.html" title="src/main.cpp" alt="" coords="198,179,295,205"/>
-<area shape="rect" id="node5" href="$actionFactory_8cpp.html" title="src/misc/actionFactory.cpp" alt="" coords="285,88,464,115"/>
-<area shape="rect" id="node6" href="$buildorderObjective_8cpp.html" title="src/objectives/buildorder\lObjective.cpp" alt="" coords="489,81,652,122"/>
-<area shape="rect" id="node3" href="$buildorderConstraint_8cpp.html" title="src/constraints/buildorder\lConstraint.cpp" alt="" coords="5,171,173,213"/>
-</map>
