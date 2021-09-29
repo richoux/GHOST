@@ -119,7 +119,10 @@ function doc()
 				cp -r doc/html/* "../doc_temp_copy_$DATETODAY"
 				CURRENTBRANCH=$(git rev-parse --abbrev-ref HEAD)
 				git checkout gh-pages
-				cp -r "../doc_temp_copy_$DATETODAY/*" .
+				CURRENTFOLDER=$(basename "$PWD")
+				cd "../doc_temp_copy_$DATETODAY"
+				yes | cp -fr * "../$CURRENTFOLDER"
+				cd "../$CURRENTFOLDER"
 				git commit -am "Documentation from $DATETODAY"
 				git push
 				git checkout "$CURRENTBRANCH"
@@ -127,7 +130,7 @@ function doc()
 		else
 				echo -e "${RED}>>> You must commit your changes before running this command.${NC}\n"
 				git status
-		fi
+		fi		
 }
 
 function tests()
