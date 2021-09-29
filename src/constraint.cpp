@@ -39,14 +39,14 @@ Constraint::Constraint( const std::vector<int>& variables_index )
 	: _variables_index( variables_index ),
 	  _current_error( std::numeric_limits<double>::max() ),
 	  _id( 0 ),
-	  _is_expert_delta_error_defined( true )
+	  _is_optional_delta_error_defined( true )
 { }
 
 Constraint::Constraint( const std::vector<Variable>& variables )
 	: _variables_index( std::vector<int>( variables.size() ) ),
 	  _current_error( std::numeric_limits<double>::max() ),
 	  _id( 0 ),
-	  _is_expert_delta_error_defined( true )
+	  _is_optional_delta_error_defined( true )
 {
 	std::transform( variables.begin(),
 	                variables.end(),
@@ -59,6 +59,8 @@ double Constraint::error() const
 	double value = required_error( _variables );
 	if( std::isnan( value ) )
 		throw nanException( _variables );
+	if( value < 0 )
+		throw negativeException( _variables );
 	return value;
 }
 
@@ -70,7 +72,7 @@ double Constraint::delta_error( const std::vector<int>& variables_index, const s
 	                variables_index_within_constraint.begin(),
 	                [&]( auto index ){ return _variables_position.at( index ); } );
 	
-	double value = expert_delta_error( _variables, variables_index_within_constraint, new_values );
+	double value = optional_delta_error( _variables, variables_index_within_constraint, new_values );
 	if( std::isnan( value ) )
 	{
 		std::vector<Variable> changed_variables( _variables.size() );
@@ -88,7 +90,7 @@ double Constraint::delta_error( const std::vector<int>& variables_index, const s
 
 double Constraint::simulate_delta( const std::vector<int>& variables_index, const std::vector<int>& new_values )
 {
-	if( _is_expert_delta_error_defined ) [[likely]]
+	if( _is_optional_delta_error_defined ) [[likely]]
 	{
 		return delta_error( variables_index, new_values );
 	}
@@ -116,10 +118,10 @@ bool Constraint::has_variable( int var_id ) const
 	return _variables_position.count( var_id ) > 0;
 }  
 
-double Constraint::expert_delta_error( const std::vector<Variable*>& variables, const std::vector<int>& variable_indexes, const std::vector<int>& candidate_values ) const
+double Constraint::optional_delta_error( const std::vector<Variable*>& variables, const std::vector<int>& indexes, const std::vector<int>& candidate_values ) const
 {
-	_is_expert_delta_error_defined = false;
+	_is_optional_delta_error_defined = false;
 	throw deltaErrorNotDefinedException();
 }
 
-void Constraint::expert_update_if_delta_error_defined( const std::vector<Variable*>& variables, int variable_index, int new_value ) { }
+void Constraint::conditional_update_data_structures( const std::vector<Variable*>& variables, int index, int new_value ) { }

@@ -53,11 +53,11 @@ AuxiliaryData::AuxiliaryData( const std::vector<Variable>& variables )
 void AuxiliaryData::update( int index, int new_value )
 {
 	if( _variables_position.count( index) > 0 )
-		update( _variables, _variables_position.at( index ), new_value );
+		required_update( _variables, _variables_position.at( index ), new_value );
 }
 
 void AuxiliaryData::update()
 {
 	for( int i = 0 ; i < static_cast<int>( _variables.size() ) ; ++i )
-		update( _variables, i, _variables[i]->get_value() );
+		required_update( _variables, i, _variables[i]->get_value() );
 }

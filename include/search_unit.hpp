@@ -57,9 +57,6 @@
 
 #if defined GHOST_TRACE_PARALLEL
 #define GHOST_TRACE
-// possible with g++11 but not before
-// #include <syncstream>
-// #define COUT std::osyncstream(std::cout)
 #include <fstream>
 #include <sstream>
 #define COUT _log_trace
@@ -69,6 +66,10 @@
 
 namespace ghost
 {
+	/*
+	 * SearchUnit is the object called by Solver::solve to actually search for a solution.
+	 * In parallel computing, one SearchUnit object is instanciated for every thread.
+	 */
 	class SearchUnit
 	{
 		std::promise<void> _stop_search_signal;
@@ -174,7 +175,7 @@ namespace ghost
 			model.auxiliary_data->update();
 		}
 
-		//! Sample an configuration
+		// Sample an configuration
 		void monte_carlo_sampling( int nb_var = -1 )
 		{
 			if( nb_var == -1 )
@@ -188,7 +189,7 @@ namespace ghost
 				model.variables[ variables_index[ i ] ].pick_random_value();
 		}
 
-		//! Sample an configuration for permutation problems
+		// Sample an configuration for permutation problems
 		void random_permutations( int nb_var = -1 )
 		{
 			if( nb_var == -1 )
@@ -285,16 +286,15 @@ namespace ghost
 					if( model.constraints[ constraint_id ]->has_variable( variable_id ) )
 						matrix_var_ctr[ variable_id ].push_back( constraint_id );
 
-			// Determine if expert_delta_error has been user defined or not for each constraint
+			// Determine if optional_delta_error has been user defined or not for each constraint
 			for( int constraint_id = 0; constraint_id < number_constraints; ++constraint_id )
 				try
 				{
-					// std::visit( [&](Constraint& ctr){ ctr.expert_delta_error( variables, std::vector<int>{0}, std::vector<int>{variables[0].get_value()} ); }, constraints[ constraint_id ] );
-					model.constraints[ constraint_id ]->expert_delta_error( model.constraints[ constraint_id ]->_variables, std::vector<int>{0}, std::vector<int>{model.variables[0].get_value()} );
+					model.constraints[ constraint_id ]->optional_delta_error( model.constraints[ constraint_id ]->_variables, std::vector<int>{0}, std::vector<int>{model.variables[0].get_value()} );
 				}
 				catch( const std::exception& e )
 				{
-					std::cerr << "No expert_delta_error method defined for constraint num. " << constraint_id << "\n";
+					std::cerr << "No optional_delta_error method defined for constraint num. " << constraint_id << "\n";
 				}
 		}
 
@@ -334,7 +334,7 @@ namespace ghost
 		}
 
 #if not defined ANTIDOTE_VARIABLE // ADAPTIVE_SEARCH
-		//! To compute the vector of variables which are principal culprits for not satisfying the problem
+		// To compute the vector of variables which are principal culprits for not satisfying the problem
 		void compute_worst_variables()
 		{
 #if defined GHOST_TRACE
@@ -381,7 +381,7 @@ namespace ghost
 		}
 #endif // end ANTIDOTE_SEARCH
 		
-		//! Compute the cost of each constraints
+		// Compute the cost of each constraints
 		double compute_constraints_errors()
 		{
 			double satisfaction_error = 0.0;
@@ -397,7 +397,7 @@ namespace ghost
 			return satisfaction_error;
 		}
 
-		//! Compute the variable cost of each variables and fill up error_variables 
+		// Compute the variable cost of each variables and fill up error_variables 
 		void compute_variables_errors()
 		{
 			for( int variable_id = 0; variable_id < number_variables; ++variable_id )
@@ -420,6 +420,9 @@ namespace ghost
 
 					model.constraints[ constraint_id ]->update( variable_to_change, new_value );
 				}
+				
+				if( model.objective->is_optimization() )
+					model.objective->update( variable_to_change, new_value );
 			}
 			else
 			{
@@ -453,6 +456,12 @@ namespace ghost
 
 						model.constraints[ constraint_id ]->update( new_value, current_value );
 					}
+
+				if( model.objective->is_optimization() )
+				{
+					model.objective->update( variable_to_change, next_value );
+					model.objective->update( new_value, current_value );
+				}
 			}
 		}
 
@@ -612,81 +621,6 @@ namespace ghost
 			     << *(model.objective) << "\n";
 #endif
 		}
-
-		
-// 		SearchUnit( SearchUnit && unit )
-// 			: _stop_search_signal( std::move( unit._stop_search_signal ) ),
-// 			  _stop_search_check( std::move( unit._stop_search_check ) ),
-// 			  variables ( unit.variables ), 
-// 			  constraints ( unit.constraints ),
-// 			  objective ( nullptr ),
-// 			  variables_at_start ( unit.variables_at_start ),
-// 			  number_variables ( unit.number_variables ),
-// 			  number_constraints ( unit.number_constraints ),
-// 			  final_solution ( unit.final_solution ),
-// 			  matrix_var_ctr ( unit.matrix_var_ctr ),
-// 			  tabu_list ( unit.tabu_list ),
-// 			  worst_variables_list ( unit.worst_variables_list ),
-// 			  must_compute_worst_variables_list ( unit.must_compute_worst_variables_list ),
-// 			  error_variables ( unit.error_variables ),
-// 			  best_sat_error ( unit.best_sat_error ),
-// 			  best_opt_cost ( unit.best_opt_cost ),
-// 			  current_sat_error ( unit.current_sat_error ),
-// 			  current_opt_cost ( unit.current_opt_cost ),
-// 			  cost_before_postprocess ( unit.cost_before_postprocess ),
-// 			  restarts ( unit.restarts ),
-// 			  resets ( unit.resets ),
-// 			  local_moves ( unit.local_moves ),
-// 			  search_iterations ( unit.search_iterations ),
-// 			  local_minimum ( unit.local_minimum ),
-// 			  plateau_moves ( unit.plateau_moves ),
-// 			  plateau_local_minimum ( unit.plateau_local_minimum ),
-// 			  is_permutation_problem ( unit.is_permutation_problem ),
-// 			  options ( unit.options )
-// 		{
-// #if defined GHOST_TRACE_PARALLEL
-// 			_log_trace = std::move( unit._log_trace );
-// #endif
-// 			objective = unit.objective;
-// 			unit.objective = nullptr;
-// 		}
-		
-// 		SearchUnit& operator=( SearchUnit && unit )
-// 		{
-// 			_stop_search_signal = std::move( unit._stop_search_signal );
-// 			_stop_search_check = std::move( unit._stop_search_check );
-// #if defined GHOST_TRACE_PARALLEL
-// 			_log_trace = std::move( unit._log_trace );
-// #endif
-// 			variables = unit.variables; 
-// 			constraints = unit.constraints;
-// 			objective = unit.objective;
-// 			unit.objective = nullptr;
-// 			variables_at_start = unit.variables_at_start;
-// 			number_variables = unit.number_variables;
-// 			number_constraints = unit.number_constraints;
-// 			final_solution = unit.final_solution;
-// 			matrix_var_ctr = unit.matrix_var_ctr;
-// 			tabu_list = unit.tabu_list;
-// 			worst_variables_list = unit.worst_variables_list;
-// 			must_compute_worst_variables_list = unit.must_compute_worst_variables_list;
-// 			error_variables = unit.error_variables;
-// 			best_sat_error = unit.best_sat_error;
-// 			best_opt_cost = unit.best_opt_cost;
-// 			current_sat_error = unit.current_sat_error;
-// 			current_opt_cost = unit.current_opt_cost;
-// 			cost_before_postprocess = unit.cost_before_postprocess;
-// 			restarts = unit.restarts;
-// 			resets = unit.resets;
-// 			local_moves = unit.local_moves;
-// 			search_iterations = unit.search_iterations;
-// 			local_minimum = unit.local_minimum;
-// 			plateau_moves = unit.plateau_moves;
-// 			plateau_local_minimum = unit.plateau_local_minimum;
-// 			is_permutation_problem = unit.is_permutation_problem;
-// 			options = unit.options;
-// 			return *this;
-// 		}
 		
 		// Check if the thread must stop search
 		bool stop_search_requested()
@@ -844,7 +778,7 @@ namespace ghost
 
 				if( !is_permutation_problem )
 				{
-					// Simulate delta errors (or errors is not Constraint::expert_delta_error method is defined) for each neighbor
+					// Simulate delta errors (or errors is not Constraint::optional_delta_error method is defined) for each neighbor
 					for( const auto candidate_value : domain_to_explore )
 						for( const int constraint_id : matrix_var_ctr.at( variable_to_change ) )
 							delta_errors[ candidate_value ].push_back( model.constraints[ constraint_id ]->simulate_delta( std::vector<int>{variable_to_change}, std::vector<int>{candidate_value} ) );

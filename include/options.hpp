@@ -36,7 +36,11 @@
 
 namespace ghost
 {
-	//! Options is a structure containing all optional arguments for Solver::solve.
+	/*!
+	 * Options is a structure containing all optional arguments for Solver::solve.
+	 *
+	 * \sa Print
+	 */
 	struct Options
 	{
 		bool custom_starting_point; //!< To force starting the search on a custom variables assignment.
@@ -50,13 +54,24 @@ namespace ghost
 		int restart_threshold; //!< Trigger a resart every 'restart_threshold' reset.
 		int percent_to_reset; //<! Percentage of variables to randomly change the value at each reset.
 		int number_start_samplings; //!< Number of variable assignments the solver randomly draw, if custom_starting_point and resume_search are false.
-		
+
+		//! Unique constructor
 		Options();
+
+		//! Default destructor
 		~Options() = default;
 
+		//! Unique copy constructor
 		Options( const Options& other );
+
+		//! Unique move constructor
 		Options( Options&& other );
 		
+		/*! 
+		 * Unique copy assign operator
+		 *
+		 * No move assign operator on purpose (yes, we violate the rule of 5 here).
+		 */
 		Options& operator=( Options& other );
 	};
 }

@@ -70,27 +70,41 @@
 
 namespace ghost
 {	
-	//! Solver is the class coding the solver itself.
 	/*!
-	 * To solve a problem instance, you must instanciate a Solver object, then run Solver::solve.
+	 * Solver is the class coding the solver itself.
 	 *
-	 * Solver constructors need a vector of Variable, a vector of shared pointers on Constraint objects, an optional 
-	 * shared pointer on an Objective object (the solver will create a special empty Objective object is none is given), 
-	 * and finally an optionnal boolean to indicate if the problem has been modeled as a permutation problem (false by default).
+	 * To solve a problem instance, users must instanciate a Solver object, then run Solver::solve.
 	 *
-	 * A permutation problem is a problem where all variables start with different values, and only swapping values is allowed.
-	 * This is typically the case for scheduling problems, for instance: you want to do A first, then B second, C third, and so on. 
-	 * The solution of the problem must assign a unique value for each variable. Try as much as possible to model your problems as 
-	 * permutation problems, since it should greatly speed-up the search of solutions.
+	 * The unique Solver constructor needs a derived ghost::ModelBuilder object,
+	 * as well as an optional boolean indicating if the solver is dealing with a permutation problem,
+	 * i.e., if the solver needs to swap variable values instead of picking new values from domains.
 	 *
-	 * \sa Variable, Constraint, Objective
+	 * Declaring combinatorial problems as permutation problems can lead to a huge performance boost
+	 * for the solver. For this, the problem needs to be declared with all variables starting with a 
+	 * value that belongs to a solution. 
+	 *
+	 * This is typically the case for scheduling problems, for instance: imagine we want to do three
+	 * tasks A, B and C. Thus, we give A as the starting value to the first variable, B to the second 
+	 * and C to the third. Then, instead of assigning the task A to the second variable for instance, 
+	 * the solver will swap tasks of the first and the second variables.
+	 *
+	 * Users are invited to model as much as possible their problems as permutation problems, since
+	 * it would greatly speed-up the search of solutions.
+	 *
+	 * Many options compiled in a ghost::Options object can be passed to the method Solver::solve, to
+	 * allow for instance parallel computing, as well as parameter tweaking for local search experts.
+	 *
+	 * ghost::Solver is a template class, although users should never need to instantiate the template
+	 * with modern C++ compilers.
+	 *
+	 * \sa ModelBuilder, Options
 	 */
 	template<typename ModelBuilderType> class Solver final
 	{
 		Model _model;
-		ModelBuilderType _model_builder; //!< Factory building the model
+		ModelBuilderType _model_builder; // Factory building the model
 		
-		int _number_variables; //!< Size of the vector of variables.
+		int _number_variables; // Size of the vector of variables.
 
 		double _best_sat_error; 
 		double _best_opt_cost; 
@@ -115,13 +129,15 @@ namespace ghost
 		int _plateau_local_minimum;
 
 		bool _is_permutation_problem;
-		Options _options; //!< Options for the solver (see the struct Options).
+		Options _options; // Options for the solver (see the struct Options).
 		
 	public:
-		//! Solver's regular constructor
 		/*!
-		 * \param model A shared pointer to the Model object.
-		 * \param permutation_problem A boolean indicating if we work on a permutation problem. False by default.
+		 * Unique constructor of ghost::Solver
+		 *
+		 * \param model_builder a const reference to a derived ModelBuilder object.
+		 * \param permutation_problem a boolean indicating if the solver will work on a permutation
+		 * problem. False by default.
 		 */
 		Solver( const ModelBuilderType& model_builder,
 		        bool permutation_problem = false )
@@ -146,52 +162,58 @@ namespace ghost
 			  _is_permutation_problem( permutation_problem )
 		{	}
 
-		//! Solver's main function, to solve the given CSP/COP/CFN.
 		/*!
-		 * This function is the heart of GHOST's solver: it will try to find a solution within a limited time. If it finds such a solution, 
-		 * the function outputs the value true.\n
-		 * Here how it works: if at least one solution is found, at the end of the computation, it will write in the two first
-		 * parameters finalCost and finalSolution the cost of the best solution found and the value of each variable.\n
-		 * For a satisfaction problem (without any objective function), the cost of a solution is the sum of the cost of each
-		 * problem constraint (computated by Constraint::required_error). For an optimization problem, the cost is the value outputed
+		 * Method to solve the given CSP/COP/ESFP/EFOP model. Users should favor the two versions of
+		 * Solver::solve taking a std::chrono::microseconds value as a parameter.
+		 *
+		 * This method is the heart of GHOST's solver: it will try to find a solution within a
+		 * limited time. If it finds such a solution, the function outputs the value true.\n
+		 * Here how it works: if at least one solution is found, at the end of the computation,
+		 * it will write in the two first parameters final_cost and final_solution the error/cost
+		 * of the best candidate or solution found and the value of each variable.\n
+		 * For a satisfaction problem (without any objective function), the error of a candidate
+		 * is the sum of the error of each problem constraint (computated by
+		 * Constraint::required_error). For an optimization problem, the cost is the value outputed
 		 * by Objective::required_cost.\n
-		 * For both, the lower value the better: A satisfaction cost of 0 means we have a solution to a satisfaction problem (ie, 
-		 * all constraints are satisfied). An optimization cost should be as low as possible: GHOST is handling minimization problems 
-		 * only. If you have a maximization problem (you are looking to the highest possible value of your objective function), look 
-		 * at the Objective documentation to see how to easily convert your problem into a minimization problem.
+		 * For both, the lower value the better: A satisfaction error of 0 means we have a solution
+		 * to a satisfaction problem (ie, all constraints are satisfied). An optimization cost should
+		 * be as low as possible: GHOST is always trying to minimize problems. If you have a
+		 * maximization problem, GHOST will automatically convert it into a minimization problem.
 		 *
-		 * The two last parameters sat_timeout and opt_timeout are fundamental: sat_timeout is mandatory, opt_timeout is optional: 
-		 * if not given, its value will be fixed to sat_timeout * 10.\n
-		 * sat_timeout is the timeout in microseconds you give to GHOST to find a solution to the problem, ie, finding a value for 
-		 * each variable such that each constraint of the problem is satisfied. For a satisfaction problem, this is the timeout within
-		 * GHOST must output a solution.\n
-		 * opt_timeout is only useful for optimization problems. Once GHOST finds a solution within sat_timeout, it saves it and try to find 
-		 * other solutions leading to better (ie, smaller) values of the objective function. Then it restarts a fresh satisfaction search, 
-		 * with once again sat_timeout as a timeout to find a solution. It will repeat this operation until opt_timeout is reached.
+		 * The timeout parameter is fundamental: it represents a time budget, in microseconds, for
+		 * the solver. The behavior will differ from satisfaction and optimization problems.
 		 *
-		 * Thus for instance, if you set sat_timeout to 20μs and opt_timeout to 60μs (or bit more like 65μs, see why below), you let GHOST 
-		 * the time to run 3 satisfaction runs within a global runtime of 60μs (or 65μs), like illustrated below (with milliseconds instead of microseconds).
+		 * For satisfaction problems modeled with an CSP or EFSP, the solver stops as soon as it
+		 * finds a solution. Then, it outputs 'true', writes 0 into the final_cost variable and the 
+		 * values of the variables composing the solution into the final_solution vector.\n
+		 * If no solutions are found within the timeout, the solver stops, outputs 'false', writes
+		 * in final_cost the error of the best candidate found during the search (i.e., the candidate
+		 * being the closest from a solution) and writes the best candidate's values into the 
+		 * final_solution vector.
 		 *
-		 * \image html architecture.png "x and y milliseconds correspond respectively to sat_timeout and opt_timeout"
-		 * \image latex architecture.png "x and y milliseconds correspond respectively to sat_timeout and opt_timeout"
+		 * For optimization problems modeled with an COP or EFOP, the solver will always continue 
+		 * running until reaching the timeout. If a solution is found, it outputs 'true' and writes
+		 * into the final_cost variable the cost of the best solution optimizating the given objective
+		 * function. It also writes the values of the solution into the final_solution vector.\n
+		 * If no solutions are found, the solver outputs 'false' and adopt the same behavior as not
+		 * finding a solution for satisfaction problems.
 		 *
-		 * It is possible it returns no solutions after timeout; in that case Solver::solve returns false. If it is often the case, this is a 
-		 * strong evidence the satisfaction timeout is too low, and the solver does not have time to find at least one solution. Thus, this is 
-		 * the only parameter you may have to tweak in GHOST.
+		 * Finally, options to change the solver behaviors (parallel runs, user-defined solution
+		 * printing, user-defined starting candidate, parameter tweaking, etc) can be given as
+		 * a last parameter.
 		 *
-		 * The illustration above shows satisfaction and optimization post-processes. The first one is triggered each time the solver found a solution. 
-		 * If the user overloads Objective::expert_postprocess_satisfaction, he or she must be sure that his or her function runs very quickly, otherwise
-		 * it may slow down the whole optimization process and may limit the number of solutions found by the solver. Optimization post-process runtime 
-		 * is not taken into account within opt_timeout, so the real GHOST runtime for optimization problems will be roughly equals to opt_timeout + 
-		 * optimization post-process runtime.
-		 *
-		 * \param final_cost A reference to the double of the sum of constraints cost for satisfaction problems, 
-		 * or the value of the objective function for optimization problems. For satisfaction problems, a cost of zero means a solution has been found.
-		 * \param finalSolution The configuration of the best solution found, ie, a reference to the vector of assignements of each variable.
-		 * \param sat_timeout The satisfaction timeout in microseconds.
-		 * \param opt_timeout The optimization timeout in microseconds (optionnal, equals to 10 times sat_timeout is not set).
-		 * \param options A reference to an Options object containing options such as a solution printer, Booleans indicating if the solver must start with a custom variable assignment, etc.
-		 * \return True iff a solution has been found.
+		 * \param final_cost a reference to a double to get the error of the best candidate or
+		 * solution for satisfaction problems, or the objective function value of the best solution
+		 * for optimization problems (or the cost of the best candidate if no solution has been
+		 * found). For satisfaction problems, a cost of zero means a solution has been found.
+		 * \param final_solution a reference to a vector of integers, to get values of the best
+		 *  candidate or solution found.
+		 * \param timeout a double for the time budget allowed to the solver to find a solution,
+		 * in microseconds.
+		 * \param options a reference to an Options object containing options such as parallel runs,
+		 * a solution printer, if the solver must start with a custom variable assignment,
+		 * parameter tuning, etc.
+		 * \return True if and only if a solution has been found.
 		 */
 		bool solve( double& final_cost,
 		            std::vector<int>& final_solution,
@@ -465,7 +487,15 @@ namespace ghost
 			}
 
 			if( is_optimization )
+			{
+				if( _best_opt_cost < 0 )
+				{
+					_best_opt_cost = -_best_opt_cost;
+					_cost_before_postprocess = -_cost_before_postprocess;
+				}
+				
 				final_cost = _best_opt_cost;
+			}
 			else
 				final_cost = _best_sat_error;
 			
@@ -522,7 +552,7 @@ namespace ghost
 			std::cout << "Permutation problem: " << std::boolalpha << _is_permutation_problem << "\n"
 			          << "Time budget: " << timeout << "us (= " << timeout/1000 << "ms, " << timeout/1000000 << "s)\n"
 			          << "Search time: " << chrono_search << "us (= " << chrono_search / 1000 << " ms, " << chrono_search / 1000000 << "s)\n"
-			          << "Wall-clock time (full program): " << chrono_full_computation << "us (= " << chrono_full_computation/1000 << "ms, " << chrono_full_computation/100000 << "s)\n"
+			          << "Wall-clock time (full program): " << chrono_full_computation << "us (= " << chrono_full_computation/1000 << "ms, " << chrono_full_computation/1000000 << "s)\n"
 			          << "Satisfaction error: " << _best_sat_error << "\n"
 			          << "Number of search iterations: " << _search_iterations << "\n"
 			          << "Number of local moves: " << _local_moves << " (including on plateau: " << _plateau_moves << ")\n"
@@ -553,20 +583,66 @@ namespace ghost
 			return solution_found;
 		}
 
-		//! Call Solver::solve with default options.
+		/*!
+		 * Call Solver::solve with default options.
+		 *
+		 * \param final_cost a reference to a double to get the error of the best candidate or
+		 * solution for satisfaction problems, or the objective function value of the best solution
+		 * for optimization problems (or the cost of the best candidate if no solution has been
+		 * found). For satisfaction problems, a cost of zero means a solution has been found.
+		 * \param final_solution a reference to a vector of integers, to get values of the best
+		 *  candidate or solution found.
+		 * \param timeout a double for the time budget allowed to the solver to find a solution,
+		 * in microseconds.
+		 * \return True if and only if a solution has been found.
+		 */
 		bool solve( double& final_cost, std::vector<int>& final_solution, double timeout )
 		{
 			Options options;
 			return solve( final_cost, final_solution, timeout, options );
 		}
 
-		//! Call Solver::solve with a chrono literal timeout in microseconds
+		/*! 
+		 * Call Solver::solve with a chrono literal timeout in microseconds.
+		 *
+		 * Users should favor this Solver::solve method if they need to give the solver
+		 * user-defined options.
+		 *
+		 * \param final_cost a reference to a double to get the error of the best candidate or
+		 * solution for satisfaction problems, or the objective function value of the best solution
+		 * for optimization problems (or the cost of the best candidate if no solution has been
+		 * found). For satisfaction problems, a cost of zero means a solution has been found.
+		 * \param final_solution a reference to a vector of integers, to get values of the best
+		 *  candidate or solution found.
+		 * \param timeout a std::chrono::microseconds for the time budget allowed to the solver
+		 * to find a solution. Higher std::chrono durations (such as milliseconds, seconds, etc)
+		 * would be automatically converted into microseconds.
+		 * \param options a reference to an Options object containing options such as parallel runs,
+		 * a solution printer, if the solver must start with a custom variable assignment,
+		 * parameter tuning, etc.
+		 * \return True if and only if a solution has been found.
+		 */
 		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::microseconds timeout, Options& options )
 		{
 			return solve( final_cost, final_solution, timeout.count(), options );
 		}
 
-		//! Call Solver::solve with a chrono literal timeout in microseconds and default options.
+		/*!
+		 * Call Solver::solve with a chrono literal timeout in microseconds and default options.
+		 *
+		 * Users should favor this Solver::solve method if they want default options.
+		 *
+		 * \param final_cost a reference to a double to get the error of the best candidate or
+		 * solution for satisfaction problems, or the objective function value of the best solution
+		 * for optimization problems (or the cost of the best candidate if no solution has been
+		 * found). For satisfaction problems, a cost of zero means a solution has been found.
+		 * \param final_solution a reference to a vector of integers, to get values of the best
+		 *  candidate or solution found.
+		 * \param timeout a std::chrono::microseconds for the time budget allowed to the solver
+		 * to find a solution. Higher std::chrono durations (such as milliseconds, seconds, etc)
+		 * would be automatically converted into microseconds.
+		 * \return True if and only if a solution has been found.
+		 */
 		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::microseconds timeout )
 		{
 			Options options;

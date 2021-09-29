@@ -63,6 +63,9 @@ double Objective::cost() const
 	return value;
 }
 
+void Objective::conditional_update_data_structures( const std::vector<Variable*>& variables, int index, int new_value )
+{ }	
+
 int Objective::expert_heuristic_value( const std::vector<Variable*>& variables,
                                        int variable_index,
                                        const std::vector<int>& possible_values ) const

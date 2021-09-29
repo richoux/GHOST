@@ -11,5 +11,5 @@ public:
 	
 	KSCoefficients();
 
-	void update( const std::vector<ghost::Variable*>& variables, int index, int new_value ) override;
+	void required_update( const std::vector<ghost::Variable*>& variables, int index, int new_value ) override;
 };

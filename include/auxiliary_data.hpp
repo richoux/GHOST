@@ -39,24 +39,60 @@ namespace ghost
 	/*******************/
 	/** AuxiliaryData **/
 	/*******************/
+
+	/*! 
+	 * ghost::AuxiliaryData is a class users eventually need to derive from if they need to keep
+	 * track with some auxiliary data outside variable values.
+	 *
+	 * ghost::AuxiliaryData cannot be directly used to encode auxiliary data of a model, since
+	 * this is an abstract class. 
+	 *
+	 * Derived classes would contain all data outside variable values users need to keep updated.
+	 * The only method to override is required_update(variables, index, new_value), defining how
+	 * data should be updated when the solver assigns the value 'new_value' to the variable
+	 * 'variables[index]'.
+	 */
 	class AuxiliaryData
 	{
 		friend class SearchUnit;
 		friend class ModelBuilder;
 
 		std::vector<Variable*> _variables;
-		std::vector<int> _variables_index; // to know where are the constraint's variables in the global variable vector
-		std::map<int,int> _variables_position; // to know where are global variables in the constraint's variables vector 
+		std::vector<int> _variables_index; // To know where are the constraint's variables in the global variable vector
+		std::map<int,int> _variables_position; // To know where are global variables in the constraint's variables vector 
 
 		void update();		
 		void update( int index, int new_value );		
 
 	protected:
-		virtual void update( const std::vector<Variable*>& variables, int index, int new_value ) = 0;
+		/*! 
+		 * Method to handle what should happen to the auxiliary data if variables[index] is updated
+		 * with the value 'new_value'.
+		 *
+		 * \param variables a const reference of the vector of raw pointers to variables that are
+		 * relevant to the auxiliary data.
+		 * \param index an integer to get the variable 'variables[index]' that has been updated by
+		 * the solver.
+		 * \param new_value an integer to know what is the new value of 'variables[index]'.
+		 */
+		virtual void required_update( const std::vector<Variable*>& variables, int index, int new_value ) = 0;
 	
 	public:
+		//! Constructor instanciating an empty vector of variable IDs
 		AuxiliaryData();
+		
+		/*!
+		 * Constructor with a vector of variable IDs. This vector is internally used by AuxiliaryData
+		 * to know what variables from the global variable vector it is handling.
+		 * \param variables a const reference to a vector of IDs of variables needed for the
+		 * auxiliary data.
+		 */
 		AuxiliaryData( const std::vector<int>& variables_index );
+
+		/*!
+		 * Constructor building a vector of variable IDs by calling v->get_id() from all variables v.
+		 * \param variables a const reference to a vector of variable composing the constraint.
+		 */
 		AuxiliaryData( const std::vector<Variable>& variables );
 				
 		//! Default copy contructor.
@@ -69,6 +105,7 @@ namespace ghost
 		//! Move assignment operator disabled.
 		AuxiliaryData& operator=( AuxiliaryData&& other ) = delete;
 
+		//! Default virtual destructor.
 		virtual ~AuxiliaryData() = default;
 	};
 	
@@ -83,6 +120,6 @@ namespace ghost
 			: AuxiliaryData()
 		{ }
 		
-		void update( const std::vector<Variable*>& variables, int index, int new_value ) override { }
+		void required_update( const std::vector<Variable*>& variables, int index, int new_value ) override { }
 	};
 }
