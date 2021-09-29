@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['nullauxiliarydata_82',['NullAuxiliaryData',['../classghost_1_1NullAuxiliaryData.html',1,'ghost']]],
-  ['nullobjective_83',['NullObjective',['../classghost_1_1NullObjective.html',1,'ghost']]]
+  ['objective_80',['Objective',['../classghost_1_1Objective.html',1,'ghost']]],
+  ['options_81',['Options',['../structghost_1_1Options.html',1,'ghost']]]
 ];

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['required_5fcost_134',['required_cost',['../classghost_1_1Objective.html#a8de169b534833805ae0073dc2ef22a6a',1,'ghost::Objective']]],
-  ['required_5ferror_135',['required_error',['../classghost_1_1Constraint.html#a99bfdee12754330fd394ab4efbd93b41',1,'ghost::Constraint']]],
-  ['required_5fupdate_136',['required_update',['../classghost_1_1AuxiliaryData.html#a9b1278af1c6feb71b0bc667600b01a95',1,'ghost::AuxiliaryData::required_update()'],['../classghost_1_1NullAuxiliaryData.html#a67951618fa220089c8417d39f2aa1d37',1,'ghost::NullAuxiliaryData::required_update()']]]
+  ['set_5fvalue_131',['set_value',['../classghost_1_1Variable.html#a06f6c296986a017e1713961b4d763b0c',1,'ghost::Variable']]],
+  ['solve_132',['solve',['../classghost_1_1Solver.html#a4c6003a8f3ba82ef0d9b7d0823c92c0f',1,'ghost::Solver::solve(double &amp;final_cost, std::vector&lt; int &gt; &amp;final_solution, double timeout, Options &amp;options)'],['../classghost_1_1Solver.html#a845cb797232522aca43aa233c07e7ee6',1,'ghost::Solver::solve(double &amp;final_cost, std::vector&lt; int &gt; &amp;final_solution, double timeout)'],['../classghost_1_1Solver.html#a4a629614f129f30365f6497d45ffa40e',1,'ghost::Solver::solve(double &amp;final_cost, std::vector&lt; int &gt; &amp;final_solution, std::chrono::microseconds timeout, Options &amp;options)'],['../classghost_1_1Solver.html#ad22026216b73db007e3f73a6d6b90110',1,'ghost::Solver::solve(double &amp;final_cost, std::vector&lt; int &gt; &amp;final_solution, std::chrono::microseconds timeout)']]],
+  ['solver_133',['Solver',['../classghost_1_1Solver.html#ab845d3f5264d760e5ea70844662350c4',1,'ghost::Solver']]]
 ];

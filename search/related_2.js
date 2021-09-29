@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['operator_3c_3c_166',['operator&lt;&lt;',['../classghost_1_1Constraint.html#a48c431fd7766654e6d03ab50592d9dfa',1,'ghost::Constraint::operator&lt;&lt;()'],['../classghost_1_1Objective.html#a80e7b267e1777cd5d882bec13e7e14d6',1,'ghost::Objective::operator&lt;&lt;()'],['../classghost_1_1Variable.html#aab05ab0693334e9e9a39f43903a37cb7',1,'ghost::Variable::operator&lt;&lt;()']]]
+  ['searchunit_160',['SearchUnit',['../classghost_1_1AuxiliaryData.html#a2c63fbc7633d606756d6105c27047d38',1,'ghost::AuxiliaryData::SearchUnit()'],['../classghost_1_1Constraint.html#a2c63fbc7633d606756d6105c27047d38',1,'ghost::Constraint::SearchUnit()'],['../classghost_1_1Objective.html#a2c63fbc7633d606756d6105c27047d38',1,'ghost::Objective::SearchUnit()'],['../classghost_1_1Variable.html#a2c63fbc7633d606756d6105c27047d38',1,'ghost::Variable::SearchUnit()']]],
+  ['solver_161',['Solver',['../classghost_1_1ModelBuilder.html#a135ddf4017f9df930c2790f5e40d46dc',1,'ghost::ModelBuilder::Solver()'],['../classghost_1_1Objective.html#a135ddf4017f9df930c2790f5e40d46dc',1,'ghost::Objective::Solver()']]]
 ];

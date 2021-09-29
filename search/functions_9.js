@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['print_5fcandidate_133',['print_candidate',['../classghost_1_1Print.html#a65d7890e343e8437d64b3d65ea3f39fd',1,'ghost::Print']]]
+  ['required_5fcost_128',['required_cost',['../classghost_1_1Objective.html#a8de169b534833805ae0073dc2ef22a6a',1,'ghost::Objective']]],
+  ['required_5ferror_129',['required_error',['../classghost_1_1Constraint.html#a99bfdee12754330fd394ab4efbd93b41',1,'ghost::Constraint']]],
+  ['required_5fupdate_130',['required_update',['../classghost_1_1AuxiliaryData.html#a9b1278af1c6feb71b0bc667600b01a95',1,'ghost::AuxiliaryData']]]
 ];
