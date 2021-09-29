@@ -27,4 +27,29 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
+#pragma once
 
+#include <sstream>
+#include <vector>
+
+#include "variable.hpp"
+
+namespace ghost
+{
+	/*!
+	 * ghost::Print is a class users can derive from to write their own way of printing candidates
+	 * and solutions, when the macro GHOST_BENCH is given to the compiler.
+	 */
+	class Print
+	{
+	public:
+		/*!
+		 * The unique method to override for defining how to print candidates and solutions
+		 * on the screen.
+		 *
+		 * \param variables a const reference to the vector of variables containing values to print.
+		 * \return A std::stringstream.
+		 */
+		virtual std::stringstream print_candidate( const std::vector<Variable>& variables ) const;
+	};	
+}

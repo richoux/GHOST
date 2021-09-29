@@ -11,7 +11,7 @@ $> ./build.sh
 2. To compile and install the debug version:
 $> ./build.sh debug
 
-3. If you just want to compile, without installing the library on your /usr/local, then you have two choices:
+3. If you just want to compile, without installing the dynamic library on your /usr/local, then you have two choices:
 To compile in release mode:
 $> mkdir release
 $> cd release
@@ -24,7 +24,7 @@ $> cd debug
 $> cmake -DCMAKE_BUILD_TYPE=Debug ..
 $> make
 
-And finally, if you change your mind and want to install the library:
+And finally, if you change your mind and want to install the dynamic library:
 $> sudo make install
 (in the release or debug folder)
 
@@ -48,12 +48,21 @@ have a projet file corresponding to your IDE. For Visual Studio, it is ghost.sln
 
 
 ============
+On all OS:
+Both the dynamic and static version of the library can be found in the lib directory of this current folder.
+
+
+============
 Troubleshooting:
 
 ===
 Got the error 'The compiler /usr/bin/c++ has no C++14 support. Please use a different C++ compiler.'?
 1. Make sure you have installed a C++14-capable compiler
 2. If you have such a compiler but still get the error, before typing the command  'cmake ..', type 'export CXX=/path/of/your/c++14/compiler/executable_name'
+
+===
+Got the warning 'randutils.hpp:444:19: warning: mangled name for ‘static uint32_t randutils::auto_seeded<SeedSeq>::hash(T&&) [with T = void (*)(int) throw (); SeedSeq = randutils::seed_seq_fe<8, unsigned int>]’ will change in C++17 because the exception specification is part of a function type [-Wnoexcept-type] static uint32_t hash(T&& value)'?
+Don't worry, everything is fine: having this warning won't hurt GHOST correctness/performances/security. To get rid of this warning, use GCC 8.3.0 or above.
 
 ===
 While running your program on GNU/Linux, if you have a message like 'error while loading shared libraries: libghost.so: cannot open shared object file: No such file or directory', you probably need to run the following command:

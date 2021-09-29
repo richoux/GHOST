@@ -9,12 +9,12 @@
  * particular, it had been designed to be able to solve not-too-complex problem instances
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
- * 
+ *
  * Copyright (C) 2014-2021 Florian Richoux
  *
  * This file is part of GHOST.
- * GHOST is free software: you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as published 
+ * GHOST is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
 
@@ -27,4 +27,30 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
+#pragma once
 
+#include <vector>
+#include <memory>
+#include <algorithm>
+
+#include "variable.hpp"
+#include "constraint.hpp"
+#include "objective.hpp"
+#include "auxiliary_data.hpp"
+
+namespace ghost
+{
+	struct Model final
+	{
+		std::vector<Variable> variables; 
+		std::vector<std::shared_ptr<Constraint>> constraints; 
+		std::shared_ptr<Objective> objective;
+		std::shared_ptr<AuxiliaryData> auxiliary_data;
+
+		Model() = default;
+		Model( std::vector<Variable>&& variables, 
+		       const std::vector<std::shared_ptr<Constraint>>&	constraints,
+		       const std::shared_ptr<Objective>& objective,
+		       const std::shared_ptr<AuxiliaryData>& auxiliary_data );
+	};
+}

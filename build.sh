@@ -2,12 +2,10 @@
 
 OS="$(uname)"
 RELEASE="release"
-RELEASEBENCH="release-bench"
-RELEASETRACE="release-trace"
+RELEASEDBGINFO="release_with_debug_info"
 DEBUG="debug"
 OSX="_osx"
 BACKPWD="$PWD"
-EXPERIMENTAL=""
 CXX="g++"
 
 RED='\033[0;31m'
@@ -24,91 +22,115 @@ NC='\033[0m' # No Color
 
 if [ "$OS" == "Darwin" ]; then
     RELEASE="$RELEASE$OSX"
-    RELEASEBENCH="$RELEASEBENCH$OSX"
-    RELEASETRACE="$RELEASETRACE$OSX"
+    RELEASEDBGINFO="$RELEASEDBGINFO$OSX"
     DEBUG="$DEBUG$OSX"
     CXX="clang++"
 fi
 
 function usage()
 {
-    echo "$0: usage: build.sh [release|bench|trace|debug|clean|doc|tests] [EXP]"
+    echo "$0: usage: build.sh [release|rel_dbg_info|debug|debug_no_asan|clean|doc|tests|tutorial]"
     exit 1
 }
 
 function release()
 {
-    mkdir -p $RELEASE
-    cd $RELEASE
-    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
+    mkdir -p build/$RELEASE
+    cd build/$RELEASE
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=$CXX ../..
     make
     sudo make install
 }
 
 function debug()
 {
-    mkdir -p $DEBUG
-    cd $DEBUG
-    cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
+    mkdir -p build/$DEBUG
+    cd build/$DEBUG
+    cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=$CXX ../..
     make
     sudo make install
 }
 
-function trace()
+function debug_no_asan()
 {
-    mkdir -p $RELEASETRACE
-    cd $RELEASETRACE
-    cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTRACE=ON -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
+    mkdir -p build/$DEBUG
+    cd build/$DEBUG
+    cmake -DCMAKE_BUILD_TYPE=Debug -DNO_ASAN=ON -DCMAKE_CXX_COMPILER=$CXX ../..
     make
-    sudo make install    
+    sudo make install
 }
 
-function bench()
+function rel_dbg_info()
 {
-    mkdir -p $RELEASEBENCH
-    cd $RELEASEBENCH
-    cmake -DCMAKE_BUILD_TYPE=Release -DBENCH=ON -DCMAKE_CXX_COMPILER=$CXX $EXPERIMENTAL ..
+    mkdir -p build/$RELEASEDBGINFO
+    cd build/$RELEASEDBGINFO
+    cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_COMPILER=$CXX ../..
     make
     sudo make install    
 }
 
 function clean()
 {
-    if [ -d "$RELEASE" ]; then 
-	cd $RELEASE
-	make clean
-	sudo rm -fr *
-	cd ..
+    if [ -d "build/$RELEASE" ]; then 
+				cd build/$RELEASE
+				make clean
+				sudo rm -fr *
+				cd $BACKPWD
     fi
-    if [ -d "$RELEASEBENCH" ]; then 
-	cd $RELEASEBENCH
-	make clean
-	sudo rm -fr *
-	cd ..
+    if [ -d "build/$RELEASEDBGINFO" ]; then 
+				cd build/$RELEASEDBGINFO
+				make clean
+				sudo rm -fr *
+				cd $BACKPWD
     fi
-    if [ -d "$RELEASETRACE" ]; then 
-	cd $RELEASETRACE
-	make clean
-	sudo rm -fr *
-	cd ..
+    if [ -d "build/$DEBUG" ]; then 
+				cd build/$DEBUG
+				make clean
+				sudo rm -fr *
+				cd $BACKPWD
     fi
-    if [ -d "$DEBUG" ]; then 
-	cd $DEBUG
-	make clean
-	sudo rm -fr *
-	cd ..
+		if [ -d "tests/build" ]; then 
+				cd tests/build/
+				make clean
+				sudo rm -fr *
+				cd $BACKPWD
     fi
-    if [ -d "build" ]; then 
-	cd build
-	make clean
-	sudo rm -fr *
-	cd ..
+		if [ -d "tutorial/wiki/build" ]; then 
+				cd tutorial/wiki/build/
+				make clean
+				sudo rm -fr *
+				cd $BACKPWD
+    fi
+		if [ -d "tutorial/video/build" ]; then 
+				cd tutorial/video/build/
+				make clean
+				sudo rm -fr *
+				cd $BACKPWD
     fi
 }
 
 function doc()
 {
-    doxygen doc/Doxyfile
+		if [[ -z $(git status -s) ]]
+		then
+				doxygen doc/Doxyfile
+				DATETODAY=$(date +%Y-%m-%d)
+				mkdir -p "../doc_temp_copy_$DATETODAY"
+				cp -r doc/html/* "../doc_temp_copy_$DATETODAY"
+				CURRENTBRANCH=$(git rev-parse --abbrev-ref HEAD)
+				git checkout gh-pages
+				CURRENTFOLDER=$(basename "$PWD")
+				cd "../doc_temp_copy_$DATETODAY"
+				yes | cp -fr * "../$CURRENTFOLDER"
+				cd "../$CURRENTFOLDER"
+				git commit -am "Documentation from $DATETODAY"
+				git push
+				git checkout "$CURRENTBRANCH"
+				rm -fr "../doc_temp_copy_$DATETODAY"
+		else
+				echo -e "${RED}>>> You must commit your changes before running this command.${NC}\n"
+				git status
+		fi		
 }
 
 function tests()
@@ -120,14 +142,29 @@ function tests()
     make
 }
 
+function tutorial()
+{
+    cd tutorial
+		cd wiki
+    mkdir -p build
+    cd build
+    cmake ..
+    make
+		cd ../../video
+    mkdir -p build
+    cd build
+    cmake ..
+    make
+}
+
 function first_compile()
 {
     if [ "$OS" == "Linux" ]; then
-	echo -e "\n\n${RED}>>> If you compile ${GREEN}GHOST${RED} for the ${CYAN}first time${RED}, you probably need to run the following command: ${ORANGE}sudo ldconfig${NC}"
+				echo -e "\n\n${RED}>>> If you compile ${GREEN}GHOST${RED} for the ${CYAN}first time${RED}, you probably need to run the following command: ${ORANGE}sudo ldconfig${NC}"
     fi
 
     if [ "$OS" == "Darwin" ]; then
-	echo -e "\n\n${RED}>>> If you compile ${GREEN}GHOST${RED} for the ${CYAN}first time${RED}, you probably need to run the following command: ${ORANGE}sudo update_dyld_shared_cache${NC}"
+				echo -e "\n\n${RED}>>> If you compile ${GREEN}GHOST${RED} for the ${CYAN}first time${RED}, you probably need to run the following command: ${ORANGE}sudo update_dyld_shared_cache${NC}"
     fi
 }
 
@@ -142,27 +179,22 @@ if [ $# -eq 0 ]; then
     exit 0
 fi
 
-if [ $# -eq 2 ]; then
-    if [ "$2" == "EXP" ]; then
-	EXPERIMENTAL="-DEXPERIMENTAL=ON"
-    fi
-fi
-
 if [ "$1" == "release" ]; then
     release
     first_compile
     cd $BACKPWD
     exit 0
-elif [ "$1" == "bench" ]; then
-    bench
-    cd $BACKPWD
-    exit 0
-elif [ "$1" == "trace" ]; then
-    trace
+elif [ "$1" == "rel_dbg_info" ]; then
+    rel_dbg_info
+    first_compile
     cd $BACKPWD
     exit 0
 elif [ "$1" == "debug" ]; then
     debug
+    cd $BACKPWD
+    exit 0
+elif [ "$1" == "debug_no_asan" ]; then
+    debug_no_asan
     cd $BACKPWD
     exit 0
 elif [ "$1" == "clean" ]; then
@@ -175,6 +207,10 @@ elif [ "$1" == "doc" ]; then
     exit 0
 elif [ "$1" == "tests" ]; then
     tests
+    cd $BACKPWD
+    exit 0
+elif [ "$1" == "tutorial" ]; then
+    tutorial
     cd $BACKPWD
     exit 0
 else

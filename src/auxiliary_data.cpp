@@ -9,12 +9,12 @@
  * particular, it had been designed to be able to solve not-too-complex problem instances
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
- * 
+ *
  * Copyright (C) 2014-2021 Florian Richoux
  *
  * This file is part of GHOST.
- * GHOST is free software: you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as published 
+ * GHOST is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
 
@@ -27,4 +27,37 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
+#include <algorithm>
 
+#include "auxiliary_data.hpp"
+
+using namespace ghost;
+
+AuxiliaryData::AuxiliaryData()
+	: _variables_index( std::vector<int>{0} )
+{ }
+
+AuxiliaryData::AuxiliaryData( const std::vector<int>& variables_index )
+	: _variables_index( variables_index )
+{ }
+
+AuxiliaryData::AuxiliaryData( const std::vector<Variable>& variables )
+	: _variables_index( std::vector<int>( variables.size() ) )
+{
+	std::transform( variables.begin(),
+	                variables.end(),
+	                _variables_index.begin(),
+	                [&](const auto& v){ return v.get_id(); } );
+}
+
+void AuxiliaryData::update( int index, int new_value )
+{
+	if( _variables_position.count( index) > 0 )
+		required_update( _variables, _variables_position.at( index ), new_value );
+}
+
+void AuxiliaryData::update()
+{
+	for( int i = 0 ; i < static_cast<int>( _variables.size() ) ; ++i )
+		required_update( _variables, i, _variables[i]->get_value() );
+}

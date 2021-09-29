@@ -1,16 +1,16 @@
 /*
- * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ library 
+ * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework 
  * designed to help developers to model and implement optimization problem 
- * solving. It contains a meta-heuristic solver aiming to solve any kind of 
- * combinatorial and optimization real-time problems represented by a CSP/COP/CFN. 
+ * solving. It contains a meta-heuristic solver aiming to solve any kind of
+ * combinatorial and optimization real-time problems represented by a CSP/COP/EFSP/EFOP. 
  *
- * GHOST has been first developped to help making AI for the RTS game
- * StarCraft: Brood war, but can be used for any kind of applications where 
- * solving combinatorial and optimization problems within some tenth of 
- * milliseconds is needed. It is a generalization of the Wall-in project.
+ * First developped to solve game-related optimization problems, GHOST can be used for
+ * any kind of applications where solving combinatorial and optimization problems. In
+ * particular, it had been designed to be able to solve not-too-complex problem instances
+ * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  * 
- * Copyright (C) 2014-2020 Florian Richoux
+ * Copyright (C) 2014-2021 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or 
@@ -31,53 +31,89 @@
 
 using namespace ghost;
 
-Objective::Objective( const string& name )
-	: name(name)
+Objective::Objective( const std::vector<int>& variables_index, bool is_maximization, const std::string& name )
+	: _variables_index( variables_index ),
+	  _is_optimization( true ),
+	  _is_maximization( is_maximization ),
+	  _name( name )
 { }
-  
-int Objective::expert_heuristic_value( const vector< Variable >& variables,
-                                       Variable& var,
-                                       const vector< int >& possible_values ) const
+
+Objective::Objective( const std::vector<Variable>& variables, bool is_maximization, const std::string& name )
+	: _variables_index( std::vector<int>( variables.size() ) ),
+	  _is_optimization( true ),
+	  _is_maximization( is_maximization ),
+	  _name( name )
 {
-	double minCost = numeric_limits<double>::max();
-	double simulatedCost;
+	std::transform( variables.begin(),
+	                variables.end(),
+	                _variables_index.begin(),
+	                [&](const auto& v){ return v.get_id(); } );
+}
+
+double Objective::cost() const
+{
+	double value = required_cost( _variables );
+	
+	if( std::isnan( value ) )
+		throw nanException( _variables );
+
+	if( _is_maximization )
+		value *= -1;
+		
+	return value;
+}
+
+void Objective::conditional_update_data_structures( const std::vector<Variable*>& variables, int index, int new_value )
+{ }	
+
+int Objective::expert_heuristic_value( const std::vector<Variable*>& variables,
+                                       int variable_index,
+                                       const std::vector<int>& possible_values ) const
+{
+	double min_cost = std::numeric_limits<double>::max();
+	double simulated_cost;
+
+	auto var = variables[ variable_index ];
+	int backup = var->get_value();
+	std::vector<int> best_values;
   
-	int backup = var.get_value();
-	vector<int> bestValues;
-  
-	for( auto& v : possible_values )
+	for( auto v : possible_values )
 	{
-		var.set_value( v );
-		simulatedCost = cost( variables );
-    
-		if( minCost > simulatedCost )
+		var->set_value( v );
+		simulated_cost = required_cost( variables );
+
+		if( _is_maximization )
+			simulated_cost *= -1;
+		
+		if( min_cost > simulated_cost )
 		{
-			minCost = simulatedCost;
-			bestValues.clear();
-			bestValues.push_back( v );
+			min_cost = simulated_cost;
+			best_values.clear();
+			best_values.push_back( v );
 		}
 		else
-			if( minCost == simulatedCost )
-				bestValues.push_back( v );
+			if( min_cost == simulated_cost )
+				best_values.push_back( v );
 	}
   
-	var.set_value( backup );
+	var->set_value( backup );
   
-	return rng.pick( bestValues );
+	return rng.pick( best_values );
 }
   
-Variable* Objective::expert_heuristic_value( const vector< Variable* >& bad_variables ) const
+int Objective::expert_heuristic_value_permutation( const std::vector<Variable*>& variables,
+                                                   int variable_index,
+                                                   const std::vector<int>& bad_variables ) const
 {
 	return rng.pick( bad_variables );
 }
  
-void Objective::expert_postprocess_satisfaction( vector< Variable >& variables,
+void Objective::expert_postprocess_satisfaction( const std::vector<Variable*>& variables,
                                                  double& bestCost,
-                                                 vector< int >&	solution ) const
+                                                 std::vector<int>& solution ) const
 { }
 
-void Objective::expert_postprocess_optimization( vector< Variable >& variables,
+void Objective::expert_postprocess_optimization( const std::vector<Variable*>& variables,
                                                  double& bestCost,
-                                                 vector< int >&	solution ) const
+                                                 std::vector<int>& solution ) const
 { }
-

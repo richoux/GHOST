@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.1)
-project (ghost_tests)
+project (ghost_tutorial_video)
 
 set( CMAKE_VERBOSE_MAKEFILE on )
 
@@ -21,8 +21,6 @@ endif()
 if(WIN32)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /permissive-")
 	INCLUDE_DIRECTORIES("C:/Program Files (x86)/ghost/include")
-	INCLUDE_DIRECTORIES("C:/Program Files (x86)/googletest-distribution/include/")
-	link_directories("C:/Program Files (x86)/googletest-distribution/lib/")
 	link_directories("C:/Program Files (x86)/ghost/lib")
 else()
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
@@ -44,25 +42,19 @@ find_package(Threads REQUIRED)
 # add the targets
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
-################################
-# Unit Tests
-################################
-# Add tests cpp file
-add_executable( test_variable src/test_variable.cpp )
+add_executable( tutorial_knapsack src/knapsack_alldiff.cpp src/knapsack_capacity.cpp src/knapsack_coefficients.cpp src/knapsack_model_builder.cpp src/knapsack_objective.cpp src/knapsack.cpp )
+target_compile_definitions( tutorial_knapsack PUBLIC -DGHOST_BENCH )
 
 if(APPLE)
 	if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-		target_link_libraries(test_variable /usr/local/lib/libgtest.a /usr/local/lib/libghost_staticd.a Threads::Threads)
+		target_link_libraries(tutorial_knapsack /usr/local/lib/libghost_staticd.a Threads::Threads)
 	else()
-		target_link_libraries(test_variable /usr/local/lib/libgtest.a /usr/local/lib/libghost_static.a Threads::Threads)
+		target_link_libraries(tutorial_knapsack /usr/local/lib/libghost_static.a Threads::Threads)
 	endif()
 else()	
 	if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-		target_link_libraries(test_variable gtest ghostd Threads::Threads)
+		target_link_libraries(tutorial_knapsack ghost Threads::Threads)
 	else()
-		target_link_libraries(test_variable gtest ghost Threads::Threads)
+		target_link_libraries(tutorial_knapsack ghost_static Threads::Threads)
 	endif()
 endif()
-	
-enable_testing()
-add_test( NAME Test_Variable COMMAND test_variable WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin )
