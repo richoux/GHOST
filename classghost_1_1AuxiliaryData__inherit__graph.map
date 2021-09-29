@@ -1,0 +1,4 @@
+<map id="ghost::AuxiliaryData" name="ghost::AuxiliaryData">
+<area shape="rect" id="node1" title=" " alt="" coords="17,5,157,200"/>
+<area shape="rect" id="node2" href="$classghost_1_1NullAuxiliaryData.html" title="NullAuxiliaryData is used when no auxiliary data are necessary in the model." alt="" coords="5,248,168,340"/>
+</map>
