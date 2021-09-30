@@ -20,6 +20,6 @@ int main( int argc, char** argv )
 
 	ghost::Options options;
 	options.parallel_runs = true;
-	
-	solver.solve( cost, solution, 100ms, options );	
+
+	solver.solve( cost, solution, 100ms, options );
 }

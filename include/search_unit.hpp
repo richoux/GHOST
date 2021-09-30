@@ -1,6 +1,6 @@
 /*
- * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework 
- * designed to help developers to model and implement optimization problem 
+ * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework
+ * designed to help developers to model and implement optimization problem
  * solving. It contains a meta-heuristic solver aiming to solve any kind of
  * combinatorial and optimization real-time problems represented by a CSP/COP/EFSP/EFOP. 
  *
@@ -75,7 +75,7 @@ namespace ghost
 		std::promise<void> _stop_search_signal;
 		std::future<void> _stop_search_check;
 		std::thread::id _thread_id;
-		
+
 #if defined GHOST_TRACE_PARALLEL
 		std::stringstream _log_filename;
 		std::ofstream _log_trace;
@@ -98,7 +98,7 @@ namespace ghost
 						mark_comma = true;
 					COUT << "v[" << variable_id << "]=" << model.variables[variable_id].get_value();
 				}
-				
+
 				COUT << "\n";
 			}
 
@@ -117,9 +117,9 @@ namespace ghost
 
 					COUT << "c[" << constraint_id << "]=" << model.constraints[ constraint_id ]->_current_error;
 				}
-				COUT << "\n";				
+				COUT << "\n";
 			}
-			
+
 			COUT << "\n";
 		}
 #endif
@@ -135,28 +135,28 @@ namespace ghost
 			double best_sat_error_so_far = std::numeric_limits<double>::max();
 			double current_sat_error;
 			std::vector<int> best_values( number_variables, 0 );
-			
+
 			// To avoid weird samplings numbers like 0 or -1
 			samplings = std::max( 1, samplings );
 			int loops = 0;
-			
+
 			do
 			{
 				if( is_permutation_problem )
 					random_permutations();
 				else
 					monte_carlo_sampling();
-				
+
 				model.auxiliary_data->update();
 				current_sat_error = 0.0;
 
 				for( int constraint_id = 0 ; constraint_id < number_constraints ; ++constraint_id )
 					current_sat_error += model.constraints[ constraint_id ]->error();
-				
+
 				if( best_sat_error_so_far > current_sat_error )
 				{
 					best_sat_error_so_far = current_sat_error;
-					
+
 					if( best_sat_error > best_sat_error_so_far )
 					{
 #if defined GHOST_TRACE
@@ -168,10 +168,10 @@ namespace ghost
 						best_values[ i ] = model.variables[ i ].get_value();
 				}
 			} while( ++loops < samplings && current_sat_error > 0.0 );
-			
+
 			for( int variable_id = 0 ; variable_id < number_variables ; ++variable_id )
 				model.variables[ variable_id ].set_value( best_values[ variable_id ] );
-			
+
 			model.auxiliary_data->update();
 		}
 
@@ -184,7 +184,7 @@ namespace ghost
 			std::vector<int> variables_index( number_variables );
 			std::iota( variables_index.begin(), variables_index.end(), 0 );
 			rng.shuffle( variables_index );
-			
+
 			for( int i = 0 ; i < nb_var ; ++i )
 				model.variables[ variables_index[ i ] ].pick_random_value();
 		}
@@ -246,18 +246,18 @@ namespace ghost
 				model.auxiliary_data->update();
 			}
 			else
-				set_initial_configuration( options.number_start_samplings );			
+				set_initial_configuration( options.number_start_samplings );
 		}
 
 		void initialize_data_structures()
 		{
 			must_compute_worst_variables_list = true;
-			std::fill( tabu_list.begin(), tabu_list.end(), 0 ); 
+			std::fill( tabu_list.begin(), tabu_list.end(), 0 );
 
 			// Reset constraints costs
 			for( int constraint_id = 0; constraint_id < number_constraints; ++constraint_id )
 				model.constraints[ constraint_id ]->_current_error = 0.0;
-			
+
 			// (Re)compute constraint error and get the total current satisfaction error
 			current_sat_error = compute_constraints_errors();
 			// (Re)compute the current optimization cost
@@ -268,9 +268,9 @@ namespace ghost
 				else
 					current_opt_cost = std::numeric_limits<double>::max();
 			}
-			
+
 			// Reset variable costs
-			std::fill( error_variables.begin(), error_variables.end(), 0.0 ); 
+			std::fill( error_variables.begin(), error_variables.end(), 0.0 );
 			// Recompute them
 			compute_variables_errors();
 		}
@@ -279,7 +279,7 @@ namespace ghost
 		                                 std::vector<std::vector<int> >& matrix_var_ctr )
 		{
 			matrix_var_ctr.resize( number_variables );
-			
+
 			// Save the id of each constraint where the current variable appears in.
 			for( int variable_id = 0; variable_id < number_variables; ++variable_id )
 				for( int constraint_id = 0; constraint_id < number_constraints; ++constraint_id )
@@ -301,7 +301,7 @@ namespace ghost
 		void reset()
 		{
 			++resets;
-			
+
 			// if we reach the restart threshold, do a restart instead of a reset
 			if( resets % options.restart_threshold == 0 )
 			{
@@ -309,7 +309,7 @@ namespace ghost
 
 				// Start from a given starting configuration, or a random one.
 				initialize_variable_values();
-				
+
 #if defined GHOST_TRACE
 				COUT << "Number of restarts performed so far: " << restarts << "\n";
 				COUT << options.print->print_candidate( model.variables ).str();
@@ -322,14 +322,14 @@ namespace ghost
 					random_permutations( options.percent_to_reset );
 				else
 					monte_carlo_sampling( options.percent_to_reset );
-				
+
 #if defined GHOST_TRACE
 				COUT << "Number of resets performed so far: " << resets << "\n";
 				COUT << options.print->print_candidate( model.variables ).str();
 				COUT << "\n";
 #endif
 			}
-			
+
 			initialize_data_structures();
 		}
 
@@ -347,7 +347,7 @@ namespace ghost
 			else
 			{
 				double worst_variable_cost = -1;
-				
+
 				for( int variable_id = 0; variable_id < number_variables; ++variable_id )
 					if( worst_variable_cost <= error_variables[ variable_id ] && tabu_list[ variable_id ] <= local_moves )
 					{
@@ -376,11 +376,11 @@ namespace ghost
 					if( tabu_list[ variable_id ] > local_moves )
 						error_variables[ variable_id ] = 0.0;
 			}
-			
+
 			return error_variables;
 		}
 #endif // end ANTIDOTE_SEARCH
-		
+
 		// Compute the cost of each constraints
 		double compute_constraints_errors()
 		{
@@ -390,14 +390,14 @@ namespace ghost
 			for( int constraint_id = 0 ; constraint_id < number_constraints ; ++constraint_id )
 			{
 				error = model.constraints[ constraint_id ]->error();
-				model.constraints[ constraint_id ]->_current_error = error;				
+				model.constraints[ constraint_id ]->_current_error = error;
 				satisfaction_error += error;
 			}
 
 			return satisfaction_error;
 		}
 
-		// Compute the variable cost of each variables and fill up error_variables 
+		// Compute the variable cost of each variables and fill up error_variables
 		void compute_variables_errors()
 		{
 			for( int variable_id = 0; variable_id < number_variables; ++variable_id )
@@ -414,13 +414,13 @@ namespace ghost
 				{
 					auto delta = delta_errors.at( new_value )[ delta_index++ ];
 					model.constraints[ constraint_id ]->_current_error += delta;
-					
+
 					for( const int variable_id : model.constraints[ constraint_id ]->get_variable_ids() )
 						error_variables[ variable_id ] += delta;
 
 					model.constraints[ constraint_id ]->update( variable_to_change, new_value );
 				}
-				
+
 				if( model.objective->is_optimization() )
 					model.objective->update( variable_to_change, new_value );
 			}
@@ -429,7 +429,7 @@ namespace ghost
 				std::vector<bool> constraint_checked( number_constraints, false );
 				int current_value = model.variables[ variable_to_change ].get_value();
 				int next_value = model.variables[ new_value ].get_value();
-				
+
 				for( const int constraint_id : matrix_var_ctr.at( variable_to_change ) )
 				{
 					constraint_checked[ constraint_id ] = true;
@@ -440,11 +440,11 @@ namespace ghost
 						error_variables[ variable_id ] += delta;
 
 					model.constraints[ constraint_id ]->update( variable_to_change, next_value );
-					
+
 					if( model.constraints[ constraint_id ]->has_variable( new_value ) )
 						model.constraints[ constraint_id ]->update( new_value, current_value );
 				}
-				
+
 				for( const int constraint_id : matrix_var_ctr.at( new_value ) )
 					if( !constraint_checked[ constraint_id ] )
 					{
@@ -479,7 +479,7 @@ namespace ghost
 			{
 				int current_value = model.variables[ variable_to_change ].get_value();
 				int next_value = model.variables[ new_value ].get_value();
-				
+
 				model.variables[ variable_to_change ].set_value( next_value );
 				model.variables[ new_value ].set_value( current_value );
 
@@ -535,25 +535,25 @@ namespace ghost
 
 	public:
 		Model model;
-		
-		std::vector<Variable> variables_at_start; 
-		randutils::mt19937_rng rng; 
 
-		int number_variables; 
-		int number_constraints; 
+		std::vector<Variable> variables_at_start;
+		randutils::mt19937_rng rng;
+
+		int number_variables;
+		int number_constraints;
 
 		std::vector<int> final_solution;
 
-		std::vector<std::vector<int> > matrix_var_ctr; 
-		std::vector<int> tabu_list; 
-		
+		std::vector<std::vector<int> > matrix_var_ctr;
+		std::vector<int> tabu_list;
+
 		std::vector<int> worst_variables_list;
 		bool must_compute_worst_variables_list;
-		
+
 		std::vector<double> error_variables;
 
-		double best_sat_error; 
-		double best_opt_cost; 
+		double best_sat_error;
+		double best_opt_cost;
 		double current_sat_error;
 		double current_opt_cost;
 		double cost_before_postprocess;
@@ -566,13 +566,13 @@ namespace ghost
 		int local_minimum;
 		int plateau_moves;
 		int plateau_local_minimum;
-		
+
 		bool is_permutation_problem;
 		std::promise<bool> solution_found;
-		
+
 		Options options;
 
-		SearchUnit( Model&& moved_model, 
+		SearchUnit( Model&& moved_model,
 		            bool permutation_problem,
 		            const Options& options )
 			: _stop_search_check( _stop_search_signal.get_future() ),
@@ -616,12 +616,12 @@ namespace ghost
 			COUT << "\nConstraints:\n";
 			for( auto constraint : model.constraints )
 				COUT << *constraint << "\n";
-			
+
 			COUT << "\nObjective function:\n"
 			     << *(model.objective) << "\n";
 #endif
 		}
-		
+
 		// Check if the thread must stop search
 		bool stop_search_requested()
 		{
@@ -630,7 +630,7 @@ namespace ghost
 			else
 				return false;
 		}
-		
+
 		void get_thread_id( std::thread::id id )
 		{
 			_thread_id = id;
@@ -648,7 +648,7 @@ namespace ghost
 		inline void stop_search()	{	_stop_search_signal.set_value(); }
 		inline Model&& transfer_model() { return std::move( model ); }
 		inline bool is_optimization() { return model.objective->is_optimization(); }
-		
+
 		// Method doing the search; called by Solver::solve (eventually in several threads).
 		// Return true iff a solution has been found
 		void search( double timeout )
@@ -666,7 +666,7 @@ namespace ghost
 			// 4.c. Worst optimization cost => local minimum
 			// 4.d. Not an optimization problem => plateau
 			// 5. Worst error => local minimum
-			
+
 			// A. Local move (perform local move and update variables/constraints/objective function)
 			// B. Plateau management (local move on the plateau, but x% of chance to escape it, mark the variables as tabu and loop to 2.)
 			// C. local minimum management (if there are no other worst variables to try, mark the variables as tabu and loop to 2.
@@ -678,23 +678,23 @@ namespace ghost
 
 			std::chrono::duration<double,std::micro> timer_postprocess_sat( 0 );
 			std::chrono::duration<double,std::micro> timer_postprocess_opt( 0 );
-			
+
 			best_sat_error = std::numeric_limits<double>::max();
 			best_opt_cost = std::numeric_limits<double>::max();
 
 			initialize_variable_values();
 			initialize_data_structures();
-			
+
 			std::transform( model.variables.begin(),
 			                model.variables.end(),
 			                final_solution.begin(),
 			                [&](auto& var){ return var.get_value(); } );
-			
+
 			elapsed_time = std::chrono::steady_clock::now() - start;
 			using namespace std::chrono_literals;
 
 			int variable_to_change;
-			
+
 			// While timeout is not reached, and the solver didn't satisfied
 			// all constraints OR it is working on an optimization problem, continue the search.
 			while( !stop_search_requested()
@@ -702,7 +702,7 @@ namespace ghost
 			       && ( best_sat_error > 0.0 || ( best_sat_error == 0.0 && model.objective->is_optimization() ) ) )
 			{
 				++search_iterations;
-				
+
 				/********************************************
 				 * 1. Choice of worst variable(s) to change *
 				 ********************************************/
@@ -715,27 +715,27 @@ namespace ghost
 				{
 #if defined GHOST_TRACE
 					COUT << "No variables left to be changed: reset.\n";
-#endif					
+#endif
 					reset();
 					continue;
 				}
-				
+
 				variable_to_change = rng.pick( worst_variables_list );
 #else // end ADAPTIVE_SEARCH ; start ANTIDOTE_SEARCH
 				auto masked_error_variables = mask_tabu( error_variables );
-				
+
 				if( masked_error_variables.empty() )
 				{
 #if defined GHOST_TRACE
 					COUT << "No variables left to be changed: reset.\n";
-#endif					
+#endif
 					reset();
 					continue;
 				}
-				
+
 				variable_to_change = rng.variate<int, std::discrete_distribution>( masked_error_variables.begin(), masked_error_variables.end() );
 #endif // end ANTIDOTE_SEARCH
-				
+
 #if defined GHOST_TRACE
 				COUT << options.print->print_candidate( model.variables ).str();
 				COUT << "\n\nNumber of loop iteration: " << search_iterations << "\n";
@@ -801,7 +801,7 @@ namespace ghost
 							for( const int constraint_id : matrix_var_ctr.at( variable_to_change ) )
 							{
 								constraint_checked[ constraint_id ] = true;
-								
+
 								// check if the other variable also belongs to the constraint scope
 								if( model.constraints[ constraint_id ]->has_variable( variable_id ) )
 									delta_errors[ variable_id ].push_back( model.constraints[ constraint_id ]->simulate_delta( std::vector<int>{variable_to_change, variable_id},
@@ -810,7 +810,7 @@ namespace ghost
 									delta_errors[ variable_id ].push_back( model.constraints[ constraint_id ]->simulate_delta( std::vector<int>{variable_to_change},
 										                     std::vector<int>{candidate_value} ) );
 							}
-							
+
 							// Since we are switching the value of two variables, we need to also look at the delta error impact of changing the value of the non-selected variable
 							for( const int constraint_id : matrix_var_ctr.at( variable_id ) )
 								// No need to look at constraint where variable_to_change also appears.
@@ -819,12 +819,12 @@ namespace ghost
 										                     std::vector<int>{current_value} ) );
 						}
 				}
-				
+
 				// Select the next current configuration (local move)
 				int new_value;
 				double min_conflict = std::numeric_limits<double>::max();
 				std::vector<int> candidate_values;
-				
+
 #if not defined ANTIDOTE_VALUE // ADAPTIVE_SEARCH
 				std::map<int, double> cumulated_delta_errors;
 				for( const auto& deltas : delta_errors )
@@ -852,7 +852,7 @@ namespace ghost
 						if( min_conflict == deltas.second )
 							candidate_values.push_back( deltas.first );
 				}
-				
+
 				// if we deal with an optimization problem, find the value minimizing to objective function
 				if( model.objective->is_optimization() )
 				{
@@ -860,7 +860,7 @@ namespace ghost
 						new_value = static_cast<int>( model.objective->heuristic_value_permutation( variable_to_change, candidate_values ) );
 					else
 						new_value = model.objective->heuristic_value( variable_to_change, candidate_values );
-					
+
 					// // to change/test with heuristic_value
 					// double objective_cost = std::numeric_limits<double>::max();
 					// double simulate_objective_function;
@@ -870,7 +870,7 @@ namespace ghost
 					// 		simulate_objective_function = _objective.simulate_cost( std::vector<int>{variable_to_change, value}, std::vector<int>{_variables[ value ].get_value(),_variables[ variable_to_change ].get_value()} );
 					// 	else
 					// 		simulate_objective_function = _objective.simulate_cost( std::vector<int>{variable_to_change}, std::vector<int>{value} );
-						
+
 					// 	if( objective_cost > simulate_objective_function )
 					// 	{
 					// 		objective_cost = simulate_objective_function;
@@ -886,14 +886,14 @@ namespace ghost
 				std::vector<int> cumulated_delta_errors_variable_index_correspondance( delta_errors.size() ); // longest variable name ever
 
 				int index = 0;
-				
+
 				for( const auto& deltas : delta_errors )
 				{
 					cumulated_delta_errors[ index ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
 					cumulated_delta_errors_variable_index_correspondance[ index ] = deltas.first;
 
 					double transformed = cumulated_delta_errors[ index ] >= 0 ? 0.0 : -cumulated_delta_errors[ index ];
-					
+
 #if defined GHOST_TRACE
 					if( is_permutation_problem )
 						COUT << "Error for switching var[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value()
@@ -912,13 +912,13 @@ namespace ghost
 
 				if( *std::max_element( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() ) == 0.0 )
 					index = rng.uniform( 0, static_cast<int>( delta_errors.size() ) - 1 );
-				else				
+				else
 					index = rng.variate<int, std::discrete_distribution>( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() );
-				
+
 				min_conflict = cumulated_delta_errors[ index ];
 				new_value = cumulated_delta_errors_variable_index_correspondance[ index ];				
 #endif // end ANTIDOTE_SEARCH
-					
+
 #if defined GHOST_TRACE
 #if not defined ANTIDOTE_VALUE // ADAPTIVE_SEARCH
 				COUT << "Min conflict value candidates list: " << candidate_values[0];
@@ -981,7 +981,7 @@ namespace ghost
 
 								model.variables[ variable_to_change ].set_value( backup_variable_new_value );
 								model.variables[ new_value ].set_value( backup_variable_to_change );
-								
+
 								model.auxiliary_data->update( variable_to_change, backup_variable_new_value );
 								model.auxiliary_data->update( new_value, backup_variable_to_change );
 
@@ -996,7 +996,7 @@ namespace ghost
 							else
 							{
 								int backup = model.variables[ variable_to_change ].get_value();
-								
+
 								model.variables[ variable_to_change ].set_value( new_value );
 								model.auxiliary_data->update( variable_to_change, new_value );
 
@@ -1010,7 +1010,7 @@ namespace ghost
 							 * 4.a. Optimization cost improved => make local move *
 							 ******************************************************/
 							if( current_opt_cost > candidate_opt_cost )
-							{								
+							{
 #if defined GHOST_TRACE
 								COUT << "optimization cost improved (" << current_opt_cost << " -> " << candidate_opt_cost << "): make local move.\n";
 #endif

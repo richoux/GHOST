@@ -1,6 +1,6 @@
 /*
- * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework 
- * designed to help developers to model and implement optimization problem 
+ * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework
+ * designed to help developers to model and implement optimization problem
  * solving. It contains a meta-heuristic solver aiming to solve any kind of
  * combinatorial and optimization real-time problems represented by a CSP/COP/EFSP/EFOP. 
  *
@@ -9,12 +9,12 @@
  * particular, it had been designed to be able to solve not-too-complex problem instances
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
- * 
+ *
  * Copyright (C) 2014-2021 Florian Richoux
  *
  * This file is part of GHOST.
- * GHOST is free software: you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as published 
+ * GHOST is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
 
@@ -75,7 +75,7 @@ std::vector<int> Variable::get_partial_domain( int range ) const
 		else
 		{
 			std::vector<int> partial_domain( range );
-		
+
 			// [---xxxIxxx-]
 			//        |
 			//        ^
@@ -105,7 +105,7 @@ std::vector<int> Variable::get_partial_domain( int range ) const
 					std::copy( _domain.begin(),
 					           _domain.begin() + end_position,
 					           partial_domain.begin() );
-				
+
 					std::copy( _domain.begin() + start_position,
 					           _domain.end(),
 					           partial_domain.begin() + end_position );
@@ -130,7 +130,7 @@ std::vector<int> Variable::get_partial_domain( int range ) const
 				           _domain.end(),
 				           partial_domain.begin() + end_position );
 			}
-		
+
 			return partial_domain;
 		}
 }

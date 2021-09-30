@@ -1,6 +1,6 @@
 /*
- * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework 
- * designed to help developers to model and implement optimization problem 
+ * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework
+ * designed to help developers to model and implement optimization problem
  * solving. It contains a meta-heuristic solver aiming to solve any kind of
  * combinatorial and optimization real-time problems represented by a CSP/COP/EFSP/EFOP. 
  *
@@ -9,12 +9,12 @@
  * particular, it had been designed to be able to solve not-too-complex problem instances
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
- * 
+ *
  * Copyright (C) 2014-2021 Florian Richoux
  *
  * This file is part of GHOST.
- * GHOST is free software: you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as published 
+ * GHOST is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
 
@@ -71,7 +71,7 @@ double Constraint::delta_error( const std::vector<int>& variables_index, const s
 	                variables_index.end(),
 	                variables_index_within_constraint.begin(),
 	                [&]( auto index ){ return _variables_position.at( index ); } );
-	
+
 	double value = optional_delta_error( _variables, variables_index_within_constraint, new_values );
 	if( std::isnan( value ) )
 	{
@@ -80,7 +80,7 @@ double Constraint::delta_error( const std::vector<int>& variables_index, const s
 		                _variables.end(),
 		                changed_variables.begin(),
 		                [&]( auto& var ){ return *var; } );
-		
+
 		for( int i = 0 ; i < static_cast<int>( new_values.size() ) ; ++i )
 			changed_variables[ variables_index_within_constraint[i] ].set_value( new_values[i] );
 		throw nanException( changed_variables );
@@ -97,13 +97,13 @@ double Constraint::simulate_delta( const std::vector<int>& variables_index, cons
 	else
 	{
 		std::vector<int> backup_values( new_values.size() );
-		
+
 		for( int i = 0 ; i < static_cast<int>( new_values.size() ) ; ++i )
 		{
 			backup_values[ i ] = _variables[ _variables_position[ variables_index[i] ] ]->get_value();
 			_variables[ _variables_position[ variables_index[i] ] ]->set_value( new_values[i] );
 		}
-		
+
 		auto error = this->error();
 
 		for( int i = 0 ; i < static_cast<int>( new_values.size() ) ; ++i )
@@ -116,7 +116,7 @@ double Constraint::simulate_delta( const std::vector<int>& variables_index, cons
 bool Constraint::has_variable( int var_id ) const
 {
 	return _variables_position.count( var_id ) > 0;
-}  
+}
 
 double Constraint::optional_delta_error( const std::vector<Variable*>& variables, const std::vector<int>& indexes, const std::vector<int>& candidate_values ) const
 {

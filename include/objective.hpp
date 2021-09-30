@@ -1,6 +1,6 @@
 /*
- * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework 
- * designed to help developers to model and implement optimization problem 
+ * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework
+ * designed to help developers to model and implement optimization problem
  * solving. It contains a meta-heuristic solver aiming to solve any kind of
  * combinatorial and optimization real-time problems represented by a CSP/COP/EFSP/EFOP. 
  *
@@ -9,12 +9,12 @@
  * particular, it had been designed to be able to solve not-too-complex problem instances
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
- * 
+ *
  * Copyright (C) 2014-2021 Florian Richoux
  *
  * This file is part of GHOST.
- * GHOST is free software: you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as published 
+ * GHOST is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
 
@@ -42,7 +42,7 @@
 
 namespace ghost
 {
-	/*! 
+	/*!
 	 * This is the base class containing the logic of objective functions. However, users
 	 * would not derive their own Objective class directly from ghost::Objective, but
 	 * from one of the two derived class ghost::Minimize and ghost::Maximize.
@@ -68,7 +68,7 @@ namespace ghost
 		bool _is_optimization;
 		bool _is_maximization;
 		std::string _name; // Name of the objective object.
-		
+
 		struct nanException : std::exception
 		{
 			std::vector<Variable*> variables;
@@ -114,15 +114,15 @@ namespace ghost
 		// Call expert_postprocess_satisfaction on Objective::_variables.
 		inline void postprocess_satisfaction( double& best_error, std::vector<int>& solution ) const
 		{ expert_postprocess_satisfaction( _variables, best_error, solution ); }
-			
+
 		// Call expert_postprocess_optimization on Objective::_variables.
 		inline void postprocess_optimization( double& best_cost, std::vector<int>& solution ) const
 		{ expert_postprocess_optimization( _variables, best_cost, solution ); }
-			
+
 	protected:
 		mutable randutils::mt19937_rng rng; //!< A neat random generator implemented in thirdparty/randutils.hpp, see https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html
 
-		/*! 
+		/*!
 		 * Pure virtual method to compute the value of the objective function regarding the values of
 		 * variables given as input.
 		 *
@@ -155,13 +155,13 @@ namespace ghost
 		 */
 		virtual void conditional_update_data_structures( const std::vector<Variable*>& variables, int index, int new_value );
 
-		/*! 
+		/*!
 		 * Virtual method to apply the value heuristic used by the solver for non permutation
 		 * problems.
 		 *
 		 * While dealing with non permutation problems, the solver calls this method to apply
 		 * an eventual user-defined heuristic to choose a new domain value for a variable selected
-		 * by the solver. 
+		 * by the solver.
 		 *
 		 * The default implementation outputs the value leading to the lowest objective cost.
 		 * If two or more values lead to configurations with the same lowest cost, one of them
@@ -183,9 +183,9 @@ namespace ghost
 		                                    int variable_index,
 		                                    const std::vector<int>& possible_values ) const;
 
-		/*! 
+		/*!
 		 * Virtual method to apply the value heuristic used by the solver for permutation problems.
-		 * 
+		 *
 		 * While dealing with permutation problems, the solver calls this method to apply an eventual
 		 * user-defined heuristic to choose a variable to swap the value with.
 		 *
@@ -206,9 +206,9 @@ namespace ghost
 		                                                int variable_index,
 		                                                const std::vector<int>& bad_variables ) const;
 
-		/*! 
+		/*!
 		 * Virtual method to perform satisfaction post-processing.
-		 * 
+		 *
 		 * This method is called by the solver after a satisfaction run, if the solver was able
 		 * to find a solution, to apply human-knowledge optimization in order to "clean-up"
 		 * the proposed solution.
@@ -217,7 +217,7 @@ namespace ghost
 		 *
 		 * Like any methods prefixed by 'expert_', users should override this method only if
 		 * they know what they are doing.
-		 * 
+		 *
 		 * \param variables a const reference of the vector of raw pointers of variables in the scope
 		 * of the objective function. The solver is calling this method with the vector 
 		 * of variables that has been given to the constructor.
@@ -232,7 +232,7 @@ namespace ghost
 		                                              double&	best_error,
 		                                              std::vector<int>& solution ) const;
 
-		/*! 
+		/*!
 		 * Virtual method to perform optimization post-processing.
 		 *
 		 * This method is called by the solver after all optimization runs to apply human-knowledge
@@ -245,8 +245,8 @@ namespace ghost
 		 *
 		 * \warning The computation spantime of this method is not taken into account by timeouts
 		 * given to the solver. If users override this method, they must ensure its computation time
-		 * is neglictable compare to the timeout giving as input to Solver::solve.  
-		 * 
+		 * is neglictable compare to the timeout giving as input to Solver::solve.
+		 *
 		 * \param variables a const reference of the vector of raw pointers of variables in the
 		 * scope of the objective function. The solver is calling this method with the vector 
 		 * of variables that has been given to the constructor.
@@ -278,7 +278,7 @@ namespace ghost
 
 		//! Default virtual destructor.
 		virtual ~Objective() = default;
-		
+
 		//! Inline accessor to get the name of the objective object.
 		inline std::string get_name() const { return _name; }
 
@@ -290,7 +290,7 @@ namespace ghost
 		 * or minimize (false).
 		 */
 		inline bool is_maximization() const { return _is_maximization; }
-		
+
 		//! To have a nicer stream of Objective.
 		friend std::ostream& operator<<( std::ostream& os, const Objective& o )
 		{
@@ -310,7 +310,7 @@ namespace ghost
 		{
 			this->is_not_optimization();
 		}
-		
+
 	private:
 		double required_cost( const std::vector<Variable*>& variables ) const override { return 0.0; }
 	};
@@ -318,12 +318,12 @@ namespace ghost
 	/**************/
 	/** Minimize **/
 	/**************/
-	/*! 
+	/*!
 	 * This is the base class to define minimization objective functions.
 	 *
 	 * ghost::Minimize cannot be directly used to encode user-defined objective function, since
 	 * this is an abstract class. To declare a problem with GHOST, users have to make their
-	 * own derived objective class. 
+	 * own derived objective class.
 	 *
 	 * \sa Objective
 	 */
@@ -340,7 +340,7 @@ namespace ghost
 		Minimize( const std::vector<int>& variables_index )
 			: Objective( variables_index, false, std::string( "Minimize" ) )
 		{	}
-			
+
 		/*!
 		 * Constructor building a vector of variable IDs by calling v->get_id() from all variables v.
 		 * The name of the objective function will be set to the string 'Minimize'.
@@ -350,10 +350,10 @@ namespace ghost
 		Minimize( const std::vector<Variable>& variables )
 			: Objective( variables, false, std::string( "Minimize" ) )
 		{	}
-			
+
 		/*!
 		 * Constructor with a vector of variable IDs. This vector is internally used by Objective
-		 * to know what variables from the global variable vector it is handling. 
+		 * to know what variables from the global variable vector it is handling.
 		 * \param variables_index a const reference to a vector of IDs of variables composing the 
 		 * objective function.
 		 * \param name a const reference ot a string to give a name to the objective function.
@@ -374,7 +374,7 @@ namespace ghost
 
 		/*!
 		 * Constructor with a vector of variable IDs. This vector is internally used by Objective
-		 * to know what variables from the global variable vector it is handling. 
+		 * to know what variables from the global variable vector it is handling.
 		 * \param variables_index a const reference to a vector of IDs of variables composing the 
 		 * objective function.
 		 * \param name a const char* to give a name to the objective function.
@@ -397,12 +397,12 @@ namespace ghost
 	/**************/
 	/** Maximize **/
 	/**************/
-	/*! 
+	/*!
 	 * This is the base class to define maximization objective functions.
 	 *
 	 * ghost::Maximize cannot be directly used to encode user-defined objective function, since
 	 * this is an abstract class. To declare a problem with GHOST, users have to make their
-	 * own derived objective class. 
+	 * own derived objective class.
 	 *
 	 * \sa Objective
 	 */
@@ -419,7 +419,7 @@ namespace ghost
 		Maximize( const std::vector<int>& variables_index )
 			: Objective( variables_index, true, std::string( "Maximize" ) )
 		{	}
-			
+
 		/*!
 		 * Constructor building a vector of variable IDs by calling v->get_id() from all variables v.
 		 * The name of the objective function will be set to the string 'Maximize'.
@@ -429,10 +429,10 @@ namespace ghost
 		Maximize( const std::vector<Variable>& variables )
 			: Objective( variables, true, std::string( "Maximize" ) )
 		{	}
-			
+
 		/*!
 		 * Constructor with a vector of variable IDs. This vector is internally used by Objective
-		 * to know what variables from the global variable vector it is handling. 
+		 * to know what variables from the global variable vector it is handling.
 		 * \param variables_index a const reference to a vector of IDs of variables composing the 
 		 * objective function.
 		 * \param name a const reference ot a string to give a name to the objective function.
@@ -453,7 +453,7 @@ namespace ghost
 
 		/*!
 		 * Constructor with a vector of variable IDs. This vector is internally used by Objective
-		 * to know what variables from the global variable vector it is handling. 
+		 * to know what variables from the global variable vector it is handling.
 		 * \param variables_index a const reference to a vector of IDs of variables composing the 
 		 * objective function.
 		 * \param name a const char* to give a name to the objective function.
