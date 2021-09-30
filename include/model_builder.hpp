@@ -1,6 +1,6 @@
 /*
- * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework 
- * designed to help developers to model and implement optimization problem 
+ * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework
+ * designed to help developers to model and implement optimization problem
  * solving. It contains a meta-heuristic solver aiming to solve any kind of
  * combinatorial and optimization real-time problems represented by a CSP/COP/EFSP/EFOP. 
  *
@@ -36,7 +36,7 @@
 
 namespace ghost
 {
-	/*! 
+	/*!
 	 * This is the base class from which users need to derive their ModelBuilder class. 
 	 *
 	 * ghost::ModelBuilder cannot be directly used to encode user-defined model builder,
@@ -64,7 +64,7 @@ namespace ghost
 		template<typename ModelBuilderType> friend class Solver;
 
 		Model build_model();
-		
+
 	protected:
 		std::vector<Variable> variables; //! The global vector containing all variables of the problem instance.
 		std::vector<std::shared_ptr<Constraint>> constraints; //! The vector of shared pointers of each constraint composing the problem instance.
@@ -158,7 +158,7 @@ namespace ghost
 		 */
 		void create_n_variables( int number, int starting_value, std::size_t size, int index = 0 );
 
-		/*! 
+		/*!
 		 * Inline method returning the number of declared variables. This may be helpful in some
 		 * specific cases to know how variables are composing the problem instance.
 		 */

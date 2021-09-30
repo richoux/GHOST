@@ -1,6 +1,6 @@
 /*
- * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework 
- * designed to help developers to model and implement optimization problem 
+ * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework
+ * designed to help developers to model and implement optimization problem
  * solving. It contains a meta-heuristic solver aiming to solve any kind of
  * combinatorial and optimization real-time problems represented by a CSP/COP/EFSP/EFOP. 
  *
@@ -69,7 +69,7 @@
 #endif
 
 namespace ghost
-{	
+{
 	/*!
 	 * Solver is the class coding the solver itself.
 	 *
@@ -81,7 +81,7 @@ namespace ghost
 	 *
 	 * Declaring combinatorial problems as permutation problems can lead to a huge performance boost
 	 * for the solver. For this, the problem needs to be declared with all variables starting with a 
-	 * value that belongs to a solution. 
+	 * value that belongs to a solution.
 	 *
 	 * This is typically the case for scheduling problems, for instance: imagine we want to do three
 	 * tasks A, B and C. Thus, we give A as the starting value to the first variable, B to the second 
@@ -103,11 +103,11 @@ namespace ghost
 	{
 		Model _model;
 		ModelBuilderType _model_builder; // Factory building the model
-		
+
 		int _number_variables; // Size of the vector of variables.
 
-		double _best_sat_error; 
-		double _best_opt_cost; 
+		double _best_sat_error;
+		double _best_opt_cost;
 		double _cost_before_postprocess;
 
 		// global statistics, cumulation of all threads stats.
@@ -130,7 +130,7 @@ namespace ghost
 
 		bool _is_permutation_problem;
 		Options _options; // Options for the solver (see the struct Options).
-		
+
 	public:
 		/*!
 		 * Unique constructor of ghost::Solver
@@ -236,7 +236,7 @@ namespace ghost
 			_number_variables = _model_builder.get_number_variables();
 
 			_options = options;
-			
+
 			if( _options.tabu_time_local_min == -1 )
 				_options.tabu_time_local_min = std::max( std::min( 5, static_cast<int>( _number_variables ) - 1 ), static_cast<int>( std::ceil( _number_variables / 5 ) ) ) + 1;
 			  //_options.tabu_time_local_min = std::max( 2, _tabu_threshold ) );
@@ -252,12 +252,12 @@ namespace ghost
 				_options.reset_threshold = _options.tabu_time_local_min;
 #endif
 			}
-			
+
 // #if defined ANTIDOTE_VARIABLE
 // 			_options.reset_threshold = static_cast<int>( std::ceil( 1.5 * _options.reset_threshold ) );
 // #endif
-			
-			if( _options.restart_threshold == -1 ) 
+
+			if( _options.restart_threshold == -1 )
 				_options.restart_threshold = _number_variables;
 
 			if( _options.percent_to_reset == -1 )
@@ -265,21 +265,21 @@ namespace ghost
 
 			double chrono_search;
 			double chrono_full_computation;
-			
+
 			// In case final_solution is not a vector of the correct size,
 			// ie, equals to the number of variables.
 			final_solution.resize( _number_variables );
-			bool solution_found = false;			
+			bool solution_found = false;
 			bool is_sequential;
 			bool is_optimization;
-			
+
 #if defined GHOST_DEBUG || defined GHOST_TRACE || defined GHOST_BENCH
 			// this is to make proper benchmarks/debugging with 1 thread.
 			is_sequential = !_options.parallel_runs;
 #else
 			is_sequential = ( !_options.parallel_runs || _options.number_threads == 1 );
 #endif
-			
+
 			// sequential runs
 			if( is_sequential )
 			{
@@ -289,7 +289,7 @@ namespace ghost
 
 				is_optimization = search_unit.is_optimization();
 				std::future<bool> unit_future = search_unit.solution_found.get_future();
-				
+
 				start_search = std::chrono::steady_clock::now();
 				search_unit.search( timeout );
 				elapsed_time = std::chrono::steady_clock::now() - start_search;
@@ -307,7 +307,7 @@ namespace ghost
 				_plateau_local_minimum = search_unit.plateau_local_minimum;
 				//final_solution = search_unit.final_solution;
 
-				_model = std::move( search_unit.transfer_model() );				
+				_model = std::move( search_unit.transfer_model() );
 			}
 			else // call threads
 			{
@@ -324,7 +324,7 @@ namespace ghost
 				}
 
 				is_optimization = units[0].is_optimization();
-				
+
 				std::vector<std::future<bool>> units_future;
 				std::vector<bool> units_terminated( _options.number_threads, false );
 
@@ -336,12 +336,12 @@ namespace ghost
 					units.at( i ).get_thread_id( unit_threads.at( i ).get_id() );
 					units_future.emplace_back( units.at( i ).solution_found.get_future() );
 				}
-				
+
 				int thread_number = 0;
 				int winning_thread = 0;
 				bool end_of_computation = false;
 				int number_timeouts = 0;
-				
+
 				while( !end_of_computation )
 				{
 					for( thread_number = 0 ; thread_number < _options.number_threads ; ++thread_number )
@@ -359,10 +359,10 @@ namespace ghost
 									if( _best_opt_cost > units.at( thread_number ).best_opt_cost )
 									{
 										_best_opt_cost = units.at( thread_number ).best_opt_cost;
-										winning_thread = thread_number;										
+										winning_thread = thread_number;
 									}
 								}
-								
+
 								if( number_timeouts >= _options.number_threads )
 								{
 									end_of_computation = true;
@@ -390,10 +390,10 @@ namespace ghost
 									}
 								}
 							}
-						}							
+						}
 					}
 				}
-				
+
 				elapsed_time = std::chrono::steady_clock::now() - start_search;
 				chrono_search = elapsed_time.count();
 
@@ -402,7 +402,7 @@ namespace ghost
 				for( int i = 0 ; i < _options.number_threads ; ++i )
 				{
 					units.at(i).stop_search();
-										
+
 					_restarts_total += units.at(i).restarts;
 					_resets_total += units.at(i).resets;
 					_local_moves_total += units.at(i).local_moves;
@@ -476,7 +476,7 @@ namespace ghost
 			                _model.variables.end(),
 			                final_solution.begin(),
 			                [&](auto& var){ return var.get_value(); } );
-			
+
 			if( solution_found && is_optimization )
 			{
 				_cost_before_postprocess = _best_opt_cost;
@@ -493,12 +493,12 @@ namespace ghost
 					_best_opt_cost = -_best_opt_cost;
 					_cost_before_postprocess = -_cost_before_postprocess;
 				}
-				
+
 				final_cost = _best_opt_cost;
 			}
 			else
 				final_cost = _best_sat_error;
-			
+
 			// Set the variables to the best solution values.
 			// Useful if the user prefer to directly use the vector of Variables
 			// to manipulate and exploit the solution.
@@ -507,7 +507,7 @@ namespace ghost
 
 			elapsed_time = std::chrono::steady_clock::now() - start_wall_clock;
 			chrono_full_computation = elapsed_time.count();
-			
+
 #if defined GHOST_DEBUG || defined GHOST_TRACE || defined GHOST_BENCH
 			std::cout << "@@@@@@@@@@@@" << "\n"
 			          << "Variable heuristic: "
@@ -537,7 +537,7 @@ namespace ghost
 			std::cout << _options.print->print_candidate( _model.variables ).str();
 
 			std::cout << "\n";
-			
+
 			if( !is_optimization )
 				std::cout << "SATISFACTION run" << "\n";
 			else
@@ -548,7 +548,7 @@ namespace ghost
 				else
 					std::cout << _model.objective->get_name() << " must be minimized.\n";					
 			}
-			
+
 			std::cout << "Permutation problem: " << std::boolalpha << _is_permutation_problem << "\n"
 			          << "Time budget: " << timeout << "us (= " << timeout/1000 << "ms, " << timeout/1000000 << "s)\n"
 			          << "Search time: " << chrono_search << "us (= " << chrono_search / 1000 << " ms, " << chrono_search / 1000000 << "s)\n"
@@ -566,11 +566,11 @@ namespace ghost
 				          << "Total number of local minimum: " << _local_minimum_total << " (including on plateau: " << _plateau_local_minimum_total << ")\n"
 				          << "Total number of resets: " << _resets_total << "\n"
 				          << "Total number of restarts: " << _restarts_total << "\n";
-			
+
 			if( is_optimization )
 				std::cout << "\nOptimization cost: " << _best_opt_cost << "\n"
 				          << "Opt Cost BEFORE post-processing: " << _cost_before_postprocess << "\n";
-  
+
 			// if( timer_postprocess_sat.count() > 0 )
 			// 	std::cout << "Satisfaction post-processing time: " << timer_postprocess_sat.count() << " us\n"; 
 
@@ -579,7 +579,7 @@ namespace ghost
 
 			std::cout << "\n";
 #endif
-          
+
 			return solution_found;
 		}
 
@@ -602,7 +602,7 @@ namespace ghost
 			return solve( final_cost, final_solution, timeout, options );
 		}
 
-		/*! 
+		/*!
 		 * Call Solver::solve with a chrono literal timeout in microseconds.
 		 *
 		 * Users should favor this Solver::solve method if they need to give the solver

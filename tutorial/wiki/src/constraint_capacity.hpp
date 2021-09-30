@@ -13,7 +13,7 @@ class Capacity : public ghost::Constraint
 	int _capacity;
 
 	double required_error( const std::vector<ghost::Variable*>& variables ) const override;
-	
+
 public:
 	Capacity( const std::vector<ghost::Variable>& variables,
 	          const std::vector<double>&& object_size,

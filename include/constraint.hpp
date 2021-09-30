@@ -1,6 +1,6 @@
 /*
- * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework 
- * designed to help developers to model and implement optimization problem 
+ * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework
+ * designed to help developers to model and implement optimization problem
  * solving. It contains a meta-heuristic solver aiming to solve any kind of
  * combinatorial and optimization real-time problems represented by a CSP/COP/EFSP/EFOP. 
  *
@@ -9,12 +9,12 @@
  * particular, it had been designed to be able to solve not-too-complex problem instances
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
- * 
+ *
  * Copyright (C) 2014-2021 Florian Richoux
  *
  * This file is part of GHOST.
- * GHOST is free software: you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as published 
+ * GHOST is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
 
@@ -44,12 +44,12 @@
 
 namespace ghost
 {
-	/*! 
+	/*!
 	 * This is the base class from which users need to derive their Constraint classes. 
 	 *
 	 * ghost::Constraint cannot be directly used to encode user-defined constrains, since
 	 * this is an abstract class. To declare a problem with GHOST, users have to make their
-	 * own derived constraint classes. 
+	 * own derived constraint classes.
 	 *
 	 * \sa Variable
 	 */
@@ -61,8 +61,8 @@ namespace ghost
 		std::vector<Variable*> _variables;
 		std::vector<int> _variables_index; // To know where are the constraint's variables in the global variable vector
 		std::map<int,int> _variables_position; // To know where are global variables in the constraint's variables vector 
-		
-		double _current_error; // Current error of the constraint. 
+
+		double _current_error; // Current error of the constraint.
 
 		int _id; // Unique ID integer
 		mutable bool _is_optional_delta_error_defined; // Boolean telling if optional_delta_error() is overrided or not.
@@ -135,7 +135,7 @@ namespace ghost
 
 		// Call required_error() after getting sure the error does give a nan, rise an exception otherwise.
 		double error() const;
-			
+
 		// Compute the delta error of the current assignment, giving a vector of variables index and their candidate values.
 		// Calling optional_delta_error after making the conversion of variables index.
 		// Getting sure the delta error does give a nan, rise an exception otherwise.
@@ -145,14 +145,14 @@ namespace ghost
 		// This calls delta_error() if the user overrided it, otherwise it makes the simulation 'by hand' and calls error()
 		double simulate_delta( const std::vector<int>& variables_index, const std::vector<int>& candidate_values );
 
-		// Determine if the constraint contains a variable given its id. 
+		// Determine if the constraint contains a variable given its id.
 		bool has_variable( int var_id ) const;
 
 		// Return ids of variable objects in _variables.
 		inline std::vector<int> get_variable_ids() const { return _variables_index; }
 
 		inline void update( int index, int new_value ) { conditional_update_data_structures( _variables, _variables_position[ index ], new_value ); }
-		
+
 	protected:
 		/*!
 		 * Pure virtual method to compute the error of the constraint regarding the values of
@@ -167,7 +167,7 @@ namespace ghost
 		 * to have a solution than with x = 42 and y = 10,000. Thus the error when y = 40 must
 		 * be strictly lower than the error when y = 10,000.\n
 		 * Thus, a required_error candidate for the contraint (x = y) could be the function |x-y|.
-		 * 
+		 *
 		 * This method MUST returns a value greater than or equals to 0.
 		 *
 		 * Users have the choice: while modeling CSP or COP problems, required_error must implement
@@ -206,7 +206,7 @@ namespace ghost
 		 * lower (then better) than the current error, the ouput is negative. If errors are the
 		 * same, the ouputs equals to 0. Finally, if the candidate error is strictly higher
 		 * (then worth) than the current error, the ouput is positive.
-		 * 
+		 *
 		 * For EFSP/EFOP models, this method can be VERY important to have faster computation. 
 		 * Although optional (the solver still works without it), we strongly advise users to define
 		 * it properly, unless the overridden required_error method is trivial to compute.
@@ -275,15 +275,15 @@ namespace ghost
 		Constraint( const Constraint& other ) = default;
 		//! Default move contructor.
 		Constraint( Constraint&& other ) = default;
-    
+
 		//! Copy assignment operator disabled.
 		Constraint& operator=( const Constraint& other ) = delete;
 		//! Move assignment operator disabled.
 		Constraint& operator=( Constraint&& other ) = delete;
-    
+
 		//! Default virtual destructor.
-		virtual ~Constraint() = default;  
-		
+		virtual ~Constraint() = default;
+
 		//! To have a nicer stream of Constraint.
 		friend std::ostream& operator<<( std::ostream& os, const Constraint& c )
 		{

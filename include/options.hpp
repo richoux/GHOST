@@ -1,6 +1,6 @@
 /*
- * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework 
- * designed to help developers to model and implement optimization problem 
+ * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework
+ * designed to help developers to model and implement optimization problem
  * solving. It contains a meta-heuristic solver aiming to solve any kind of
  * combinatorial and optimization real-time problems represented by a CSP/COP/EFSP/EFOP. 
  *
@@ -66,8 +66,8 @@ namespace ghost
 
 		//! Unique move constructor
 		Options( Options&& other );
-		
-		/*! 
+
+		/*!
 		 * Unique copy assign operator
 		 *
 		 * No move assign operator on purpose (yes, we violate the rule of 5 here).

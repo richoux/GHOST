@@ -9,7 +9,7 @@ TutorialBuilder::TutorialBuilder()
 void TutorialBuilder::declare_variables()
 {
 	variables.emplace_back( 0, 51, std::string("bottle") );
-	variables.emplace_back( 0, 11, std::string("sandwich") );	
+	variables.emplace_back( 0, 11, std::string("sandwich") );
 }
 
 void TutorialBuilder::declare_constraints()

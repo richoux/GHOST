@@ -12,17 +12,16 @@ double KSCapacity::required_error( const std::vector<ghost::Variable*>& variable
 
 	double total_weight = 0.0;
 	for( size_t i = 0 ; i < variables.size() ; ++i )
-		total_weight += variables[i]->get_value() * _weights[i]; 
-	
+		total_weight += variables[i]->get_value() * _weights[i];
+
 	/*
 	// COP version here
 
-	return total_weight <= _capacity ? 0.0 : 1.0; 
-	
+	return total_weight <= _capacity ? 0.0 : 1.0;
+
 	/*/
 	// EFOP version here
 
 	return std::max( 0., total_weight - _capacity );
-	
-  //*/
+	//*/
 }

@@ -16,9 +16,9 @@ using namespace std::literals::chrono_literals;
 
 int main()
 {
-  // Declaring the model builder
+	// Declaring the model builder
 	TutorialBuilder builder;
-	
+
 	// Defining the solver and calling it
 	ghost::Solver solver( builder );
 
@@ -27,7 +27,7 @@ int main()
 
 	// Run the solver with a 500 microseconds budget
 	bool found = solver.solve( cost, solution, 500us );
-	
+
 	// After 500 microseconds, the solver will write in cost and solution the best solution it has found.
 	found ? std::cout << "Solution found\n" : std::cout << "Solution not found\n";
 	std::cout << "Cost: " << cost << "\nSolution:";

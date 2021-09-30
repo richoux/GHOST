@@ -1,6 +1,6 @@
 /*
- * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework 
- * designed to help developers to model and implement optimization problem 
+ * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework
+ * designed to help developers to model and implement optimization problem
  * solving. It contains a meta-heuristic solver aiming to solve any kind of
  * combinatorial and optimization real-time problems represented by a CSP/COP/EFSP/EFOP. 
  *
@@ -60,7 +60,7 @@ Options::Options( const Options& other )
 	  percent_to_reset( other.percent_to_reset ),
 	  number_start_samplings( other.number_start_samplings )
 { }
-		
+
 Options::Options( Options&& other )
 	: custom_starting_point( other.custom_starting_point ),
 	  resume_search( other.resume_search ),
@@ -74,7 +74,7 @@ Options::Options( Options&& other )
 	  percent_to_reset( other.percent_to_reset ),
 	  number_start_samplings( other.number_start_samplings )
 {	}
-		
+
 Options& Options::operator=( Options& other )
 {
 	if( this != &other )
@@ -91,6 +91,6 @@ Options& Options::operator=( Options& other )
 		percent_to_reset = other.percent_to_reset;
 		number_start_samplings = other.number_start_samplings;
 	}
-	
+
 	return *this;
 }

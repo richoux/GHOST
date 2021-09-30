@@ -1,6 +1,6 @@
 /*
- * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework 
- * designed to help developers to model and implement optimization problem 
+ * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework
+ * designed to help developers to model and implement optimization problem
  * solving. It contains a meta-heuristic solver aiming to solve any kind of
  * combinatorial and optimization real-time problems represented by a CSP/COP/EFSP/EFOP. 
  *
@@ -9,12 +9,12 @@
  * particular, it had been designed to be able to solve not-too-complex problem instances
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
- * 
+ *
  * Copyright (C) 2014-2021 Florian Richoux
  *
  * This file is part of GHOST.
- * GHOST is free software: you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as published 
+ * GHOST is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
 
@@ -39,7 +39,7 @@
 
 namespace ghost
 {
-	/*! 
+	/*!
 	 * This class encodes variables of the model. Users cannot write classes inheriting 
 	 * from ghost::Variable.
 	 *
@@ -67,7 +67,7 @@ namespace ghost
 		int _max_value; // maximal value in the domain
 		randutils::mt19937_rng _rng; // Neat random generator implemented in thirdparty/randutils.hpp,
 		                             // see https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html
-				
+
 		struct valueException : std::exception
 		{
 			int value;
@@ -82,11 +82,11 @@ namespace ghost
 
 		// Assign to the variable a random values from its domain.
 		inline void pick_random_value()	{	_current_value = _rng.pick( _domain ); }
-		
+
 	public:
 		//! Default constructor
-		Variable() = default;		
-		
+		Variable() = default;
+
 		/*!
 		 * Constructor with the domain as input.
 		 *
@@ -104,11 +104,11 @@ namespace ghost
 		Variable( const std::vector<int>& domain,
 		          int	index = 0,
 		          const std::string& name = std::string() );
-    
+
 		/*!
 		 * Constructor building a contiguous domain with all intergers from starting_value to 
 		 * starting_value + size-1.
-		 * 
+		 *
 		 * \param starting_value an integer representing the first value of the domain.
 		 * The creating domain will then be the interval [starting_value, starting_value + size - 1].
 		 * \param size a size_t corresponding to the size of the domain to create.
@@ -131,7 +131,7 @@ namespace ghost
 		 * \param domain a const reference to the vector of integers composing the domain
 		 * to create.
 		 * \param name a const reference of a string to give a name to the variable.
-		 */		
+		 */
 		Variable( const std::vector<int>& domain,
 		          const std::string& name );
 
@@ -149,15 +149,15 @@ namespace ghost
 		          std::size_t size,
 		          const std::string& name );
 
-		/*! 
+		/*!
 		 * Inline method returning the domain.
 		 *
 		 * \return The vector of integers composing the domain.
 		 */
 		inline std::vector<int> get_full_domain() const { return _domain; }
 
-		/*! 
-		 * Method returning the range of values 
+		/*!
+		 * Method returning the range of values
 		 * [current_value - range/2 [mod domain_size], current_value + range/2 [mod domain_size]]
 		 * from the domain.
 		 *
@@ -165,10 +165,10 @@ namespace ghost
 		 */
 		std::vector<int> get_partial_domain( int range ) const;
 
-		/*! 
+		/*!
 		 * Inline method to get the current value of the variable.
 		 *
-		 * \return An integer corresponding to the variable value. 
+		 * \return An integer corresponding to the variable value.
 		 */
 		inline int get_value() const { return _current_value; }
 
@@ -182,25 +182,25 @@ namespace ghost
 		{
 			if( std::find( _domain.cbegin(), _domain.cend(), value ) == _domain.cend() )
 				throw valueException( value, get_domain_min_value(), get_domain_max_value() );
-			
+
 			_current_value = value;
 		}
 
-		/*! 
+		/*!
 		 * Inline method returning the size of the domain of the variable.
 		 *
 		 * \return A size_t equals to size of the domain of the variable.
 		 */
 		inline std::size_t get_domain_size() const { return _domain.size(); }
 
-		/*! 
+		/*!
 		 * Inline method returning the minimal value in the variable's domain.
 		 *
 		 * \return The minimal value in the domain, in constant time.
 		 */
 		inline int get_domain_min_value() const { return _min_value; }
 
-		/*! 
+		/*!
 		 * Inline method returning the maximal value in the variable's domain.
 		 *
 		 * \return The maximal value in the domain, in constant time.
@@ -219,7 +219,7 @@ namespace ghost
 			std::string domain = "";
 			for( auto value : v.get_full_domain() )
 				domain += std::to_string( value ) + std::string( ", " );
-			
+
 			return os
 				<< "Variable name: " << v._name
 				<< "\nId: " <<  v._id

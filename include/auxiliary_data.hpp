@@ -1,6 +1,6 @@
 /*
- * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework 
- * designed to help developers to model and implement optimization problem 
+ * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework
+ * designed to help developers to model and implement optimization problem
  * solving. It contains a meta-heuristic solver aiming to solve any kind of
  * combinatorial and optimization real-time problems represented by a CSP/COP/EFSP/EFOP. 
  *
@@ -40,12 +40,12 @@ namespace ghost
 	/** AuxiliaryData **/
 	/*******************/
 
-	/*! 
+	/*!
 	 * ghost::AuxiliaryData is a class users eventually need to derive from if they need to keep
 	 * track with some auxiliary data outside variable values.
 	 *
 	 * ghost::AuxiliaryData cannot be directly used to encode auxiliary data of a model, since
-	 * this is an abstract class. 
+	 * this is an abstract class.
 	 *
 	 * Derived classes would contain all data outside variable values users need to keep updated.
 	 * The only method to override is required_update(variables, index, new_value), defining how
@@ -61,11 +61,11 @@ namespace ghost
 		std::vector<int> _variables_index; // To know where are the constraint's variables in the global variable vector
 		std::map<int,int> _variables_position; // To know where are global variables in the constraint's variables vector 
 
-		void update();		
-		void update( int index, int new_value );		
+		void update();
+		void update( int index, int new_value );
 
 	protected:
-		/*! 
+		/*!
 		 * Method to handle what should happen to the auxiliary data if variables[index] is updated
 		 * with the value 'new_value'.
 		 *
@@ -76,11 +76,11 @@ namespace ghost
 		 * \param new_value an integer to know what is the new value of 'variables[index]'.
 		 */
 		virtual void required_update( const std::vector<Variable*>& variables, int index, int new_value ) = 0;
-	
+
 	public:
 		//! Constructor instanciating an empty vector of variable IDs
 		AuxiliaryData();
-		
+
 		/*!
 		 * Constructor with a vector of variable IDs. This vector is internally used by AuxiliaryData
 		 * to know what variables from the global variable vector it is handling.
@@ -94,12 +94,12 @@ namespace ghost
 		 * \param variables a const reference to a vector of variable composing the constraint.
 		 */
 		AuxiliaryData( const std::vector<Variable>& variables );
-				
+
 		//! Default copy contructor.
 		AuxiliaryData( const AuxiliaryData& other ) = default;
 		//! Default move contructor.
 		AuxiliaryData( AuxiliaryData&& other ) = default;
-    
+
 		//! Copy assignment operator disabled.
 		AuxiliaryData& operator=( const AuxiliaryData& other ) = delete;
 		//! Move assignment operator disabled.
@@ -108,18 +108,18 @@ namespace ghost
 		//! Default virtual destructor.
 		virtual ~AuxiliaryData() = default;
 	};
-	
+
 	/***********************/
 	/** NullAuxiliaryData **/
 	/***********************/
-  //! NullAuxiliaryData is used when no auxiliary data are necessary in the model.
+	// NullAuxiliaryData is used when no auxiliary data are necessary in the model.
 	class NullAuxiliaryData : public AuxiliaryData
 	{
 	public:
 		NullAuxiliaryData()
 			: AuxiliaryData()
 		{ }
-		
+
 		void required_update( const std::vector<Variable*>& variables, int index, int new_value ) override { }
 	};
 }
