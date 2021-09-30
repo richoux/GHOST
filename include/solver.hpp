@@ -551,7 +551,7 @@ namespace ghost
 
 			std::cout << "Permutation problem: " << std::boolalpha << _is_permutation_problem << "\n"
 			          << "Time budget: " << timeout << "us (= " << timeout/1000 << "ms, " << timeout/1000000 << "s)\n"
-			          << "Search time: " << chrono_search << "us (= " << chrono_search / 1000 << " ms, " << chrono_search / 1000000 << "s)\n"
+			          << "Search time: " << chrono_search << "us (= " << chrono_search / 1000 << "ms, " << chrono_search / 1000000 << "s)\n"
 			          << "Wall-clock time (full program): " << chrono_full_computation << "us (= " << chrono_full_computation/1000 << "ms, " << chrono_full_computation/1000000 << "s)\n"
 			          << "Satisfaction error: " << _best_sat_error << "\n"
 			          << "Number of search iterations: " << _search_iterations << "\n"
@@ -575,7 +575,7 @@ namespace ghost
 			// 	std::cout << "Satisfaction post-processing time: " << timer_postprocess_sat.count() << " us\n"; 
 
 			if( timer_postprocess_opt.count() > 0 )
-				std::cout << "Optimization post-processing time: " << timer_postprocess_opt.count() << " us (= " << timer_postprocess_opt.count()/1000 << "ms, " << timer_postprocess_opt.count()/1000000 << "s)\n"; 
+				std::cout << "Optimization post-processing time: " << timer_postprocess_opt.count() << "us (= " << timer_postprocess_opt.count()/1000 << "ms, " << timer_postprocess_opt.count()/1000000 << "s)\n"; 
 
 			std::cout << "\n";
 #endif

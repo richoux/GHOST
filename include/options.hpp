@@ -72,6 +72,6 @@ namespace ghost
 		 *
 		 * No move assign operator on purpose (yes, we violate the rule of 5 here).
 		 */
-		Options& operator=( Options& other );
+		Options& operator=( Options other );
 	};
 }

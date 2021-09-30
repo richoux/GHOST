@@ -75,7 +75,7 @@ Options::Options( Options&& other )
 	  number_start_samplings( other.number_start_samplings )
 {	}
 
-Options& Options::operator=( Options& other )
+Options& Options::operator=( Options other )
 {
 	if( this != &other )
 	{
