@@ -14,6 +14,6 @@ void TutorialBuilder::declare_variables()
 
 void TutorialBuilder::declare_constraints()
 {
-	constraints.push_back( std::make_shared<Capacity>( variables, std::vector<double>{1, 1.25}, 30 ) );
-	constraints.push_back( std::make_shared<AtLeast>( variables, std::vector<double>{500, 650}, 15000 ) );
+	constraints.emplace_back( std::make_shared<Capacity>( variables, std::vector<double>{1, 1.25}, 30 ) );
+	constraints.emplace_back( std::make_shared<AtLeast>( variables, std::vector<double>{500, 650}, 15000 ) );
 }

@@ -14,16 +14,11 @@ void KSBuilder::declare_variables()
 
 void KSBuilder::declare_constraints()
 {
-	constraints.push_back( std::make_shared<KSCapacity>( variables, 15, auxiliary_data ) );
-	constraints.push_back( std::make_shared<KSAllDiff>( variables ) );
+	constraints.emplace_back( std::make_shared<KSCapacity>( variables, 15, std::vector<int>{12,2,1,1,4} ) );
+	constraints.emplace_back( std::make_shared<KSAllDiff>( variables ) );
 }
 
 void KSBuilder::declare_objective()
 {
-	objective = std::make_shared<KSObjective>( variables, auxiliary_data );
-}
-
-void KSBuilder::declare_auxiliary_data()
-{
-	auxiliary_data = std::make_shared<KSCoefficients>();
+	objective = std::make_shared<KSObjective>( variables, std::vector<int>{4,2,2,1,10} );
 }

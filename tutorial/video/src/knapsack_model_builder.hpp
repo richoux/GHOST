@@ -12,5 +12,4 @@ public:
 	void declare_variables() override;
 	void declare_constraints() override;
 	void declare_objective() override;
-	void declare_auxiliary_data() override;
 };
