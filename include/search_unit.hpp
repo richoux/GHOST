@@ -556,7 +556,6 @@ namespace ghost
 		double best_opt_cost;
 		double current_sat_error;
 		double current_opt_cost;
-		double cost_before_postprocess;
 
 		// stats variables (however _local_moves is important for the solver logic)
 		int restarts;
@@ -586,7 +585,6 @@ namespace ghost
 			  best_opt_cost ( std::numeric_limits<double>::max() ),
 			  current_sat_error ( std::numeric_limits<double>::max() ),
 			  current_opt_cost ( std::numeric_limits<double>::max() ),
-			  cost_before_postprocess ( std::numeric_limits<double>::max() ),
 			  restarts ( 0 ),
 			  resets ( 0 ),
 			  local_moves ( 0 ),
@@ -652,7 +650,6 @@ namespace ghost
 		{
 			// TODO: Antidote search
 			// TODO: Neighborhood
-			// TODO: Postprocess
 
 			// 1. Choice of worst variable(s) to change
 			// 2. Choice of their new value
@@ -671,10 +668,6 @@ namespace ghost
 
 			std::chrono::duration<double,std::micro> elapsed_time( 0 );
 			std::chrono::time_point<std::chrono::steady_clock> start( std::chrono::steady_clock::now() );
-			std::chrono::time_point<std::chrono::steady_clock> start_postprocess;
-
-			std::chrono::duration<double,std::micro> timer_postprocess_sat( 0 );
-			std::chrono::duration<double,std::micro> timer_postprocess_opt( 0 );
 
 			best_sat_error = std::numeric_limits<double>::max();
 			best_opt_cost = std::numeric_limits<double>::max();
@@ -692,8 +685,10 @@ namespace ghost
 
 			int variable_to_change;
 
-			// While timeout is not reached, and the solver didn't satisfied
-			// all constraints OR it is working on an optimization problem, continue the search.
+			// While timeout is not reached, and the solver didn't satisfied all constraints
+			// OR
+			// it is working on an optimization problem,
+			// continue the search.
 			while( !stop_search_requested()
 			       &&  elapsed_time.count() < timeout
 			       && ( best_sat_error > 0.0 || ( best_sat_error == 0.0 && model.objective->is_optimization() ) ) )
