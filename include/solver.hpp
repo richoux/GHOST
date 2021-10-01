@@ -128,7 +128,6 @@ namespace ghost
 		int _plateau_moves;
 		int _plateau_local_minimum;
 
-		bool _is_permutation_problem;
 		Options _options; // Options for the solver (see the struct Options).
 
 	public:
@@ -139,8 +138,7 @@ namespace ghost
 		 * \param permutation_problem a boolean indicating if the solver will work on a permutation
 		 * problem. False by default.
 		 */
-		Solver( const ModelBuilderType& model_builder,
-		        bool permutation_problem = false )
+		Solver( const ModelBuilderType& model_builder )
 			: _model_builder( model_builder ),
 			  _best_sat_error( std::numeric_limits<double>::max() ),
 			  _best_opt_cost( std::numeric_limits<double>::max() ),
@@ -158,8 +156,7 @@ namespace ghost
 			  _search_iterations( 0 ),
 			  _local_minimum( 0 ),
 			  _plateau_moves( 0 ),
-			  _plateau_local_minimum( 0 ),
-			  _is_permutation_problem( permutation_problem )
+			  _plateau_local_minimum( 0 )
 		{	}
 
 		/*!
@@ -284,7 +281,6 @@ namespace ghost
 			if( is_sequential )
 			{
 				SearchUnit search_unit( _model_builder.build_model(),
-				                        _is_permutation_problem,
 				                        _options );
 
 				is_optimization = search_unit.is_optimization();
@@ -319,7 +315,6 @@ namespace ghost
 				{
 					// Instantiate one model per thread
 					units.emplace_back( _model_builder.build_model(),
-					                    _is_permutation_problem,
 					                    _options );
 				}
 
@@ -549,7 +544,7 @@ namespace ghost
 					std::cout << _model.objective->get_name() << " must be minimized.\n";					
 			}
 
-			std::cout << "Permutation problem: " << std::boolalpha << _is_permutation_problem << "\n"
+			std::cout << "Permutation problem: " << std::boolalpha << _model.permutation_problem << "\n"
 			          << "Time budget: " << timeout << "us (= " << timeout/1000 << "ms, " << timeout/1000000 << "s)\n"
 			          << "Search time: " << chrono_search << "us (= " << chrono_search / 1000 << "ms, " << chrono_search / 1000000 << "s)\n"
 			          << "Wall-clock time (full program): " << chrono_full_computation << "us (= " << chrono_full_computation/1000 << "ms, " << chrono_full_computation/1000000 << "s)\n"

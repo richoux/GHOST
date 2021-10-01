@@ -31,6 +31,10 @@
 
 using namespace ghost;
 
+ModelBuilder::ModelBuilder( bool permutation_problem )
+	: permutation_problem( permutation_problem )
+{ }
+
 Model ModelBuilder::build_model()
 {
 	variables.clear();
@@ -78,7 +82,7 @@ Model ModelBuilder::build_model()
 		objective->_variables_position[ objective->_variables_index[ index ] ] = index;
 	}
 
-	return Model( std::move( variables ), constraints, objective, auxiliary_data );
+	return Model( std::move( variables ), constraints, objective, auxiliary_data, permutation_problem );
 }
 
 void ModelBuilder::create_n_variables( int number, const std::vector<int>& domain, int index )
