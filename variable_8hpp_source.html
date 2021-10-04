@@ -70,8 +70,8 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <a href="variable_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework </span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * designed to help developers to model and implement optimization problem </span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * designed to help developers to model and implement optimization problem</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * solving. It contains a meta-heuristic solver aiming to solve any kind of</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * combinatorial and optimization real-time problems represented by a CSP/COP/EFSP/EFOP. </span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
@@ -80,12 +80,12 @@ $(function() {
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * particular, it had been designed to be able to solve not-too-complex problem instances</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * within some milliseconds, making it very suitable for highly reactive or embedded systems.</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * Please visit https://github.com/richoux/GHOST for further information.</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * </span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * Copyright (C) 2014-2021 Florian Richoux</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * This file is part of GHOST.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * GHOST is free software: you can redistribute it and/or </span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * modify it under the terms of the GNU General Public License as published </span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * GHOST is free software: you can redistribute it and/or</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * modify it under the terms of the GNU General Public License as published</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * by the Free Software Foundation, either version 3 of the License, or</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> * (at your option) any later version.</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"></span> </div>
@@ -124,7 +124,7 @@ $(function() {
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordtype">int</span> _max_value; <span class="comment">// maximal value in the domain</span></div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        randutils::mt19937_rng _rng; <span class="comment">// Neat random generator implemented in thirdparty/randutils.hpp,</span></div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                                     <span class="comment">// see https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keyword">struct </span>valueException : std::exception</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        {</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            <span class="keywordtype">int</span> value;</div>
@@ -139,14 +139,14 @@ $(function() {
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="comment">// Assign to the variable a random values from its domain.</span></div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keyword">inline</span> <span class="keywordtype">void</span> pick_random_value() {   _current_value = _rng.pick( _domain ); }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <a class="code" href="classghost_1_1Variable.html#af68388a15c2b19251381dc5599a959bb">Variable</a>() = <span class="keywordflow">default</span>;       </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <a class="code" href="classghost_1_1Variable.html#af68388a15c2b19251381dc5599a959bb">Variable</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <a class="code" href="classghost_1_1Variable.html#af68388a15c2b19251381dc5599a959bb">Variable</a>( <span class="keyword">const</span> std::vector&lt;int&gt;&amp; domain,</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                  <span class="keywordtype">int</span>   index = 0,</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                  <span class="keyword">const</span> std::string&amp; name = std::string() );</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <a class="code" href="classghost_1_1Variable.html#af68388a15c2b19251381dc5599a959bb">Variable</a>( <span class="keywordtype">int</span> starting_value,</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                  std::size_t size,</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                  <span class="keywordtype">int</span>   index = 0,</div>
@@ -169,7 +169,7 @@ $(function() {
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        {</div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;            <span class="keywordflow">if</span>( std::find( _domain.cbegin(), _domain.cend(), value ) == _domain.cend() )</div>
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                <span class="keywordflow">throw</span> valueException( value, <a class="code" href="classghost_1_1Variable.html#ac697f67c6b142759656cacd03c0c988b">get_domain_min_value</a>(), <a class="code" href="classghost_1_1Variable.html#ad30a67f45dda72df70743e0b2e3371ed">get_domain_max_value</a>() );</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            </div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160; </div>
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            _current_value = value;</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        }</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
@@ -188,7 +188,7 @@ $(function() {
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;            std::string domain = <span class="stringliteral">&quot;&quot;</span>;</div>
 <div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            <span class="keywordflow">for</span>( <span class="keyword">auto</span> value : v.<a class="code" href="classghost_1_1Variable.html#a921a584004ea01b06991a50b0ccc8e01">get_full_domain</a>() )</div>
 <div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                domain += std::to_string( value ) + std::string( <span class="stringliteral">&quot;, &quot;</span> );</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;            </div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160; </div>
 <div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            <span class="keywordflow">return</span> os</div>
 <div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;                &lt;&lt; <span class="stringliteral">&quot;Variable name: &quot;</span> &lt;&lt; v._name</div>
 <div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                &lt;&lt; <span class="stringliteral">&quot;\nId: &quot;</span> &lt;&lt;  v._id</div>
@@ -216,7 +216,7 @@ $(function() {
 <div class="ttc" id="aclassghost_1_1Variable_html_ac697f67c6b142759656cacd03c0c988b"><div class="ttname"><a href="classghost_1_1Variable.html#ac697f67c6b142759656cacd03c0c988b">ghost::Variable::get_domain_min_value</a></div><div class="ttdeci">int get_domain_min_value() const</div><div class="ttdef"><b>Definition:</b> variable.hpp:201</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Sep 29 2021 14:04:30 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Oct 4 2021 11:12:21 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

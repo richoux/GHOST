@@ -70,7 +70,6 @@ $(function() {
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
-<a href="#friends">Friends</a> &#124;
 <a href="classghost_1_1Objective-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">ghost::Objective Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
@@ -83,10 +82,10 @@ Inheritance diagram for ghost::Objective:</div>
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1Objective__inherit__graph.png" border="0" usemap="#ghost_1_1Objective_inherit__map" alt="Inheritance graph"/></div>
 <map name="ghost_1_1Objective_inherit__map" id="ghost_1_1Objective_inherit__map">
-<area shape="rect" title=" " alt="" coords="121,5,291,347"/>
-<area shape="rect" href="classghost_1_1Maximize.html" title=" " alt="" coords="5,395,124,545"/>
-<area shape="rect" href="classghost_1_1Minimize.html" title=" " alt="" coords="149,395,263,545"/>
-<area shape="rect" title=" " alt="" coords="288,431,428,509"/>
+<area shape="rect" title=" " alt="" coords="121,5,291,303"/>
+<area shape="rect" href="classghost_1_1Maximize.html" title=" " alt="" coords="5,351,124,501"/>
+<area shape="rect" href="classghost_1_1Minimize.html" title=" " alt="" coords="149,351,263,501"/>
+<area shape="rect" title=" " alt="" coords="288,387,428,465"/>
 </map>
 </div>
 <div class="dynheader">
@@ -94,7 +93,7 @@ Collaboration diagram for ghost::Objective:</div>
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1Objective__coll__graph.png" border="0" usemap="#ghost_1_1Objective_coll__map" alt="Collaboration graph"/></div>
 <map name="ghost_1_1Objective_coll__map" id="ghost_1_1Objective_coll__map">
-<area shape="rect" title=" " alt="" coords="5,5,176,347"/>
+<area shape="rect" title=" " alt="" coords="5,5,176,303"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -134,10 +133,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a7d49dd27a72571e874351c8f969d2d43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74a9c2bc85b6878e282fa4acd4e91085"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a74a9c2bc85b6878e282fa4acd4e91085">expert_heuristic_value_permutation</a> (const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> * &gt; &amp;variables, int variable_index, const std::vector&lt; int &gt; &amp;bad_variables) const</td></tr>
 <tr class="separator:a74a9c2bc85b6878e282fa4acd4e91085"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6892d6c1c168b4a089e0bbea394e4e62"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a6892d6c1c168b4a089e0bbea394e4e62">expert_postprocess_satisfaction</a> (const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> * &gt; &amp;variables, double &amp;best_error, std::vector&lt; int &gt; &amp;solution) const</td></tr>
-<tr class="separator:a6892d6c1c168b4a089e0bbea394e4e62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10baf71ce9df56d6ad6a95878ca8cb96"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a10baf71ce9df56d6ad6a95878ca8cb96">expert_postprocess_optimization</a> (const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> * &gt; &amp;variables, double &amp;best_cost, std::vector&lt; int &gt; &amp;solution) const</td></tr>
-<tr class="separator:a10baf71ce9df56d6ad6a95878ca8cb96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79ef6272e6ef2275ef97bca32514aaee"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a79ef6272e6ef2275ef97bca32514aaee">expert_postprocess</a> (const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> * &gt; &amp;variables, double best_cost) const</td></tr>
+<tr class="separator:a79ef6272e6ef2275ef97bca32514aaee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac49a9de70ecd5f26813a79db906a70f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#ac49a9de70ecd5f26813a79db906a70f4">is_not_optimization</a> ()</td></tr>
 <tr class="separator:ac49a9de70ecd5f26813a79db906a70f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -146,23 +143,6 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a6e93affa93ccff08bcbcb65f9897f65c"><td class="memItemLeft" align="right" valign="top">randutils::mt19937_rng&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a6e93affa93ccff08bcbcb65f9897f65c">rng</a></td></tr>
 <tr class="memdesc:a6e93affa93ccff08bcbcb65f9897f65c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A neat random generator implemented in thirdparty/randutils.hpp, see <a href="https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html">https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html</a>.  <a href="classghost_1_1Objective.html#a6e93affa93ccff08bcbcb65f9897f65c">More...</a><br /></td></tr>
 <tr class="separator:a6e93affa93ccff08bcbcb65f9897f65c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
-Friends</h2></td></tr>
-<tr class="memitem:a135ddf4017f9df930c2790f5e40d46dc"><td class="memTemplParams" colspan="2">template&lt;typename ModelBuilderType &gt; </td></tr>
-<tr class="memitem:a135ddf4017f9df930c2790f5e40d46dc"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a135ddf4017f9df930c2790f5e40d46dc">Solver</a></td></tr>
-<tr class="separator:a135ddf4017f9df930c2790f5e40d46dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c63fbc7633d606756d6105c27047d38"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a2c63fbc7633d606756d6105c27047d38">SearchUnit</a></td></tr>
-<tr class="separator:a2c63fbc7633d606756d6105c27047d38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77c3d1f6a449713b2a45b269ff0dd07a"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a77c3d1f6a449713b2a45b269ff0dd07a">ModelBuilder</a></td></tr>
-<tr class="separator:a77c3d1f6a449713b2a45b269ff0dd07a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cf8056bd94aab05f9a4e5d2d656c317"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a5cf8056bd94aab05f9a4e5d2d656c317">Minimize</a></td></tr>
-<tr class="separator:a5cf8056bd94aab05f9a4e5d2d656c317"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a599f40e985bea17e0e8a6ef09c9a8b6a"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a599f40e985bea17e0e8a6ef09c9a8b6a">Maximize</a></td></tr>
-<tr class="separator:a599f40e985bea17e0e8a6ef09c9a8b6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80e7b267e1777cd5d882bec13e7e14d6"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a80e7b267e1777cd5d882bec13e7e14d6">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classghost_1_1Objective.html">Objective</a> &amp;o)</td></tr>
-<tr class="memdesc:a80e7b267e1777cd5d882bec13e7e14d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">To have a nicer stream of <a class="el" href="classghost_1_1Objective.html">Objective</a>.  <a href="classghost_1_1Objective.html#a80e7b267e1777cd5d882bec13e7e14d6">More...</a><br /></td></tr>
-<tr class="separator:a80e7b267e1777cd5d882bec13e7e14d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This is the base class containing the logic of objective functions. However, users would not derive their own <a class="el" href="classghost_1_1Objective.html">Objective</a> class directly from <a class="el" href="classghost_1_1Objective.html">ghost::Objective</a>, but from one of the two derived class <a class="el" href="classghost_1_1Minimize.html">ghost::Minimize</a> and <a class="el" href="classghost_1_1Maximize.html">ghost::Maximize</a>.</p>
@@ -293,7 +273,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Update user-defined data structures in the objective function.</p>
-<p>If some inner data structures are defined in derived objective classes and need to be updated while variable values change (i.e., when the solver asssign 'new_value' to variables[index]), this method must be implemented to define how data structures must be updated.</p>
+<p>Like any methods prefixed by 'conditional_', this method must be overriden under some conditions: if some inner data structures are defined in derived objective classes and need to be updated while variable values change (i.e., when the solver asssign 'new_value' to variables[index]), this method must be implemented to define how data structures must be updated.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">variables</td><td>a const reference of the vector of raw pointers to variables of the objective function. </td></tr>
@@ -415,8 +395,8 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a10baf71ce9df56d6ad6a95878ca8cb96"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10baf71ce9df56d6ad6a95878ca8cb96">&#9670;&nbsp;</a></span>expert_postprocess_optimization()</h2>
+<a id="a79ef6272e6ef2275ef97bca32514aaee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79ef6272e6ef2275ef97bca32514aaee">&#9670;&nbsp;</a></span>expert_postprocess()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -425,7 +405,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void ghost::Objective::expert_postprocess_optimization </td>
+          <td class="memname">virtual double ghost::Objective::expert_postprocess </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> * &gt; &amp;&#160;</td>
           <td class="paramname"><em>variables</em>, </td>
@@ -433,14 +413,8 @@ Friends</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double &amp;&#160;</td>
-          <td class="paramname"><em>best_cost</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>solution</em>&#160;</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>best_cost</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -454,76 +428,19 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Virtual method to perform optimization post-processing.</p>
-<p>This method is called by the solver after all optimization runs to apply human-knowledge optimization, allowing to improve the optimization cost.</p>
-<p>It does nothing by default. Users need to override it to have an optimization postprocess.</p>
+<p>Virtual method to perform post-processing optimization.</p>
+<p>This method is called by the solver once it has found a solution. Its purpose is to apply human-knowledge optimization.</p>
+<p>By default, it simply returns best_cost given as input, without modifying the variables. Users need to override it to have their own post-processing optimization.</p>
 <p>Like any methods prefixed by 'expert_', users should override this method only if they know what they are doing.</p>
-<dl class="section warning"><dt>Warning</dt><dd>The computation spantime of this method is not taken into account by timeouts given to the solver. If users override this method, they must ensure its computation time is neglictable compare to the timeout giving as input to <a class="el" href="classghost_1_1Solver.html#a4c6003a8f3ba82ef0d9b7d0823c92c0f">Solver::solve</a>. <br  />
-</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The computation spantime of this method is not taken into account by timeouts given to the solver. If users override this method, they must ensure its computation time is neglictable compare to the timeout giving as input to <a class="el" href="classghost_1_1Solver.html#a4c6003a8f3ba82ef0d9b7d0823c92c0f">Solver::solve</a>.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">variables</td><td>a const reference of the vector of raw pointers of variables in the scope of the objective function. The solver is calling this method with the vector of variables that has been given to the constructor. </td></tr>
-    <tr><td class="paramname">best_cost</td><td>a reference to the double representing the best optimization cost found by the solver so far. Its value may be updated, justifying a non const reference. </td></tr>
-    <tr><td class="paramname">solution</td><td>a reference to the vector of variables of the solution found by the solver. This vector may be updated, justifying a non const reference</td></tr>
+    <tr><td class="paramname">variables</td><td>a const reference of the vector of raw pointers of variables in the scope of the objective function. The solver is calling this method with the vector of variables that has been given to the constructor. If users must change some variables values, they must do it on variables from this vector, otherwise the modified solution won't be taken into account by the solver. </td></tr>
+    <tr><td class="paramname">best_cost</td><td>a double representing the best optimization cost found by the solver so far. This helps users be sure that their post-processing leads to actual improvements. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd>postprocess_optimization </dd></dl>
-
-</div>
-</div>
-<a id="a6892d6c1c168b4a089e0bbea394e4e62"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6892d6c1c168b4a089e0bbea394e4e62">&#9670;&nbsp;</a></span>expert_postprocess_satisfaction()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void ghost::Objective::expert_postprocess_satisfaction </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>variables</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double &amp;&#160;</td>
-          <td class="paramname"><em>best_error</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>solution</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Virtual method to perform satisfaction post-processing.</p>
-<p>This method is called by the solver after a satisfaction run, if the solver was able to find a solution, to apply human-knowledge optimization in order to "clean-up" the proposed solution.</p>
-<p>It does nothing by default. Users need to override it to have a satisfaction postprocess.</p>
-<p>Like any methods prefixed by 'expert_', users should override this method only if they know what they are doing.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">variables</td><td>a const reference of the vector of raw pointers of variables in the scope of the objective function. The solver is calling this method with the vector of variables that has been given to the constructor. </td></tr>
-    <tr><td class="paramname">best_error</td><td>a reference to the double representing the best satisfaction error found by the solver so far. Its value may be updated, justifying a non const reference. </td></tr>
-    <tr><td class="paramname">solution</td><td>a reference to the vector of variables of the solution found by the solver. This vector may be updated, justifying a non const reference</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section see"><dt>See also</dt><dd>postprocess_satisfaction </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The new error after post-processing. </dd></dl>
 
 </div>
 </div>
@@ -713,6 +630,7 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 <p>Pure virtual method to compute the value of the objective function regarding the values of variables given as input.</p>
 <p>Like <a class="el" href="classghost_1_1Constraint.html#a99bfdee12754330fd394ab4efbd93b41">Constraint::required_error</a>, this method is fundamental: it evalutes the performance of the current values of the variables. GHOST will search for variable values that will minimize or maximize the output of this method.</p>
+<p>Like any methods prefixed by 'required_', overriding this method is mandatory.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">variables</td><td>a const reference of the vector of raw pointers to variables in the scope of the constraint. The solver is actually calling this method with the vector of variables that has been given to the constructor. </td></tr>
@@ -726,157 +644,6 @@ Friends</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a id="a599f40e985bea17e0e8a6ef09c9a8b6a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a599f40e985bea17e0e8a6ef09c9a8b6a">&#9670;&nbsp;</a></span>Maximize</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">friend class <a class="el" href="classghost_1_1Maximize.html">Maximize</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a5cf8056bd94aab05f9a4e5d2d656c317"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5cf8056bd94aab05f9a4e5d2d656c317">&#9670;&nbsp;</a></span>Minimize</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">friend class <a class="el" href="classghost_1_1Minimize.html">Minimize</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a77c3d1f6a449713b2a45b269ff0dd07a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a77c3d1f6a449713b2a45b269ff0dd07a">&#9670;&nbsp;</a></span>ModelBuilder</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">friend class <a class="el" href="classghost_1_1ModelBuilder.html">ModelBuilder</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a80e7b267e1777cd5d882bec13e7e14d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a80e7b267e1777cd5d882bec13e7e14d6">&#9670;&nbsp;</a></span>operator&lt;&lt;</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::ostream&amp; operator&lt;&lt; </td>
-          <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>os</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classghost_1_1Objective.html">Objective</a> &amp;&#160;</td>
-          <td class="paramname"><em>o</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>To have a nicer stream of <a class="el" href="classghost_1_1Objective.html">Objective</a>. </p>
-
-</div>
-</div>
-<a id="a2c63fbc7633d606756d6105c27047d38"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2c63fbc7633d606756d6105c27047d38">&#9670;&nbsp;</a></span>SearchUnit</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">friend class SearchUnit</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a135ddf4017f9df930c2790f5e40d46dc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a135ddf4017f9df930c2790f5e40d46dc">&#9670;&nbsp;</a></span>Solver</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ModelBuilderType &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">friend class <a class="el" href="classghost_1_1Solver.html">Solver</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
 
 </div>
 </div>
@@ -911,7 +678,7 @@ template&lt;typename ModelBuilderType &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Sep 29 2021 14:04:30 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Oct 4 2021 11:12:21 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['maximize_156',['Maximize',['../classghost_1_1Objective.html#a599f40e985bea17e0e8a6ef09c9a8b6a',1,'ghost::Objective']]],
-  ['minimize_157',['Minimize',['../classghost_1_1Objective.html#a5cf8056bd94aab05f9a4e5d2d656c317',1,'ghost::Objective']]],
-  ['modelbuilder_158',['ModelBuilder',['../classghost_1_1AuxiliaryData.html#a77c3d1f6a449713b2a45b269ff0dd07a',1,'ghost::AuxiliaryData::ModelBuilder()'],['../classghost_1_1Constraint.html#a77c3d1f6a449713b2a45b269ff0dd07a',1,'ghost::Constraint::ModelBuilder()'],['../classghost_1_1Objective.html#a77c3d1f6a449713b2a45b269ff0dd07a',1,'ghost::Objective::ModelBuilder()'],['../classghost_1_1Variable.html#a77c3d1f6a449713b2a45b269ff0dd07a',1,'ghost::Variable::ModelBuilder()']]]
+  ['operator_3c_3c_156',['operator&lt;&lt;',['../classghost_1_1Constraint.html#a48c431fd7766654e6d03ab50592d9dfa',1,'ghost::Constraint::operator&lt;&lt;()'],['../classghost_1_1Objective.html#a80e7b267e1777cd5d882bec13e7e14d6',1,'ghost::Objective::operator&lt;&lt;()'],['../classghost_1_1Variable.html#aab05ab0693334e9e9a39f43903a37cb7',1,'ghost::Variable::operator&lt;&lt;()']]]
 ];

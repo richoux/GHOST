@@ -70,8 +70,8 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <a href="solver_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework </span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * designed to help developers to model and implement optimization problem </span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * designed to help developers to model and implement optimization problem</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * solving. It contains a meta-heuristic solver aiming to solve any kind of</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * combinatorial and optimization real-time problems represented by a CSP/COP/EFSP/EFOP. </span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
@@ -140,16 +140,16 @@ $(function() {
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceghost.html">ghost</a></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;{   </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;{</div>
 <div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html">  102</a></span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> ModelBuilderType&gt; <span class="keyword">class </span><a class="code" href="classghost_1_1Solver.html">Solver</a> final</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    {</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        Model _model;</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        ModelBuilderType _model_builder; <span class="comment">// Factory building the model</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keywordtype">int</span> _number_variables; <span class="comment">// Size of the vector of variables.</span></div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordtype">double</span> _best_sat_error; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keywordtype">double</span> _best_opt_cost; </div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordtype">double</span> _best_sat_error;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keywordtype">double</span> _best_opt_cost;</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="keywordtype">double</span> _cost_before_postprocess;</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="comment">// global statistics, cumulation of all threads stats.</span></div>
@@ -170,451 +170,434 @@ $(function() {
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="keywordtype">int</span> _plateau_moves;</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="keywordtype">int</span> _plateau_local_minimum;</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordtype">bool</span> _is_permutation_problem;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        <a class="code" href="structghost_1_1Options.html">Options</a> _options; <span class="comment">// Options for the solver (see the struct Options).</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        </div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00142"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#ab845d3f5264d760e5ea70844662350c4">  142</a></span>&#160;        <a class="code" href="classghost_1_1Solver.html#ab845d3f5264d760e5ea70844662350c4">Solver</a>( <span class="keyword">const</span> ModelBuilderType&amp; model_builder,</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                <span class="keywordtype">bool</span> permutation_problem = <span class="keyword">false</span> )</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            : _model_builder( model_builder ),</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;              _best_sat_error( std::numeric_limits&lt;double&gt;::max() ),</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;              _best_opt_cost( std::numeric_limits&lt;double&gt;::max() ),</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;              _cost_before_postprocess( std::numeric_limits&lt;double&gt;::max() ),</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;              _restarts_total( 0 ),</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;              _resets_total( 0 ),</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;              _local_moves_total( 0 ),</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;              _search_iterations_total( 0 ),</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;              _local_minimum_total( 0 ),</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;              _plateau_moves_total( 0 ),</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;              _plateau_local_minimum_total( 0 ),</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;              _restarts( 0 ),</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;              _resets( 0 ),</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;              _local_moves( 0 ),</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;              _search_iterations( 0 ),</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;              _local_minimum( 0 ),</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;              _plateau_moves( 0 ),</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;              _plateau_local_minimum( 0 ),</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;              _is_permutation_problem( permutation_problem )</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        {   }</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
-<div class="line"><a name="l00218"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a4c6003a8f3ba82ef0d9b7d0823c92c0f">  218</a></span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classghost_1_1Solver.html#a4c6003a8f3ba82ef0d9b7d0823c92c0f">solve</a>( <span class="keywordtype">double</span>&amp; final_cost,</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                    std::vector&lt;int&gt;&amp; final_solution,</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                    <span class="keywordtype">double</span> timeout,</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                    <a class="code" href="structghost_1_1Options.html">Options</a>&amp; options )</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        {</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            std::chrono::time_point&lt;std::chrono::steady_clock&gt; start_wall_clock( std::chrono::steady_clock::now() );</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            std::chrono::time_point&lt;std::chrono::steady_clock&gt; start_search;</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            std::chrono::time_point&lt;std::chrono::steady_clock&gt; start_postprocess;</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            std::chrono::duration&lt;double,std::micro&gt; elapsed_time( 0 );</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160; </div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            std::chrono::duration&lt;double,std::micro&gt; timer_postprocess_sat( 0 );</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            std::chrono::duration&lt;double,std::micro&gt; timer_postprocess_opt( 0 );</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160; </div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="comment">            /*****************</span></div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="comment">            * Initialization *</span></div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;<span class="comment">            ******************/</span></div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;            <span class="comment">// Only to get the number of variables</span></div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;            _model_builder.declare_variables();</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;            _number_variables = _model_builder.get_number_variables();</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160; </div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;            _options = options;</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;            </div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            <span class="keywordflow">if</span>( _options.<a class="code" href="structghost_1_1Options.html#aeb3ab7d6229c7925dcd4d844e940daf2">tabu_time_local_min</a> == -1 )</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                _options.<a class="code" href="structghost_1_1Options.html#aeb3ab7d6229c7925dcd4d844e940daf2">tabu_time_local_min</a> = std::max( std::min( 5, <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>( _number_variables ) - 1 ), <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>( std::ceil( _number_variables / 5 ) ) ) + 1;</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;              <span class="comment">//_options.tabu_time_local_min = std::max( 2, _tabu_threshold ) );</span></div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160; </div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;            <span class="keywordflow">if</span>( _options.<a class="code" href="structghost_1_1Options.html#a18e1acddad56b8635a8dda73b22bd048">tabu_time_selected</a> == -1 )</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                _options.<a class="code" href="structghost_1_1Options.html#a18e1acddad56b8635a8dda73b22bd048">tabu_time_selected</a> = 0;</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160; </div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            <span class="keywordflow">if</span>( _options.<a class="code" href="structghost_1_1Options.html#a42d2e8a372086262f21190562df995a6">reset_threshold</a> == -1 )</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;            {</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="preprocessor">#if defined ANTIDOTE_VARIABLE</span></div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;              _options.<a class="code" href="structghost_1_1Options.html#a42d2e8a372086262f21190562df995a6">reset_threshold</a> = 2 * <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>( std::ceil( std::sqrt( _number_variables ) ) );</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                _options.<a class="code" href="structghost_1_1Options.html#a42d2e8a372086262f21190562df995a6">reset_threshold</a> = _options.<a class="code" href="structghost_1_1Options.html#aeb3ab7d6229c7925dcd4d844e940daf2">tabu_time_local_min</a>;</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            }</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;            </div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="comment">// #if defined ANTIDOTE_VARIABLE</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="comment">//          _options.reset_threshold = static_cast&lt;int&gt;( std::ceil( 1.5 * _options.reset_threshold ) );</span></div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="comment">// #endif</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;            </div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            <span class="keywordflow">if</span>( _options.<a class="code" href="structghost_1_1Options.html#aaefbd6b1a712acae3f244a3413064b9f">restart_threshold</a> == -1 ) </div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                _options.<a class="code" href="structghost_1_1Options.html#aaefbd6b1a712acae3f244a3413064b9f">restart_threshold</a> = _number_variables;</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160; </div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;            <span class="keywordflow">if</span>( _options.<a class="code" href="structghost_1_1Options.html#a3d56aec92a6f3fa5f4ab00b2f06395f6">percent_to_reset</a> == -1 )</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                _options.<a class="code" href="structghost_1_1Options.html#a3d56aec92a6f3fa5f4ab00b2f06395f6">percent_to_reset</a> = std::max( 2, <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>( std::ceil( _number_variables * 0.1 ) ) ); <span class="comment">// 10%</span></div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160; </div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;            <span class="keywordtype">double</span> chrono_search;</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            <span class="keywordtype">double</span> chrono_full_computation;</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;            </div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;            <span class="comment">// In case final_solution is not a vector of the correct size,</span></div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;            <span class="comment">// ie, equals to the number of variables.</span></div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;            final_solution.resize( _number_variables );</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;            <span class="keywordtype">bool</span> solution_found = <span class="keyword">false</span>;            </div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;            <span class="keywordtype">bool</span> is_sequential;</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;            <span class="keywordtype">bool</span> is_optimization;</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;            </div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;<span class="preprocessor">#if defined GHOST_DEBUG || defined GHOST_TRACE || defined GHOST_BENCH</span></div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;            <span class="comment">// this is to make proper benchmarks/debugging with 1 thread.</span></div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;            is_sequential = !_options.<a class="code" href="structghost_1_1Options.html#a5c183c1e20a25662ed4cdfe4aa9e37d1">parallel_runs</a>;</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;            is_sequential = ( !_options.<a class="code" href="structghost_1_1Options.html#a5c183c1e20a25662ed4cdfe4aa9e37d1">parallel_runs</a> || _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a> == 1 );</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;            </div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;            <span class="comment">// sequential runs</span></div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;            <span class="keywordflow">if</span>( is_sequential )</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;            {</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                SearchUnit search_unit( _model_builder.build_model(),</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                                        _is_permutation_problem,</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;                                        _options );</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160; </div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;                is_optimization = search_unit.is_optimization();</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                std::future&lt;bool&gt; unit_future = search_unit.solution_found.get_future();</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;                </div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;                start_search = std::chrono::steady_clock::now();</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                search_unit.search( timeout );</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;                elapsed_time = std::chrono::steady_clock::now() - start_search;</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;                chrono_search = elapsed_time.count();</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160; </div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                solution_found = unit_future.get();</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                _best_sat_error = search_unit.best_sat_error;</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;                _best_opt_cost = search_unit.best_opt_cost;</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;                _restarts = search_unit.restarts;</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;                _resets = search_unit.resets;</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;                _local_moves = search_unit.local_moves;</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;                _search_iterations = search_unit.search_iterations;</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                _local_minimum = search_unit.local_minimum;</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;                _plateau_moves = search_unit.plateau_moves;</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;                _plateau_local_minimum = search_unit.plateau_local_minimum;</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;                <span class="comment">//final_solution = search_unit.final_solution;</span></div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160; </div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;                _model = std::move( search_unit.transfer_model() );             </div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;            }</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;            <span class="keywordflow">else</span> <span class="comment">// call threads</span></div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;            {</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;                std::vector&lt;SearchUnit&gt; units;</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;                units.reserve( _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a> );</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;                std::vector&lt;std::thread&gt; unit_threads;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <a class="code" href="structghost_1_1Options.html">Options</a> _options; <span class="comment">// Options for the solver (see the struct Options).</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00141"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a0143b99bbc018bf4aae1f88fd28bdb44">  141</a></span>&#160;        <a class="code" href="classghost_1_1Solver.html#a0143b99bbc018bf4aae1f88fd28bdb44">Solver</a>( <span class="keyword">const</span> ModelBuilderType&amp; model_builder )</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            : _model_builder( model_builder ),</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;              _best_sat_error( std::numeric_limits&lt;double&gt;::max() ),</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;              _best_opt_cost( std::numeric_limits&lt;double&gt;::max() ),</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;              _cost_before_postprocess( std::numeric_limits&lt;double&gt;::max() ),</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;              _restarts_total( 0 ),</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;              _resets_total( 0 ),</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;              _local_moves_total( 0 ),</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;              _search_iterations_total( 0 ),</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;              _local_minimum_total( 0 ),</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;              _plateau_moves_total( 0 ),</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;              _plateau_local_minimum_total( 0 ),</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;              _restarts( 0 ),</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;              _resets( 0 ),</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;              _local_moves( 0 ),</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;              _search_iterations( 0 ),</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;              _local_minimum( 0 ),</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;              _plateau_moves( 0 ),</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;              _plateau_local_minimum( 0 )</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        {   }</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160; </div>
+<div class="line"><a name="l00215"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a4c6003a8f3ba82ef0d9b7d0823c92c0f">  215</a></span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classghost_1_1Solver.html#a4c6003a8f3ba82ef0d9b7d0823c92c0f">solve</a>( <span class="keywordtype">double</span>&amp; final_cost,</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                    std::vector&lt;int&gt;&amp; final_solution,</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                    <span class="keywordtype">double</span> timeout,</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                    <a class="code" href="structghost_1_1Options.html">Options</a>&amp; options )</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        {</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            std::chrono::time_point&lt;std::chrono::steady_clock&gt; start_wall_clock( std::chrono::steady_clock::now() );</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;            std::chrono::time_point&lt;std::chrono::steady_clock&gt; start_search;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;            std::chrono::time_point&lt;std::chrono::steady_clock&gt; start_postprocess;</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            std::chrono::duration&lt;double,std::micro&gt; elapsed_time( 0 );</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            std::chrono::duration&lt;double,std::micro&gt; timer_postprocess( 0 );</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160; </div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;<span class="comment">            /*****************</span></div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;<span class="comment">            * Initialization *</span></div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;<span class="comment">            ******************/</span></div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            <span class="comment">// Only to get the number of variables</span></div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;            _model_builder.declare_variables();</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;            _number_variables = _model_builder.get_number_variables();</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160; </div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;            _options = options;</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160; </div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;            <span class="keywordflow">if</span>( _options.<a class="code" href="structghost_1_1Options.html#aeb3ab7d6229c7925dcd4d844e940daf2">tabu_time_local_min</a> == -1 )</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                _options.<a class="code" href="structghost_1_1Options.html#aeb3ab7d6229c7925dcd4d844e940daf2">tabu_time_local_min</a> = std::max( std::min( 5, <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>( _number_variables ) - 1 ), <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>( std::ceil( _number_variables / 5 ) ) ) + 1;</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;              <span class="comment">//_options.tabu_time_local_min = std::max( 2, _tabu_threshold ) );</span></div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; </div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;            <span class="keywordflow">if</span>( _options.<a class="code" href="structghost_1_1Options.html#a18e1acddad56b8635a8dda73b22bd048">tabu_time_selected</a> == -1 )</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;                _options.<a class="code" href="structghost_1_1Options.html#a18e1acddad56b8635a8dda73b22bd048">tabu_time_selected</a> = 0;</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160; </div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            <span class="keywordflow">if</span>( _options.<a class="code" href="structghost_1_1Options.html#a42d2e8a372086262f21190562df995a6">reset_threshold</a> == -1 )</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            {</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="preprocessor">#if defined ANTIDOTE_VARIABLE</span></div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;              _options.<a class="code" href="structghost_1_1Options.html#a42d2e8a372086262f21190562df995a6">reset_threshold</a> = 2 * <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>( std::ceil( std::sqrt( _number_variables ) ) );</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;                _options.<a class="code" href="structghost_1_1Options.html#a42d2e8a372086262f21190562df995a6">reset_threshold</a> = _options.<a class="code" href="structghost_1_1Options.html#aeb3ab7d6229c7925dcd4d844e940daf2">tabu_time_local_min</a>;</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;            }</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160; </div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="comment">// #if defined ANTIDOTE_VARIABLE</span></div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="comment">//          _options.reset_threshold = static_cast&lt;int&gt;( std::ceil( 1.5 * _options.reset_threshold ) );</span></div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="comment">// #endif</span></div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160; </div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;            <span class="keywordflow">if</span>( _options.<a class="code" href="structghost_1_1Options.html#aaefbd6b1a712acae3f244a3413064b9f">restart_threshold</a> == -1 )</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                _options.<a class="code" href="structghost_1_1Options.html#aaefbd6b1a712acae3f244a3413064b9f">restart_threshold</a> = _number_variables;</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160; </div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            <span class="keywordflow">if</span>( _options.<a class="code" href="structghost_1_1Options.html#a3d56aec92a6f3fa5f4ab00b2f06395f6">percent_to_reset</a> == -1 )</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                _options.<a class="code" href="structghost_1_1Options.html#a3d56aec92a6f3fa5f4ab00b2f06395f6">percent_to_reset</a> = std::max( 2, <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>( std::ceil( _number_variables * 0.1 ) ) ); <span class="comment">// 10%</span></div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160; </div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;            <span class="keywordtype">double</span> chrono_search;</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            <span class="keywordtype">double</span> chrono_full_computation;</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160; </div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;            <span class="comment">// In case final_solution is not a vector of the correct size,</span></div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;            <span class="comment">// ie, equals to the number of variables.</span></div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;            final_solution.resize( _number_variables );</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            <span class="keywordtype">bool</span> solution_found = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;            <span class="keywordtype">bool</span> is_sequential;</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;            <span class="keywordtype">bool</span> is_optimization;</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160; </div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;<span class="preprocessor">#if defined GHOST_DEBUG || defined GHOST_TRACE || defined GHOST_BENCH</span></div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;            <span class="comment">// this is to make proper benchmarks/debugging with 1 thread.</span></div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;            is_sequential = !_options.<a class="code" href="structghost_1_1Options.html#a5c183c1e20a25662ed4cdfe4aa9e37d1">parallel_runs</a>;</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;            is_sequential = ( !_options.<a class="code" href="structghost_1_1Options.html#a5c183c1e20a25662ed4cdfe4aa9e37d1">parallel_runs</a> || _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a> == 1 );</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160; </div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;            <span class="comment">// sequential runs</span></div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;            <span class="keywordflow">if</span>( is_sequential )</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;            {</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                SearchUnit search_unit( _model_builder.build_model(),</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                                        _options );</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160; </div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;                is_optimization = search_unit.is_optimization();</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;                std::future&lt;bool&gt; unit_future = search_unit.solution_found.get_future();</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160; </div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                start_search = std::chrono::steady_clock::now();</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;                search_unit.search( timeout );</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;                elapsed_time = std::chrono::steady_clock::now() - start_search;</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;                chrono_search = elapsed_time.count();</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160; </div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;                solution_found = unit_future.get();</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;                _best_sat_error = search_unit.best_sat_error;</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                _best_opt_cost = search_unit.best_opt_cost;</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;                _restarts = search_unit.restarts;</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;                _resets = search_unit.resets;</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;                _local_moves = search_unit.local_moves;</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                _search_iterations = search_unit.search_iterations;</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                _local_minimum = search_unit.local_minimum;</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;                _plateau_moves = search_unit.plateau_moves;</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;                _plateau_local_minimum = search_unit.plateau_local_minimum;</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160; </div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;                _model = std::move( search_unit.transfer_model() );</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;            }</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;            <span class="keywordflow">else</span> <span class="comment">// call threads</span></div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;            {</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;                std::vector&lt;SearchUnit&gt; units;</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;                units.reserve( _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a> );</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;                std::vector&lt;std::thread&gt; unit_threads;</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160; </div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;                <span class="keywordflow">for</span>( <span class="keywordtype">int</span> i = 0 ; i &lt; _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a>; ++i )</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;                {</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;                    <span class="comment">// Instantiate one model per thread</span></div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;                    units.emplace_back( _model_builder.build_model(),</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;                                        _options );</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;                }</div>
 <div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160; </div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;                <span class="keywordflow">for</span>( <span class="keywordtype">int</span> i = 0 ; i &lt; _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a>; ++i )</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;                {</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;                    <span class="comment">// Instantiate one model per thread</span></div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;                    units.emplace_back( _model_builder.build_model(),</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;                                        _is_permutation_problem,</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;                                        _options );</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;                }</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160; </div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;                is_optimization = units[0].is_optimization();</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;                </div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;                std::vector&lt;std::future&lt;bool&gt;&gt; units_future;</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;                std::vector&lt;bool&gt; units_terminated( _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a>, <span class="keyword">false</span> );</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160; </div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;                start_search = std::chrono::steady_clock::now();</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160; </div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;                <span class="keywordflow">for</span>( <span class="keywordtype">int</span> i = 0 ; i &lt; _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a>; ++i )</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                {</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;                    unit_threads.emplace_back( &amp;SearchUnit::search, &amp;units.at(i), timeout );</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;                    units.at( i ).get_thread_id( unit_threads.at( i ).get_id() );</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;                    units_future.emplace_back( units.at( i ).solution_found.get_future() );</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;                }</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;                </div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;                <span class="keywordtype">int</span> thread_number = 0;</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;                <span class="keywordtype">int</span> winning_thread = 0;</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;                <span class="keywordtype">bool</span> end_of_computation = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;                <span class="keywordtype">int</span> number_timeouts = 0;</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;                </div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;                <span class="keywordflow">while</span>( !end_of_computation )</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;                {</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;                    <span class="keywordflow">for</span>( thread_number = 0 ; thread_number &lt; _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a> ; ++thread_number )</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;                    {</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;                        <span class="keywordflow">if</span>( !units_terminated[ thread_number ] &amp;&amp; units_future.at( thread_number ).wait_for( std::chrono::microseconds( 0 ) ) == std::future_status::ready )</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;                        {</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;                            <span class="keywordflow">if</span>( is_optimization )</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;                            {</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;                                ++number_timeouts;</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;                                units_terminated[ thread_number ] = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160; </div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;                                <span class="keywordflow">if</span>( units_future.at( thread_number ).get() ) <span class="comment">// equivalent to if( units.at( thread_number ).best_sat_error == 0.0 )</span></div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;                                {</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;                                    solution_found = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;                                    <span class="keywordflow">if</span>( _best_opt_cost &gt; units.at( thread_number ).best_opt_cost )</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;                                    {</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;                                        _best_opt_cost = units.at( thread_number ).best_opt_cost;</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;                                        winning_thread = thread_number;                                     </div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;                                    }</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;                                }</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;                                </div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;                                <span class="keywordflow">if</span>( number_timeouts &gt;= _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a> )</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;                is_optimization = units[0].is_optimization();</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160; </div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;                std::vector&lt;std::future&lt;bool&gt;&gt; units_future;</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;                std::vector&lt;bool&gt; units_terminated( _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a>, <span class="keyword">false</span> );</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160; </div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;                start_search = std::chrono::steady_clock::now();</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160; </div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;                <span class="keywordflow">for</span>( <span class="keywordtype">int</span> i = 0 ; i &lt; _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a>; ++i )</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;                {</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;                    unit_threads.emplace_back( &amp;SearchUnit::search, &amp;units.at(i), timeout );</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;                    units.at( i ).get_thread_id( unit_threads.at( i ).get_id() );</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;                    units_future.emplace_back( units.at( i ).solution_found.get_future() );</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;                }</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160; </div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;                <span class="keywordtype">int</span> thread_number = 0;</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;                <span class="keywordtype">int</span> winning_thread = 0;</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                <span class="keywordtype">bool</span> end_of_computation = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;                <span class="keywordtype">int</span> number_timeouts = 0;</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160; </div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;                <span class="keywordflow">while</span>( !end_of_computation )</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;                {</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;                    <span class="keywordflow">for</span>( thread_number = 0 ; thread_number &lt; _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a> ; ++thread_number )</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;                    {</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;                        <span class="keywordflow">if</span>( !units_terminated[ thread_number ] &amp;&amp; units_future.at( thread_number ).wait_for( std::chrono::microseconds( 0 ) ) == std::future_status::ready )</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;                        {</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;                            <span class="keywordflow">if</span>( is_optimization )</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;                            {</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;                                ++number_timeouts;</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;                                units_terminated[ thread_number ] = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160; </div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;                                <span class="keywordflow">if</span>( units_future.at( thread_number ).get() ) <span class="comment">// equivalent to if( units.at( thread_number ).best_sat_error == 0.0 )</span></div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;                                {</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;                                    solution_found = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;                                    <span class="keywordflow">if</span>( _best_opt_cost &gt; units.at( thread_number ).best_opt_cost )</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;                                    {</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;                                        _best_opt_cost = units.at( thread_number ).best_opt_cost;</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;                                        winning_thread = thread_number;</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;                                    }</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;                                }</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160; </div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;                                <span class="keywordflow">if</span>( number_timeouts &gt;= _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a> )</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;                                {</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;                                    end_of_computation = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;                                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;                                }</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;                            }</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;                            <span class="keywordflow">else</span> <span class="comment">// then it is a satisfaction problem</span></div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;                            {</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;                                <span class="keywordflow">if</span>( units_future.at( thread_number ).get() )</div>
 <div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;                                {</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;                                    end_of_computation = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;                                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;                                }</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;                            }</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;                            <span class="keywordflow">else</span> <span class="comment">// then it is a satisfaction problem</span></div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;                            {</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;                                <span class="keywordflow">if</span>( units_future.at( thread_number ).get() )</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;                                    solution_found = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;                                    units_terminated[ thread_number ] = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;                                    winning_thread = thread_number;</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;                                    end_of_computation = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;                                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;                                }</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;                                <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;                                {</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;                                    solution_found = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;                                    ++number_timeouts;</div>
 <div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;                                    units_terminated[ thread_number ] = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;                                    winning_thread = thread_number;</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;                                    end_of_computation = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;                                }</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;                                <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;                                {</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;                                    ++number_timeouts;</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;                                    units_terminated[ thread_number ] = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;                                    <span class="keywordflow">if</span>( number_timeouts &gt;= _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a> )</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;                                    {</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;                                        end_of_computation = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;                                        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;                                    }</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;                                }</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;                            }</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;                        }                           </div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;                    }</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;                }</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;                </div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;                elapsed_time = std::chrono::steady_clock::now() - start_search;</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;                chrono_search = elapsed_time.count();</div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160; </div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;                <span class="comment">// Collect all interesting data before terminating threads.</span></div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;                <span class="comment">// Stats first...</span></div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;                <span class="keywordflow">for</span>( <span class="keywordtype">int</span> i = 0 ; i &lt; _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a> ; ++i )</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;                {</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;                    units.at(i).stop_search();</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;                                        </div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;                    _restarts_total += units.at(i).restarts;</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;                    _resets_total += units.at(i).resets;</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;                    _local_moves_total += units.at(i).local_moves;</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;                    _search_iterations_total += units.at(i).search_iterations;</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;                    _local_minimum_total += units.at(i).local_minimum;</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;                    _plateau_moves_total += units.at(i).plateau_moves;</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;                    _plateau_local_minimum_total += units.at(i).plateau_local_minimum;</div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;                }</div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160; </div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;                <span class="comment">// ..then the most important: the best solution found so far.</span></div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;                <span class="keywordflow">if</span>( solution_found )</div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;                {</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;<span class="preprocessor">#if defined GHOST_TRACE</span></div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;                    std::cout &lt;&lt; <span class="stringliteral">&quot;Parallel run, thread number &quot;</span> &lt;&lt; winning_thread &lt;&lt; <span class="stringliteral">&quot; has found a solution.\n&quot;</span>;</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;                    <span class="comment">//final_solution = units.at( winning_thread ).final_solution;</span></div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;                    _best_sat_error = units.at( winning_thread ).best_sat_error;</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;                    _best_opt_cost = units.at( winning_thread ).best_opt_cost;</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160; </div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;                    _restarts = units.at( winning_thread ).restarts;</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;                    _resets = units.at( winning_thread ).resets;</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;                    _local_moves = units.at( winning_thread ).local_moves;</div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;                    _search_iterations = units.at( winning_thread ).search_iterations;</div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;                    _local_minimum = units.at( winning_thread ).local_minimum;</div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;                    _plateau_moves = units.at( winning_thread ).plateau_moves;</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;                    _plateau_local_minimum = units.at( winning_thread ).plateau_local_minimum;</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;                    _model = std::move( units.at( winning_thread ).transfer_model() );</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;                }</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;                <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;                {</div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;<span class="preprocessor">#if defined GHOST_TRACE</span></div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;                    std::cout &lt;&lt; <span class="stringliteral">&quot;Parallel run, no solutions found.\n&quot;</span>;</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;                    <span class="keywordtype">int</span> best_non_solution = 0;</div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;                    <span class="keywordflow">for</span>( <span class="keywordtype">int</span> i = 0 ; i &lt; _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a> ; ++i )</div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;                    {</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;                        <span class="keywordflow">if</span>( _best_sat_error &gt; units.at( i ).best_sat_error )</div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;                        {</div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;                            best_non_solution = i;</div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;                            _best_sat_error = units.at( i ).best_sat_error;</div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;                        }</div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;                        <span class="keywordflow">if</span>( is_optimization &amp;&amp; _best_sat_error == 0.0 )</div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;                            <span class="keywordflow">if</span>( units.at( i ).best_sat_error == 0.0 &amp;&amp; _best_opt_cost &gt; units.at( i ).best_opt_cost )</div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;                            {</div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;                                best_non_solution = i;</div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;                                _best_opt_cost = units.at( i ).best_opt_cost;</div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;                            }</div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;                    }</div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160; </div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;                    <span class="comment">//final_solution = units.at( best_non_solution ).final_solution;</span></div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;                    _restarts = units.at( best_non_solution ).restarts;</div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;                    _resets = units.at( best_non_solution ).resets;</div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;                    _local_moves = units.at( best_non_solution ).local_moves;</div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;                    _search_iterations = units.at( best_non_solution ).search_iterations;</div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;                    _local_minimum = units.at( best_non_solution ).local_minimum;</div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;                    _plateau_moves = units.at( best_non_solution ).plateau_moves;</div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;                    _plateau_local_minimum = units.at( best_non_solution ).plateau_local_minimum;</div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;                    _model = std::move( units.at( best_non_solution ).transfer_model() );</div>
-<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;                }</div>
-<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160; </div>
-<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;                <span class="keywordflow">for</span>( <span class="keyword">auto</span>&amp; thread: unit_threads )</div>
-<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;                {</div>
-<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;<span class="preprocessor">#if defined GHOST_TRACE</span></div>
-<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;                    std::cout &lt;&lt; <span class="stringliteral">&quot;Joining and terminating thread number &quot;</span> &lt;&lt; thread.get_id() &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;                    thread.join();</div>
-<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;                }</div>
-<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;            }</div>
-<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160; </div>
-<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;            std::transform( _model.variables.begin(),</div>
-<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;                            _model.variables.end(),</div>
-<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;                            final_solution.begin(),</div>
-<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;                            [&amp;](<span class="keyword">auto</span>&amp; var){ return var.get_value(); } );</div>
-<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;            </div>
-<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;            <span class="keywordflow">if</span>( solution_found &amp;&amp; is_optimization )</div>
-<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;            {</div>
-<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;                _cost_before_postprocess = _best_opt_cost;</div>
-<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160; </div>
-<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;                start_postprocess = std::chrono::steady_clock::now();</div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;                _model.objective-&gt;postprocess_optimization( _best_opt_cost, final_solution );</div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;                timer_postprocess_opt = std::chrono::steady_clock::now() - start_postprocess;</div>
-<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;            }</div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160; </div>
-<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;            <span class="keywordflow">if</span>( is_optimization )</div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;            {</div>
-<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;                <span class="keywordflow">if</span>( _best_opt_cost &lt; 0 )</div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;                {</div>
-<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;                    _best_opt_cost = -_best_opt_cost;</div>
-<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;                    _cost_before_postprocess = -_cost_before_postprocess;</div>
-<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;                }</div>
-<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;                </div>
-<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;                final_cost = _best_opt_cost;</div>
-<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;            }</div>
-<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;                final_cost = _best_sat_error;</div>
-<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;            </div>
-<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;            <span class="comment">// Set the variables to the best solution values.</span></div>
-<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;            <span class="comment">// Useful if the user prefer to directly use the vector of Variables</span></div>
-<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;            <span class="comment">// to manipulate and exploit the solution.</span></div>
-<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;            <span class="comment">// for( int variable_id = 0 ; variable_id &lt; _number_variables; ++variable_id )</span></div>
-<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;            <span class="comment">//  _model.variables[ variable_id ].set_value( final_solution[ variable_id ] );</span></div>
-<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160; </div>
-<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;            elapsed_time = std::chrono::steady_clock::now() - start_wall_clock;</div>
-<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;            chrono_full_computation = elapsed_time.count();</div>
-<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;            </div>
-<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;<span class="preprocessor">#if defined GHOST_DEBUG || defined GHOST_TRACE || defined GHOST_BENCH</span></div>
-<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;@@@@@@@@@@@@&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
-<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Variable heuristic: &quot;</span></div>
-<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;<span class="preprocessor">#if not defined ANTIDOTE_VARIABLE // ADAPTIVE_SEARCH</span></div>
-<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Adaptive Search\n&quot;</span></div>
-<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;<span class="preprocessor">#else // Antidote Search</span></div>
-<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Antidote Search\n&quot;</span></div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Value heuristic: &quot;</span></div>
-<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;<span class="preprocessor">#if not defined ANTIDOTE_VALUE // ADAPTIVE_SEARCH</span></div>
-<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Adaptive Search\n&quot;</span></div>
-<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;<span class="preprocessor">#else // Antidote Search</span></div>
-<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Antidote Search\n&quot;</span></div>
-<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Started from a custom variables assignment: &quot;</span> &lt;&lt; std::boolalpha &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#aaea0ae75dd942cde49c6971790a3a77c">custom_starting_point</a> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
-<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Search resumed from a previous run: &quot;</span> &lt;&lt; std::boolalpha &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#aec24b2880f9172e189984a8e08f059e2">resume_search</a> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
-<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Parallel search: &quot;</span> &lt;&lt; std::boolalpha &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#a5c183c1e20a25662ed4cdfe4aa9e37d1">parallel_runs</a> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
-<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Number of threads (not used if no parallel search): &quot;</span> &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
-<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Number of variable assignments samplings at start (if custom start and resume are set to false): &quot;</span> &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#a6f1db33d35ac7d3325df1140b454edda">number_start_samplings</a> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
-<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Variables of local minimum are frozen for: &quot;</span> &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#aeb3ab7d6229c7925dcd4d844e940daf2">tabu_time_local_min</a> &lt;&lt; <span class="stringliteral">&quot; local moves\n&quot;</span></div>
-<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Selected variables are frozen for: &quot;</span> &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#a18e1acddad56b8635a8dda73b22bd048">tabu_time_selected</a> &lt;&lt; <span class="stringliteral">&quot; local moves\n&quot;</span></div>
-<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;                      &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#a3d56aec92a6f3fa5f4ab00b2f06395f6">percent_to_reset</a> &lt;&lt; <span class="stringliteral">&quot; variables are reset when &quot;</span> &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#a42d2e8a372086262f21190562df995a6">reset_threshold</a> &lt;&lt; <span class="stringliteral">&quot; variables are frozen\n&quot;</span></div>
-<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Do a restart each time &quot;</span> &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#aaefbd6b1a712acae3f244a3413064b9f">restart_threshold</a> &lt;&lt; <span class="stringliteral">&quot; resets are performed\n&quot;</span></div>
-<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;############&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;                                    <span class="keywordflow">if</span>( number_timeouts &gt;= _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a> )</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;                                    {</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                                        end_of_computation = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;                                        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;                                    }</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;                                }</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;                            }</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;                        }</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;                    }</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;                }</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160; </div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;                elapsed_time = std::chrono::steady_clock::now() - start_search;</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;                chrono_search = elapsed_time.count();</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160; </div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;                <span class="comment">// Collect all interesting data before terminating threads.</span></div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;                <span class="comment">// Stats first...</span></div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;                <span class="keywordflow">for</span>( <span class="keywordtype">int</span> i = 0 ; i &lt; _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a> ; ++i )</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;                {</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;                    units.at(i).stop_search();</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160; </div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;                    _restarts_total += units.at(i).restarts;</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;                    _resets_total += units.at(i).resets;</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;                    _local_moves_total += units.at(i).local_moves;</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;                    _search_iterations_total += units.at(i).search_iterations;</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;                    _local_minimum_total += units.at(i).local_minimum;</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;                    _plateau_moves_total += units.at(i).plateau_moves;</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;                    _plateau_local_minimum_total += units.at(i).plateau_local_minimum;</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;                }</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160; </div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;                <span class="comment">// ..then the most important: the best solution found so far.</span></div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;                <span class="keywordflow">if</span>( solution_found )</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;                {</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;<span class="preprocessor">#if defined GHOST_TRACE</span></div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;                    std::cout &lt;&lt; <span class="stringliteral">&quot;Parallel run, thread number &quot;</span> &lt;&lt; winning_thread &lt;&lt; <span class="stringliteral">&quot; has found a solution.\n&quot;</span>;</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;                    _best_sat_error = units.at( winning_thread ).best_sat_error;</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;                    _best_opt_cost = units.at( winning_thread ).best_opt_cost;</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160; </div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;                    _restarts = units.at( winning_thread ).restarts;</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;                    _resets = units.at( winning_thread ).resets;</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;                    _local_moves = units.at( winning_thread ).local_moves;</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;                    _search_iterations = units.at( winning_thread ).search_iterations;</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;                    _local_minimum = units.at( winning_thread ).local_minimum;</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;                    _plateau_moves = units.at( winning_thread ).plateau_moves;</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;                    _plateau_local_minimum = units.at( winning_thread ).plateau_local_minimum;</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;                    _model = std::move( units.at( winning_thread ).transfer_model() );</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;                }</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;                <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;                {</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;<span class="preprocessor">#if defined GHOST_TRACE</span></div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;                    std::cout &lt;&lt; <span class="stringliteral">&quot;Parallel run, no solutions found.\n&quot;</span>;</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;                    <span class="keywordtype">int</span> best_non_solution = 0;</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;                    <span class="keywordflow">for</span>( <span class="keywordtype">int</span> i = 0 ; i &lt; _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a> ; ++i )</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;                    {</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;                        <span class="keywordflow">if</span>( _best_sat_error &gt; units.at( i ).best_sat_error )</div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;                        {</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;                            best_non_solution = i;</div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;                            _best_sat_error = units.at( i ).best_sat_error;</div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;                        }</div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;                        <span class="keywordflow">if</span>( is_optimization &amp;&amp; _best_sat_error == 0.0 )</div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;                            <span class="keywordflow">if</span>( units.at( i ).best_sat_error == 0.0 &amp;&amp; _best_opt_cost &gt; units.at( i ).best_opt_cost )</div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;                            {</div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;                                best_non_solution = i;</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;                                _best_opt_cost = units.at( i ).best_opt_cost;</div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;                            }</div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;                    }</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160; </div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;                    _restarts = units.at( best_non_solution ).restarts;</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;                    _resets = units.at( best_non_solution ).resets;</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;                    _local_moves = units.at( best_non_solution ).local_moves;</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;                    _search_iterations = units.at( best_non_solution ).search_iterations;</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;                    _local_minimum = units.at( best_non_solution ).local_minimum;</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;                    _plateau_moves = units.at( best_non_solution ).plateau_moves;</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;                    _plateau_local_minimum = units.at( best_non_solution ).plateau_local_minimum;</div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;                    _model = std::move( units.at( best_non_solution ).transfer_model() );</div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;                }</div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160; </div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;                <span class="keywordflow">for</span>( <span class="keyword">auto</span>&amp; thread: unit_threads )</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;                {</div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;<span class="preprocessor">#if defined GHOST_TRACE</span></div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;                    std::cout &lt;&lt; <span class="stringliteral">&quot;Joining and terminating thread number &quot;</span> &lt;&lt; thread.get_id() &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;                    thread.join();</div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;                }</div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;            }</div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160; </div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;            <span class="keywordflow">if</span>( solution_found &amp;&amp; is_optimization )</div>
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;            {</div>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;                _cost_before_postprocess = _best_opt_cost;</div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160; </div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;                start_postprocess = std::chrono::steady_clock::now();</div>
+<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;                _best_opt_cost = _model.objective-&gt;postprocess( _best_opt_cost );</div>
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;                timer_postprocess = std::chrono::steady_clock::now() - start_postprocess;</div>
+<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;            }</div>
+<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160; </div>
+<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;            <span class="keywordflow">if</span>( is_optimization )</div>
+<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;            {</div>
+<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;                <span class="keywordflow">if</span>( _best_opt_cost &lt; 0 )</div>
+<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;                {</div>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;                    _best_opt_cost = -_best_opt_cost;</div>
+<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;                    _cost_before_postprocess = -_cost_before_postprocess;</div>
+<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;                }</div>
+<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160; </div>
+<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;                final_cost = _best_opt_cost;</div>
+<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;            }</div>
+<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;                final_cost = _best_sat_error;</div>
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160; </div>
+<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;            std::transform( _model.variables.begin(),</div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;                            _model.variables.end(),</div>
+<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;                            final_solution.begin(),</div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;                            [&amp;](<span class="keyword">auto</span>&amp; var){ return var.get_value(); } );</div>
+<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160; </div>
+<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;            elapsed_time = std::chrono::steady_clock::now() - start_wall_clock;</div>
+<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;            chrono_full_computation = elapsed_time.count();</div>
+<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160; </div>
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;<span class="preprocessor">#if defined GHOST_DEBUG || defined GHOST_TRACE || defined GHOST_BENCH</span></div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;@@@@@@@@@@@@&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Variable heuristic: &quot;</span></div>
+<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;<span class="preprocessor">#if not defined ANTIDOTE_VARIABLE // ADAPTIVE_SEARCH</span></div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Adaptive Search\n&quot;</span></div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;<span class="preprocessor">#else // Antidote Search</span></div>
+<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Antidote Search\n&quot;</span></div>
+<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Value heuristic: &quot;</span></div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;<span class="preprocessor">#if not defined ANTIDOTE_VALUE // ADAPTIVE_SEARCH</span></div>
+<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Adaptive Search\n&quot;</span></div>
+<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;<span class="preprocessor">#else // Antidote Search</span></div>
+<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Antidote Search\n&quot;</span></div>
+<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Started from a custom variables assignment: &quot;</span> &lt;&lt; std::boolalpha &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#aaea0ae75dd942cde49c6971790a3a77c">custom_starting_point</a> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Search resumed from a previous run: &quot;</span> &lt;&lt; std::boolalpha &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#aec24b2880f9172e189984a8e08f059e2">resume_search</a> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Parallel search: &quot;</span> &lt;&lt; std::boolalpha &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#a5c183c1e20a25662ed4cdfe4aa9e37d1">parallel_runs</a> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Number of threads (not used if no parallel search): &quot;</span> &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Number of variable assignments samplings at start (if custom start and resume are set to false): &quot;</span> &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#a6f1db33d35ac7d3325df1140b454edda">number_start_samplings</a> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Variables of local minimum are frozen for: &quot;</span> &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#aeb3ab7d6229c7925dcd4d844e940daf2">tabu_time_local_min</a> &lt;&lt; <span class="stringliteral">&quot; local moves\n&quot;</span></div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Selected variables are frozen for: &quot;</span> &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#a18e1acddad56b8635a8dda73b22bd048">tabu_time_selected</a> &lt;&lt; <span class="stringliteral">&quot; local moves\n&quot;</span></div>
+<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;                      &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#a3d56aec92a6f3fa5f4ab00b2f06395f6">percent_to_reset</a> &lt;&lt; <span class="stringliteral">&quot; variables are reset when &quot;</span> &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#a42d2e8a372086262f21190562df995a6">reset_threshold</a> &lt;&lt; <span class="stringliteral">&quot; variables are frozen\n&quot;</span></div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Do a restart each time &quot;</span> &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#aaefbd6b1a712acae3f244a3413064b9f">restart_threshold</a> &lt;&lt; <span class="stringliteral">&quot; resets are performed\n&quot;</span></div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;############&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160; </div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;            <span class="comment">// Print solution</span></div>
+<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;            std::cout &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#aaec574f3fd46d8efdaf6ff92046fb29b">print</a>-&gt;print_candidate( _model.variables ).str();</div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160; </div>
+<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160; </div>
+<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;            <span class="keywordflow">if</span>( !is_optimization )</div>
+<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;                std::cout &lt;&lt; <span class="stringliteral">&quot;SATISFACTION run&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;            {</div>
+<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;                std::cout &lt;&lt; <span class="stringliteral">&quot;OPTIMIZATION run with objective &quot;</span> &lt;&lt; _model.objective-&gt;get_name() &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;                <span class="keywordflow">if</span>( _model.objective-&gt;is_maximization() )</div>
+<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;                    std::cout &lt;&lt; _model.objective-&gt;get_name() &lt;&lt; <span class="stringliteral">&quot; must be maximized.\n&quot;</span>;</div>
+<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;                <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;                    std::cout &lt;&lt; _model.objective-&gt;get_name() &lt;&lt; <span class="stringliteral">&quot; must be minimized.\n&quot;</span>;                   </div>
+<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;            }</div>
 <div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160; </div>
-<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;            <span class="comment">// Print solution</span></div>
-<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;            std::cout &lt;&lt; _options.<a class="code" href="structghost_1_1Options.html#aaec574f3fd46d8efdaf6ff92046fb29b">print</a>-&gt;print_candidate( _model.variables ).str();</div>
-<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160; </div>
-<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;            </div>
-<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;            <span class="keywordflow">if</span>( !is_optimization )</div>
-<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;                std::cout &lt;&lt; <span class="stringliteral">&quot;SATISFACTION run&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;            {</div>
-<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;                std::cout &lt;&lt; <span class="stringliteral">&quot;OPTIMIZATION run with objective &quot;</span> &lt;&lt; _model.objective-&gt;get_name() &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;                <span class="keywordflow">if</span>( _model.objective-&gt;is_maximization() )</div>
-<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;                    std::cout &lt;&lt; _model.objective-&gt;get_name() &lt;&lt; <span class="stringliteral">&quot; must be maximized.\n&quot;</span>;</div>
-<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;                <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;                    std::cout &lt;&lt; _model.objective-&gt;get_name() &lt;&lt; <span class="stringliteral">&quot; must be minimized.\n&quot;</span>;                   </div>
-<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;            }</div>
-<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;            </div>
-<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;Permutation problem: &quot;</span> &lt;&lt; std::boolalpha &lt;&lt; _is_permutation_problem &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
-<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Time budget: &quot;</span> &lt;&lt; timeout &lt;&lt; <span class="stringliteral">&quot;us (= &quot;</span> &lt;&lt; timeout/1000 &lt;&lt; <span class="stringliteral">&quot;ms, &quot;</span> &lt;&lt; timeout/1000000 &lt;&lt; <span class="stringliteral">&quot;s)\n&quot;</span></div>
-<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Search time: &quot;</span> &lt;&lt; chrono_search &lt;&lt; <span class="stringliteral">&quot;us (= &quot;</span> &lt;&lt; chrono_search / 1000 &lt;&lt; <span class="stringliteral">&quot; ms, &quot;</span> &lt;&lt; chrono_search / 1000000 &lt;&lt; <span class="stringliteral">&quot;s)\n&quot;</span></div>
-<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Wall-clock time (full program): &quot;</span> &lt;&lt; chrono_full_computation &lt;&lt; <span class="stringliteral">&quot;us (= &quot;</span> &lt;&lt; chrono_full_computation/1000 &lt;&lt; <span class="stringliteral">&quot;ms, &quot;</span> &lt;&lt; chrono_full_computation/1000000 &lt;&lt; <span class="stringliteral">&quot;s)\n&quot;</span></div>
-<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Satisfaction error: &quot;</span> &lt;&lt; _best_sat_error &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
-<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Number of search iterations: &quot;</span> &lt;&lt; _search_iterations &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
-<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Number of local moves: &quot;</span> &lt;&lt; _local_moves &lt;&lt; <span class="stringliteral">&quot; (including on plateau: &quot;</span> &lt;&lt; _plateau_moves &lt;&lt; <span class="stringliteral">&quot;)\n&quot;</span></div>
-<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Number of local minimum: &quot;</span> &lt;&lt; _local_minimum &lt;&lt; <span class="stringliteral">&quot; (including on plateau: &quot;</span> &lt;&lt; _plateau_local_minimum &lt;&lt; <span class="stringliteral">&quot;)\n&quot;</span></div>
-<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Number of resets: &quot;</span> &lt;&lt; _resets &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
-<div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Number of restarts: &quot;</span> &lt;&lt; _restarts &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;Permutation problem: &quot;</span> &lt;&lt; std::boolalpha &lt;&lt; _model.permutation_problem &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Time budget: &quot;</span> &lt;&lt; timeout &lt;&lt; <span class="stringliteral">&quot;us (= &quot;</span> &lt;&lt; timeout/1000 &lt;&lt; <span class="stringliteral">&quot;ms, &quot;</span> &lt;&lt; timeout/1000000 &lt;&lt; <span class="stringliteral">&quot;s)\n&quot;</span></div>
+<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Search time: &quot;</span> &lt;&lt; chrono_search &lt;&lt; <span class="stringliteral">&quot;us (= &quot;</span> &lt;&lt; chrono_search / 1000 &lt;&lt; <span class="stringliteral">&quot;ms, &quot;</span> &lt;&lt; chrono_search / 1000000 &lt;&lt; <span class="stringliteral">&quot;s)\n&quot;</span></div>
+<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Wall-clock time (full program): &quot;</span> &lt;&lt; chrono_full_computation &lt;&lt; <span class="stringliteral">&quot;us (= &quot;</span> &lt;&lt; chrono_full_computation/1000 &lt;&lt; <span class="stringliteral">&quot;ms, &quot;</span> &lt;&lt; chrono_full_computation/1000000 &lt;&lt; <span class="stringliteral">&quot;s)\n&quot;</span></div>
+<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Satisfaction error: &quot;</span> &lt;&lt; _best_sat_error &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Number of search iterations: &quot;</span> &lt;&lt; _search_iterations &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Number of local moves: &quot;</span> &lt;&lt; _local_moves &lt;&lt; <span class="stringliteral">&quot; (including on plateau: &quot;</span> &lt;&lt; _plateau_moves &lt;&lt; <span class="stringliteral">&quot;)\n&quot;</span></div>
+<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Number of local minimum: &quot;</span> &lt;&lt; _local_minimum &lt;&lt; <span class="stringliteral">&quot; (including on plateau: &quot;</span> &lt;&lt; _plateau_local_minimum &lt;&lt; <span class="stringliteral">&quot;)\n&quot;</span></div>
+<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Number of resets: &quot;</span> &lt;&lt; _resets &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;                      &lt;&lt; <span class="stringliteral">&quot;Number of restarts: &quot;</span> &lt;&lt; _restarts &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160; </div>
+<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;            <span class="keywordflow">if</span>( _options.<a class="code" href="structghost_1_1Options.html#a5c183c1e20a25662ed4cdfe4aa9e37d1">parallel_runs</a> )</div>
+<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;                std::cout &lt;&lt; <span class="stringliteral">&quot;Total number of search iterations: &quot;</span> &lt;&lt; _search_iterations_total &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;                          &lt;&lt; <span class="stringliteral">&quot;Total number of local moves: &quot;</span> &lt;&lt; _local_moves_total &lt;&lt; <span class="stringliteral">&quot; (including on plateau: &quot;</span> &lt;&lt; _plateau_moves_total &lt;&lt; <span class="stringliteral">&quot;)\n&quot;</span></div>
+<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;                          &lt;&lt; <span class="stringliteral">&quot;Total number of local minimum: &quot;</span> &lt;&lt; _local_minimum_total &lt;&lt; <span class="stringliteral">&quot; (including on plateau: &quot;</span> &lt;&lt; _plateau_local_minimum_total &lt;&lt; <span class="stringliteral">&quot;)\n&quot;</span></div>
+<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;                          &lt;&lt; <span class="stringliteral">&quot;Total number of resets: &quot;</span> &lt;&lt; _resets_total &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;                          &lt;&lt; <span class="stringliteral">&quot;Total number of restarts: &quot;</span> &lt;&lt; _restarts_total &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160; </div>
+<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;            <span class="keywordflow">if</span>( is_optimization )</div>
+<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;                std::cout &lt;&lt; <span class="stringliteral">&quot;\nOptimization cost: &quot;</span> &lt;&lt; _best_opt_cost &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160; </div>
+<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;            <span class="comment">// If post-processing takes more than 1 microsecond, print details about it on the screen</span></div>
+<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;            <span class="comment">// This is to avoid printing something with empty post-processing, taking usually less than 0.1 microsecond (tested on a Core i9 9900)</span></div>
+<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;            <span class="keywordflow">if</span>( timer_postprocess.count() &gt; 1 )</div>
+<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;                std::cout &lt;&lt; <span class="stringliteral">&quot;Optimization Cost BEFORE post-processing: &quot;</span> &lt;&lt; _cost_before_postprocess &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;                          &lt;&lt; <span class="stringliteral">&quot;Optimization post-processing time: &quot;</span> &lt;&lt; timer_postprocess.count() &lt;&lt; <span class="stringliteral">&quot;us (= &quot;</span> &lt;&lt; timer_postprocess.count()/1000 &lt;&lt; <span class="stringliteral">&quot;ms, &quot;</span> &lt;&lt; timer_postprocess.count()/1000000 &lt;&lt; <span class="stringliteral">&quot;s)\n&quot;</span>; </div>
 <div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160; </div>
-<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;            <span class="keywordflow">if</span>( _options.<a class="code" href="structghost_1_1Options.html#a5c183c1e20a25662ed4cdfe4aa9e37d1">parallel_runs</a> )</div>
-<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;                std::cout &lt;&lt; <span class="stringliteral">&quot;Total number of search iterations: &quot;</span> &lt;&lt; _search_iterations_total &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
-<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;                          &lt;&lt; <span class="stringliteral">&quot;Total number of local moves: &quot;</span> &lt;&lt; _local_moves_total &lt;&lt; <span class="stringliteral">&quot; (including on plateau: &quot;</span> &lt;&lt; _plateau_moves_total &lt;&lt; <span class="stringliteral">&quot;)\n&quot;</span></div>
-<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;                          &lt;&lt; <span class="stringliteral">&quot;Total number of local minimum: &quot;</span> &lt;&lt; _local_minimum_total &lt;&lt; <span class="stringliteral">&quot; (including on plateau: &quot;</span> &lt;&lt; _plateau_local_minimum_total &lt;&lt; <span class="stringliteral">&quot;)\n&quot;</span></div>
-<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;                          &lt;&lt; <span class="stringliteral">&quot;Total number of resets: &quot;</span> &lt;&lt; _resets_total &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
-<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;                          &lt;&lt; <span class="stringliteral">&quot;Total number of restarts: &quot;</span> &lt;&lt; _restarts_total &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;            </div>
-<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;            <span class="keywordflow">if</span>( is_optimization )</div>
-<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;                std::cout &lt;&lt; <span class="stringliteral">&quot;\nOptimization cost: &quot;</span> &lt;&lt; _best_opt_cost &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
-<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;                          &lt;&lt; <span class="stringliteral">&quot;Opt Cost BEFORE post-processing: &quot;</span> &lt;&lt; _cost_before_postprocess &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;  </div>
-<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;            <span class="comment">// if( timer_postprocess_sat.count() &gt; 0 )</span></div>
-<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;            <span class="comment">//  std::cout &lt;&lt; &quot;Satisfaction post-processing time: &quot; &lt;&lt; timer_postprocess_sat.count() &lt;&lt; &quot; us\n&quot;; </span></div>
-<div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160; </div>
-<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;            <span class="keywordflow">if</span>( timer_postprocess_opt.count() &gt; 0 )</div>
-<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;                std::cout &lt;&lt; <span class="stringliteral">&quot;Optimization post-processing time: &quot;</span> &lt;&lt; timer_postprocess_opt.count() &lt;&lt; <span class="stringliteral">&quot; us (= &quot;</span> &lt;&lt; timer_postprocess_opt.count()/1000 &lt;&lt; <span class="stringliteral">&quot;ms, &quot;</span> &lt;&lt; timer_postprocess_opt.count()/1000000 &lt;&lt; <span class="stringliteral">&quot;s)\n&quot;</span>; </div>
-<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160; </div>
-<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;          </div>
-<div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;            <span class="keywordflow">return</span> solution_found;</div>
-<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;        }</div>
-<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160; </div>
-<div class="line"><a name="l00599"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a845cb797232522aca43aa233c07e7ee6">  599</a></span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classghost_1_1Solver.html#a845cb797232522aca43aa233c07e7ee6">solve</a>( <span class="keywordtype">double</span>&amp; final_cost, std::vector&lt;int&gt;&amp; final_solution, <span class="keywordtype">double</span> timeout )</div>
-<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;        {</div>
-<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;            <a class="code" href="structghost_1_1Options.html">Options</a> options;</div>
-<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="classghost_1_1Solver.html#a4c6003a8f3ba82ef0d9b7d0823c92c0f">solve</a>( final_cost, final_solution, timeout, options );</div>
-<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;        }</div>
-<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160; </div>
-<div class="line"><a name="l00625"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a4a629614f129f30365f6497d45ffa40e">  625</a></span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classghost_1_1Solver.html#a4a629614f129f30365f6497d45ffa40e">solve</a>( <span class="keywordtype">double</span>&amp; final_cost, std::vector&lt;int&gt;&amp; final_solution, std::chrono::microseconds timeout, <a class="code" href="structghost_1_1Options.html">Options</a>&amp; options )</div>
-<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;        {</div>
-<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="classghost_1_1Solver.html#a4c6003a8f3ba82ef0d9b7d0823c92c0f">solve</a>( final_cost, final_solution, timeout.count(), options );</div>
-<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;        }</div>
-<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160; </div>
-<div class="line"><a name="l00646"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#ad22026216b73db007e3f73a6d6b90110">  646</a></span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classghost_1_1Solver.html#ad22026216b73db007e3f73a6d6b90110">solve</a>( <span class="keywordtype">double</span>&amp; final_cost, std::vector&lt;int&gt;&amp; final_solution, std::chrono::microseconds timeout )</div>
-<div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;        {</div>
-<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;            <a class="code" href="structghost_1_1Options.html">Options</a> options;</div>
-<div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="classghost_1_1Solver.html#a4c6003a8f3ba82ef0d9b7d0823c92c0f">solve</a>( final_cost, final_solution, timeout, options );</div>
-<div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;        }</div>
-<div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160; </div>
-<div class="line"><a name="l00652"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#af5dff70b13a068fd5877741cc4533935">  652</a></span>&#160;        <span class="keyword">inline</span> std::vector&lt;Variable&gt; <a class="code" href="classghost_1_1Solver.html#af5dff70b13a068fd5877741cc4533935">get_variables</a>() { <span class="keywordflow">return</span> _model.variables; }</div>
-<div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;    };</div>
-<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;}</div>
+<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160; </div>
+<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;            <span class="keywordflow">return</span> solution_found;</div>
+<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;        }</div>
+<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160; </div>
+<div class="line"><a name="l00582"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a845cb797232522aca43aa233c07e7ee6">  582</a></span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classghost_1_1Solver.html#a845cb797232522aca43aa233c07e7ee6">solve</a>( <span class="keywordtype">double</span>&amp; final_cost, std::vector&lt;int&gt;&amp; final_solution, <span class="keywordtype">double</span> timeout )</div>
+<div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;        {</div>
+<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;            <a class="code" href="structghost_1_1Options.html">Options</a> options;</div>
+<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="classghost_1_1Solver.html#a4c6003a8f3ba82ef0d9b7d0823c92c0f">solve</a>( final_cost, final_solution, timeout, options );</div>
+<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;        }</div>
+<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160; </div>
+<div class="line"><a name="l00608"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#a4a629614f129f30365f6497d45ffa40e">  608</a></span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classghost_1_1Solver.html#a4a629614f129f30365f6497d45ffa40e">solve</a>( <span class="keywordtype">double</span>&amp; final_cost, std::vector&lt;int&gt;&amp; final_solution, std::chrono::microseconds timeout, <a class="code" href="structghost_1_1Options.html">Options</a>&amp; options )</div>
+<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;        {</div>
+<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="classghost_1_1Solver.html#a4c6003a8f3ba82ef0d9b7d0823c92c0f">solve</a>( final_cost, final_solution, timeout.count(), options );</div>
+<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;        }</div>
+<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160; </div>
+<div class="line"><a name="l00629"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#ad22026216b73db007e3f73a6d6b90110">  629</a></span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classghost_1_1Solver.html#ad22026216b73db007e3f73a6d6b90110">solve</a>( <span class="keywordtype">double</span>&amp; final_cost, std::vector&lt;int&gt;&amp; final_solution, std::chrono::microseconds timeout )</div>
+<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;        {</div>
+<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;            <a class="code" href="structghost_1_1Options.html">Options</a> options;</div>
+<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="classghost_1_1Solver.html#a4c6003a8f3ba82ef0d9b7d0823c92c0f">solve</a>( final_cost, final_solution, timeout, options );</div>
+<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;        }</div>
+<div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160; </div>
+<div class="line"><a name="l00635"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#af5dff70b13a068fd5877741cc4533935">  635</a></span>&#160;        <span class="keyword">inline</span> std::vector&lt;Variable&gt; <a class="code" href="classghost_1_1Solver.html#af5dff70b13a068fd5877741cc4533935">get_variables</a>() { <span class="keywordflow">return</span> _model.variables; }</div>
+<div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;    };</div>
+<div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="astructghost_1_1Options_html_a5c183c1e20a25662ed4cdfe4aa9e37d1"><div class="ttname"><a href="structghost_1_1Options.html#a5c183c1e20a25662ed4cdfe4aa9e37d1">ghost::Options::parallel_runs</a></div><div class="ttdeci">bool parallel_runs</div><div class="ttdef"><b>Definition:</b> options.hpp:48</div></div>
+<div class="ttc" id="astructghost_1_1Options_html_a5c183c1e20a25662ed4cdfe4aa9e37d1"><div class="ttname"><a href="structghost_1_1Options.html#a5c183c1e20a25662ed4cdfe4aa9e37d1">ghost::Options::parallel_runs</a></div><div class="ttdeci">bool parallel_runs</div><div class="ttdoc">To enable parallel runs of the solver. Using all avaiable cores (including hyper-threaded cores) if n...</div><div class="ttdef"><b>Definition:</b> options.hpp:48</div></div>
+<div class="ttc" id="aclassghost_1_1Solver_html_a0143b99bbc018bf4aae1f88fd28bdb44"><div class="ttname"><a href="classghost_1_1Solver.html#a0143b99bbc018bf4aae1f88fd28bdb44">ghost::Solver::Solver</a></div><div class="ttdeci">Solver(const ModelBuilderType &amp;model_builder)</div><div class="ttdef"><b>Definition:</b> solver.hpp:141</div></div>
 <div class="ttc" id="aclassghost_1_1Solver_html"><div class="ttname"><a href="classghost_1_1Solver.html">ghost::Solver</a></div><div class="ttdef"><b>Definition:</b> solver.hpp:102</div></div>
 <div class="ttc" id="anamespaceghost_html"><div class="ttname"><a href="namespaceghost.html">ghost</a></div><div class="ttdef"><b>Definition:</b> auxiliary_data.hpp:37</div></div>
 <div class="ttc" id="astructghost_1_1Options_html_aaea0ae75dd942cde49c6971790a3a77c"><div class="ttname"><a href="structghost_1_1Options.html#aaea0ae75dd942cde49c6971790a3a77c">ghost::Options::custom_starting_point</a></div><div class="ttdeci">bool custom_starting_point</div><div class="ttdoc">To force starting the search on a custom variables assignment.</div><div class="ttdef"><b>Definition:</b> options.hpp:46</div></div>
-<div class="ttc" id="astructghost_1_1Options_html_a3d56aec92a6f3fa5f4ab00b2f06395f6"><div class="ttname"><a href="structghost_1_1Options.html#a3d56aec92a6f3fa5f4ab00b2f06395f6">ghost::Options::percent_to_reset</a></div><div class="ttdeci">int percent_to_reset</div><div class="ttdef"><b>Definition:</b> options.hpp:55</div></div>
-<div class="ttc" id="aclassghost_1_1Solver_html_af5dff70b13a068fd5877741cc4533935"><div class="ttname"><a href="classghost_1_1Solver.html#af5dff70b13a068fd5877741cc4533935">ghost::Solver::get_variables</a></div><div class="ttdeci">std::vector&lt; Variable &gt; get_variables()</div><div class="ttdef"><b>Definition:</b> solver.hpp:652</div></div>
-<div class="ttc" id="aclassghost_1_1Solver_html_a4c6003a8f3ba82ef0d9b7d0823c92c0f"><div class="ttname"><a href="classghost_1_1Solver.html#a4c6003a8f3ba82ef0d9b7d0823c92c0f">ghost::Solver::solve</a></div><div class="ttdeci">bool solve(double &amp;final_cost, std::vector&lt; int &gt; &amp;final_solution, double timeout, Options &amp;options)</div><div class="ttdef"><b>Definition:</b> solver.hpp:218</div></div>
+<div class="ttc" id="astructghost_1_1Options_html_a3d56aec92a6f3fa5f4ab00b2f06395f6"><div class="ttname"><a href="structghost_1_1Options.html#a3d56aec92a6f3fa5f4ab00b2f06395f6">ghost::Options::percent_to_reset</a></div><div class="ttdeci">int percent_to_reset</div><div class="ttdoc">Percentage of variables to randomly change the value at each reset.</div><div class="ttdef"><b>Definition:</b> options.hpp:55</div></div>
+<div class="ttc" id="aclassghost_1_1Solver_html_af5dff70b13a068fd5877741cc4533935"><div class="ttname"><a href="classghost_1_1Solver.html#af5dff70b13a068fd5877741cc4533935">ghost::Solver::get_variables</a></div><div class="ttdeci">std::vector&lt; Variable &gt; get_variables()</div><div class="ttdef"><b>Definition:</b> solver.hpp:635</div></div>
+<div class="ttc" id="aclassghost_1_1Solver_html_a4c6003a8f3ba82ef0d9b7d0823c92c0f"><div class="ttname"><a href="classghost_1_1Solver.html#a4c6003a8f3ba82ef0d9b7d0823c92c0f">ghost::Solver::solve</a></div><div class="ttdeci">bool solve(double &amp;final_cost, std::vector&lt; int &gt; &amp;final_solution, double timeout, Options &amp;options)</div><div class="ttdef"><b>Definition:</b> solver.hpp:215</div></div>
 <div class="ttc" id="aobjective_8hpp_html"><div class="ttname"><a href="objective_8hpp.html">objective.hpp</a></div></div>
-<div class="ttc" id="aclassghost_1_1Solver_html_ab845d3f5264d760e5ea70844662350c4"><div class="ttname"><a href="classghost_1_1Solver.html#ab845d3f5264d760e5ea70844662350c4">ghost::Solver::Solver</a></div><div class="ttdeci">Solver(const ModelBuilderType &amp;model_builder, bool permutation_problem=false)</div><div class="ttdef"><b>Definition:</b> solver.hpp:142</div></div>
 <div class="ttc" id="aauxiliary__data_8hpp_html"><div class="ttname"><a href="auxiliary__data_8hpp.html">auxiliary_data.hpp</a></div></div>
 <div class="ttc" id="avariable_8hpp_html"><div class="ttname"><a href="variable_8hpp.html">variable.hpp</a></div></div>
 <div class="ttc" id="astructghost_1_1Options_html_a6f1db33d35ac7d3325df1140b454edda"><div class="ttname"><a href="structghost_1_1Options.html#a6f1db33d35ac7d3325df1140b454edda">ghost::Options::number_start_samplings</a></div><div class="ttdeci">int number_start_samplings</div><div class="ttdoc">Number of variable assignments the solver randomly draw, if custom_starting_point and resume_search a...</div><div class="ttdef"><b>Definition:</b> options.hpp:56</div></div>
 <div class="ttc" id="astructghost_1_1Options_html_a18e1acddad56b8635a8dda73b22bd048"><div class="ttname"><a href="structghost_1_1Options.html#a18e1acddad56b8635a8dda73b22bd048">ghost::Options::tabu_time_selected</a></div><div class="ttdeci">int tabu_time_selected</div><div class="ttdoc">Number of local moves a selected variable is marked tabu.</div><div class="ttdef"><b>Definition:</b> options.hpp:52</div></div>
 <div class="ttc" id="astructghost_1_1Options_html_a42d2e8a372086262f21190562df995a6"><div class="ttname"><a href="structghost_1_1Options.html#a42d2e8a372086262f21190562df995a6">ghost::Options::reset_threshold</a></div><div class="ttdeci">int reset_threshold</div><div class="ttdoc">Number of variables marked as tabu required to trigger a reset.</div><div class="ttdef"><b>Definition:</b> options.hpp:53</div></div>
 <div class="ttc" id="astructghost_1_1Options_html_aec24b2880f9172e189984a8e08f059e2"><div class="ttname"><a href="structghost_1_1Options.html#aec24b2880f9172e189984a8e08f059e2">ghost::Options::resume_search</a></div><div class="ttdeci">bool resume_search</div><div class="ttdoc">Allowing stop-and-resume computation.</div><div class="ttdef"><b>Definition:</b> options.hpp:47</div></div>
-<div class="ttc" id="astructghost_1_1Options_html_a604a26d41cff28d3051709855a5ca4ca"><div class="ttname"><a href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">ghost::Options::number_threads</a></div><div class="ttdeci">int number_threads</div><div class="ttdef"><b>Definition:</b> options.hpp:49</div></div>
-<div class="ttc" id="aclassghost_1_1Solver_html_a4a629614f129f30365f6497d45ffa40e"><div class="ttname"><a href="classghost_1_1Solver.html#a4a629614f129f30365f6497d45ffa40e">ghost::Solver::solve</a></div><div class="ttdeci">bool solve(double &amp;final_cost, std::vector&lt; int &gt; &amp;final_solution, std::chrono::microseconds timeout, Options &amp;options)</div><div class="ttdef"><b>Definition:</b> solver.hpp:625</div></div>
+<div class="ttc" id="astructghost_1_1Options_html_a604a26d41cff28d3051709855a5ca4ca"><div class="ttname"><a href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">ghost::Options::number_threads</a></div><div class="ttdeci">int number_threads</div><div class="ttdoc">Number of threads the solver will use for the search.</div><div class="ttdef"><b>Definition:</b> options.hpp:49</div></div>
+<div class="ttc" id="aclassghost_1_1Solver_html_a4a629614f129f30365f6497d45ffa40e"><div class="ttname"><a href="classghost_1_1Solver.html#a4a629614f129f30365f6497d45ffa40e">ghost::Solver::solve</a></div><div class="ttdeci">bool solve(double &amp;final_cost, std::vector&lt; int &gt; &amp;final_solution, std::chrono::microseconds timeout, Options &amp;options)</div><div class="ttdef"><b>Definition:</b> solver.hpp:608</div></div>
 <div class="ttc" id="astructghost_1_1Options_html"><div class="ttname"><a href="structghost_1_1Options.html">ghost::Options</a></div><div class="ttdef"><b>Definition:</b> options.hpp:44</div></div>
 <div class="ttc" id="astructghost_1_1Options_html_aaefbd6b1a712acae3f244a3413064b9f"><div class="ttname"><a href="structghost_1_1Options.html#aaefbd6b1a712acae3f244a3413064b9f">ghost::Options::restart_threshold</a></div><div class="ttdeci">int restart_threshold</div><div class="ttdoc">Trigger a resart every 'restart_threshold' reset.</div><div class="ttdef"><b>Definition:</b> options.hpp:54</div></div>
 <div class="ttc" id="aconstraint_8hpp_html"><div class="ttname"><a href="constraint_8hpp.html">constraint.hpp</a></div></div>
 <div class="ttc" id="aoptions_8hpp_html"><div class="ttname"><a href="options_8hpp.html">options.hpp</a></div></div>
-<div class="ttc" id="aclassghost_1_1Solver_html_a845cb797232522aca43aa233c07e7ee6"><div class="ttname"><a href="classghost_1_1Solver.html#a845cb797232522aca43aa233c07e7ee6">ghost::Solver::solve</a></div><div class="ttdeci">bool solve(double &amp;final_cost, std::vector&lt; int &gt; &amp;final_solution, double timeout)</div><div class="ttdef"><b>Definition:</b> solver.hpp:599</div></div>
-<div class="ttc" id="aclassghost_1_1Solver_html_ad22026216b73db007e3f73a6d6b90110"><div class="ttname"><a href="classghost_1_1Solver.html#ad22026216b73db007e3f73a6d6b90110">ghost::Solver::solve</a></div><div class="ttdeci">bool solve(double &amp;final_cost, std::vector&lt; int &gt; &amp;final_solution, std::chrono::microseconds timeout)</div><div class="ttdef"><b>Definition:</b> solver.hpp:646</div></div>
+<div class="ttc" id="aclassghost_1_1Solver_html_a845cb797232522aca43aa233c07e7ee6"><div class="ttname"><a href="classghost_1_1Solver.html#a845cb797232522aca43aa233c07e7ee6">ghost::Solver::solve</a></div><div class="ttdeci">bool solve(double &amp;final_cost, std::vector&lt; int &gt; &amp;final_solution, double timeout)</div><div class="ttdef"><b>Definition:</b> solver.hpp:582</div></div>
+<div class="ttc" id="aclassghost_1_1Solver_html_ad22026216b73db007e3f73a6d6b90110"><div class="ttname"><a href="classghost_1_1Solver.html#ad22026216b73db007e3f73a6d6b90110">ghost::Solver::solve</a></div><div class="ttdeci">bool solve(double &amp;final_cost, std::vector&lt; int &gt; &amp;final_solution, std::chrono::microseconds timeout)</div><div class="ttdef"><b>Definition:</b> solver.hpp:629</div></div>
 <div class="ttc" id="astructghost_1_1Options_html_aeb3ab7d6229c7925dcd4d844e940daf2"><div class="ttname"><a href="structghost_1_1Options.html#aeb3ab7d6229c7925dcd4d844e940daf2">ghost::Options::tabu_time_local_min</a></div><div class="ttdeci">int tabu_time_local_min</div><div class="ttdoc">Number of local moves a variable of a local minimum is marked tabu.</div><div class="ttdef"><b>Definition:</b> options.hpp:51</div></div>
 <div class="ttc" id="amodel__builder_8hpp_html"><div class="ttname"><a href="model__builder_8hpp.html">model_builder.hpp</a></div></div>
 <div class="ttc" id="astructghost_1_1Options_html_aaec574f3fd46d8efdaf6ff92046fb29b"><div class="ttname"><a href="structghost_1_1Options.html#aaec574f3fd46d8efdaf6ff92046fb29b">ghost::Options::print</a></div><div class="ttdeci">std::shared_ptr&lt; Print &gt; print</div><div class="ttdoc">Allowing custom solution print (by derivating a class from ghost::Print)</div><div class="ttdef"><b>Definition:</b> options.hpp:50</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Sep 29 2021 14:04:30 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Oct 4 2021 11:12:21 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

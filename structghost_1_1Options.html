@@ -98,8 +98,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa9c1ba98b4f3dd32eb6463d13c1af28b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structghost_1_1Options.html#aa9c1ba98b4f3dd32eb6463d13c1af28b">Options</a> (<a class="el" href="structghost_1_1Options.html">Options</a> &amp;&amp;other)</td></tr>
 <tr class="memdesc:aa9c1ba98b4f3dd32eb6463d13c1af28b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique move constructor.  <a href="structghost_1_1Options.html#aa9c1ba98b4f3dd32eb6463d13c1af28b">More...</a><br /></td></tr>
 <tr class="separator:aa9c1ba98b4f3dd32eb6463d13c1af28b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a793873f90995e366d69f6b1e4df523e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structghost_1_1Options.html">Options</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structghost_1_1Options.html#a793873f90995e366d69f6b1e4df523e0">operator=</a> (<a class="el" href="structghost_1_1Options.html">Options</a> &amp;other)</td></tr>
-<tr class="separator:a793873f90995e366d69f6b1e4df523e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba06ff38b9e573ea26c260519c909511"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structghost_1_1Options.html">Options</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structghost_1_1Options.html#aba06ff38b9e573ea26c260519c909511">operator=</a> (<a class="el" href="structghost_1_1Options.html">Options</a> other)</td></tr>
+<tr class="separator:aba06ff38b9e573ea26c260519c909511"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -110,8 +110,10 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:aec24b2880f9172e189984a8e08f059e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allowing stop-and-resume computation.  <a href="structghost_1_1Options.html#aec24b2880f9172e189984a8e08f059e2">More...</a><br /></td></tr>
 <tr class="separator:aec24b2880f9172e189984a8e08f059e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c183c1e20a25662ed4cdfe4aa9e37d1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structghost_1_1Options.html#a5c183c1e20a25662ed4cdfe4aa9e37d1">parallel_runs</a></td></tr>
+<tr class="memdesc:a5c183c1e20a25662ed4cdfe4aa9e37d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">To enable parallel runs of the solver. Using all avaiable cores (including hyper-threaded cores) if number_threads is not specified.  <a href="structghost_1_1Options.html#a5c183c1e20a25662ed4cdfe4aa9e37d1">More...</a><br /></td></tr>
 <tr class="separator:a5c183c1e20a25662ed4cdfe4aa9e37d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a604a26d41cff28d3051709855a5ca4ca"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">number_threads</a></td></tr>
+<tr class="memdesc:a604a26d41cff28d3051709855a5ca4ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of threads the solver will use for the search.  <a href="structghost_1_1Options.html#a604a26d41cff28d3051709855a5ca4ca">More...</a><br /></td></tr>
 <tr class="separator:a604a26d41cff28d3051709855a5ca4ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaec574f3fd46d8efdaf6ff92046fb29b"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classghost_1_1Print.html">Print</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structghost_1_1Options.html#aaec574f3fd46d8efdaf6ff92046fb29b">print</a></td></tr>
 <tr class="memdesc:aaec574f3fd46d8efdaf6ff92046fb29b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allowing custom solution print (by derivating a class from <a class="el" href="classghost_1_1Print.html">ghost::Print</a>)  <a href="structghost_1_1Options.html#aaec574f3fd46d8efdaf6ff92046fb29b">More...</a><br /></td></tr>
@@ -129,6 +131,7 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:aaefbd6b1a712acae3f244a3413064b9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Trigger a resart every 'restart_threshold' reset.  <a href="structghost_1_1Options.html#aaefbd6b1a712acae3f244a3413064b9f">More...</a><br /></td></tr>
 <tr class="separator:aaefbd6b1a712acae3f244a3413064b9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d56aec92a6f3fa5f4ab00b2f06395f6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structghost_1_1Options.html#a3d56aec92a6f3fa5f4ab00b2f06395f6">percent_to_reset</a></td></tr>
+<tr class="memdesc:a3d56aec92a6f3fa5f4ab00b2f06395f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Percentage of variables to randomly change the value at each reset.  <a href="structghost_1_1Options.html#a3d56aec92a6f3fa5f4ab00b2f06395f6">More...</a><br /></td></tr>
 <tr class="separator:a3d56aec92a6f3fa5f4ab00b2f06395f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f1db33d35ac7d3325df1140b454edda"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structghost_1_1Options.html#a6f1db33d35ac7d3325df1140b454edda">number_start_samplings</a></td></tr>
 <tr class="memdesc:a6f1db33d35ac7d3325df1140b454edda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of variable assignments the solver randomly draw, if custom_starting_point and resume_search are false.  <a href="structghost_1_1Options.html#a6f1db33d35ac7d3325df1140b454edda">More...</a><br /></td></tr>
@@ -225,8 +228,8 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a793873f90995e366d69f6b1e4df523e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a793873f90995e366d69f6b1e4df523e0">&#9670;&nbsp;</a></span>operator=()</h2>
+<a id="aba06ff38b9e573ea26c260519c909511"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba06ff38b9e573ea26c260519c909511">&#9670;&nbsp;</a></span>operator=()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -234,7 +237,7 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="structghost_1_1Options.html">Options</a>&amp; ghost::Options::operator= </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structghost_1_1Options.html">Options</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="structghost_1_1Options.html">Options</a>&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
@@ -290,6 +293,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Number of threads the solver will use for the search. </p>
+
 </div>
 </div>
 <a id="a5c183c1e20a25662ed4cdfe4aa9e37d1"></a>
@@ -304,6 +309,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>To enable parallel runs of the solver. Using all avaiable cores (including hyper-threaded cores) if number_threads is not specified. </p>
+
 </div>
 </div>
 <a id="a3d56aec92a6f3fa5f4ab00b2f06395f6"></a>
@@ -317,6 +324,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Percentage of variables to randomly change the value at each reset. </p>
 
 </div>
 </div>
@@ -422,7 +431,7 @@ Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Sep 29 2021 14:04:30 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Oct 4 2021 11:12:21 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

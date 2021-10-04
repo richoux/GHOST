@@ -68,7 +68,6 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
-<a href="#friends">Friends</a> &#124;
 <a href="classghost_1_1ModelBuilder-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">ghost::ModelBuilder Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
@@ -81,14 +80,16 @@ Collaboration diagram for ghost::ModelBuilder:</div>
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1ModelBuilder__coll__graph.png" border="0" usemap="#ghost_1_1ModelBuilder_coll__map" alt="Collaboration graph"/></div>
 <map name="ghost_1_1ModelBuilder_coll__map" id="ghost_1_1ModelBuilder_coll__map">
-<area shape="rect" title=" " alt="" coords="5,5,176,229"/>
+<area shape="rect" title=" " alt="" coords="5,5,176,259"/>
 </map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a9e878038a34cd505800f2492f158ff64"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1ModelBuilder.html#a9e878038a34cd505800f2492f158ff64">ModelBuilder</a> (bool <a class="el" href="classghost_1_1ModelBuilder.html#a960ce1b192911d0746db850b0c1143e9">permutation_problem</a>=false)</td></tr>
+<tr class="separator:a9e878038a34cd505800f2492f158ff64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae067a681ebef7dba8f329a019857ee22"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1ModelBuilder.html#ae067a681ebef7dba8f329a019857ee22">~ModelBuilder</a> ()=default</td></tr>
-<tr class="memdesc:ae067a681ebef7dba8f329a019857ee22"><td class="mdescLeft">&#160;</td><td class="mdescRight">The shared pointer of the auxiliary data of the problem instance. Is set to nullptr is <a class="el" href="classghost_1_1ModelBuilder.html#a0b934739b764ebe743f055567147a0de">declare_auxiliary_data()</a> is not overriden.  <a href="classghost_1_1ModelBuilder.html#ae067a681ebef7dba8f329a019857ee22">More...</a><br /></td></tr>
+<tr class="memdesc:ae067a681ebef7dba8f329a019857ee22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default virtual destructor.  <a href="classghost_1_1ModelBuilder.html#ae067a681ebef7dba8f329a019857ee22">More...</a><br /></td></tr>
 <tr class="separator:ae067a681ebef7dba8f329a019857ee22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4208a192a2ee8087b3c365f3d457e95c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1ModelBuilder.html#a4208a192a2ee8087b3c365f3d457e95c">declare_variables</a> ()=0</td></tr>
 <tr class="separator:a4208a192a2ee8087b3c365f3d457e95c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -118,12 +119,9 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:ad58b59f42b4ed7b20a984b2e408afba1"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classghost_1_1AuxiliaryData.html">AuxiliaryData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1ModelBuilder.html#ad58b59f42b4ed7b20a984b2e408afba1">auxiliary_data</a></td></tr>
 <tr class="memdesc:ad58b59f42b4ed7b20a984b2e408afba1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The shared pointer of the objective function of the problem instance. Is set to nullptr is <a class="el" href="classghost_1_1ModelBuilder.html#aaa2537bcea71464aac5a7538f8098ad4">declare_objective()</a> is not overriden.  <a href="classghost_1_1ModelBuilder.html#ad58b59f42b4ed7b20a984b2e408afba1">More...</a><br /></td></tr>
 <tr class="separator:ad58b59f42b4ed7b20a984b2e408afba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
-Friends</h2></td></tr>
-<tr class="memitem:a135ddf4017f9df930c2790f5e40d46dc"><td class="memTemplParams" colspan="2">template&lt;typename ModelBuilderType &gt; </td></tr>
-<tr class="memitem:a135ddf4017f9df930c2790f5e40d46dc"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classghost_1_1ModelBuilder.html#a135ddf4017f9df930c2790f5e40d46dc">Solver</a></td></tr>
-<tr class="separator:a135ddf4017f9df930c2790f5e40d46dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a960ce1b192911d0746db850b0c1143e9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1ModelBuilder.html#a960ce1b192911d0746db850b0c1143e9">permutation_problem</a></td></tr>
+<tr class="memdesc:a960ce1b192911d0746db850b0c1143e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The shared pointer of the auxiliary data of the problem instance. Is set to nullptr is <a class="el" href="classghost_1_1ModelBuilder.html#a0b934739b764ebe743f055567147a0de">declare_auxiliary_data()</a> is not overriden.  <a href="classghost_1_1ModelBuilder.html#a960ce1b192911d0746db850b0c1143e9">More...</a><br /></td></tr>
+<tr class="separator:a960ce1b192911d0746db850b0c1143e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This is the base class from which users need to derive their <a class="el" href="classghost_1_1ModelBuilder.html">ModelBuilder</a> class.</p>
@@ -137,6 +135,31 @@ Friends</h2></td></tr>
 <p>A user-defined <a class="el" href="classghost_1_1ModelBuilder.html">ModelBuilder</a> class is here to declare all elements above composing a problem instance.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classghost_1_1Variable.html">Variable</a> <a class="el" href="classghost_1_1Constraint.html">Constraint</a> <a class="el" href="classghost_1_1Objective.html">Objective</a> <a class="el" href="classghost_1_1AuxiliaryData.html">AuxiliaryData</a> </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a9e878038a34cd505800f2492f158ff64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e878038a34cd505800f2492f158ff64">&#9670;&nbsp;</a></span>ModelBuilder()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ghost::ModelBuilder::ModelBuilder </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>permutation_problem</em> = <code>false</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Unique constructor.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">permutation_problem</td><td>a Boolean to declare if the problem is a permutation problem. False by default. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ae067a681ebef7dba8f329a019857ee22"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae067a681ebef7dba8f329a019857ee22">&#9670;&nbsp;</a></span>~ModelBuilder()</h2>
 
@@ -160,7 +183,6 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>The shared pointer of the auxiliary data of the problem instance. Is set to nullptr is <a class="el" href="classghost_1_1ModelBuilder.html#a0b934739b764ebe743f055567147a0de">declare_auxiliary_data()</a> is not overriden. </p>
 <p>Default virtual destructor. </p>
 
 </div>
@@ -420,31 +442,6 @@ void UserBuilder::declare_variables()<br  />
 
 </div>
 </div>
-<h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a id="a135ddf4017f9df930c2790f5e40d46dc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a135ddf4017f9df930c2790f5e40d46dc">&#9670;&nbsp;</a></span>Solver</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ModelBuilderType &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">friend class <a class="el" href="classghost_1_1Solver.html">Solver</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="ad58b59f42b4ed7b20a984b2e408afba1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad58b59f42b4ed7b20a984b2e408afba1">&#9670;&nbsp;</a></span>auxiliary_data</h2>
@@ -518,6 +515,30 @@ template&lt;typename ModelBuilderType &gt; </div>
 
 </div>
 </div>
+<a id="a960ce1b192911d0746db850b0c1143e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a960ce1b192911d0746db850b0c1143e9">&#9670;&nbsp;</a></span>permutation_problem</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ghost::ModelBuilder::permutation_problem</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The shared pointer of the auxiliary data of the problem instance. Is set to nullptr is <a class="el" href="classghost_1_1ModelBuilder.html#a0b934739b764ebe743f055567147a0de">declare_auxiliary_data()</a> is not overriden. </p>
+
+</div>
+</div>
 <a id="a32e92384aa46a0e3f7f144b6769b3c8d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a32e92384aa46a0e3f7f144b6769b3c8d">&#9670;&nbsp;</a></span>variables</h2>
 
@@ -546,7 +567,7 @@ template&lt;typename ModelBuilderType &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Sep 29 2021 14:04:30 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Oct 4 2021 11:12:21 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

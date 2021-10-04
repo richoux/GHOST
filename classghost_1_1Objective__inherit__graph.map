@@ -1,6 +1,6 @@
 <map id="ghost::Objective" name="ghost::Objective">
-<area shape="rect" id="node1" title=" " alt="" coords="121,5,291,347"/>
-<area shape="rect" id="node2" href="$classghost_1_1Maximize.html" title=" " alt="" coords="5,395,124,545"/>
-<area shape="rect" id="node3" href="$classghost_1_1Minimize.html" title=" " alt="" coords="149,395,263,545"/>
-<area shape="rect" id="node4" title=" " alt="" coords="288,431,428,509"/>
+<area shape="rect" id="node1" title=" " alt="" coords="121,5,291,303"/>
+<area shape="rect" id="node2" href="$classghost_1_1Maximize.html" title=" " alt="" coords="5,351,124,501"/>
+<area shape="rect" id="node3" href="$classghost_1_1Minimize.html" title=" " alt="" coords="149,351,263,501"/>
+<area shape="rect" id="node4" title=" " alt="" coords="288,387,428,465"/>
 </map>
