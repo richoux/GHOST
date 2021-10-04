@@ -34,9 +34,11 @@ using namespace ghost;
 Model::Model( std::vector<Variable>&& moved_variables,
               const std::vector<std::shared_ptr<Constraint>>&	constraints,
               const std::shared_ptr<Objective>& objective,
-              const std::shared_ptr<AuxiliaryData>& auxiliary_data )
+              const std::shared_ptr<AuxiliaryData>& auxiliary_data,
+              bool permutation_problem )
 	: variables( std::move( moved_variables ) ),
 	  constraints( constraints ),
 	  objective( objective ),
-	  auxiliary_data ( auxiliary_data )
+	  auxiliary_data( auxiliary_data ),
+	  permutation_problem( permutation_problem )
 { }

@@ -70,8 +70,16 @@ namespace ghost
 		std::vector<std::shared_ptr<Constraint>> constraints; //! The vector of shared pointers of each constraint composing the problem instance.
 		std::shared_ptr<Objective> objective; //! The shared pointer of the objective function of the problem instance. Is set to nullptr is declare_objective() is not overriden.
 		std::shared_ptr<AuxiliaryData> auxiliary_data; //! The shared pointer of the auxiliary data of the problem instance. Is set to nullptr is declare_auxiliary_data() is not overriden.
-
+		bool permutation_problem;
+		
 	public:
+		/*!
+		 * Unique constructor.
+		 *
+		 * \param permutation_problem a Boolean to declare if the problem is a permutation problem. False by default.
+		 */
+		ModelBuilder( bool permutation_problem = false );
+		
 		//! Default virtual destructor.
 		virtual ~ModelBuilder() = default;
 

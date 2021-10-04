@@ -111,13 +111,9 @@ namespace ghost
 		inline int heuristic_value_permutation( int variable_index, const std::vector<int>& bad_variables ) const
 		{ return expert_heuristic_value_permutation( _variables, _variables_position.at( variable_index ), bad_variables ); }
 
-		// Call expert_postprocess_satisfaction on Objective::_variables.
-		inline void postprocess_satisfaction( double& best_error, std::vector<int>& solution ) const
-		{ expert_postprocess_satisfaction( _variables, best_error, solution ); }
-
-		// Call expert_postprocess_optimization on Objective::_variables.
-		inline void postprocess_optimization( double& best_cost, std::vector<int>& solution ) const
-		{ expert_postprocess_optimization( _variables, best_cost, solution ); }
+		// Call expert_postprocess on Objective::_variables.
+		inline double postprocess( double best_cost ) const
+		{ return expert_postprocess( _variables, best_cost ); }
 
 	protected:
 		mutable randutils::mt19937_rng rng; //!< A neat random generator implemented in thirdparty/randutils.hpp, see https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html
@@ -129,6 +125,8 @@ namespace ghost
 		 * Like Constraint::required_error, this method is fundamental: it evalutes the performance
 		 * of the current values of the variables. GHOST will search for variable values that will
 		 * minimize or maximize the output of this method.
+		 *
+		 * Like any methods prefixed by 'required_', overriding this method is mandatory.
 		 *
 		 * \param variables a const reference of the vector of raw pointers to variables in the
 		 * scope of the constraint. The solver is actually calling this method with the vector 
@@ -142,10 +140,11 @@ namespace ghost
 		/*!
 		 * Update user-defined data structures in the objective function.
 		 *
-		 * If some inner data structures are defined in derived objective classes and need
-		 * to be updated while variable values change (i.e., when the solver asssign 'new_value'
-		 * to variables[index]), this method must be implemented to define how data structures 
-		 * must be updated.
+		 * Like any methods prefixed by 'conditional_', this method must be overriden under
+		 * some conditions: if some inner data structures are defined in derived objective classes
+		 * and need to be updated while variable values change (i.e., when the solver asssign
+		 * 'new_value' to variables[index]), this method must be implemented to define how data
+		 * structures  must be updated.
 		 *
 		 * \param variables a const reference of the vector of raw pointers to variables of the 
 		 * objective function.
@@ -207,38 +206,13 @@ namespace ghost
 		                                                const std::vector<int>& bad_variables ) const;
 
 		/*!
-		 * Virtual method to perform satisfaction post-processing.
+		 * Virtual method to perform post-processing optimization.
 		 *
-		 * This method is called by the solver after a satisfaction run, if the solver was able
-		 * to find a solution, to apply human-knowledge optimization in order to "clean-up"
-		 * the proposed solution.
+		 * This method is called by the solver once it has found a solution. Its purpose is to apply
+		 * human-knowledge optimization.
 		 *
-		 * It does nothing by default. Users need to override it to have a satisfaction postprocess.
-		 *
-		 * Like any methods prefixed by 'expert_', users should override this method only if
-		 * they know what they are doing.
-		 *
-		 * \param variables a const reference of the vector of raw pointers of variables in the scope
-		 * of the objective function. The solver is calling this method with the vector 
-		 * of variables that has been given to the constructor.
-		 * \param best_error a reference to the double representing the best satisfaction error found
-		 * by the solver so far. Its value may be updated, justifying a non const reference.
-		 * \param solution a reference to the vector of variables of the solution found by the solver.
-		 * This vector may be updated, justifying a non const reference
-		 *
-		 * \sa postprocess_satisfaction
-		 */
-		virtual void expert_postprocess_satisfaction( const std::vector<Variable*>& variables,
-		                                              double&	best_error,
-		                                              std::vector<int>& solution ) const;
-
-		/*!
-		 * Virtual method to perform optimization post-processing.
-		 *
-		 * This method is called by the solver after all optimization runs to apply human-knowledge
-		 * optimization, allowing to improve the optimization cost.
-		 *
-		 * It does nothing by default. Users need to override it to have an optimization postprocess.
+		 * By default, it simply returns best_cost given as input, without modifying the variables.
+		 * Users need to override it to have their own post-processing optimization.
 		 *
 		 * Like any methods prefixed by 'expert_', users should override this method only if
 		 * they know what they are doing.
@@ -249,17 +223,15 @@ namespace ghost
 		 *
 		 * \param variables a const reference of the vector of raw pointers of variables in the
 		 * scope of the objective function. The solver is calling this method with the vector 
-		 * of variables that has been given to the constructor.
-		 * \param best_cost a reference to the double representing the best optimization cost
-		 * found by the solver so far. Its value may be updated, justifying a non const reference.
-		 * \param solution a reference to the vector of variables of the solution found by the solver.
-		 * This vector may be updated, justifying a non const reference
-		 *
-		 * \sa postprocess_optimization
+		 * of variables that has been given to the constructor. If users must change some variables 
+		 * values, they must do it on variables from this vector, otherwise the modified solution
+		 * won't be taken into account by the solver. 
+		 * \param best_cost a double representing the best optimization cost found by the solver
+		 * so far. This helps users be sure that their post-processing leads to actual improvements.
+		 * \return The new error after post-processing.
 		 */
-		virtual void expert_postprocess_optimization( const std::vector<Variable*>& variables,
-		                                              double&	best_cost,
-		                                              std::vector<int>&	solution ) const;
+		virtual double expert_postprocess( const std::vector<Variable*>& variables,
+		                                   double best_cost ) const;
 
 
 		// No documentation on purpose.

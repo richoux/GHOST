@@ -108,12 +108,8 @@ int Objective::expert_heuristic_value_permutation( const std::vector<Variable*>&
 	return rng.pick( bad_variables );
 }
 
-void Objective::expert_postprocess_satisfaction( const std::vector<Variable*>& variables,
-                                                 double& bestCost,
-                                                 std::vector<int>& solution ) const
-{ }
-
-void Objective::expert_postprocess_optimization( const std::vector<Variable*>& variables,
-                                                 double& bestCost,
-                                                 std::vector<int>& solution ) const
-{ }
+double Objective::expert_postprocess( const std::vector<Variable*>& variables,
+                                      double best_cost ) const
+{
+	return best_cost;
+}

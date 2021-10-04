@@ -142,7 +142,7 @@ namespace ghost
 
 			do
 			{
-				if( is_permutation_problem )
+				if( model.permutation_problem )
 					random_permutations();
 				else
 					monte_carlo_sampling();
@@ -318,7 +318,7 @@ namespace ghost
 			}
 			else // real reset
 			{
-				if( is_permutation_problem )
+				if( model.permutation_problem )
 					random_permutations( options.percent_to_reset );
 				else
 					monte_carlo_sampling( options.percent_to_reset );
@@ -408,7 +408,7 @@ namespace ghost
 		void update_errors( int variable_to_change, int new_value, const std::map< int, std::vector<double>>& delta_errors )
 		{
 			int delta_index = 0;
-			if( !is_permutation_problem )
+			if( !model.permutation_problem )
 			{
 				for( const int constraint_id : matrix_var_ctr.at( variable_to_change ) )
 				{
@@ -475,7 +475,7 @@ namespace ghost
 
 			update_errors( variable_to_change, new_value, delta_errors );
 
-			if( is_permutation_problem )
+			if( model.permutation_problem )
 			{
 				int current_value = model.variables[ variable_to_change ].get_value();
 				int next_value = model.variables[ new_value ].get_value();
@@ -556,7 +556,6 @@ namespace ghost
 		double best_opt_cost;
 		double current_sat_error;
 		double current_opt_cost;
-		double cost_before_postprocess;
 
 		// stats variables (however _local_moves is important for the solver logic)
 		int restarts;
@@ -567,13 +566,11 @@ namespace ghost
 		int plateau_moves;
 		int plateau_local_minimum;
 
-		bool is_permutation_problem;
 		std::promise<bool> solution_found;
 
 		Options options;
 
 		SearchUnit( Model&& moved_model,
-		            bool permutation_problem,
 		            const Options& options )
 			: _stop_search_check( _stop_search_signal.get_future() ),
 			  model( std::move( moved_model ) ),
@@ -588,7 +585,6 @@ namespace ghost
 			  best_opt_cost ( std::numeric_limits<double>::max() ),
 			  current_sat_error ( std::numeric_limits<double>::max() ),
 			  current_opt_cost ( std::numeric_limits<double>::max() ),
-			  cost_before_postprocess ( std::numeric_limits<double>::max() ),
 			  restarts ( 0 ),
 			  resets ( 0 ),
 			  local_moves ( 0 ),
@@ -596,7 +592,6 @@ namespace ghost
 			  local_minimum ( 0 ),
 			  plateau_moves ( 0 ),
 			  plateau_local_minimum ( 0 ),
-			  is_permutation_problem ( permutation_problem ),
 			  options ( options )
 		{
 			std::transform( model.variables.begin(),
@@ -655,7 +650,6 @@ namespace ghost
 		{
 			// TODO: Antidote search
 			// TODO: Neighborhood
-			// TODO: Postprocess
 
 			// 1. Choice of worst variable(s) to change
 			// 2. Choice of their new value
@@ -674,10 +668,6 @@ namespace ghost
 
 			std::chrono::duration<double,std::micro> elapsed_time( 0 );
 			std::chrono::time_point<std::chrono::steady_clock> start( std::chrono::steady_clock::now() );
-			std::chrono::time_point<std::chrono::steady_clock> start_postprocess;
-
-			std::chrono::duration<double,std::micro> timer_postprocess_sat( 0 );
-			std::chrono::duration<double,std::micro> timer_postprocess_opt( 0 );
 
 			best_sat_error = std::numeric_limits<double>::max();
 			best_opt_cost = std::numeric_limits<double>::max();
@@ -695,8 +685,10 @@ namespace ghost
 
 			int variable_to_change;
 
-			// While timeout is not reached, and the solver didn't satisfied
-			// all constraints OR it is working on an optimization problem, continue the search.
+			// While timeout is not reached, and the solver didn't satisfied all constraints
+			// OR
+			// it is working on an optimization problem,
+			// continue the search.
 			while( !stop_search_requested()
 			       &&  elapsed_time.count() < timeout
 			       && ( best_sat_error > 0.0 || ( best_sat_error == 0.0 && model.objective->is_optimization() ) ) )
@@ -776,7 +768,7 @@ namespace ghost
 				domain_to_explore.erase( std::find( domain_to_explore.begin(), domain_to_explore.end(), model.variables[ variable_to_change ].get_value() ) );
 				std::map<int, std::vector<double>> delta_errors;
 
-				if( !is_permutation_problem )
+				if( !model.permutation_problem )
 				{
 					// Simulate delta errors (or errors is not Constraint::optional_delta_error method is defined) for each neighbor
 					for( const auto candidate_value : domain_to_explore )
@@ -831,7 +823,7 @@ namespace ghost
 				{
 					cumulated_delta_errors[ deltas.first ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
 #if defined GHOST_TRACE
-					if( is_permutation_problem )
+					if( model.permutation_problem )
 						COUT << "Error for switching var[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value()
 						     << " with var[" << deltas.first << "]=" << model.variables[ deltas.first ].get_value()
 						     << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
@@ -856,7 +848,7 @@ namespace ghost
 				// if we deal with an optimization problem, find the value minimizing to objective function
 				if( model.objective->is_optimization() )
 				{
-					if( is_permutation_problem )
+					if( model.permutation_problem )
 						new_value = static_cast<int>( model.objective->heuristic_value_permutation( variable_to_change, candidate_values ) );
 					else
 						new_value = model.objective->heuristic_value( variable_to_change, candidate_values );
@@ -866,7 +858,7 @@ namespace ghost
 					// double simulate_objective_function;
 					// for( int value : candidate_values )
 					// {
-					// 	if( _is_permutation_problem )
+					// 	if( model.permutation_problem )
 					// 		simulate_objective_function = _objective.simulate_cost( std::vector<int>{variable_to_change, value}, std::vector<int>{_variables[ value ].get_value(),_variables[ variable_to_change ].get_value()} );
 					// 	else
 					// 		simulate_objective_function = _objective.simulate_cost( std::vector<int>{variable_to_change}, std::vector<int>{value} );
@@ -895,7 +887,7 @@ namespace ghost
 					double transformed = cumulated_delta_errors[ index ] >= 0 ? 0.0 : -cumulated_delta_errors[ index ];
 
 #if defined GHOST_TRACE
-					if( is_permutation_problem )
+					if( model.permutation_problem )
 						COUT << "Error for switching var[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value()
 						     << " with var[" << deltas.first << "]=" << model.variables[ deltas.first ].get_value()
 						     << ": " << cumulated_delta_errors[ index ] << ", transformed: " << transformed << "\n";
@@ -937,7 +929,7 @@ namespace ghost
 				for( int n = 0 ; n < domain_to_explore.size() ; ++n )
 					COUT << "val[" <<  vec_value_pair[ n ].first << "]=" << model.variables[ vec_value_pair[ n ].first ].get_value() << " => " << std::fixed << std::setprecision(3) << static_cast<double>( vec_value_pair[ n ].second ) / 10000 << "\n";
 #endif // end ANTIDOTE_SEARCH
-				if( is_permutation_problem )
+				if( model.permutation_problem )
 					COUT << "\nPicked variable index for min conflict: "
 					     << new_value << "\n"
 					     << "Current error: " << current_sat_error << "\n"
@@ -974,7 +966,7 @@ namespace ghost
 						if( model.objective->is_optimization() )
 						{
 							double candidate_opt_cost;
-							if( is_permutation_problem )
+							if( model.permutation_problem )
 							{
 								int backup_variable_to_change = model.variables[ variable_to_change ].get_value();
 								int backup_variable_new_value = model.variables[ new_value ].get_value();

@@ -46,11 +46,14 @@ namespace ghost
 		std::vector<std::shared_ptr<Constraint>> constraints;
 		std::shared_ptr<Objective> objective;
 		std::shared_ptr<AuxiliaryData> auxiliary_data;
+		bool permutation_problem;
 
 		Model() = default;
+		
 		Model( std::vector<Variable>&& variables,
 		       const std::vector<std::shared_ptr<Constraint>>&	constraints,
 		       const std::shared_ptr<Objective>& objective,
-		       const std::shared_ptr<AuxiliaryData>& auxiliary_data );
+		       const std::shared_ptr<AuxiliaryData>& auxiliary_data,
+		       bool permutation_problem );
 	};
 }

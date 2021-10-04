@@ -42,7 +42,7 @@ find_package(Threads REQUIRED)
 # add the targets
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
-add_executable( tutorial_knapsack src/knapsack_alldiff.cpp src/knapsack_capacity.cpp src/knapsack_coefficients.cpp src/knapsack_model_builder.cpp src/knapsack_objective.cpp src/knapsack.cpp )
+add_executable( tutorial_knapsack src/knapsack_alldiff.cpp src/knapsack_capacity.cpp src/knapsack_model_builder.cpp src/knapsack_objective.cpp src/knapsack.cpp )
 target_compile_definitions( tutorial_knapsack PUBLIC -DGHOST_BENCH )
 
 if(APPLE)

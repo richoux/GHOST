@@ -1,71 +1,120 @@
-Please be sure to have CMake v3.0+ and a C++14-capable compiler.
+Please be sure to have CMake v3.0+ and a C++17-capable compiler.
 
 ============
 On GNU/Linux:
 
-You have options 1, 2 or 3.
+You have two options: using the script or doing a manual installation
 
-1. To compile and install the release version:
+1. Using the build.sh script
+
+To compile and install the release version:
 $> ./build.sh
 
-2. To compile and install the debug version:
+You can also compile and install GHOST with different options:
 $> ./build.sh debug
+$> ./build.sh debug_no_asan
+$> ./build.sh rel_dbg_info
+$> ./build.sh tests
+$> ./build.sh tutorial
+respectively to compile and install the debug version of GHOST, the
+debug version without the address sanitizer flag, the release version
+with debug info, the Google unit tests, and source code of tutorials.
 
-3. If you just want to compile, without installing the dynamic library on your /usr/local, then you have two choices:
-To compile in release mode:
+If it is the first time you compile and install GHOST on your
+GNU/Linux machine, type the command
+$> sudo ldconfig
+to create necessary links and cache to GHOST's shared library.
+
+2. Manual installation
+
+To compile in release mode, just type:
 $> mkdir release
 $> cd release
 $> cmake -DCMAKE_BUILD_TYPE=Release ..
 $> make
 
-To compile in debug mode:
-$> mkdir debug
-$> cd debug
-$> cmake -DCMAKE_BUILD_TYPE=Debug ..
-$> make
-
-And finally, if you change your mind and want to install the dynamic library:
+Install the library and the header files with:
 $> sudo make install
-(in the release or debug folder)
+
+Finally, if it is the first time you compile and install GHOST on your
+GNU/Linux machine, type the command
+$> sudo ldconfig
+to create necessary links and cache to GHOST's shared library.
 
 
 ============
 On OSX:
 
-Same as on GNU/Linux.
+Same as on GNU/Linux, except that the command to create links and
+cache on OSX is:
+$> sudo update_dyld_shared_cache
 
 
 ============
 On Windows:
 
-1. In CMake, select 'GHOST' as the source code folder and 'GHOST/build' as the build folder (you may have to create this folder).
-2. Click on 'Configure'. It would ask you which generator (ie, compiler/IDE) do you want. It can be Visual Studio for instance.
-3. CMake should propose you to change the value of CMAKE_INSTALL_PREFIX to choose the folder where to write solution files.
+1. In CMake, select 'GHOST' as the source code folder and
+'GHOST/build' as the build folder (you may have to create this
+folder).
+
+2. Click on 'Configure'. It would ask you which generator (ie,
+compiler/IDE) do you want. It can be Visual Studio for instance.
+
+3. CMake should propose you to change the value of
+CMAKE_INSTALL_PREFIX to choose the folder where to write solution
+files.
+
 4. Click on 'Generate'.
-5. Go to the folder where solution files have been generated (determined by CMAKE_INSTALL_PREFIX). If you use an IDE, you should
-have a projet file corresponding to your IDE. For Visual Studio, it is ghost.sln. Open it.
-6. Build the ghost project in 'Release mode'.  
+
+5. Go to the folder where solution files have been generated
+(determined by CMAKE_INSTALL_PREFIX). If you use an IDE, you should
+have a projet file corresponding to your IDE. For Visual Studio, it is
+ghost.sln. Open it.
+
+6. Build the ghost project in 'Release mode'.
 
 
 ============
 On all OS:
-Both the dynamic and static version of the library can be found in the lib directory of this current folder.
+
+Both the dynamic and static version of the library can be found in the
+lib directory of this current folder.
 
 
 ============
 Troubleshooting:
 
 ===
-Got the error 'The compiler /usr/bin/c++ has no C++14 support. Please use a different C++ compiler.'?
-1. Make sure you have installed a C++14-capable compiler
-2. If you have such a compiler but still get the error, before typing the command  'cmake ..', type 'export CXX=/path/of/your/c++14/compiler/executable_name'
+Got the error 'The compiler /usr/bin/c++ has no C++17 support. Please
+use a different C++ compiler.'?
+
+1. Make sure you have installed a C++17-capable compiler
+
+2. If you have such a compiler but still get the error, before typing
+the command 'cmake ..', type 'export
+CXX=/path/of/your/c++17/compiler/executable_name'
 
 ===
-Got the warning 'randutils.hpp:444:19: warning: mangled name for ‘static uint32_t randutils::auto_seeded<SeedSeq>::hash(T&&) [with T = void (*)(int) throw (); SeedSeq = randutils::seed_seq_fe<8, unsigned int>]’ will change in C++17 because the exception specification is part of a function type [-Wnoexcept-type] static uint32_t hash(T&& value)'?
-Don't worry, everything is fine: having this warning won't hurt GHOST correctness/performances/security. To get rid of this warning, use GCC 8.3.0 or above.
+If you have the following warning:
+
+'randutils.hpp:444:19: warning: mangled name for ‘static uint32_t
+randutils::auto_seeded<SeedSeq>::hash(T&&) [with T = void (*)(int)
+throw (); SeedSeq = randutils::seed_seq_fe<8, unsigned int>]’ will
+change in C++17 because the exception specification is part of a
+function type [-Wnoexcept-type] static uint32_t hash(T&& value)'
+
+Don't worry, everything is fine: having this warning won't hurt GHOST
+correctness/performances/security. To get rid of this warning, use GCC
+8.3.0 or above.
 
 ===
-While running your program on GNU/Linux, if you have a message like 'error while loading shared libraries: libghost.so: cannot open shared object file: No such file or directory', you probably need to run the following command:
+While running your program on GNU/Linux or on OSX, if you have a
+message like 'error while loading shared libraries: libghost.so:
+cannot open shared object file: No such file or directory', you
+probably need to run the following command:
 
+On GNU/Linux:
 $ sudo ldconfig
 
+On OSX:
+$> sudo update_dyld_shared_cache

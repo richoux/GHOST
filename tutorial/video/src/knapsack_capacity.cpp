@@ -1,9 +1,9 @@
 #include "knapsack_capacity.hpp"
 
-KSCapacity::KSCapacity( const std::vector<ghost::Variable>& variables, int capacity, std::shared_ptr<ghost::AuxiliaryData> data )
+KSCapacity::KSCapacity( const std::vector<ghost::Variable>& variables, int capacity, const std::vector<int>&& weights )
 	: Constraint( variables ),
 	  _capacity( capacity ),
-	  _weights( std::dynamic_pointer_cast<KSCoefficients>(data)->weights )
+	  _weights( std::move( weights ) )
 { }
 
 double KSCapacity::required_error( const std::vector<ghost::Variable*>& variables ) const

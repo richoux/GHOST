@@ -69,6 +69,8 @@ namespace ghost
 		 * Method to handle what should happen to the auxiliary data if variables[index] is updated
 		 * with the value 'new_value'.
 		 *
+		 * Like any methods prefixed by 'required_', overriding this method is mandatory.
+		 *
 		 * \param variables a const reference of the vector of raw pointers to variables that are
 		 * relevant to the auxiliary data.
 		 * \param index an integer to get the variable 'variables[index]' that has been updated by

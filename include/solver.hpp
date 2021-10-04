@@ -128,7 +128,6 @@ namespace ghost
 		int _plateau_moves;
 		int _plateau_local_minimum;
 
-		bool _is_permutation_problem;
 		Options _options; // Options for the solver (see the struct Options).
 
 	public:
@@ -139,8 +138,7 @@ namespace ghost
 		 * \param permutation_problem a boolean indicating if the solver will work on a permutation
 		 * problem. False by default.
 		 */
-		Solver( const ModelBuilderType& model_builder,
-		        bool permutation_problem = false )
+		Solver( const ModelBuilderType& model_builder )
 			: _model_builder( model_builder ),
 			  _best_sat_error( std::numeric_limits<double>::max() ),
 			  _best_opt_cost( std::numeric_limits<double>::max() ),
@@ -158,8 +156,7 @@ namespace ghost
 			  _search_iterations( 0 ),
 			  _local_minimum( 0 ),
 			  _plateau_moves( 0 ),
-			  _plateau_local_minimum( 0 ),
-			  _is_permutation_problem( permutation_problem )
+			  _plateau_local_minimum( 0 )
 		{	}
 
 		/*!
@@ -224,9 +221,7 @@ namespace ghost
 			std::chrono::time_point<std::chrono::steady_clock> start_search;
 			std::chrono::time_point<std::chrono::steady_clock> start_postprocess;
 			std::chrono::duration<double,std::micro> elapsed_time( 0 );
-
-			std::chrono::duration<double,std::micro> timer_postprocess_sat( 0 );
-			std::chrono::duration<double,std::micro> timer_postprocess_opt( 0 );
+			std::chrono::duration<double,std::micro> timer_postprocess( 0 );
 
 			/*****************
 			* Initialization *
@@ -284,7 +279,6 @@ namespace ghost
 			if( is_sequential )
 			{
 				SearchUnit search_unit( _model_builder.build_model(),
-				                        _is_permutation_problem,
 				                        _options );
 
 				is_optimization = search_unit.is_optimization();
@@ -305,7 +299,6 @@ namespace ghost
 				_local_minimum = search_unit.local_minimum;
 				_plateau_moves = search_unit.plateau_moves;
 				_plateau_local_minimum = search_unit.plateau_local_minimum;
-				//final_solution = search_unit.final_solution;
 
 				_model = std::move( search_unit.transfer_model() );
 			}
@@ -319,7 +312,6 @@ namespace ghost
 				{
 					// Instantiate one model per thread
 					units.emplace_back( _model_builder.build_model(),
-					                    _is_permutation_problem,
 					                    _options );
 				}
 
@@ -418,7 +410,6 @@ namespace ghost
 #if defined GHOST_TRACE
 					std::cout << "Parallel run, thread number " << winning_thread << " has found a solution.\n";
 #endif
-					//final_solution = units.at( winning_thread ).final_solution;
 					_best_sat_error = units.at( winning_thread ).best_sat_error;
 					_best_opt_cost = units.at( winning_thread ).best_opt_cost;
 
@@ -452,7 +443,6 @@ namespace ghost
 							}
 					}
 
-					//final_solution = units.at( best_non_solution ).final_solution;
 					_restarts = units.at( best_non_solution ).restarts;
 					_resets = units.at( best_non_solution ).resets;
 					_local_moves = units.at( best_non_solution ).local_moves;
@@ -472,18 +462,13 @@ namespace ghost
 				}
 			}
 
-			std::transform( _model.variables.begin(),
-			                _model.variables.end(),
-			                final_solution.begin(),
-			                [&](auto& var){ return var.get_value(); } );
-
 			if( solution_found && is_optimization )
 			{
 				_cost_before_postprocess = _best_opt_cost;
 
 				start_postprocess = std::chrono::steady_clock::now();
-				_model.objective->postprocess_optimization( _best_opt_cost, final_solution );
-				timer_postprocess_opt = std::chrono::steady_clock::now() - start_postprocess;
+				_best_opt_cost = _model.objective->postprocess( _best_opt_cost );
+				timer_postprocess = std::chrono::steady_clock::now() - start_postprocess;
 			}
 
 			if( is_optimization )
@@ -499,11 +484,10 @@ namespace ghost
 			else
 				final_cost = _best_sat_error;
 
-			// Set the variables to the best solution values.
-			// Useful if the user prefer to directly use the vector of Variables
-			// to manipulate and exploit the solution.
-			// for( int variable_id = 0 ; variable_id < _number_variables; ++variable_id )
-			// 	_model.variables[ variable_id ].set_value( final_solution[ variable_id ] );
+			std::transform( _model.variables.begin(),
+			                _model.variables.end(),
+			                final_solution.begin(),
+			                [&](auto& var){ return var.get_value(); } );
 
 			elapsed_time = std::chrono::steady_clock::now() - start_wall_clock;
 			chrono_full_computation = elapsed_time.count();
@@ -549,7 +533,7 @@ namespace ghost
 					std::cout << _model.objective->get_name() << " must be minimized.\n";					
 			}
 
-			std::cout << "Permutation problem: " << std::boolalpha << _is_permutation_problem << "\n"
+			std::cout << "Permutation problem: " << std::boolalpha << _model.permutation_problem << "\n"
 			          << "Time budget: " << timeout << "us (= " << timeout/1000 << "ms, " << timeout/1000000 << "s)\n"
 			          << "Search time: " << chrono_search << "us (= " << chrono_search / 1000 << "ms, " << chrono_search / 1000000 << "s)\n"
 			          << "Wall-clock time (full program): " << chrono_full_computation << "us (= " << chrono_full_computation/1000 << "ms, " << chrono_full_computation/1000000 << "s)\n"
@@ -568,14 +552,13 @@ namespace ghost
 				          << "Total number of restarts: " << _restarts_total << "\n";
 
 			if( is_optimization )
-				std::cout << "\nOptimization cost: " << _best_opt_cost << "\n"
-				          << "Opt Cost BEFORE post-processing: " << _cost_before_postprocess << "\n";
+				std::cout << "\nOptimization cost: " << _best_opt_cost << "\n";
 
-			// if( timer_postprocess_sat.count() > 0 )
-			// 	std::cout << "Satisfaction post-processing time: " << timer_postprocess_sat.count() << " us\n"; 
-
-			if( timer_postprocess_opt.count() > 0 )
-				std::cout << "Optimization post-processing time: " << timer_postprocess_opt.count() << "us (= " << timer_postprocess_opt.count()/1000 << "ms, " << timer_postprocess_opt.count()/1000000 << "s)\n"; 
+			// If post-processing takes more than 1 microsecond, print details about it on the screen
+			// This is to avoid printing something with empty post-processing, taking usually less than 0.1 microsecond (tested on a Core i9 9900)
+			if( timer_postprocess.count() > 1 )
+				std::cout << "Optimization Cost BEFORE post-processing: " << _cost_before_postprocess << "\n"
+				          << "Optimization post-processing time: " << timer_postprocess.count() << "us (= " << timer_postprocess.count()/1000 << "ms, " << timer_postprocess.count()/1000000 << "s)\n"; 
 
 			std::cout << "\n";
 #endif
