@@ -180,6 +180,8 @@ namespace ghost
 		 * outputs a value strictly higher than 0 otherwise, such that the higher this value,
 		 * the further current values of variables are from satisfying the user-defined constraint.
 		 *
+		 * Like any methods prefixed by 'required_', overriding this method is mandatory.
+		 *
 		 * \warning DO NOT implement any side effect in this method. It is called by the solver 
 		 * to compute the constraint error but also for some inner mechanisms (such as error 
 		 * simulations).
@@ -214,6 +216,8 @@ namespace ghost
 		 * solutions. However, if the problem is modeled as an CSP/COP, users can just skip
 		 * the implementation of this method.
 		 *
+		 * Like any methods prefixed by 'optional_', overriding this method is not mandatory.
+		 *
 		 * \warning DO NOT implement any side effect in this method. It is called by the solver 
 		 * to compute the constraint delta error but also for some inner mechanisms (such as error
 		 * simulations).
@@ -233,10 +237,11 @@ namespace ghost
 		/*!
 		 * Update user-defined data structures in the constraint.
 		 *
-		 * If some inner data structures are defined in derived constraint classes and need 
-		 * to be updated while variable values change (i.e., when the solver asssign 'new_value'
-		 * to variables[index]), this method must be implemented to define how data structures 
-		 * must be updated.
+		 * Like any methods prefixed by 'conditional_', this method must be overriden under
+		 * some conditions: if some inner data structures are defined in derived constraint
+		 * classes and need to be updated while variable values change (i.e., when the solver
+		 * asssign 'new_value' to variables[index]), this method must be implemented to define
+		 * how data structures must be updated.
 		 *
 		 * \param variables a const reference of the vector of raw pointers to variables of the 
 		 * constraint.

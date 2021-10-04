@@ -126,6 +126,8 @@ namespace ghost
 		 * of the current values of the variables. GHOST will search for variable values that will
 		 * minimize or maximize the output of this method.
 		 *
+		 * Like any methods prefixed by 'required_', overriding this method is mandatory.
+		 *
 		 * \param variables a const reference of the vector of raw pointers to variables in the
 		 * scope of the constraint. The solver is actually calling this method with the vector 
 		 * of variables that has been given to the constructor.
@@ -138,10 +140,11 @@ namespace ghost
 		/*!
 		 * Update user-defined data structures in the objective function.
 		 *
-		 * If some inner data structures are defined in derived objective classes and need
-		 * to be updated while variable values change (i.e., when the solver asssign 'new_value'
-		 * to variables[index]), this method must be implemented to define how data structures 
-		 * must be updated.
+		 * Like any methods prefixed by 'conditional_', this method must be overriden under
+		 * some conditions: if some inner data structures are defined in derived objective classes
+		 * and need to be updated while variable values change (i.e., when the solver asssign
+		 * 'new_value' to variables[index]), this method must be implemented to define how data
+		 * structures  must be updated.
 		 *
 		 * \param variables a const reference of the vector of raw pointers to variables of the 
 		 * objective function.

@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
-## [2.1.0] - 2021-10-01
+## [2.1.0] - 2021-10-04
 This is a minor version change due to some interface modifications.
 
 - Permutation problem declaration is now done in the `ModelBuilder` constructor.
