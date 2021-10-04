@@ -67,3 +67,11 @@ jobs:
       working-directory: ${{runner.workspace}}/GHOST/tests/build
       shell: bash
       run: ctest
+            
+    - name: Build Tutorial Wiki
+      working-directory: ${{runner.workspace}}/GHOST/tutorial/wiki
+      run: export CXXFLAGS=-isystem\ /usr/local/include && export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib" && cp /usr/local/lib/libgtest*.a . && mkdir -p build && cd build && cmake .. && make 
+            
+    - name: Build Tutorial Video
+      working-directory: ${{runner.workspace}}/GHOST/tutorial/video
+      run: export CXXFLAGS=-isystem\ /usr/local/include && export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib" && cp /usr/local/lib/libgtest*.a . && mkdir -p build && cd build && cmake .. && make 

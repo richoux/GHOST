@@ -62,3 +62,11 @@ jobs:
       working-directory: ${{runner.workspace}}/GHOST/tests/build
       shell: cmd
       run: set PATH=C:\Program Files (x86)\ghost\lib\;%PATH% && ctest -C Release
+            
+    - name: Build Tutorial Wiki
+      working-directory: ${{runner.workspace}}/GHOST/tutorial/wiki
+      run: mkdir -p build && cd build && cmake .. -A "x64" && cmake --build . 
+            
+    - name: Build Tutorial Video
+      working-directory: ${{runner.workspace}}/GHOST/tutorial/video
+      run: mkdir -p build && cd build && cmake .. -A "x64" && cmake --build . 
