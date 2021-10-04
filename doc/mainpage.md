@@ -1,7 +1,7 @@
 Introduction
 ====
 
-GHOST (General meta-Heuristic Optimization Solving Toolkit) is a C++14
+GHOST (General meta-Heuristic Optimization Solving Toolkit) is a C++17
 library  to  let   a  user  declare  his  or   her  own  combinatorial
 problems. It  implements a meta-heuristic  solver aiming to  solve any
 kind of  combinatorial and optimization RTS-related  problems declared
@@ -25,8 +25,8 @@ documentation                         pages                         at
 [richoux.github.io/GHOST](http://richoux.github.io/GHOST).   GHOST  is
 under the terms of the GNU GPL v3 licence.
 
-Install instructions, a short Constraint Programming tutorial, as well
-as a short GHOST tutorial are available on the [wiki of GHOST's GitHub
+Install instructions,  a short Constraint Programming  tutorial, GHOST
+tutorials,  and more,  are available  on the  [wiki of  GHOST's GitHub
 page](https://github.com/richoux/GHOST/wiki/).
 
 Scientific papers about GHOST:
