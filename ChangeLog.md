@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
+## [2.1.1] - 2021-10-18
+- Fix a bug in the solver when some variables are assigned to any constraints.
+- Fix a mistake in Objective in case some vectors are empty.
+
 ## [2.1.0] - 2021-10-04
 This is a minor version change due to some interface modifications.
 
