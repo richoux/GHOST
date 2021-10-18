@@ -98,7 +98,10 @@ int Objective::expert_heuristic_value( const std::vector<Variable*>& variables,
 
 	var->set_value( backup );
 
-	return rng.pick( best_values );
+	if( !best_values.empty() )
+		return rng.pick( best_values );
+	else
+		return rng.pick( possible_values );
 }
 
 int Objective::expert_heuristic_value_permutation( const std::vector<Variable*>& variables,

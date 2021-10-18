@@ -349,7 +349,9 @@ namespace ghost
 				double worst_variable_cost = -1;
 
 				for( int variable_id = 0; variable_id < number_variables; ++variable_id )
-					if( worst_variable_cost <= error_variables[ variable_id ] && tabu_list[ variable_id ] <= local_moves )
+					if( worst_variable_cost <= error_variables[ variable_id ]
+					    && tabu_list[ variable_id ] <= local_moves
+					    && ( !matrix_var_ctr.at( variable_id ).empty() || ( model.objective->is_optimization() && current_sat_error == 0 ) ) )
 					{
 						if( worst_variable_cost < error_variables[ variable_id ] )
 						{
@@ -725,6 +727,7 @@ namespace ghost
 					continue;
 				}
 
+				// WARNING: must remove variables which are in any constraints
 				variable_to_change = rng.variate<int, std::discrete_distribution>( masked_error_variables.begin(), masked_error_variables.end() );
 #endif // end ANTIDOTE_SEARCH
 
@@ -772,8 +775,13 @@ namespace ghost
 				{
 					// Simulate delta errors (or errors is not Constraint::optional_delta_error method is defined) for each neighbor
 					for( const auto candidate_value : domain_to_explore )
-						for( const int constraint_id : matrix_var_ctr.at( variable_to_change ) )
-							delta_errors[ candidate_value ].push_back( model.constraints[ constraint_id ]->simulate_delta( std::vector<int>{variable_to_change}, std::vector<int>{candidate_value} ) );
+					{
+						if( !matrix_var_ctr.at( variable_to_change ).empty() ) [[likely]]
+							for( const int constraint_id : matrix_var_ctr.at( variable_to_change ) )
+								delta_errors[ candidate_value ].push_back( model.constraints[ constraint_id ]->simulate_delta( std::vector<int>{variable_to_change}, std::vector<int>{candidate_value} ) );
+						else
+							delta_errors[ candidate_value ].push_back( 0.0 );
+					}
 				}
 				else
 				{
