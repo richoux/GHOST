@@ -2,6 +2,7 @@ Cmake_minimum_required (VERSION 3.0)
 project (ghost)
 
 set( CMAKE_VERBOSE_MAKEFILE on )
+cmake_policy(SET CMP0054 NEW)
 
 # require a C++17-capable compiler
 include(CheckCXXCompilerFlag)
