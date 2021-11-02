@@ -59,6 +59,11 @@ else()
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Wno-unused-parameter")
 endif()	
 
+# cmake --install on visual studio
+if("${WIN32}")
+  set(CMAKE_VS_INCLUDE_INSTALL_TO_DEFAULT_BUILD 1)
+endif()
+
 # Options
 # Switch between Adaptive Search (default) and experimental search algorithms
 option(GHOST_EXPERIMENTAL "Enable experimental search algorithm" OFF)
