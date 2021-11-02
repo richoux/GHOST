@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
+## [2.1.2] - 2021-11-02
+- Enable the include and lib files installation on Windows with Visual Studio.
+
 ## [2.1.1] - 2021-10-18
 - Fix a bug in the solver when some variables are assigned to any constraints.
 - Fix a mistake in Objective in case some vectors are empty.

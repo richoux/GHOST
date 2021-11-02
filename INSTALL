@@ -54,20 +54,26 @@ $> sudo update_dyld_shared_cache
 On Windows:
 
 1. In CMake, select 'GHOST' as the source code folder and
-'GHOST/build' as the build folder (you may have to create this
+'GHOST\build' as the build folder (you may have to create this
 folder).
 
 2. Click on 'Configure'. It would ask you which generator (ie,
 compiler/IDE) do you want. It can be Visual Studio for instance.
 
 3. CMake should propose you to change the value of
-CMAKE_INSTALL_PREFIX to choose the folder where to write solution
-files.
+CMAKE_INSTALL_PREFIX to choose the folder where to write both the
+include files and the libraries. Choose a folder where you don't need
+special write privilege (not like C:\Program Files for instance). This
+has been successfully tested with Visual Studio; if you are using
+another way to compile GHOST on Windows, you may have to copy the
+include files yourself. In that case, you need to copy the 'include'
+folder from the GHOST repository somewhere, let's say in
+'your\path\folder\ghost', and to copy the folder 'thirdparty' into
+'your\path\folder\ghost\include'.
 
 4. Click on 'Generate'.
 
-5. Go to the folder where solution files have been generated
-(determined by CMAKE_INSTALL_PREFIX). If you use an IDE, you should
+5. Go to the 'GHOST\build' folder. If you use an IDE, you should
 have a projet file corresponding to your IDE. For Visual Studio, it is
 ghost.sln. Open it.
 
