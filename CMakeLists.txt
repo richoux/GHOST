@@ -59,6 +59,11 @@ else()
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Wno-unused-parameter")
 endif()	
 
+# cmake --install on visual studio
+if("${WIN32}")
+  set(CMAKE_VS_INCLUDE_INSTALL_TO_DEFAULT_BUILD 1)
+endif()
+
 # Options
 # Switch between Adaptive Search (default) and experimental search algorithms
 option(GHOST_EXPERIMENTAL "Enable experimental search algorithm" OFF)
@@ -110,7 +115,7 @@ set (CPACK_PACKAGE_NAME "GHOST")
 set (CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set (CPACK_PACKAGE_VERSION_MAJOR "2")
 set (CPACK_PACKAGE_VERSION_MINOR "1")
-set (CPACK_PACKAGE_VERSION_PATCH "1")
+set (CPACK_PACKAGE_VERSION_PATCH "2")
 set (CPACK_PACKAGE_CONTACT "florian.richoux@polytechnique.edu")
 set (CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 include (CPack)
