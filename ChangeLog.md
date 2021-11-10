@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
+## [2.2.0] - 2021-11-10
+- The default number of threads is now the number of physical CPU cores (half the number of virtual cores for CPUs with hyper-threading).
+- Add in `Options` a parameter to set the percentage of chance to escape a plateau rather than exploring it.
+- Rename `Options::percent_to_reset` to `Options::number_variables_to_reset`.
+
 ## [2.1.2] - 2021-11-02
 - Enable the include and lib files installation on Windows with Visual Studio.
 
