@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['variable_83',['Variable',['../classghost_1_1Variable.html',1,'ghost']]]
+  ['variable_84',['Variable',['../classghost_1_1Variable.html',1,'ghost']]]
 ];
