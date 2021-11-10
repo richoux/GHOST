@@ -50,9 +50,10 @@ namespace ghost
 		std::shared_ptr<Print> print; //!< Allowing custom solution print (by derivating a class from ghost::Print)
 		int tabu_time_local_min; //!< Number of local moves a variable of a local minimum is marked tabu.
 		int tabu_time_selected; //!< Number of local moves a selected variable is marked tabu.
+		int percent_chance_escape_plateau; //!< Percentage of chance to espace a (1-dimension, ie, related to 1 variable) plateau rather than exploring it.
 		int reset_threshold; //!< Number of variables marked as tabu required to trigger a reset.
-		int restart_threshold; //!< Trigger a resart every 'restart_threshold' reset.
-		int percent_to_reset; //!< Percentage of variables to randomly change the value at each reset.
+		int restart_threshold; //!< Trigger a resart every 'restart_threshold' reset. Set to 0 to never trigger restarts.
+		int number_variables_to_reset; //!< Number of variables to randomly change the value at each reset.
 		int number_start_samplings; //!< Number of variable assignments the solver randomly draw, if custom_starting_point and resume_search are false.
 
 		//! Unique constructor

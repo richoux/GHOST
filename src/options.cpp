@@ -37,14 +37,15 @@ Options::Options()
 	: custom_starting_point( false ),
 	  resume_search( false ),
 	  parallel_runs( false ),
-	  number_threads( std::max( 2, static_cast<int>( std::thread::hardware_concurrency() ) ) ), // std::thread::hardware_concurrency() returns 0 if it is not able to detect the number of threads
+	  number_threads( std::max( 2, static_cast<int>( std::thread::hardware_concurrency() ) / 2 ) ), // std::thread::hardware_concurrency() returns 0 if it is not able to detect the number of threads
 	  print( std::make_shared<Print>() ),
 	  tabu_time_local_min( -1 ),
 	  tabu_time_selected( -1 ),
+	  percent_chance_escape_plateau( -1 ),
 	  reset_threshold( -1 ),
 	  restart_threshold( -1 ),
-	  percent_to_reset( -1 ),
-	  number_start_samplings( 10 )
+	  number_variables_to_reset( -1 ),
+	  number_start_samplings( -1 )
 { }
 
 Options::Options( const Options& other )
@@ -55,9 +56,10 @@ Options::Options( const Options& other )
 	  print( other.print ),
 	  tabu_time_local_min( other.tabu_time_local_min ),
 	  tabu_time_selected( other.tabu_time_selected ),
+	  percent_chance_escape_plateau( other.percent_chance_escape_plateau ),
 	  reset_threshold( other.reset_threshold ),
 	  restart_threshold( other.restart_threshold ),
-	  percent_to_reset( other.percent_to_reset ),
+	  number_variables_to_reset( other.number_variables_to_reset ),
 	  number_start_samplings( other.number_start_samplings )
 { }
 
@@ -69,9 +71,10 @@ Options::Options( Options&& other )
 	  print( std::move( other.print ) ),
 	  tabu_time_local_min( other.tabu_time_local_min ),
 	  tabu_time_selected( other.tabu_time_selected ),
+	  percent_chance_escape_plateau( other.percent_chance_escape_plateau ),
 	  reset_threshold( other.reset_threshold ),
 	  restart_threshold( other.restart_threshold ),
-	  percent_to_reset( other.percent_to_reset ),
+	  number_variables_to_reset( other.number_variables_to_reset ),
 	  number_start_samplings( other.number_start_samplings )
 {	}
 
@@ -86,9 +89,10 @@ Options& Options::operator=( Options other )
 		std::swap( print, other.print );
 		tabu_time_local_min = other.tabu_time_local_min;
 		tabu_time_selected = other.tabu_time_selected;
+		percent_chance_escape_plateau = other.percent_chance_escape_plateau;
 		reset_threshold = other.reset_threshold;
 		restart_threshold = other.restart_threshold;
-		percent_to_reset = other.percent_to_reset;
+		number_variables_to_reset = other.number_variables_to_reset;
 		number_start_samplings = other.number_start_samplings;
 	}
 

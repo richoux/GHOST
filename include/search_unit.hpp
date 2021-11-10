@@ -303,7 +303,7 @@ namespace ghost
 			++resets;
 
 			// if we reach the restart threshold, do a restart instead of a reset
-			if( resets % options.restart_threshold == 0 )
+			if( options.restart_threshold > 0 && ( resets % options.restart_threshold == 0 ) )
 			{
 				++restarts;
 
@@ -319,9 +319,9 @@ namespace ghost
 			else // real reset
 			{
 				if( model.permutation_problem )
-					random_permutations( options.percent_to_reset );
+					random_permutations( options.number_variables_to_reset );
 				else
-					monte_carlo_sampling( options.percent_to_reset );
+					monte_carlo_sampling( options.number_variables_to_reset );
 
 #if defined GHOST_TRACE
 				COUT << "Number of resets performed so far: " << resets << "\n";
@@ -496,11 +496,11 @@ namespace ghost
 			}
 		}
 
-		// B. Plateau management (local move on the plateau, but 10% of chance to escape it, mark the variables as tabu and loop to 2.)
-		// Return true iff the solver escapes from the plateau.
+		// B. Plateau management (local move on the plateau, but options.percent_chance_escape_plateau
+		//                        of chance to escape it, mark the variables as tabu and loop to 2.)
 		void plateau_management( int variable_to_change, int new_value, const std::map< int, std::vector<double>>& delta_errors )
 		{
-			if( rng.uniform(0, 100) <= 10 )
+			if( rng.uniform(0, 100) <= options.percent_chance_escape_plateau )
 			{
 				tabu_list[ variable_to_change ] = options.tabu_time_local_min + local_moves;
 				must_compute_worst_variables_list = true;

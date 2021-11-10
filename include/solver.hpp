@@ -232,14 +232,17 @@ namespace ghost
 
 			_options = options;
 
-			if( _options.tabu_time_local_min == -1 )
+			if( _options.tabu_time_local_min < 0 )
 				_options.tabu_time_local_min = std::max( std::min( 5, static_cast<int>( _number_variables ) - 1 ), static_cast<int>( std::ceil( _number_variables / 5 ) ) ) + 1;
 			  //_options.tabu_time_local_min = std::max( 2, _tabu_threshold ) );
 
-			if( _options.tabu_time_selected == -1 )
+			if( _options.tabu_time_selected < 0 )
 				_options.tabu_time_selected = 0;
 
-			if( _options.reset_threshold == -1 )
+			if( _options.percent_chance_escape_plateau < 0 || _options.percent_chance_escape_plateau > 100 )
+				_options.percent_chance_escape_plateau = 10;
+
+			if( _options.reset_threshold < 0 )
 			{
 #if defined ANTIDOTE_VARIABLE
 			  _options.reset_threshold = 2 * static_cast<int>( std::ceil( std::sqrt( _number_variables ) ) );
@@ -252,11 +255,14 @@ namespace ghost
 // 			_options.reset_threshold = static_cast<int>( std::ceil( 1.5 * _options.reset_threshold ) );
 // #endif
 
-			if( _options.restart_threshold == -1 )
+			if( _options.restart_threshold < 0 )
 				_options.restart_threshold = _number_variables;
 
-			if( _options.percent_to_reset == -1 )
-				_options.percent_to_reset = std::max( 2, static_cast<int>( std::ceil( _number_variables * 0.1 ) ) ); // 10%
+			if( _options.number_variables_to_reset < 0 )
+				_options.number_variables_to_reset = std::max( 2, static_cast<int>( std::ceil( _number_variables * 0.1 ) ) ); // 10%
+
+			if( _options.number_start_samplings < 0 )
+				_options.number_start_samplings = 10;
 
 			double chrono_search;
 			double chrono_full_computation;
@@ -513,9 +519,13 @@ namespace ghost
 			          << "Number of variable assignments samplings at start (if custom start and resume are set to false): " << _options.number_start_samplings << "\n"
 			          << "Variables of local minimum are frozen for: " << _options.tabu_time_local_min << " local moves\n"
 			          << "Selected variables are frozen for: " << _options.tabu_time_selected << " local moves\n"
-			          << _options.percent_to_reset << " variables are reset when " << _options.reset_threshold << " variables are frozen\n"
-			          << "Do a restart each time " << _options.restart_threshold << " resets are performed\n"
-			          << "############" << "\n";
+			          << "Percentage of chance to espace a plateau rather than exploring it: " << _options.percent_chance_escape_plateau << "%\n"
+			          << _options.number_variables_to_reset << " variables are reset when " << _options.reset_threshold << " variables are frozen\n";
+			if( _options.restart_threshold > 0 )
+				std::cout << "Do a restart each time " << _options.restart_threshold << " resets are performed\n";
+			else
+				std::cout << "Never perform restarts\n";
+			std::cout << "############" << "\n";
 
 			// Print solution
 			std::cout << _options.print->print_candidate( _model.variables ).str();

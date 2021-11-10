@@ -2,6 +2,7 @@ Cmake_minimum_required (VERSION 3.0)
 project (ghost)
 
 set( CMAKE_VERBOSE_MAKEFILE on )
+cmake_policy(SET CMP0054 NEW)
 
 # require a C++17-capable compiler
 include(CheckCXXCompilerFlag)
@@ -114,8 +115,8 @@ include (InstallRequiredSystemLibraries)
 set (CPACK_PACKAGE_NAME "GHOST")
 set (CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set (CPACK_PACKAGE_VERSION_MAJOR "2")
-set (CPACK_PACKAGE_VERSION_MINOR "1")
-set (CPACK_PACKAGE_VERSION_PATCH "2")
+set (CPACK_PACKAGE_VERSION_MINOR "2")
+set (CPACK_PACKAGE_VERSION_PATCH "0")
 set (CPACK_PACKAGE_CONTACT "florian.richoux@polytechnique.edu")
 set (CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 include (CPack)
