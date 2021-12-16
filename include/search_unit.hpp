@@ -260,11 +260,30 @@ namespace ghost
 
 			// (Re)compute constraint error and get the total current satisfaction error
 			current_sat_error = compute_constraints_errors();
+			if( best_sat_error > current_sat_error )
+			{
+				best_sat_error = current_sat_error;
+				std::transform( model.variables.begin(),
+				                model.variables.end(),
+				                final_solution.begin(),
+				                [&](auto& var){ return var.get_value(); } );
+			}
+
 			// (Re)compute the current optimization cost
 			if( model.objective->is_optimization() )
 			{
 				if( current_sat_error == 0 ) [[unlikely]]
+				{
 					current_opt_cost = model.objective->cost();
+					if( best_opt_cost > current_opt_cost )
+					{
+						best_opt_cost = current_opt_cost;
+						std::transform( model.variables.begin(),
+						                model.variables.end(),
+						                final_solution.begin(),
+						                [&](auto& var){ return var.get_value(); } );
+					}
+				}
 				else
 					current_opt_cost = std::numeric_limits<double>::max();
 			}
@@ -323,13 +342,14 @@ namespace ghost
 				else
 					monte_carlo_sampling( options.number_variables_to_reset );
 
+				model.auxiliary_data->update();
 #if defined GHOST_TRACE
 				COUT << "Number of resets performed so far: " << resets << "\n";
 				COUT << options.print->print_candidate( model.variables ).str();
 				COUT << "\n";
 #endif
 			}
-
+			
 			initialize_data_structures();
 		}
 
