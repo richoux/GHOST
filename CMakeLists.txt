@@ -42,6 +42,7 @@ if(WIN32)
 	else()
 		set(CMAKE_CXX_FLAGS_RELEASE "/O2")
 	endif()
+	set(CMAKE_INSTALL_PREFIX "C:/Users/Public/Documents/ghost")
 else()
 	if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
 		set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -fno-omit-frame-pointer -fsanitize=address,undefined,leak -static-libasan")
@@ -105,8 +106,13 @@ target_include_directories(ghost PUBLIC
 )
 
 # add the install targets
-install (TARGETS ghost DESTINATION "lib")
-install (TARGETS ghost_static DESTINATION "lib")
+if(CMAKE_SIZEOF_VOID_P EQUAL 4) # 32bits
+	install (TARGETS ghost DESTINATION "lib32")
+	install (TARGETS ghost_static DESTINATION "lib32")
+else() # 64bits
+	install (TARGETS ghost DESTINATION "lib")
+	install (TARGETS ghost_static DESTINATION "lib")
+endif()
 install (FILES ${libHeadersList} DESTINATION "include/ghost")
 install (FILES ${libExternalHeadersList} DESTINATION "include/ghost/thirdparty")
 
