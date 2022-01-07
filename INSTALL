@@ -79,10 +79,10 @@ folder.
 Go to the GHOST directory in a command prompt and type the following
 commands:
 
-Prepare the builds (change "Visual Studio 16 2019" if you want to use
+Prepare the builds (change "Visual Studio 17 2022" if you want to use
 another compiler)
-$> cmake -G "Visual Studio 16 2019" -A Win32 -B "build32" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL
-$> cmake -G "Visual Studio 16 2019" -A x64 -B "build64" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
+$> cmake -G "Visual Studio 17 2022" -A Win32 -B "build32" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL
+$> cmake -G "Visual Studio 17 2022" -A x64 -B "build64" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
 
 Build both projects.
 $> cmake --build build32 --config Release
