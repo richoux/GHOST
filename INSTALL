@@ -61,9 +61,9 @@ To compile and install the 32bit and 64bit release versions, go to the
 GHOST directory in a command prompt and type:
 $> build.bat
 
-This script is set to build GHOST with Visual Studio 16 2019. You can
+This script is set to build GHOST with Visual Studio 17 2022. You can
 either modify the script or do a manual installation if you do not want
-using Visual Studio 16 2019.
+using Visual Studio 17 2022.
 
 The script will first ask you to enter the install path for GHOST headers
 and libraries. Just press ENTER to install GHOST to the default path
