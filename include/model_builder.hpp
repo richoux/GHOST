@@ -66,10 +66,10 @@ namespace ghost
 		Model build_model();
 
 	protected:
-		std::vector<Variable> variables; //! The global vector containing all variables of the problem instance.
-		std::vector<std::shared_ptr<Constraint>> constraints; //! The vector of shared pointers of each constraint composing the problem instance.
-		std::shared_ptr<Objective> objective; //! The shared pointer of the objective function of the problem instance. Is set to nullptr is declare_objective() is not overriden.
-		std::shared_ptr<AuxiliaryData> auxiliary_data; //! The shared pointer of the auxiliary data of the problem instance. Is set to nullptr is declare_auxiliary_data() is not overriden.
+		std::vector<Variable> variables; //!< The global vector containing all variables of the problem instance.
+		std::vector<std::shared_ptr<Constraint>> constraints; //!< The vector of shared pointers of each constraint composing the problem instance.
+		std::shared_ptr<Objective> objective; //!< The shared pointer of the objective function of the problem instance. Is set to nullptr is declare_objective() is not overriden.
+		std::shared_ptr<AuxiliaryData> auxiliary_data; //!< The shared pointer of the auxiliary data of the problem instance. Is set to nullptr is declare_auxiliary_data() is not overriden.
 		bool permutation_problem;
 		
 	public:
