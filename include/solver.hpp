@@ -287,7 +287,7 @@ namespace ghost
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options );
 
-				is_optimization = search_unit.is_optimization();
+				is_optimization = search_unit.data.is_optimization;
 				std::future<bool> unit_future = search_unit.solution_found.get_future();
 
 				start_search = std::chrono::steady_clock::now();
@@ -296,15 +296,15 @@ namespace ghost
 				chrono_search = elapsed_time.count();
 
 				solution_found = unit_future.get();
-				_best_sat_error = search_unit.best_sat_error;
-				_best_opt_cost = search_unit.best_opt_cost;
-				_restarts = search_unit.restarts;
-				_resets = search_unit.resets;
-				_local_moves = search_unit.local_moves;
-				_search_iterations = search_unit.search_iterations;
-				_local_minimum = search_unit.local_minimum;
-				_plateau_moves = search_unit.plateau_moves;
-				_plateau_local_minimum = search_unit.plateau_local_minimum;
+				_best_sat_error = search_unit.data.best_sat_error;
+				_best_opt_cost = search_unit.data.best_opt_cost;
+				_restarts = search_unit.data.restarts;
+				_resets = search_unit.data.resets;
+				_local_moves = search_unit.data.local_moves;
+				_search_iterations = search_unit.data.search_iterations;
+				_local_minimum = search_unit.data.local_minimum;
+				_plateau_moves = search_unit.data.plateau_moves;
+				_plateau_local_minimum = search_unit.data.plateau_local_minimum;
 
 				_model = std::move( search_unit.transfer_model() );
 			}
@@ -321,7 +321,7 @@ namespace ghost
 					                    _options );
 				}
 
-				is_optimization = units[0].is_optimization();
+				is_optimization = units[0].data.is_optimization;
 
 				std::vector<std::future<bool>> units_future;
 				std::vector<bool> units_terminated( _options.number_threads, false );
@@ -354,9 +354,9 @@ namespace ghost
 								if( units_future.at( thread_number ).get() ) // equivalent to if( units.at( thread_number ).best_sat_error == 0.0 )
 								{
 									solution_found = true;
-									if( _best_opt_cost > units.at( thread_number ).best_opt_cost )
+									if( _best_opt_cost > units.at( thread_number ).data.best_opt_cost )
 									{
-										_best_opt_cost = units.at( thread_number ).best_opt_cost;
+										_best_opt_cost = units.at( thread_number ).data.best_opt_cost;
 										winning_thread = thread_number;
 									}
 								}
@@ -401,13 +401,13 @@ namespace ghost
 				{
 					units.at(i).stop_search();
 
-					_restarts_total += units.at(i).restarts;
-					_resets_total += units.at(i).resets;
-					_local_moves_total += units.at(i).local_moves;
-					_search_iterations_total += units.at(i).search_iterations;
-					_local_minimum_total += units.at(i).local_minimum;
-					_plateau_moves_total += units.at(i).plateau_moves;
-					_plateau_local_minimum_total += units.at(i).plateau_local_minimum;
+					_restarts_total += units.at(i).data.restarts;
+					_resets_total += units.at(i).data.resets;
+					_local_moves_total += units.at(i).data.local_moves;
+					_search_iterations_total += units.at(i).data.search_iterations;
+					_local_minimum_total += units.at(i).data.local_minimum;
+					_plateau_moves_total += units.at(i).data.plateau_moves;
+					_plateau_local_minimum_total += units.at(i).data.plateau_local_minimum;
 				}
 
 				// ..then the most important: the best solution found so far.
@@ -416,16 +416,16 @@ namespace ghost
 #if defined GHOST_TRACE
 					std::cout << "Parallel run, thread number " << winning_thread << " has found a solution.\n";
 #endif
-					_best_sat_error = units.at( winning_thread ).best_sat_error;
-					_best_opt_cost = units.at( winning_thread ).best_opt_cost;
+					_best_sat_error = units.at( winning_thread ).data.best_sat_error;
+					_best_opt_cost = units.at( winning_thread ).data.best_opt_cost;
 
-					_restarts = units.at( winning_thread ).restarts;
-					_resets = units.at( winning_thread ).resets;
-					_local_moves = units.at( winning_thread ).local_moves;
-					_search_iterations = units.at( winning_thread ).search_iterations;
-					_local_minimum = units.at( winning_thread ).local_minimum;
-					_plateau_moves = units.at( winning_thread ).plateau_moves;
-					_plateau_local_minimum = units.at( winning_thread ).plateau_local_minimum;
+					_restarts = units.at( winning_thread ).data.restarts;
+					_resets = units.at( winning_thread ).data.resets;
+					_local_moves = units.at( winning_thread ).data.local_moves;
+					_search_iterations = units.at( winning_thread ).data.search_iterations;
+					_local_minimum = units.at( winning_thread ).data.local_minimum;
+					_plateau_moves = units.at( winning_thread ).data.plateau_moves;
+					_plateau_local_minimum = units.at( winning_thread ).data.plateau_local_minimum;
 					_model = std::move( units.at( winning_thread ).transfer_model() );
 				}
 				else
@@ -436,26 +436,26 @@ namespace ghost
 					int best_non_solution = 0;
 					for( int i = 0 ; i < _options.number_threads ; ++i )
 					{
-						if( _best_sat_error > units.at( i ).best_sat_error )
+						if( _best_sat_error > units.at( i ).data.best_sat_error )
 						{
 							best_non_solution = i;
-							_best_sat_error = units.at( i ).best_sat_error;
+							_best_sat_error = units.at( i ).data.best_sat_error;
 						}
 						if( is_optimization && _best_sat_error == 0.0 )
-							if( units.at( i ).best_sat_error == 0.0 && _best_opt_cost > units.at( i ).best_opt_cost )
+							if( units.at( i ).data.best_sat_error == 0.0 && _best_opt_cost > units.at( i ).data.best_opt_cost )
 							{
 								best_non_solution = i;
-								_best_opt_cost = units.at( i ).best_opt_cost;
+								_best_opt_cost = units.at( i ).data.best_opt_cost;
 							}
 					}
 
-					_restarts = units.at( best_non_solution ).restarts;
-					_resets = units.at( best_non_solution ).resets;
-					_local_moves = units.at( best_non_solution ).local_moves;
-					_search_iterations = units.at( best_non_solution ).search_iterations;
-					_local_minimum = units.at( best_non_solution ).local_minimum;
-					_plateau_moves = units.at( best_non_solution ).plateau_moves;
-					_plateau_local_minimum = units.at( best_non_solution ).plateau_local_minimum;
+					_restarts = units.at( best_non_solution ).data.restarts;
+					_resets = units.at( best_non_solution ).data.resets;
+					_local_moves = units.at( best_non_solution ).data.local_moves;
+					_search_iterations = units.at( best_non_solution ).data.search_iterations;
+					_local_minimum = units.at( best_non_solution ).data.local_minimum;
+					_plateau_moves = units.at( best_non_solution ).data.plateau_moves;
+					_plateau_local_minimum = units.at( best_non_solution ).data.plateau_local_minimum;
 					_model = std::move( units.at( best_non_solution ).transfer_model() );
 				}
 
