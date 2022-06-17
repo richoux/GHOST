@@ -27,20 +27,13 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/antidote_search_variable_heuristic.hpp"
-#include "thirdparty/randutils.hpp"
+#pragma once
 
-namespace ghost
-{
-	AntidoteSearchVariableHeuristic::AntidoteSearchVariableHeuristic()
-		: VariableHeuristic( "Antidote Search" )
-	{ }
-		
-	int AntidoteSearchVariableHeuristic::select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data ) const
-	{
-		randutils::mt19937_rng rng; // to optimize
-		
-		// WARNING: must remove variables which are in any constraints
-		return rng.variate<int, std::discrete_distribution>( candidates.begin(), candidates.end() );
-	}
-}
+#if defined GHOST_TRACE_PARALLEL
+#define GHOST_TRACE
+#include <fstream>
+#include <sstream>
+#define COUT _log_trace
+#else
+#define COUT std::cout
+#endif

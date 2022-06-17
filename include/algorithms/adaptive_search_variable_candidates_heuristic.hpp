@@ -27,20 +27,19 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/antidote_search_variable_heuristic.hpp"
-#include "thirdparty/randutils.hpp"
+#pragma once
+
+#include <vector>
+
+#include "../variable_candidates_heuristic.hpp"
 
 namespace ghost
 {
-	AntidoteSearchVariableHeuristic::AntidoteSearchVariableHeuristic()
-		: VariableHeuristic( "Antidote Search" )
-	{ }
-		
-	int AntidoteSearchVariableHeuristic::select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data ) const
+	class AdaptiveSearchVariableCandidatesHeuristic : public VariableCandidatesHeuristic
 	{
-		randutils::mt19937_rng rng; // to optimize
+	public:
+		AdaptiveSearchVariableCandidatesHeuristic();
 		
-		// WARNING: must remove variables which are in any constraints
-		return rng.variate<int, std::discrete_distribution>( candidates.begin(), candidates.end() );
-	}
+		std::vector<double> compute_variable_candidates( const SearchUnitData& data ) const override;
+	};
 }

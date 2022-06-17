@@ -51,10 +51,10 @@
 #include "options.hpp"
 #include "search_unit.hpp"
 
-#if defined ANTIDOTE_SEARCH
-#define ANTIDOTE_VARIABLE
-#define ANTIDOTE_VALUE
-#endif
+#include "algorithms/adaptive_search_variable_heuristic.hpp"
+#include "algorithms/adaptive_search_value_heuristic.hpp"
+#include "algorithms/antidote_search_variable_heuristic.hpp"
+#include "algorithms/antidote_search_value_heuristic.hpp"
 
 #if defined GHOST_TRACE_PARALLEL
 #define GHOST_TRACE
@@ -128,6 +128,9 @@ namespace ghost
 		int _plateau_moves;
 		int _plateau_local_minimum;
 
+		std::string _variable_heuristic;
+		std::string _value_heuristic;
+		
 		Options _options; // Options for the solver (see the struct Options).
 
 	public:
@@ -243,17 +246,9 @@ namespace ghost
 				_options.percent_chance_escape_plateau = 10;
 
 			if( _options.reset_threshold < 0 )
-			{
-#if defined ANTIDOTE_VARIABLE
-			  _options.reset_threshold = 2 * static_cast<int>( std::ceil( std::sqrt( _number_variables ) ) );
-#else
 				_options.reset_threshold = _options.tabu_time_local_min;
-#endif
-			}
-
-// #if defined ANTIDOTE_VARIABLE
 // 			_options.reset_threshold = static_cast<int>( std::ceil( 1.5 * _options.reset_threshold ) );
-// #endif
+//		  _options.reset_threshold = 2 * static_cast<int>( std::ceil( std::sqrt( _number_variables ) ) );
 
 			if( _options.restart_threshold < 0 )
 				_options.restart_threshold = _number_variables;
@@ -284,6 +279,10 @@ namespace ghost
 			// sequential runs
 			if( is_sequential )
 			{
+				// SearchUnit search_unit( _model_builder.build_model(),
+				//                         _options,
+				//                         std::make_unique<AdaptiveSearchVariableHeuristic>(),
+				//                         std::make_unique<AntidoteSearchValueHeuristic>() );
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options );
 
@@ -306,6 +305,9 @@ namespace ghost
 				_plateau_moves = search_unit.data.plateau_moves;
 				_plateau_local_minimum = search_unit.data.plateau_local_minimum;
 
+				_variable_heuristic = search_unit.variable_heuristic->get_name();
+				_value_heuristic = search_unit.value_heuristic->get_name();
+				
 				_model = std::move( search_unit.transfer_model() );
 			}
 			else // call threads
@@ -426,6 +428,10 @@ namespace ghost
 					_local_minimum = units.at( winning_thread ).data.local_minimum;
 					_plateau_moves = units.at( winning_thread ).data.plateau_moves;
 					_plateau_local_minimum = units.at( winning_thread ).data.plateau_local_minimum;
+
+					_variable_heuristic = units.at( winning_thread ).variable_heuristic->get_name();
+					_value_heuristic = units.at( winning_thread ).value_heuristic->get_name();
+
 					_model = std::move( units.at( winning_thread ).transfer_model() );
 				}
 				else
@@ -456,6 +462,10 @@ namespace ghost
 					_local_minimum = units.at( best_non_solution ).data.local_minimum;
 					_plateau_moves = units.at( best_non_solution ).data.plateau_moves;
 					_plateau_local_minimum = units.at( best_non_solution ).data.plateau_local_minimum;
+
+					_variable_heuristic = units.at( best_non_solution ).variable_heuristic->get_name();
+					_value_heuristic = units.at( best_non_solution ).value_heuristic->get_name();
+					
 					_model = std::move( units.at( best_non_solution ).transfer_model() );
 				}
 
@@ -500,18 +510,8 @@ namespace ghost
 
 #if defined GHOST_DEBUG || defined GHOST_TRACE || defined GHOST_BENCH
 			std::cout << "@@@@@@@@@@@@" << "\n"
-			          << "Variable heuristic: "
-#if not defined ANTIDOTE_VARIABLE // ADAPTIVE_SEARCH
-			          << "Adaptive Search\n"
-#else // Antidote Search
-			          << "Antidote Search\n"
-#endif
-			          << "Value heuristic: "
-#if not defined ANTIDOTE_VALUE // ADAPTIVE_SEARCH
-			          << "Adaptive Search\n"
-#else // Antidote Search
-			          << "Antidote Search\n"
-#endif
+			          << "Variable heuristic: " << _variable_heuristic << "\n"
+			          << "Value heuristic: " << _value_heuristic << "\n"
 			          << "Started from a custom variables assignment: " << std::boolalpha << _options.custom_starting_point << "\n"
 			          << "Search resumed from a previous run: " << std::boolalpha << _options.resume_search << "\n"
 			          << "Parallel search: " << std::boolalpha << _options.parallel_runs << "\n"

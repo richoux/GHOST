@@ -32,6 +32,7 @@
 #include <vector>
 
 #include "search_unit_data.hpp"
+#include "macros.hpp"
 
 namespace ghost
 {
@@ -40,7 +41,18 @@ namespace ghost
 	 */
 	class VariableHeuristic
 	{
+	protected:
+		std::string name;
+		
 	public:
-		virtual int select_variable_candidates( const SearchUnitData& data ) const = 0;
+		VariableHeuristic( std::string&& name )
+			: name( std::move( name ) )
+		{ }
+
+		inline std::string get_name() const { return name; }
+
+		// candidates is a vector of double to be more generic, allowing for instance a vector of errors
+		// rather than a vector of ID, like it would certainly be often the case in practice.
+		virtual int select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data ) const = 0;
 	};
 }

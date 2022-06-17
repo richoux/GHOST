@@ -52,25 +52,16 @@
 #include "thirdparty/randutils.hpp"
 
 #include "variable_heuristic.hpp"
+#include "variable_candidates_heuristic.hpp"
 #include "value_heuristic.hpp"
 #include "algorithms/adaptive_search_variable_heuristic.hpp"
+#include "algorithms/adaptive_search_variable_candidates_heuristic.hpp"
 #include "algorithms/adaptive_search_value_heuristic.hpp"
 #include "algorithms/antidote_search_variable_heuristic.hpp"
+#include "algorithms/antidote_search_variable_candidates_heuristic.hpp"
 #include "algorithms/antidote_search_value_heuristic.hpp"
 
-#if defined ANTIDOTE_SEARCH
-#define ANTIDOTE_VARIABLE
-#define ANTIDOTE_VALUE
-#endif
-
-#if defined GHOST_TRACE_PARALLEL
-#define GHOST_TRACE
-#include <fstream>
-#include <sstream>
-#define COUT _log_trace
-#else
-#define COUT std::cout
-#endif
+#include "macros.hpp"
 
 namespace ghost
 {
@@ -84,9 +75,6 @@ namespace ghost
 		std::future<void> _stop_search_check;
 		std::thread::id _thread_id;
 
-		std::unique_ptr<VariableHeuristic> variable_heuristic;
-		std::unique_ptr<ValueHeuristic> value_heuristic;
-		
 #if defined GHOST_TRACE_PARALLEL
 		std::stringstream _log_filename;
 		std::ofstream _log_trace;
@@ -262,7 +250,7 @@ namespace ghost
 
 		void initialize_data_structures()
 		{
-			must_compute_worst_variables_list = true;
+			must_compute_variable_candidates = true;
 			std::fill( data.tabu_list.begin(), data.tabu_list.end(), 0 );
 
 			// Reset constraints costs
@@ -355,56 +343,6 @@ namespace ghost
 			initialize_data_structures();
 		}
 
-#if not defined ANTIDOTE_VARIABLE // ADAPTIVE_SEARCH
-		// To compute the vector of variables which are principal culprits for not satisfying the problem
-		void compute_worst_variables()
-		{
-#if defined GHOST_TRACE
-			print_errors();
-#endif
-			if( std::count_if( data.tabu_list.begin(),
-			                   data.tabu_list.end(),
-			                   [&](int end_tabu){ return end_tabu > data.local_moves; } ) >= options.reset_threshold ) ////////////////////// TODO À exécuter avant d'appeler l'heuristique
-				worst_variables_list.clear();
-			else
-			{
-				double worst_variable_cost = -1;
-
-				for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
-					if( worst_variable_cost <= data.error_variables[ variable_id ]
-					    && data.tabu_list[ variable_id ] <= data.local_moves
-					    && ( !data.matrix_var_ctr.at( variable_id ).empty() || ( data.is_optimization && data.current_sat_error == 0 ) ) )
-					{
-						if( worst_variable_cost < data.error_variables[ variable_id ] )
-						{
-							worst_variables_list.clear();
-							worst_variables_list.push_back( variable_id );
-							worst_variable_cost = data.error_variables[ variable_id ];
-						}
-						else
-							if( worst_variable_cost == data.error_variables[ variable_id ] )
-								worst_variables_list.push_back( variable_id );
-					}
-			}
-		}
-#else // end ADAPTIVE_SEARCH ; start ANTIDOTE_SEARCH
-		std::vector<double> mask_tabu( std::vector<double> error_variables )
-		{
-			if( std::count_if( data.tabu_list.begin(),
-			                   data.tabu_list.end(),
-			                   [&](int end_tabu){ return end_tabu > data.local_moves; } ) >= options.reset_threshold )
-				error_variables.clear();
-			else
-			{
-				for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
-					if( data.tabu_list[ variable_id ] > data.local_moves )
-						error_variables[ variable_id ] = 0.0;
-			}
-
-			return error_variables;
-		}
-#endif // end ANTIDOTE_SEARCH
-
 		// Compute the cost of each constraints
 		double compute_constraints_errors()
 		{
@@ -495,7 +433,7 @@ namespace ghost
 			++data.local_moves;
 			data.current_sat_error += min_conflict;
 			data.tabu_list[ variable_to_change ] = options.tabu_time_selected + data.local_moves;
-			must_compute_worst_variables_list = true;
+			must_compute_variable_candidates = true;
 
 			update_errors( variable_to_change, new_value, delta_errors );
 
@@ -525,7 +463,7 @@ namespace ghost
 			if( rng.uniform(0, 100) <= options.percent_chance_escape_plateau )
 			{
 				data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
-				must_compute_worst_variables_list = true;
+				must_compute_variable_candidates = true;
 				++data.plateau_local_minimum;
 #if defined GHOST_TRACE
 				COUT << "Escape from plateau; variables marked as tabu.\n";
@@ -545,7 +483,7 @@ namespace ghost
 			if( no_other_variables_to_try || rng.uniform(0, 100) <= 10 )
 			{
 				data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
-				must_compute_worst_variables_list = true;
+				must_compute_variable_candidates = true;
 				++data.local_minimum;
 			}
 			else
@@ -553,7 +491,7 @@ namespace ghost
 #if defined GHOST_TRACE
 				COUT << "Try other variables: not a local minimum yet.\n";
 #endif
-				must_compute_worst_variables_list = false;
+				must_compute_variable_candidates = false;
 			}
 		}
 
@@ -564,26 +502,33 @@ namespace ghost
 		randutils::mt19937_rng rng;
 
 		SearchUnitData data;
-		
+		std::unique_ptr<VariableHeuristic> variable_heuristic;
+		std::unique_ptr<VariableCandidatesHeuristic> variable_candidates_heuristic;
+		std::unique_ptr<ValueHeuristic> value_heuristic;
+				
 		std::vector<int> final_solution;
 
-		std::vector<int> worst_variables_list;
-		bool must_compute_worst_variables_list;
+		std::vector<double> variable_candidates;
+		bool must_compute_variable_candidates;
 
 		std::promise<bool> solution_found;
 
 		Options options;
 
 		SearchUnit( Model&& moved_model,
-		            const Options& options )
+		            const Options& options,
+		            std::unique_ptr<VariableHeuristic> variable_heuristic,
+		            std::unique_ptr<VariableCandidatesHeuristic> variable_candidates_heuristic,
+		            std::unique_ptr<ValueHeuristic> value_heuristic )
 			: _stop_search_check( _stop_search_signal.get_future() ),
-			  variable_heuristic( std::make_unique<AdaptiveSearchVariableHeuristic>() ),
-			  value_heuristic( std::make_unique<AdaptiveSearchValueHeuristic>() ),
+			  variable_heuristic( std::move( variable_heuristic ) ),
+			  variable_candidates_heuristic( std::move( variable_candidates_heuristic ) ),
+			  value_heuristic( std::move( value_heuristic ) ),
 			  model( std::move( moved_model ) ),
 			  data( model ),
 			  final_solution( std::vector<int>( data.number_variables, 0 ) ),
-			  worst_variables_list (),
-			  must_compute_worst_variables_list ( true ),
+			  variable_candidates(), 
+			  must_compute_variable_candidates ( true ),
 			  options ( options )
 		{
 			std::transform( model.variables.begin(),
@@ -609,6 +554,15 @@ namespace ghost
 #endif
 		}
 
+		SearchUnit( Model&& moved_model, const Options& options )
+			: SearchUnit( std::move( moved_model ),
+			              options,
+			              std::make_unique<AdaptiveSearchVariableHeuristic>(),
+			              std::make_unique<AdaptiveSearchVariableCandidatesHeuristic>(),
+			              std::make_unique<AdaptiveSearchValueHeuristic>() )
+		{ }
+
+		
 		// Check if the thread must stop search
 		bool stop_search_requested()
 		{
@@ -690,19 +644,28 @@ namespace ghost
 				 * 1. Choice of worst variable(s) to change *
 				 ********************************************/
 				// Estimate which variables need to be changed
-				if( must_compute_worst_variables_list )
-					if( std::count_if( data.tabu_list.begin(),
-					                   data.tabu_list.end(),
-					                   [&](int end_tabu){ return end_tabu > data.local_moves; } ) >= options.reset_threshold )
-					{
+				if( must_compute_variable_candidates )
+					variable_candidates = variable_candidates_heuristic->compute_variable_candidates( data );
+
+				if( std::count_if( data.tabu_list.begin(),
+				                   data.tabu_list.end(),
+				                   [&](int end_tabu){ return end_tabu > data.local_moves; } ) >= options.reset_threshold
+				    || variable_candidates.empty() )
+				{
 #if defined GHOST_TRACE
-						COUT << "No variables left to be changed: reset.\n";
+					COUT << "No variables left to be changed: reset.\n";
 #endif
-						reset();
-						continue;
-					}
+					reset();
+					continue;
+				}
+
+#if defined GHOST_TRACE
+				COUT << "\nVariable candidates: v[" << static_cast<int>( variable_candidates[0] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[0] ) ].get_value();
+				for( int i = 1 ; i < static_cast<int>( variable_candidates.size() ) ; ++i )
+					COUT << ", v[" << static_cast<int>( variable_candidates[i] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[i] ) ].get_value();
+#endif
 				
-				variable_to_change = variable_heuristic->select_variable_candidates( data );
+				variable_to_change = variable_heuristic->select_variable_candidate( variable_candidates, data );
 
 #if defined GHOST_TRACE
 				COUT << options.print->print_candidate( model.variables ).str();
@@ -712,33 +675,17 @@ namespace ghost
 				for( int i = 0 ; i < data.number_variables ; ++i )
 					if( data.tabu_list[i] > data.local_moves )
 						COUT << " v[" << i << "]:" << data.tabu_list[i];
-#if not defined ANTIDOTE_VARIABLE // ADAPTIVE_SEARCH
-				COUT << "\nWorst variables list: v[" << worst_variables_list[0] << "]=" << model.variables[ worst_variables_list[0] ].get_value();
-				for( int i = 1 ; i < static_cast<int>( worst_variables_list.size() ) ; ++i )
-					COUT << ", v[" << worst_variables_list[i] << "]=" << model.variables[ worst_variables_list[i] ].get_value();
-#else // end ADAPTIVE_SEARCH ; start ANTIDOTE_SEARCH
-				auto distrib = std::discrete_distribution<int>( masked_error_variables.begin(), masked_error_variables.end() );
-				std::vector<int> vec( data.number_variables, 0 );
-				for( int n = 0 ; n < 10000 ; ++n )
-					++vec[ rng.variate<int, std::discrete_distribution>( distrib ) ];
-				std::vector<std::pair<int,int>> vec_pair( data.number_variables );
-				for( int n = 0 ; n < data.number_variables ; ++n )
-					vec_pair[n] = std::make_pair( n, vec[n] );
-				std::sort( vec_pair.begin(), vec_pair.end(), [&](std::pair<int, int> &a, std::pair<int, int> &b){ return a.second > b.second; } );
-				COUT << "\nVariable errors (normalized):\n";
-				for( auto &v : vec_pair )
-					COUT << "v[" << v.first << "]: " << std::fixed << std::setprecision(3) << static_cast<double>( v.second ) / 10000 << "\n";
-#endif // end ANTIDOTE_SEARCH
 				COUT << "\nPicked worst variable: v[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value() << "\n\n";
 #endif // end GHOST_TRACE
 
 				/********************************
 				 * 2. Choice of their new value *
 				 ********************************/
-#if not defined ANTIDOTE_VARIABLE // ADAPTIVE_SEARCH
-				// TODO: delete this
-				// worst_variables_list.erase( std::find( worst_variables_list.begin(), worst_variables_list.end(), variable_to_change ) );
-#endif
+				// Can we erase an element by "mistake" if we use the Antidote's variable heuristic? Is it a big deal?
+				auto ref = std::find( variable_candidates.begin(), variable_candidates.end(), static_cast<double>( variable_to_change ) );
+				if( ref != variable_candidates.end() )
+					variable_candidates.erase( ref );
+				
 				// So far, we consider full domains only.
 				auto domain_to_explore = model.variables[ variable_to_change ].get_full_domain();
 				// Remove the current value
@@ -795,122 +742,11 @@ namespace ghost
 				}
 
 				// Select the next current configuration (local move)
-				int new_value;
 				double min_conflict = std::numeric_limits<double>::max();
-				std::vector<int> candidate_values;
+				int new_value = value_heuristic->select_value_candidates( variable_to_change, data, model, delta_errors, min_conflict );
 
-#if not defined ANTIDOTE_VALUE // ADAPTIVE_SEARCH
-				std::map<int, double> cumulated_delta_errors;
-				for( const auto& deltas : delta_errors )
-				{
-					cumulated_delta_errors[ deltas.first ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
+				
 #if defined GHOST_TRACE
-					if( model.permutation_problem )
-						COUT << "Error for switching var[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value()
-						     << " with var[" << deltas.first << "]=" << model.variables[ deltas.first ].get_value()
-						     << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
-					else
-						COUT << "Error for the value " << deltas.first << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
-#endif
-				}
-
-				for( const auto& deltas : cumulated_delta_errors )
-				{
-					if( min_conflict > deltas.second )
-					{
-						candidate_values.clear();
-						candidate_values.push_back( deltas.first );
-						min_conflict = deltas.second;
-					}
-					else
-						if( min_conflict == deltas.second )
-							candidate_values.push_back( deltas.first );
-				}
-
-				// if we deal with an optimization problem, find the value minimizing to objective function
-				if( data.is_optimization )
-				{
-					if( model.permutation_problem )
-						new_value = static_cast<int>( model.objective->heuristic_value_permutation( variable_to_change, candidate_values ) );
-					else
-						new_value = model.objective->heuristic_value( variable_to_change, candidate_values );
-
-					// // to change/test with heuristic_value
-					// double objective_cost = std::numeric_limits<double>::max();
-					// double simulate_objective_function;
-					// for( int value : candidate_values )
-					// {
-					// 	if( model.permutation_problem )
-					// 		simulate_objective_function = _objective.simulate_cost( std::vector<int>{variable_to_change, value}, std::vector<int>{_variables[ value ].get_value(),_variables[ variable_to_change ].get_value()} );
-					// 	else
-					// 		simulate_objective_function = _objective.simulate_cost( std::vector<int>{variable_to_change}, std::vector<int>{value} );
-
-					// 	if( objective_cost > simulate_objective_function )
-					// 	{
-					// 		objective_cost = simulate_objective_function;
-					// 		new_value = value;
-					// 	}
-					// }
-				}
-				else
-					new_value = rng.pick( candidate_values );
-#else // end ADAPTIVE_SEARCH ; start ANTIDOTE_SEARCH
-				std::vector<double> cumulated_delta_errors( delta_errors.size() );
-				std::vector<double> cumulated_delta_errors_for_distribution( delta_errors.size() );
-				std::vector<int> cumulated_delta_errors_variable_index_correspondance( delta_errors.size() ); // longest variable name ever
-
-				int index = 0;
-
-				for( const auto& deltas : delta_errors )
-				{
-					cumulated_delta_errors[ index ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
-					cumulated_delta_errors_variable_index_correspondance[ index ] = deltas.first;
-
-					double transformed = cumulated_delta_errors[ index ] >= 0 ? 0.0 : -cumulated_delta_errors[ index ];
-
-#if defined GHOST_TRACE
-					if( model.permutation_problem )
-						COUT << "Error for switching var[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value()
-						     << " with var[" << deltas.first << "]=" << model.variables[ deltas.first ].get_value()
-						     << ": " << cumulated_delta_errors[ index ] << ", transformed: " << transformed << "\n";
-					else
-						COUT << "Error for the value " << deltas.first << ": " << cumulated_delta_errors[ index ] << "\n";
-#endif
-					++index;
-				}
-
-				std::transform( cumulated_delta_errors.begin(),
-				                cumulated_delta_errors.end(),
-				                cumulated_delta_errors_for_distribution.begin(),
-				                [&]( auto delta ){ if( delta >= 0) return 0.0; else return -delta; } );
-
-				if( *std::max_element( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() ) == 0.0 )
-					index = rng.uniform( 0, static_cast<int>( delta_errors.size() ) - 1 );
-				else
-					index = rng.variate<int, std::discrete_distribution>( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() );
-
-				min_conflict = cumulated_delta_errors[ index ];
-				new_value = cumulated_delta_errors_variable_index_correspondance[ index ];				
-#endif // end ANTIDOTE_SEARCH
-
-#if defined GHOST_TRACE
-#if not defined ANTIDOTE_VALUE // ADAPTIVE_SEARCH
-				COUT << "Min conflict value candidates list: " << candidate_values[0];
-				for( int i = 1 ; i < static_cast<int>( candidate_values.size() ); ++i )
-					COUT << ", " << candidate_values[i];
-#else // end ADAPTIVE_SEARCH ; start ANTIDOTE_SEARCH
-				auto distrib_value = std::discrete_distribution<int>( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() );
-				std::vector<int> vec_value( domain_to_explore.size(), 0 );
-				for( int n = 0 ; n < 10000 ; ++n )
-					++vec_value[ rng.variate<int, std::discrete_distribution>( distrib_value ) ];
-				std::vector<std::pair<int,int>> vec_value_pair( domain_to_explore.size() );
-				for( int n = 0 ; n < domain_to_explore.size() ; ++n )
-					vec_value_pair[n] = std::make_pair( cumulated_delta_errors_variable_index_correspondance[n], vec_value[n] );
-				std::sort( vec_value_pair.begin(), vec_value_pair.end(), [&](std::pair<int, int> &a, std::pair<int, int> &b){ return a.second > b.second; } );
-				COUT << "Cumulated delta error distribution (normalized):\n";
-				for( int n = 0 ; n < domain_to_explore.size() ; ++n )
-					COUT << "val[" <<  vec_value_pair[ n ].first << "]=" << model.variables[ vec_value_pair[ n ].first ].get_value() << " => " << std::fixed << std::setprecision(3) << static_cast<double>( vec_value_pair[ n ].second ) / 10000 << "\n";
-#endif // end ANTIDOTE_SEARCH
 				if( model.permutation_problem )
 					COUT << "\nPicked variable index for min conflict: "
 					     << new_value << "\n"
@@ -1010,7 +846,7 @@ namespace ghost
 #if defined GHOST_TRACE
 									COUT << "optimization cost increase (" << data.current_opt_cost << " -> " << candidate_opt_cost << "): local minimum.\n";
 #endif
-									local_minimum_management( variable_to_change, new_value, worst_variables_list.empty() );
+									local_minimum_management( variable_to_change, new_value, variable_candidates.empty() );
 								}
 						}
 						else
@@ -1032,7 +868,7 @@ namespace ghost
 #if defined GHOST_TRACE
 						COUT << "Global error increase: local minimum.\n";
 #endif
-						local_minimum_management( variable_to_change, new_value, worst_variables_list.empty() );
+						local_minimum_management( variable_to_change, new_value, variable_candidates.empty() );
 					}
 				}
 

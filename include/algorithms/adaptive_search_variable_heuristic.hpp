@@ -38,6 +38,8 @@ namespace ghost
 	class AdaptiveSearchVariableHeuristic : public VariableHeuristic
 	{
 	public:
-		int select_variable_candidates( const SearchUnitData& data ) const override;
+		AdaptiveSearchVariableHeuristic();
+		
+		int select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data ) const override;
 	};
 }

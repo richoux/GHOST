@@ -34,6 +34,10 @@
 
 namespace ghost
 {
+	AdaptiveSearchValueHeuristic::AdaptiveSearchValueHeuristic()
+		: ValueHeuristic( "Adaptive Search" )
+	{ }
+		
 	int AdaptiveSearchValueHeuristic::select_value_candidates( int variable_to_change, const SearchUnitData& data, const Model& model, const std::map<int, std::vector<double>>& delta_errors, double& min_conflict ) const
 	{
 		randutils::mt19937_rng rng; // to optimize
@@ -65,6 +69,12 @@ namespace ghost
 					candidate_values.push_back( deltas.first );
 		}
 
+#if defined GHOST_TRACE
+		COUT << "Min conflict value candidates list: " << candidate_values[0];
+		for( int i = 1 ; i < static_cast<int>( candidate_values.size() ); ++i )
+			COUT << ", " << candidate_values[i];
+#endif
+		
 		// if we deal with an optimization problem, find the value minimizing to objective function
 		if( data.is_optimization )
 		{

@@ -38,6 +38,8 @@ namespace ghost
 	class AntidoteSearchVariableHeuristic : public VariableHeuristic
 	{
 	public:
-		int select_variable_candidates( const SearchUnitData& data ) const override;
+		AntidoteSearchVariableHeuristic();
+		
+		int select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data ) const override;
 	};
 }

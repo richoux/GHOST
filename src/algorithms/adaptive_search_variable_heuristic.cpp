@@ -32,28 +32,13 @@
 
 namespace ghost
 {
-	int AdaptiveSearchVariableHeuristic::select_variable_candidates( const SearchUnitData& data ) const
+	AdaptiveSearchVariableHeuristic::AdaptiveSearchVariableHeuristic()
+		: VariableHeuristic( "Adaptive Search" )
+	{ }
+		
+	int AdaptiveSearchVariableHeuristic::select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data ) const
 	{
 		randutils::mt19937_rng rng; // to optimize
-		std::vector<int> worst_variables_list;
-		double worst_variable_cost = -1;
-
-		for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
-			if( worst_variable_cost <= data.error_variables[ variable_id ]
-			    && data.tabu_list[ variable_id ] <= data.local_moves
-			    && ( !data.matrix_var_ctr.at( variable_id ).empty() || ( data.is_optimization && data.current_sat_error == 0 ) ) )
-			{
-				if( worst_variable_cost < data.error_variables[ variable_id ] )
-				{
-					worst_variables_list.clear();
-					worst_variables_list.push_back( variable_id );
-					worst_variable_cost = data.error_variables[ variable_id ];
-				}
-				else
-					if( worst_variable_cost == data.error_variables[ variable_id ] )
-						worst_variables_list.push_back( variable_id );
-			}
-
-		return rng.pick( worst_variables_list );
+		return static_cast<int>( rng.pick( candidates ) );
 	}
 }

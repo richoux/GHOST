@@ -27,20 +27,36 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/antidote_search_variable_heuristic.hpp"
+#include "algorithms/adaptive_search_variable_candidates_heuristic.hpp"
 #include "thirdparty/randutils.hpp"
 
 namespace ghost
 {
-	AntidoteSearchVariableHeuristic::AntidoteSearchVariableHeuristic()
-		: VariableHeuristic( "Antidote Search" )
+	AdaptiveSearchVariableCandidatesHeuristic::AdaptiveSearchVariableCandidatesHeuristic()
+		: VariableCandidatesHeuristic( "Adaptive Search" )
 	{ }
 		
-	int AntidoteSearchVariableHeuristic::select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data ) const
+	std::vector<double> AdaptiveSearchVariableCandidatesHeuristic::compute_variable_candidates( const SearchUnitData& data ) const
 	{
-		randutils::mt19937_rng rng; // to optimize
+		std::vector<double> worst_variables_list;
+		double worst_variable_cost = -1;
+
+		for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
+			if( worst_variable_cost <= data.error_variables[ variable_id ]
+			    && data.tabu_list[ variable_id ] <= data.local_moves
+			    && ( !data.matrix_var_ctr.at( variable_id ).empty() || ( data.is_optimization && data.current_sat_error == 0 ) ) )
+			{
+				if( worst_variable_cost < data.error_variables[ variable_id ] )
+				{
+					worst_variables_list.clear();
+					worst_variables_list.push_back( variable_id );
+					worst_variable_cost = data.error_variables[ variable_id ];
+				}
+				else
+					if( worst_variable_cost == data.error_variables[ variable_id ] )
+						worst_variables_list.push_back( variable_id );
+			}
 		
-		// WARNING: must remove variables which are in any constraints
-		return rng.variate<int, std::discrete_distribution>( candidates.begin(), candidates.end() );
+		return worst_variables_list;
 	}
 }

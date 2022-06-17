@@ -38,6 +38,8 @@ namespace ghost
 	class AntidoteSearchValueHeuristic : public ValueHeuristic
 	{
 	public:
+		AntidoteSearchValueHeuristic();
+		
 		int select_value_candidates( int variable_to_change, const SearchUnitData& data, const Model& model, const std::map<int, std::vector<double>>& delta_errors, double& min_conflict ) const override;
 	};
 }

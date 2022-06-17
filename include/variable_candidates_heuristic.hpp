@@ -27,20 +27,32 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/antidote_search_variable_heuristic.hpp"
-#include "thirdparty/randutils.hpp"
+#pragma once
+
+#include <vector>
+
+#include "search_unit_data.hpp"
+#include "macros.hpp"
 
 namespace ghost
 {
-	AntidoteSearchVariableHeuristic::AntidoteSearchVariableHeuristic()
-		: VariableHeuristic( "Antidote Search" )
-	{ }
-		
-	int AntidoteSearchVariableHeuristic::select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data ) const
+	/*
+	 * VariableCandidatesHeuristic follows the Strategy design pattern to implement variable candidates selection heuristics.
+	 */
+	class VariableCandidatesHeuristic
 	{
-		randutils::mt19937_rng rng; // to optimize
+	protected:
+		std::string name;
 		
-		// WARNING: must remove variables which are in any constraints
-		return rng.variate<int, std::discrete_distribution>( candidates.begin(), candidates.end() );
-	}
+	public:
+		VariableCandidatesHeuristic( std::string&& name )
+			: name( std::move( name ) )
+		{ }
+
+		inline std::string get_name() const { return name; }
+
+		// returns a vector of double to be more generic, allowing for instance a vector of errors
+		// rather than a vector of ID, like it would certainly be often the case in practice.
+		virtual std::vector<double> compute_variable_candidates( const SearchUnitData& data ) const = 0;
+	};
 }

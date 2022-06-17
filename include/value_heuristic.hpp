@@ -33,6 +33,7 @@
 #include <map>
 
 #include "search_unit_data.hpp"
+#include "macros.hpp"
 
 namespace ghost
 {
@@ -41,7 +42,21 @@ namespace ghost
 	 */
 	class ValueHeuristic
 	{
+	protected:
+		std::string name;
+		
 	public:
-		virtual int select_value_candidates( int variable_to_change, const SearchUnitData& data, const Model& model, const std::map<int, std::vector<double>>& delta_errors, double& min_conflict ) const = 0;
+		ValueHeuristic( std::string&& name )
+			: name( std::move( name ) )
+		{ }
+
+		inline std::string get_name() const { return name; }
+
+		virtual int select_value_candidates( int variable_to_change,
+		                                     const SearchUnitData& data,
+		                                     const Model& model,
+		                                     const std::map<int,
+		                                     std::vector<double>>& delta_errors,
+		                                     double& min_conflict ) const = 0;
 	};
 }

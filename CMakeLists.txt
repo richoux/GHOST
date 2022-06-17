@@ -87,9 +87,6 @@ endif()
 # add the binary tree to the search path for include files so that we will find headers
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
-# include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms)
-# include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search)
-# include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search)
 
 # gather headers lists
 set(libHeadersList
@@ -104,13 +101,17 @@ set(libHeadersList
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/solver.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/options.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/print.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/macros.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/variable_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/variable_candidates_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/value_heuristic.hpp")
 
 set(libHeadersAlgorithmsList
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_variable_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_variable_candidates_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_value_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_variable_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_variable_candidates_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_value_heuristic.hpp")
 
 set(libExternalHeadersList
@@ -130,8 +131,10 @@ add_library(ghost SHARED
 	src/options.cpp
 	src/print.cpp
 	src/algorithms/adaptive_search_variable_heuristic.cpp
+	src/algorithms/adaptive_search_variable_candidates_heuristic.cpp
 	src/algorithms/adaptive_search_value_heuristic.cpp
 	src/algorithms/antidote_search_variable_heuristic.cpp
+	src/algorithms/antidote_search_variable_candidates_heuristic.cpp
 	src/algorithms/antidote_search_value_heuristic.cpp
 	"${libHeadersList}"
 	"${libHeadersAlgorithmsList}")
@@ -146,8 +149,10 @@ add_library(ghost_static STATIC
 	src/options.cpp
 	src/print.cpp
 	src/algorithms/adaptive_search_variable_heuristic.cpp
+	src/algorithms/adaptive_search_variable_candidates_heuristic.cpp
 	src/algorithms/adaptive_search_value_heuristic.cpp
 	src/algorithms/antidote_search_variable_heuristic.cpp
+	src/algorithms/antidote_search_variable_candidates_heuristic.cpp
 	src/algorithms/antidote_search_value_heuristic.cpp
 	"${libHeadersList}"
 	"${libHeadersAlgorithmsList}")
