@@ -28,6 +28,7 @@
  */
 
 #include <algorithm>
+#include <numeric>
 
 #include "algorithms/adaptive_search_value_heuristic.hpp"
 #include "thirdparty/randutils.hpp"
