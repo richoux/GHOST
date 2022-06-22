@@ -552,7 +552,7 @@ namespace ghost
 			std::cout << "Permutation problem: " << std::boolalpha << _model.permutation_problem << "\n"
 			          << "Time budget: " << timeout << "us (= " << timeout/1000 << "ms, " << timeout/1000000 << "s)\n"
 			          << "Search time: " << chrono_search << "us (= " << chrono_search / 1000 << "ms, " << chrono_search / 1000000 << "s)\n"
-			          << "Wall-clock time (full program): " << chrono_full_computation << "us (= " << chrono_full_computation/1000 << "ms, " << chrono_full_computation/1000000 << "s)\n"
+			          << "Wall-clock time (full call): " << chrono_full_computation << "us (= " << chrono_full_computation/1000 << "ms, " << chrono_full_computation/1000000 << "s)\n"
 			          << "Satisfaction error: " << _best_sat_error << "\n"
 			          << "Number of search iterations: " << _search_iterations << "\n"
 			          << "Number of local moves: " << _local_moves << " (including on plateau: " << _plateau_moves << ")\n"
