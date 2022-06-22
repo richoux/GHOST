@@ -1,9 +1,14 @@
 Cmake_minimum_required (VERSION 3.15)
-project (ghost)
+project(ghost)
 
-set( CMAKE_VERBOSE_MAKEFILE on )
+set(CMAKE_VERBOSE_MAKEFILE on)
 cmake_policy(SET CMP0054 NEW)
 cmake_policy(SET CMP0091 NEW)
+
+# compilation features
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_EXTENSIONS OFF) # prevents cmake compiling with -std=gnu++17 on GNU/Linux instead of a more portable -std=c++17
+set(CMAKE_CXX_STANDARD_REQUIRED ON) # prevents a "decay" to C++98 when the compiler does not support C++17
 
 # require a C++17-capable compiler
 include(CheckCXXCompilerFlag)
@@ -20,7 +25,7 @@ else()
   message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++17 support. Please use a different C++ compiler.")
 endif()
 
-# require g++-7, clang 6 or or MSVC 19.14
+# require g++-7, clang 6 or MSVC 19.14
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "7")
     message(FATAL_ERROR "GCC version must be at least 7 to compile GHOST.")
@@ -68,38 +73,83 @@ if("${WIN32}")
 endif()
 
 # Options
-# Switch between Adaptive Search (default) and experimental search algorithms
-option(GHOST_EXPERIMENTAL "Enable experimental search algorithm" OFF)
-if(GHOST_EXPERIMENTAL)
-  add_definitions(-DGHOST_EXPERIMENTAL)
-endif()
-
 option(NO_ASAN "Disable fsanitizer" OFF)
 if(NO_ASAN)
 	set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 endif()
 
-
 # add the binary tree to the search path for include files so that we will find headers
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+# gather headers lists
+set(libHeadersList
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/variable.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/constraint.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/objective.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/auxiliary_data.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/model.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/model_builder.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/search_unit.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/search_unit_data.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/solver.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/options.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/print.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/macros.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/variable_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/variable_candidates_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/value_heuristic.hpp")
+
+set(libHeadersAlgorithmsList
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_variable_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_variable_candidates_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_value_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_variable_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_variable_candidates_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_value_heuristic.hpp")
+
+set(libExternalHeadersList
+	"${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/randutils.hpp")
 
 # add the targets
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 # add the library
-add_library(ghost SHARED src/variable.cpp src/constraint.cpp src/objective.cpp src/auxiliary_data.cpp src/model.cpp src/model_builder.cpp src/options.cpp src/print.cpp)
-add_library(ghost_static STATIC src/variable.cpp src/constraint.cpp src/objective.cpp src/auxiliary_data.cpp src/model.cpp src/model_builder.cpp src/options.cpp src/print.cpp)
+add_library(ghost SHARED
+	src/variable.cpp
+	src/constraint.cpp
+	src/objective.cpp
+	src/auxiliary_data.cpp
+	src/model.cpp
+	src/model_builder.cpp
+	src/options.cpp
+	src/print.cpp
+	src/algorithms/adaptive_search_variable_heuristic.cpp
+	src/algorithms/adaptive_search_variable_candidates_heuristic.cpp
+	src/algorithms/adaptive_search_value_heuristic.cpp
+	src/algorithms/antidote_search_variable_heuristic.cpp
+	src/algorithms/antidote_search_variable_candidates_heuristic.cpp
+	src/algorithms/antidote_search_value_heuristic.cpp
+	"${libHeadersList}"
+	"${libHeadersAlgorithmsList}")
 
-#gather headers list
-file(GLOB libHeadersList
-  "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp"
-  )
-
-#gather external headers list
-file(GLOB libExternalHeadersList
-  "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/randutils.hpp"
-  )
+add_library(ghost_static STATIC
+	src/variable.cpp
+	src/constraint.cpp
+	src/objective.cpp
+	src/auxiliary_data.cpp
+	src/model.cpp
+	src/model_builder.cpp
+	src/options.cpp
+	src/print.cpp
+	src/algorithms/adaptive_search_variable_heuristic.cpp
+	src/algorithms/adaptive_search_variable_candidates_heuristic.cpp
+	src/algorithms/adaptive_search_value_heuristic.cpp
+	src/algorithms/antidote_search_variable_heuristic.cpp
+	src/algorithms/antidote_search_variable_candidates_heuristic.cpp
+	src/algorithms/antidote_search_value_heuristic.cpp
+	"${libHeadersList}"
+	"${libHeadersAlgorithmsList}")
 
 target_include_directories(ghost PUBLIC
   $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/thirdparty/>
@@ -115,6 +165,7 @@ else() # 64bits
 	install (TARGETS ghost_static DESTINATION "lib")
 endif()
 install (FILES ${libHeadersList} DESTINATION "include/ghost")
+install (FILES ${libHeadersAlgorithmsList} DESTINATION "include/ghost/algorithms")
 install (FILES ${libExternalHeadersList} DESTINATION "include/ghost/thirdparty")
 
 # build a CPack driven installer package
@@ -122,8 +173,8 @@ include (InstallRequiredSystemLibraries)
 set (CPACK_PACKAGE_NAME "GHOST")
 set (CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set (CPACK_PACKAGE_VERSION_MAJOR "2")
-set (CPACK_PACKAGE_VERSION_MINOR "2")
-set (CPACK_PACKAGE_VERSION_PATCH "1")
+set (CPACK_PACKAGE_VERSION_MINOR "3")
+set (CPACK_PACKAGE_VERSION_PATCH "0")
 set (CPACK_PACKAGE_CONTACT "florian.richoux@polytechnique.edu")
 set (CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 include (CPack)

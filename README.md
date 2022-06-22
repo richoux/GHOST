@@ -1,7 +1,7 @@
 ![](https://github.com/richoux/GHOST/wiki/images/GHOST_banner.png)
 
-[![2.2.1](https://img.shields.io/badge/stable-2.2.1-brightgreen.svg)](https://github.com/richoux/GHOST/releases/tag/2.2.1)
-[![2.2.x](https://img.shields.io/badge/latest-2.2.x-f57f17.svg)](https://github.com/richoux/GHOST/tree/develop)
+[![2.3.0](https://img.shields.io/badge/stable-2.3.0-brightgreen.svg)](https://github.com/richoux/GHOST/releases/tag/2.3.0)
+[![2.3.x](https://img.shields.io/badge/latest-2.3.x-f57f17.svg)](https://github.com/richoux/GHOST/tree/develop)
 [![Actions Status](https://github.com/richoux/GHOST/workflows/Linux/badge.svg)](https://github.com/richoux/GHOST/actions)
 [![Actions Status](https://github.com/richoux/GHOST/workflows/MacOS/badge.svg)](https://github.com/richoux/GHOST/actions)
 [![Actions Status](https://github.com/richoux/GHOST/workflows/Windows/badge.svg)](https://github.com/richoux/GHOST/actions)
