@@ -81,7 +81,7 @@ Collaboration diagram for ghost::Constraint:</div>
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1Constraint__coll__graph.png" border="0" usemap="#ghost_1_1Constraint_coll__map" alt="Collaboration graph"/></div>
 <map name="ghost_1_1Constraint_coll__map" id="ghost_1_1Constraint_coll__map">
-<area shape="rect" title=" " alt="" coords="5,5,160,259"/>
+<area shape="rect" title=" " alt="" coords="5,5,160,273"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -106,6 +106,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aebea8263c24d0c3a5328c20ee0006f32"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#aebea8263c24d0c3a5328c20ee0006f32">~Constraint</a> ()=default</td></tr>
 <tr class="memdesc:aebea8263c24d0c3a5328c20ee0006f32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default virtual destructor.  <a href="classghost_1_1Constraint.html#aebea8263c24d0c3a5328c20ee0006f32">More...</a><br /></td></tr>
 <tr class="separator:aebea8263c24d0c3a5328c20ee0006f32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e91a2a917f9bd6b4f3f5f59960a86b7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a3e91a2a917f9bd6b4f3f5f59960a86b7">has_variable</a> (int var_id) const</td></tr>
+<tr class="separator:a3e91a2a917f9bd6b4f3f5f59960a86b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -364,6 +366,31 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a3e91a2a917f9bd6b4f3f5f59960a86b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e91a2a917f9bd6b4f3f5f59960a86b7">&#9670;&nbsp;</a></span>has_variable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ghost::Constraint::has_variable </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>var_id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Determine if the constraint contains a variable given its id.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var_id</td><td>an integer being a variable ID </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a002177e11deecee2db240c9ff4647008"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a002177e11deecee2db240c9ff4647008">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/2]</span></h2>
 
@@ -461,7 +488,7 @@ Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Virtual method to compute the difference, or delta, between the current error and the error of a candidate assignment.</p>
 <p>The current assignment, as well as its error, are automatically stored in the class <a class="el" href="classghost_1_1Constraint.html">Constraint</a>. Giving a vector of variable indexes and their respective candidate value, this methods ouputs the difference between the error of the current assignment in 'variables' given as input and the error we would get if we assign new candidate values.</p>
-<p>The ouput can be negative, positive, or equals to 0. If the candidate error is strictly lower (then better) than the current error, the ouput is negative. If errors are the same, the ouputs equals to 0. Finally, if the candidate error is strictly higher (then worth) than the current error, the ouput is positive.</p>
+<p>The ouput can be negative, positive, or equals to 0. If the candidate error is strictly lower (then better) than the current error, the ouput is negative. If errors are the same, the ouputs equals to 0. Finally, if the candidate error is strictly higher (then worst) than the current error, the ouput is positive.</p>
 <p>For EFSP/EFOP models, this method can be VERY important to have faster computation. Although optional (the solver still works without it), we strongly advise users to define it properly, unless the overridden required_error method is trivial to compute. Having this method may make a big difference for the solver to quickly find better solutions. However, if the problem is modeled as an CSP/COP, users can just skip the implementation of this method.</p>
 <p>Like any methods prefixed by 'optional_', overriding this method is not mandatory.</p>
 <dl class="section warning"><dt>Warning</dt><dd>DO NOT implement any side effect in this method. It is called by the solver to compute the constraint delta error but also for some inner mechanisms (such as error simulations).</dd></dl>
@@ -539,7 +566,7 @@ Thus, a required_error candidate for the contraint (x = y) could be the function
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 16 2021 14:42:03 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jun 22 2022 15:14:35 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

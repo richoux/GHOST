@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['variable_67',['Variable',['../classghost_1_1Variable.html',1,'ghost::Variable'],['../classghost_1_1Variable.html#af68388a15c2b19251381dc5599a959bb',1,'ghost::Variable::Variable()=default'],['../classghost_1_1Variable.html#aa414137393b10c727837a0016505ae9b',1,'ghost::Variable::Variable(const std::vector&lt; int &gt; &amp;domain, int index=0, const std::string &amp;name=std::string())'],['../classghost_1_1Variable.html#a147e805550ea1e174810be1e4a3d73b4',1,'ghost::Variable::Variable(int starting_value, std::size_t size, int index=0, const std::string &amp;name=std::string())'],['../classghost_1_1Variable.html#ab592d2ec05ab87cb3914a339002f63bd',1,'ghost::Variable::Variable(const std::vector&lt; int &gt; &amp;domain, const std::string &amp;name)'],['../classghost_1_1Variable.html#a31cae602d717bd2a0ba6331048948f4e',1,'ghost::Variable::Variable(int starting_value, std::size_t size, const std::string &amp;name)']]],
-  ['variable_2ehpp_68',['variable.hpp',['../variable_8hpp.html',1,'']]],
-  ['variables_69',['variables',['../classghost_1_1ModelBuilder.html#a32e92384aa46a0e3f7f144b6769b3c8d',1,'ghost::ModelBuilder']]]
+  ['tabu_5ftime_5flocal_5fmin_65',['tabu_time_local_min',['../structghost_1_1Options.html#aeb3ab7d6229c7925dcd4d844e940daf2',1,'ghost::Options']]],
+  ['tabu_5ftime_5fselected_66',['tabu_time_selected',['../structghost_1_1Options.html#a18e1acddad56b8635a8dda73b22bd048',1,'ghost::Options']]]
 ];
