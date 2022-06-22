@@ -73,12 +73,6 @@ if("${WIN32}")
 endif()
 
 # Options
-# Switch between Adaptive Search (default) and experimental search algorithms
-option(GHOST_EXPERIMENTAL "Enable experimental search algorithm" OFF)
-if(GHOST_EXPERIMENTAL)
-  add_definitions(-DGHOST_EXPERIMENTAL)
-endif()
-
 option(NO_ASAN "Disable fsanitizer" OFF)
 if(NO_ASAN)
 	set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")

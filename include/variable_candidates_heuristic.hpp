@@ -32,7 +32,7 @@
 #include <vector>
 
 #include "search_unit_data.hpp"
-#include "macros.hpp"
+// #include "macros.hpp"
 
 namespace ghost
 {

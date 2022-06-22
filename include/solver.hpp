@@ -51,22 +51,17 @@
 #include "options.hpp"
 #include "search_unit.hpp"
 
+#include "variable_heuristic.hpp"
+#include "variable_candidates_heuristic.hpp"
+#include "value_heuristic.hpp"
 #include "algorithms/adaptive_search_variable_heuristic.hpp"
+#include "algorithms/adaptive_search_variable_candidates_heuristic.hpp"
 #include "algorithms/adaptive_search_value_heuristic.hpp"
 #include "algorithms/antidote_search_variable_heuristic.hpp"
+#include "algorithms/antidote_search_variable_candidates_heuristic.hpp"
 #include "algorithms/antidote_search_value_heuristic.hpp"
 
-#if defined GHOST_TRACE_PARALLEL
-#define GHOST_TRACE
-// possible with g++11 but not before
-// #include <syncstream>
-// #define COUT std::osyncstream(std::cout)
-#include <fstream>
-#include <sstream>
-#define COUT _log_trace
-#else
-#define COUT std::cout
-#endif
+#include "macros.hpp"
 
 namespace ghost
 {
@@ -129,6 +124,7 @@ namespace ghost
 		int _plateau_local_minimum;
 
 		std::string _variable_heuristic;
+		std::string _variable_candidates_heuristic;
 		std::string _value_heuristic;
 		
 		Options _options; // Options for the solver (see the struct Options).
@@ -279,12 +275,13 @@ namespace ghost
 			// sequential runs
 			if( is_sequential )
 			{
-				// SearchUnit search_unit( _model_builder.build_model(),
-				//                         _options,
-				//                         std::make_unique<AdaptiveSearchVariableHeuristic>(),
-				//                         std::make_unique<AntidoteSearchValueHeuristic>() );
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options );
+				// SearchUnit search_unit( _model_builder.build_model(),
+				//                         _options,
+				//                         std::make_unique<AntidoteSearchVariableHeuristic>(),
+				//                         std::make_unique<AntidoteSearchVariableCandidatesHeuristic>(),
+				//                         std::make_unique<AntidoteSearchValueHeuristic>() );
 
 				is_optimization = search_unit.data.is_optimization;
 				std::future<bool> unit_future = search_unit.solution_found.get_future();
@@ -306,6 +303,7 @@ namespace ghost
 				_plateau_local_minimum = search_unit.data.plateau_local_minimum;
 
 				_variable_heuristic = search_unit.variable_heuristic->get_name();
+				_variable_candidates_heuristic = search_unit.variable_candidates_heuristic->get_name();
 				_value_heuristic = search_unit.value_heuristic->get_name();
 				
 				_model = std::move( search_unit.transfer_model() );
@@ -321,6 +319,11 @@ namespace ghost
 					// Instantiate one model per thread
 					units.emplace_back( _model_builder.build_model(),
 					                    _options );
+					// units.emplace_back( _model_builder.build_model(),
+					//                     _options,
+					//                     std::make_unique<AntidoteSearchVariableHeuristic>(),
+					//                     std::make_unique<AntidoteSearchVariableCandidatesHeuristic>(),
+					//                     std::make_unique<AntidoteSearchValueHeuristic>() );
 				}
 
 				is_optimization = units[0].data.is_optimization;
@@ -430,6 +433,7 @@ namespace ghost
 					_plateau_local_minimum = units.at( winning_thread ).data.plateau_local_minimum;
 
 					_variable_heuristic = units.at( winning_thread ).variable_heuristic->get_name();
+					_variable_candidates_heuristic = units.at( winning_thread ).variable_candidates_heuristic->get_name();
 					_value_heuristic = units.at( winning_thread ).value_heuristic->get_name();
 
 					_model = std::move( units.at( winning_thread ).transfer_model() );
@@ -464,6 +468,7 @@ namespace ghost
 					_plateau_local_minimum = units.at( best_non_solution ).data.plateau_local_minimum;
 
 					_variable_heuristic = units.at( best_non_solution ).variable_heuristic->get_name();
+					_variable_candidates_heuristic = units.at( best_non_solution ).variable_candidates_heuristic->get_name();
 					_value_heuristic = units.at( best_non_solution ).value_heuristic->get_name();
 					
 					_model = std::move( units.at( best_non_solution ).transfer_model() );
@@ -511,6 +516,7 @@ namespace ghost
 #if defined GHOST_DEBUG || defined GHOST_TRACE || defined GHOST_BENCH
 			std::cout << "@@@@@@@@@@@@" << "\n"
 			          << "Variable heuristic: " << _variable_heuristic << "\n"
+			          << "Variable candidate heuristic: " << _variable_candidates_heuristic << "\n"
 			          << "Value heuristic: " << _value_heuristic << "\n"
 			          << "Started from a custom variables assignment: " << std::boolalpha << _options.custom_starting_point << "\n"
 			          << "Search resumed from a previous run: " << std::boolalpha << _options.resume_search << "\n"

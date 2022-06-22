@@ -46,14 +46,14 @@ namespace ghost
 		for( const auto& deltas : delta_errors )
 		{
 			cumulated_delta_errors[ deltas.first ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
-#if defined GHOST_TRACE
-			if( model.permutation_problem )
-				COUT << "Error for switching var[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value()
-				     << " with var[" << deltas.first << "]=" << model.variables[ deltas.first ].get_value()
-				     << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
-			else
-				COUT << "Error for the value " << deltas.first << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
-#endif
+// #if defined GHOST_TRACE
+// 			if( model.permutation_problem )
+// 				COUT << "Error for switching var[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value()
+// 				     << " with var[" << deltas.first << "]=" << model.variables[ deltas.first ].get_value()
+// 				     << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
+// 			else
+// 				COUT << "Error for the value " << deltas.first << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
+// #endif
 		}
 
 		for( const auto& deltas : cumulated_delta_errors )
@@ -69,11 +69,11 @@ namespace ghost
 					candidate_values.push_back( deltas.first );
 		}
 
-#if defined GHOST_TRACE
-		COUT << "Min conflict value candidates list: " << candidate_values[0];
-		for( int i = 1 ; i < static_cast<int>( candidate_values.size() ); ++i )
-			COUT << ", " << candidate_values[i];
-#endif
+// #if defined GHOST_TRACE
+// 		COUT << "Min conflict value candidates list: " << candidate_values[0];
+// 		for( int i = 1 ; i < static_cast<int>( candidate_values.size() ); ++i )
+// 			COUT << ", " << candidate_values[i];
+// #endif
 		
 		// if we deal with an optimization problem, find the value minimizing to objective function
 		if( data.is_optimization )

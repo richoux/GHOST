@@ -52,15 +52,15 @@ namespace ghost
 			cumulated_delta_errors[ index ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
 			cumulated_delta_errors_variable_index_correspondance[ index ] = deltas.first;
 
-#if defined GHOST_TRACE
-			double transformed = cumulated_delta_errors[ index ] >= 0 ? 0.0 : -cumulated_delta_errors[ index ];
-			if( model.permutation_problem )
-				COUT << "Error for switching var[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value()
-				     << " with var[" << deltas.first << "]=" << model.variables[ deltas.first ].get_value()
-				     << ": " << cumulated_delta_errors[ index ] << ", transformed: " << transformed << "\n";
-			else
-				COUT << "Error for the value " << deltas.first << ": " << cumulated_delta_errors[ index ] << "\n";
-#endif
+// #if defined GHOST_TRACE
+// 			double transformed = cumulated_delta_errors[ index ] >= 0 ? 0.0 : -cumulated_delta_errors[ index ];
+// 			if( model.permutation_problem )
+// 				COUT << "Error for switching var[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value()
+// 				     << " with var[" << deltas.first << "]=" << model.variables[ deltas.first ].get_value()
+// 				     << ": " << cumulated_delta_errors[ index ] << ", transformed: " << transformed << "\n";
+// 			else
+// 				COUT << "Error for the value " << deltas.first << ": " << cumulated_delta_errors[ index ] << "\n";
+// #endif
 			++index;
 		}
 
@@ -76,23 +76,23 @@ namespace ghost
 
 		min_conflict = cumulated_delta_errors[ index ];
 
-#if defined GHOST_TRACE
-		auto domain_to_explore = model.variables[ variable_to_change ].get_full_domain();
-		// Remove the current value
-		domain_to_explore.erase( std::find( domain_to_explore.begin(), domain_to_explore.end(), model.variables[ variable_to_change ].get_value() ) );
+// #if defined GHOST_TRACE
+// 		auto domain_to_explore = model.variables[ variable_to_change ].get_full_domain();
+// 		// Remove the current value
+// 		domain_to_explore.erase( std::find( domain_to_explore.begin(), domain_to_explore.end(), model.variables[ variable_to_change ].get_value() ) );
 
-		auto distrib_value = std::discrete_distribution<int>( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() );
-		std::vector<int> vec_value( domain_to_explore.size(), 0 );
-		for( int n = 0 ; n < 10000 ; ++n )
-			++vec_value[ rng.variate<int, std::discrete_distribution>( distrib_value ) ];
-		std::vector<std::pair<int,int>> vec_value_pair( domain_to_explore.size() );
-		for( int n = 0 ; n < domain_to_explore.size() ; ++n )
-			vec_value_pair[n] = std::make_pair( cumulated_delta_errors_variable_index_correspondance[n], vec_value[n] );
-		std::sort( vec_value_pair.begin(), vec_value_pair.end(), [&](std::pair<int, int> &a, std::pair<int, int> &b){ return a.second > b.second; } );
-		COUT << "Cumulated delta error distribution (normalized):\n";
-		for( int n = 0 ; n < domain_to_explore.size() ; ++n )
-			COUT << "val[" <<  vec_value_pair[ n ].first << "]=" << model.variables[ vec_value_pair[ n ].first ].get_value() << " => " << std::fixed << std::setprecision(3) << static_cast<double>( vec_value_pair[ n ].second ) / 10000 << "\n";
-#endif
+// 		auto distrib_value = std::discrete_distribution<int>( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() );
+// 		std::vector<int> vec_value( domain_to_explore.size(), 0 );
+// 		for( int n = 0 ; n < 10000 ; ++n )
+// 			++vec_value[ rng.variate<int, std::discrete_distribution>( distrib_value ) ];
+// 		std::vector<std::pair<int,int>> vec_value_pair( domain_to_explore.size() );
+// 		for( int n = 0 ; n < domain_to_explore.size() ; ++n )
+// 			vec_value_pair[n] = std::make_pair( cumulated_delta_errors_variable_index_correspondance[n], vec_value[n] );
+// 		std::sort( vec_value_pair.begin(), vec_value_pair.end(), [&](std::pair<int, int> &a, std::pair<int, int> &b){ return a.second > b.second; } );
+// 		COUT << "Cumulated delta error distribution (normalized):\n";
+// 		for( int n = 0 ; n < domain_to_explore.size() ; ++n )
+// 			COUT << "val[" <<  vec_value_pair[ n ].first << "]=" << model.variables[ vec_value_pair[ n ].first ].get_value() << " => " << std::fixed << std::setprecision(3) << static_cast<double>( vec_value_pair[ n ].second ) / 10000 << "\n";
+// #endif
 		
 		return cumulated_delta_errors_variable_index_correspondance[ index ];		
 	}

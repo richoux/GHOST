@@ -457,7 +457,7 @@ namespace ghost
 		}
 
 		// B. Plateau management (local move on the plateau, but options.percent_chance_escape_plateau
-		//                        of chance to escape it, mark the variables as tabu and loop to 2.)
+		//                        of chance to escape it and mark the variable as tabu.)
 		void plateau_management( int variable_to_change, int new_value, const std::map< int, std::vector<double>>& delta_errors )
 		{
 			if( rng.uniform(0, 100) <= options.percent_chance_escape_plateau )
@@ -476,8 +476,8 @@ namespace ghost
 			}
 		}
 
-		// C. local minimum management (if there are no other worst variables to try, mark the variables as tabu and loop to 2.
-		//                              Otherwise try them first, but with 10% of chance, the solver marks the variables as tabu and loop to 2)
+		// C. local minimum management (if there are no other worst variables to try, mark the variable as tabu.
+		//                              Otherwise try them first, but with 10% of chance, the solver finally marks the variable as tabu.)
 		void local_minimum_management( int variable_to_change, int new_value, bool no_other_variables_to_try )
 		{
 			if( no_other_variables_to_try || rng.uniform(0, 100) <= 10 )
@@ -536,6 +536,7 @@ namespace ghost
 			                std::back_inserter( variables_at_start ),
 			                [&]( auto& v){ return v; } );
 
+			initialize_data_structures( model );
 			data.initialize_matrix( model );
 
 #if defined GHOST_TRACE
@@ -607,9 +608,9 @@ namespace ghost
 			// 5. Worst error => local minimum
 
 			// A. Local move (perform local move and update variables/constraints/objective function)
-			// B. Plateau management (local move on the plateau, but x% of chance to escape it, mark the variables as tabu and loop to 2.)
-			// C. local minimum management (if there are no other worst variables to try, mark the variables as tabu and loop to 2.
-			//                              Otherwise try them first, but with x% of chance, the solver marks the variables as tabu and loop to 2)
+			// B. Plateau management (local move on the plateau, but x% of chance to escape it, mark the variable as tabu.)
+			// C. local minimum management (if there are no other worst variables to try, mark the variable as tabu.
+			//                              Otherwise try them first, but with x% of chance, the solver fianlly marks the variable as tabu.)
 
 			std::chrono::duration<double,std::micro> elapsed_time( 0 );
 			std::chrono::time_point<std::chrono::steady_clock> start( std::chrono::steady_clock::now() );
@@ -663,6 +664,7 @@ namespace ghost
 				COUT << "\nVariable candidates: v[" << static_cast<int>( variable_candidates[0] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[0] ) ].get_value();
 				for( int i = 1 ; i < static_cast<int>( variable_candidates.size() ) ; ++i )
 					COUT << ", v[" << static_cast<int>( variable_candidates[i] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[i] ) ].get_value();
+				COUT << "\n";
 #endif
 				
 				variable_to_change = variable_heuristic->select_variable_candidate( variable_candidates, data );
