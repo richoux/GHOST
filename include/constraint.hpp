@@ -204,7 +204,7 @@ namespace ghost
 		 * The ouput can be negative, positive, or equals to 0. If the candidate error is strictly
 		 * lower (then better) than the current error, the ouput is negative. If errors are the
 		 * same, the ouputs equals to 0. Finally, if the candidate error is strictly higher
-		 * (then worth) than the current error, the ouput is positive.
+		 * (then worst) than the current error, the ouput is positive.
 		 *
 		 * For EFSP/EFOP models, this method can be VERY important to have faster computation. 
 		 * Although optional (the solver still works without it), we strongly advise users to define
