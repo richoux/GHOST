@@ -29,27 +29,25 @@
 
 #pragma once
 
-#include <sstream>
 #include <vector>
 
-#include "variable.hpp"
+#include "../value_heuristic.hpp"
 
 namespace ghost
 {
-	/*!
-	 * ghost::Print is a class users can derive from to write their own way of printing candidates
-	 * and solutions, when the macro GHOST_BENCH is given to the compiler.
-	 */
-	class Print
+	namespace algorithms
 	{
-	public:
-		/*!
-		 * The unique method to override for defining how to print candidates and solutions
-		 * on the screen.
-		 *
-		 * \param variables a const reference to the vector of variables containing values to print.
-		 * \return A std::stringstream.
-		 */
-		virtual std::stringstream print_candidate( const std::vector<Variable>& variables ) const;
-	};
+		class AntidoteSearchValueHeuristic : public ValueHeuristic
+		{
+		public:
+			AntidoteSearchValueHeuristic();
+			
+			int select_value_candidates( int variable_to_change,
+			                             const SearchUnitData& data,
+			                             const Model& model,
+			                             const std::map<int, std::vector<double>>& delta_errors,
+			                             double& min_conflict,
+			                             randutils::mt19937_rng& rng ) const override;
+		};
+	}
 }

@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2021 Florian Richoux
+ * Copyright (C) 2014-2022 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -29,7 +29,7 @@
 
 #include "objective.hpp"
 
-using namespace ghost;
+using ghost::Objective;
 
 Objective::Objective( const std::vector<int>& variables_index, bool is_maximization, const std::string& name )
 	: _variables_index( variables_index ),
@@ -68,7 +68,8 @@ void Objective::conditional_update_data_structures( const std::vector<Variable*>
 
 int Objective::expert_heuristic_value( const std::vector<Variable*>& variables,
                                        int variable_index,
-                                       const std::vector<int>& possible_values ) const
+                                       const std::vector<int>& possible_values,
+                                       randutils::mt19937_rng& rng ) const
 {
 	double min_cost = std::numeric_limits<double>::max();
 	double simulated_cost;
@@ -101,12 +102,16 @@ int Objective::expert_heuristic_value( const std::vector<Variable*>& variables,
 	if( !best_values.empty() )
 		return rng.pick( best_values );
 	else
-		return rng.pick( possible_values );
+		if( !possible_values.empty() )
+			return rng.pick( possible_values );
+		else
+			return backup;			
 }
 
 int Objective::expert_heuristic_value_permutation( const std::vector<Variable*>& variables,
                                                    int variable_index,
-                                                   const std::vector<int>& bad_variables ) const
+                                                   const std::vector<int>& bad_variables,
+                                                   randutils::mt19937_rng& rng ) const
 {
 	return rng.pick( bad_variables );
 }

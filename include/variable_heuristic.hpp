@@ -29,27 +29,34 @@
 
 #pragma once
 
-#include <sstream>
 #include <vector>
 
-#include "variable.hpp"
+#include "search_unit_data.hpp"
+// #include "macros.hpp"
+#include "thirdparty/randutils.hpp"
 
 namespace ghost
 {
-	/*!
-	 * ghost::Print is a class users can derive from to write their own way of printing candidates
-	 * and solutions, when the macro GHOST_BENCH is given to the compiler.
-	 */
-	class Print
+	namespace algorithms
 	{
-	public:
-		/*!
-		 * The unique method to override for defining how to print candidates and solutions
-		 * on the screen.
-		 *
-		 * \param variables a const reference to the vector of variables containing values to print.
-		 * \return A std::stringstream.
+		/*
+		 * VariableHeuristic follows the Strategy design pattern to implement variable selection heuristics.
 		 */
-		virtual std::stringstream print_candidate( const std::vector<Variable>& variables ) const;
-	};
+		class VariableHeuristic
+		{
+		protected:
+			std::string name;
+		
+		public:
+			VariableHeuristic( std::string&& name )
+				: name( std::move( name ) )
+			{ }
+
+			inline std::string get_name() const { return name; }
+
+			// candidates is a vector of double to be more generic, allowing for instance a vector of errors
+			// rather than a vector of ID, like it would certainly be often the case in practice.
+			virtual int select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const = 0;
+		};
+	}
 }

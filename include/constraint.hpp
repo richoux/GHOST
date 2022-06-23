@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2021 Florian Richoux
+ * Copyright (C) 2014-2022 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -145,9 +145,6 @@ namespace ghost
 		// This calls delta_error() if the user overrided it, otherwise it makes the simulation 'by hand' and calls error()
 		double simulate_delta( const std::vector<int>& variables_index, const std::vector<int>& candidate_values );
 
-		// Determine if the constraint contains a variable given its id.
-		bool has_variable( int var_id ) const;
-
 		// Return ids of variable objects in _variables.
 		inline std::vector<int> get_variable_ids() const { return _variables_index; }
 
@@ -207,7 +204,7 @@ namespace ghost
 		 * The ouput can be negative, positive, or equals to 0. If the candidate error is strictly
 		 * lower (then better) than the current error, the ouput is negative. If errors are the
 		 * same, the ouputs equals to 0. Finally, if the candidate error is strictly higher
-		 * (then worth) than the current error, the ouput is positive.
+		 * (then worst) than the current error, the ouput is positive.
 		 *
 		 * For EFSP/EFOP models, this method can be VERY important to have faster computation. 
 		 * Although optional (the solver still works without it), we strongly advise users to define
@@ -288,6 +285,13 @@ namespace ghost
 
 		//! Default virtual destructor.
 		virtual ~Constraint() = default;
+
+		/*!
+		 * Determine if the constraint contains a variable given its id.
+		 *
+		 * \param var_id an integer being a variable ID
+		 */
+		bool has_variable( int var_id ) const;
 
 		//! To have a nicer stream of Constraint.
 		friend std::ostream& operator<<( std::ostream& os, const Constraint& c )

@@ -27,29 +27,34 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#pragma once
+#include "algorithms/adaptive_search_variable_candidates_heuristic.hpp"
 
-#include <sstream>
-#include <vector>
+using ghost::algorithms::AdaptiveSearchVariableCandidatesHeuristic;
 
-#include "variable.hpp"
-
-namespace ghost
+AdaptiveSearchVariableCandidatesHeuristic::AdaptiveSearchVariableCandidatesHeuristic()
+	: VariableCandidatesHeuristic( "Adaptive Search" )
+{ }
+		
+std::vector<double> AdaptiveSearchVariableCandidatesHeuristic::compute_variable_candidates( const SearchUnitData& data ) const
 {
-	/*!
-	 * ghost::Print is a class users can derive from to write their own way of printing candidates
-	 * and solutions, when the macro GHOST_BENCH is given to the compiler.
-	 */
-	class Print
-	{
-	public:
-		/*!
-		 * The unique method to override for defining how to print candidates and solutions
-		 * on the screen.
-		 *
-		 * \param variables a const reference to the vector of variables containing values to print.
-		 * \return A std::stringstream.
-		 */
-		virtual std::stringstream print_candidate( const std::vector<Variable>& variables ) const;
-	};
+	std::vector<double> worst_variables_list;
+	double worst_variable_cost = -1;
+
+	for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
+		if( worst_variable_cost <= data.error_variables[ variable_id ]
+		    && data.tabu_list[ variable_id ] <= data.local_moves
+		    && ( !data.matrix_var_ctr.at( variable_id ).empty() || ( data.is_optimization && data.current_sat_error == 0 ) ) )
+		{
+			if( worst_variable_cost < data.error_variables[ variable_id ] )
+			{
+				worst_variables_list.clear();
+				worst_variables_list.push_back( variable_id );
+				worst_variable_cost = data.error_variables[ variable_id ];
+			}
+			else
+				if( worst_variable_cost == data.error_variables[ variable_id ] )
+					worst_variables_list.push_back( variable_id );
+		}
+		
+	return worst_variables_list;
 }

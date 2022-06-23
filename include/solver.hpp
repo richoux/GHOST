@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2021 Florian Richoux
+ * Copyright (C) 2014-2022 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -51,22 +51,17 @@
 #include "options.hpp"
 #include "search_unit.hpp"
 
-#if defined ANTIDOTE_SEARCH
-#define ANTIDOTE_VARIABLE
-#define ANTIDOTE_VALUE
-#endif
+#include "variable_heuristic.hpp"
+#include "variable_candidates_heuristic.hpp"
+#include "value_heuristic.hpp"
+#include "algorithms/adaptive_search_variable_heuristic.hpp"
+#include "algorithms/adaptive_search_variable_candidates_heuristic.hpp"
+#include "algorithms/adaptive_search_value_heuristic.hpp"
+#include "algorithms/antidote_search_variable_heuristic.hpp"
+#include "algorithms/antidote_search_variable_candidates_heuristic.hpp"
+#include "algorithms/antidote_search_value_heuristic.hpp"
 
-#if defined GHOST_TRACE_PARALLEL
-#define GHOST_TRACE
-// possible with g++11 but not before
-// #include <syncstream>
-// #define COUT std::osyncstream(std::cout)
-#include <fstream>
-#include <sstream>
-#define COUT _log_trace
-#else
-#define COUT std::cout
-#endif
+#include "macros.hpp"
 
 namespace ghost
 {
@@ -128,6 +123,10 @@ namespace ghost
 		int _plateau_moves;
 		int _plateau_local_minimum;
 
+		std::string _variable_heuristic;
+		std::string _variable_candidates_heuristic;
+		std::string _value_heuristic;
+		
 		Options _options; // Options for the solver (see the struct Options).
 
 	public:
@@ -243,17 +242,9 @@ namespace ghost
 				_options.percent_chance_escape_plateau = 10;
 
 			if( _options.reset_threshold < 0 )
-			{
-#if defined ANTIDOTE_VARIABLE
-			  _options.reset_threshold = 2 * static_cast<int>( std::ceil( std::sqrt( _number_variables ) ) );
-#else
 				_options.reset_threshold = _options.tabu_time_local_min;
-#endif
-			}
-
-// #if defined ANTIDOTE_VARIABLE
 // 			_options.reset_threshold = static_cast<int>( std::ceil( 1.5 * _options.reset_threshold ) );
-// #endif
+//		  _options.reset_threshold = 2 * static_cast<int>( std::ceil( std::sqrt( _number_variables ) ) );
 
 			if( _options.restart_threshold < 0 )
 				_options.restart_threshold = _number_variables;
@@ -286,8 +277,13 @@ namespace ghost
 			{
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options );
+				// SearchUnit search_unit( _model_builder.build_model(),
+				//                         _options,
+				//                         std::make_unique<AntidoteSearchVariableHeuristic>(),
+				//                         std::make_unique<AntidoteSearchVariableCandidatesHeuristic>(),
+				//                         std::make_unique<AntidoteSearchValueHeuristic>() );
 
-				is_optimization = search_unit.is_optimization();
+				is_optimization = search_unit.data.is_optimization;
 				std::future<bool> unit_future = search_unit.solution_found.get_future();
 
 				start_search = std::chrono::steady_clock::now();
@@ -296,16 +292,20 @@ namespace ghost
 				chrono_search = elapsed_time.count();
 
 				solution_found = unit_future.get();
-				_best_sat_error = search_unit.best_sat_error;
-				_best_opt_cost = search_unit.best_opt_cost;
-				_restarts = search_unit.restarts;
-				_resets = search_unit.resets;
-				_local_moves = search_unit.local_moves;
-				_search_iterations = search_unit.search_iterations;
-				_local_minimum = search_unit.local_minimum;
-				_plateau_moves = search_unit.plateau_moves;
-				_plateau_local_minimum = search_unit.plateau_local_minimum;
+				_best_sat_error = search_unit.data.best_sat_error;
+				_best_opt_cost = search_unit.data.best_opt_cost;
+				_restarts = search_unit.data.restarts;
+				_resets = search_unit.data.resets;
+				_local_moves = search_unit.data.local_moves;
+				_search_iterations = search_unit.data.search_iterations;
+				_local_minimum = search_unit.data.local_minimum;
+				_plateau_moves = search_unit.data.plateau_moves;
+				_plateau_local_minimum = search_unit.data.plateau_local_minimum;
 
+				_variable_heuristic = search_unit.variable_heuristic->get_name();
+				_variable_candidates_heuristic = search_unit.variable_candidates_heuristic->get_name();
+				_value_heuristic = search_unit.value_heuristic->get_name();
+				
 				_model = std::move( search_unit.transfer_model() );
 			}
 			else // call threads
@@ -319,9 +319,14 @@ namespace ghost
 					// Instantiate one model per thread
 					units.emplace_back( _model_builder.build_model(),
 					                    _options );
+					// units.emplace_back( _model_builder.build_model(),
+					//                     _options,
+					//                     std::make_unique<AntidoteSearchVariableHeuristic>(),
+					//                     std::make_unique<AntidoteSearchVariableCandidatesHeuristic>(),
+					//                     std::make_unique<AntidoteSearchValueHeuristic>() );
 				}
 
-				is_optimization = units[0].is_optimization();
+				is_optimization = units[0].data.is_optimization;
 
 				std::vector<std::future<bool>> units_future;
 				std::vector<bool> units_terminated( _options.number_threads, false );
@@ -354,9 +359,9 @@ namespace ghost
 								if( units_future.at( thread_number ).get() ) // equivalent to if( units.at( thread_number ).best_sat_error == 0.0 )
 								{
 									solution_found = true;
-									if( _best_opt_cost > units.at( thread_number ).best_opt_cost )
+									if( _best_opt_cost > units.at( thread_number ).data.best_opt_cost )
 									{
-										_best_opt_cost = units.at( thread_number ).best_opt_cost;
+										_best_opt_cost = units.at( thread_number ).data.best_opt_cost;
 										winning_thread = thread_number;
 									}
 								}
@@ -401,13 +406,13 @@ namespace ghost
 				{
 					units.at(i).stop_search();
 
-					_restarts_total += units.at(i).restarts;
-					_resets_total += units.at(i).resets;
-					_local_moves_total += units.at(i).local_moves;
-					_search_iterations_total += units.at(i).search_iterations;
-					_local_minimum_total += units.at(i).local_minimum;
-					_plateau_moves_total += units.at(i).plateau_moves;
-					_plateau_local_minimum_total += units.at(i).plateau_local_minimum;
+					_restarts_total += units.at(i).data.restarts;
+					_resets_total += units.at(i).data.resets;
+					_local_moves_total += units.at(i).data.local_moves;
+					_search_iterations_total += units.at(i).data.search_iterations;
+					_local_minimum_total += units.at(i).data.local_minimum;
+					_plateau_moves_total += units.at(i).data.plateau_moves;
+					_plateau_local_minimum_total += units.at(i).data.plateau_local_minimum;
 				}
 
 				// ..then the most important: the best solution found so far.
@@ -416,16 +421,21 @@ namespace ghost
 #if defined GHOST_TRACE
 					std::cout << "Parallel run, thread number " << winning_thread << " has found a solution.\n";
 #endif
-					_best_sat_error = units.at( winning_thread ).best_sat_error;
-					_best_opt_cost = units.at( winning_thread ).best_opt_cost;
+					_best_sat_error = units.at( winning_thread ).data.best_sat_error;
+					_best_opt_cost = units.at( winning_thread ).data.best_opt_cost;
 
-					_restarts = units.at( winning_thread ).restarts;
-					_resets = units.at( winning_thread ).resets;
-					_local_moves = units.at( winning_thread ).local_moves;
-					_search_iterations = units.at( winning_thread ).search_iterations;
-					_local_minimum = units.at( winning_thread ).local_minimum;
-					_plateau_moves = units.at( winning_thread ).plateau_moves;
-					_plateau_local_minimum = units.at( winning_thread ).plateau_local_minimum;
+					_restarts = units.at( winning_thread ).data.restarts;
+					_resets = units.at( winning_thread ).data.resets;
+					_local_moves = units.at( winning_thread ).data.local_moves;
+					_search_iterations = units.at( winning_thread ).data.search_iterations;
+					_local_minimum = units.at( winning_thread ).data.local_minimum;
+					_plateau_moves = units.at( winning_thread ).data.plateau_moves;
+					_plateau_local_minimum = units.at( winning_thread ).data.plateau_local_minimum;
+
+					_variable_heuristic = units.at( winning_thread ).variable_heuristic->get_name();
+					_variable_candidates_heuristic = units.at( winning_thread ).variable_candidates_heuristic->get_name();
+					_value_heuristic = units.at( winning_thread ).value_heuristic->get_name();
+
 					_model = std::move( units.at( winning_thread ).transfer_model() );
 				}
 				else
@@ -436,26 +446,31 @@ namespace ghost
 					int best_non_solution = 0;
 					for( int i = 0 ; i < _options.number_threads ; ++i )
 					{
-						if( _best_sat_error > units.at( i ).best_sat_error )
+						if( _best_sat_error > units.at( i ).data.best_sat_error )
 						{
 							best_non_solution = i;
-							_best_sat_error = units.at( i ).best_sat_error;
+							_best_sat_error = units.at( i ).data.best_sat_error;
 						}
 						if( is_optimization && _best_sat_error == 0.0 )
-							if( units.at( i ).best_sat_error == 0.0 && _best_opt_cost > units.at( i ).best_opt_cost )
+							if( units.at( i ).data.best_sat_error == 0.0 && _best_opt_cost > units.at( i ).data.best_opt_cost )
 							{
 								best_non_solution = i;
-								_best_opt_cost = units.at( i ).best_opt_cost;
+								_best_opt_cost = units.at( i ).data.best_opt_cost;
 							}
 					}
 
-					_restarts = units.at( best_non_solution ).restarts;
-					_resets = units.at( best_non_solution ).resets;
-					_local_moves = units.at( best_non_solution ).local_moves;
-					_search_iterations = units.at( best_non_solution ).search_iterations;
-					_local_minimum = units.at( best_non_solution ).local_minimum;
-					_plateau_moves = units.at( best_non_solution ).plateau_moves;
-					_plateau_local_minimum = units.at( best_non_solution ).plateau_local_minimum;
+					_restarts = units.at( best_non_solution ).data.restarts;
+					_resets = units.at( best_non_solution ).data.resets;
+					_local_moves = units.at( best_non_solution ).data.local_moves;
+					_search_iterations = units.at( best_non_solution ).data.search_iterations;
+					_local_minimum = units.at( best_non_solution ).data.local_minimum;
+					_plateau_moves = units.at( best_non_solution ).data.plateau_moves;
+					_plateau_local_minimum = units.at( best_non_solution ).data.plateau_local_minimum;
+
+					_variable_heuristic = units.at( best_non_solution ).variable_heuristic->get_name();
+					_variable_candidates_heuristic = units.at( best_non_solution ).variable_candidates_heuristic->get_name();
+					_value_heuristic = units.at( best_non_solution ).value_heuristic->get_name();
+					
 					_model = std::move( units.at( best_non_solution ).transfer_model() );
 				}
 
@@ -500,18 +515,9 @@ namespace ghost
 
 #if defined GHOST_DEBUG || defined GHOST_TRACE || defined GHOST_BENCH
 			std::cout << "@@@@@@@@@@@@" << "\n"
-			          << "Variable heuristic: "
-#if not defined ANTIDOTE_VARIABLE // ADAPTIVE_SEARCH
-			          << "Adaptive Search\n"
-#else // Antidote Search
-			          << "Antidote Search\n"
-#endif
-			          << "Value heuristic: "
-#if not defined ANTIDOTE_VALUE // ADAPTIVE_SEARCH
-			          << "Adaptive Search\n"
-#else // Antidote Search
-			          << "Antidote Search\n"
-#endif
+			          << "Variable heuristic: " << _variable_heuristic << "\n"
+			          << "Variable candidate heuristic: " << _variable_candidates_heuristic << "\n"
+			          << "Value heuristic: " << _value_heuristic << "\n"
 			          << "Started from a custom variables assignment: " << std::boolalpha << _options.custom_starting_point << "\n"
 			          << "Search resumed from a previous run: " << std::boolalpha << _options.resume_search << "\n"
 			          << "Parallel search: " << std::boolalpha << _options.parallel_runs << "\n"
@@ -546,7 +552,7 @@ namespace ghost
 			std::cout << "Permutation problem: " << std::boolalpha << _model.permutation_problem << "\n"
 			          << "Time budget: " << timeout << "us (= " << timeout/1000 << "ms, " << timeout/1000000 << "s)\n"
 			          << "Search time: " << chrono_search << "us (= " << chrono_search / 1000 << "ms, " << chrono_search / 1000000 << "s)\n"
-			          << "Wall-clock time (full program): " << chrono_full_computation << "us (= " << chrono_full_computation/1000 << "ms, " << chrono_full_computation/1000000 << "s)\n"
+			          << "Wall-clock time (full call): " << chrono_full_computation << "us (= " << chrono_full_computation/1000 << "ms, " << chrono_full_computation/1000000 << "s)\n"
 			          << "Satisfaction error: " << _best_sat_error << "\n"
 			          << "Number of search iterations: " << _search_iterations << "\n"
 			          << "Number of local moves: " << _local_moves << " (including on plateau: " << _plateau_moves << ")\n"

@@ -9,6 +9,8 @@ doc/latex
 doc/.zcache
 
 # CMake builds
+build32
+build64
 build/*
 
 # CMake test builds

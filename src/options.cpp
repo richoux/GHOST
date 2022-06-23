@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2021 Florian Richoux
+ * Copyright (C) 2014-2022 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -31,7 +31,7 @@
 
 #include "options.hpp"
 
-using namespace ghost;
+using ghost::Options;
 
 Options::Options()
 	: custom_starting_point( false ),

@@ -27,29 +27,15 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#pragma once
+#include "algorithms/adaptive_search_variable_heuristic.hpp"
 
-#include <sstream>
-#include <vector>
+using ghost::algorithms::AdaptiveSearchVariableHeuristic;
 
-#include "variable.hpp"
+AdaptiveSearchVariableHeuristic::AdaptiveSearchVariableHeuristic()
+	: VariableHeuristic( "Adaptive Search" )
+{ }
 
-namespace ghost
+int AdaptiveSearchVariableHeuristic::select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
 {
-	/*!
-	 * ghost::Print is a class users can derive from to write their own way of printing candidates
-	 * and solutions, when the macro GHOST_BENCH is given to the compiler.
-	 */
-	class Print
-	{
-	public:
-		/*!
-		 * The unique method to override for defining how to print candidates and solutions
-		 * on the screen.
-		 *
-		 * \param variables a const reference to the vector of variables containing values to print.
-		 * \return A std::stringstream.
-		 */
-		virtual std::stringstream print_candidate( const std::vector<Variable>& variables ) const;
-	};
+	return static_cast<int>( rng.pick( candidates ) );
 }

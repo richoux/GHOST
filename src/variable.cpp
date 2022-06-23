@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2021 Florian Richoux
+ * Copyright (C) 2014-2022 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -32,7 +32,7 @@
 
 #include "variable.hpp"
 
-using namespace ghost;
+using ghost::Variable;
 
 Variable::Variable( const std::vector<int>& domain, int index, const std::string& name )
 	: _domain( domain ),

@@ -29,27 +29,40 @@
 
 #pragma once
 
-#include <sstream>
 #include <vector>
 
-#include "variable.hpp"
+#include "../variable.hpp"
+#include "../constraint.hpp"
 
 namespace ghost
 {
-	/*!
-	 * ghost::Print is a class users can derive from to write their own way of printing candidates
-	 * and solutions, when the macro GHOST_BENCH is given to the compiler.
-	 */
-	class Print
+	namespace global_constraints
 	{
-	public:
+	/*!
+	 * Implementation of the All Different constraint.
+	 * See http://sofdem.github.io/gccat/gccat/Calldifferent.html
+	 */
+		class AllDifferent : public Constraint
+		{
+			mutable std::vector<int> _count;
+			
+			double required_error( const std::vector<Variable*>& variables ) const override;
+			
+			double optional_delta_error( const std::vector<Variable*>& variables,
+			                             const std::vector<int>& variable_indexes,
+			                             const std::vector<int>& candidate_values ) const override;
+			
+			void conditional_update_data_structures( const std::vector<Variable*>& variables,
+			                                         int variable_index,
+			                                         int new_value ) override;
+			
+		public:
 		/*!
-		 * The unique method to override for defining how to print candidates and solutions
-		 * on the screen.
-		 *
-		 * \param variables a const reference to the vector of variables containing values to print.
-		 * \return A std::stringstream.
+		 * Constructor with a vector of variable IDs. This vector is internally used by ghost::Constraint
+		 * to know what variables from the global variable vector it is handling.
+		 * \param variables a const reference to a vector of IDs of variables composing the constraint.
 		 */
-		virtual std::stringstream print_candidate( const std::vector<Variable>& variables ) const;
-	};
+			AllDifferent( const std::vector<int>& variables_index );
+		};
+	}
 }

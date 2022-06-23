@@ -779,7 +779,10 @@ INPUT                  = doc/mainpage.md \
                          include/options.hpp \
                          include/print.hpp \
                          include/solver.hpp \
-                         include/variable.hpp
+                         include/variable.hpp \
+                         include/global_constraints/all_different.hpp \
+                         include/global_constraints/exactly.hpp \
+                         include/global_constraints/linear_equation.hpp 
 												 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses

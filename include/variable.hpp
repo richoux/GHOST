@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2021 Florian Richoux
+ * Copyright (C) 2014-2022 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -65,8 +65,6 @@ namespace ghost
 		int	_current_value;	// Current value assigned to the variable.
 		int _min_value; // minimal value in the domain
 		int _max_value; // maximal value in the domain
-		randutils::mt19937_rng _rng; // Neat random generator implemented in thirdparty/randutils.hpp,
-		                             // see https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html
 
 		struct valueException : std::exception
 		{
@@ -81,7 +79,7 @@ namespace ghost
 		};
 
 		// Assign to the variable a random values from its domain.
-		inline void pick_random_value()	{	_current_value = _rng.pick( _domain ); }
+		inline void pick_random_value( randutils::mt19937_rng& rng ) {	_current_value = rng.pick( _domain ); }
 
 	public:
 		//! Default constructor

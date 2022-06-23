@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2021 Florian Richoux
+ * Copyright (C) 2014-2022 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -33,7 +33,7 @@
 
 #include "constraint.hpp"
 
-using namespace ghost;
+using ghost::Constraint;
 
 Constraint::Constraint( const std::vector<int>& variables_index )
 	: _variables_index( variables_index ),

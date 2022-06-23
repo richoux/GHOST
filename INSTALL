@@ -1,4 +1,4 @@
-Please be sure to have CMake v3.0+ and a C++17-capable compiler.
+Please be sure to have CMake v3.15+ and a C++17-capable compiler.
 
 ============
 On GNU/Linux:
@@ -53,31 +53,52 @@ $> sudo update_dyld_shared_cache
 ============
 On Windows:
 
-1. In CMake, select 'GHOST' as the source code folder and
-'GHOST\build' as the build folder (you may have to create this
-folder).
+You have two options: using the script or doing a manual installation
 
-2. Click on 'Configure'. It would ask you which generator (ie,
-compiler/IDE) do you want. It can be Visual Studio for instance.
+1. Using the build.bat script
 
-3. CMake should propose you to change the value of
-CMAKE_INSTALL_PREFIX to choose the folder where to write both the
-include files and the libraries. Choose a folder where you don't need
-special write privilege (not like C:\Program Files for instance). This
-has been successfully tested with Visual Studio; if you are using
-another way to compile GHOST on Windows, you may have to copy the
-include files yourself. In that case, you need to copy the 'include'
-folder from the GHOST repository somewhere, let's say in
-'your\path\folder\ghost', and to copy the folder 'thirdparty' into
-'your\path\folder\ghost\include'.
+To compile and install the 32bit and 64bit release versions, go to the
+GHOST directory in a command prompt and type:
+$> build.bat
 
-4. Click on 'Generate'.
+This script is set to build GHOST with Visual Studio 17 2022. You can
+either modify the script or do a manual installation if you do not want
+using Visual Studio 17 2022.
 
-5. Go to the 'GHOST\build' folder. If you use an IDE, you should
-have a projet file corresponding to your IDE. For Visual Studio, it is
-ghost.sln. Open it.
+The script will first ask you to enter the install path for GHOST headers
+and libraries. Just press ENTER to install GHOST to the default path
+(C:\Users\Public\Documents\ghost)
 
-6. Build the ghost project in 'Release mode'.
+Then it will compile the release version of both the 32bit library
+(installed in the 'ghost\lib32' folder) and the 64bit library (installed
+in the 'ghost\lib' folder). Headers are installed in the 'ghost\include'
+folder.
+
+2. Manual installation
+
+Go to the GHOST directory in a command prompt and type the following
+commands:
+
+Prepare the builds (change "Visual Studio 17 2022" if you want to use
+another compiler)
+$> cmake -G "Visual Studio 17 2022" -A Win32 -B "build32" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL
+$> cmake -G "Visual Studio 17 2022" -A x64 -B "build64" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
+
+Build both projects.
+$> cmake --build build32 --config Release
+$> cmake --build build64 --config Release
+
+Install both 32bit and 64bit libraries to the default install path
+$> cmake --install build32
+$> cmake --install build64
+
+If you want to install the libraries to a specific install path, type:
+$> cmake --install build32 --prefix your_install_path
+$> cmake --install build64 --prefix your_install_path
+
+The 32bit library will be installed in the 'ghost\lib32' folder, and the
+64bit library in the 'ghost\lib' folder, and headers will be placed in
+the 'ghost\include' folder.
 
 
 ============

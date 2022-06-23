@@ -29,27 +29,39 @@
 
 #pragma once
 
-#include <sstream>
 #include <vector>
 
-#include "variable.hpp"
+#include "../variable.hpp"
+#include "../constraint.hpp"
 
 namespace ghost
 {
-	/*!
-	 * ghost::Print is a class users can derive from to write their own way of printing candidates
-	 * and solutions, when the macro GHOST_BENCH is given to the compiler.
-	 */
-	class Print
+	namespace global_constraints
 	{
-	public:
+	/*!
+	 * Implementation of the FixValue constraint, forcing variables in its scope taking a given value.
+	 * 
+	 * This constraint must be avoided if possible. If some variables x must be fixed to a value v, it is more efficient
+	 * to directly declare these variables in the ghost::ModelBuilder with a singleton domain {v}.
+	 * However, it makes sense to use this contraint to fix the value of some variables in permutation problems.
+	 */
+		class FixValue : public Constraint
+		{
+			int _value;
+
+			double required_error( const std::vector<Variable*>& variables ) const override;
+			double optional_delta_error( const std::vector<Variable*>& variables,
+			                             const std::vector<int>& variable_indexes,
+			                             const std::vector<int>& candidate_values ) const override;
+	
+		public:
 		/*!
-		 * The unique method to override for defining how to print candidates and solutions
-		 * on the screen.
-		 *
-		 * \param variables a const reference to the vector of variables containing values to print.
-		 * \return A std::stringstream.
+		 * Constructor with a vector of variable IDs. This vector is internally used by ghost::Constraint
+		 * to know what variables from the global variable vector it is handling.
+		 * \param variables a const reference to a vector of IDs of variables composing the constraint.
+		 * \param value a value integer such that all variables in the scope must be equals to this value.
 		 */
-		virtual std::stringstream print_candidate( const std::vector<Variable>& variables ) const;
-	};
+			FixValue( const std::vector<int>& variables_index, int value );
+		};
+	}
 }

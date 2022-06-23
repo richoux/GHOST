@@ -27,29 +27,44 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#pragma once
+#include <cmath>
+#include <algorithm>
+#include <iostream>
 
-#include <sstream>
-#include <vector>
+#include "global_constraints/linear_equation.hpp"
 
-#include "variable.hpp"
+using ghost::global_constraints::LinearEquation;
 
-namespace ghost
+LinearEquation::LinearEquation( const std::vector<int>& index, int rhs )
+	: Constraint( index ),
+	  _rhs( rhs ),
+	  _current_diff( 0 )
+{ }
+
+double LinearEquation::required_error( const std::vector<Variable*>& variables ) const
 {
-	/*!
-	 * ghost::Print is a class users can derive from to write their own way of printing candidates
-	 * and solutions, when the macro GHOST_BENCH is given to the compiler.
-	 */
-	class Print
-	{
-	public:
-		/*!
-		 * The unique method to override for defining how to print candidates and solutions
-		 * on the screen.
-		 *
-		 * \param variables a const reference to the vector of variables containing values to print.
-		 * \return A std::stringstream.
-		 */
-		virtual std::stringstream print_candidate( const std::vector<Variable>& variables ) const;
-	};
+	int sum = 0;
+	for( const auto& var : variables )
+		sum += var->get_value();
+
+	_current_diff = sum - _rhs;
+	
+	return std::abs( _current_diff );
+}
+
+double LinearEquation::optional_delta_error( const std::vector<Variable*>& variables,
+                                       const std::vector<int>& variable_indexes,
+                                       const std::vector<int>& candidate_values ) const
+{
+	int diff = _current_diff;
+
+	for( int i = 0 ; i < static_cast<int>( variable_indexes.size() ); ++i )
+		diff += ( candidate_values[ i ] - variables[ variable_indexes[i] ]->get_value() );
+	
+	return std::abs( diff ) - std::abs( _current_diff );
+} 
+
+void LinearEquation::conditional_update_data_structures( const std::vector<Variable*>& variables, int variable_index, int new_value ) 
+{
+	_current_diff += ( new_value - variables[ variable_index ]->get_value() );
 }

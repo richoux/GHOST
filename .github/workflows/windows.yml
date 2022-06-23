@@ -52,7 +52,7 @@ jobs:
     - name: Install GHOST
       working-directory: ${{runner.workspace}}/GHOST/build
       shell: cmd
-      run: cmake --install . --config Release
+      run: cmake --install . --config Release --prefix "C:\Program Files (x86)\ghost"
             
     - name: Build Test
       working-directory: ${{runner.workspace}}/GHOST/tests
