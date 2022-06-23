@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['tabu_5ftime_5flocal_5fmin_70',['tabu_time_local_min',['../structghost_1_1Options.html#aeb3ab7d6229c7925dcd4d844e940daf2',1,'ghost::Options']]],
-  ['tabu_5ftime_5fselected_71',['tabu_time_selected',['../structghost_1_1Options.html#a18e1acddad56b8635a8dda73b22bd048',1,'ghost::Options']]]
+  ['set_5fvalue_68',['set_value',['../classghost_1_1Variable.html#a06f6c296986a017e1713961b4d763b0c',1,'ghost::Variable']]],
+  ['solve_69',['solve',['../classghost_1_1Solver.html#a4c6003a8f3ba82ef0d9b7d0823c92c0f',1,'ghost::Solver::solve(double &amp;final_cost, std::vector&lt; int &gt; &amp;final_solution, double timeout, Options &amp;options)'],['../classghost_1_1Solver.html#a845cb797232522aca43aa233c07e7ee6',1,'ghost::Solver::solve(double &amp;final_cost, std::vector&lt; int &gt; &amp;final_solution, double timeout)'],['../classghost_1_1Solver.html#a4a629614f129f30365f6497d45ffa40e',1,'ghost::Solver::solve(double &amp;final_cost, std::vector&lt; int &gt; &amp;final_solution, std::chrono::microseconds timeout, Options &amp;options)'],['../classghost_1_1Solver.html#ad22026216b73db007e3f73a6d6b90110',1,'ghost::Solver::solve(double &amp;final_cost, std::vector&lt; int &gt; &amp;final_solution, std::chrono::microseconds timeout)']]],
+  ['solver_70',['Solver',['../classghost_1_1Solver.html',1,'ghost::Solver&lt; ModelBuilderType &gt;'],['../classghost_1_1Solver.html#a0143b99bbc018bf4aae1f88fd28bdb44',1,'ghost::Solver::Solver()']]],
+  ['solver_2ehpp_71',['solver.hpp',['../solver_8hpp.html',1,'']]]
 ];

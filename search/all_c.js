@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['required_5fcost_60',['required_cost',['../classghost_1_1Objective.html#a8de169b534833805ae0073dc2ef22a6a',1,'ghost::Objective']]],
-  ['required_5ferror_61',['required_error',['../classghost_1_1Constraint.html#a99bfdee12754330fd394ab4efbd93b41',1,'ghost::Constraint']]],
-  ['required_5fupdate_62',['required_update',['../classghost_1_1AuxiliaryData.html#a9b1278af1c6feb71b0bc667600b01a95',1,'ghost::AuxiliaryData']]],
-  ['reset_5fthreshold_63',['reset_threshold',['../structghost_1_1Options.html#a42d2e8a372086262f21190562df995a6',1,'ghost::Options']]],
-  ['restart_5fthreshold_64',['restart_threshold',['../structghost_1_1Options.html#aaefbd6b1a712acae3f244a3413064b9f',1,'ghost::Options']]],
-  ['resume_5fsearch_65',['resume_search',['../structghost_1_1Options.html#aec24b2880f9172e189984a8e08f059e2',1,'ghost::Options']]]
+  ['parallel_5fruns_56',['parallel_runs',['../structghost_1_1Options.html#a5c183c1e20a25662ed4cdfe4aa9e37d1',1,'ghost::Options']]],
+  ['percent_5fchance_5fescape_5fplateau_57',['percent_chance_escape_plateau',['../structghost_1_1Options.html#ac62fe0ee57d9fe63d2cb5ef06012a2bc',1,'ghost::Options']]],
+  ['permutation_5fproblem_58',['permutation_problem',['../classghost_1_1ModelBuilder.html#a960ce1b192911d0746db850b0c1143e9',1,'ghost::ModelBuilder']]],
+  ['print_59',['Print',['../classghost_1_1Print.html',1,'ghost::Print'],['../structghost_1_1Options.html#aaec574f3fd46d8efdaf6ff92046fb29b',1,'ghost::Options::print()']]],
+  ['print_2ehpp_60',['print.hpp',['../print_8hpp.html',1,'']]],
+  ['print_5fcandidate_61',['print_candidate',['../classghost_1_1Print.html#a65d7890e343e8437d64b3d65ea3f39fd',1,'ghost::Print']]]
 ];
