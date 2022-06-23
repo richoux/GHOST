@@ -2,9 +2,11 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
-## [2.3.0] - 2022-06-13
+## [2.3.0] - 2022-06-23
+- Add first global constraints: AllDifferent, Exactly and LinearEquation.
 - Search unit inner data have been moved into an object.
 - Variable and value selection heuristics are now implemented following the Strategy pattern.
+- Code optimization (avoiding copies of randutils::mt19937_rng objects)
 - Change the file tree
 
 ## [2.2.1] - 2021-12-13

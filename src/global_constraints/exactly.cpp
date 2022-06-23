@@ -27,37 +27,29 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#pragma once
+#include <cmath>
 
-#include <vector>
+#include "global_constraints/exactly.hpp"
 
-#include "../variable.hpp"
-#include "../constraint.hpp"
+using ghost::global_constraints::Exactly;
 
-namespace ghost
+Exactly::Exactly( const std::vector<int>& variables_index, int value )
+	: Constraint( variables_index ),
+	  _value( value ),
+	  _current_diff( 0 )
+{ }
+
+double Exactly::required_error( const std::vector<Variable*>& variables ) const
 {
-	namespace global_constraints
-	{
-	/*!
-	 * Implementation of the All Different constraint.
-	 * See http://sofdem.github.io/gccat/gccat/Calldifferent.html
-	 */
-		class AllDifferent : public Constraint
-		{
-			mutable std::vector<int> _count;
-			
-			double required_error( const std::vector<Variable*>& variables ) const override;
-			
-			double optional_delta_error( const std::vector<Variable*>& variables,
-			                             const std::vector<int>& variable_indexes,
-			                             const std::vector<int>& candidate_values ) const override;
-			
-			void conditional_update_data_structures( const std::vector<Variable*>& variables,
-			                                         int variable_index,
-			                                         int new_value ) override;
-			
-		public:
-			AllDifferent( const std::vector<int>& variables_index );
-		};
-	}
+	_current_diff = variables[0]->get_value() - _value;
+	return std::abs( _current_diff );
 }
+
+double Exactly::optional_delta_error( const std::vector<Variable*>& variables,
+                                       const std::vector<int>& variable_indexes,
+                                       const std::vector<int>& candidate_values ) const
+{
+	int diff = _current_diff + ( candidate_values[0] - variables[ variable_indexes[0] ]->get_value() );
+	
+	return std::abs( diff ) - std::abs( _current_diff );
+} 

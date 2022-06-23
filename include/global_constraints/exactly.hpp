@@ -39,25 +39,21 @@ namespace ghost
 	namespace global_constraints
 	{
 	/*!
-	 * Implementation of the All Different constraint.
-	 * See http://sofdem.github.io/gccat/gccat/Calldifferent.html
+	 * Implementation of the Exactly constraint.
+	 * See http://sofdem.github.io/gccat/gccat/Cexactly.html
 	 */
-		class AllDifferent : public Constraint
+		class Exactly : public Constraint
 		{
-			mutable std::vector<int> _count;
-			
+			int _value;
+			mutable int _current_diff;
+
 			double required_error( const std::vector<Variable*>& variables ) const override;
-			
 			double optional_delta_error( const std::vector<Variable*>& variables,
 			                             const std::vector<int>& variable_indexes,
 			                             const std::vector<int>& candidate_values ) const override;
-			
-			void conditional_update_data_structures( const std::vector<Variable*>& variables,
-			                                         int variable_index,
-			                                         int new_value ) override;
-			
+	
 		public:
-			AllDifferent( const std::vector<int>& variables_index );
+			Exactly( const std::vector<int>& variables_index, int value );
 		};
 	}
 }
