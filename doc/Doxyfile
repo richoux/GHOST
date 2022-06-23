@@ -781,7 +781,7 @@ INPUT                  = doc/mainpage.md \
                          include/solver.hpp \
                          include/variable.hpp \
                          include/global_constraints/all_different.hpp \
-                         include/global_constraints/exactly.hpp \
+                         include/global_constraints/fix_value.hpp \
                          include/global_constraints/linear_equation.hpp 
 												 
 # This tag can be used to specify the character encoding of the source files
