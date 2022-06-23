@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['objective_80',['Objective',['../classghost_1_1Objective.html',1,'ghost']]],
-  ['options_81',['Options',['../structghost_1_1Options.html',1,'ghost']]]
+  ['linearequation_86',['LinearEquation',['../classghost_1_1global__constraints_1_1LinearEquation.html',1,'ghost::global_constraints']]]
 ];

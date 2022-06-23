@@ -69,7 +69,6 @@ $(function() {
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classghost_1_1Objective-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">ghost::Objective Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
@@ -129,20 +128,14 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a8de169b534833805ae0073dc2ef22a6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4eee4897bba29f5b14535cecb0afef35"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a4eee4897bba29f5b14535cecb0afef35">conditional_update_data_structures</a> (const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> * &gt; &amp;variables, int index, int new_value)</td></tr>
 <tr class="separator:a4eee4897bba29f5b14535cecb0afef35"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d49dd27a72571e874351c8f969d2d43"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a7d49dd27a72571e874351c8f969d2d43">expert_heuristic_value</a> (const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> * &gt; &amp;variables, int variable_index, const std::vector&lt; int &gt; &amp;possible_values) const</td></tr>
-<tr class="separator:a7d49dd27a72571e874351c8f969d2d43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a74a9c2bc85b6878e282fa4acd4e91085"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a74a9c2bc85b6878e282fa4acd4e91085">expert_heuristic_value_permutation</a> (const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> * &gt; &amp;variables, int variable_index, const std::vector&lt; int &gt; &amp;bad_variables) const</td></tr>
-<tr class="separator:a74a9c2bc85b6878e282fa4acd4e91085"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fb937a9ed7fcd1924bf0689b5606cb9"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a8fb937a9ed7fcd1924bf0689b5606cb9">expert_heuristic_value</a> (const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> * &gt; &amp;variables, int variable_index, const std::vector&lt; int &gt; &amp;possible_values, randutils::mt19937_rng &amp;rng) const</td></tr>
+<tr class="separator:a8fb937a9ed7fcd1924bf0689b5606cb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a741938594779fe9675d38344d4b1dca0"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a741938594779fe9675d38344d4b1dca0">expert_heuristic_value_permutation</a> (const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> * &gt; &amp;variables, int variable_index, const std::vector&lt; int &gt; &amp;bad_variables, randutils::mt19937_rng &amp;rng) const</td></tr>
+<tr class="separator:a741938594779fe9675d38344d4b1dca0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79ef6272e6ef2275ef97bca32514aaee"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a79ef6272e6ef2275ef97bca32514aaee">expert_postprocess</a> (const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> * &gt; &amp;variables, double best_cost) const</td></tr>
 <tr class="separator:a79ef6272e6ef2275ef97bca32514aaee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac49a9de70ecd5f26813a79db906a70f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#ac49a9de70ecd5f26813a79db906a70f4">is_not_optimization</a> ()</td></tr>
 <tr class="separator:ac49a9de70ecd5f26813a79db906a70f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
-<tr class="memitem:a6e93affa93ccff08bcbcb65f9897f65c"><td class="memItemLeft" align="right" valign="top">randutils::mt19937_rng&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Objective.html#a6e93affa93ccff08bcbcb65f9897f65c">rng</a></td></tr>
-<tr class="memdesc:a6e93affa93ccff08bcbcb65f9897f65c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A neat random generator implemented in thirdparty/randutils.hpp, see <a href="https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html">https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html</a>.  <a href="classghost_1_1Objective.html#a6e93affa93ccff08bcbcb65f9897f65c">More...</a><br /></td></tr>
-<tr class="separator:a6e93affa93ccff08bcbcb65f9897f65c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This is the base class containing the logic of objective functions. However, users would not derive their own <a class="el" href="classghost_1_1Objective.html">Objective</a> class directly from <a class="el" href="classghost_1_1Objective.html">ghost::Objective</a>, but from one of the two derived class <a class="el" href="classghost_1_1Minimize.html">ghost::Minimize</a> and <a class="el" href="classghost_1_1Maximize.html">ghost::Maximize</a>.</p>
@@ -285,8 +278,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a7d49dd27a72571e874351c8f969d2d43"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7d49dd27a72571e874351c8f969d2d43">&#9670;&nbsp;</a></span>expert_heuristic_value()</h2>
+<a id="a8fb937a9ed7fcd1924bf0689b5606cb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fb937a9ed7fcd1924bf0689b5606cb9">&#9670;&nbsp;</a></span>expert_heuristic_value()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -310,7 +303,13 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>possible_values</em>&#160;</td>
+          <td class="paramname"><em>possible_values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">randutils::mt19937_rng &amp;&#160;</td>
+          <td class="paramname"><em>rng</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -333,6 +332,7 @@ Protected Attributes</h2></td></tr>
     <tr><td class="paramname">variables</td><td>a const reference of the vector of raw pointers of variables in the scope of the objective function. The solver is calling this method with the vector of variables that has been given to the constructor. </td></tr>
     <tr><td class="paramname">variable_index</td><td>the index of the variable to change in the vector Objective::_variables. </td></tr>
     <tr><td class="paramname">possible_values</td><td>a const reference to the vector of possible values of the variable to change. </td></tr>
+    <tr><td class="paramname">rng</td><td>a neat random generator implemented in thirdparty/randutils.hpp, see <a href="https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html">https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -340,8 +340,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a74a9c2bc85b6878e282fa4acd4e91085"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a74a9c2bc85b6878e282fa4acd4e91085">&#9670;&nbsp;</a></span>expert_heuristic_value_permutation()</h2>
+<a id="a741938594779fe9675d38344d4b1dca0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a741938594779fe9675d38344d4b1dca0">&#9670;&nbsp;</a></span>expert_heuristic_value_permutation()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -365,7 +365,13 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>bad_variables</em>&#160;</td>
+          <td class="paramname"><em>bad_variables</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">randutils::mt19937_rng &amp;&#160;</td>
+          <td class="paramname"><em>rng</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -388,6 +394,7 @@ Protected Attributes</h2></td></tr>
     <tr><td class="paramname">variables</td><td>a const reference of the vector of raw pointers of variables in the scope of the objective function. The solver is calling this method with the vector of variables that has been given to the constructor. </td></tr>
     <tr><td class="paramname">variable_index</td><td>the index of the variable to change in the vector Objective::_variables. </td></tr>
     <tr><td class="paramname">bad_variables</td><td>a const reference to the vector of candidate variables the solver may swap the value with. </td></tr>
+    <tr><td class="paramname">rng</td><td>a neat random generator implemented in thirdparty/randutils.hpp, see <a href="https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html">https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -647,38 +654,13 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a6e93affa93ccff08bcbcb65f9897f65c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6e93affa93ccff08bcbcb65f9897f65c">&#9670;&nbsp;</a></span>rng</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">randutils::mt19937_rng ghost::Objective::rng</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>A neat random generator implemented in thirdparty/randutils.hpp, see <a href="https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html">https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html</a>. </p>
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/<a class="el" href="objective_8hpp_source.html">objective.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 22 2022 15:15:15 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 23 2022 13:03:49 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
