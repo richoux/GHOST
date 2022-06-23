@@ -56,6 +56,12 @@ namespace ghost
 			void conditional_update_data_structures( const std::vector<Variable*>& variables, int variable_id, int new_value ) override;
 
 		public:
+		/*!
+		 * Constructor with a vector of variable IDs. This vector is internally used by ghost::Constraint
+		 * to know what variables from the global variable vector it is handling.
+		 * \param variables a const reference to a vector of IDs of variables composing the constraint.
+		 * \param rhs the right-hand side integer of the equation.
+		 */
 			LinearEquation( const std::vector<int>& index, int rhs );
 		};
 	}

@@ -75,6 +75,9 @@ int AdaptiveSearchValueHeuristic::select_value_candidates( int variable_to_chang
 				candidate_values.push_back( deltas.first );
 	}
 
+	if( candidate_values.empty() )
+		return variable_to_change;
+
 // #if defined GHOST_TRACE
 // 		COUT << "Min conflict value candidates list: " << candidate_values[0];
 // 		for( int i = 1 ; i < static_cast<int>( candidate_values.size() ); ++i )

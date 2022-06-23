@@ -57,6 +57,11 @@ namespace ghost
 			                                         int new_value ) override;
 			
 		public:
+		/*!
+		 * Constructor with a vector of variable IDs. This vector is internally used by ghost::Constraint
+		 * to know what variables from the global variable vector it is handling.
+		 * \param variables a const reference to a vector of IDs of variables composing the constraint.
+		 */
 			AllDifferent( const std::vector<int>& variables_index );
 		};
 	}

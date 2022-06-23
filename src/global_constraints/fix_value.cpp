@@ -29,27 +29,31 @@
 
 #include <cmath>
 
-#include "global_constraints/exactly.hpp"
+#include "global_constraints/fix_value.hpp"
 
-using ghost::global_constraints::Exactly;
+using ghost::global_constraints::FixValue;
 
-Exactly::Exactly( const std::vector<int>& variables_index, int value )
+FixValue::FixValue( const std::vector<int>& variables_index, int value )
 	: Constraint( variables_index ),
-	  _value( value ),
-	  _current_diff( 0 )
+	  _value( value )
 { }
 
-double Exactly::required_error( const std::vector<Variable*>& variables ) const
+double FixValue::required_error( const std::vector<Variable*>& variables ) const
 {
-	_current_diff = variables[0]->get_value() - _value;
-	return std::abs( _current_diff );
+	double error = 0.;
+	for( auto& var : variables )
+		error += std::abs( var->get_value() - _value );
+	return error;
 }
 
-double Exactly::optional_delta_error( const std::vector<Variable*>& variables,
+double FixValue::optional_delta_error( const std::vector<Variable*>& variables,
                                        const std::vector<int>& variable_indexes,
                                        const std::vector<int>& candidate_values ) const
 {
-	int diff = _current_diff + ( candidate_values[0] - variables[ variable_indexes[0] ]->get_value() );
+	double diff = 0.;
+	for( int index = 0 ; index < static_cast<int>( variable_indexes.size() ) ; ++index )
+		diff += std::abs( candidate_values[ index ] - _value )
+			- std::abs( variables[ variable_indexes[ index ] ]->get_value() - _value );
 	
-	return std::abs( diff ) - std::abs( _current_diff );
+	return diff;
 } 

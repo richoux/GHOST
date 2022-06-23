@@ -39,13 +39,15 @@ namespace ghost
 	namespace global_constraints
 	{
 	/*!
-	 * Implementation of the Exactly constraint.
-	 * See http://sofdem.github.io/gccat/gccat/Cexactly.html
+	 * Implementation of the FixValue constraint, forcing variables in its scope taking a given value.
+	 * 
+	 * This constraint must be avoided if possible. If some variables x must be fixed to a value v, it is more efficient
+	 * to directly declare these variables in the ghost::ModelBuilder with a singleton domain {v}.
+	 * However, it makes sense to use this contraint to fix the value of some variables in permutation problems.
 	 */
-		class Exactly : public Constraint
+		class FixValue : public Constraint
 		{
 			int _value;
-			mutable int _current_diff;
 
 			double required_error( const std::vector<Variable*>& variables ) const override;
 			double optional_delta_error( const std::vector<Variable*>& variables,
@@ -53,7 +55,13 @@ namespace ghost
 			                             const std::vector<int>& candidate_values ) const override;
 	
 		public:
-			Exactly( const std::vector<int>& variables_index, int value );
+		/*!
+		 * Constructor with a vector of variable IDs. This vector is internally used by ghost::Constraint
+		 * to know what variables from the global variable vector it is handling.
+		 * \param variables a const reference to a vector of IDs of variables composing the constraint.
+		 * \param value a value integer such that all variables in the scope must be equals to this value.
+		 */
+			FixValue( const std::vector<int>& variables_index, int value );
 		};
 	}
 }

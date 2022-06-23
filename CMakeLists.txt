@@ -111,7 +111,7 @@ set(libHeadersAlgorithmsList
 set(libHeadersGlobalConstraintsList
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/all_different.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/exactly.hpp")
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/fix_value.hpp")
 
 set(libExternalHeadersList
 	"${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/randutils.hpp")
@@ -136,7 +136,7 @@ add_library(ghost SHARED
 	src/algorithms/antidote_search_variable_candidates_heuristic.cpp
 	src/algorithms/antidote_search_value_heuristic.cpp
 	src/global_constraints/all_different.cpp
-	src/global_constraints/exactly.cpp
+	src/global_constraints/fix_value.cpp
 	src/global_constraints/linear_equation.cpp
 	"${libHeadersList}"
 	"${libHeadersAlgorithmsList}"
@@ -158,7 +158,7 @@ add_library(ghost_static STATIC
 	src/algorithms/antidote_search_variable_candidates_heuristic.cpp
 	src/algorithms/antidote_search_value_heuristic.cpp
 	src/global_constraints/all_different.cpp
-	src/global_constraints/exactly.cpp
+	src/global_constraints/fix_value.cpp
 	src/global_constraints/linear_equation.cpp
 	"${libHeadersList}"
 	"${libHeadersAlgorithmsList}"
