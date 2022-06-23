@@ -35,11 +35,14 @@
 
 namespace ghost
 {
-	class AntidoteSearchVariableCandidatesHeuristic : public VariableCandidatesHeuristic
+	namespace algorithms
 	{
-	public:
-		AntidoteSearchVariableCandidatesHeuristic();
-		
-		std::vector<double> compute_variable_candidates( const SearchUnitData& data ) const override;
-	};
+		class AntidoteSearchVariableCandidatesHeuristic : public VariableCandidatesHeuristic
+		{
+		public:
+			AntidoteSearchVariableCandidatesHeuristic();
+			
+			std::vector<double> compute_variable_candidates( const SearchUnitData& data ) const override;
+		};
+	}
 }

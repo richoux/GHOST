@@ -29,7 +29,7 @@
 
 #include "model.hpp"
 
-using namespace ghost;
+using ghost::Model;
 
 Model::Model( std::vector<Variable>&& moved_variables,
               const std::vector<std::shared_ptr<Constraint>>&	constraints,

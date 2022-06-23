@@ -29,7 +29,8 @@
 
 #include "model_builder.hpp"
 
-using namespace ghost;
+using ghost::ModelBuilder;
+using ghost::Model;
 
 ModelBuilder::ModelBuilder( bool permutation_problem )
 	: permutation_problem( permutation_problem )

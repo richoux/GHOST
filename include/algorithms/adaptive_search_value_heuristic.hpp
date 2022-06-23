@@ -35,16 +35,19 @@
 
 namespace ghost
 {
-	class AdaptiveSearchValueHeuristic : public ValueHeuristic
+	namespace algorithms
 	{
-	public:
-		AdaptiveSearchValueHeuristic();
-		
-		int select_value_candidates( int variable_to_change,
-		                             const SearchUnitData& data,
-		                             const Model& model,
-		                             const std::map<int, std::vector<double>>& delta_errors,
-		                             double& min_conflict,
-		                             randutils::mt19937_rng& rng ) const override;
-	};
+		class AdaptiveSearchValueHeuristic : public ValueHeuristic
+		{
+		public:
+			AdaptiveSearchValueHeuristic();
+			
+			int select_value_candidates( int variable_to_change,
+			                             const SearchUnitData& data,
+			                             const Model& model,
+			                             const std::map<int, std::vector<double>>& delta_errors,
+			                             double& min_conflict,
+			                             randutils::mt19937_rng& rng ) const override;
+		};
+	}
 }

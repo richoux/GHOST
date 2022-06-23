@@ -502,9 +502,9 @@ namespace ghost
 		randutils::mt19937_rng rng;
 
 		SearchUnitData data;
-		std::unique_ptr<VariableHeuristic> variable_heuristic;
-		std::unique_ptr<VariableCandidatesHeuristic> variable_candidates_heuristic;
-		std::unique_ptr<ValueHeuristic> value_heuristic;
+		std::unique_ptr<algorithms::VariableHeuristic> variable_heuristic;
+		std::unique_ptr<algorithms::VariableCandidatesHeuristic> variable_candidates_heuristic;
+		std::unique_ptr<algorithms::ValueHeuristic> value_heuristic;
 				
 		std::vector<int> final_solution;
 
@@ -517,9 +517,9 @@ namespace ghost
 
 		SearchUnit( Model&& moved_model,
 		            const Options& options,
-		            std::unique_ptr<VariableHeuristic> variable_heuristic,
-		            std::unique_ptr<VariableCandidatesHeuristic> variable_candidates_heuristic,
-		            std::unique_ptr<ValueHeuristic> value_heuristic )
+		            std::unique_ptr<algorithms::VariableHeuristic> variable_heuristic,
+		            std::unique_ptr<algorithms::VariableCandidatesHeuristic> variable_candidates_heuristic,
+		            std::unique_ptr<algorithms::ValueHeuristic> value_heuristic )
 			: _stop_search_check( _stop_search_signal.get_future() ),
 			  variable_heuristic( std::move( variable_heuristic ) ),
 			  variable_candidates_heuristic( std::move( variable_candidates_heuristic ) ),
@@ -558,9 +558,9 @@ namespace ghost
 		SearchUnit( Model&& moved_model, const Options& options )
 			: SearchUnit( std::move( moved_model ),
 			              options,
-			              std::make_unique<AdaptiveSearchVariableHeuristic>(),
-			              std::make_unique<AdaptiveSearchVariableCandidatesHeuristic>(),
-			              std::make_unique<AdaptiveSearchValueHeuristic>() )
+			              std::make_unique<algorithms::AdaptiveSearchVariableHeuristic>(),
+			              std::make_unique<algorithms::AdaptiveSearchVariableCandidatesHeuristic>(),
+			              std::make_unique<algorithms::AdaptiveSearchValueHeuristic>() )
 		{ }
 
 		

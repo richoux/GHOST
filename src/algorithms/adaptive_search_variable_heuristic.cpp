@@ -29,14 +29,13 @@
 
 #include "algorithms/adaptive_search_variable_heuristic.hpp"
 
-namespace ghost
+using ghost::algorithms::AdaptiveSearchVariableHeuristic;
+
+AdaptiveSearchVariableHeuristic::AdaptiveSearchVariableHeuristic()
+	: VariableHeuristic( "Adaptive Search" )
+{ }
+
+int AdaptiveSearchVariableHeuristic::select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
 {
-	AdaptiveSearchVariableHeuristic::AdaptiveSearchVariableHeuristic()
-		: VariableHeuristic( "Adaptive Search" )
-	{ }
-		
-	int AdaptiveSearchVariableHeuristic::select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
-	{
-		return static_cast<int>( rng.pick( candidates ) );
-	}
+	return static_cast<int>( rng.pick( candidates ) );
 }

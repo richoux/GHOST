@@ -33,29 +33,29 @@
 #include "algorithms/antidote_search_value_heuristic.hpp"
 #include "thirdparty/randutils.hpp"
 
-namespace ghost
-{
-	AntidoteSearchValueHeuristic::AntidoteSearchValueHeuristic()
-		: ValueHeuristic( "Antidote Search" )
-	{ }
+using ghost::algorithms::AntidoteSearchValueHeuristic;
+
+AntidoteSearchValueHeuristic::AntidoteSearchValueHeuristic()
+	: ValueHeuristic( "Antidote Search" )
+{ }
 		
-	int AntidoteSearchValueHeuristic::select_value_candidates( int variable_to_change,
-	                                                           const SearchUnitData& data,
-	                                                           const Model& model,
-	                                                           const std::map<int, std::vector<double>>& delta_errors,
-	                                                           double& min_conflict,
-	                                                           randutils::mt19937_rng& rng ) const
+int AntidoteSearchValueHeuristic::select_value_candidates( int variable_to_change,
+                                                           const SearchUnitData& data,
+                                                           const Model& model,
+                                                           const std::map<int, std::vector<double>>& delta_errors,
+                                                           double& min_conflict,
+                                                           randutils::mt19937_rng& rng ) const
+{
+	std::vector<double> cumulated_delta_errors( delta_errors.size() );
+	std::vector<double> cumulated_delta_errors_for_distribution( delta_errors.size() );
+	std::vector<int> cumulated_delta_errors_variable_index_correspondance( delta_errors.size() ); // longest variable name ever
+
+	int index = 0;
+
+	for( const auto& deltas : delta_errors )
 	{
-		std::vector<double> cumulated_delta_errors( delta_errors.size() );
-		std::vector<double> cumulated_delta_errors_for_distribution( delta_errors.size() );
-		std::vector<int> cumulated_delta_errors_variable_index_correspondance( delta_errors.size() ); // longest variable name ever
-
-		int index = 0;
-
-		for( const auto& deltas : delta_errors )
-		{
-			cumulated_delta_errors[ index ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
-			cumulated_delta_errors_variable_index_correspondance[ index ] = deltas.first;
+		cumulated_delta_errors[ index ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
+		cumulated_delta_errors_variable_index_correspondance[ index ] = deltas.first;
 
 // #if defined GHOST_TRACE
 // 			double transformed = cumulated_delta_errors[ index ] >= 0 ? 0.0 : -cumulated_delta_errors[ index ];
@@ -66,20 +66,20 @@ namespace ghost
 // 			else
 // 				COUT << "Error for the value " << deltas.first << ": " << cumulated_delta_errors[ index ] << "\n";
 // #endif
-			++index;
-		}
+		++index;
+	}
 
-		std::transform( cumulated_delta_errors.begin(),
-		                cumulated_delta_errors.end(),
-		                cumulated_delta_errors_for_distribution.begin(),
-		                [&]( auto delta ){ if( delta >= 0) return 0.0; else return -delta; } );
+	std::transform( cumulated_delta_errors.begin(),
+	                cumulated_delta_errors.end(),
+	                cumulated_delta_errors_for_distribution.begin(),
+	                [&]( auto delta ){ if( delta >= 0) return 0.0; else return -delta; } );
 
-		if( *std::max_element( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() ) == 0.0 )
-			index = rng.uniform( 0, static_cast<int>( delta_errors.size() ) - 1 );
-		else
-			index = rng.variate<int, std::discrete_distribution>( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() );
+	if( *std::max_element( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() ) == 0.0 )
+		index = rng.uniform( 0, static_cast<int>( delta_errors.size() ) - 1 );
+	else
+		index = rng.variate<int, std::discrete_distribution>( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() );
 
-		min_conflict = cumulated_delta_errors[ index ];
+	min_conflict = cumulated_delta_errors[ index ];
 
 // #if defined GHOST_TRACE
 // 		auto domain_to_explore = model.variables[ variable_to_change ].get_full_domain();
@@ -99,6 +99,5 @@ namespace ghost
 // 			COUT << "val[" <<  vec_value_pair[ n ].first << "]=" << model.variables[ vec_value_pair[ n ].first ].get_value() << " => " << std::fixed << std::setprecision(3) << static_cast<double>( vec_value_pair[ n ].second ) / 10000 << "\n";
 // #endif
 		
-		return cumulated_delta_errors_variable_index_correspondance[ index ];		
-	}
+	return cumulated_delta_errors_variable_index_correspondance[ index ];		
 }

@@ -31,7 +31,7 @@
 
 #include "auxiliary_data.hpp"
 
-using namespace ghost;
+using ghost::AuxiliaryData;
 
 AuxiliaryData::AuxiliaryData()
 	: _variables_index( std::vector<int>{0} )

@@ -30,19 +30,19 @@
 #include "algorithms/antidote_search_variable_candidates_heuristic.hpp"
 #include "thirdparty/randutils.hpp"
 
-namespace ghost
-{
-	AntidoteSearchVariableCandidatesHeuristic::AntidoteSearchVariableCandidatesHeuristic()
-		: VariableCandidatesHeuristic( "Antidote Search" )
-	{ }
+using ghost::algorithms::AntidoteSearchVariableCandidatesHeuristic;
 
-	std::vector<double> AntidoteSearchVariableCandidatesHeuristic::compute_variable_candidates( const SearchUnitData& data ) const
-	{
-		auto error_variables = data.error_variables;
+AntidoteSearchVariableCandidatesHeuristic::AntidoteSearchVariableCandidatesHeuristic()
+	: VariableCandidatesHeuristic( "Antidote Search" )
+{ }
+
+std::vector<double> AntidoteSearchVariableCandidatesHeuristic::compute_variable_candidates( const SearchUnitData& data ) const
+{
+	auto error_variables = data.error_variables;
 		
-		for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
-			if( data.tabu_list[ variable_id ] > data.local_moves )
-				error_variables[ variable_id ] = 0.0;
+	for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
+		if( data.tabu_list[ variable_id ] > data.local_moves )
+			error_variables[ variable_id ] = 0.0;
 
 // #if defined GHOST_TRACE
 // 		auto distrib = std::discrete_distribution<int>( error_variables.begin(), error_variables.end() );
@@ -58,6 +58,5 @@ namespace ghost
 // 			COUT << "v[" << v.first << "]: " << std::fixed << std::setprecision(3) << static_cast<double>( v.second ) / 10000 << "\n";
 // #endif
 
-		return error_variables;
-	}
+	return error_variables;
 }

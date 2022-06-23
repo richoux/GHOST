@@ -29,7 +29,7 @@
 
 #include "objective.hpp"
 
-using namespace ghost;
+using ghost::Objective;
 
 Objective::Objective( const std::vector<int>& variables_index, bool is_maximization, const std::string& name )
 	: _variables_index( variables_index ),
