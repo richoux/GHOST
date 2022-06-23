@@ -42,6 +42,12 @@
 
 namespace ghost
 {
+	namespace algorithms
+	{
+		class AdaptiveSearchValueHeuristic;
+		class AntidoteSearchValueHeuristic;
+	}
+	
 	/*!
 	 * This is the base class containing the logic of objective functions. However, users
 	 * would not derive their own Objective class directly from ghost::Objective, but
@@ -62,8 +68,8 @@ namespace ghost
 		friend class Minimize;
 		friend class Maximize;
 
-		friend class AdaptiveSearchValueHeuristic;
-		friend class AntidoteSearchValueHeuristic;
+		friend class algorithms::AdaptiveSearchValueHeuristic;
+		friend class algorithms::AntidoteSearchValueHeuristic;
 		
 		std::vector<Variable*> _variables; // Vector of raw pointers to variables needed to compute the objective function.
 		std::vector<int> _variables_index; // To know where are the constraint's variables in the global variable vector.

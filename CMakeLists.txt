@@ -108,6 +108,11 @@ set(libHeadersAlgorithmsList
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_variable_candidates_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_value_heuristic.hpp")
 
+set(libHeadersGlobalConstraintsList
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/all_different.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/fix_value.hpp")
+
 set(libExternalHeadersList
 	"${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/randutils.hpp")
 
@@ -130,8 +135,12 @@ add_library(ghost SHARED
 	src/algorithms/antidote_search_variable_heuristic.cpp
 	src/algorithms/antidote_search_variable_candidates_heuristic.cpp
 	src/algorithms/antidote_search_value_heuristic.cpp
+	src/global_constraints/all_different.cpp
+	src/global_constraints/fix_value.cpp
+	src/global_constraints/linear_equation.cpp
 	"${libHeadersList}"
-	"${libHeadersAlgorithmsList}")
+	"${libHeadersAlgorithmsList}"
+	"${libHeadersGlobalConstraintsList}")
 
 add_library(ghost_static STATIC
 	src/variable.cpp
@@ -148,8 +157,12 @@ add_library(ghost_static STATIC
 	src/algorithms/antidote_search_variable_heuristic.cpp
 	src/algorithms/antidote_search_variable_candidates_heuristic.cpp
 	src/algorithms/antidote_search_value_heuristic.cpp
+	src/global_constraints/all_different.cpp
+	src/global_constraints/fix_value.cpp
+	src/global_constraints/linear_equation.cpp
 	"${libHeadersList}"
-	"${libHeadersAlgorithmsList}")
+	"${libHeadersAlgorithmsList}"
+	"${libHeadersGlobalConstraintsList}")
 
 target_include_directories(ghost PUBLIC
   $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/thirdparty/>
@@ -166,6 +179,7 @@ else() # 64bits
 endif()
 install (FILES ${libHeadersList} DESTINATION "include/ghost")
 install (FILES ${libHeadersAlgorithmsList} DESTINATION "include/ghost/algorithms")
+install (FILES ${libHeadersGlobalConstraintsList} DESTINATION "include/ghost/global_constraints")
 install (FILES ${libExternalHeadersList} DESTINATION "include/ghost/thirdparty")
 
 # build a CPack driven installer package

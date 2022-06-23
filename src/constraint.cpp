@@ -33,7 +33,7 @@
 
 #include "constraint.hpp"
 
-using namespace ghost;
+using ghost::Constraint;
 
 Constraint::Constraint( const std::vector<int>& variables_index )
 	: _variables_index( variables_index ),

@@ -38,27 +38,30 @@
 
 namespace ghost
 {
-	/*
-	 * ValueHeuristic follows the Strategy design pattern to implement variable selection heuristics.
-	 */
-	class ValueHeuristic
+	namespace algorithms
 	{
-	protected:
-		std::string name;
+		/*
+		 * ValueHeuristic follows the Strategy design pattern to implement variable selection heuristics.
+		 */
+		class ValueHeuristic
+		{
+		protected:
+			std::string name;
 		
-	public:
-		ValueHeuristic( std::string&& name )
-			: name( std::move( name ) )
-		{ }
+		public:
+			ValueHeuristic( std::string&& name )
+				: name( std::move( name ) )
+			{ }
 
-		inline std::string get_name() const { return name; }
+			inline std::string get_name() const { return name; }
 
-		virtual int select_value_candidates( int variable_to_change,
-		                                     const SearchUnitData& data,
-		                                     const Model& model,
-		                                     const std::map<int,
-		                                     std::vector<double>>& delta_errors,
-		                                     double& min_conflict,
-		                                     randutils::mt19937_rng& rng ) const = 0;
-	};
+			virtual int select_value_candidates( int variable_to_change,
+			                                     const SearchUnitData& data,
+			                                     const Model& model,
+			                                     const std::map<int,
+			                                     std::vector<double>>& delta_errors,
+			                                     double& min_conflict,
+			                                     randutils::mt19937_rng& rng ) const = 0;
+		};
+	}
 }

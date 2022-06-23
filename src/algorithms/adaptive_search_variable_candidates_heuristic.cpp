@@ -29,33 +29,32 @@
 
 #include "algorithms/adaptive_search_variable_candidates_heuristic.hpp"
 
-namespace ghost
-{
-	AdaptiveSearchVariableCandidatesHeuristic::AdaptiveSearchVariableCandidatesHeuristic()
-		: VariableCandidatesHeuristic( "Adaptive Search" )
-	{ }
-		
-	std::vector<double> AdaptiveSearchVariableCandidatesHeuristic::compute_variable_candidates( const SearchUnitData& data ) const
-	{
-		std::vector<double> worst_variables_list;
-		double worst_variable_cost = -1;
+using ghost::algorithms::AdaptiveSearchVariableCandidatesHeuristic;
 
-		for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
-			if( worst_variable_cost <= data.error_variables[ variable_id ]
-			    && data.tabu_list[ variable_id ] <= data.local_moves
-			    && ( !data.matrix_var_ctr.at( variable_id ).empty() || ( data.is_optimization && data.current_sat_error == 0 ) ) )
-			{
-				if( worst_variable_cost < data.error_variables[ variable_id ] )
-				{
-					worst_variables_list.clear();
-					worst_variables_list.push_back( variable_id );
-					worst_variable_cost = data.error_variables[ variable_id ];
-				}
-				else
-					if( worst_variable_cost == data.error_variables[ variable_id ] )
-						worst_variables_list.push_back( variable_id );
-			}
+AdaptiveSearchVariableCandidatesHeuristic::AdaptiveSearchVariableCandidatesHeuristic()
+	: VariableCandidatesHeuristic( "Adaptive Search" )
+{ }
 		
-		return worst_variables_list;
-	}
+std::vector<double> AdaptiveSearchVariableCandidatesHeuristic::compute_variable_candidates( const SearchUnitData& data ) const
+{
+	std::vector<double> worst_variables_list;
+	double worst_variable_cost = -1;
+
+	for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
+		if( worst_variable_cost <= data.error_variables[ variable_id ]
+		    && data.tabu_list[ variable_id ] <= data.local_moves
+		    && ( !data.matrix_var_ctr.at( variable_id ).empty() || ( data.is_optimization && data.current_sat_error == 0 ) ) )
+		{
+			if( worst_variable_cost < data.error_variables[ variable_id ] )
+			{
+				worst_variables_list.clear();
+				worst_variables_list.push_back( variable_id );
+				worst_variable_cost = data.error_variables[ variable_id ];
+			}
+			else
+				if( worst_variable_cost == data.error_variables[ variable_id ] )
+					worst_variables_list.push_back( variable_id );
+		}
+		
+	return worst_variables_list;
 }

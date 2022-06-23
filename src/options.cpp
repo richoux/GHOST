@@ -31,7 +31,7 @@
 
 #include "options.hpp"
 
-using namespace ghost;
+using ghost::Options;
 
 Options::Options()
 	: custom_starting_point( false ),

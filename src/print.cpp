@@ -33,7 +33,7 @@
 
 #include "print.hpp"
 
-using namespace ghost;
+using ghost::Print;
 
 std::stringstream Print::print_candidate( const std::vector<Variable>& variables ) const
 {

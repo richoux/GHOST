@@ -32,7 +32,7 @@
 
 #include "variable.hpp"
 
-using namespace ghost;
+using ghost::Variable;
 
 Variable::Variable( const std::vector<int>& domain, int index, const std::string& name )
 	: _domain( domain ),

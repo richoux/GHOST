@@ -37,23 +37,26 @@
 
 namespace ghost
 {
-	/*
-	 * VariableHeuristic follows the Strategy design pattern to implement variable selection heuristics.
-	 */
-	class VariableHeuristic
+	namespace algorithms
 	{
-	protected:
-		std::string name;
+		/*
+		 * VariableHeuristic follows the Strategy design pattern to implement variable selection heuristics.
+		 */
+		class VariableHeuristic
+		{
+		protected:
+			std::string name;
 		
-	public:
-		VariableHeuristic( std::string&& name )
-			: name( std::move( name ) )
-		{ }
+		public:
+			VariableHeuristic( std::string&& name )
+				: name( std::move( name ) )
+			{ }
 
-		inline std::string get_name() const { return name; }
+			inline std::string get_name() const { return name; }
 
-		// candidates is a vector of double to be more generic, allowing for instance a vector of errors
-		// rather than a vector of ID, like it would certainly be often the case in practice.
-		virtual int select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const = 0;
-	};
+			// candidates is a vector of double to be more generic, allowing for instance a vector of errors
+			// rather than a vector of ID, like it would certainly be often the case in practice.
+			virtual int select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const = 0;
+		};
+	}
 }
