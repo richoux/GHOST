@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['exactly_2ehpp_101',['exactly.hpp',['../exactly_8hpp.html',1,'']]]
+  ['linear_5fequation_2ehpp_98',['linear_equation.hpp',['../linear__equation_8hpp.html',1,'']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['print_92',['Print',['../classghost_1_1Print.html',1,'ghost']]]
+  ['solver_90',['Solver',['../classghost_1_1Solver.html',1,'ghost']]]
 ];
