@@ -31,7 +31,6 @@
 #include <numeric>
 
 #include "algorithms/adaptive_search_value_heuristic.hpp"
-#include "thirdparty/randutils.hpp"
 
 namespace ghost
 {
@@ -39,9 +38,13 @@ namespace ghost
 		: ValueHeuristic( "Adaptive Search" )
 	{ }
 		
-	int AdaptiveSearchValueHeuristic::select_value_candidates( int variable_to_change, const SearchUnitData& data, const Model& model, const std::map<int, std::vector<double>>& delta_errors, double& min_conflict ) const
+	int AdaptiveSearchValueHeuristic::select_value_candidates( int variable_to_change,
+	                                                           const SearchUnitData& data,
+	                                                           const Model& model,
+	                                                           const std::map<int, std::vector<double>>& delta_errors,
+	                                                           double& min_conflict,
+	                                                           randutils::mt19937_rng& rng ) const
 	{
-		randutils::mt19937_rng rng; // to optimize
 		std::vector<int> candidate_values;
 		std::map<int, double> cumulated_delta_errors;
 		for( const auto& deltas : delta_errors )
@@ -80,9 +83,9 @@ namespace ghost
 		if( data.is_optimization )
 		{
 			if( model.permutation_problem )
-				return static_cast<int>( model.objective->heuristic_value_permutation( variable_to_change, candidate_values ) );
+				return static_cast<int>( model.objective->heuristic_value_permutation( variable_to_change, candidate_values, rng ) );
 			else
-				return model.objective->heuristic_value( variable_to_change, candidate_values );
+				return model.objective->heuristic_value( variable_to_change, candidate_values, rng );
 		}
 		else
 			return rng.pick( candidate_values );

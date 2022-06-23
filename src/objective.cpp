@@ -68,7 +68,8 @@ void Objective::conditional_update_data_structures( const std::vector<Variable*>
 
 int Objective::expert_heuristic_value( const std::vector<Variable*>& variables,
                                        int variable_index,
-                                       const std::vector<int>& possible_values ) const
+                                       const std::vector<int>& possible_values,
+                                       randutils::mt19937_rng& rng ) const
 {
 	double min_cost = std::numeric_limits<double>::max();
 	double simulated_cost;
@@ -109,7 +110,8 @@ int Objective::expert_heuristic_value( const std::vector<Variable*>& variables,
 
 int Objective::expert_heuristic_value_permutation( const std::vector<Variable*>& variables,
                                                    int variable_index,
-                                                   const std::vector<int>& bad_variables ) const
+                                                   const std::vector<int>& bad_variables,
+                                                   randutils::mt19937_rng& rng ) const
 {
 	return rng.pick( bad_variables );
 }

@@ -40,6 +40,11 @@ namespace ghost
 	public:
 		AdaptiveSearchValueHeuristic();
 		
-		int select_value_candidates( int variable_to_change, const SearchUnitData& data, const Model& model, const std::map<int, std::vector<double>>& delta_errors, double& min_conflict ) const override;
+		int select_value_candidates( int variable_to_change,
+		                             const SearchUnitData& data,
+		                             const Model& model,
+		                             const std::map<int, std::vector<double>>& delta_errors,
+		                             double& min_conflict,
+		                             randutils::mt19937_rng& rng ) const override;
 	};
 }

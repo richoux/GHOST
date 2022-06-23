@@ -40,6 +40,6 @@ namespace ghost
 	public:
 		AntidoteSearchVariableHeuristic();
 		
-		int select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data ) const override;
+		int select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const override;
 	};
 }

@@ -34,6 +34,7 @@
 
 #include "search_unit_data.hpp"
 // #include "macros.hpp"
+#include "thirdparty/randutils.hpp"
 
 namespace ghost
 {
@@ -57,6 +58,7 @@ namespace ghost
 		                                     const Model& model,
 		                                     const std::map<int,
 		                                     std::vector<double>>& delta_errors,
-		                                     double& min_conflict ) const = 0;
+		                                     double& min_conflict,
+		                                     randutils::mt19937_rng& rng ) const = 0;
 	};
 }

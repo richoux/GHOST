@@ -185,7 +185,7 @@ namespace ghost
 			rng.shuffle( variables_index );
 
 			for( int i = 0 ; i < nb_var ; ++i )
-				model.variables[ variables_index[ i ] ].pick_random_value();
+				model.variables[ variables_index[ i ] ].pick_random_value( rng );
 		}
 
 		// Sample an configuration for permutation problems
@@ -667,7 +667,7 @@ namespace ghost
 				COUT << "\n";
 #endif
 				
-				variable_to_change = variable_heuristic->select_variable_candidate( variable_candidates, data );
+				variable_to_change = variable_heuristic->select_variable_candidate( variable_candidates, data, rng );
 
 #if defined GHOST_TRACE
 				COUT << options.print->print_candidate( model.variables ).str();
@@ -745,7 +745,7 @@ namespace ghost
 
 				// Select the next current configuration (local move)
 				double min_conflict = std::numeric_limits<double>::max();
-				int new_value = value_heuristic->select_value_candidates( variable_to_change, data, model, delta_errors, min_conflict );
+				int new_value = value_heuristic->select_value_candidates( variable_to_change, data, model, delta_errors, min_conflict, rng );
 
 				
 #if defined GHOST_TRACE

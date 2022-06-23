@@ -39,9 +39,13 @@ namespace ghost
 		: ValueHeuristic( "Antidote Search" )
 	{ }
 		
-	int AntidoteSearchValueHeuristic::select_value_candidates( int variable_to_change, const SearchUnitData& data, const Model& model, const std::map<int, std::vector<double>>& delta_errors, double& min_conflict ) const
+	int AntidoteSearchValueHeuristic::select_value_candidates( int variable_to_change,
+	                                                           const SearchUnitData& data,
+	                                                           const Model& model,
+	                                                           const std::map<int, std::vector<double>>& delta_errors,
+	                                                           double& min_conflict,
+	                                                           randutils::mt19937_rng& rng ) const
 	{
-		randutils::mt19937_rng rng; // to optimize
 		std::vector<double> cumulated_delta_errors( delta_errors.size() );
 		std::vector<double> cumulated_delta_errors_for_distribution( delta_errors.size() );
 		std::vector<int> cumulated_delta_errors_variable_index_correspondance( delta_errors.size() ); // longest variable name ever

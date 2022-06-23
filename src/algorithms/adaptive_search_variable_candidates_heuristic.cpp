@@ -28,7 +28,6 @@
  */
 
 #include "algorithms/adaptive_search_variable_candidates_heuristic.hpp"
-#include "thirdparty/randutils.hpp"
 
 namespace ghost
 {

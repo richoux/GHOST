@@ -28,7 +28,6 @@
  */
 
 #include "algorithms/adaptive_search_variable_heuristic.hpp"
-#include "thirdparty/randutils.hpp"
 
 namespace ghost
 {
@@ -36,9 +35,8 @@ namespace ghost
 		: VariableHeuristic( "Adaptive Search" )
 	{ }
 		
-	int AdaptiveSearchVariableHeuristic::select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data ) const
+	int AdaptiveSearchVariableHeuristic::select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
 	{
-		randutils::mt19937_rng rng; // to optimize
 		return static_cast<int>( rng.pick( candidates ) );
 	}
 }
