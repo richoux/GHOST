@@ -521,11 +521,11 @@ namespace ghost
 		            std::unique_ptr<algorithms::VariableCandidatesHeuristic> variable_candidates_heuristic,
 		            std::unique_ptr<algorithms::ValueHeuristic> value_heuristic )
 			: _stop_search_check( _stop_search_signal.get_future() ),
+			  model( std::move( moved_model ) ),
+			  data( model ),
 			  variable_heuristic( std::move( variable_heuristic ) ),
 			  variable_candidates_heuristic( std::move( variable_candidates_heuristic ) ),
 			  value_heuristic( std::move( value_heuristic ) ),
-			  model( std::move( moved_model ) ),
-			  data( model ),
 			  final_solution( std::vector<int>( data.number_variables, 0 ) ),
 			  variable_candidates(), 
 			  must_compute_variable_candidates ( true ),
