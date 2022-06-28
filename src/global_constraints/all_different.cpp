@@ -59,16 +59,17 @@ AllDifferent::AllDifferent( const std::vector<Variable>& variables )
 double AllDifferent::required_error( const std::vector<Variable*>& variables ) const
 {
 	double counter = 0;
-
+	_count.clear();
+	
 	for( auto v : variables )
-		if( _count.count( v->get_value() ) == 0 )
+		if( _count.find( v->get_value() ) == _count.end() )
 			_count[ v->get_value() ] = 1;
 		else
 			_count[ v->get_value() ] = _count[ v->get_value() ] + 1;
 	
-	for( auto c : _count )
-		if( c.second > 1 )
-			counter += binomial_with_2( c.second );
+	for( const auto& [key, value] : _count )
+		if( value > 1 )
+			counter += binomial_with_2( value );
 
 	return counter;
 }

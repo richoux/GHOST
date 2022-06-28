@@ -58,16 +58,6 @@ namespace ghost
 			                                         int new_value ) override;
 
 			double binomial_with_2( int value ) const;
-			
-			inline double binomial_with_2_diff_minus_1( int value ) const
-			{
-				return binomial_with_2( value - 1 ) - binomial_with_2( value );
-			}
-			
-			inline double binomial_with_2_diff_plus_1( int value ) const
-			{
-				return binomial_with_2( value + 1 ) - binomial_with_2( value );
-			}
 
 		public:
 			/*!
