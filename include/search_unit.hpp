@@ -363,7 +363,7 @@ namespace ghost
 		void compute_variables_errors()
 		{
 			for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
-				for( const int constraint_id : data.matrix_var_ctr.at( variable_id ) )
+				for( int constraint_id : data.matrix_var_ctr.at( variable_id ) )
 					data.error_variables[ variable_id ] += model.constraints[ constraint_id ]->_current_error;
 		}
 
