@@ -30,37 +30,33 @@
 #pragma once
 
 #include <vector>
-#include <map>
 
-#include "search_unit_data.hpp"
-// #include "macros.hpp"
-#include "thirdparty/randutils.hpp"
+#include "../search_unit_data.hpp"
+// #include "../macros.hpp"
+#include "../thirdparty/randutils.hpp"
 
 namespace ghost
 {
 	namespace algorithms
 	{
 		/*
-		 * ValueHeuristic follows the Strategy design pattern to implement variable selection heuristics.
+		 * VariableHeuristic follows the Strategy design pattern to implement variable selection heuristics.
 		 */
-		class ValueHeuristic
+		class VariableHeuristic
 		{
 		protected:
 			std::string name;
 		
 		public:
-			ValueHeuristic( std::string&& name )
+			VariableHeuristic( std::string&& name )
 				: name( std::move( name ) )
 			{ }
 
 			inline std::string get_name() const { return name; }
 
-			virtual int select_value_candidates( int variable_to_change,
-			                                     const SearchUnitData& data,
-			                                     const Model& model,
-			                                     const std::map<int, std::vector<double>>& delta_errors,
-			                                     double& min_conflict,
-			                                     randutils::mt19937_rng& rng ) const = 0;
+			// candidates is a vector of double to be more generic, allowing for instance a vector of errors
+			// rather than a vector of ID, like it would certainly be often the case in practice.
+			virtual int select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const = 0;
 		};
 	}
 }

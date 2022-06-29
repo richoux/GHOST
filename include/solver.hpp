@@ -51,9 +51,9 @@
 #include "options.hpp"
 #include "search_unit.hpp"
 
-#include "variable_heuristic.hpp"
-#include "variable_candidates_heuristic.hpp"
-#include "value_heuristic.hpp"
+#include "algorithms/variable_heuristic.hpp"
+#include "algorithms/variable_candidates_heuristic.hpp"
+#include "algorithms/value_heuristic.hpp"
 #include "algorithms/adaptive_search_variable_heuristic.hpp"
 #include "algorithms/adaptive_search_variable_candidates_heuristic.hpp"
 #include "algorithms/adaptive_search_value_heuristic.hpp"

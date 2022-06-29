@@ -95,12 +95,12 @@ set(libHeadersList
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/solver.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/options.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/print.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/macros.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/variable_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/variable_candidates_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/value_heuristic.hpp")
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/macros.hpp")
 
 set(libHeadersAlgorithmsList
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_candidates_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/value_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_variable_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_variable_candidates_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_value_heuristic.hpp"
