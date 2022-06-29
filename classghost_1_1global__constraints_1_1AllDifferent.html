@@ -79,7 +79,7 @@ Inheritance diagram for ghost::global_constraints::AllDifferent:</div>
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1global__constraints_1_1AllDifferent__inherit__graph.png" border="0" usemap="#ghost_1_1global__constraints_1_1AllDifferent_inherit__map" alt="Inheritance graph"/></div>
 <map name="ghost_1_1global__constraints_1_1AllDifferent_inherit__map" id="ghost_1_1global__constraints_1_1AllDifferent_inherit__map">
-<area shape="rect" title=" " alt="" coords="5,321,172,413"/>
+<area shape="rect" title=" " alt="" coords="5,321,172,428"/>
 <area shape="rect" href="classghost_1_1Constraint.html" title=" " alt="" coords="11,5,166,273"/>
 </map>
 </div>
@@ -88,7 +88,7 @@ Collaboration diagram for ghost::global_constraints::AllDifferent:</div>
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1global__constraints_1_1AllDifferent__coll__graph.png" border="0" usemap="#ghost_1_1global__constraints_1_1AllDifferent_coll__map" alt="Collaboration graph"/></div>
 <map name="ghost_1_1global__constraints_1_1AllDifferent_coll__map" id="ghost_1_1global__constraints_1_1AllDifferent_coll__map">
-<area shape="rect" title=" " alt="" coords="5,321,172,413"/>
+<area shape="rect" title=" " alt="" coords="5,321,172,428"/>
 <area shape="rect" href="classghost_1_1Constraint.html" title=" " alt="" coords="11,5,166,273"/>
 </map>
 </div>
@@ -97,6 +97,8 @@ Collaboration diagram for ghost::global_constraints::AllDifferent:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a95b71513836c97684a0eb18e842a588e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1global__constraints_1_1AllDifferent.html#a95b71513836c97684a0eb18e842a588e">AllDifferent</a> (const std::vector&lt; int &gt; &amp;variables_index)</td></tr>
 <tr class="separator:a95b71513836c97684a0eb18e842a588e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ec32c296617cffb5ec62f499d474542"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1global__constraints_1_1AllDifferent.html#a8ec32c296617cffb5ec62f499d474542">AllDifferent</a> (const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; &amp;variables)</td></tr>
+<tr class="separator:a8ec32c296617cffb5ec62f499d474542"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classghost_1_1Constraint"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classghost_1_1Constraint')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classghost_1_1Constraint.html">ghost::Constraint</a></td></tr>
 <tr class="memitem:a4a0ce33ef3a11dcfd39d9ca693eb2ac4 inherit pub_methods_classghost_1_1Constraint"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a4a0ce33ef3a11dcfd39d9ca693eb2ac4">Constraint</a> (const std::vector&lt; int &gt; &amp;variables_index)</td></tr>
 <tr class="separator:a4a0ce33ef3a11dcfd39d9ca693eb2ac4 inherit pub_methods_classghost_1_1Constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -133,7 +135,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><p>Implementation of the All Different constraint. See <a href="http://sofdem.github.io/gccat/gccat/Calldifferent.html">http://sofdem.github.io/gccat/gccat/Calldifferent.html</a> </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a95b71513836c97684a0eb18e842a588e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95b71513836c97684a0eb18e842a588e">&#9670;&nbsp;</a></span>AllDifferent()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a95b71513836c97684a0eb18e842a588e">&#9670;&nbsp;</a></span>AllDifferent() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -149,7 +151,31 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <p>Constructor with a vector of variable IDs. This vector is internally used by <a class="el" href="classghost_1_1Constraint.html">ghost::Constraint</a> to know what variables from the global variable vector it is handling. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">variables</td><td>a const reference to a vector of IDs of variables composing the constraint. </td></tr>
+    <tr><td class="paramname">variables_index</td><td>a const reference to a vector of IDs of variables composing the constraint. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8ec32c296617cffb5ec62f499d474542"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ec32c296617cffb5ec62f499d474542">&#9670;&nbsp;</a></span>AllDifferent() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ghost::global_constraints::AllDifferent::AllDifferent </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>variables</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Constructor with a vector of variable. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">variables</td><td>a const reference to a vector of variables composing the constraint. </td></tr>
   </table>
   </dd>
 </dl>
@@ -162,7 +188,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 23 2022 21:17:15 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jun 29 2022 10:15:14 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
