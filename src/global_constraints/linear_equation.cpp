@@ -35,8 +35,14 @@
 
 using ghost::global_constraints::LinearEquation;
 
-LinearEquation::LinearEquation( const std::vector<int>& index, int rhs )
-	: Constraint( index ),
+LinearEquation::LinearEquation( const std::vector<int>& variables_index, int rhs )
+	: Constraint( variables_index ),
+	  _rhs( rhs ),
+	  _current_diff( 0 )
+{ }
+
+LinearEquation::LinearEquation( const std::vector<Variable>& variables, int rhs )
+	: Constraint( variables ),
 	  _rhs( rhs ),
 	  _current_diff( 0 )
 { }

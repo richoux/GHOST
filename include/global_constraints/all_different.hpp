@@ -30,6 +30,7 @@
 #pragma once
 
 #include <vector>
+#include <map>
 
 #include "../variable.hpp"
 #include "../constraint.hpp"
@@ -44,7 +45,7 @@ namespace ghost
 	 */
 		class AllDifferent : public Constraint
 		{
-			mutable std::vector<int> _count;
+			mutable std::map<int,int> _count;
 			
 			double required_error( const std::vector<Variable*>& variables ) const override;
 			
@@ -55,14 +56,22 @@ namespace ghost
 			void conditional_update_data_structures( const std::vector<Variable*>& variables,
 			                                         int variable_index,
 			                                         int new_value ) override;
-			
+
+			double binomial_with_2( int value ) const;
+
 		public:
-		/*!
-		 * Constructor with a vector of variable IDs. This vector is internally used by ghost::Constraint
-		 * to know what variables from the global variable vector it is handling.
-		 * \param variables a const reference to a vector of IDs of variables composing the constraint.
-		 */
+			/*!
+			 * Constructor with a vector of variable IDs. This vector is internally used by ghost::Constraint
+			 * to know what variables from the global variable vector it is handling.
+			 * \param variables_index a const reference to a vector of IDs of variables composing the constraint.
+			 */
 			AllDifferent( const std::vector<int>& variables_index );
+			
+			/*!
+			 * Constructor with a vector of variable.
+			 * \param variables a const reference to a vector of variables composing the constraint.
+			 */
+			AllDifferent( const std::vector<Variable>& variables );
 		};
 	}
 }

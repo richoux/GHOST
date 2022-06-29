@@ -35,7 +35,7 @@
 
 using ghost::global_constraints::AllDifferent;
 
-double binomial_with_2( int value )
+double AllDifferent::binomial_with_2( int value ) const
 {
 	if( value <= 1 )
 		return 0;
@@ -46,34 +46,30 @@ double binomial_with_2( int value )
 		return static_cast<double>( value ) * ( ( value - 1 ) / 2 );
 }
 
-inline double binomial_with_2_diff_minus_1( int value )
-{
-	return binomial_with_2( value - 1 ) - binomial_with_2( value );
-}
-
-inline double binomial_with_2_diff_plus_1( int value )
-{
-	return binomial_with_2( value + 1 ) - binomial_with_2( value );
-}
 
 AllDifferent::AllDifferent( const std::vector<int>& variables_index )
-	: Constraint( variables_index ),
-	  _count( std::vector<int>( variables_index.size() ) )
+	: Constraint( variables_index )
+{ }
+
+AllDifferent::AllDifferent( const std::vector<Variable>& variables )
+	: Constraint( variables )
 { }
 
 // SOFT_ALLDIFF error function (Petit et al. 2001)
 double AllDifferent::required_error( const std::vector<Variable*>& variables ) const
 {
 	double counter = 0;
-
-	std::fill( _count.begin(), _count.end(), 0 );
-
-	for( auto v : variables )
-		++_count[ v->get_value() - 1 ];
+	_count.clear();
 	
-	for( auto c : _count )
-		if( c > 1 )
-			counter += binomial_with_2( c );
+	for( auto v : variables )
+		if( _count.find( v->get_value() ) == _count.end() )
+			_count[ v->get_value() ] = 1;
+		else
+			_count[ v->get_value() ] = _count[ v->get_value() ] + 1;
+	
+	for( const auto& [key, value] : _count )
+		if( value > 1 )
+			counter += binomial_with_2( value );
 
 	return counter;
 }
@@ -85,16 +81,19 @@ double AllDifferent::optional_delta_error( const std::vector<Variable*>& variabl
 
 	for( int i = 0 ; i < static_cast<int>( variable_indexes.size() ) ; ++i )
 	{
-		--copy_count[ variables[ variable_indexes[ i ] ]->get_value() - 1 ];
-		++copy_count[ candidate_values[ i ] - 1 ];
+		copy_count[ variables[ variable_indexes[ i ] ]->get_value() ] = copy_count[ variables[ variable_indexes[ i ] ]->get_value() ] - 1;
+		if( copy_count.count( candidate_values[ i ] ) == 0 )
+			copy_count[ candidate_values[ i ] ] = 1;
+		else
+			copy_count[ candidate_values[ i ] ] = copy_count[ candidate_values[ i ] ] + 1;
 	}
 	
 	for( int i = 0 ; i < static_cast<int>( variable_indexes.size() ) ; ++i )
 	{
-		if( _count[ variables[ variable_indexes[ i ] ]->get_value() - 1 ] != copy_count[ variables[ variable_indexes[ i ] ]->get_value() - 1 ] )
-			diff += ( binomial_with_2( copy_count[ variables[ variable_indexes[ i ] ]->get_value() - 1 ] ) - binomial_with_2( _count[ variables[ variable_indexes[ i ] ]->get_value() - 1 ] ) );
-		if( _count[ candidate_values[ i ] - 1 ] != copy_count[ candidate_values[ i ] - 1 ] )
-			diff += ( binomial_with_2( copy_count[ candidate_values[ i ] - 1 ] ) - binomial_with_2( _count[ candidate_values[ i ] - 1 ] ) );
+		if( _count[ variables[ variable_indexes[ i ] ]->get_value() ] != copy_count[ variables[ variable_indexes[ i ] ]->get_value() ] )
+			diff += ( binomial_with_2( copy_count[ variables[ variable_indexes[ i ] ]->get_value() ] ) - binomial_with_2( _count[ variables[ variable_indexes[ i ] ]->get_value() ] ) );
+		if( _count[ candidate_values[ i ] ] != copy_count[ candidate_values[ i ] ] )
+			diff += ( binomial_with_2( copy_count[ candidate_values[ i ] ] ) - binomial_with_2( _count[ candidate_values[ i ] ] ) );
 	}
 
 	return diff;
@@ -102,6 +101,10 @@ double AllDifferent::optional_delta_error( const std::vector<Variable*>& variabl
 
 void AllDifferent::conditional_update_data_structures( const std::vector<Variable*>& variables, int variable_index, int new_value )
 {
-	--_count[ variables[ variable_index ]->get_value() - 1 ];
-	++_count[ new_value - 1 ];
+	_count[ variables[ variable_index ]->get_value() ] = _count[ variables[ variable_index ]->get_value() ] - 1;
+
+	if( _count.count( new_value ) == 0 )
+		_count[ new_value ] = 1;
+	else
+		_count[ new_value ] = _count[ new_value ] + 1;	
 }

@@ -38,13 +38,13 @@ namespace ghost
 {
 	namespace global_constraints
 	{
-	/*!
-	 * Implementation of the FixValue constraint, forcing variables in its scope taking a given value.
-	 * 
-	 * This constraint must be avoided if possible. If some variables x must be fixed to a value v, it is more efficient
-	 * to directly declare these variables in the ghost::ModelBuilder with a singleton domain {v}.
-	 * However, it makes sense to use this contraint to fix the value of some variables in permutation problems.
-	 */
+		/*!
+		 * Implementation of the FixValue constraint, forcing variables in its scope taking a given value.
+		 * 
+		 * This constraint must be avoided if possible. If some variables x must be fixed to a value v, it is more efficient
+		 * to directly declare these variables in the ghost::ModelBuilder with a singleton domain {v}.
+		 * However, it makes sense to use this contraint to fix the value of some variables in permutation problems.
+		 */
 		class FixValue : public Constraint
 		{
 			int _value;
@@ -55,13 +55,20 @@ namespace ghost
 			                             const std::vector<int>& candidate_values ) const override;
 	
 		public:
-		/*!
-		 * Constructor with a vector of variable IDs. This vector is internally used by ghost::Constraint
-		 * to know what variables from the global variable vector it is handling.
-		 * \param variables a const reference to a vector of IDs of variables composing the constraint.
-		 * \param value a value integer such that all variables in the scope must be equals to this value.
-		 */
+			/*!
+			 * Constructor with a vector of variable IDs. This vector is internally used by ghost::Constraint
+			 * to know what variables from the global variable vector it is handling.
+			 * \param variables_index a const reference to a vector of IDs of variables composing the constraint.
+			 * \param value a value integer such that all variables in the scope must be equals to this value.
+			 */
 			FixValue( const std::vector<int>& variables_index, int value );
+
+			/*!
+			 * Constructor with a vector of variable.
+			 * \param variables a const reference to a vector of variables composing the constraint.
+			 * \param value a value integer such that all variables in the scope must be equals to this value.
+			 */
+			FixValue( const std::vector<Variable>& variables, int value );
 		};
 	}
 }

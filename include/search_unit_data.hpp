@@ -73,22 +73,22 @@ namespace ghost
 
 		SearchUnitData( const Model& model )
 		: number_variables ( static_cast<int>( model.variables.size() ) ),
-		number_constraints ( static_cast<int>( model.constraints.size() ) ),
-		is_optimization( model.objective->is_optimization() ),
-		matrix_var_ctr( std::vector<std::vector<int>>( number_variables ) ),
-		tabu_list ( std::vector<int>( number_variables, 0 ) ),
-		error_variables ( std::vector<double>( number_variables, 0.0 ) ),
-		best_sat_error ( std::numeric_limits<double>::max() ),
-		best_opt_cost ( std::numeric_limits<double>::max() ),
-		current_sat_error ( std::numeric_limits<double>::max() ),
-		current_opt_cost ( std::numeric_limits<double>::max() ),
-		restarts ( 0 ),
-		resets ( 0 ),
-		local_moves ( 0 ),
-		search_iterations ( 0 ),
-		local_minimum ( 0 ),
-		plateau_moves ( 0 ),
-		plateau_local_minimum ( 0 )
+		  number_constraints ( static_cast<int>( model.constraints.size() ) ),
+		  is_optimization ( model.objective->is_optimization() ),
+		  matrix_var_ctr ( number_variables ),
+		  tabu_list ( std::vector<int>( number_variables, 0 ) ),
+		  error_variables ( std::vector<double>( number_variables, 0.0 ) ),
+		  best_sat_error ( std::numeric_limits<double>::max() ),
+		  best_opt_cost ( std::numeric_limits<double>::max() ),
+		  current_sat_error ( std::numeric_limits<double>::max() ),
+		  current_opt_cost ( std::numeric_limits<double>::max() ),
+		  restarts ( 0 ),
+		  resets ( 0 ),
+		  local_moves ( 0 ),
+		  search_iterations ( 0 ),
+		  local_minimum ( 0 ),
+		  plateau_moves ( 0 ),
+		  plateau_local_minimum ( 0 )
 		{ }
 
 		void initialize_matrix( const Model& model )

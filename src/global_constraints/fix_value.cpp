@@ -38,6 +38,11 @@ FixValue::FixValue( const std::vector<int>& variables_index, int value )
 	  _value( value )
 { }
 
+FixValue::FixValue( const std::vector<Variable>& variables, int value )
+	: Constraint( variables ),
+	  _value( value )
+{ }
+
 double FixValue::required_error( const std::vector<Variable*>& variables ) const
 {
 	double error = 0.;

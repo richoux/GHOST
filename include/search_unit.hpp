@@ -363,7 +363,7 @@ namespace ghost
 		void compute_variables_errors()
 		{
 			for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
-				for( const int constraint_id : data.matrix_var_ctr.at( variable_id ) )
+				for( int constraint_id : data.matrix_var_ctr.at( variable_id ) )
 					data.error_variables[ variable_id ] += model.constraints[ constraint_id ]->_current_error;
 		}
 
@@ -521,11 +521,11 @@ namespace ghost
 		            std::unique_ptr<algorithms::VariableCandidatesHeuristic> variable_candidates_heuristic,
 		            std::unique_ptr<algorithms::ValueHeuristic> value_heuristic )
 			: _stop_search_check( _stop_search_signal.get_future() ),
+			  model( std::move( moved_model ) ),
+			  data( model ),
 			  variable_heuristic( std::move( variable_heuristic ) ),
 			  variable_candidates_heuristic( std::move( variable_candidates_heuristic ) ),
 			  value_heuristic( std::move( value_heuristic ) ),
-			  model( std::move( moved_model ) ),
-			  data( model ),
 			  final_solution( std::vector<int>( data.number_variables, 0 ) ),
 			  variable_candidates(), 
 			  must_compute_variable_candidates ( true ),
