@@ -293,10 +293,7 @@ namespace ghost
 					data.current_opt_cost = std::numeric_limits<double>::max();
 			}
 
-			// Reset variable costs
-			// std::fill( data.error_variables.begin(), data.error_variables.end(), 0.0 );
-			// Recompute them
-			// compute_variables_errors()
+			// Reset variable costs and recompute them
 			error_projection_heuristic->compute_variable_errors( data.error_variables,
 			                                                     model.variables,
 			                                                     data.matrix_var_ctr,
@@ -369,14 +366,6 @@ namespace ghost
 			return satisfaction_error;
 		}
 
-		// Compute the variable cost of each variables and fill up error_variables
-		// void compute_variables_errors()
-		// {
-		// 	for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
-		// 		for( int constraint_id : data.matrix_var_ctr.at( variable_id ) )
-		// 			data.error_variables[ variable_id ] += model.constraints[ constraint_id ]->_current_error;
-		// }
-
 		void update_errors( int variable_to_change, int new_value, const std::map< int, std::vector<double>>& delta_errors )
 		{
 			int delta_index = 0;
@@ -386,14 +375,12 @@ namespace ghost
 				{
 					auto delta = delta_errors.at( new_value )[ delta_index++ ];
 					model.constraints[ constraint_id ]->_current_error += delta;
-
+					
 					error_projection_heuristic->update_variable_errors( data.error_variables,
 					                                                    model.variables,
 					                                                    data.matrix_var_ctr,
 					                                                    model.constraints[ constraint_id ],
 					                                                    delta );
-					// for( const int variable_id : model.constraints[ constraint_id ]->get_variable_ids() )
-					// 	data.error_variables[ variable_id ] += delta;
 
 					model.constraints[ constraint_id ]->update( variable_to_change, new_value );
 				}
@@ -418,10 +405,7 @@ namespace ghost
 					                                                    data.matrix_var_ctr,
 					                                                    model.constraints[ constraint_id ],
 					                                                    delta );
-
-					// for( const int variable_id : model.constraints[ constraint_id ]->get_variable_ids() )
-					// 	data.error_variables[ variable_id ] += delta;
-
+					
 					model.constraints[ constraint_id ]->update( variable_to_change, next_value );
 
 					if( model.constraints[ constraint_id ]->has_variable( new_value ) )
@@ -439,10 +423,7 @@ namespace ghost
 						                                                    data.matrix_var_ctr,
 						                                                    model.constraints[ constraint_id ],
 						                                                    delta );
-
-						// for( const int variable_id : model.constraints[ constraint_id ]->get_variable_ids() )
-						// 	data.error_variables[ variable_id ] += delta;
-
+						
 						model.constraints[ constraint_id ]->update( new_value, current_value );
 					}
 

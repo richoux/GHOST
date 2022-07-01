@@ -42,6 +42,8 @@ void AdaptiveSearchErrorProjection::compute_variable_errors( std::vector<double>
                                                              const std::vector<std::vector<int>>& matrix_var_ctr,
                                                              const std::vector<std::shared_ptr<Constraint>>& constraints )
 {
+	std::fill( error_variables.begin(), error_variables.end(), 0. );
+
 	for( int variable_id = 0; variable_id < static_cast<int>( variables.size() ); ++variable_id )
 		for( int constraint_id : matrix_var_ctr.at( variable_id ) )
 			error_variables[ variable_id ] += constraints[ constraint_id ]->_current_error;	
