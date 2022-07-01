@@ -54,11 +54,13 @@ namespace ghost
 			virtual void compute_variable_errors( std::vector<double>& error_variables,
 			                                      const std::vector<Variable>& variables,
 			                                      const std::vector<std::vector<int>>& matrix_var_ctr,
-			                                      const std::vector<std::shared_ptr<Constraint>>& constraints ) const = 0;
+			                                      const std::vector<std::shared_ptr<Constraint>>& constraints ) = 0;
 			
 			virtual void update_variable_errors( std::vector<double>& error_variables,
+			                                     const std::vector<Variable>& variables,
+			                                     const std::vector<std::vector<int>>& matrix_var_ctr,
 			                                     std::shared_ptr<Constraint> constraint,
-			                                     double delta ) const = 0;
+			                                     double delta ) = 0;
 		};
 	}
 }

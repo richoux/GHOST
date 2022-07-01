@@ -37,17 +37,27 @@ namespace ghost
 	{
 		class CulpritSearchErrorProjection : public ErrorProjection
 		{
+			std::vector<std::vector<double>> _error_variables_by_constraints;
+
+			
+			void compute_variable_errors_on_constraint( std::vector<double>& error_variables,
+			                                            const std::vector<Variable>& variables,
+			                                            const std::vector<std::vector<int>>& matrix_var_ctr,
+			                                            std::shared_ptr<Constraint> constraint );
+			
 		public:
-			CulpritSearchErrorProjection();
+			CulpritSearchErrorProjection( int number_contraints, int number_variables );
 			
 			void compute_variable_errors( std::vector<double>& error_variables,
 			                              const std::vector<Variable>& variables,
 			                              const std::vector<std::vector<int>>& matrix_var_ctr,
-			                              const std::vector<std::shared_ptr<Constraint>>& constraints ) const override;
+			                              const std::vector<std::shared_ptr<Constraint>>& constraints ) override;
 			
 			void update_variable_errors( std::vector<double>& error_variables,
+			                             const std::vector<Variable>& variables,
+			                             const std::vector<std::vector<int>>& matrix_var_ctr,
 			                             std::shared_ptr<Constraint> constraint,
-			                             double delta ) const override;
+			                             double delta ) override;
 		};
 	}
 }

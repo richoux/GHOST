@@ -29,6 +29,7 @@
 
 #include <algorithm>
 #include <numeric>
+#include <functional>
 
 #include "algorithms/culprit_search_error_projection_heuristic.hpp"
 
@@ -36,57 +37,94 @@ using ghost::algorithms::CulpritSearchErrorProjection;
 using ghost::Variable;
 using ghost::Constraint;
 
-CulpritSearchErrorProjection::CulpritSearchErrorProjection()
-	: ErrorProjection( "Culprit Search" )
+CulpritSearchErrorProjection::CulpritSearchErrorProjection( int number_contraints, int number_variables )
+	: ErrorProjection( "Culprit Search" ),
+	  _error_variables_by_constraints( number_contraints, std::vector<double>( number_variables, 0. ) )
 { }
+
+void CulpritSearchErrorProjection::compute_variable_errors_on_constraint( const std::vector<Variable>& variables,
+	                                                                        const std::vector<std::vector<int>>& matrix_var_ctr,
+	                                                                        std::shared_ptr<Constraint> constraint )
+{
+	auto& current_errors = _error_variables_by_constraints[ constraint->_id ];
+	std::fill( current_errors.begin(), current_errors.end(), 0. );
+
+	if( constraint->_current_error > 0 )
+	{
+		int previous_value;
+		int next_value;
 		
+		for( const int variable_id : constraint->get_variable_ids() )
+		{
+			auto range = variables[ variable_id ].get_partial_domain( 3 );
+			previous_value = range[0];
+			next_value = range[2];
+				
+			current_errors[ variable_id ] =
+				constraint->simulate_delta( std::vector<int>{variable_id},
+				                            std::vector<int>{previous_value} )
+				+
+				constraint->simulate_delta( std::vector<int>{variable_id},
+				                            std::vector<int>{next_value} );
+		}
+			
+		double max = std::max_element( current_errors.cbegin(), current_errors.cend() );
+
+		// max becomes 0, the lowest delta becomes the highest one.
+		std::transform( current_errors.cbegin(),
+		                current_errors.cend(),
+		                current_errors.begin(),
+		                [max](auto delta){ return delta == 0 ? 0 : -delta + max; } );
+		
+		double sum = std::accumulate( current_errors.cbegin(), current_errors.cend(), 0. );
+
+		// normalize deltas such that their sum equals to 1.
+		std::transform( current_errors.cbegin(),
+		                current_errors.cend(),
+		                current_errors.begin(),
+		                [sum](auto delta){ return ( delta / sum ) * constraint->_current_error; } );
+	}
+}
+
 void CulpritSearchErrorProjection::compute_variable_errors( std::vector<double>& error_variables,
                                                             const std::vector<Variable>& variables,
                                                             const std::vector<std::vector<int>>& matrix_var_ctr,
-                                                            const std::vector<std::shared_ptr<Constraint>>& constraints ) const
+                                                            const std::vector<std::shared_ptr<Constraint>>& constraints )
 {
-	int previous_value;
-	int next_value;
-	std::vector<double> deltas( variables.size() );
-	
 	std::fill( error_variables.begin(), error_variables.end(), 0. );
 	
 	for( auto constraint : constraints )
-		if( constraint->_current_error > 0 )
-		{
-			std::fill( deltas.begin(), deltas.end(), 0. );
+	{
+		compute_variable_errors_on_constraint( variables, matrix_var_ctr, constraint );
 
-			for( const int variable_id : constraint->get_variable_ids() )
-			{
-				auto range = variables[ variable_id ].get_partial_domain( 3 );
-				previous_value = range[0];
-				next_value = range[2];
-				
-				deltas[ variable_id ] =
-					constraint->simulate_delta( std::vector<int>{variable_id},
-					                            std::vector<int>{previous_value} )
-					+
-					constraint->simulate_delta( std::vector<int>{variable_id},
-					                            std::vector<int>{next_value} );
-			}
-			
-			double max = std::max_element( deltas.begin(), deltas.end() );
-
-			// max becomes 0, the lowest delta becomes the highest one.
-			std::transform( deltas.begin(), deltas.end(), [max](auto delta){ return delta == 0 ? 0 : -delta + max; } );
-			double sum = std::accumulate( deltas.begin(), deltas.end(), 0. );
-
-			// normalize deltas such that their sum equals to 1.
-			std::transform( deltas.begin(), deltas.end(), [sum](auto delta){ return ( delta / sum ) * constraint->_current_error; } );
-
-			// add normalize deltas of the current constraint to the error variables vector.
-			std::transform( deltas.begin(), deltas.end(), error_variables.begin(), error_variables.end(), std::plus<>{} );
-		}
+		// add normalize deltas of the current constraint to the error variables vector.
+		std::transform( _error_variables_by_constraints[ constraint->_id ].cbegin(),
+		                _error_variables_by_constraints[ constraint->_id ].cend(),
+		                error_variables.cbegin(),
+		                error_variables.begin(),
+		                std::plus<>{} );
+	}
 }
 
 void CulpritSearchErrorProjection::update_variable_errors( std::vector<double>& error_variables,
+                                                           const std::vector<Variable>& variables,
+                                                           const std::vector<std::vector<int>>& matrix_var_ctr,
                                                            std::shared_ptr<Constraint> constraint,
-                                                           double delta ) const
+                                                           double delta )
 {
+	// remove current deltas of the given constraint to the error variables vector.
+	std::transform( _error_variables_by_constraints[ constraint->_id ].cbegin(),
+	                _error_variables_by_constraints[ constraint->_id ].cend(),
+	                error_variables.cbegin(),
+	                error_variables.begin(),
+	                std::minus<>{} );
 
+	compute_variable_errors_on_constraint( variables, matrix_var_ctr, constraint );
+
+	// add normalize deltas of the current constraint to the error variables vector.
+	std::transform( _error_variables_by_constraints[ constraint->_id ].cbegin(),
+	                _error_variables_by_constraints[ constraint->_id ].cend(),
+	                error_variables.cbegin(),
+	                error_variables.begin(),
+	                std::plus<>{} );
 }
