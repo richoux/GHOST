@@ -40,8 +40,7 @@ namespace ghost
 			std::vector<std::vector<double>> _error_variables_by_constraints;
 
 			
-			void compute_variable_errors_on_constraint( std::vector<double>& error_variables,
-			                                            const std::vector<Variable>& variables,
+			void compute_variable_errors_on_constraint( const std::vector<Variable>& variables,
 			                                            const std::vector<std::vector<int>>& matrix_var_ctr,
 			                                            std::shared_ptr<Constraint> constraint );
 			

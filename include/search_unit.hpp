@@ -54,12 +54,18 @@
 #include "algorithms/variable_heuristic.hpp"
 #include "algorithms/variable_candidates_heuristic.hpp"
 #include "algorithms/value_heuristic.hpp"
+#include "algorithms/error_projection_heuristic.hpp"
+
 #include "algorithms/adaptive_search_variable_heuristic.hpp"
 #include "algorithms/adaptive_search_variable_candidates_heuristic.hpp"
 #include "algorithms/adaptive_search_value_heuristic.hpp"
+#include "algorithms/adaptive_search_error_projection_heuristic.hpp"
+
 #include "algorithms/antidote_search_variable_heuristic.hpp"
 #include "algorithms/antidote_search_variable_candidates_heuristic.hpp"
 #include "algorithms/antidote_search_value_heuristic.hpp"
+
+#include "algorithms/culprit_search_error_projection_heuristic.hpp"
 
 #include "macros.hpp"
 
@@ -288,9 +294,13 @@ namespace ghost
 			}
 
 			// Reset variable costs
-			std::fill( data.error_variables.begin(), data.error_variables.end(), 0.0 );
+			// std::fill( data.error_variables.begin(), data.error_variables.end(), 0.0 );
 			// Recompute them
-			compute_variables_errors();
+			// compute_variables_errors()
+			error_projection_heuristic->compute_variable_errors( data.error_variables,
+			                                                     model.variables,
+			                                                     data.matrix_var_ctr,
+			                                                     model.constraints );
 		}
 
 		void initialize_data_structures( Model& model )
@@ -360,12 +370,12 @@ namespace ghost
 		}
 
 		// Compute the variable cost of each variables and fill up error_variables
-		void compute_variables_errors()
-		{
-			for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
-				for( int constraint_id : data.matrix_var_ctr.at( variable_id ) )
-					data.error_variables[ variable_id ] += model.constraints[ constraint_id ]->_current_error;
-		}
+		// void compute_variables_errors()
+		// {
+		// 	for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
+		// 		for( int constraint_id : data.matrix_var_ctr.at( variable_id ) )
+		// 			data.error_variables[ variable_id ] += model.constraints[ constraint_id ]->_current_error;
+		// }
 
 		void update_errors( int variable_to_change, int new_value, const std::map< int, std::vector<double>>& delta_errors )
 		{
@@ -377,8 +387,13 @@ namespace ghost
 					auto delta = delta_errors.at( new_value )[ delta_index++ ];
 					model.constraints[ constraint_id ]->_current_error += delta;
 
-					for( const int variable_id : model.constraints[ constraint_id ]->get_variable_ids() )
-						data.error_variables[ variable_id ] += delta;
+					error_projection_heuristic->update_variable_errors( data.error_variables,
+					                                                    model.variables,
+					                                                    data.matrix_var_ctr,
+					                                                    model.constraints[ constraint_id ],
+					                                                    delta );
+					// for( const int variable_id : model.constraints[ constraint_id ]->get_variable_ids() )
+					// 	data.error_variables[ variable_id ] += delta;
 
 					model.constraints[ constraint_id ]->update( variable_to_change, new_value );
 				}
@@ -398,8 +413,14 @@ namespace ghost
 					auto delta = delta_errors.at( new_value )[ delta_index++ ];
 					model.constraints[ constraint_id ]->_current_error += delta;
 
-					for( const int variable_id : model.constraints[ constraint_id ]->get_variable_ids() )
-						data.error_variables[ variable_id ] += delta;
+					error_projection_heuristic->update_variable_errors( data.error_variables,
+					                                                    model.variables,
+					                                                    data.matrix_var_ctr,
+					                                                    model.constraints[ constraint_id ],
+					                                                    delta );
+
+					// for( const int variable_id : model.constraints[ constraint_id ]->get_variable_ids() )
+					// 	data.error_variables[ variable_id ] += delta;
 
 					model.constraints[ constraint_id ]->update( variable_to_change, next_value );
 
@@ -413,8 +434,14 @@ namespace ghost
 						auto delta = delta_errors.at( new_value )[ delta_index++ ];
 						model.constraints[ constraint_id ]->_current_error += delta;
 
-						for( const int variable_id : model.constraints[ constraint_id ]->get_variable_ids() )
-							data.error_variables[ variable_id ] += delta;
+						error_projection_heuristic->update_variable_errors( data.error_variables,
+						                                                    model.variables,
+						                                                    data.matrix_var_ctr,
+						                                                    model.constraints[ constraint_id ],
+						                                                    delta );
+
+						// for( const int variable_id : model.constraints[ constraint_id ]->get_variable_ids() )
+						// 	data.error_variables[ variable_id ] += delta;
 
 						model.constraints[ constraint_id ]->update( new_value, current_value );
 					}
@@ -505,6 +532,7 @@ namespace ghost
 		std::unique_ptr<algorithms::VariableHeuristic> variable_heuristic;
 		std::unique_ptr<algorithms::VariableCandidatesHeuristic> variable_candidates_heuristic;
 		std::unique_ptr<algorithms::ValueHeuristic> value_heuristic;
+		std::unique_ptr<algorithms::ErrorProjection> error_projection_heuristic;
 				
 		std::vector<int> final_solution;
 
@@ -519,13 +547,15 @@ namespace ghost
 		            const Options& options,
 		            std::unique_ptr<algorithms::VariableHeuristic> variable_heuristic,
 		            std::unique_ptr<algorithms::VariableCandidatesHeuristic> variable_candidates_heuristic,
-		            std::unique_ptr<algorithms::ValueHeuristic> value_heuristic )
+		            std::unique_ptr<algorithms::ValueHeuristic> value_heuristic,
+		            std::unique_ptr<algorithms::ErrorProjection> error_projection_heuristic )
 			: _stop_search_check( _stop_search_signal.get_future() ),
 			  model( std::move( moved_model ) ),
 			  data( model ),
 			  variable_heuristic( std::move( variable_heuristic ) ),
 			  variable_candidates_heuristic( std::move( variable_candidates_heuristic ) ),
 			  value_heuristic( std::move( value_heuristic ) ),
+			  error_projection_heuristic( std::move( error_projection_heuristic ) ),
 			  final_solution( std::vector<int>( data.number_variables, 0 ) ),
 			  variable_candidates(), 
 			  must_compute_variable_candidates ( true ),
@@ -560,7 +590,8 @@ namespace ghost
 			              options,
 			              std::make_unique<algorithms::AdaptiveSearchVariableHeuristic>(),
 			              std::make_unique<algorithms::AdaptiveSearchVariableCandidatesHeuristic>(),
-			              std::make_unique<algorithms::AdaptiveSearchValueHeuristic>() )
+			              std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
+			              std::make_unique<algorithms::AdaptiveSearchErrorProjection>() )
 		{ }
 
 		

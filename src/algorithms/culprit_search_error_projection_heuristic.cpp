@@ -68,7 +68,7 @@ void CulpritSearchErrorProjection::compute_variable_errors_on_constraint( const 
 				                            std::vector<int>{next_value} );
 		}
 			
-		double max = std::max_element( current_errors.cbegin(), current_errors.cend() );
+		double max = *std::max_element( current_errors.cbegin(), current_errors.cend() );
 
 		// max becomes 0, the lowest delta becomes the highest one.
 		std::transform( current_errors.cbegin(),
@@ -82,7 +82,7 @@ void CulpritSearchErrorProjection::compute_variable_errors_on_constraint( const 
 		std::transform( current_errors.cbegin(),
 		                current_errors.cend(),
 		                current_errors.begin(),
-		                [sum](auto delta){ return ( delta / sum ) * constraint->_current_error; } );
+		                [sum, &constraint](auto delta){ return ( delta / sum ) * constraint->_current_error; } );
 	}
 }
 
