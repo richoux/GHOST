@@ -31,7 +31,7 @@
 
 #include <vector>
 
-#include "../variable_heuristic.hpp"
+#include "variable_heuristic.hpp"
 
 namespace ghost
 {

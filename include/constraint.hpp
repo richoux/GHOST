@@ -44,6 +44,12 @@
 
 namespace ghost
 {
+	namespace algorithms
+	{
+		class AdaptiveSearchErrorProjection;
+		class CulpritSearchErrorProjection;
+	}
+
 	/*!
 	 * This is the base class from which users need to derive their Constraint classes. 
 	 *
@@ -57,6 +63,8 @@ namespace ghost
 	{
 		friend class SearchUnit;
 		friend class ModelBuilder;
+		friend class algorithms::AdaptiveSearchErrorProjection;
+		friend class algorithms::CulpritSearchErrorProjection;
 
 		std::vector<Variable*> _variables;
 		std::vector<int> _variables_index; // To know where are the constraint's variables in the global variable vector

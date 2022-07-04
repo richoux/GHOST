@@ -168,8 +168,13 @@ namespace ghost
 
 		/*!
 		 * Inline method returning the number of declared variables. This may be helpful in some
-		 * specific cases to know how variables are composing the problem instance.
+		 * specific cases to know how many variables are composing the problem instance.
 		 */
 		inline int get_number_variables() { return static_cast<int>( variables.size() ); }
+
+		/*
+		 * Inline method returning the number of declared constraints.
+		 */
+		inline int get_number_constraints() { return static_cast<int>( constraints.size() ); }
 	};
 }
