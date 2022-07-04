@@ -38,15 +38,16 @@ namespace ghost
 		class CulpritSearchErrorProjection : public ErrorProjection
 		{
 			std::vector<std::vector<double>> _error_variables_by_constraints;
-
 			
 			void compute_variable_errors_on_constraint( const std::vector<Variable>& variables,
 			                                            const std::vector<std::vector<int>>& matrix_var_ctr,
 			                                            std::shared_ptr<Constraint> constraint );
 			
 		public:
-			CulpritSearchErrorProjection( int number_contraints, int number_variables );
-			
+			CulpritSearchErrorProjection();
+
+			void initialize_data_structures() override;
+
 			void compute_variable_errors( std::vector<double>& error_variables,
 			                              const std::vector<Variable>& variables,
 			                              const std::vector<std::vector<int>>& matrix_var_ctr,

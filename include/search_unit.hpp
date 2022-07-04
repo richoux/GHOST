@@ -550,6 +550,10 @@ namespace ghost
 			initialize_data_structures( model );
 			data.initialize_matrix( model );
 
+			this->error_projection_heuristic->set_number_variables( data.number_variables );
+			this->error_projection_heuristic->set_number_constraints( data.number_constraints );
+			this->error_projection_heuristic->initialize_data_structures();
+
 #if defined GHOST_TRACE
 			COUT << "Creating a Solver object\n\n"
 			     << "Variables:\n";
@@ -656,10 +660,25 @@ namespace ghost
 				/********************************************
 				 * 1. Choice of worst variable(s) to change *
 				 ********************************************/
+#if defined GHOST_TRACE
+				for( int i = 0 ; i < data.number_variables; ++i )
+					COUT << "Projected error of var[" << i << "]: " << data.error_variables[i] << "\n";
+#endif
+
+				
 				// Estimate which variables need to be changed
 				if( must_compute_variable_candidates )
 					variable_candidates = variable_candidates_heuristic->compute_variable_candidates( data );
 
+#if defined GHOST_TRACE
+				if( std::count_if( data.tabu_list.begin(),
+				                   data.tabu_list.end(),
+				                   [&](int end_tabu){ return end_tabu > data.local_moves; } ) >= options.reset_threshold )
+					COUT << "Number of variables marked as tabu above the threshold " << data.local_moves << "\n";
+				if( variable_candidates.empty() )
+					COUT << "Vector of variable candidates empty\n";
+#endif
+				
 				if( std::count_if( data.tabu_list.begin(),
 				                   data.tabu_list.end(),
 				                   [&](int end_tabu){ return end_tabu > data.local_moves; } ) >= options.reset_threshold
@@ -673,12 +692,24 @@ namespace ghost
 				}
 
 #if defined GHOST_TRACE
-				COUT << "\nVariable candidates: v[" << static_cast<int>( variable_candidates[0] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[0] ) ].get_value();
+				COUT << "\n(Meaningful with Adaptive Search Variable Candidates Heuristic only) Variable candidates: v[" << static_cast<int>( variable_candidates[0] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[0] ) ].get_value();
 				for( int i = 1 ; i < static_cast<int>( variable_candidates.size() ) ; ++i )
 					COUT << ", v[" << static_cast<int>( variable_candidates[i] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[i] ) ].get_value();
 				COUT << "\n";
+
+				auto distrib = std::discrete_distribution<int>( data.error_variables.begin(), data.error_variables.end() );
+				std::vector<int> vec( data.number_variables, 0 );
+				for( int n = 0 ; n < 10000 ; ++n )
+					++vec[ rng.variate<int, std::discrete_distribution>( distrib ) ];
+				std::vector<std::pair<int,int>> vec_pair( data.number_variables );
+				for( int n = 0 ; n < data.number_variables ; ++n )
+					vec_pair[n] = std::make_pair( n, vec[n] );
+				std::sort( vec_pair.begin(), vec_pair.end(), [&](std::pair<int, int> &a, std::pair<int, int> &b){ return a.second > b.second; } );
+				COUT << "\n(Meaningful with Antidote Search Variable Candidates Heuristic only) Variable errors (normalized):\n";
+				for( auto &v : vec_pair )
+					COUT << "v[" << v.first << "]: " << std::fixed << std::setprecision(3) << static_cast<double>( v.second ) / 10000 << "\n";
 #endif
-				
+
 				variable_to_change = variable_heuristic->select_variable_candidate( variable_candidates, data, rng );
 
 #if defined GHOST_TRACE
@@ -761,6 +792,71 @@ namespace ghost
 
 				
 #if defined GHOST_TRACE
+				std::vector<int> candidate_values;
+				std::map<int, double> cumulated_delta_errors;
+				std::vector<double> cumulated_delta_errors_antidote( delta_errors.size() );
+				std::vector<double> cumulated_delta_errors_for_distribution( delta_errors.size() );
+				std::vector<int> cumulated_delta_errors_variable_index_correspondance( delta_errors.size() );
+				int index = 0;
+				
+				for( const auto& deltas : delta_errors )
+				{
+					cumulated_delta_errors[ deltas.first ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
+					cumulated_delta_errors_antidote[ index ] = cumulated_delta_errors[ deltas.first ];
+					cumulated_delta_errors_variable_index_correspondance[ index ] = deltas.first;
+					
+					if( model.permutation_problem )
+					{
+						COUT << "(Meaningful with Adaptive Search Value Heuristic only) Error for switching var[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value()
+						     << " with var[" << deltas.first << "]=" << model.variables[ deltas.first ].get_value()
+						     << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
+						double transformed = cumulated_delta_errors_antidote[ index ] >= 0 ? 0.0 : -cumulated_delta_errors_antidote[ index ];
+						COUT << "(Meaningful with Antidote Search Value Heuristic only) Error for switching var[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value()
+						     << " with var[" << deltas.first << "]=" << model.variables[ deltas.first ].get_value()
+						     << ": " << cumulated_delta_errors_antidote[ index ] << ", transformed: " << transformed << "\n";
+					}
+					else
+					{
+						COUT << "(Meaningful with Adaptive Search Value Heuristic only) Error for the value " << deltas.first << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
+						COUT << "(Meaningful with Antidote Search Value Heuristic only) Error for the value " << deltas.first << ": " << cumulated_delta_errors_antidote[ index ] << "\n";
+					}
+					++index;
+				}
+				
+				std::transform( cumulated_delta_errors_antidote.begin(),
+				                cumulated_delta_errors_antidote.end(),
+				                cumulated_delta_errors_for_distribution.begin(),
+				                []( auto delta ){ if( delta >= 0) return 0.0; else return -delta; } );
+				
+				for( const auto& deltas : cumulated_delta_errors )
+				{
+					if( min_conflict > deltas.second )
+					{
+						candidate_values.clear();
+						candidate_values.push_back( deltas.first );
+						min_conflict = deltas.second;
+					}
+					else
+						if( min_conflict == deltas.second )
+							candidate_values.push_back( deltas.first );
+				}
+				
+				COUT << "(Meaningful with Adaptive Search Value Heuristic only) Min conflict value candidates list: " << candidate_values[0];
+				for( int i = 1 ; i < static_cast<int>( candidate_values.size() ); ++i )
+					COUT << ", " << candidate_values[i];
+
+				auto distrib_value = std::discrete_distribution<int>( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() );
+				std::vector<int> vec_value( domain_to_explore.size(), 0 );
+				for( int n = 0 ; n < 10000 ; ++n )
+					++vec_value[ rng.variate<int, std::discrete_distribution>( distrib_value ) ];
+				std::vector<std::pair<int,int>> vec_value_pair( domain_to_explore.size() );
+				for( int n = 0 ; n < domain_to_explore.size() ; ++n )
+					vec_value_pair[n] = std::make_pair( cumulated_delta_errors_variable_index_correspondance[n], vec_value[n] );
+				std::sort( vec_value_pair.begin(), vec_value_pair.end(), [&](std::pair<int, int> &a, std::pair<int, int> &b){ return a.second > b.second; } );
+				COUT << "\n(Meaningful with Antidote Search Value Heuristic only) Cumulated delta error distribution (normalized):\n";
+				for( int n = 0 ; n < domain_to_explore.size() ; ++n )
+					COUT << "value " <<  vec_value_pair[ n ].first << " => " << std::fixed << std::setprecision(3) << static_cast<double>( vec_value_pair[ n ].second ) / 10000 << "\n";
+				
 				if( model.permutation_problem )
 					COUT << "\nPicked variable index for min conflict: "
 					     << new_value << "\n"
