@@ -290,8 +290,7 @@ namespace ghost
 				                        std::make_unique<algorithms::AdaptiveSearchVariableHeuristic>(),
 				                        std::make_unique<algorithms::AdaptiveSearchVariableCandidatesHeuristic>(),
 				                        std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
-				                        std::make_unique<algorithms::CulpritSearchErrorProjection>() );
-				                        //std::make_unique<algorithms::AdaptiveSearchErrorProjection>() );
+				                        std::make_unique<algorithms::AdaptiveSearchErrorProjection>() );
 				// SearchUnit search_unit( _model_builder.build_model(),
 				//                         _options,
 				//                         std::make_unique<algorithms::AntidoteSearchVariableHeuristic>(),
@@ -341,7 +340,7 @@ namespace ghost
 					                    std::make_unique<algorithms::AdaptiveSearchVariableHeuristic>(),
 					                    std::make_unique<algorithms::AdaptiveSearchVariableCandidatesHeuristic>(),
 					                    std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
-					                    std::make_unique<algorithms::CulpritSearchErrorProjection>() );
+					                    std::make_unique<algorithms::AdaptiveSearchErrorProjection>() );
 					// units.emplace_back( _model_builder.build_model(),
 					//                     _options,
 					//                     std::make_unique<algorithms::AntidoteSearchVariableHeuristic>(),
