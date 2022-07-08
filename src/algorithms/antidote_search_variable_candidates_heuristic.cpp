@@ -44,19 +44,5 @@ std::vector<double> AntidoteSearchVariableCandidatesHeuristic::compute_variable_
 		if( data.tabu_list[ variable_id ] > data.local_moves )
 			error_variables[ variable_id ] = 0.0;
 
-// #if defined GHOST_TRACE
-// 		auto distrib = std::discrete_distribution<int>( error_variables.begin(), error_variables.end() );
-// 		std::vector<int> vec( data.number_variables, 0 );
-// 		for( int n = 0 ; n < 10000 ; ++n )
-// 			++vec[ rng.variate<int, std::discrete_distribution>( distrib ) ];
-// 		std::vector<std::pair<int,int>> vec_pair( data.number_variables );
-// 		for( int n = 0 ; n < data.number_variables ; ++n )
-// 			vec_pair[n] = std::make_pair( n, vec[n] );
-// 		std::sort( vec_pair.begin(), vec_pair.end(), [&](std::pair<int, int> &a, std::pair<int, int> &b){ return a.second > b.second; } );
-// 		COUT << "\nVariable errors (normalized):\n";
-// 		for( auto &v : vec_pair )
-// 			COUT << "v[" << v.first << "]: " << std::fixed << std::setprecision(3) << static_cast<double>( v.second ) / 10000 << "\n";
-// #endif
-
 	return error_variables;
 }

@@ -28,7 +28,7 @@ jobs:
     - name: Update clang
       run: |
         brew update
-        brew upgrade llvm
+        #brew upgrade llvm
         export CXX="/usr/local/opt/llvm/bin/clang++"
 
     - name: Install gtest manually

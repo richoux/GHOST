@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
+## [2.4.0] - 2022-07-08
+- Error projection is now implemented following the Strategy pattern.
+
 ## [2.3.1] - 2022-06-29
 - Fix an error in the AllDifferent global constraint.
 - Add a constructor taking an argument std::vector<ghost::Variable> for each global constraint.

@@ -29,33 +29,35 @@
 
 #pragma once
 
-#include <vector>
-
-#include "search_unit_data.hpp"
-// #include "macros.hpp"
+#include "error_projection_heuristic.hpp"
 
 namespace ghost
 {
 	namespace algorithms
 	{
-		/*
-		 * VariableCandidatesHeuristic follows the Strategy design pattern to implement variable candidates selection heuristics.
-		 */
-		class VariableCandidatesHeuristic
+		class CulpritSearchErrorProjection : public ErrorProjection
 		{
-		protected:
-			std::string name;
-		
+			std::vector<std::vector<double>> _error_variables_by_constraints;
+			
+			void compute_variable_errors_on_constraint( const std::vector<Variable>& variables,
+			                                            const std::vector<std::vector<int>>& matrix_var_ctr,
+			                                            std::shared_ptr<Constraint> constraint );
+			
 		public:
-			VariableCandidatesHeuristic( std::string&& name )
-				: name( std::move( name ) )
-			{ }
+			CulpritSearchErrorProjection();
 
-			inline std::string get_name() const { return name; }
+			void initialize_data_structures() override;
 
-			// returns a vector of double to be more generic, allowing for instance a vector of errors
-			// rather than a vector of ID, like it would certainly be often the case in practice.
-			virtual std::vector<double> compute_variable_candidates( const SearchUnitData& data ) const = 0;
+			void compute_variable_errors( std::vector<double>& error_variables,
+			                              const std::vector<Variable>& variables,
+			                              const std::vector<std::vector<int>>& matrix_var_ctr,
+			                              const std::vector<std::shared_ptr<Constraint>>& constraints ) override;
+			
+			void update_variable_errors( std::vector<double>& error_variables,
+			                             const std::vector<Variable>& variables,
+			                             const std::vector<std::vector<int>>& matrix_var_ctr,
+			                             std::shared_ptr<Constraint> constraint,
+			                             double delta ) override;
 		};
 	}
 }

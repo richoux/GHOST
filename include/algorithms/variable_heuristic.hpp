@@ -31,9 +31,9 @@
 
 #include <vector>
 
-#include "search_unit_data.hpp"
-// #include "macros.hpp"
-#include "thirdparty/randutils.hpp"
+#include "../search_unit_data.hpp"
+// #include "../macros.hpp"
+#include "../thirdparty/randutils.hpp"
 
 namespace ghost
 {

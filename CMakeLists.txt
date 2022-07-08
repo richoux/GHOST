@@ -95,18 +95,21 @@ set(libHeadersList
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/solver.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/options.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/print.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/macros.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/variable_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/variable_candidates_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/value_heuristic.hpp")
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/macros.hpp")
 
 set(libHeadersAlgorithmsList
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_candidates_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/value_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/error_projection_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_variable_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_variable_candidates_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_value_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_error_projection_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_variable_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_variable_candidates_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_value_heuristic.hpp")
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_value_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/culprit_search_error_projection_heuristic.hpp")
 
 set(libHeadersGlobalConstraintsList
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/all_different.hpp"
@@ -119,55 +122,37 @@ set(libExternalHeadersList
 # add the targets
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
+set(toAddInLibs
+	src/variable.cpp
+	src/constraint.cpp
+	src/objective.cpp
+	src/auxiliary_data.cpp
+	src/model.cpp
+	src/model_builder.cpp
+	src/options.cpp
+	src/print.cpp
+	src/algorithms/adaptive_search_variable_heuristic.cpp
+	src/algorithms/adaptive_search_variable_candidates_heuristic.cpp
+	src/algorithms/adaptive_search_value_heuristic.cpp
+	src/algorithms/adaptive_search_error_projection_heuristic.cpp
+	src/algorithms/antidote_search_variable_heuristic.cpp
+	src/algorithms/antidote_search_variable_candidates_heuristic.cpp
+	src/algorithms/antidote_search_value_heuristic.cpp
+	src/algorithms/culprit_search_error_projection_heuristic.cpp
+	src/global_constraints/all_different.cpp
+	src/global_constraints/fix_value.cpp
+	src/global_constraints/linear_equation.cpp)	
+
 # add the library
 add_library(ghost SHARED
-	src/variable.cpp
-	src/constraint.cpp
-	src/objective.cpp
-	src/auxiliary_data.cpp
-	src/model.cpp
-	src/model_builder.cpp
-	src/options.cpp
-	src/print.cpp
-	src/algorithms/adaptive_search_variable_heuristic.cpp
-	src/algorithms/adaptive_search_variable_candidates_heuristic.cpp
-	src/algorithms/adaptive_search_value_heuristic.cpp
-	src/algorithms/antidote_search_variable_heuristic.cpp
-	src/algorithms/antidote_search_variable_candidates_heuristic.cpp
-	src/algorithms/antidote_search_value_heuristic.cpp
-	src/global_constraints/all_different.cpp
-	src/global_constraints/fix_value.cpp
-	src/global_constraints/linear_equation.cpp
-	"${libHeadersList}"
-	"${libHeadersAlgorithmsList}"
-	"${libHeadersGlobalConstraintsList}")
+	"${toAddInLibs}")
 
 add_library(ghost_static STATIC
-	src/variable.cpp
-	src/constraint.cpp
-	src/objective.cpp
-	src/auxiliary_data.cpp
-	src/model.cpp
-	src/model_builder.cpp
-	src/options.cpp
-	src/print.cpp
-	src/algorithms/adaptive_search_variable_heuristic.cpp
-	src/algorithms/adaptive_search_variable_candidates_heuristic.cpp
-	src/algorithms/adaptive_search_value_heuristic.cpp
-	src/algorithms/antidote_search_variable_heuristic.cpp
-	src/algorithms/antidote_search_variable_candidates_heuristic.cpp
-	src/algorithms/antidote_search_value_heuristic.cpp
-	src/global_constraints/all_different.cpp
-	src/global_constraints/fix_value.cpp
-	src/global_constraints/linear_equation.cpp
-	"${libHeadersList}"
-	"${libHeadersAlgorithmsList}"
-	"${libHeadersGlobalConstraintsList}")
+	"${toAddInLibs}")
 
 target_include_directories(ghost PUBLIC
   $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/thirdparty/>
-  $<INSTALL_INTERFACE:include/ghost/thirdparty>
-)
+  $<INSTALL_INTERFACE:include/ghost/thirdparty>)
 
 # add the install targets
 if(CMAKE_SIZEOF_VOID_P EQUAL 4) # 32bits
@@ -187,8 +172,8 @@ include (InstallRequiredSystemLibraries)
 set (CPACK_PACKAGE_NAME "GHOST")
 set (CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set (CPACK_PACKAGE_VERSION_MAJOR "2")
-set (CPACK_PACKAGE_VERSION_MINOR "3")
-set (CPACK_PACKAGE_VERSION_PATCH "1")
+set (CPACK_PACKAGE_VERSION_MINOR "4")
+set (CPACK_PACKAGE_VERSION_PATCH "0")
 set (CPACK_PACKAGE_CONTACT "florian.richoux@polytechnique.edu")
 set (CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 include (CPack)

@@ -30,19 +30,43 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
-#include "variable_heuristic.hpp"
+#include "../constraint.hpp"
+#include "../variable.hpp"
 
 namespace ghost
 {
 	namespace algorithms
 	{
-		class AdaptiveSearchVariableHeuristic : public VariableHeuristic
+		class ErrorProjection
 		{
+		protected:
+			std::string name;
+			int number_variables;
+			int number_constraints;
+		
 		public:
-			AdaptiveSearchVariableHeuristic();
+			ErrorProjection( std::string&& name )
+				: name( std::move( name ) )
+			{ }
+
+			inline std::string get_name() const { return name; }
+			inline void set_number_variables( int num ) { number_variables = num ; }
+			inline void set_number_constraints( int num ) { number_constraints = num ; }
 			
-			int select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const override;
+			virtual void initialize_data_structures() {};
+			
+			virtual void compute_variable_errors( std::vector<double>& error_variables,
+			                                      const std::vector<Variable>& variables,
+			                                      const std::vector<std::vector<int>>& matrix_var_ctr,
+			                                      const std::vector<std::shared_ptr<Constraint>>& constraints ) = 0;
+			
+			virtual void update_variable_errors( std::vector<double>& error_variables,
+			                                     const std::vector<Variable>& variables,
+			                                     const std::vector<std::vector<int>>& matrix_var_ctr,
+			                                     std::shared_ptr<Constraint> constraint,
+			                                     double delta ) = 0;
 		};
 	}
 }
