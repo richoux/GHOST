@@ -34,8 +34,6 @@
 
 #include "algorithms/culprit_search_error_projection_heuristic.hpp"
 
-//#define TETEST
-
 using ghost::algorithms::CulpritSearchErrorProjection;
 using ghost::Variable;
 using ghost::Constraint;
@@ -58,9 +56,6 @@ void CulpritSearchErrorProjection::compute_variable_errors_on_constraint( const 
 
 	if( constraint->_current_error > 0 )
 	{
-#if defined TETEST
-		std::cout << "\nconstraint->_current_error = " << constraint->_current_error;
-#endif
 		int previous_value;
 		int next_value;
 		
@@ -77,14 +72,7 @@ void CulpritSearchErrorProjection::compute_variable_errors_on_constraint( const 
 					                            std::vector<int>{previous_value} )
 					+
 					constraint->simulate_delta( std::vector<int>{variable_id},
-					                            std::vector<int>{next_value} );
-				
-#if defined TETEST
-				std::cout << "\nvar[" << variable_id << "] = " << variables[ variable_id ].get_value()
-				          << "\nSim previous (" << previous_value << ") = " << constraint->simulate_delta( std::vector<int>{variable_id}, std::vector<int>{previous_value} )
-				          << "\nSim next (" << next_value << ") = " << constraint->simulate_delta( std::vector<int>{variable_id}, std::vector<int>{next_value} )
-				          << "\ncurrent_errors[ variable_id ] = " << current_errors[variable_id];
-#endif
+					                            std::vector<int>{next_value} );				
 			}
 			else
 			{
@@ -95,61 +83,29 @@ void CulpritSearchErrorProjection::compute_variable_errors_on_constraint( const 
 					next_value = range[0];
 				
 					current_errors[ variable_id ] =	constraint->simulate_delta( std::vector<int>{variable_id}, std::vector<int>{next_value} );
-					
-#if defined TETEST
-					std::cout << "\nvar_id = " << variable_id
-					          << "\nSim next (" << next_value << ") = " << constraint->simulate_delta( std::vector<int>{variable_id}, std::vector<int>{next_value} )
-					          << "\ncurrent_errors[ variable_id ] = " << current_errors[variable_id];
-#endif
 				}
 				else
 				{
 					current_errors[ variable_id ] =	constraint->simulate_delta( std::vector<int>{variable_id}, std::vector<int>{variables[ variable_id ].get_value()} );
-					
-#if defined TETEST
-					std::cout << "\nvar_id = " << variable_id
-					          << "\ncurrent_errors[ variable_id ] = " << current_errors[variable_id];
-#endif
 				}				
 			}
 		}
 		
 		double max = *std::max_element( current_errors.cbegin(), current_errors.cend() );
-#if defined TETEST
-		std::cout << "\nMax = " << max << "\n";
-#endif
 		
 		// max becomes 0, the lowest delta becomes the highest one.
 		std::transform( current_errors.cbegin(),
 		                current_errors.cend(),
 		                current_errors.begin(),
 		                [max](auto delta){ return -delta + max; } );
-		// std::transform( current_errors.cbegin(),
-		//                 current_errors.cend(),
-		//                 current_errors.begin(),
-		//                 [max](auto delta){ return delta == 0 ? 0 : -delta + max; } );
-
-#if defined TETEST
-		std::cout << "New currents -delta + max\n";
-		std::copy( current_errors.begin(), current_errors.end(), std::ostream_iterator<double>(std::cout, " "));
-#endif
 		
 		double sum = std::accumulate( current_errors.cbegin(), current_errors.cend(), 0. );
-#if defined TETEST
-		std::cout << "\nSum = " << sum << "\n";
-#endif
 		
 		// normalize deltas such that their sum equals to 1.
 		std::transform( current_errors.cbegin(),
 		                current_errors.cend(),
 		                current_errors.begin(),
 		                [sum, &constraint](auto delta){ return delta == 0 ? 0 : ( delta / sum ) * constraint->_current_error; } );
-
-#if defined TETEST
-		std::cout << "New currents ( delta / sum ) * constraint->_current_error\n";
-		std::copy( current_errors.begin(), current_errors.end(), std::ostream_iterator<double>(std::cout, " "));
-		std::cout << "\n\n";
-#endif
 	}
 }
 
@@ -163,10 +119,6 @@ void CulpritSearchErrorProjection::compute_variable_errors( std::vector<double>&
 	for( auto constraint : constraints )
 	{
 		compute_variable_errors_on_constraint( variables, matrix_var_ctr, constraint );
-
-#if defined TETEST
-		std::copy( _error_variables_by_constraints[ constraint->_id ].begin(), _error_variables_by_constraints[ constraint->_id ].end(), std::ostream_iterator<double>(std::cout, " "));
-#endif
 		
 		// add normalize deltas of the current constraint to the error variables vector.
 		std::transform( _error_variables_by_constraints[ constraint->_id ].cbegin(),
@@ -175,12 +127,6 @@ void CulpritSearchErrorProjection::compute_variable_errors( std::vector<double>&
 		                error_variables.begin(),
 		                std::plus<>{} );
 	}
-
-#if defined TETEST
-		std::cout << "\nCompute variable errors: ";
-		std::copy( error_variables.begin(), error_variables.end(), std::ostream_iterator<double>(std::cout, " "));
-		std::cout << "\n";
-#endif	
 }
 
 void CulpritSearchErrorProjection::update_variable_errors( std::vector<double>& error_variables,

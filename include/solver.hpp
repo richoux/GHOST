@@ -283,20 +283,8 @@ namespace ghost
 			// sequential runs
 			if( is_sequential )
 			{
-				// SearchUnit search_unit( _model_builder.build_model(),
-				//                         _options );
 				SearchUnit search_unit( _model_builder.build_model(),
-				                        _options,
-				                        std::make_unique<algorithms::AdaptiveSearchVariableHeuristic>(),
-				                        std::make_unique<algorithms::AdaptiveSearchVariableCandidatesHeuristic>(),
-				                        std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
-				                        std::make_unique<algorithms::AdaptiveSearchErrorProjection>() );
-				// SearchUnit search_unit( _model_builder.build_model(),
-				//                         _options,
-				//                         std::make_unique<algorithms::AntidoteSearchVariableHeuristic>(),
-				//                         std::make_unique<algorithms::AntidoteSearchVariableCandidatesHeuristic>(),
-				//                         std::make_unique<algorithms::AntidoteSearchValueHeuristic>(),
-				//                         std::make_unique<algorithms::CulpritSearchErrorProjection>() );
+				                        _options );
 
 				is_optimization = search_unit.data.is_optimization;
 				std::future<bool> unit_future = search_unit.solution_found.get_future();
@@ -333,20 +321,8 @@ namespace ghost
 				for( int i = 0 ; i < _options.number_threads; ++i )
 				{
 					// Instantiate one model per thread
-					// units.emplace_back( _model_builder.build_model(),
-					//                     _options );
 					units.emplace_back( _model_builder.build_model(),
-					                    _options,
-					                    std::make_unique<algorithms::AdaptiveSearchVariableHeuristic>(),
-					                    std::make_unique<algorithms::AdaptiveSearchVariableCandidatesHeuristic>(),
-					                    std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
-					                    std::make_unique<algorithms::AdaptiveSearchErrorProjection>() );
-					// units.emplace_back( _model_builder.build_model(),
-					//                     _options,
-					//                     std::make_unique<algorithms::AntidoteSearchVariableHeuristic>(),
-					//                     std::make_unique<algorithms::AntidoteSearchVariableCandidatesHeuristic>(),
-					//                     std::make_unique<algorithms::AntidoteSearchValueHeuristic>(),
-					//                     std::make_unique<algorithms::CulpritSearchErrorProjection>() );
+					                    _options );
 				}
 
 				is_optimization = units[0].data.is_optimization;
