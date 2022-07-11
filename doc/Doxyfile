@@ -782,7 +782,12 @@ INPUT                  = doc/mainpage.md \
                          include/variable.hpp \
                          include/global_constraints/all_different.hpp \
                          include/global_constraints/fix_value.hpp \
-                         include/global_constraints/linear_equation.hpp 
+                         include/global_constraints/linear_equation_eq.hpp \
+                         include/global_constraints/linear_equation_neq.hpp \
+                         include/global_constraints/linear_equation_leq.hpp \
+                         include/global_constraints/linear_equation_geq.hpp \
+                         include/global_constraints/linear_equation_l.hpp \
+                         include/global_constraints/linear_equation_g.hpp 
 												 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
