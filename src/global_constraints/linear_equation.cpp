@@ -35,42 +35,40 @@
 
 using ghost::global_constraints::LinearEquation;
 
-LinearEquation::LinearEquation( const std::vector<int>& variables_index, int rhs )
+LinearEquation::LinearEquation( const std::vector<int>& variables_index, double rhs, const std::vector<double>& coefficients )
 	: Constraint( variables_index ),
-	  _rhs( rhs ),
-	  _current_diff( 0 )
+	  _coefficients( coefficients ),
+	  rhs( rhs )
 { }
 
-LinearEquation::LinearEquation( const std::vector<Variable>& variables, int rhs )
+LinearEquation::LinearEquation( const std::vector<Variable>& variables, double rhs, const std::vector<double>& coefficients )
 	: Constraint( variables ),
-	  _rhs( rhs ),
-	  _current_diff( 0 )
+	  _coefficients( coefficients ),
+	  rhs( rhs )
 { }
 
 double LinearEquation::required_error( const std::vector<Variable*>& variables ) const
 {
-	int sum = 0;
-	for( const auto& var : variables )
-		sum += var->get_value();
+	_current_sum = 0.0;
+	for( size_t i = 0 ; i < variables.size() ; ++i )
+		_current_sum += ( _coefficients[i] * variables[i]->get_value() );
 
-	_current_diff = sum - _rhs;
-	
-	return std::abs( _current_diff );
+	return compute_error( _current_sum );
 }
 
 double LinearEquation::optional_delta_error( const std::vector<Variable*>& variables,
-                                       const std::vector<int>& variable_indexes,
-                                       const std::vector<int>& candidate_values ) const
+                                             const std::vector<int>& variable_indexes,
+                                             const std::vector<int>& candidate_values ) const
 {
-	int diff = _current_diff;
+	double sum = _current_sum;
 
-	for( int i = 0 ; i < static_cast<int>( variable_indexes.size() ); ++i )
-		diff += ( candidate_values[ i ] - variables[ variable_indexes[i] ]->get_value() );
+	for( size_t i = 0 ; i < variable_indexes.size(); ++i )
+		sum += ( _coefficients[ variable_indexes[i] ] * ( candidate_values[ i ] - variables[ variable_indexes[i] ]->get_value() ) );
 	
-	return std::abs( diff ) - std::abs( _current_diff );
+	return compute_error( sum ) - get_current_error();
 } 
 
 void LinearEquation::conditional_update_data_structures( const std::vector<Variable*>& variables, int variable_index, int new_value ) 
 {
-	_current_diff += ( new_value - variables[ variable_index ]->get_value() );
+	_current_sum += _coefficients[ variable_index ] * ( new_value - variables[ variable_index ]->get_value() );
 }

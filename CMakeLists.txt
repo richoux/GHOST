@@ -113,8 +113,14 @@ set(libHeadersAlgorithmsList
 
 set(libHeadersGlobalConstraintsList
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/all_different.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/fix_value.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/fix_value.hpp")
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation_eq.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation_neq.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation_leq.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation_geq.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation_l.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation_g.hpp")
 
 set(libExternalHeadersList
 	"${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/randutils.hpp")
@@ -141,7 +147,13 @@ set(toAddInLibs
 	src/algorithms/culprit_search_error_projection_heuristic.cpp
 	src/global_constraints/all_different.cpp
 	src/global_constraints/fix_value.cpp
-	src/global_constraints/linear_equation.cpp)	
+	src/global_constraints/linear_equation.cpp
+	src/global_constraints/linear_equation_eq.cpp
+	src/global_constraints/linear_equation_neq.cpp
+	src/global_constraints/linear_equation_leq.cpp
+	src/global_constraints/linear_equation_geq.cpp
+	src/global_constraints/linear_equation_l.cpp
+	src/global_constraints/linear_equation_g.cpp)
 
 # add the library
 add_library(ghost SHARED
@@ -172,7 +184,7 @@ include (InstallRequiredSystemLibraries)
 set (CPACK_PACKAGE_NAME "GHOST")
 set (CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set (CPACK_PACKAGE_VERSION_MAJOR "2")
-set (CPACK_PACKAGE_VERSION_MINOR "4")
+set (CPACK_PACKAGE_VERSION_MINOR "5")
 set (CPACK_PACKAGE_VERSION_PATCH "0")
 set (CPACK_PACKAGE_CONTACT "florian.richoux@polytechnique.edu")
 set (CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
