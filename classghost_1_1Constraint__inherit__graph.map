@@ -1,6 +1,5 @@
 <map id="ghost::Constraint" name="ghost::Constraint">
-<area shape="rect" id="node1" title=" " alt="" coords="202,5,357,273"/>
-<area shape="rect" id="node2" href="$classghost_1_1global__constraints_1_1AllDifferent.html" title=" " alt="" coords="5,358,172,465"/>
-<area shape="rect" id="node3" href="$classghost_1_1global__constraints_1_1FixValue.html" title=" " alt="" coords="196,358,363,465"/>
-<area shape="rect" id="node4" href="$classghost_1_1global__constraints_1_1LinearEquation.html" title=" " alt="" coords="387,321,553,501"/>
+<area shape="rect" id="node1" title=" " alt="" coords="106,5,261,273"/>
+<area shape="rect" id="node2" href="$classghost_1_1global__constraints_1_1AllDifferent.html" title=" " alt="" coords="5,321,172,428"/>
+<area shape="rect" id="node3" href="$classghost_1_1global__constraints_1_1FixValue.html" title=" " alt="" coords="196,321,363,428"/>
 </map>

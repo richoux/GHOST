@@ -1,12 +1,11 @@
 <map id="include/variable.hpp" name="include/variable.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="497,5,635,32"/>
-<area shape="rect" id="node2" href="$auxiliary__data_8hpp.html" title=" " alt="" coords="5,80,177,107"/>
-<area shape="rect" id="node3" href="$solver_8hpp.html" title=" " alt="" coords="316,244,443,271"/>
-<area shape="rect" id="node4" href="$constraint_8hpp.html" title=" " alt="" coords="658,80,807,107"/>
-<area shape="rect" id="node5" href="$all__different_8hpp.html" title=" " alt="" coords="523,155,695,196"/>
-<area shape="rect" id="node6" href="$fix__value_8hpp.html" title=" " alt="" coords="771,155,943,196"/>
-<area shape="rect" id="node7" href="$linear__equation_8hpp.html" title=" " alt="" coords="967,155,1139,196"/>
-<area shape="rect" id="node8" href="$objective_8hpp.html" title=" " alt="" coords="202,80,346,107"/>
-<area shape="rect" id="node9" href="$print_8hpp.html" title=" " alt="" coords="370,80,487,107"/>
-<area shape="rect" id="node10" href="$options_8hpp.html" title=" " alt="" coords="312,162,447,189"/>
+<area shape="rect" id="node1" title=" " alt="" coords="409,5,546,32"/>
+<area shape="rect" id="node2" href="$auxiliary__data_8hpp.html" title=" " alt="" coords="711,162,883,189"/>
+<area shape="rect" id="node3" href="$solver_8hpp.html" title=" " alt="" coords="414,244,541,271"/>
+<area shape="rect" id="node4" href="$constraint_8hpp.html" title=" " alt="" coords="403,80,552,107"/>
+<area shape="rect" id="node5" href="$all__different_8hpp.html" title=" " alt="" coords="267,155,439,196"/>
+<area shape="rect" id="node6" href="$fix__value_8hpp.html" title=" " alt="" coords="515,155,687,196"/>
+<area shape="rect" id="node7" href="$objective_8hpp.html" title=" " alt="" coords="5,80,149,107"/>
+<area shape="rect" id="node8" href="$print_8hpp.html" title=" " alt="" coords="195,80,312,107"/>
+<area shape="rect" id="node9" href="$options_8hpp.html" title=" " alt="" coords="109,162,243,189"/>
 </map>

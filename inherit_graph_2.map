@@ -1,3 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classghost_1_1ModelBuilder.html" title=" " alt="" coords="5,5,143,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,177,113,203"/>
+<area shape="rect" id="node2" href="$classghost_1_1global__constraints_1_1LinearEquationEq.html" title=" " alt="" coords="161,5,328,47"/>
+<area shape="rect" id="node3" href="$classghost_1_1global__constraints_1_1LinearEquationG.html" title=" " alt="" coords="161,71,328,112"/>
+<area shape="rect" id="node4" href="$classghost_1_1global__constraints_1_1LinearEquationGeq.html" title=" " alt="" coords="161,136,328,177"/>
+<area shape="rect" id="node5" href="$classghost_1_1global__constraints_1_1LinearEquationL.html" title=" " alt="" coords="161,201,328,243"/>
+<area shape="rect" id="node6" href="$classghost_1_1global__constraints_1_1LinearEquationLeq.html" title=" " alt="" coords="161,267,328,308"/>
+<area shape="rect" id="node7" href="$classghost_1_1global__constraints_1_1LinearEquationNeq.html" title=" " alt="" coords="161,332,328,373"/>
 </map>
