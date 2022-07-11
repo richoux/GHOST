@@ -66,10 +66,11 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classghost_1_1global__constraints_1_1LinearEquation-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">ghost::global_constraints::LinearEquation Class Reference</div>  </div>
+<div class="title">ghost::global_constraints::LinearEquation Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -79,7 +80,7 @@ Inheritance diagram for ghost::global_constraints::LinearEquation:</div>
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1global__constraints_1_1LinearEquation__inherit__graph.png" border="0" usemap="#ghost_1_1global__constraints_1_1LinearEquation_inherit__map" alt="Inheritance graph"/></div>
 <map name="ghost_1_1global__constraints_1_1LinearEquation_inherit__map" id="ghost_1_1global__constraints_1_1LinearEquation_inherit__map">
-<area shape="rect" title=" " alt="" coords="5,321,172,428"/>
+<area shape="rect" title=" " alt="" coords="5,321,172,501"/>
 <area shape="rect" href="classghost_1_1Constraint.html" title=" " alt="" coords="11,5,166,273"/>
 </map>
 </div>
@@ -88,17 +89,39 @@ Collaboration diagram for ghost::global_constraints::LinearEquation:</div>
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1global__constraints_1_1LinearEquation__coll__graph.png" border="0" usemap="#ghost_1_1global__constraints_1_1LinearEquation_coll__map" alt="Collaboration graph"/></div>
 <map name="ghost_1_1global__constraints_1_1LinearEquation_coll__map" id="ghost_1_1global__constraints_1_1LinearEquation_coll__map">
-<area shape="rect" title=" " alt="" coords="5,321,172,428"/>
+<area shape="rect" title=" " alt="" coords="5,321,172,501"/>
 <area shape="rect" href="classghost_1_1Constraint.html" title=" " alt="" coords="11,5,166,273"/>
 </map>
 </div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a6fd4955bc02de33c929fd564eec20e5f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1global__constraints_1_1LinearEquation.html#a6fd4955bc02de33c929fd564eec20e5f">LinearEquation</a> (const std::vector&lt; int &gt; &amp;index, int rhs)</td></tr>
-<tr class="separator:a6fd4955bc02de33c929fd564eec20e5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a024257fabca374bcf400e6135285f3fe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1global__constraints_1_1LinearEquation.html#a024257fabca374bcf400e6135285f3fe">LinearEquation</a> (const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; &amp;variables, int rhs)</td></tr>
-<tr class="separator:a024257fabca374bcf400e6135285f3fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:aea1d9021ae729ddf132aa0c312be3348"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1global__constraints_1_1LinearEquation.html#aea1d9021ae729ddf132aa0c312be3348">LinearEquation</a> (const std::vector&lt; int &gt; &amp;variables_index, double <a class="el" href="classghost_1_1global__constraints_1_1LinearEquation.html#a7eeec95883abcf88b2fc8dd19ed3f49b">rhs</a>, const std::vector&lt; double &gt; &amp;coefficients)</td></tr>
+<tr class="separator:aea1d9021ae729ddf132aa0c312be3348"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cb9ffab0c31d91b6b01a39f54c04bbf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1global__constraints_1_1LinearEquation.html#a3cb9ffab0c31d91b6b01a39f54c04bbf">LinearEquation</a> (const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt; &amp;variables, double <a class="el" href="classghost_1_1global__constraints_1_1LinearEquation.html#a7eeec95883abcf88b2fc8dd19ed3f49b">rhs</a>, const std::vector&lt; double &gt; &amp;coefficients)</td></tr>
+<tr class="separator:a3cb9ffab0c31d91b6b01a39f54c04bbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a0730d24ee1b81b097d1bde29dc4714"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1global__constraints_1_1LinearEquation.html#a9a0730d24ee1b81b097d1bde29dc4714">compute_error</a> (double sum) const =0</td></tr>
+<tr class="separator:a9a0730d24ee1b81b097d1bde29dc4714"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa29ccffdc1b7fc60390d39f90dbbcdf7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1global__constraints_1_1LinearEquation.html#aa29ccffdc1b7fc60390d39f90dbbcdf7">required_error</a> (const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> * &gt; &amp;variables) const override</td></tr>
+<tr class="separator:aa29ccffdc1b7fc60390d39f90dbbcdf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39cdd10dfaaeaaabe0a0c31522955749"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1global__constraints_1_1LinearEquation.html#a39cdd10dfaaeaaabe0a0c31522955749">optional_delta_error</a> (const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> * &gt; &amp;variables, const std::vector&lt; int &gt; &amp;variable_indexes, const std::vector&lt; int &gt; &amp;candidate_values) const override</td></tr>
+<tr class="separator:a39cdd10dfaaeaaabe0a0c31522955749"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f3abd0aa97c8cdaafb7c93cbc1df6b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1global__constraints_1_1LinearEquation.html#a8f3abd0aa97c8cdaafb7c93cbc1df6b8">conditional_update_data_structures</a> (const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> * &gt; &amp;variables, int variable_id, int new_value) override</td></tr>
+<tr class="separator:a8f3abd0aa97c8cdaafb7c93cbc1df6b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classghost_1_1Constraint"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classghost_1_1Constraint')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classghost_1_1Constraint.html">ghost::Constraint</a></td></tr>
+<tr class="memitem:a7db724b023b1f69d13d7fc07baa02da4 inherit pro_methods_classghost_1_1Constraint"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a7db724b023b1f69d13d7fc07baa02da4">get_current_error</a> () const</td></tr>
+<tr class="separator:a7db724b023b1f69d13d7fc07baa02da4 inherit pro_methods_classghost_1_1Constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15e1434d1a8b408a59b03d031c054db3 inherit pro_methods_classghost_1_1Constraint"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a15e1434d1a8b408a59b03d031c054db3">get_id</a> () const</td></tr>
+<tr class="memdesc:a15e1434d1a8b408a59b03d031c054db3 inherit pro_methods_classghost_1_1Constraint"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline method to get the unique id of the <a class="el" href="classghost_1_1Constraint.html">Constraint</a> object.  <a href="classghost_1_1Constraint.html#a15e1434d1a8b408a59b03d031c054db3">More...</a><br /></td></tr>
+<tr class="separator:a15e1434d1a8b408a59b03d031c054db3 inherit pro_methods_classghost_1_1Constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a7eeec95883abcf88b2fc8dd19ed3f49b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1global__constraints_1_1LinearEquation.html#a7eeec95883abcf88b2fc8dd19ed3f49b">rhs</a></td></tr>
+<tr class="separator:a7eeec95883abcf88b2fc8dd19ed3f49b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_methods_classghost_1_1Constraint"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classghost_1_1Constraint')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classghost_1_1Constraint.html">ghost::Constraint</a></td></tr>
 <tr class="memitem:a4a0ce33ef3a11dcfd39d9ca693eb2ac4 inherit pub_methods_classghost_1_1Constraint"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a4a0ce33ef3a11dcfd39d9ca693eb2ac4">Constraint</a> (const std::vector&lt; int &gt; &amp;variables_index)</td></tr>
 <tr class="separator:a4a0ce33ef3a11dcfd39d9ca693eb2ac4 inherit pub_methods_classghost_1_1Constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -121,36 +144,34 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aebea8263c24d0c3a5328c20ee0006f32 inherit pub_methods_classghost_1_1Constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e91a2a917f9bd6b4f3f5f59960a86b7 inherit pub_methods_classghost_1_1Constraint"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a3e91a2a917f9bd6b4f3f5f59960a86b7">has_variable</a> (int var_id) const</td></tr>
 <tr class="separator:a3e91a2a917f9bd6b4f3f5f59960a86b7 inherit pub_methods_classghost_1_1Constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pro_methods_classghost_1_1Constraint"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classghost_1_1Constraint')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classghost_1_1Constraint.html">ghost::Constraint</a></td></tr>
-<tr class="memitem:a7db724b023b1f69d13d7fc07baa02da4 inherit pro_methods_classghost_1_1Constraint"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a7db724b023b1f69d13d7fc07baa02da4">get_current_error</a> () const</td></tr>
-<tr class="separator:a7db724b023b1f69d13d7fc07baa02da4 inherit pro_methods_classghost_1_1Constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15e1434d1a8b408a59b03d031c054db3 inherit pro_methods_classghost_1_1Constraint"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Constraint.html#a15e1434d1a8b408a59b03d031c054db3">get_id</a> () const</td></tr>
-<tr class="memdesc:a15e1434d1a8b408a59b03d031c054db3 inherit pro_methods_classghost_1_1Constraint"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inline method to get the unique id of the <a class="el" href="classghost_1_1Constraint.html">Constraint</a> object.  <a href="classghost_1_1Constraint.html#a15e1434d1a8b408a59b03d031c054db3">More...</a><br /></td></tr>
-<tr class="separator:a15e1434d1a8b408a59b03d031c054db3 inherit pro_methods_classghost_1_1Constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Implementation of the Linear Equation constraint, i.e., the Scalar Product constraint with the equality atom '='. See <a href="http://sofdem.github.io/gccat/gccat/Cscalar_product.html">http://sofdem.github.io/gccat/gccat/Cscalar_product.html</a> </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a6fd4955bc02de33c929fd564eec20e5f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6fd4955bc02de33c929fd564eec20e5f">&#9670;&nbsp;</a></span>LinearEquation() <span class="overload">[1/2]</span></h2>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="aea1d9021ae729ddf132aa0c312be3348"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea1d9021ae729ddf132aa0c312be3348">&#9670;&nbsp;</a></span>LinearEquation() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">ghost::global_constraints::LinearEquation::LinearEquation </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>index</em>, </td>
+          <td class="paramname"><em>variables_index</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>rhs</em>&#160;</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>rhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>coefficients</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -158,22 +179,23 @@ Additional Inherited Members</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>Constructor with a vector of variable IDs. This vector is internally used by <a class="el" href="classghost_1_1Constraint.html">ghost::Constraint</a> to know what variables from the global variable vector it is handling. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">variables_index</td><td>a const reference to a vector of IDs of variables composing the constraint. </td></tr>
-    <tr><td class="paramname">rhs</td><td>the right-hand side integer of the equation. </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>
-<a id="a024257fabca374bcf400e6135285f3fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a024257fabca374bcf400e6135285f3fe">&#9670;&nbsp;</a></span>LinearEquation() <span class="overload">[2/2]</span></h2>
+<a id="a3cb9ffab0c31d91b6b01a39f54c04bbf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cb9ffab0c31d91b6b01a39f54c04bbf">&#9670;&nbsp;</a></span>LinearEquation() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">ghost::global_constraints::LinearEquation::LinearEquation </td>
@@ -184,8 +206,14 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>rhs</em>&#160;</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>rhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>coefficients</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -193,13 +221,233 @@ Additional Inherited Members</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>Constructor with a vector of variable. </p><dl class="params"><dt>Parameters</dt><dd>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a9a0730d24ee1b81b097d1bde29dc4714"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a0730d24ee1b81b097d1bde29dc4714">&#9670;&nbsp;</a></span>compute_error()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual double ghost::global_constraints::LinearEquation::compute_error </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>sum</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8f3abd0aa97c8cdaafb7c93cbc1df6b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f3abd0aa97c8cdaafb7c93cbc1df6b8">&#9670;&nbsp;</a></span>conditional_update_data_structures()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ghost::global_constraints::LinearEquation::conditional_update_data_structures </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> * &gt; &amp;&#160;</td>
+          <td class="paramname"><em>variables</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>new_value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Update user-defined data structures in the constraint.</p>
+<p>Like any methods prefixed by 'conditional_', this method must be overriden under some conditions: if some inner data structures are defined in derived constraint classes and need to be updated while variable values change (i.e., when the solver asssign 'new_value' to variables[index]), this method must be implemented to define how data structures must be updated.</p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">variables</td><td>a const reference to a vector of variables composing the constraint. </td></tr>
+    <tr><td class="paramname">variables</td><td>a const reference of the vector of raw pointers to variables of the constraint. </td></tr>
+    <tr><td class="paramname">index</td><td>an integer to get the variable 'variables[index]' that has been updated by the solver. </td></tr>
+    <tr><td class="paramname">new_value</td><td>an integer to know what is the new value of 'variables[index]'. </td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Reimplemented from <a class="el" href="classghost_1_1Constraint.html#a5896a07e6089554c132f5a52ab6c7ece">ghost::Constraint</a>.</p>
+
+</div>
+</div>
+<a id="a39cdd10dfaaeaaabe0a0c31522955749"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39cdd10dfaaeaaabe0a0c31522955749">&#9670;&nbsp;</a></span>optional_delta_error()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double ghost::global_constraints::LinearEquation::optional_delta_error </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> * &gt; &amp;&#160;</td>
+          <td class="paramname"><em>variables</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>indexes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>candidate_values</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Virtual method to compute the difference, or delta, between the current error and the error of a candidate assignment.</p>
+<p>The current assignment, as well as its error, are automatically stored in the class <a class="el" href="classghost_1_1Constraint.html">Constraint</a>. Giving a vector of variable indexes and their respective candidate value, this methods ouputs the difference between the error of the current assignment in 'variables' given as input and the error we would get if we assign new candidate values.</p>
+<p>The ouput can be negative, positive, or equals to 0. If the candidate error is strictly lower (then better) than the current error, the ouput is negative. If errors are the same, the ouputs equals to 0. Finally, if the candidate error is strictly higher (then worst) than the current error, the ouput is positive.</p>
+<p>For EFSP/EFOP models, this method can be VERY important to have faster computation. Although optional (the solver still works without it), we strongly advise users to define it properly, unless the overridden required_error method is trivial to compute. Having this method may make a big difference for the solver to quickly find better solutions. However, if the problem is modeled as an CSP/COP, users can just skip the implementation of this method.</p>
+<p>Like any methods prefixed by 'optional_', overriding this method is not mandatory.</p>
+<dl class="section warning"><dt>Warning</dt><dd>DO NOT implement any side effect in this method. It is called by the solver to compute the constraint delta error but also for some inner mechanisms (such as error simulations).</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">variables</td><td>a const reference of the vector of raw pointers of variables in the scope of the constraint. The solver is actually calling this method with the vector of variables that has been given to the constructor. </td></tr>
+    <tr><td class="paramname">indexes</td><td>the vector of indexes of variables that are reassigned. </td></tr>
+    <tr><td class="paramname">candidate_values</td><td>the vector of their respective candidate values. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A double corresponding to the difference between the current error of the constraint and the error one would get if the solver assigns candidate values to given variables. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Throws</td><td>an exception if the computed value is NaN. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented from <a class="el" href="classghost_1_1Constraint.html#a65e9147f88ec9aa5ebc452a4d64d8b5f">ghost::Constraint</a>.</p>
+
+</div>
+</div>
+<a id="aa29ccffdc1b7fc60390d39f90dbbcdf7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa29ccffdc1b7fc60390d39f90dbbcdf7">&#9670;&nbsp;</a></span>required_error()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double ghost::global_constraints::LinearEquation::required_error </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> * &gt; &amp;&#160;</td>
+          <td class="paramname"><em>variables</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Pure virtual method to compute the error of the constraint regarding the values of variables given as input.</p>
+<p>This method is fundamental: as a predicate, it evalutes if the given values of variables violate this contraint, and as an error function, it evaluates how much.<br  />
+Let's consider the following example to understand error functions: consider the contraint (x = y).<br  />
+If x = 42 and y = 42, then these values satify the contraint. The error is then 0.<br  />
+If x = 42 and y = 40, the constraint is not satified, but intuitively, we are closer to have a solution than with x = 42 and y = 10,000. Thus the error when y = 40 must be strictly lower than the error when y = 10,000.<br  />
+Thus, a required_error candidate for the contraint (x = y) could be the function |x-y|.</p>
+<p>This method MUST returns a value greater than or equals to 0.</p>
+<p>Users have the choice: while modeling CSP or COP problems, required_error must implement the logic of a predicate and should outputs 0 if current values of variables satisfy the user-defined constraint, and something strictly higher than 0 otherwise, like 1 for instance.</p>
+<p>While modeling EFSP/EFOP problems, required_error needs to express an error function. It still must outputs 0 for satisfying values of variables, but must outputs a value strictly higher than 0 otherwise, such that the higher this value, the further current values of variables are from satisfying the user-defined constraint.</p>
+<p>Like any methods prefixed by 'required_', overriding this method is mandatory.</p>
+<dl class="section warning"><dt>Warning</dt><dd>DO NOT implement any side effect in this method. It is called by the solver to compute the constraint error but also for some inner mechanisms (such as error simulations).</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">variables</td><td>a const reference of the vector of raw pointers to variables in the scope of the constraint. The solver is actually calling this method with the vector of variables that has been given to the constructor. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <b>positive</b> double corresponding to the error of the constraint. Outputing 0 means that given variable values satisfy the constraint. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Throws</td><td>an exception if the computed value is negative or is NaN. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="classghost_1_1Constraint.html#a99bfdee12754330fd394ab4efbd93b41">ghost::Constraint</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a7eeec95883abcf88b2fc8dd19ed3f49b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7eeec95883abcf88b2fc8dd19ed3f49b">&#9670;&nbsp;</a></span>rhs</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double ghost::global_constraints::LinearEquation::rhs</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -209,7 +457,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 29 2022 10:15:14 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jul 11 2022 14:58:47 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

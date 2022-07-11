@@ -138,13 +138,19 @@ $(function() {
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classghost_1_1ModelBuilder.html#a06d8af2b6b04f1fd2485852746644ddb">create_n_variables</a>( <span class="keywordtype">int</span> number, <span class="keywordtype">int</span> starting_value, std::size_t size, <span class="keywordtype">int</span> index = 0 );</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
 <div class="line"><a name="l00173"></a><span class="lineno"><a class="line" href="classghost_1_1ModelBuilder.html#a177b20a3a76ef9a2ac9b48e490c894f3">  173</a></span>&#160;        <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code" href="classghost_1_1ModelBuilder.html#a177b20a3a76ef9a2ac9b48e490c894f3">get_number_variables</a>() { <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>( <a class="code" href="classghost_1_1ModelBuilder.html#a32e92384aa46a0e3f7f144b6769b3c8d">variables</a>.size() ); }</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    };</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;}</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        <span class="comment">/*</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="comment">         * Inline method returning the number of declared constraints.</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="comment">         */</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno"><a class="line" href="classghost_1_1ModelBuilder.html#a8ed42bf1a11fc344eda1a6c12375f9c3">  178</a></span>&#160;        <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code" href="classghost_1_1ModelBuilder.html#a8ed42bf1a11fc344eda1a6c12375f9c3">get_number_constraints</a>() { <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>( <a class="code" href="classghost_1_1ModelBuilder.html#a9fccf5ef59d5aed6580aaf5bb358fb20">constraints</a>.size() ); }</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    };</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclassghost_1_1Solver_html"><div class="ttname"><a href="classghost_1_1Solver.html">ghost::Solver</a></div><div class="ttdef"><b>Definition:</b> solver.hpp:97</div></div>
+<div class="ttc" id="aclassghost_1_1Solver_html"><div class="ttname"><a href="classghost_1_1Solver.html">ghost::Solver</a></div><div class="ttdef"><b>Definition:</b> solver.hpp:103</div></div>
 <div class="ttc" id="anamespaceghost_html"><div class="ttname"><a href="namespaceghost.html">ghost</a></div><div class="ttdef"><b>Definition:</b> auxiliary_data.hpp:37</div></div>
 <div class="ttc" id="aclassghost_1_1ModelBuilder_html_a06d8af2b6b04f1fd2485852746644ddb"><div class="ttname"><a href="classghost_1_1ModelBuilder.html#a06d8af2b6b04f1fd2485852746644ddb">ghost::ModelBuilder::create_n_variables</a></div><div class="ttdeci">void create_n_variables(int number, const std::vector&lt; int &gt; &amp;domain, int index=0)</div></div>
 <div class="ttc" id="aclassghost_1_1ModelBuilder_html"><div class="ttname"><a href="classghost_1_1ModelBuilder.html">ghost::ModelBuilder</a></div><div class="ttdef"><b>Definition:</b> model_builder.hpp:62</div></div>
+<div class="ttc" id="aclassghost_1_1ModelBuilder_html_a8ed42bf1a11fc344eda1a6c12375f9c3"><div class="ttname"><a href="classghost_1_1ModelBuilder.html#a8ed42bf1a11fc344eda1a6c12375f9c3">ghost::ModelBuilder::get_number_constraints</a></div><div class="ttdeci">int get_number_constraints()</div><div class="ttdef"><b>Definition:</b> model_builder.hpp:178</div></div>
 <div class="ttc" id="aclassghost_1_1ModelBuilder_html_a9ef0b05a634a50c67dff2f5a9380a39c"><div class="ttname"><a href="classghost_1_1ModelBuilder.html#a9ef0b05a634a50c67dff2f5a9380a39c">ghost::ModelBuilder::declare_constraints</a></div><div class="ttdeci">virtual void declare_constraints()=0</div></div>
 <div class="ttc" id="aclassghost_1_1ModelBuilder_html_a4208a192a2ee8087b3c365f3d457e95c"><div class="ttname"><a href="classghost_1_1ModelBuilder.html#a4208a192a2ee8087b3c365f3d457e95c">ghost::ModelBuilder::declare_variables</a></div><div class="ttdeci">virtual void declare_variables()=0</div></div>
 <div class="ttc" id="aclassghost_1_1ModelBuilder_html_a0b934739b764ebe743f055567147a0de"><div class="ttname"><a href="classghost_1_1ModelBuilder.html#a0b934739b764ebe743f055567147a0de">ghost::ModelBuilder::declare_auxiliary_data</a></div><div class="ttdeci">virtual void declare_auxiliary_data()</div></div>
@@ -159,7 +165,7 @@ $(function() {
 <div class="ttc" id="aclassghost_1_1ModelBuilder_html_ae067a681ebef7dba8f329a019857ee22"><div class="ttname"><a href="classghost_1_1ModelBuilder.html#ae067a681ebef7dba8f329a019857ee22">ghost::ModelBuilder::~ModelBuilder</a></div><div class="ttdeci">virtual ~ModelBuilder()=default</div><div class="ttdoc">Default virtual destructor.</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 29 2022 10:15:13 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jul 11 2022 14:58:47 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

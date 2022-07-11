@@ -92,73 +92,19 @@ $(function() {
 <code>#include &quot;<a class="el" href="model__builder_8hpp_source.html">model_builder.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="options_8hpp_source.html">options.hpp</a>&quot;</code><br />
 <code>#include &quot;search_unit.hpp&quot;</code><br />
-<code>#include &quot;variable_heuristic.hpp&quot;</code><br />
-<code>#include &quot;variable_candidates_heuristic.hpp&quot;</code><br />
-<code>#include &quot;value_heuristic.hpp&quot;</code><br />
+<code>#include &quot;algorithms/variable_heuristic.hpp&quot;</code><br />
+<code>#include &quot;algorithms/variable_candidates_heuristic.hpp&quot;</code><br />
+<code>#include &quot;algorithms/value_heuristic.hpp&quot;</code><br />
+<code>#include &quot;algorithms/error_projection_heuristic.hpp&quot;</code><br />
 <code>#include &quot;algorithms/adaptive_search_variable_heuristic.hpp&quot;</code><br />
 <code>#include &quot;algorithms/adaptive_search_variable_candidates_heuristic.hpp&quot;</code><br />
 <code>#include &quot;algorithms/adaptive_search_value_heuristic.hpp&quot;</code><br />
+<code>#include &quot;algorithms/adaptive_search_error_projection_heuristic.hpp&quot;</code><br />
 <code>#include &quot;algorithms/antidote_search_variable_heuristic.hpp&quot;</code><br />
 <code>#include &quot;algorithms/antidote_search_variable_candidates_heuristic.hpp&quot;</code><br />
 <code>#include &quot;algorithms/antidote_search_value_heuristic.hpp&quot;</code><br />
+<code>#include &quot;algorithms/culprit_search_error_projection_heuristic.hpp&quot;</code><br />
 <code>#include &quot;macros.hpp&quot;</code><br />
-</div><div class="textblock"><div class="dynheader">
-Include dependency graph for solver.hpp:</div>
-<div class="dyncontent">
-<div class="center"><img src="solver_8hpp__incl.png" border="0" usemap="#include_2solver_8hpp" alt=""/></div>
-<map name="include_2solver_8hpp" id="include_2solver_8hpp">
-<area shape="rect" title=" " alt="" coords="1874,5,2000,32"/>
-<area shape="rect" title=" " alt="" coords="788,348,860,375"/>
-<area shape="rect" title=" " alt="" coords="36,102,102,129"/>
-<area shape="rect" title=" " alt="" coords="1172,273,1230,300"/>
-<area shape="rect" title=" " alt="" coords="1508,273,1561,300"/>
-<area shape="rect" title=" " alt="" coords="110,273,175,300"/>
-<area shape="rect" title=" " alt="" coords="1332,348,1406,375"/>
-<area shape="rect" title=" " alt="" coords="1045,348,1104,375"/>
-<area shape="rect" title=" " alt="" coords="200,273,261,300"/>
-<area shape="rect" title=" " alt="" coords="1492,199,1561,225"/>
-<area shape="rect" title=" " alt="" coords="286,273,348,300"/>
-<area shape="rect" title=" " alt="" coords="373,273,432,300"/>
-<area shape="rect" title=" " alt="" coords="1056,102,1111,129"/>
-<area shape="rect" href="variable_8hpp.html" title=" " alt="" coords="1055,273,1147,300"/>
-<area shape="rect" title=" " alt="" coords="1430,348,1585,375"/>
-<area shape="rect" href="constraint_8hpp.html" title=" " alt="" coords="873,199,977,225"/>
-<area shape="rect" title=" " alt="" coords="739,273,786,300"/>
-<area shape="rect" href="objective_8hpp.html" title=" " alt="" coords="1212,199,1310,225"/>
-<area shape="rect" href="auxiliary__data_8hpp.html" title=" " alt="" coords="495,199,622,225"/>
-<area shape="rect" title=" " alt="" coords="1385,199,1468,225"/>
-<area shape="rect" href="model__builder_8hpp.html" title=" " alt="" coords="1194,102,1320,129"/>
-<area shape="rect" href="options_8hpp.html" title=" " alt="" coords="1498,102,1587,129"/>
-<area shape="rect" title=" " alt="" coords="1764,102,1878,129"/>
-<area shape="rect" title=" " alt="" coords="1903,102,1971,129"/>
-<area shape="rect" title=" " alt="" coords="1996,87,2185,143"/>
-<area shape="rect" title=" " alt="" coords="2210,95,2392,136"/>
-<area shape="rect" title=" " alt="" coords="2416,87,2588,143"/>
-<area shape="rect" title=" " alt="" coords="2613,87,2786,143"/>
-<area shape="rect" title=" " alt="" coords="2810,95,3045,136"/>
-<area shape="rect" title=" " alt="" coords="3070,80,3252,151"/>
-<area shape="rect" title=" " alt="" coords="3276,80,3459,151"/>
-<area shape="rect" title=" " alt="" coords="3484,87,3724,143"/>
-<area shape="rect" title=" " alt="" coords="3748,80,3931,151"/>
-<area shape="rect" title=" " alt="" coords="3955,80,4138,151"/>
-<area shape="rect" title=" " alt="" coords="4162,87,4400,143"/>
-<area shape="rect" title=" " alt="" coords="4424,95,4615,136"/>
-<area shape="rect" title=" " alt="" coords="4639,102,4787,129"/>
-<area shape="rect" title=" " alt="" coords="4811,95,4948,136"/>
-<area shape="rect" title=" " alt="" coords="4972,102,5107,129"/>
-<area shape="rect" title=" " alt="" coords="5131,95,5332,136"/>
-<area shape="rect" title=" " alt="" coords="5356,87,5547,143"/>
-<area shape="rect" title=" " alt="" coords="5572,95,5758,136"/>
-<area shape="rect" title=" " alt="" coords="5783,95,5984,136"/>
-<area shape="rect" title=" " alt="" coords="6008,87,6199,143"/>
-<area shape="rect" title=" " alt="" coords="6224,95,6410,136"/>
-<area shape="rect" title=" " alt="" coords="6434,102,6525,129"/>
-<area shape="rect" title=" " alt="" coords="912,348,967,375"/>
-<area shape="rect" title=" " alt="" coords="661,273,714,300"/>
-<area shape="rect" title=" " alt="" coords="963,273,1031,300"/>
-<area shape="rect" title=" " alt="" coords="558,273,636,300"/>
-</map>
-</div>
 </div>
 <p><a href="solver_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -175,7 +121,7 @@ Namespaces</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 29 2022 10:15:13 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jul 11 2022 14:58:47 for GHOST by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
