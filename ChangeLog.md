@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
+## [2.5.0] - 2022-07-11
+- Add all possible linear equation global constraints.
+
 ## [2.4.0] - 2022-07-08
 - Error projection is now implemented following the Strategy pattern.
 
