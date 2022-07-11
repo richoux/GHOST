@@ -114,6 +114,7 @@ set(libHeadersAlgorithmsList
 set(libHeadersGlobalConstraintsList
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/all_different.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/fix_value.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation_eq.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation_neq.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation_leq.hpp"
@@ -146,6 +147,7 @@ set(toAddInLibs
 	src/algorithms/culprit_search_error_projection_heuristic.cpp
 	src/global_constraints/all_different.cpp
 	src/global_constraints/fix_value.cpp
+	src/global_constraints/linear_equation.cpp
 	src/global_constraints/linear_equation_eq.cpp
 	src/global_constraints/linear_equation_neq.cpp
 	src/global_constraints/linear_equation_leq.cpp

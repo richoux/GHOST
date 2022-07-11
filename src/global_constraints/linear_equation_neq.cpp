@@ -36,59 +36,26 @@
 using ghost::global_constraints::LinearEquationNeq;
 
 LinearEquationNeq::LinearEquationNeq( const std::vector<int>& variables_index, double rhs, const std::vector<double>& coefficients )
-	: Constraint( variables_index ),
-	  _rhs( rhs ),
-	  _coefficients( coefficients )
+	: LinearEquation( variables_index, rhs, coefficients )
 { }
 
 LinearEquationNeq::LinearEquationNeq( const std::vector<int>& variables_index, double rhs )
-	: LinearEquationNeq( variables_index, rhs, std::vector<double>( variables_index.size(), 1.0 ) )
+	: LinearEquation( variables_index, rhs, std::vector<double>( variables_index.size(), 1.0 ) )
 { }
 
 LinearEquationNeq::LinearEquationNeq( const std::vector<Variable>& variables, double rhs, const std::vector<double>& coefficients )
-	: Constraint( variables ),
-	  _rhs( rhs ),
-	  _coefficients( coefficients )
+	: LinearEquation( variables, rhs, coefficients )
 { }
 
 LinearEquationNeq::LinearEquationNeq( const std::vector<Variable>& variables, double rhs )
-	: LinearEquationNeq( variables, rhs, std::vector<double>( variables.size(), 1.0 ) )
+	: LinearEquation( variables, rhs, std::vector<double>( variables.size(), 1.0 ) )
 { }
 
-double LinearEquationNeq::required_error( const std::vector<Variable*>& variables ) const
+double LinearEquationNeq::compute_error( double sum ) const
 {
-	_current_sum = 0.0;
-	for( size_t i = 0 ; i < variables.size() ; ++i )
-		_current_sum += ( _coefficients[i] * variables[i]->get_value() );
-
 	double equals_current = 0.0;
-	if( _rhs == _current_sum )
+	if( rhs == sum )
 		equals_current = 1.0;
 
 	return equals_current;
-}
-
-double LinearEquationNeq::optional_delta_error( const std::vector<Variable*>& variables,
-                                             const std::vector<int>& variable_indexes,
-                                             const std::vector<int>& candidate_values ) const
-{
-	double sum = _current_sum;
-
-	for( size_t i = 0 ; i < variable_indexes.size(); ++i )
-		sum += ( _coefficients[ variable_indexes[i] ] * ( candidate_values[ i ] - variables[ variable_indexes[i] ]->get_value() ) );
-
-	double equals_sum = 0.0;
-	if( _rhs == sum )
-		equals_sum = 1.0;
-
-	double equals_current = 0.0;
-	if( _rhs == _current_sum )
-		equals_current = 1.0;
-
-	return equals_sum - equals_current;
-} 
-
-void LinearEquationNeq::conditional_update_data_structures( const std::vector<Variable*>& variables, int variable_index, int new_value ) 
-{
-	_current_sum += _coefficients[ variable_index ] * ( new_value - variables[ variable_index ]->get_value() );
 }

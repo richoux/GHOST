@@ -31,8 +31,7 @@
 
 #include <vector>
 
-#include "../variable.hpp"
-#include "../constraint.hpp"
+#include "linear_equation.hpp"
 
 namespace ghost
 {
@@ -42,19 +41,9 @@ namespace ghost
 		 * Implementation of the Linear Equation constraint with less than, i.e., the Scalar Product constraint with the atom '<'.
 		 * See http://sofdem.github.io/gccat/gccat/Cscalar_product.html
 		 */
-		class LinearEquationL : public Constraint
+		class LinearEquationL : public LinearEquation
 		{
-			double _rhs;
-			std::vector<double> _coefficients;
-			mutable double _current_sum;
-	
-			double required_error( const std::vector<Variable*>& variables ) const override;
-
-			double optional_delta_error( const std::vector<Variable*>& variables,
-			                             const std::vector<int>& variable_indexes,
-			                             const std::vector<int>& candidate_values ) const override;
-
-			void conditional_update_data_structures( const std::vector<Variable*>& variables, int variable_id, int new_value ) override;
+			double compute_error( double sum ) const override;
 
 		public:
 			/*!
