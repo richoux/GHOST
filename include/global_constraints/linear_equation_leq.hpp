@@ -39,13 +39,14 @@ namespace ghost
 	namespace global_constraints
 	{
 		/*!
-		 * Implementation of the Linear Equation constraint, i.e., the Scalar Product constraint with the equality atom '='.
+		 * Implementation of the Linear Equation constraint with less than or equals to, i.e., the Scalar Product constraint with the atom '≤'.
 		 * See http://sofdem.github.io/gccat/gccat/Cscalar_product.html
 		 */
-		class LinearEquation : public Constraint
+		class LinearEquationLeq : public Constraint
 		{
-			int _rhs;
-			mutable int _current_diff;
+			double _rhs;
+			std::vector<double> _coefficients;
+			mutable double _current_sum;
 	
 			double required_error( const std::vector<Variable*>& variables ) const override;
 
@@ -60,15 +61,32 @@ namespace ghost
 			 * Constructor with a vector of variable IDs. This vector is internally used by ghost::Constraint
 			 * to know what variables from the global variable vector it is handling.
 			 * \param variables_index a const reference to a vector of IDs of variables composing the constraint.
-			 * \param rhs the right-hand side integer of the equation.
+			 * \param rhs the right-hand side real number of the equation.
+			 * \param coefficients the vector of real numbers coefficients for each variable of the equation.
 			 */
-			LinearEquation( const std::vector<int>& index, int rhs );
+			LinearEquationLeq( const std::vector<int>& variables_index, double rhs, const std::vector<double>& coefficients );
+
+			/*!
+			 * Constructor with a vector of variable IDs. This constructor calls LinearEquationLeq( const std::vector<int>& index, double rhs, const std::vector<double>& coefficients), with all coefficients set to 1.0.
+			 * \param variables_index a const reference to a vector of IDs of variables composing the constraint.
+			 * \param rhs the right-hand side real number of the equation.
+			 */
+			LinearEquationLeq( const std::vector<int>& variables_index, double rhs );
 
 			/*!
 			 * Constructor with a vector of variable.
 			 * \param variables a const reference to a vector of variables composing the constraint.
+			 * \param rhs the right-hand side real number of the equation.
+			 * \param coefficients the vector of real numbers coefficients for each variable of the equation.
 			 */
-			LinearEquation( const std::vector<Variable>& variables, int rhs );
-		};
+			LinearEquationLeq( const std::vector<Variable>& variables, double rhs, const std::vector<double>& coefficients );
+
+			/*!
+			 * Constructor with a vector of variable. This constructor calls LinearEquationLeq( const std::vector<Variable>& variables, double rhs, const std::vector<double>& coefficients), with all coefficients set to 1.0.
+			 * \param variables a const reference to a vector of variables composing the constraint.
+			 * \param rhs the right-hand side real number of the equation.
+			 */
+			LinearEquationLeq( const std::vector<Variable>& variables, double rhs );
+};
 	}
 }
