@@ -45,23 +45,26 @@ namespace ghost
 			std::string name;
 			int number_variables;
 			int number_constraints;
-		
+
 		public:
 			ErrorProjection( std::string&& name )
 				: name( std::move( name ) )
 			{ }
 
+			//! Default virtual destructor.
+			virtual ~ErrorProjection() = default;
+
 			inline std::string get_name() const { return name; }
 			inline void set_number_variables( int num ) { number_variables = num ; }
 			inline void set_number_constraints( int num ) { number_constraints = num ; }
-			
+
 			virtual void initialize_data_structures() {};
-			
+
 			virtual void compute_variable_errors( std::vector<double>& error_variables,
 			                                      const std::vector<Variable>& variables,
 			                                      const std::vector<std::vector<int>>& matrix_var_ctr,
 			                                      const std::vector<std::shared_ptr<Constraint>>& constraints ) = 0;
-			
+
 			virtual void update_variable_errors( std::vector<double>& error_variables,
 			                                     const std::vector<Variable>& variables,
 			                                     const std::vector<std::vector<int>>& matrix_var_ctr,

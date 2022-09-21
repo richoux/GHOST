@@ -43,6 +43,9 @@ namespace ghost
 	class Print
 	{
 	public:
+		//! Default virtual destructor.
+		virtual ~Print() = default;
+
 		/*!
 		 * The unique method to override for defining how to print candidates and solutions
 		 * on the screen.
