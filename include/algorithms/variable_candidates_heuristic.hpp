@@ -52,7 +52,7 @@ namespace ghost
 			{ }
 
 			//! Default virtual destructor.
-			virtual ~ValueHeuristic() = default;
+			virtual ~VariableCandidatesHeuristic() = default;
 
 			inline std::string get_name() const { return name; }
 
