@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
+## [2.5.2] - 2022-09-21
+- Add virtual destructors in base classes. This fixes a problem on OSX.
+
 ## [2.5.1] - 2022-07-11
 - Fix minor forgettings (Doxygen file, README, ...).
 

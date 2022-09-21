@@ -46,11 +46,14 @@ namespace ghost
 		{
 		protected:
 			std::string name;
-		
+
 		public:
 			VariableHeuristic( std::string&& name )
 				: name( std::move( name ) )
 			{ }
+
+			//! Default virtual destructor.
+			virtual ~VariableHeuristic() = default;
 
 			inline std::string get_name() const { return name; }
 
