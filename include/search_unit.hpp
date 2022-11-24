@@ -862,6 +862,7 @@ namespace ghost
 					COUT << "(Adaptive Search Value Heuristic) Min conflict value candidates list: " << candidate_values[0];
 					for( int i = 1 ; i < static_cast<int>( candidate_values.size() ); ++i )
 						COUT << ", " << candidate_values[i];
+					COUT << "\n\n";
 				}
 				else
 					if( value_heuristic->get_name().compare( "Antidote Search" ) == 0 )
