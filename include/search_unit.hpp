@@ -661,6 +661,8 @@ namespace ghost
 				 * 1. Choice of worst variable(s) to change *
 				 ********************************************/
 #if defined GHOST_TRACE
+				print_errors();
+
 				for( int i = 0 ; i < data.number_variables; ++i )
 					COUT << "Projected error of var[" << i << "]: " << data.error_variables[i] << "\n";
 #endif
