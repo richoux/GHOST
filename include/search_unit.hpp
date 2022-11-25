@@ -722,10 +722,10 @@ namespace ghost
 				COUT << options.print->print_candidate( model.variables ).str();
 				COUT << "\n\nNumber of loop iteration: " << data.search_iterations << "\n";
 				COUT << "Number of local moves performed: " << data.local_moves << "\n";
-				COUT << "Tabu list:";
+				COUT << "Tabu list <until_iteration>:";
 				for( int i = 0 ; i < data.number_variables ; ++i )
 					if( data.tabu_list[i] > data.local_moves )
-						COUT << " v[" << i << "]:" << data.tabu_list[i];
+						COUT << " v[" << i << "]:<" << data.tabu_list[i] << ">";
 				COUT << "\nPicked worst variable: v[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value() << "\n\n";
 #endif // end GHOST_TRACE
 
@@ -862,7 +862,7 @@ namespace ghost
 					COUT << "(Adaptive Search Value Heuristic) Min conflict value candidates list: " << candidate_values[0];
 					for( int i = 1 ; i < static_cast<int>( candidate_values.size() ); ++i )
 						COUT << ", " << candidate_values[i];
-					COUT << "\n\n";
+					COUT << "\n";
 				}
 				else
 					if( value_heuristic->get_name().compare( "Antidote Search" ) == 0 )
@@ -878,18 +878,19 @@ namespace ghost
 						COUT << "\n(Antidote Search Value Heuristic) Cumulated delta error distribution (normalized):\n";
 						for( int n = 0 ; n < domain_to_explore.size() ; ++n )
 							COUT << "value " <<  vec_value_pair[ n ].first << " => " << std::fixed << std::setprecision(3) << static_cast<double>( vec_value_pair[ n ].second ) / 10000 << "\n";
-				
-						if( model.permutation_problem )
-							COUT << "\nPicked variable index for min conflict: "
-							     << new_value << "\n"
-							     << "Current error: " << data.current_sat_error << "\n"
-							     << "Delta: " << min_conflict << "\n\n";
-						else
-							COUT << "\nPicked value for min conflict: "
-							     << new_value << "\n"
-							     << "Current error: " << data.current_sat_error << "\n"
-							     << "Delta: " << min_conflict << "\n\n";
 					}
+				
+				if( model.permutation_problem )
+					COUT << "\nPicked variable index for min conflict: "
+					     << new_value << "\n"
+					     << "Current error: " << data.current_sat_error << "\n"
+					     << "Delta: " << min_conflict << "\n\n";
+				else
+					COUT << "\nPicked value for min conflict: "
+					     << new_value << "\n"
+					     << "Current error: " << data.current_sat_error << "\n"
+					     << "Delta: " << min_conflict << "\n\n";
+					
 #endif // GHOST_TRACE
 
 				/****************************************
