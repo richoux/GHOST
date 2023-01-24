@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2022 Florian Richoux
+ * Copyright (C) 2014-2023 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -661,6 +661,8 @@ namespace ghost
 				 * 1. Choice of worst variable(s) to change *
 				 ********************************************/
 #if defined GHOST_TRACE
+				print_errors();
+
 				for( int i = 0 ; i < data.number_variables; ++i )
 					COUT << "Projected error of var[" << i << "]: " << data.error_variables[i] << "\n";
 #endif
@@ -692,22 +694,28 @@ namespace ghost
 				}
 
 #if defined GHOST_TRACE
-				COUT << "\n(Meaningful with Adaptive Search Variable Candidates Heuristic only) Variable candidates: v[" << static_cast<int>( variable_candidates[0] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[0] ) ].get_value();
-				for( int i = 1 ; i < static_cast<int>( variable_candidates.size() ) ; ++i )
-					COUT << ", v[" << static_cast<int>( variable_candidates[i] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[i] ) ].get_value();
-				COUT << "\n";
-
-				auto distrib = std::discrete_distribution<int>( data.error_variables.begin(), data.error_variables.end() );
-				std::vector<int> vec( data.number_variables, 0 );
-				for( int n = 0 ; n < 10000 ; ++n )
-					++vec[ rng.variate<int, std::discrete_distribution>( distrib ) ];
-				std::vector<std::pair<int,int>> vec_pair( data.number_variables );
-				for( int n = 0 ; n < data.number_variables ; ++n )
-					vec_pair[n] = std::make_pair( n, vec[n] );
-				std::sort( vec_pair.begin(), vec_pair.end(), [&](std::pair<int, int> &a, std::pair<int, int> &b){ return a.second > b.second; } );
-				COUT << "\n(Meaningful with Antidote Search Variable Candidates Heuristic only) Variable errors (normalized):\n";
-				for( auto &v : vec_pair )
-					COUT << "v[" << v.first << "]: " << std::fixed << std::setprecision(3) << static_cast<double>( v.second ) / 10000 << "\n";
+				if( variable_heuristic->get_name().compare( "Adaptive Search" ) == 0 )
+				{
+					COUT << "\n(Adaptive Search Variable Candidates Heuristic) Variable candidates: v[" << static_cast<int>( variable_candidates[0] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[0] ) ].get_value();
+					for( int i = 1 ; i < static_cast<int>( variable_candidates.size() ) ; ++i )
+						COUT << ", v[" << static_cast<int>( variable_candidates[i] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[i] ) ].get_value();
+					COUT << "\n";
+				}
+				else
+					if( variable_heuristic->get_name().compare( "Antidote Search" ) == 0 )
+					{
+						auto distrib = std::discrete_distribution<int>( data.error_variables.begin(), data.error_variables.end() );
+						std::vector<int> vec( data.number_variables, 0 );
+						for( int n = 0 ; n < 10000 ; ++n )
+							++vec[ rng.variate<int, std::discrete_distribution>( distrib ) ];
+						std::vector<std::pair<int,int>> vec_pair( data.number_variables );
+						for( int n = 0 ; n < data.number_variables ; ++n )
+							vec_pair[n] = std::make_pair( n, vec[n] );
+						std::sort( vec_pair.begin(), vec_pair.end(), [&](std::pair<int, int> &a, std::pair<int, int> &b){ return a.second > b.second; } );
+						COUT << "\n(Antidote Search Variable Candidates Heuristic) Variable errors (normalized):\n";
+						for( auto &v : vec_pair )
+							COUT << "v[" << v.first << "]: " << std::fixed << std::setprecision(3) << static_cast<double>( v.second ) / 10000 << "\n";
+					}
 #endif
 
 				variable_to_change = variable_heuristic->select_variable_candidate( variable_candidates, data, rng );
@@ -716,10 +724,10 @@ namespace ghost
 				COUT << options.print->print_candidate( model.variables ).str();
 				COUT << "\n\nNumber of loop iteration: " << data.search_iterations << "\n";
 				COUT << "Number of local moves performed: " << data.local_moves << "\n";
-				COUT << "Tabu list:";
+				COUT << "Tabu list <until_iteration>:";
 				for( int i = 0 ; i < data.number_variables ; ++i )
 					if( data.tabu_list[i] > data.local_moves )
-						COUT << " v[" << i << "]:" << data.tabu_list[i];
+						COUT << " v[" << i << "]:<" << data.tabu_list[i] << ">";
 				COUT << "\nPicked worst variable: v[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value() << "\n\n";
 #endif // end GHOST_TRACE
 
@@ -807,18 +815,28 @@ namespace ghost
 					
 					if( model.permutation_problem )
 					{
-						COUT << "(Meaningful with Adaptive Search Value Heuristic only) Error for switching var[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value()
-						     << " with var[" << deltas.first << "]=" << model.variables[ deltas.first ].get_value()
-						     << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
-						double transformed = cumulated_delta_errors_antidote[ index ] >= 0 ? 0.0 : -cumulated_delta_errors_antidote[ index ];
-						COUT << "(Meaningful with Antidote Search Value Heuristic only) Error for switching var[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value()
-						     << " with var[" << deltas.first << "]=" << model.variables[ deltas.first ].get_value()
-						     << ": " << cumulated_delta_errors_antidote[ index ] << ", transformed: " << transformed << "\n";
+						if( value_heuristic->get_name().compare( "Adaptive Search" ) == 0 )
+						{
+							COUT << "(Adaptive Search Value Heuristic) Error for switching var[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value()
+							     << " with var[" << deltas.first << "]=" << model.variables[ deltas.first ].get_value()
+							     << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
+						}
+						else
+							if( value_heuristic->get_name().compare( "Antidote Search" ) == 0 )
+							{
+								double transformed = cumulated_delta_errors_antidote[ index ] >= 0 ? 0.0 : -cumulated_delta_errors_antidote[ index ];
+								COUT << "(Antidote Search Value Heuristic) Error for switching var[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value()
+								     << " with var[" << deltas.first << "]=" << model.variables[ deltas.first ].get_value()
+								     << ": " << cumulated_delta_errors_antidote[ index ] << ", transformed: " << transformed << "\n";
+							}
 					}
 					else
 					{
-						COUT << "(Meaningful with Adaptive Search Value Heuristic only) Error for the value " << deltas.first << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
-						COUT << "(Meaningful with Antidote Search Value Heuristic only) Error for the value " << deltas.first << ": " << cumulated_delta_errors_antidote[ index ] << "\n";
+						if( value_heuristic->get_name().compare( "Adaptive Search" ) == 0 )
+							COUT << "(Adaptive Search Value Heuristic) Error for the value " << deltas.first << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
+						else
+							if( value_heuristic->get_name().compare( "Antidote Search" ) == 0 )
+								COUT << "(Antidote Search Value Heuristic) Error for the value " << deltas.first << ": " << cumulated_delta_errors_antidote[ index ] << "\n";
 					}
 					++index;
 				}
@@ -841,21 +859,28 @@ namespace ghost
 							candidate_values.push_back( deltas.first );
 				}
 				
-				COUT << "(Meaningful with Adaptive Search Value Heuristic only) Min conflict value candidates list: " << candidate_values[0];
-				for( int i = 1 ; i < static_cast<int>( candidate_values.size() ); ++i )
-					COUT << ", " << candidate_values[i];
-
-				auto distrib_value = std::discrete_distribution<int>( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() );
-				std::vector<int> vec_value( domain_to_explore.size(), 0 );
-				for( int n = 0 ; n < 10000 ; ++n )
-					++vec_value[ rng.variate<int, std::discrete_distribution>( distrib_value ) ];
-				std::vector<std::pair<int,int>> vec_value_pair( domain_to_explore.size() );
-				for( int n = 0 ; n < domain_to_explore.size() ; ++n )
-					vec_value_pair[n] = std::make_pair( cumulated_delta_errors_variable_index_correspondance[n], vec_value[n] );
-				std::sort( vec_value_pair.begin(), vec_value_pair.end(), [&](std::pair<int, int> &a, std::pair<int, int> &b){ return a.second > b.second; } );
-				COUT << "\n(Meaningful with Antidote Search Value Heuristic only) Cumulated delta error distribution (normalized):\n";
-				for( int n = 0 ; n < domain_to_explore.size() ; ++n )
-					COUT << "value " <<  vec_value_pair[ n ].first << " => " << std::fixed << std::setprecision(3) << static_cast<double>( vec_value_pair[ n ].second ) / 10000 << "\n";
+				if( value_heuristic->get_name().compare( "Adaptive Search" ) == 0 )
+				{
+					COUT << "(Adaptive Search Value Heuristic) Min conflict value candidates list: " << candidate_values[0];
+					for( int i = 1 ; i < static_cast<int>( candidate_values.size() ); ++i )
+						COUT << ", " << candidate_values[i];
+					COUT << "\n";
+				}
+				else
+					if( value_heuristic->get_name().compare( "Antidote Search" ) == 0 )
+					{				
+						auto distrib_value = std::discrete_distribution<int>( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() );
+						std::vector<int> vec_value( domain_to_explore.size(), 0 );
+						for( int n = 0 ; n < 10000 ; ++n )
+							++vec_value[ rng.variate<int, std::discrete_distribution>( distrib_value ) ];
+						std::vector<std::pair<int,int>> vec_value_pair( domain_to_explore.size() );
+						for( int n = 0 ; n < domain_to_explore.size() ; ++n )
+							vec_value_pair[n] = std::make_pair( cumulated_delta_errors_variable_index_correspondance[n], vec_value[n] );
+						std::sort( vec_value_pair.begin(), vec_value_pair.end(), [&](std::pair<int, int> &a, std::pair<int, int> &b){ return a.second > b.second; } );
+						COUT << "\n(Antidote Search Value Heuristic) Cumulated delta error distribution (normalized):\n";
+						for( int n = 0 ; n < domain_to_explore.size() ; ++n )
+							COUT << "value " <<  vec_value_pair[ n ].first << " => " << std::fixed << std::setprecision(3) << static_cast<double>( vec_value_pair[ n ].second ) / 10000 << "\n";
+					}
 				
 				if( model.permutation_problem )
 					COUT << "\nPicked variable index for min conflict: "
@@ -867,6 +892,7 @@ namespace ghost
 					     << new_value << "\n"
 					     << "Current error: " << data.current_sat_error << "\n"
 					     << "Delta: " << min_conflict << "\n\n";
+					
 #endif // GHOST_TRACE
 
 				/****************************************

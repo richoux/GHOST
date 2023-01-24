@@ -30,36 +30,46 @@
 #pragma once
 
 #include <vector>
+#include <map>
 
-#include "../search_unit_data.hpp"
-// #include "../macros.hpp"
-#include "../thirdparty/randutils.hpp"
+#include "../variable.hpp"
+#include "../constraint.hpp"
 
 namespace ghost
 {
-	namespace algorithms
+	namespace global_constraints
 	{
-		/*
-		 * VariableHeuristic follows the Strategy design pattern to implement variable selection heuristics.
-		 */
-		class VariableHeuristic
+	/*!
+	 * Implementation of the All Equal constraint.
+	 * See http://sofdem.github.io/gccat/gccat/Call_equal.html
+	 */
+		class AllEqual : public Constraint
 		{
-		protected:
-			std::string name;
+			mutable std::map<int,int> _count;
+			
+			double required_error( const std::vector<Variable*>& variables ) const override;
+			
+			double optional_delta_error( const std::vector<Variable*>& variables,
+			                             const std::vector<int>& variable_indexes,
+			                             const std::vector<int>& candidate_values ) const override;
+			
+			void conditional_update_data_structures( const std::vector<Variable*>& variables,
+			                                         int variable_index,
+			                                         int new_value ) override;
 
 		public:
-			VariableHeuristic( std::string&& name )
-				: name( std::move( name ) )
-			{ }
-
-			//! Default virtual destructor.
-			virtual ~VariableHeuristic() = default;
-
-			inline std::string get_name() const { return name; }
-
-			// candidates is a vector of double to be more generic, allowing for instance a vector of errors
-			// rather than a vector of ID, like it would certainly be often the case in practice.
-			virtual int select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const = 0;
+			/*!
+			 * Constructor with a vector of variable IDs. This vector is internally used by ghost::Constraint
+			 * to know what variables from the global variable vector it is handling.
+			 * \param variables_index a const reference to a vector of IDs of variables composing the constraint.
+			 */
+			AllEqual( const std::vector<int>& variables_index );
+			
+			/*!
+			 * Constructor with a vector of variable.
+			 * \param variables a const reference to a vector of variables composing the constraint.
+			 */
+			AllEqual( const std::vector<Variable>& variables );
 		};
 	}
 }

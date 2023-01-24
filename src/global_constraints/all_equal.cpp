@@ -29,36 +29,23 @@
 
 #include <cmath>
 #include <algorithm>
+#include <numeric>
 #include <iostream>
 
-#include "global_constraints/all_different.hpp"
+#include "global_constraints/all_equal.hpp"
 
-using ghost::global_constraints::AllDifferent;
+using ghost::global_constraints::AllEqual;
 
-double AllDifferent::binomial_with_2( int value ) const
-{
-	if( value <= 1 )
-		return 0;
-	
-	if( value % 2 == 0 )
-		return static_cast<double>( value - 1 ) * ( value / 2 );
-	else
-		return static_cast<double>( value ) * ( ( value - 1 ) / 2 );
-}
-
-
-AllDifferent::AllDifferent( const std::vector<int>& variables_index )
+AllEqual::AllEqual( const std::vector<int>& variables_index )
 	: Constraint( variables_index )
 { }
 
-AllDifferent::AllDifferent( const std::vector<Variable>& variables )
+AllEqual::AllEqual( const std::vector<Variable>& variables )
 	: Constraint( variables )
 { }
 
-// SOFT_ALLDIFF error function (Petit et al. 2001)
-double AllDifferent::required_error( const std::vector<Variable*>& variables ) const
+double AllEqual::required_error( const std::vector<Variable*>& variables ) const
 {
-	double counter = 0;
 	_count.clear();
 	
 	for( auto v : variables )
@@ -66,19 +53,22 @@ double AllDifferent::required_error( const std::vector<Variable*>& variables ) c
 			_count[ v->get_value() ] = 1;
 		else
 			_count[ v->get_value() ] = _count[ v->get_value() ] + 1;
-	
-	for( const auto& [key, value] : _count )
-		if( value > 1 )
-			counter += binomial_with_2( value );
 
-	return counter;
+	auto max = std::max_element( _count.begin(), _count.end(), [](const auto& c1, const auto& c2){ return c1.second < c2.second; } );
+
+	return static_cast<double>( variables.size() ) - max->second;
 }
 
-double AllDifferent::optional_delta_error( const std::vector<Variable*>& variables, const std::vector<int>& variable_indexes, const std::vector<int>& candidate_values ) const
+double AllEqual::optional_delta_error( const std::vector<Variable*>& variables, const std::vector<int>& variable_indexes, const std::vector<int>& candidate_values ) const
 {
-	double diff = 0.0;
-	auto copy_count( _count );
+	// Warning: we may have several values with the same maximal count. How to handle that in a smart way?
 
+	auto copy_count( _count );
+	auto max = std::max_element( _count.begin(), _count.end(), [](const auto& c1, const auto& c2){ return c1.second < c2.second; } );
+
+	//int number_substraction = std::count( variable_indexes.begin(), variable_indexes.end(), [&](const auto& i){ return variables[ i ]->get_value() == max->first; } );
+	//int number_addition = std::count( candidate_values.begin(), candidate_values.end(), [&](const int v){ return v == max->first; } );
+	
 	for( int i = 0 ; i < static_cast<int>( variable_indexes.size() ) ; ++i )
 	{
 		copy_count[ variables[ variable_indexes[ i ] ]->get_value() ] = copy_count[ variables[ variable_indexes[ i ] ]->get_value() ] - 1;
@@ -87,19 +77,13 @@ double AllDifferent::optional_delta_error( const std::vector<Variable*>& variabl
 		else
 			copy_count[ candidate_values[ i ] ] = copy_count[ candidate_values[ i ] ] + 1;
 	}
-	
-	for( int i = 0 ; i < static_cast<int>( variable_indexes.size() ) ; ++i )
-	{
-		if( _count[ variables[ variable_indexes[ i ] ]->get_value() ] != copy_count[ variables[ variable_indexes[ i ] ]->get_value() ] )
-			diff += ( binomial_with_2( copy_count[ variables[ variable_indexes[ i ] ]->get_value() ] ) - binomial_with_2( _count[ variables[ variable_indexes[ i ] ]->get_value() ] ) );
-		if( _count[ candidate_values[ i ] ] != copy_count[ candidate_values[ i ] ] )
-			diff += ( binomial_with_2( copy_count[ candidate_values[ i ] ] ) - binomial_with_2( _count[ candidate_values[ i ] ] ) );
-	}
 
-	return diff;
+	auto max_bis = std::max_element( copy_count.begin(), copy_count.end(), [](const auto& c1, const auto& c2){ return c1.second < c2.second; } );
+	
+	return static_cast<double>( max->second - max_bis->second );
 }
 
-void AllDifferent::conditional_update_data_structures( const std::vector<Variable*>& variables, int variable_index, int new_value )
+void AllEqual::conditional_update_data_structures( const std::vector<Variable*>& variables, int variable_index, int new_value )
 {
 	_count[ variables[ variable_index ]->get_value() ] = _count[ variables[ variable_index ]->get_value() ] - 1;
 

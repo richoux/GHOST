@@ -113,6 +113,7 @@ set(libHeadersAlgorithmsList
 
 set(libHeadersGlobalConstraintsList
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/all_different.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/all_equal.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/fix_value.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation_eq.hpp"
@@ -146,6 +147,7 @@ set(toAddInLibs
 	src/algorithms/antidote_search_value_heuristic.cpp
 	src/algorithms/culprit_search_error_projection_heuristic.cpp
 	src/global_constraints/all_different.cpp
+	src/global_constraints/all_equal.cpp
 	src/global_constraints/fix_value.cpp
 	src/global_constraints/linear_equation.cpp
 	src/global_constraints/linear_equation_eq.cpp
@@ -184,8 +186,8 @@ include (InstallRequiredSystemLibraries)
 set (CPACK_PACKAGE_NAME "GHOST")
 set (CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set (CPACK_PACKAGE_VERSION_MAJOR "2")
-set (CPACK_PACKAGE_VERSION_MINOR "5")
-set (CPACK_PACKAGE_VERSION_PATCH "2")
+set (CPACK_PACKAGE_VERSION_MINOR "6")
+set (CPACK_PACKAGE_VERSION_PATCH "0")
 set (CPACK_PACKAGE_CONTACT "florian.richoux@polytechnique.edu")
 set (CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 include (CPack)
