@@ -1,4 +1,10 @@
 <map id="ghost::global_constraints::LinearEquation" name="ghost::global_constraints::LinearEquation">
-<area shape="rect" id="node1" title=" " alt="" coords="5,321,172,501"/>
-<area shape="rect" id="node2" href="$classghost_1_1Constraint.html" title=" " alt="" coords="11,5,166,273"/>
+<area shape="rect" id="node1" title=" " alt="" coords="481,321,648,501"/>
+<area shape="rect" id="node3" href="$classghost_1_1global__constraints_1_1LinearEquationEq.html" title=" " alt="" coords="5,549,172,685"/>
+<area shape="rect" id="node4" href="$classghost_1_1global__constraints_1_1LinearEquationG.html" title=" " alt="" coords="196,549,363,685"/>
+<area shape="rect" id="node5" href="$classghost_1_1global__constraints_1_1LinearEquationGeq.html" title=" " alt="" coords="387,549,553,685"/>
+<area shape="rect" id="node6" href="$classghost_1_1global__constraints_1_1LinearEquationL.html" title=" " alt="" coords="577,549,744,685"/>
+<area shape="rect" id="node7" href="$classghost_1_1global__constraints_1_1LinearEquationLeq.html" title=" " alt="" coords="768,549,935,685"/>
+<area shape="rect" id="node8" href="$classghost_1_1global__constraints_1_1LinearEquationNeq.html" title=" " alt="" coords="959,549,1125,685"/>
+<area shape="rect" id="node2" href="$classghost_1_1Constraint.html" title=" " alt="" coords="487,5,642,273"/>
 </map>
