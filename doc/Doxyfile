@@ -140,7 +140,7 @@ INLINE_INHERITED_MEMB  = NO
 # shortest path that makes the file name unique will be used
 # The default value is: YES.
 
-FULL_PATH_NAMES        = YES
+FULL_PATH_NAMES        = NO
 
 # The STRIP_FROM_PATH tag can be used to strip a user-defined part of the path.
 # Stripping is only done if one of the specified strings matches the left-hand
@@ -781,7 +781,9 @@ INPUT                  = doc/mainpage.md \
                          include/solver.hpp \
                          include/variable.hpp \
                          include/global_constraints/all_different.hpp \
+                         include/global_constraints/all_equal.hpp \
                          include/global_constraints/fix_value.hpp \
+                         include/global_constraints/linear_equation.hpp \
                          include/global_constraints/linear_equation_eq.hpp \
                          include/global_constraints/linear_equation_neq.hpp \
                          include/global_constraints/linear_equation_leq.hpp \
