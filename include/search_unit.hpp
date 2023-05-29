@@ -751,8 +751,11 @@ namespace ghost
 					for( const auto candidate_value : domain_to_explore )
 					{
 						if( !data.matrix_var_ctr.at( variable_to_change ).empty() ) [[likely]]
+						{
+							delta_errors[ candidate_value ].reserve( data.matrix_var_ctr.at( variable_to_change ).size() );
 							for( const int constraint_id : data.matrix_var_ctr.at( variable_to_change ) )
 								delta_errors[ candidate_value ].push_back( model.constraints[ constraint_id ]->simulate_delta( std::vector<int>{variable_to_change}, std::vector<int>{candidate_value} ) );
+						}
 						else
 							delta_errors[ candidate_value ].push_back( 0.0 );
 					}
@@ -772,6 +775,7 @@ namespace ghost
 							int current_value = model.variables[ variable_to_change ].get_value();
 							int candidate_value = model.variables[ variable_id ].get_value();
 
+							delta_errors[ variable_id ].reserve( data.matrix_var_ctr.at( variable_to_change ).size() + data.matrix_var_ctr.at( variable_id ).size() );
 							for( const int constraint_id : data.matrix_var_ctr.at( variable_to_change ) )
 							{
 								constraint_checked[ constraint_id ] = true;

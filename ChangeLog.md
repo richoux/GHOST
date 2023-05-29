@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
+## [2.7.0] - 2023-05-30
+- Slight memory management improvement, by pre-allocating memory
+  during the search.
+
 ## [2.6.0] - 2023-01-24
 - Add the AllEqual global constraint.
 
