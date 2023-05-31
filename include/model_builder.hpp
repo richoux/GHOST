@@ -64,7 +64,7 @@ namespace ghost
 		template<typename ModelBuilderType> friend class Solver;
 
 		Model build_model();
-
+		
 	protected:
 		std::vector<Variable> variables; //!< The global vector containing all variables of the problem instance.
 		std::vector<std::shared_ptr<Constraint>> constraints; //!< The vector of shared pointers of each constraint composing the problem instance.
@@ -106,18 +106,18 @@ namespace ghost
 		virtual void declare_variables() = 0;
 
 		/*!
-		 * Mandatory method to declare the constraints of the problem instance.
+		 * Method to declare the constraints of the problem instance. If not declared, the problem is considered to be a pure optimization problem.
 		 *
 		 * The implementation should be like\n
 		 * void UserBuilder::declare_constraints()\n
 		 * {\n
-		 *   constraints.push_back( std::make_shared<UserConstraint-1>(parameters_of_Constraint-1_constructor ) );\n
-		 *   constraints.push_back( std::make_shared<UserConstraint-1>(parameters_of_Constraint-1_constructor ) ); // the model may need several constraints of the same type UserConstraint-1\n
+		 *   constraints.emplace_back( std::make_shared<UserConstraint-1>(parameters_of_Constraint-1_constructor ) );\n
+		 *   constraints.emplace_back( std::make_shared<UserConstraint-1>(parameters_of_Constraint-1_constructor ) ); // the model may need several constraints of the same type UserConstraint-1\n
 		 *   ...\n
-		 *   constraints.push_back( std::make_shared<UserConstraint-k>(parameters_of_Constraint-k_constructor ) );\n
+		 *   constraints.emplace_back( std::make_shared<UserConstraint-k>(parameters_of_Constraint-k_constructor ) );\n
 		 * }
 		 */
-		virtual void declare_constraints() = 0;
+		virtual void declare_constraints();
 
 		/*!
 		 * If working with an optimization problem, mandatory method to declare the objective function

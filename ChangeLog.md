@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
+## [2.8.0] - 2023-05-31
+- Now allow modeling pure optimization problems.
+
 ## [2.7.0] - 2023-05-30
 - Slight memory management improvement, by pre-allocating memory
   during the search.

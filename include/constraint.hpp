@@ -309,4 +309,27 @@ namespace ghost
 			          << "\n########";
 		}
 	};
+
+	/**********************/
+	/** PureOptimization **/
+	/**********************/
+	// PureOptimization is used when no constraints have been given to the solver (ie, for pure optimization runs). 
+	class PureOptimization : public Constraint
+	{
+		double required_error( const std::vector<Variable*>& variables ) const
+		{
+			return 0.;
+		}
+
+		double optional_delta_error( const std::vector<Variable*>& variables, const std::vector<int>& indexes, const std::vector<int>& candidate_values ) const
+		{
+			return 0.;
+		}
+
+	public:
+		PureOptimization( const std::vector<Variable>& variables )
+			: Constraint( variables )
+		{ }
+	};
+
 }

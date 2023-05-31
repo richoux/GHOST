@@ -52,10 +52,13 @@ Model ModelBuilder::build_model()
 
 	// Auxiliary data may be needed by the constraints and the objective function,
 	// so it must be defined before them.
-	declare_auxiliary_data();
+	declare_auxiliary_data();		
 	declare_constraints();
 	declare_objective();
 
+	if( constraints.empty() )
+		constraints.emplace_back( std::make_shared<PureOptimization>( variables ) );
+	
 	// Internal data structure initialization
 	// Set the id of each constraint object to be their index in the _constraints vector
 	for( int constraint_id = 0 ; constraint_id < static_cast<int>( constraints.size() ) ; ++constraint_id )
@@ -98,6 +101,8 @@ void ModelBuilder::create_n_variables( int number, int starting_value, std::size
 		variables.emplace_back( starting_value, size, index );
 }
 
+void ModelBuilder::declare_constraints()
+{ }
 
 void ModelBuilder::declare_objective()
 {
