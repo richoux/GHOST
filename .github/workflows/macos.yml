@@ -27,8 +27,8 @@ jobs:
 
     - name: Update clang
       run: |
-        brew update
-        brew upgrade
+        #brew update
+        #brew upgrade
         #brew upgrade llvm
         export CXX="/usr/local/opt/llvm/bin/clang++"
 
