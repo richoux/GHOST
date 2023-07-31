@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
+## [2.8.2] - 2023-07-21
+-  Fix  a mistake  in  the  final cost  of  an  objective function  to
+  maximize, where the value v needed to be reset to the opposite value
+  -v.
+
+## [2.8.1] - 2023-06-22
+-  Change Cmake and build.sh to compile the library for different Android architectures.
+
 ## [2.8.0] - 2023-05-31
 - Now allow modeling pure optimization problems.
 

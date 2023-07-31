@@ -158,36 +158,50 @@ set(toAddInLibs
 	src/global_constraints/linear_equation_g.cpp)
 
 # add the library
-add_library(ghost SHARED
-	"${toAddInLibs}")
+if("${CMAKE_SYSTEM_NAME}" STREQUAL "Android")
+	if("${CMAKE_ANDROID_ARCH_ABI}" STREQUAL "arm64-v8a")
+		add_library(ghost_android_arm64 SHARED "${toAddInLibs}")
+	endif()
+	if("${CMAKE_ANDROID_ARCH_ABI}" STREQUAL "armeabi-v7a")
+		add_library(ghost_android_armelf SHARED	"${toAddInLibs}")
+	endif()
+	if("${CMAKE_ANDROID_ARCH_ABI}" STREQUAL "x86")
+		add_library(ghost_android_x86 SHARED "${toAddInLibs}")
+	endif()
+	if("${CMAKE_ANDROID_ARCH_ABI}" STREQUAL "x86_64")
+		add_library(ghost_android_x86_64 SHARED	"${toAddInLibs}")
+	endif()
+else()
+	add_library(ghost SHARED "${toAddInLibs}")
+	add_library(ghost_static STATIC "${toAddInLibs}")
 
-add_library(ghost_static STATIC
-	"${toAddInLibs}")
-
-target_include_directories(ghost PUBLIC
+	target_include_directories(ghost PUBLIC
   $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/thirdparty/>
   $<INSTALL_INTERFACE:include/ghost/thirdparty>)
+endif()
 
 # add the install targets
-if(CMAKE_SIZEOF_VOID_P EQUAL 4) # 32bits
-	install (TARGETS ghost DESTINATION "lib32")
-	install (TARGETS ghost_static DESTINATION "lib32")
-else() # 64bits
-	install (TARGETS ghost DESTINATION "lib")
-	install (TARGETS ghost_static DESTINATION "lib")
+if(NOT("${CMAKE_SYSTEM_NAME}" STREQUAL "Android"))
+	if(CMAKE_SIZEOF_VOID_P EQUAL 4) # 32bits
+		install (TARGETS ghost DESTINATION "lib32")
+		install (TARGETS ghost_static DESTINATION "lib32")
+	else() # 64bits
+		install (TARGETS ghost DESTINATION "lib")
+		install (TARGETS ghost_static DESTINATION "lib")
+	endif()
+	install (FILES ${libHeadersList} DESTINATION "include/ghost")
+	install (FILES ${libHeadersAlgorithmsList} DESTINATION "include/ghost/algorithms")
+	install (FILES ${libHeadersGlobalConstraintsList} DESTINATION "include/ghost/global_constraints")
+	install (FILES ${libExternalHeadersList} DESTINATION "include/ghost/thirdparty")
 endif()
-install (FILES ${libHeadersList} DESTINATION "include/ghost")
-install (FILES ${libHeadersAlgorithmsList} DESTINATION "include/ghost/algorithms")
-install (FILES ${libHeadersGlobalConstraintsList} DESTINATION "include/ghost/global_constraints")
-install (FILES ${libExternalHeadersList} DESTINATION "include/ghost/thirdparty")
 
 # build a CPack driven installer package
 include (InstallRequiredSystemLibraries)
 set (CPACK_PACKAGE_NAME "GHOST")
 set (CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set (CPACK_PACKAGE_VERSION_MAJOR "2")
-set (CPACK_PACKAGE_VERSION_MINOR "6")
-set (CPACK_PACKAGE_VERSION_PATCH "0")
+set (CPACK_PACKAGE_VERSION_MINOR "8")
+set (CPACK_PACKAGE_VERSION_PATCH "2")
 set (CPACK_PACKAGE_CONTACT "florian.richoux@polytechnique.edu")
 set (CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 include (CPack)

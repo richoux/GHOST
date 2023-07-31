@@ -4,6 +4,7 @@ OS="$(uname)"
 RELEASE="release"
 RELEASEDBGINFO="release_with_debug_info"
 DEBUG="debug"
+ANDROID="android"
 OSX="_osx"
 BACKPWD="$PWD"
 CXX="g++"
@@ -23,7 +24,7 @@ fi
 
 function usage()
 {
-    echo "$0: usage: build.sh [release|rel_dbg_info|debug|debug_no_asan|clean|doc|tests|tutorial]"
+    echo "$0: usage: build.sh [release|rel_dbg_info|debug|debug_no_asan|android|clean|doc|tests|tutorial]"
     exit 1
 }
 
@@ -63,6 +64,32 @@ function rel_dbg_info()
     sudo make install    
 }
 
+function android()
+{
+    mkdir -p build/${ANDROID}_arm64
+    cd build/${ANDROID}_arm64
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=31 -DCMAKE_ANDROID_ARCH_ABI=arm64-v8a -DCMAKE_ANDROID_NDK=$HOME/Android/sdk/ndk/25.2.9519653 -DCMAKE_C_COMPILER="/usr/bin/aarch64-linux-gnu-gcc-11" -DCMAKE_CXX_COMPILER="/usr/bin/aarch64-linux-gnu-g++-11" -DCMAKE_CROSSCOMPILING=TRUE ../..
+    make
+
+		cd ../..
+    mkdir -p build/${ANDROID}_armelf
+    cd build/${ANDROID}_armelf
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=31 -DCMAKE_ANDROID_ARCH_ABI=armeabi-v7a -DCMAKE_ANDROID_NDK=$HOME/Android/sdk/ndk/25.2.9519653 -DCMAKE_C_COMPILER="/usr/bin/aarch64-linux-gnu-gcc-11" -DCMAKE_CXX_COMPILER="/usr/bin/aarch64-linux-gnu-g++-11" -DCMAKE_CROSSCOMPILING=TRUE ../..
+		make
+
+		cd ../..
+    mkdir -p build/${ANDROID}_x86
+    cd build/${ANDROID}_x86
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=31 -DCMAKE_ANDROID_ARCH_ABI=x86 -DCMAKE_ANDROID_NDK=$HOME/Android/sdk/ndk/25.2.9519653 -DCMAKE_C_COMPILER="/usr/bin/aarch64-linux-gnu-gcc-11" -DCMAKE_CXX_COMPILER="/usr/bin/aarch64-linux-gnu-g++-11" -DCMAKE_CROSSCOMPILING=TRUE ../..
+		make
+
+		cd ../..
+    mkdir -p build/${ANDROID}_x86_64
+    cd build/${ANDROID}_x86_64
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=31 -DCMAKE_ANDROID_ARCH_ABI=x86_64 -DCMAKE_ANDROID_NDK=$HOME/Android/sdk/ndk/25.2.9519653 -DCMAKE_C_COMPILER="/usr/bin/aarch64-linux-gnu-gcc-11" -DCMAKE_CXX_COMPILER="/usr/bin/aarch64-linux-gnu-g++-11" -DCMAKE_CROSSCOMPILING=TRUE ../..
+    make
+}
+
 function clean()
 {
     if [ -d "build/$RELEASE" ]; then 
@@ -79,6 +106,30 @@ function clean()
     fi
     if [ -d "build/$DEBUG" ]; then 
 				cd build/$DEBUG
+				make clean
+				sudo rm -fr *
+				cd $BACKPWD
+    fi
+    if [ -d "build/${ANDROID}_arm64" ]; then 
+				cd build/${ANDROID}_arm64
+				make clean
+				sudo rm -fr *
+				cd $BACKPWD
+    fi
+    if [ -d "build/${ANDROID}_armelf" ]; then 
+				cd build/${ANDROID}_armelf
+				make clean
+				sudo rm -fr *
+				cd $BACKPWD
+    fi
+    if [ -d "build/${ANDROID}_x86" ]; then 
+				cd build/${ANDROID}_x86
+				make clean
+				sudo rm -fr *
+				cd $BACKPWD
+    fi
+    if [ -d "build/${ANDROID}_x86_64" ]; then 
+				cd build/${ANDROID}_x86_64
 				make clean
 				sudo rm -fr *
 				cd $BACKPWD
@@ -189,6 +240,10 @@ elif [ "$1" == "debug" ]; then
     exit 0
 elif [ "$1" == "debug_no_asan" ]; then
     debug_no_asan
+    cd $BACKPWD
+    exit 0
+elif [ "$1" == "android" ]; then
+    android
     cd $BACKPWD
     exit 0
 elif [ "$1" == "clean" ]; then
