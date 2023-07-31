@@ -58,7 +58,7 @@ double Objective::cost() const
 		throw nanException( _variables );
 
 	if( _is_maximization )
-		value *= -1;
+		value = -value;
 
 	return value;
 }
@@ -84,7 +84,7 @@ int Objective::expert_heuristic_value( const std::vector<Variable*>& variables,
 		simulated_cost = required_cost( variables );
 
 		if( _is_maximization )
-			simulated_cost *= -1;
+			simulated_cost = -simulated_cost;
 
 		if( min_cost > simulated_cost )
 		{

@@ -495,7 +495,7 @@ namespace ghost
 
 			if( is_optimization )
 			{
-				if( _best_opt_cost < 0 )
+				if( _model.objective->is_maximization() )
 				{
 					_best_opt_cost = -_best_opt_cost;
 					_cost_before_postprocess = -_cost_before_postprocess;
