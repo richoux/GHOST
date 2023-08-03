@@ -167,7 +167,7 @@ namespace ghost
 		{	}
 
 		/*!
-		 * Method to solve the given CSP/COP/ESFP/EFOP model. Users should favor the two versions of
+		 * Method to solve the given CSP/COP/EF-CSP/EF-COP model. Users should favor the two versions of
 		 * Solver::solve taking a std::chrono::microseconds value as a parameter.
 		 *
 		 * This method is the heart of GHOST's solver: it will try to find a solution within a
@@ -187,7 +187,7 @@ namespace ghost
 		 * The timeout parameter is fundamental: it represents a time budget, in microseconds, for
 		 * the solver. The behavior will differ from satisfaction and optimization problems.
 		 *
-		 * For satisfaction problems modeled with an CSP or EFSP, the solver stops as soon as it
+		 * For satisfaction problems modeled with an CSP or EF-CSP, the solver stops as soon as it
 		 * finds a solution. Then, it outputs 'true', writes 0 into the final_cost variable and the 
 		 * values of the variables composing the solution into the final_solution vector.\n
 		 * If no solutions are found within the timeout, the solver stops, outputs 'false', writes
@@ -195,7 +195,7 @@ namespace ghost
 		 * being the closest from a solution) and writes the best candidate's values into the 
 		 * final_solution vector.
 		 *
-		 * For optimization problems modeled with an COP or EFOP, the solver will always continue 
+		 * For optimization problems modeled with an COP or EF-COP, the solver will always continue 
 		 * running until reaching the timeout. If a solution is found, it outputs 'true' and writes
 		 * into the final_cost variable the cost of the best solution optimizating the given objective
 		 * function. It also writes the values of the solution into the final_solution vector.\n
