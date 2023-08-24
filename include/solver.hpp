@@ -650,6 +650,60 @@ namespace ghost
 			return solve( final_cost, final_solution, timeout, options );
 		}
 
+	
+		bool exhaustive_search( std::vector<double>& final_costs,
+		                        std::vector<std::vector<int>>& final_solutions,
+		                        Options& options )
+		{
+			// 1. Repeat until not all assignments have been explored
+			// 2.  Filter domains
+			// 3.  If there exists a variable v with an empty domain
+			// 3a.  Backtrack (unset the last fix value for v, and remove it from its domain)
+			// 3b.  Continue Loop 1
+			// 3c. Else If there still is an unset variable v
+			// 3d.  Search (try fixing a value of v from its domain)
+			// 3e.  Continue Loop 1
+			// 4.  Here, we should have a complete assignment. If it is a solution, add it into the vector of final solutions
+			// 5.  Revove the last assigned value from its variable domain
+
+			auto variables = get_variables();
+			auto nb_vars = variables.size();
+
+			for( var in variables )
+			{
+				for( value in var.get_full_domain() )
+				{
+					
+				}
+			}
+
+		}
+
+		// TODO: move to private
+		// Search for ALL solutions
+		bool exhaustive_search( int index_v,
+		                        int index_d,
+		                        std::vector<ghost::Variable> variables,
+		                        std::vector< std::vector<int>> domains,
+		                        std::vector<double>& final_costs,
+		                        std::vector<std::vector<int>>& final_solutions,
+		                        bool solution_found )
+		{
+			// if( index_v > variables.size )
+			//   return solution_found
+			// Filter domains  new_domains = filter( index_v, index_d, variables, domains, model/constraints )
+			// if there exists an empty domain in new_domains
+			//   return solution_found
+			// new_v = index_v + 1
+			// for all d in new_domains[new_v]
+			//   part_solutions initialized to empty
+			//   exhaustive_search( new_v, d, ..., part_solutions, solution_found )
+			//   if part_solutions not empty
+			//     solution_found = true
+			//     final_solutions = final_solutions union part_solutions
+			// return solution_found
+		}
+		
 		inline std::vector<Variable> get_variables() { return _model.variables; }
 	};
 }
