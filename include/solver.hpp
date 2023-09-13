@@ -36,6 +36,7 @@
 #include <random>
 #include <algorithm>
 #include <vector>
+#include <queue>
 #include <chrono>
 #include <memory>
 #include <iterator>
@@ -134,9 +135,160 @@ namespace ghost
 		std::string _variable_candidates_heuristic;
 		std::string _value_heuristic;
 		std::string _error_projection_heuristic;
-		
+
+		// From search_unit_data
+		// Matrix to know which constraints contain a given variable
+		// matrix_var_ctr[ variable_id ] = { constraint_id_1, ..., constraint_id_k }
+		std::vector<std::vector<int> > _matrix_var_ctr;
+
 		Options _options; // Options for the solver (see the struct Options).
 
+		// std::vector< std::vector<int>> ac3_prefiltering( std::vector< std::vector<int>> domains )
+		// {
+			
+		// }
+		
+		std::vector< std::vector<int>> ac3_filtering( int index_v,
+		                                              std::vector< std::vector<int>> domains )
+		{
+			// queue of (constraint id, variable id)
+			std::queue<std::pair<int, int>> ac3queue;
+
+			for( int constraint_id : _matrix_var_ctr[ index_v ] )
+				for( int variable_id : _model.constraints[ constraint_id ]->_variables_index )
+				{
+					if( variable_id <= index_v )
+						continue;
+					
+					ac3queue.push( std::make_pair( constraint_id, variable_id ) );
+				}
+
+			while( !ac3queue.empty() )
+			{
+				int constraint_id = ac3queue.front().first;
+				int variable_id = ac3queue.front().second;
+				ac3queue.pop();
+
+				std::vector<int> values_to_remove;
+				for( auto value : domains[variable_id] )
+					if( !has_support( constraint_id, variable_id, value, index_v, domains ) )
+					{
+						values_to_remove.push_back( value );
+						for( int c_id : _matrix_var_ctr[ variable_id ] )
+						{
+							if( c_id == constraint_id )
+								continue;
+							for( int v_id : _model.constraints[ c_id ]->_variables_index )
+							{
+								if( v_id <= index_v || v_id == variable_id )
+									continue;
+								
+								ac3queue.push( std::make_pair( c_id, v_id ) );
+							}
+						}
+					}
+
+				domains[variable_id].erase( values_to_remove.begin(), values_to_remove.end() );				
+			}
+
+			return domains;
+		}
+
+		bool has_support( int constraint_id, int variable_id, int value, int index_v, const std::vector< std::vector<int>>& domains )
+		{
+			std::cout << "_model.variables.size(): " << _model.variables.size()
+			          << ", index_v: " << index_v
+			          << ", _model.variables.size() - index_v = " << _model.variables.size() - index_v
+			          << "\n";
+			// std::vector<int> indexes( _model.variables.size() - index_v ); // got problems while desallocating this vector, commenting out this declaration
+			std::vector<int> indexes;
+			indexes.reserve( _model.variables.size() - index_v );
+			std::fill( indexes.begin(), indexes.end(), 0 );
+
+			while( indexes[0] == 0 )
+			{
+				for( int i = 1 ; i < static_cast<int>( indexes.size() ); ++i )
+				{
+					int assignment_index = index_v + i;
+					int assignment_value = domains[ assignment_index ][ indexes[ i ] ];
+					_model.variables[ assignment_index ].set_value( assignment_value );
+				}
+
+				if( _model.constraints[ constraint_id ]->error() == 0.0 )
+					return true;
+				else
+				{
+					bool changed;
+					int index = static_cast<int>( indexes.size() ) - 1;
+					do
+					{
+						changed = false;
+						++indexes[ index ];
+						if( index > 0 && indexes[ index ] >= static_cast<int>( domains[ index_v + index ].size() ) )
+						{
+							indexes[ index ] = 0;
+							changed = true;
+							--index;
+						}
+					}
+					while( changed );
+				}
+			}
+
+			return false;
+		}
+		
+		// Search for ALL solutions
+		std::vector<std::vector<int>> exhaustive_search( int index_v,
+		                                                 std::vector< std::vector<int>> domains )
+		{
+			// should never be called
+			if( index_v >= _model.variables.size() )
+				return std::vector<std::vector<int>>();
+
+			std::vector< std::vector<int>> new_domains;
+			if( index_v > 0 )
+			{
+				new_domains	= ac3_filtering( index_v, domains );
+				auto empty_domain = std::find_if( new_domains.cbegin(), new_domains.cend(), [&]( auto& domain ){ return domain.empty(); } );
+
+				if( empty_domain != new_domains.cend() )
+					return std::vector<std::vector<int>>();
+			}
+			else
+			{
+				new_domains = domains; // already filtered
+			}
+				
+			int next_var = index_v + 1;
+			std::vector<std::vector<int>> solutions;
+			for( auto value : new_domains[next_var] )
+			{
+				_model.variables[next_var].set_value( value );
+				
+				// last variable
+				if( next_var == _model.variables.size() - 1 )
+				{
+					std::vector<int> solution;
+					for( auto& var : _model.variables )
+						solution.emplace_back( var.get_value() );
+					
+					solutions.emplace_back( solution );
+				}
+				else // not the last variable: recursive call
+				{					
+					auto partial_solutions = exhaustive_search( next_var, new_domains );
+					if( !partial_solutions.empty() )
+						std::copy_if( partial_solutions.begin(),
+						              partial_solutions.end(), 
+						              std::back_inserter( solutions ),
+						              [&]( auto& solution ){ return !solution.empty(); } );
+				}
+			}
+			
+			return solutions;
+		}
+		
 	public:
 		/*!
 		 * Unique constructor of ghost::Solver
@@ -655,53 +807,59 @@ namespace ghost
 		                        std::vector<std::vector<int>>& final_solutions,
 		                        Options& options )
 		{
-			// 1. Repeat until not all assignments have been explored
-			// 2.  Filter domains
-			// 3.  If there exists a variable v with an empty domain
-			// 3a.  Backtrack (unset the last fix value for v, and remove it from its domain)
-			// 3b.  Continue Loop 1
-			// 3c. Else If there still is an unset variable v
-			// 3d.  Search (try fixing a value of v from its domain)
-			// 3e.  Continue Loop 1
-			// 4.  Here, we should have a complete assignment. If it is a solution, add it into the vector of final solutions
-			// 5.  Revove the last assigned value from its variable domain
+			// init data
+			bool solutions_exist = false;
 
-			auto variables = get_variables();
-			auto nb_vars = variables.size();
+			_model = _model_builder.build_model();
 
-			for( var in variables )
+			std::vector< std::vector<int> > domains;
+			for( auto& var : _model.variables )
+				domains.emplace_back( var.get_full_domain() );
+
+			_matrix_var_ctr.reserve( _model.variables.size() );
+			for( int variable_id = 0; variable_id < static_cast<int>( _model.variables.size() ); ++variable_id )
+				for( int constraint_id = 0; constraint_id < static_cast<int>( _model.constraints.size() ); ++constraint_id )
+					if( _model.constraints[ constraint_id ]->has_variable( variable_id ) )
+						_matrix_var_ctr[ variable_id ].push_back( constraint_id );
+
+			
+			std::cout << "_model.variables size: " << _model.variables.size() << "\n";
+			std::cout << "domain size: " << domains.size() << "\n";
+			
+			
+			for( auto& d : domains )
 			{
-				for( value in var.get_full_domain() )
+				std::copy( d.begin(), d.end(), std::ostream_iterator<int>( std::cout, " " ) );
+				std::cout << "\n";
+			}
+			
+			// pre-filtering before the first assignment
+			// auto prefiltered_domains = ac3_prefiltering( domains ); 
+			// for( int value : prefiltered_domains[0] )
+			for( int value : domains[0] )
+			{
+				_model.variables[0].set_value( value );
+				// auto new_domains = ac3_filtering( 0, prefiltered_domains );
+				auto new_domains = ac3_filtering( 0, domains );
+				auto empty_domain = std::find_if( new_domains.cbegin(), new_domains.cend(), [&]( auto& domain ){ return domain.empty(); } );
+
+				if( empty_domain == new_domains.cend() )
 				{
+					std::vector<std::vector<int>> partial_solutions = exhaustive_search( 0, new_domains );
 					
+					for( auto& solution : partial_solutions )
+						if( !solution.empty() )
+						{
+							solutions_exist = true;
+							for( int i = 1 ; i < static_cast<int>( solution.size() ) ; ++i )
+								_model.variables[i].set_value( solution[i] );
+							final_costs.push_back( _model.objective->cost() );
+							final_solutions.emplace_back( solution );
+						}
 				}
 			}
-
-		}
-
-		// TODO: move to private
-		// Search for ALL solutions
-		bool exhaustive_search( int index_v,
-		                        int index_d,
-		                        std::vector<ghost::Variable> variables,
-		                        std::vector< std::vector<int>> domains,
-		                        std::vector<double>& final_costs,
-		                        std::vector<std::vector<int>>& final_solutions,
-		                        bool solution_found )
-		{
-			// if( index_v > variables.size )
-			//   return solution_found
-			// Filter domains  new_domains = filter( index_v, index_d, variables, domains, model/constraints )
-			// if there exists an empty domain in new_domains
-			//   return solution_found
-			// new_v = index_v + 1
-			// for all d in new_domains[new_v]
-			//   part_solutions initialized to empty
-			//   exhaustive_search( new_v, d, ..., part_solutions, solution_found )
-			//   if part_solutions not empty
-			//     solution_found = true
-			//     final_solutions = final_solutions union part_solutions
-			// return solution_found
+			
+			return solutions_exist;			
 		}
 		
 		inline std::vector<Variable> get_variables() { return _model.variables; }
