@@ -81,17 +81,18 @@ Inheritance diagram for ghost::Constraint:</div>
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1Constraint__inherit__graph.png" border="0" usemap="#aghost_1_1Constraint_inherit__map" alt="Inheritance graph"/></div>
 <map name="aghost_1_1Constraint_inherit__map" id="aghost_1_1Constraint_inherit__map">
-<area shape="rect" title=" " alt="" coords="297,5,451,273"/>
-<area shape="rect" href="classghost_1_1global__constraints_1_1AllDifferent.html" title=" " alt="" coords="5,358,172,465"/>
-<area shape="rect" href="classghost_1_1global__constraints_1_1AllEqual.html" title=" " alt="" coords="196,358,363,465"/>
-<area shape="rect" href="classghost_1_1global__constraints_1_1FixValue.html" title=" " alt="" coords="387,358,553,465"/>
-<area shape="rect" href="classghost_1_1global__constraints_1_1LinearEquation.html" title=" " alt="" coords="577,321,744,501"/>
-<area shape="rect" href="classghost_1_1global__constraints_1_1LinearEquationEq.html" title=" " alt="" coords="100,549,267,685"/>
-<area shape="rect" href="classghost_1_1global__constraints_1_1LinearEquationG.html" title=" " alt="" coords="291,549,457,685"/>
-<area shape="rect" href="classghost_1_1global__constraints_1_1LinearEquationGeq.html" title=" " alt="" coords="481,549,648,685"/>
-<area shape="rect" href="classghost_1_1global__constraints_1_1LinearEquationL.html" title=" " alt="" coords="672,549,839,685"/>
-<area shape="rect" href="classghost_1_1global__constraints_1_1LinearEquationLeq.html" title=" " alt="" coords="863,549,1029,685"/>
-<area shape="rect" href="classghost_1_1global__constraints_1_1LinearEquationNeq.html" title=" " alt="" coords="1053,549,1220,685"/>
+<area shape="rect" title=" " alt="" coords="389,5,544,273"/>
+<area shape="rect" href="classghost_1_1PureOptimization.html" title=" " alt="" coords="5,373,168,450"/>
+<area shape="rect" href="classghost_1_1global__constraints_1_1AllDifferent.html" title=" " alt="" coords="193,358,359,465"/>
+<area shape="rect" href="classghost_1_1global__constraints_1_1AllEqual.html" title=" " alt="" coords="383,358,550,465"/>
+<area shape="rect" href="classghost_1_1global__constraints_1_1FixValue.html" title=" " alt="" coords="574,358,741,465"/>
+<area shape="rect" href="classghost_1_1global__constraints_1_1LinearEquation.html" title=" " alt="" coords="765,321,931,501"/>
+<area shape="rect" href="classghost_1_1global__constraints_1_1LinearEquationEq.html" title=" " alt="" coords="287,549,454,685"/>
+<area shape="rect" href="classghost_1_1global__constraints_1_1LinearEquationG.html" title=" " alt="" coords="478,549,645,685"/>
+<area shape="rect" href="classghost_1_1global__constraints_1_1LinearEquationGeq.html" title=" " alt="" coords="669,549,835,685"/>
+<area shape="rect" href="classghost_1_1global__constraints_1_1LinearEquationL.html" title=" " alt="" coords="859,549,1026,685"/>
+<area shape="rect" href="classghost_1_1global__constraints_1_1LinearEquationLeq.html" title=" " alt="" coords="1050,549,1217,685"/>
+<area shape="rect" href="classghost_1_1global__constraints_1_1LinearEquationNeq.html" title=" " alt="" coords="1241,549,1407,685"/>
 </map>
 </div>
 <div class="dynheader">
@@ -509,7 +510,7 @@ Protected Member Functions</h2></td></tr>
 <p>Virtual method to compute the difference, or delta, between the current error and the error of a candidate assignment.</p>
 <p>The current assignment, as well as its error, are automatically stored in the class <a class="el" href="classghost_1_1Constraint.html">Constraint</a>. Giving a vector of variable indexes and their respective candidate value, this methods ouputs the difference between the error of the current assignment in 'variables' given as input and the error we would get if we assign new candidate values.</p>
 <p>The ouput can be negative, positive, or equals to 0. If the candidate error is strictly lower (then better) than the current error, the ouput is negative. If errors are the same, the ouputs equals to 0. Finally, if the candidate error is strictly higher (then worst) than the current error, the ouput is positive.</p>
-<p>For EFSP/EFOP models, this method can be VERY important to have faster computation. Although optional (the solver still works without it), we strongly advise users to define it properly, unless the overridden required_error method is trivial to compute. Having this method may make a big difference for the solver to quickly find better solutions. However, if the problem is modeled as an CSP/COP, users can just skip the implementation of this method.</p>
+<p>For EF-CSP/EF-COP models, this method can be VERY important to have faster computation. Although optional (the solver still works without it), we strongly advise users to define it properly, unless the overridden required_error method is trivial to compute. Having this method may make a big difference for the solver to quickly find better solutions. However, if the problem is modeled as an CSP/COP, users can just skip the implementation of this method.</p>
 <p>Like any methods prefixed by 'optional_', overriding this method is not mandatory.</p>
 <dl class="section warning"><dt>Warning</dt><dd>DO NOT implement any side effect in this method. It is called by the solver to compute the constraint delta error but also for some inner mechanisms (such as error simulations).</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -563,7 +564,7 @@ If x = 42 and y = 40, the constraint is not satified, but intuitively, we are cl
 Thus, a required_error candidate for the contraint (x = y) could be the function |x-y|.</p>
 <p>This method MUST returns a value greater than or equals to 0.</p>
 <p>Users have the choice: while modeling CSP or COP problems, required_error must implement the logic of a predicate and should outputs 0 if current values of variables satisfy the user-defined constraint, and something strictly higher than 0 otherwise, like 1 for instance.</p>
-<p>While modeling EFSP/EFOP problems, required_error needs to express an error function. It still must outputs 0 for satisfying values of variables, but must outputs a value strictly higher than 0 otherwise, such that the higher this value, the further current values of variables are from satisfying the user-defined constraint.</p>
+<p>While modeling EF-CSP/EF-COP problems, required_error needs to express an error function. It still must outputs 0 for satisfying values of variables, but must outputs a value strictly higher than 0 otherwise, such that the higher this value, the further current values of variables are from satisfying the user-defined constraint.</p>
 <p>Like any methods prefixed by 'required_', overriding this method is mandatory.</p>
 <dl class="section warning"><dt>Warning</dt><dd>DO NOT implement any side effect in this method. It is called by the solver to compute the constraint error but also for some inner mechanisms (such as error simulations).</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -590,7 +591,7 @@ Thus, a required_error candidate for the contraint (x = y) could be the function
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Feb 6 2023 20:05:30 for GHOST by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Wed Sep 20 2023 18:40:40 for GHOST by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

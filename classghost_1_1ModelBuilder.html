@@ -93,8 +93,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae067a681ebef7dba8f329a019857ee22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4208a192a2ee8087b3c365f3d457e95c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1ModelBuilder.html#a4208a192a2ee8087b3c365f3d457e95c">declare_variables</a> ()=0</td></tr>
 <tr class="separator:a4208a192a2ee8087b3c365f3d457e95c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ef0b05a634a50c67dff2f5a9380a39c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1ModelBuilder.html#a9ef0b05a634a50c67dff2f5a9380a39c">declare_constraints</a> ()=0</td></tr>
-<tr class="separator:a9ef0b05a634a50c67dff2f5a9380a39c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc5e5ddf691b2f21f825b7a7dedb317f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1ModelBuilder.html#abc5e5ddf691b2f21f825b7a7dedb317f">declare_constraints</a> ()</td></tr>
+<tr class="separator:abc5e5ddf691b2f21f825b7a7dedb317f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa2537bcea71464aac5a7538f8098ad4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1ModelBuilder.html#aaa2537bcea71464aac5a7538f8098ad4">declare_objective</a> ()</td></tr>
 <tr class="separator:aaa2537bcea71464aac5a7538f8098ad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b934739b764ebe743f055567147a0de"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1ModelBuilder.html#a0b934739b764ebe743f055567147a0de">declare_auxiliary_data</a> ()</td></tr>
@@ -314,8 +314,8 @@ void UserBuilder::declare_auxiliary_data()<br  />
 
 </div>
 </div>
-<a id="a9ef0b05a634a50c67dff2f5a9380a39c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ef0b05a634a50c67dff2f5a9380a39c">&#9670;&nbsp;</a></span>declare_constraints()</h2>
+<a id="abc5e5ddf691b2f21f825b7a7dedb317f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc5e5ddf691b2f21f825b7a7dedb317f">&#9670;&nbsp;</a></span>declare_constraints()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -332,18 +332,18 @@ void UserBuilder::declare_auxiliary_data()<br  />
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Mandatory method to declare the constraints of the problem instance.</p>
+<p>Method to declare the constraints of the problem instance. If not declared, the problem is considered to be a pure optimization problem.</p>
 <p>The implementation should be like<br  />
 void UserBuilder::declare_constraints()<br  />
 {<br  />
- constraints.push_back( std::make_shared&lt;UserConstraint-1&gt;(parameters_of_Constraint-1_constructor ) );<br  />
- constraints.push_back( std::make_shared&lt;UserConstraint-1&gt;(parameters_of_Constraint-1_constructor ) ); // the model may need several constraints of the same type UserConstraint-1<br  />
+ constraints.emplace_back( std::make_shared&lt;UserConstraint-1&gt;(parameters_of_Constraint-1_constructor ) );<br  />
+ constraints.emplace_back( std::make_shared&lt;UserConstraint-1&gt;(parameters_of_Constraint-1_constructor ) ); // the model may need several constraints of the same type UserConstraint-1<br  />
  ...<br  />
- constraints.push_back( std::make_shared&lt;UserConstraint-k&gt;(parameters_of_Constraint-k_constructor ) );<br  />
+ constraints.emplace_back( std::make_shared&lt;UserConstraint-k&gt;(parameters_of_Constraint-k_constructor ) );<br  />
 } </p>
 
 </div>
@@ -594,7 +594,7 @@ void UserBuilder::declare_variables()<br  />
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Feb 6 2023 20:05:30 for GHOST by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Wed Sep 20 2023 18:40:40 for GHOST by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
