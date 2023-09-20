@@ -36,6 +36,7 @@
 #include <random>
 #include <algorithm>
 #include <vector>
+#include <deque>
 #include <chrono>
 #include <memory>
 #include <iterator>
@@ -74,7 +75,11 @@ namespace ghost
 	/*!
 	 * Solver is the class coding the solver itself.
 	 *
-	 * To solve a problem instance, users must instanciate a Solver object, then run Solver::solve.
+	 * To solve a problem instance, users must instanciate a Solver object, then run Solver::fast_search.
+	 * This will search for a good quality solution within a given timeout. If all solutions of a problem
+	 * are required, or if the optimality of the solution must be certified, then users can run 
+	 * Solver::complete_search instead. Notice that this will run a significantly slower search method and
+	 * is only viable on small problem instances.
 	 *
 	 * The unique Solver constructor needs a derived ghost::ModelBuilder object,
 	 * as well as an optional boolean indicating if the solver is dealing with a permutation problem,
@@ -92,8 +97,9 @@ namespace ghost
 	 * Users are invited to model as much as possible their problems as permutation problems, since
 	 * it would greatly speed-up the search of solutions.
 	 *
-	 * Many options compiled in a ghost::Options object can be passed to the method Solver::solve, to
-	 * allow for instance parallel computing, as well as parameter tweaking for local search experts.
+	 * Many options compiled in a ghost::Options object can be passed to methods
+	 * Solver::fast_search / Solver::complete_search, to allow for instance parallel computing, as well as 
+	 * parameter tweaking for local search experts.
 	 *
 	 * ghost::Solver is a template class, although users should never need to instantiate the template
 	 * with modern C++ compilers.
@@ -134,9 +140,180 @@ namespace ghost
 		std::string _variable_candidates_heuristic;
 		std::string _value_heuristic;
 		std::string _error_projection_heuristic;
-		
+
+		// From search_unit_data
+		// Matrix to know which constraints contain a given variable
+		// matrix_var_ctr[ variable_id ] = { constraint_id_1, ..., constraint_id_k }
+		std::vector<std::vector<int> > _matrix_var_ctr;
+
 		Options _options; // Options for the solver (see the struct Options).
 
+		// AC3 algorithm for complete_search. This method is handling the filtering, and return filtered domains.
+		// The vector of vector 'domains' is passed by copy on purpose.
+		// The value of variable[ index_v ] has already been set before the call
+		std::vector< std::vector<int>> ac3_filtering( int index_v, std::vector< std::vector<int>> domains )
+		{
+			// queue of (constraint id, variable id)
+			std::deque<std::pair<int, int>> ac3queue;
+
+			for( int constraint_id : _matrix_var_ctr[ index_v ] )
+				for( int variable_id : _model.constraints[ constraint_id ]->_variables_index )
+				{
+					if( variable_id <= index_v )
+						continue;
+					
+					ac3queue.push_back( std::make_pair( constraint_id, variable_id ) );
+				}
+
+			std::vector<int> values_to_remove;
+			while( !ac3queue.empty() )
+			{
+				int constraint_id = ac3queue.front().first;
+				int variable_id = ac3queue.front().second;
+				ac3queue.pop_front();
+				values_to_remove.clear();
+				for( auto value : domains[variable_id] )
+				{
+					_model.variables[variable_id].set_value( value );
+					if( !has_support( constraint_id, variable_id, value, index_v, domains ) )
+					{
+						values_to_remove.push_back( value );
+						for( int c_id : _matrix_var_ctr[ variable_id ] )
+						{
+							if( c_id == constraint_id )
+								continue;
+
+							for( int v_id : _model.constraints[ c_id ]->_variables_index )
+							{
+								if( v_id <= index_v || v_id == variable_id )
+									continue;
+
+								if( std::find_if( ac3queue.begin(),
+								                  ac3queue.end(),
+								                  [&]( auto& elem ){ return elem.first == c_id && elem.second == v_id; } ) == ac3queue.end() )
+								{
+									ac3queue.push_back( std::make_pair( c_id, v_id ) );
+								}
+							}
+						}
+					}
+				}
+
+				for( int value : values_to_remove )
+					domains[variable_id].erase( std::find( domains[variable_id].begin(), domains[variable_id].end(), value ) );
+
+				// once a domain is empty, no need to go further
+				if( domains[variable_id].empty() )
+					return domains;
+			}
+
+			return domains;
+		}
+
+		// Method called by ac3_filtering, to compute if variable_id assigned to value has some support for the constraint
+		// constraint_id, but testing iteratively all combination of values for free variables until finding a local solution,
+		// or exhausting all possibilities. Return true if and only if a support exists. 
+		// Values of variable[ index_v ] and variable[ variable_id ] have already been set before the call
+		bool has_support( int constraint_id, int variable_id, int value, int index_v, const std::vector< std::vector<int>>& domains )
+		{
+			std::vector<int> constraint_scope;
+			for( auto var_index : _model.constraints[ constraint_id ]->_variables_index )
+				if( var_index > index_v && var_index != variable_id )
+					constraint_scope.push_back( var_index );
+
+			// Case where there are no free variables
+			if( constraint_scope.empty() )
+				return _model.constraints[ constraint_id ]->error() == 0.0;
+			
+			// From here, there are some free variables to assign
+			std::vector<int> indexes( constraint_scope.size() + 1, 0 );
+			int fake_index = static_cast<int>( indexes.size() ) - 1;
+			
+			while( indexes[ fake_index ] == 0 )
+			{
+				for( int i = 0 ; i < fake_index ; ++i )
+				{
+					int assignment_index = constraint_scope[i];
+					int assignment_value = domains[ assignment_index ][ indexes[ i ] ];
+					_model.variables[ assignment_index ].set_value( assignment_value );
+				}
+
+				if( _model.constraints[ constraint_id ]->error() == 0.0 )
+					return true;
+				else
+				{
+					bool changed;
+					int index = 0;
+					do
+					{
+						changed = false;
+						++indexes[ index ];
+						if( index < fake_index && indexes[ index ] >= static_cast<int>( domains[ constraint_scope[ index ] ].size() ) )
+						{
+							indexes[ index ] = 0;
+							changed = true;
+							++index;
+						}
+					}
+					while( changed );
+				}
+			}
+
+			return false;
+		}
+		
+		// Recursive call of complete_search. Search for all solutions of the problem instance.
+		// index_v is the index of the last variable assigned. Return the vector of some found solutions.
+		// The value of variable[ index_v ] has already been set before the call
+		std::vector<std::vector<int>> complete_search( int index_v, std::vector< std::vector<int>> domains )
+		{
+			// should never be called
+			if( index_v >= _model.variables.size() )
+				return std::vector<std::vector<int>>();
+
+			std::vector< std::vector<int>> new_domains;
+			if( index_v > 0 )
+			{
+				new_domains	= ac3_filtering( index_v, domains );
+				auto empty_domain = std::find_if( new_domains.cbegin(), new_domains.cend(), [&]( auto& domain ){ return domain.empty(); } );
+
+				if( empty_domain != new_domains.cend() )
+					return std::vector<std::vector<int>>();
+			}
+			else
+			{
+				new_domains = domains; // already filtered
+			}
+				
+			int next_var = index_v + 1;
+			std::vector<std::vector<int>> solutions;
+			for( auto value : new_domains[next_var] )
+			{
+				_model.variables[next_var].set_value( value );
+				
+				// last variable
+				if( next_var == _model.variables.size() - 1 )
+				{
+					std::vector<int> solution;
+					for( auto& var : _model.variables )
+						solution.emplace_back( var.get_value() );
+					
+					solutions.emplace_back( solution );
+				}
+				else // not the last variable: recursive call
+				{					
+					auto partial_solutions = complete_search( next_var, new_domains );
+					if( !partial_solutions.empty() )
+						std::copy_if( partial_solutions.begin(),
+						              partial_solutions.end(), 
+						              std::back_inserter( solutions ),
+						              [&]( auto& solution ){ return !solution.empty(); } );
+				}
+			}
+			
+			return solutions;
+		}
+		
 	public:
 		/*!
 		 * Unique constructor of ghost::Solver
@@ -167,8 +344,8 @@ namespace ghost
 		{	}
 
 		/*!
-		 * Method to solve the given CSP/COP/ESFP/EFOP model. Users should favor the two versions of
-		 * Solver::solve taking a std::chrono::microseconds value as a parameter.
+		 * Method to quickly solve the given CSP/COP/EF-CSP/EF-COP model. Users should favor the two 
+		 * versions of Solver::fast_search taking a std::chrono::microseconds value as a parameter.
 		 *
 		 * This method is the heart of GHOST's solver: it will try to find a solution within a
 		 * limited time. If it finds such a solution, the function outputs the value true.\n
@@ -187,7 +364,7 @@ namespace ghost
 		 * The timeout parameter is fundamental: it represents a time budget, in microseconds, for
 		 * the solver. The behavior will differ from satisfaction and optimization problems.
 		 *
-		 * For satisfaction problems modeled with an CSP or EFSP, the solver stops as soon as it
+		 * For satisfaction problems modeled with an CSP or EF-CSP, the solver stops as soon as it
 		 * finds a solution. Then, it outputs 'true', writes 0 into the final_cost variable and the 
 		 * values of the variables composing the solution into the final_solution vector.\n
 		 * If no solutions are found within the timeout, the solver stops, outputs 'false', writes
@@ -195,7 +372,7 @@ namespace ghost
 		 * being the closest from a solution) and writes the best candidate's values into the 
 		 * final_solution vector.
 		 *
-		 * For optimization problems modeled with an COP or EFOP, the solver will always continue 
+		 * For optimization problems modeled with an COP or EF-COP, the solver will always continue 
 		 * running until reaching the timeout. If a solution is found, it outputs 'true' and writes
 		 * into the final_cost variable the cost of the best solution optimizating the given objective
 		 * function. It also writes the values of the solution into the final_solution vector.\n
@@ -219,10 +396,10 @@ namespace ghost
 		 * parameter tuning, etc.
 		 * \return True if and only if a solution has been found.
 		 */
-		bool solve( double& final_cost,
-		            std::vector<int>& final_solution,
-		            double timeout,
-		            Options& options )
+		bool fast_search( double& final_cost,
+		                  std::vector<int>& final_solution,
+		                  double timeout,
+		                  Options& options )
 		{
 			std::chrono::time_point<std::chrono::steady_clock> start_wall_clock( std::chrono::steady_clock::now() );
 			std::chrono::time_point<std::chrono::steady_clock> start_search;
@@ -290,7 +467,7 @@ namespace ghost
 				std::future<bool> unit_future = search_unit.solution_found.get_future();
 
 				start_search = std::chrono::steady_clock::now();
-				search_unit.search( timeout );
+				search_unit.local_search( timeout );
 				elapsed_time = std::chrono::steady_clock::now() - start_search;
 				chrono_search = elapsed_time.count();
 
@@ -334,7 +511,7 @@ namespace ghost
 
 				for( int i = 0 ; i < _options.number_threads; ++i )
 				{
-					unit_threads.emplace_back( &SearchUnit::search, &units.at(i), timeout );
+					unit_threads.emplace_back( &SearchUnit::local_search, &units.at(i), timeout );
 					units.at( i ).get_thread_id( unit_threads.at( i ).get_id() );
 					units_future.emplace_back( units.at( i ).solution_found.get_future() );
 				}
@@ -585,7 +762,7 @@ namespace ghost
 		}
 
 		/*!
-		 * Call Solver::solve with default options.
+		 * Call Solver::fast_search with default options.
 		 *
 		 * \param final_cost a reference to a double to get the error of the best candidate or
 		 * solution for satisfaction problems, or the objective function value of the best solution
@@ -597,16 +774,16 @@ namespace ghost
 		 * in microseconds.
 		 * \return True if and only if a solution has been found.
 		 */
-		bool solve( double& final_cost, std::vector<int>& final_solution, double timeout )
+		bool fast_search( double& final_cost, std::vector<int>& final_solution, double timeout )
 		{
 			Options options;
-			return solve( final_cost, final_solution, timeout, options );
+			return fast_search( final_cost, final_solution, timeout, options );
 		}
 
 		/*!
-		 * Call Solver::solve with a chrono literal timeout in microseconds.
+		 * Call Solver::fast_search with a chrono literal timeout in microseconds.
 		 *
-		 * Users should favor this Solver::solve method if they need to give the solver
+		 * Users should favor this Solver::fast_search method if they need to give the solver
 		 * user-defined options.
 		 *
 		 * \param final_cost a reference to a double to get the error of the best candidate or
@@ -623,15 +800,15 @@ namespace ghost
 		 * parameter tuning, etc.
 		 * \return True if and only if a solution has been found.
 		 */
-		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::microseconds timeout, Options& options )
+		bool fast_search( double& final_cost, std::vector<int>& final_solution, std::chrono::microseconds timeout, Options& options )
 		{
-			return solve( final_cost, final_solution, timeout.count(), options );
+			return fast_search( final_cost, final_solution, timeout.count(), options );
 		}
 
 		/*!
-		 * Call Solver::solve with a chrono literal timeout in microseconds and default options.
+		 * Call Solver::fast_search with a chrono literal timeout in microseconds and default options.
 		 *
-		 * Users should favor this Solver::solve method if they want default options.
+		 * Users should favor this Solver::fast_search method if they want default options.
 		 *
 		 * \param final_cost a reference to a double to get the error of the best candidate or
 		 * solution for satisfaction problems, or the objective function value of the best solution
@@ -644,12 +821,93 @@ namespace ghost
 		 * would be automatically converted into microseconds.
 		 * \return True if and only if a solution has been found.
 		 */
-		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::microseconds timeout )
+		bool fast_search( double& final_cost, std::vector<int>& final_solution, std::chrono::microseconds timeout )
 		{
 			Options options;
-			return solve( final_cost, final_solution, timeout, options );
+			return fast_search( final_cost, final_solution, timeout, options );
 		}
 
+	
+		/*!
+		 * Method to look for all solutions of a given CSP/COP/EF-CSP/EF-COP model.
+		 *
+		 * This method returns true if at least one solution of the problem exists, and flase otherwise.
+		 * It will write the error/cost of all solutions in the final_costs parameter, and all solutions
+		 * themselves in the final_solutions parameter.\n
+		 * For a satisfaction problem (without any objective function), the error of a candidate
+		 * is the sum of the error of each problem constraint (computated by
+		 * Constraint::required_error). For an optimization problem, the cost is the value outputed
+		 * by Objective::required_cost.\n
+		 * For both, the lower value the better: A satisfaction error of 0 means we have a solution
+		 * to a satisfaction problem (ie, all constraints are satisfied). An optimization cost should
+		 * be as low as possible: GHOST is always trying to minimize problems. If you have a
+		 * maximization problem, GHOST will automatically convert it into a minimization problem.
+		 *
+		 * Finally, options to change the solver behaviors (parallel runs, user-defined solution
+		 * printing) can be given as a last parameter.
+		 *
+		 * \param final_costs a reference to a vector of double to get the errors of all solutions for 
+		 * satisfaction problems, or their objective function value for optimization problems 
+		 * For satisfaction problems, a cost of zero means a solution has been found.
+		 * \param final_solutions a reference to a vector of vector of integers, containing all solutions
+		 * of the problem instance.
+		 * \param options a reference to an Options object containing options such as parallel runs,
+		 * a solution printer, etc.
+		 * \return True if and only a solution of the problem exists.
+		 */
+		bool complete_search( std::vector<double>& final_costs,
+		                      std::vector<std::vector<int>>& final_solutions,
+		                      Options& options )
+		{
+			// init data
+			bool solutions_exist = false;
+			_options = options;
+
+			_model = _model_builder.build_model();
+
+			std::vector< std::vector<int> > domains;
+			for( auto& var : _model.variables )
+				domains.emplace_back( var.get_full_domain() );
+
+			_matrix_var_ctr.reserve( _model.variables.size() );
+			for( int variable_id = 0; variable_id < static_cast<int>( _model.variables.size() ); ++variable_id )
+				for( int constraint_id = 0; constraint_id < static_cast<int>( _model.constraints.size() ); ++constraint_id )
+					if( _model.constraints[ constraint_id ]->has_variable( variable_id ) )
+						_matrix_var_ctr[ variable_id ].push_back( constraint_id );
+
+			for( int value : domains[0] )
+			{
+				_model.variables[0].set_value( value );
+				auto new_domains = ac3_filtering( 0, domains );
+				auto empty_domain = std::find_if( new_domains.cbegin(), new_domains.cend(), [&]( auto& domain ){ return domain.empty(); } );
+
+				if( empty_domain == new_domains.cend() )
+				{
+					std::vector<std::vector<int>> partial_solutions = complete_search( 0, new_domains );
+					
+					for( auto& solution : partial_solutions )
+						if( !solution.empty() )
+						{
+							solutions_exist = true;
+							for( int i = 1 ; i < static_cast<int>( solution.size() ) ; ++i )
+								_model.variables[i].set_value( solution[i] );
+							final_costs.push_back( _model.objective->cost() );
+							final_solutions.emplace_back( solution );
+						}
+				}
+			}
+
+			// need to reassigned the variables value to solutions one by one
+			//std::cout << _options.print->print_candidate( _model.variables ).str();
+			return solutions_exist;			
+		}
+		
+		/*!
+		 * Method to get the variables in the model. This method can be handy in some situations,
+		 * if users do not know what the variables composing their problem instance are, and need 
+		 * them number in their programs.
+		 * \return A vector of the Variable objects composing the model variables.
+		 */
 		inline std::vector<Variable> get_variables() { return _model.variables; }
 	};
 }
