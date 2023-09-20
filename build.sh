@@ -66,27 +66,33 @@ function rel_dbg_info()
 
 function android()
 {
+		if [[ -z "${ANDROID_NDK}" ]]; then
+				echo "The environment variable ANDROID_NDK must be defined with the path of your NDK directory."
+				echo "For instance: export ANDROID_NDK=/path/Android/sdk/ndk/25.2.9519653"
+				exit 1
+		fi
+		
     mkdir -p build/${ANDROID}_arm64
     cd build/${ANDROID}_arm64
-    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=31 -DCMAKE_ANDROID_ARCH_ABI=arm64-v8a -DCMAKE_ANDROID_NDK=$HOME/Android/sdk/ndk/25.2.9519653 -DCMAKE_C_COMPILER="/usr/bin/aarch64-linux-gnu-gcc-11" -DCMAKE_CXX_COMPILER="/usr/bin/aarch64-linux-gnu-g++-11" -DCMAKE_CROSSCOMPILING=TRUE ../..
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=31 -DCMAKE_ANDROID_ARCH_ABI=arm64-v8a -DCMAKE_ANDROID_NDK="${ANDROID_NDK}" -DCMAKE_C_COMPILER="/usr/bin/aarch64-linux-gnu-gcc-11" -DCMAKE_CXX_COMPILER="/usr/bin/aarch64-linux-gnu-g++-11" -DCMAKE_CROSSCOMPILING=TRUE ../..
     make
 
 		cd ../..
     mkdir -p build/${ANDROID}_armelf
     cd build/${ANDROID}_armelf
-    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=31 -DCMAKE_ANDROID_ARCH_ABI=armeabi-v7a -DCMAKE_ANDROID_NDK=$HOME/Android/sdk/ndk/25.2.9519653 -DCMAKE_C_COMPILER="/usr/bin/aarch64-linux-gnu-gcc-11" -DCMAKE_CXX_COMPILER="/usr/bin/aarch64-linux-gnu-g++-11" -DCMAKE_CROSSCOMPILING=TRUE ../..
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=31 -DCMAKE_ANDROID_ARCH_ABI=armeabi-v7a -DCMAKE_ANDROID_NDK="${ANDROID_NDK}" -DCMAKE_C_COMPILER="/usr/bin/aarch64-linux-gnu-gcc-11" -DCMAKE_CXX_COMPILER="/usr/bin/aarch64-linux-gnu-g++-11" -DCMAKE_CROSSCOMPILING=TRUE ../..
 		make
 
 		cd ../..
     mkdir -p build/${ANDROID}_x86
     cd build/${ANDROID}_x86
-    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=31 -DCMAKE_ANDROID_ARCH_ABI=x86 -DCMAKE_ANDROID_NDK=$HOME/Android/sdk/ndk/25.2.9519653 -DCMAKE_C_COMPILER="/usr/bin/aarch64-linux-gnu-gcc-11" -DCMAKE_CXX_COMPILER="/usr/bin/aarch64-linux-gnu-g++-11" -DCMAKE_CROSSCOMPILING=TRUE ../..
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=31 -DCMAKE_ANDROID_ARCH_ABI=x86 -DCMAKE_ANDROID_NDK="${ANDROID_NDK}" -DCMAKE_C_COMPILER="/usr/bin/aarch64-linux-gnu-gcc-11" -DCMAKE_CXX_COMPILER="/usr/bin/aarch64-linux-gnu-g++-11" -DCMAKE_CROSSCOMPILING=TRUE ../..
 		make
 
 		cd ../..
     mkdir -p build/${ANDROID}_x86_64
     cd build/${ANDROID}_x86_64
-    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=31 -DCMAKE_ANDROID_ARCH_ABI=x86_64 -DCMAKE_ANDROID_NDK=$HOME/Android/sdk/ndk/25.2.9519653 -DCMAKE_C_COMPILER="/usr/bin/aarch64-linux-gnu-gcc-11" -DCMAKE_CXX_COMPILER="/usr/bin/aarch64-linux-gnu-g++-11" -DCMAKE_CROSSCOMPILING=TRUE ../..
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=31 -DCMAKE_ANDROID_ARCH_ABI=x86_64 -DCMAKE_ANDROID_NDK="${ANDROID_NDK}" -DCMAKE_C_COMPILER="/usr/bin/aarch64-linux-gnu-gcc-11" -DCMAKE_CXX_COMPILER="/usr/bin/aarch64-linux-gnu-g++-11" -DCMAKE_CROSSCOMPILING=TRUE ../..
     make
 }
 
