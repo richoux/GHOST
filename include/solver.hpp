@@ -36,7 +36,7 @@
 #include <random>
 #include <algorithm>
 #include <vector>
-#include <queue>
+#include <deque>
 #include <chrono>
 #include <memory>
 #include <iterator>
@@ -143,16 +143,12 @@ namespace ghost
 
 		Options _options; // Options for the solver (see the struct Options).
 
-		// std::vector< std::vector<int>> ac3_prefiltering( std::vector< std::vector<int>> domains )
-		// {
-			
-		// }
-		
+		// The value of variable[ index_v ] has already been set before the call
 		std::vector< std::vector<int>> ac3_filtering( int index_v,
 		                                              std::vector< std::vector<int>> domains )
 		{
 			// queue of (constraint id, variable id)
-			std::queue<std::pair<int, int>> ac3queue;
+			std::deque<std::pair<int, int>> ac3queue;
 
 			for( int constraint_id : _matrix_var_ctr[ index_v ] )
 				for( int variable_id : _model.constraints[ constraint_id ]->_variables_index )
@@ -160,17 +156,19 @@ namespace ghost
 					if( variable_id <= index_v )
 						continue;
 					
-					ac3queue.push( std::make_pair( constraint_id, variable_id ) );
+					ac3queue.push_back( std::make_pair( constraint_id, variable_id ) );
 				}
 
+			std::vector<int> values_to_remove;
 			while( !ac3queue.empty() )
 			{
 				int constraint_id = ac3queue.front().first;
 				int variable_id = ac3queue.front().second;
-				ac3queue.pop();
-
-				std::vector<int> values_to_remove;
+				ac3queue.pop_front();
+				values_to_remove.clear();
 				for( auto value : domains[variable_id] )
+				{
+					_model.variables[variable_id].set_value( value );
 					if( !has_support( constraint_id, variable_id, value, index_v, domains ) )
 					{
 						values_to_remove.push_back( value );
@@ -178,38 +176,55 @@ namespace ghost
 						{
 							if( c_id == constraint_id )
 								continue;
+
 							for( int v_id : _model.constraints[ c_id ]->_variables_index )
 							{
 								if( v_id <= index_v || v_id == variable_id )
 									continue;
-								
-								ac3queue.push( std::make_pair( c_id, v_id ) );
+
+								if( std::find_if( ac3queue.begin(),
+								                  ac3queue.end(),
+								                  [&]( auto& elem ){ return elem.first == c_id && elem.second == v_id; } ) == ac3queue.end() )
+								{
+									ac3queue.push_back( std::make_pair( c_id, v_id ) );
+								}
 							}
 						}
 					}
+				}
 
-				domains[variable_id].erase( values_to_remove.begin(), values_to_remove.end() );				
+				for( int value : values_to_remove )
+					domains[variable_id].erase( std::find( domains[variable_id].begin(), domains[variable_id].end(), value ) );
+
+				// once a domain is empty, no need to go further
+				if( domains[variable_id].empty() )
+					return domains;
 			}
 
 			return domains;
 		}
 
+		// Values of variable[ index_v ] and variable[ variable_id ] have already been set before the call
 		bool has_support( int constraint_id, int variable_id, int value, int index_v, const std::vector< std::vector<int>>& domains )
 		{
-			std::cout << "_model.variables.size(): " << _model.variables.size()
-			          << ", index_v: " << index_v
-			          << ", _model.variables.size() - index_v = " << _model.variables.size() - index_v
-			          << "\n";
-			// std::vector<int> indexes( _model.variables.size() - index_v ); // got problems while desallocating this vector, commenting out this declaration
-			std::vector<int> indexes;
-			indexes.reserve( _model.variables.size() - index_v );
-			std::fill( indexes.begin(), indexes.end(), 0 );
+			std::vector<int> constraint_scope;
+			for( auto var_index : _model.constraints[ constraint_id ]->_variables_index )
+				if( var_index > index_v && var_index != variable_id )
+					constraint_scope.push_back( var_index );
 
-			while( indexes[0] == 0 )
+			// Case where there are no free variables
+			if( constraint_scope.empty() )
+				return _model.constraints[ constraint_id ]->error() == 0.0;
+			
+			// From here, there are some free variables to assign
+			std::vector<int> indexes( constraint_scope.size() + 1, 0 );
+			int fake_index = static_cast<int>( indexes.size() ) - 1;
+			
+			while( indexes[ fake_index ] == 0 )
 			{
-				for( int i = 1 ; i < static_cast<int>( indexes.size() ); ++i )
+				for( int i = 0 ; i < fake_index ; ++i )
 				{
-					int assignment_index = index_v + i;
+					int assignment_index = constraint_scope[i];
 					int assignment_value = domains[ assignment_index ][ indexes[ i ] ];
 					_model.variables[ assignment_index ].set_value( assignment_value );
 				}
@@ -219,16 +234,16 @@ namespace ghost
 				else
 				{
 					bool changed;
-					int index = static_cast<int>( indexes.size() ) - 1;
+					int index = 0;
 					do
 					{
 						changed = false;
 						++indexes[ index ];
-						if( index > 0 && indexes[ index ] >= static_cast<int>( domains[ index_v + index ].size() ) )
+						if( index < fake_index && indexes[ index ] >= static_cast<int>( domains[ constraint_scope[ index ] ].size() ) )
 						{
 							indexes[ index ] = 0;
 							changed = true;
-							--index;
+							++index;
 						}
 					}
 					while( changed );
@@ -239,6 +254,7 @@ namespace ghost
 		}
 		
 		// Search for ALL solutions
+		// The value of variable[ index_v ] has already been set before the call
 		std::vector<std::vector<int>> exhaustive_search( int index_v,
 		                                                 std::vector< std::vector<int>> domains )
 		{
@@ -809,6 +825,7 @@ namespace ghost
 		{
 			// init data
 			bool solutions_exist = false;
+			_options = options;
 
 			_model = _model_builder.build_model();
 
@@ -822,24 +839,9 @@ namespace ghost
 					if( _model.constraints[ constraint_id ]->has_variable( variable_id ) )
 						_matrix_var_ctr[ variable_id ].push_back( constraint_id );
 
-			
-			std::cout << "_model.variables size: " << _model.variables.size() << "\n";
-			std::cout << "domain size: " << domains.size() << "\n";
-			
-			
-			for( auto& d : domains )
-			{
-				std::copy( d.begin(), d.end(), std::ostream_iterator<int>( std::cout, " " ) );
-				std::cout << "\n";
-			}
-			
-			// pre-filtering before the first assignment
-			// auto prefiltered_domains = ac3_prefiltering( domains ); 
-			// for( int value : prefiltered_domains[0] )
 			for( int value : domains[0] )
 			{
 				_model.variables[0].set_value( value );
-				// auto new_domains = ac3_filtering( 0, prefiltered_domains );
 				auto new_domains = ac3_filtering( 0, domains );
 				auto empty_domain = std::find_if( new_domains.cbegin(), new_domains.cend(), [&]( auto& domain ){ return domain.empty(); } );
 
@@ -858,7 +860,9 @@ namespace ghost
 						}
 				}
 			}
-			
+
+			// need to reassigned the variables value to solutions one by one
+			//std::cout << _options.print->print_candidate( _model.variables ).str();
 			return solutions_exist;			
 		}
 		
