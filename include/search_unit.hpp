@@ -72,7 +72,7 @@
 namespace ghost
 {
 	/*
-	 * SearchUnit is the object called by Solver::solve to actually search for a solution.
+	 * SearchUnit is the object called by Solver::fast_search to actually search for a solution.
 	 * In parallel computing, one SearchUnit object is instanciated for every thread.
 	 */
 	class SearchUnit
@@ -578,7 +578,6 @@ namespace ghost
 			              std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
 			              std::make_unique<algorithms::AdaptiveSearchErrorProjection>() )
 		{ }
-
 		
 		// Check if the thread must stop search
 		bool stop_search_requested()
@@ -606,9 +605,9 @@ namespace ghost
 		inline void stop_search()	{	_stop_search_signal.set_value(); }
 		inline Model&& transfer_model() { return std::move( model ); }
 
-		// Method doing the search; called by Solver::solve (eventually in several threads).
+		// Method doing the search; called by Solver::fast_search (eventually in several threads).
 		// Return true iff a solution has been found
-		void search( double timeout )
+		void local_search( double timeout )
 		{
 			// TODO: Antidote search
 			// TODO: Neighborhood

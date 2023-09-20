@@ -75,7 +75,11 @@ namespace ghost
 	/*!
 	 * Solver is the class coding the solver itself.
 	 *
-	 * To solve a problem instance, users must instanciate a Solver object, then run Solver::solve.
+	 * To solve a problem instance, users must instanciate a Solver object, then run Solver::fast_search.
+	 * This will search for a good quality solution within a given timeout. If all solutions of a problem
+	 * are required, or if the optimality of the solution must be certified, then users can run 
+	 * Solver::complete_search instead. Notice that this will run a significantly slower search method and
+	 * is only viable on small problem instances.
 	 *
 	 * The unique Solver constructor needs a derived ghost::ModelBuilder object,
 	 * as well as an optional boolean indicating if the solver is dealing with a permutation problem,
@@ -93,8 +97,9 @@ namespace ghost
 	 * Users are invited to model as much as possible their problems as permutation problems, since
 	 * it would greatly speed-up the search of solutions.
 	 *
-	 * Many options compiled in a ghost::Options object can be passed to the method Solver::solve, to
-	 * allow for instance parallel computing, as well as parameter tweaking for local search experts.
+	 * Many options compiled in a ghost::Options object can be passed to methods
+	 * Solver::fast_search / Solver::complete_search, to allow for instance parallel computing, as well as 
+	 * parameter tweaking for local search experts.
 	 *
 	 * ghost::Solver is a template class, although users should never need to instantiate the template
 	 * with modern C++ compilers.
@@ -143,9 +148,10 @@ namespace ghost
 
 		Options _options; // Options for the solver (see the struct Options).
 
+		// AC3 algorithm for complete_search. This method is handling the filtering, and return filtered domains.
+		// The vector of vector 'domains' is passed by copy on purpose.
 		// The value of variable[ index_v ] has already been set before the call
-		std::vector< std::vector<int>> ac3_filtering( int index_v,
-		                                              std::vector< std::vector<int>> domains )
+		std::vector< std::vector<int>> ac3_filtering( int index_v, std::vector< std::vector<int>> domains )
 		{
 			// queue of (constraint id, variable id)
 			std::deque<std::pair<int, int>> ac3queue;
@@ -204,6 +210,9 @@ namespace ghost
 			return domains;
 		}
 
+		// Method called by ac3_filtering, to compute if variable_id assigned to value has some support for the constraint
+		// constraint_id, but testing iteratively all combination of values for free variables until finding a local solution,
+		// or exhausting all possibilities. Return true if and only if a support exists. 
 		// Values of variable[ index_v ] and variable[ variable_id ] have already been set before the call
 		bool has_support( int constraint_id, int variable_id, int value, int index_v, const std::vector< std::vector<int>>& domains )
 		{
@@ -253,10 +262,10 @@ namespace ghost
 			return false;
 		}
 		
-		// Search for ALL solutions
+		// Recursive call of complete_search. Search for all solutions of the problem instance.
+		// index_v is the index of the last variable assigned. Return the vector of some found solutions.
 		// The value of variable[ index_v ] has already been set before the call
-		std::vector<std::vector<int>> exhaustive_search( int index_v,
-		                                                 std::vector< std::vector<int>> domains )
+		std::vector<std::vector<int>> complete_search( int index_v, std::vector< std::vector<int>> domains )
 		{
 			// should never be called
 			if( index_v >= _model.variables.size() )
@@ -293,7 +302,7 @@ namespace ghost
 				}
 				else // not the last variable: recursive call
 				{					
-					auto partial_solutions = exhaustive_search( next_var, new_domains );
+					auto partial_solutions = complete_search( next_var, new_domains );
 					if( !partial_solutions.empty() )
 						std::copy_if( partial_solutions.begin(),
 						              partial_solutions.end(), 
@@ -335,8 +344,8 @@ namespace ghost
 		{	}
 
 		/*!
-		 * Method to solve the given CSP/COP/EF-CSP/EF-COP model. Users should favor the two versions of
-		 * Solver::solve taking a std::chrono::microseconds value as a parameter.
+		 * Method to quickly solve the given CSP/COP/EF-CSP/EF-COP model. Users should favor the two 
+		 * versions of Solver::fast_search taking a std::chrono::microseconds value as a parameter.
 		 *
 		 * This method is the heart of GHOST's solver: it will try to find a solution within a
 		 * limited time. If it finds such a solution, the function outputs the value true.\n
@@ -387,10 +396,10 @@ namespace ghost
 		 * parameter tuning, etc.
 		 * \return True if and only if a solution has been found.
 		 */
-		bool solve( double& final_cost,
-		            std::vector<int>& final_solution,
-		            double timeout,
-		            Options& options )
+		bool fast_search( double& final_cost,
+		                  std::vector<int>& final_solution,
+		                  double timeout,
+		                  Options& options )
 		{
 			std::chrono::time_point<std::chrono::steady_clock> start_wall_clock( std::chrono::steady_clock::now() );
 			std::chrono::time_point<std::chrono::steady_clock> start_search;
@@ -458,7 +467,7 @@ namespace ghost
 				std::future<bool> unit_future = search_unit.solution_found.get_future();
 
 				start_search = std::chrono::steady_clock::now();
-				search_unit.search( timeout );
+				search_unit.local_search( timeout );
 				elapsed_time = std::chrono::steady_clock::now() - start_search;
 				chrono_search = elapsed_time.count();
 
@@ -502,7 +511,7 @@ namespace ghost
 
 				for( int i = 0 ; i < _options.number_threads; ++i )
 				{
-					unit_threads.emplace_back( &SearchUnit::search, &units.at(i), timeout );
+					unit_threads.emplace_back( &SearchUnit::local_search, &units.at(i), timeout );
 					units.at( i ).get_thread_id( unit_threads.at( i ).get_id() );
 					units_future.emplace_back( units.at( i ).solution_found.get_future() );
 				}
@@ -753,7 +762,7 @@ namespace ghost
 		}
 
 		/*!
-		 * Call Solver::solve with default options.
+		 * Call Solver::fast_search with default options.
 		 *
 		 * \param final_cost a reference to a double to get the error of the best candidate or
 		 * solution for satisfaction problems, or the objective function value of the best solution
@@ -765,16 +774,16 @@ namespace ghost
 		 * in microseconds.
 		 * \return True if and only if a solution has been found.
 		 */
-		bool solve( double& final_cost, std::vector<int>& final_solution, double timeout )
+		bool fast_search( double& final_cost, std::vector<int>& final_solution, double timeout )
 		{
 			Options options;
-			return solve( final_cost, final_solution, timeout, options );
+			return fast_search( final_cost, final_solution, timeout, options );
 		}
 
 		/*!
-		 * Call Solver::solve with a chrono literal timeout in microseconds.
+		 * Call Solver::fast_search with a chrono literal timeout in microseconds.
 		 *
-		 * Users should favor this Solver::solve method if they need to give the solver
+		 * Users should favor this Solver::fast_search method if they need to give the solver
 		 * user-defined options.
 		 *
 		 * \param final_cost a reference to a double to get the error of the best candidate or
@@ -791,15 +800,15 @@ namespace ghost
 		 * parameter tuning, etc.
 		 * \return True if and only if a solution has been found.
 		 */
-		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::microseconds timeout, Options& options )
+		bool fast_search( double& final_cost, std::vector<int>& final_solution, std::chrono::microseconds timeout, Options& options )
 		{
-			return solve( final_cost, final_solution, timeout.count(), options );
+			return fast_search( final_cost, final_solution, timeout.count(), options );
 		}
 
 		/*!
-		 * Call Solver::solve with a chrono literal timeout in microseconds and default options.
+		 * Call Solver::fast_search with a chrono literal timeout in microseconds and default options.
 		 *
-		 * Users should favor this Solver::solve method if they want default options.
+		 * Users should favor this Solver::fast_search method if they want default options.
 		 *
 		 * \param final_cost a reference to a double to get the error of the best candidate or
 		 * solution for satisfaction problems, or the objective function value of the best solution
@@ -812,16 +821,43 @@ namespace ghost
 		 * would be automatically converted into microseconds.
 		 * \return True if and only if a solution has been found.
 		 */
-		bool solve( double& final_cost, std::vector<int>& final_solution, std::chrono::microseconds timeout )
+		bool fast_search( double& final_cost, std::vector<int>& final_solution, std::chrono::microseconds timeout )
 		{
 			Options options;
-			return solve( final_cost, final_solution, timeout, options );
+			return fast_search( final_cost, final_solution, timeout, options );
 		}
 
 	
-		bool exhaustive_search( std::vector<double>& final_costs,
-		                        std::vector<std::vector<int>>& final_solutions,
-		                        Options& options )
+		/*!
+		 * Method to look for all solutions of a given CSP/COP/EF-CSP/EF-COP model.
+		 *
+		 * This method returns true if at least one solution of the problem exists, and flase otherwise.
+		 * It will write the error/cost of all solutions in the final_costs parameter, and all solutions
+		 * themselves in the final_solutions parameter.\n
+		 * For a satisfaction problem (without any objective function), the error of a candidate
+		 * is the sum of the error of each problem constraint (computated by
+		 * Constraint::required_error). For an optimization problem, the cost is the value outputed
+		 * by Objective::required_cost.\n
+		 * For both, the lower value the better: A satisfaction error of 0 means we have a solution
+		 * to a satisfaction problem (ie, all constraints are satisfied). An optimization cost should
+		 * be as low as possible: GHOST is always trying to minimize problems. If you have a
+		 * maximization problem, GHOST will automatically convert it into a minimization problem.
+		 *
+		 * Finally, options to change the solver behaviors (parallel runs, user-defined solution
+		 * printing) can be given as a last parameter.
+		 *
+		 * \param final_costs a reference to a vector of double to get the errors of all solutions for 
+		 * satisfaction problems, or their objective function value for optimization problems 
+		 * For satisfaction problems, a cost of zero means a solution has been found.
+		 * \param final_solutions a reference to a vector of vector of integers, containing all solutions
+		 * of the problem instance.
+		 * \param options a reference to an Options object containing options such as parallel runs,
+		 * a solution printer, etc.
+		 * \return True if and only a solution of the problem exists.
+		 */
+		bool complete_search( std::vector<double>& final_costs,
+		                      std::vector<std::vector<int>>& final_solutions,
+		                      Options& options )
 		{
 			// init data
 			bool solutions_exist = false;
@@ -847,7 +883,7 @@ namespace ghost
 
 				if( empty_domain == new_domains.cend() )
 				{
-					std::vector<std::vector<int>> partial_solutions = exhaustive_search( 0, new_domains );
+					std::vector<std::vector<int>> partial_solutions = complete_search( 0, new_domains );
 					
 					for( auto& solution : partial_solutions )
 						if( !solution.empty() )
@@ -866,6 +902,12 @@ namespace ghost
 			return solutions_exist;			
 		}
 		
+		/*!
+		 * Method to get the variables in the model. This method can be handy in some situations,
+		 * if users do not know what the variables composing their problem instance are, and need 
+		 * them number in their programs.
+		 * \return A vector of the Variable objects composing the model variables.
+		 */
 		inline std::vector<Variable> get_variables() { return _model.variables; }
 	};
 }
