@@ -62,6 +62,7 @@ namespace ghost
 	class Constraint
 	{
 		friend class SearchUnit;
+		template<typename ModelBuilderType> friend class Solver;
 		friend class ModelBuilder;
 		friend class algorithms::AdaptiveSearchErrorProjection;
 		friend class algorithms::CulpritSearchErrorProjection;

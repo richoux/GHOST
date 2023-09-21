@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
+## [3.0.0] - 2023-09-20
+- Add a complete solver within the framework, implementing the Arc Consistency 3 algorithm and aiming to find all solutions of a problem instance.
+- Changed the interface `Solver::solve` -> `Solver::fast_search`, to be coherent with the new `Solver::complete_search`
+
 ## [2.8.2] - 2023-07-21
 -  Fix  a mistake  in  the  final cost  of  an  objective function  to
   maximize, where the value v needed to be reset to the opposite value
