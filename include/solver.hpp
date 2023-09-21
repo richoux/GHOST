@@ -901,7 +901,25 @@ namespace ghost
 			//std::cout << _options.print->print_candidate( _model.variables ).str();
 			return solutions_exist;			
 		}
-		
+
+		/*!
+		 * Call Solver::complete_search with default options.
+		 *
+		 * Users should favor this Solver::complete_search method if they want default options.
+		 *
+		 * \param final_costs a reference to a vector of double to get the errors of all solutions for 
+		 * satisfaction problems, or their objective function value for optimization problems 
+		 * For satisfaction problems, a cost of zero means a solution has been found.
+		 * \param final_solutions a reference to a vector of vector of integers, containing all solutions
+		 * of the problem instance.
+		 * \return True if and only a solution of the problem exists.
+		 */
+		bool complete_search( std::vector<double>& final_costs, std::vector<std::vector<int>>& final_solutions )
+		{
+			Options options;
+			return complete_search( final_costs, final_solutions, options );
+		}
+
 		/*!
 		 * Method to get the variables in the model. This method can be handy in some situations,
 		 * if users do not know what the variables composing their problem instance are, and need 
