@@ -174,7 +174,7 @@ function doc()
 				cd "../doc_temp_copy_$DATETODAY"
 				yes | cp -fr * "../$CURRENTFOLDER"
 				cd "../$CURRENTFOLDER"
-				git add *
+				git add -A
 				git commit -am "Documentation from $DATETODAY"
 				git push
 				git checkout "$CURRENTBRANCH"
