@@ -79,7 +79,7 @@ Collaboration diagram for ghost::Solver&lt; ModelBuilderType &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classghost_1_1Solver__coll__graph.png" border="0" usemap="#aghost_1_1Solver_3_01ModelBuilderType_01_4_coll__map" alt="Collaboration graph"/></div>
 <map name="aghost_1_1Solver_3_01ModelBuilderType_01_4_coll__map" id="aghost_1_1Solver_3_01ModelBuilderType_01_4_coll__map">
-<area shape="rect" title=" " alt="" coords="5,5,192,185"/>
+<area shape="rect" title=" " alt="" coords="5,5,192,200"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -97,6 +97,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a0c3c96e4eb6e55e38ad0a880adc1092e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10085964774e00d35e4e1a651535e27a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#a10085964774e00d35e4e1a651535e27a">complete_search</a> (std::vector&lt; double &gt; &amp;final_costs, std::vector&lt; std::vector&lt; int &gt;&gt; &amp;final_solutions, <a class="el" href="structghost_1_1Options.html">Options</a> &amp;options)</td></tr>
 <tr class="separator:a10085964774e00d35e4e1a651535e27a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5c504368605906f12de552c45493221"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#ac5c504368605906f12de552c45493221">complete_search</a> (std::vector&lt; double &gt; &amp;final_costs, std::vector&lt; std::vector&lt; int &gt;&gt; &amp;final_solutions)</td></tr>
+<tr class="separator:ac5c504368605906f12de552c45493221"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5dff70b13a068fd5877741cc4533935"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classghost_1_1Variable.html">Variable</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classghost_1_1Solver.html#af5dff70b13a068fd5877741cc4533935">get_variables</a> ()</td></tr>
 <tr class="separator:af5dff70b13a068fd5877741cc4533935"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -151,8 +153,56 @@ template&lt;typename ModelBuilderType &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ac5c504368605906f12de552c45493221"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5c504368605906f12de552c45493221">&#9670;&nbsp;</a></span>complete_search() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ModelBuilderType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classghost_1_1Solver.html">ghost::Solver</a>&lt; ModelBuilderType &gt;::complete_search </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>final_costs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::vector&lt; int &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>final_solutions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Call Solver::complete_search with default options.</p>
+<p>Users should favor this Solver::complete_search method if they want default options.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">final_costs</td><td>a reference to a vector of double to get the errors of all solutions for satisfaction problems, or their objective function value for optimization problems For satisfaction problems, a cost of zero means a solution has been found. </td></tr>
+    <tr><td class="paramname">final_solutions</td><td>a reference to a vector of vector of integers, containing all solutions of the problem instance. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if and only a solution of the problem exists. </dd></dl>
+
+</div>
+</div>
 <a id="a10085964774e00d35e4e1a651535e27a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10085964774e00d35e4e1a651535e27a">&#9670;&nbsp;</a></span>complete_search()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a10085964774e00d35e4e1a651535e27a">&#9670;&nbsp;</a></span>complete_search() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -485,7 +535,7 @@ template&lt;typename ModelBuilderType &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Sep 21 2023 09:34:19 for GHOST by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Sep 21 2023 16:00:10 for GHOST by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

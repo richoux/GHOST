@@ -802,10 +802,16 @@ $(function() {
 <div class="line"><a name="l00901"></a><span class="lineno">  901</span>&#160;            <span class="comment">//std::cout &lt;&lt; _options.print-&gt;print_candidate( _model.variables ).str();</span></div>
 <div class="line"><a name="l00902"></a><span class="lineno">  902</span>&#160;            <span class="keywordflow">return</span> solutions_exist;         </div>
 <div class="line"><a name="l00903"></a><span class="lineno">  903</span>&#160;        }</div>
-<div class="line"><a name="l00904"></a><span class="lineno">  904</span>&#160;        </div>
-<div class="line"><a name="l00911"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#af5dff70b13a068fd5877741cc4533935">  911</a></span>&#160;        <span class="keyword">inline</span> std::vector&lt;Variable&gt; <a class="code" href="classghost_1_1Solver.html#af5dff70b13a068fd5877741cc4533935">get_variables</a>() { <span class="keywordflow">return</span> _model.variables; }</div>
-<div class="line"><a name="l00912"></a><span class="lineno">  912</span>&#160;    };</div>
-<div class="line"><a name="l00913"></a><span class="lineno">  913</span>&#160;}</div>
+<div class="line"><a name="l00904"></a><span class="lineno">  904</span>&#160; </div>
+<div class="line"><a name="l00917"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#ac5c504368605906f12de552c45493221">  917</a></span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classghost_1_1Solver.html#ac5c504368605906f12de552c45493221">complete_search</a>( std::vector&lt;double&gt;&amp; final_costs, std::vector&lt;std::vector&lt;int&gt;&gt;&amp; final_solutions )</div>
+<div class="line"><a name="l00918"></a><span class="lineno">  918</span>&#160;        {</div>
+<div class="line"><a name="l00919"></a><span class="lineno">  919</span>&#160;            <a class="code" href="structghost_1_1Options.html">Options</a> options;</div>
+<div class="line"><a name="l00920"></a><span class="lineno">  920</span>&#160;            <span class="keywordflow">return</span> complete_search( final_costs, final_solutions, options );</div>
+<div class="line"><a name="l00921"></a><span class="lineno">  921</span>&#160;        }</div>
+<div class="line"><a name="l00922"></a><span class="lineno">  922</span>&#160; </div>
+<div class="line"><a name="l00929"></a><span class="lineno"><a class="line" href="classghost_1_1Solver.html#af5dff70b13a068fd5877741cc4533935">  929</a></span>&#160;        <span class="keyword">inline</span> std::vector&lt;Variable&gt; <a class="code" href="classghost_1_1Solver.html#af5dff70b13a068fd5877741cc4533935">get_variables</a>() { <span class="keywordflow">return</span> _model.variables; }</div>
+<div class="line"><a name="l00930"></a><span class="lineno">  930</span>&#160;    };</div>
+<div class="line"><a name="l00931"></a><span class="lineno">  931</span>&#160;}</div>
 <div class="ttc" id="aauxiliary__data_8hpp_html"><div class="ttname"><a href="auxiliary__data_8hpp.html">auxiliary_data.hpp</a></div></div>
 <div class="ttc" id="aclassghost_1_1Solver_html"><div class="ttname"><a href="classghost_1_1Solver.html">ghost::Solver</a></div><div class="ttdef"><b>Definition:</b> solver.hpp:110</div></div>
 <div class="ttc" id="aclassghost_1_1Solver_html_a0143b99bbc018bf4aae1f88fd28bdb44"><div class="ttname"><a href="classghost_1_1Solver.html#a0143b99bbc018bf4aae1f88fd28bdb44">ghost::Solver::Solver</a></div><div class="ttdeci">Solver(const ModelBuilderType &amp;model_builder)</div><div class="ttdef"><b>Definition:</b> solver.hpp:325</div></div>
@@ -814,7 +820,8 @@ $(function() {
 <div class="ttc" id="aclassghost_1_1Solver_html_a10085964774e00d35e4e1a651535e27a"><div class="ttname"><a href="classghost_1_1Solver.html#a10085964774e00d35e4e1a651535e27a">ghost::Solver::complete_search</a></div><div class="ttdeci">bool complete_search(std::vector&lt; double &gt; &amp;final_costs, std::vector&lt; std::vector&lt; int &gt;&gt; &amp;final_solutions, Options &amp;options)</div><div class="ttdef"><b>Definition:</b> solver.hpp:858</div></div>
 <div class="ttc" id="aclassghost_1_1Solver_html_a708fccd3a3bc1434082557467633fab9"><div class="ttname"><a href="classghost_1_1Solver.html#a708fccd3a3bc1434082557467633fab9">ghost::Solver::fast_search</a></div><div class="ttdeci">bool fast_search(double &amp;final_cost, std::vector&lt; int &gt; &amp;final_solution, double timeout)</div><div class="ttdef"><b>Definition:</b> solver.hpp:777</div></div>
 <div class="ttc" id="aclassghost_1_1Solver_html_aa296c97a6512cebd0f81363decfb3e70"><div class="ttname"><a href="classghost_1_1Solver.html#aa296c97a6512cebd0f81363decfb3e70">ghost::Solver::fast_search</a></div><div class="ttdeci">bool fast_search(double &amp;final_cost, std::vector&lt; int &gt; &amp;final_solution, std::chrono::microseconds timeout, Options &amp;options)</div><div class="ttdef"><b>Definition:</b> solver.hpp:803</div></div>
-<div class="ttc" id="aclassghost_1_1Solver_html_af5dff70b13a068fd5877741cc4533935"><div class="ttname"><a href="classghost_1_1Solver.html#af5dff70b13a068fd5877741cc4533935">ghost::Solver::get_variables</a></div><div class="ttdeci">std::vector&lt; Variable &gt; get_variables()</div><div class="ttdef"><b>Definition:</b> solver.hpp:911</div></div>
+<div class="ttc" id="aclassghost_1_1Solver_html_ac5c504368605906f12de552c45493221"><div class="ttname"><a href="classghost_1_1Solver.html#ac5c504368605906f12de552c45493221">ghost::Solver::complete_search</a></div><div class="ttdeci">bool complete_search(std::vector&lt; double &gt; &amp;final_costs, std::vector&lt; std::vector&lt; int &gt;&gt; &amp;final_solutions)</div><div class="ttdef"><b>Definition:</b> solver.hpp:917</div></div>
+<div class="ttc" id="aclassghost_1_1Solver_html_af5dff70b13a068fd5877741cc4533935"><div class="ttname"><a href="classghost_1_1Solver.html#af5dff70b13a068fd5877741cc4533935">ghost::Solver::get_variables</a></div><div class="ttdeci">std::vector&lt; Variable &gt; get_variables()</div><div class="ttdef"><b>Definition:</b> solver.hpp:929</div></div>
 <div class="ttc" id="aconstraint_8hpp_html"><div class="ttname"><a href="constraint_8hpp.html">constraint.hpp</a></div></div>
 <div class="ttc" id="amodel__builder_8hpp_html"><div class="ttname"><a href="model__builder_8hpp.html">model_builder.hpp</a></div></div>
 <div class="ttc" id="anamespaceghost_html"><div class="ttname"><a href="namespaceghost.html">ghost</a></div><div class="ttdef"><b>Definition:</b> auxiliary_data.hpp:38</div></div>
@@ -837,7 +844,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Sep 21 2023 09:34:19 for GHOST by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Sep 21 2023 16:00:10 for GHOST by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
