@@ -892,11 +892,14 @@ namespace ghost
 			for( auto& var : _model.variables )
 				domains.emplace_back( var.get_full_domain() );
 
-			_matrix_var_ctr.reserve( _model.variables.size() );
+			_matrix_var_ctr.resize( _model.variables.size() );
 			for( int variable_id = 0; variable_id < static_cast<int>( _model.variables.size() ); ++variable_id )
+			{
+				_matrix_var_ctr[ variable_id ] = std::vector<int>();
 				for( int constraint_id = 0; constraint_id < static_cast<int>( _model.constraints.size() ); ++constraint_id )
 					if( _model.constraints[ constraint_id ]->has_variable( variable_id ) )
 						_matrix_var_ctr[ variable_id ].push_back( constraint_id );
+			}
 
 			prefiltering( domains );
 			
