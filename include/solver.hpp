@@ -736,9 +736,11 @@ namespace ghost
 			std::cout << "############" << "\n";
 
 			// Print solution
-			std::cout << _options.print->print_candidate( _model.variables ).str();
-
-			std::cout << "\n";
+			std::cout << "Solution: ";
+			for (const auto& v: _model.variables)
+				std::cout << v.get_value() << " ";
+			
+			std::cout << "\n" << _options.print->print_candidate( _model.variables ).str() << "\n";
 
 			if( !is_optimization )
 				std::cout << "SATISFACTION run" << "\n";

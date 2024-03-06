@@ -87,6 +87,12 @@ namespace ghost
 #endif
 
 #if defined GHOST_TRACE
+		void print_current_candidate()
+		{
+			for( int variable_id = 0 ; variable_id < data.number_variables ; ++variable_id )
+				COUT << model.variables[variable_id].get_value() << " ";			
+		}
+		
 		void print_errors()
 		{
 			COUT << "Constraint errors:\n";
@@ -165,7 +171,9 @@ namespace ghost
 					if( data.best_sat_error > best_sat_error_so_far )
 					{
 #if defined GHOST_TRACE
-						COUT << "Better starting configuration found. Previous error: " << data.best_sat_error << ", now: " << best_sat_error_so_far << "\n";
+						COUT << "Better starting configuration found: ";
+						print_current_candidate();
+						COUT << "\nPrevious error: " << data.best_sat_error << ", now: " << best_sat_error_so_far << "\n\n";
 #endif
 						data.best_sat_error = best_sat_error_so_far;
 					}
@@ -721,12 +729,15 @@ namespace ghost
 
 #if defined GHOST_TRACE
 				COUT << options.print->print_candidate( model.variables ).str();
-				COUT << "\n\nNumber of loop iteration: " << data.search_iterations << "\n";
+				COUT << "\n********\nNumber of loop iteration: " << data.search_iterations << "\n";
 				COUT << "Number of local moves performed: " << data.local_moves << "\n";
 				COUT << "Tabu list <until_iteration>:";
 				for( int i = 0 ; i < data.number_variables ; ++i )
 					if( data.tabu_list[i] > data.local_moves )
 						COUT << " v[" << i << "]:<" << data.tabu_list[i] << ">";
+				COUT << "\n\nCurrent candidate: ";
+				print_current_candidate();
+				COUT << "\nCurrent error: " << data.current_sat_error;
 				COUT << "\nPicked worst variable: v[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value() << "\n\n";
 #endif // end GHOST_TRACE
 
@@ -888,12 +899,10 @@ namespace ghost
 				if( model.permutation_problem )
 					COUT << "\nPicked variable index for min conflict: "
 					     << new_value << "\n"
-					     << "Current error: " << data.current_sat_error << "\n"
 					     << "Delta: " << min_conflict << "\n\n";
 				else
 					COUT << "\nPicked value for min conflict: "
 					     << new_value << "\n"
-					     << "Current error: " << data.current_sat_error << "\n"
 					     << "Delta: " << min_conflict << "\n\n";
 					
 #endif // GHOST_TRACE
@@ -961,7 +970,7 @@ namespace ghost
 							if( data.current_opt_cost > candidate_opt_cost )
 							{
 #if defined GHOST_TRACE
-								COUT << "optimization cost improved (" << data.current_opt_cost << " -> " << candidate_opt_cost << "): make local move.\n";
+								COUT << "Optimization cost improved (" << data.current_opt_cost << " -> " << candidate_opt_cost << "): make local move.\n";
 #endif
 								local_move( variable_to_change, new_value, min_conflict, delta_errors );
 								data.current_opt_cost = candidate_opt_cost;
@@ -973,7 +982,7 @@ namespace ghost
 								if( data.current_opt_cost == candidate_opt_cost )
 								{
 #if defined GHOST_TRACE
-									COUT << "optimization cost stable (" << data.current_opt_cost << "): plateau.\n";
+									COUT << "Optimization cost stable (" << data.current_opt_cost << "): plateau.\n";
 #endif
 									plateau_management( variable_to_change, new_value, delta_errors );
 								}
@@ -983,7 +992,14 @@ namespace ghost
 									 * 4.c. Worst optimization cost => local minimum *
 									 *************************************************/
 #if defined GHOST_TRACE
-									COUT << "optimization cost increase (" << data.current_opt_cost << " -> " << candidate_opt_cost << "): local minimum.\n";
+									COUT << "Optimization cost increase (" << data.current_opt_cost << " -> " << candidate_opt_cost << "): local minimum.\n";
+									// Real local minimum in the following case
+									if( variable_candidates.empty() )
+									{
+										COUT << "Local minimum candidate: ";
+										print_current_candidate();
+										COUT << "\nLocal minimum cost: " << data.current_opt_cost << "\n";
+									}
 #endif
 									local_minimum_management( variable_to_change, new_value, variable_candidates.empty() );
 								}
@@ -994,7 +1010,7 @@ namespace ghost
 							 * 4.d. Not an optimization problem => plateau *
 							 ***********************************************/
 #if defined GHOST_TRACE
-							COUT << "no optimization: plateau.\n";
+							COUT << "No optimization: plateau.\n";
 #endif
 							plateau_management( variable_to_change, new_value, delta_errors );
 						}
@@ -1006,6 +1022,13 @@ namespace ghost
 						 ***********************************/
 #if defined GHOST_TRACE
 						COUT << "Global error increase: local minimum.\n";
+						// Real local minimum in the following case
+						if( variable_candidates.empty() )
+						{
+							COUT << "Local minimum candidate: ";
+							print_current_candidate();
+							COUT << "\nLocal minimum error: " << data.current_sat_error << "\n";
+						}
 #endif
 						local_minimum_management( variable_to_change, new_value, variable_candidates.empty() );
 					}
