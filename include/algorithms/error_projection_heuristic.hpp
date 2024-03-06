@@ -39,9 +39,13 @@ namespace ghost
 {
 	namespace algorithms
 	{
+		/*
+		 * Strategy design pattern to implement error projection heuristics.
+		 */
 		class ErrorProjection
 		{
 		protected:
+			// Protected string variable for the heuristic name. Used for debug/trace purposes.
 			std::string name;
 			int number_variables;
 			int number_constraints;
@@ -51,13 +55,15 @@ namespace ghost
 				: name( std::move( name ) )
 			{ }
 
-			//! Default virtual destructor.
+			// Default virtual destructor.
 			virtual ~ErrorProjection() = default;
 
+			// Inline function returning the heuristic name.
 			inline std::string get_name() const { return name; }
 			inline void set_number_variables( int num ) { number_variables = num ; }
 			inline void set_number_constraints( int num ) { number_constraints = num ; }
 
+			// This function can be useful to initialize some data structures before computing error projections.
 			virtual void initialize_data_structures() {};
 
 			virtual void compute_variable_errors( std::vector<double>& error_variables,

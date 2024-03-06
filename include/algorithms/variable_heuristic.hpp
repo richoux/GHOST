@@ -40,11 +40,12 @@ namespace ghost
 	namespace algorithms
 	{
 		/*
-		 * VariableHeuristic follows the Strategy design pattern to implement variable selection heuristics.
+		 * Strategy design pattern to implement variable selection heuristics.
 		 */
 		class VariableHeuristic
 		{
 		protected:
+			// Protected string variable for the heuristic name. Used for debug/trace purposes.
 			std::string name;
 
 		public:
@@ -52,14 +53,20 @@ namespace ghost
 				: name( std::move( name ) )
 			{ }
 
-			//! Default virtual destructor.
+			// Default virtual destructor.
 			virtual ~VariableHeuristic() = default;
 
+			// Inline function returning the heuristic name.
 			inline std::string get_name() const { return name; }
 
-			// candidates is a vector of double to be more generic, allowing for instance a vector of errors
-			// rather than a vector of ID, like it would certainly be often the case in practice.
-			virtual int select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const = 0;
+			/*
+			 * Function to select, among a vector of candidates, a variable from which the search algorithm will make a local move.
+			 * \param candidates A const reference to a double vector to be more generic, allowing for instance a vector of errors, rather than a vector of ID, although it would certainly be often the case in practice.
+			 * \param data A reference to the SearchUnitData object containing data about the problem instance and the search state, such as the number of variables and constraints, the current projected error on each variable, etc.
+			 * \param rng A reference to the pseudo-random generator, to avoid recreating such object.
+			 * \return The index of the selected variable in the candidates vector.
+			 */
+			virtual int select_variable( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const = 0;
 		};
 	}
 }

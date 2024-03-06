@@ -35,7 +35,7 @@ AdaptiveSearchVariableHeuristic::AdaptiveSearchVariableHeuristic()
 	: VariableHeuristic( "Adaptive Search" )
 { }
 
-int AdaptiveSearchVariableHeuristic::select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
+int AdaptiveSearchVariableHeuristic::select_variable( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
 {
 	return static_cast<int>( rng.pick( candidates ) );
 }

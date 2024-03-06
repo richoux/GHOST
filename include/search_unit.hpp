@@ -674,7 +674,8 @@ namespace ghost
 					COUT << "Projected error of var[" << i << "]: " << data.error_variables[i] << "\n";
 #endif
 
-				
+
+				// TODO: to replace after a potential reset() call (l700), to save some computations?
 				// Estimate which variables need to be changed
 				if( must_compute_variable_candidates )
 					variable_candidates = variable_candidates_heuristic->compute_variable_candidates( data );
@@ -725,7 +726,7 @@ namespace ghost
 					}
 #endif
 
-				variable_to_change = variable_heuristic->select_variable_candidate( variable_candidates, data, rng );
+				variable_to_change = variable_heuristic->select_variable( variable_candidates, data, rng );
 
 #if defined GHOST_TRACE
 				COUT << options.print->print_candidate( model.variables ).str();
@@ -810,7 +811,7 @@ namespace ghost
 
 				// Select the next current configuration (local move)
 				double min_conflict = std::numeric_limits<double>::max();
-				int new_value = value_heuristic->select_value_candidates( variable_to_change, data, model, delta_errors, min_conflict, rng );
+				int new_value = value_heuristic->select_value( variable_to_change, data, model, delta_errors, min_conflict, rng );
 
 				
 #if defined GHOST_TRACE
