@@ -472,7 +472,7 @@ namespace ghost
 		//                        of chance to escape it and mark the variable as tabu.)
 		void plateau_management( int variable_to_change, int new_value, const std::map< int, std::vector<double>>& delta_errors )
 		{
-			if( rng.uniform(0, 100) <= options.percent_chance_escape_plateau )
+			if( rng.uniform(1, 100) <= options.percent_chance_escape_plateau )
 			{
 				data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
 				must_compute_variable_candidates = true;
@@ -492,7 +492,7 @@ namespace ghost
 		//                              Otherwise try them first, but with 10% of chance, the solver finally marks the variable as tabu.)
 		void local_minimum_management( int variable_to_change, int new_value, bool no_other_variables_to_try )
 		{
-			if( no_other_variables_to_try || rng.uniform(0, 100) <= 10 )
+			if( no_other_variables_to_try ) // || rng.uniform(1, 100) <= 10
 			{
 				data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
 				must_compute_variable_candidates = true;
