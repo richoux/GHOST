@@ -101,15 +101,15 @@ set(libHeadersAlgorithmsList
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_candidates_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/value_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/error_projection_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/error_projection_algorithm.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_variable_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_variable_candidates_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_value_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_error_projection_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_error_projection_algorithm.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_variable_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_variable_candidates_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_value_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/culprit_search_error_projection_heuristic.hpp")
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/culprit_search_error_projection_algorithm.hpp")
 
 set(libHeadersGlobalConstraintsList
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/all_different.hpp"
@@ -141,11 +141,11 @@ set(toAddInLibs
 	src/algorithms/adaptive_search_variable_heuristic.cpp
 	src/algorithms/adaptive_search_variable_candidates_heuristic.cpp
 	src/algorithms/adaptive_search_value_heuristic.cpp
-	src/algorithms/adaptive_search_error_projection_heuristic.cpp
+	src/algorithms/adaptive_search_error_projection_algorithm.cpp
 	src/algorithms/antidote_search_variable_heuristic.cpp
 	src/algorithms/antidote_search_variable_candidates_heuristic.cpp
 	src/algorithms/antidote_search_value_heuristic.cpp
-	src/algorithms/culprit_search_error_projection_heuristic.cpp
+	src/algorithms/culprit_search_error_projection_algorithm.cpp
 	src/global_constraints/all_different.cpp
 	src/global_constraints/all_equal.cpp
 	src/global_constraints/fix_value.cpp

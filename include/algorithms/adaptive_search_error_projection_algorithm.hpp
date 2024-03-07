@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include "error_projection_heuristic.hpp"
+#include "error_projection_algorithm.hpp"
 
 namespace ghost
 {
@@ -40,15 +40,13 @@ namespace ghost
 		public:
 			AdaptiveSearchErrorProjection();
 			
-			void compute_variable_errors( std::vector<double>& error_variables,
-			                              const std::vector<Variable>& variables,
-			                              const std::vector<std::vector<int>>& matrix_var_ctr,
-			                              const std::vector<std::shared_ptr<Constraint>>& constraints ) override;
+			void compute_variable_errors( const std::vector<Variable>& variables,
+			                              const std::vector<std::shared_ptr<Constraint>>& constraints,
+			                              SearchUnitData& data ) override;
 			
-			void update_variable_errors( std::vector<double>& error_variables,
-			                             const std::vector<Variable>& variables,
-			                             const std::vector<std::vector<int>>& matrix_var_ctr,
+			void update_variable_errors( const std::vector<Variable>& variables,
 			                             std::shared_ptr<Constraint> constraint,
+			                             SearchUnitData& data,
 			                             double delta ) override;
 		};
 	}

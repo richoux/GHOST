@@ -29,35 +29,50 @@
 
 #pragma once
 
-#include "error_projection_heuristic.hpp"
+#include <vector>
+#include <memory>
+
+#include "../search_unit_data.hpp"
+#include "../constraint.hpp"
+#include "../variable.hpp"
 
 namespace ghost
 {
 	namespace algorithms
 	{
-		class CulpritSearchErrorProjection : public ErrorProjection
+		/*
+		 * Strategy design pattern to implement error projection algorithm.
+		 */
+		class ErrorProjection
 		{
-			std::vector<std::vector<double>> _error_variables_by_constraints;
-			
-			void compute_variable_errors_on_constraint( const std::vector<Variable>& variables,
-			                                            const std::vector<std::vector<int>>& matrix_var_ctr,
-			                                            std::shared_ptr<Constraint> constraint );
-			
+		protected:
+			// Protected string variable for the heuristic name. Used for debug/trace purposes.
+			std::string name;
+
 		public:
-			CulpritSearchErrorProjection();
+			ErrorProjection( std::string&& name )
+				: name( std::move( name ) )
+			{ }
 
-			void initialize_data_structures() override;
+			// Default virtual destructor.
+			virtual ~ErrorProjection() = default;
 
-			void compute_variable_errors( std::vector<double>& error_variables,
-			                              const std::vector<Variable>& variables,
-			                              const std::vector<std::vector<int>>& matrix_var_ctr,
-			                              const std::vector<std::shared_ptr<Constraint>>& constraints ) override;
-			
-			void update_variable_errors( std::vector<double>& error_variables,
-			                             const std::vector<Variable>& variables,
-			                             const std::vector<std::vector<int>>& matrix_var_ctr,
-			                             std::shared_ptr<Constraint> constraint,
-			                             double delta ) override;
+			// Inline function returning the algorithm name.
+			inline std::string get_name() const { return name; }
+
+			// Can be useful to initialize some data structures before computing error projections.
+			virtual void initialize_data_structures( const SearchUnitData& data ) {};
+
+			// Will reset data.error_variables and set the element of this vector to their projected cost
+			virtual void compute_variable_errors( const std::vector<Variable>& variables,
+			                                      const std::vector<std::shared_ptr<Constraint>>& constraints,
+			                                      SearchUnitData& data ) = 0;
+
+			// Incremental update of data.error_variables
+			virtual void update_variable_errors( const std::vector<Variable>& variables,
+			                                     std::shared_ptr<Constraint> constraint,
+			                                     SearchUnitData& data,
+			                                     double delta ) = 0;
 		};
 	}
 }

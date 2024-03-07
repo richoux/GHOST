@@ -55,18 +55,18 @@
 #include "algorithms/variable_heuristic.hpp"
 #include "algorithms/variable_candidates_heuristic.hpp"
 #include "algorithms/value_heuristic.hpp"
-#include "algorithms/error_projection_heuristic.hpp"
+#include "algorithms/error_projection_algorithm.hpp"
 
 #include "algorithms/adaptive_search_variable_heuristic.hpp"
 #include "algorithms/adaptive_search_variable_candidates_heuristic.hpp"
 #include "algorithms/adaptive_search_value_heuristic.hpp"
-#include "algorithms/adaptive_search_error_projection_heuristic.hpp"
+#include "algorithms/adaptive_search_error_projection_algorithm.hpp"
 
 #include "algorithms/antidote_search_variable_heuristic.hpp"
 #include "algorithms/antidote_search_variable_candidates_heuristic.hpp"
 #include "algorithms/antidote_search_value_heuristic.hpp"
 
-#include "algorithms/culprit_search_error_projection_heuristic.hpp"
+#include "algorithms/culprit_search_error_projection_algorithm.hpp"
 
 #include "macros.hpp"
 
@@ -139,7 +139,7 @@ namespace ghost
 		std::string _variable_heuristic;
 		std::string _variable_candidates_heuristic;
 		std::string _value_heuristic;
-		std::string _error_projection_heuristic;
+		std::string _error_projection_algorithm;
 
 		// From search_unit_data
 		// Matrix to know which constraints contain a given variable
@@ -508,7 +508,7 @@ namespace ghost
 				_variable_heuristic = search_unit.variable_heuristic->get_name();
 				_variable_candidates_heuristic = search_unit.variable_candidates_heuristic->get_name();
 				_value_heuristic = search_unit.value_heuristic->get_name();
-				_error_projection_heuristic = search_unit.error_projection_heuristic->get_name();
+				_error_projection_algorithm = search_unit.error_projection_algorithm->get_name();
 				
 				_model = std::move( search_unit.transfer_model() );
 			}
@@ -634,7 +634,7 @@ namespace ghost
 					_variable_heuristic = units.at( winning_thread ).variable_heuristic->get_name();
 					_variable_candidates_heuristic = units.at( winning_thread ).variable_candidates_heuristic->get_name();
 					_value_heuristic = units.at( winning_thread ).value_heuristic->get_name();
-					_error_projection_heuristic = units.at( winning_thread ).error_projection_heuristic->get_name();
+					_error_projection_algorithm = units.at( winning_thread ).error_projection_algorithm->get_name();
 
 					_model = std::move( units.at( winning_thread ).transfer_model() );
 				}
@@ -670,7 +670,7 @@ namespace ghost
 					_variable_heuristic = units.at( best_non_solution ).variable_heuristic->get_name();
 					_variable_candidates_heuristic = units.at( best_non_solution ).variable_candidates_heuristic->get_name();
 					_value_heuristic = units.at( best_non_solution ).value_heuristic->get_name();
-					_error_projection_heuristic = units.at( best_non_solution ).error_projection_heuristic->get_name();
+					_error_projection_algorithm = units.at( best_non_solution ).error_projection_algorithm->get_name();
 					
 					_model = std::move( units.at( best_non_solution ).transfer_model() );
 				}
@@ -719,7 +719,7 @@ namespace ghost
 			          << "Variable heuristic: " << _variable_heuristic << "\n"
 			          << "Variable candidate heuristic: " << _variable_candidates_heuristic << "\n"
 			          << "Value heuristic: " << _value_heuristic << "\n"
-			          << "Error projection heuristic: " << _error_projection_heuristic << "\n"
+			          << "Error projection algorithm: " << _error_projection_algorithm << "\n"
 			          << "Started from a custom variables assignment: " << std::boolalpha << _options.custom_starting_point << "\n"
 			          << "Search resumed from a previous run: " << std::boolalpha << _options.resume_search << "\n"
 			          << "Parallel search: " << std::boolalpha << _options.parallel_runs << "\n"

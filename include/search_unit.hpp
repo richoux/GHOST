@@ -54,18 +54,18 @@
 #include "algorithms/variable_heuristic.hpp"
 #include "algorithms/variable_candidates_heuristic.hpp"
 #include "algorithms/value_heuristic.hpp"
-#include "algorithms/error_projection_heuristic.hpp"
+#include "algorithms/error_projection_algorithm.hpp"
 
 #include "algorithms/adaptive_search_variable_heuristic.hpp"
 #include "algorithms/adaptive_search_variable_candidates_heuristic.hpp"
 #include "algorithms/adaptive_search_value_heuristic.hpp"
-#include "algorithms/adaptive_search_error_projection_heuristic.hpp"
+#include "algorithms/adaptive_search_error_projection_algorithm.hpp"
 
 #include "algorithms/antidote_search_variable_heuristic.hpp"
 #include "algorithms/antidote_search_variable_candidates_heuristic.hpp"
 #include "algorithms/antidote_search_value_heuristic.hpp"
 
-#include "algorithms/culprit_search_error_projection_heuristic.hpp"
+#include "algorithms/culprit_search_error_projection_algorithm.hpp"
 
 #include "macros.hpp"
 
@@ -302,10 +302,9 @@ namespace ghost
 			}
 
 			// Reset variable costs and recompute them
-			error_projection_heuristic->compute_variable_errors( data.error_variables,
-			                                                     model.variables,
-			                                                     data.matrix_var_ctr,
-			                                                     model.constraints );
+			error_projection_algorithm->compute_variable_errors( model.variables,
+			                                                     model.constraints,
+			                                                     data );
 		}
 
 		void initialize_data_structures( Model& model )
@@ -384,10 +383,9 @@ namespace ghost
 					auto delta = delta_errors.at( new_value )[ delta_index++ ];
 					model.constraints[ constraint_id ]->_current_error += delta;
 					
-					error_projection_heuristic->update_variable_errors( data.error_variables,
-					                                                    model.variables,
-					                                                    data.matrix_var_ctr,
+					error_projection_algorithm->update_variable_errors( model.variables,
 					                                                    model.constraints[ constraint_id ],
+					                                                    data,
 					                                                    delta );
 
 					model.constraints[ constraint_id ]->update( variable_to_change, new_value );
@@ -408,10 +406,9 @@ namespace ghost
 					auto delta = delta_errors.at( new_value )[ delta_index++ ];
 					model.constraints[ constraint_id ]->_current_error += delta;
 
-					error_projection_heuristic->update_variable_errors( data.error_variables,
-					                                                    model.variables,
-					                                                    data.matrix_var_ctr,
+					error_projection_algorithm->update_variable_errors( model.variables,
 					                                                    model.constraints[ constraint_id ],
+					                                                    data,
 					                                                    delta );
 					
 					model.constraints[ constraint_id ]->update( variable_to_change, next_value );
@@ -426,10 +423,9 @@ namespace ghost
 						auto delta = delta_errors.at( new_value )[ delta_index++ ];
 						model.constraints[ constraint_id ]->_current_error += delta;
 
-						error_projection_heuristic->update_variable_errors( data.error_variables,
-						                                                    model.variables,
-						                                                    data.matrix_var_ctr,
+						error_projection_algorithm->update_variable_errors( model.variables,
 						                                                    model.constraints[ constraint_id ],
+						                                                    data,
 						                                                    delta );
 						
 						model.constraints[ constraint_id ]->update( new_value, current_value );
@@ -521,7 +517,7 @@ namespace ghost
 		std::unique_ptr<algorithms::VariableHeuristic> variable_heuristic;
 		std::unique_ptr<algorithms::VariableCandidatesHeuristic> variable_candidates_heuristic;
 		std::unique_ptr<algorithms::ValueHeuristic> value_heuristic;
-		std::unique_ptr<algorithms::ErrorProjection> error_projection_heuristic;
+		std::unique_ptr<algorithms::ErrorProjection> error_projection_algorithm;
 				
 		std::vector<int> final_solution;
 
@@ -537,14 +533,14 @@ namespace ghost
 		            std::unique_ptr<algorithms::VariableHeuristic> variable_heuristic,
 		            std::unique_ptr<algorithms::VariableCandidatesHeuristic> variable_candidates_heuristic,
 		            std::unique_ptr<algorithms::ValueHeuristic> value_heuristic,
-		            std::unique_ptr<algorithms::ErrorProjection> error_projection_heuristic )
+		            std::unique_ptr<algorithms::ErrorProjection> error_projection_algorithm )
 			: _stop_search_check( _stop_search_signal.get_future() ),
 			  model( std::move( moved_model ) ),
 			  data( model ),
 			  variable_heuristic( std::move( variable_heuristic ) ),
 			  variable_candidates_heuristic( std::move( variable_candidates_heuristic ) ),
 			  value_heuristic( std::move( value_heuristic ) ),
-			  error_projection_heuristic( std::move( error_projection_heuristic ) ),
+			  error_projection_algorithm( std::move( error_projection_algorithm ) ),
 			  final_solution( std::vector<int>( data.number_variables, 0 ) ),
 			  variable_candidates(), 
 			  must_compute_variable_candidates ( true ),
@@ -557,10 +553,7 @@ namespace ghost
 
 			initialize_data_structures( model );
 			data.initialize_matrix( model );
-
-			this->error_projection_heuristic->set_number_variables( data.number_variables );
-			this->error_projection_heuristic->set_number_constraints( data.number_constraints );
-			this->error_projection_heuristic->initialize_data_structures();
+			this->error_projection_algorithm->initialize_data_structures( data );
 
 #if defined GHOST_TRACE
 			COUT << "Creating a Solver object\n\n"
