@@ -496,10 +496,10 @@ namespace ghost
 		}
 
 		// C. local minimum management (if there are no other worst variables to try, mark the variable as tabu.
-		//                              Otherwise try them first, but with 10% of chance, the solver finally marks the variable as tabu.)
+		//                              Otherwise try them first.)
 		void local_minimum_management( int variable_to_change, int new_value, bool no_other_variables_to_try )
 		{
-			if( no_other_variables_to_try ) // || rng.uniform(1, 100) <= 10
+			if( no_other_variables_to_try ) // || rng.uniform(1, 100) <= 10 //10% chance to force tabu-marking even if there are other variables to explore.
 			{
 				data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
 				must_compute_variable_candidates = true;
