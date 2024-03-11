@@ -67,6 +67,13 @@
 
 #include "algorithms/culprit_search_error_projection_algorithm.hpp"
 
+#if defined GHOST_RANDOM_WALK
+#include "algorithms/random_walk_variable_heuristic.hpp"
+#include "algorithms/random_walk_variable_candidates_heuristic.hpp"
+#include "algorithms/random_walk_value_heuristic.hpp"
+#include "algorithms/null_error_projection_algorithm.hpp"
+#endif
+
 #include "macros.hpp"
 
 namespace ghost
@@ -805,7 +812,6 @@ namespace ghost
 				// Select the next current configuration (local move)
 				double min_conflict = std::numeric_limits<double>::max();
 				int new_value = value_heuristic->select_value( variable_to_change, data, model, delta_errors, min_conflict, rng );
-
 				
 #if defined GHOST_TRACE
 				std::vector<int> candidate_values;
@@ -830,21 +836,31 @@ namespace ghost
 							     << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
 						}
 						else
-							if( value_heuristic->get_name().compare( "Antidote Search" ) == 0 )
+							if( value_heuristic->get_name().compare( "Random Walk" ) == 0 )
 							{
-								double transformed = cumulated_delta_errors_antidote[ index ] >= 0 ? 0.0 : -cumulated_delta_errors_antidote[ index ];
-								COUT << "(Antidote Search Value Heuristic) Error for switching var[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value()
+								COUT << "(Random Walk Value Heuristic) Error for switching var[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value()
 								     << " with var[" << deltas.first << "]=" << model.variables[ deltas.first ].get_value()
-								     << ": " << cumulated_delta_errors_antidote[ index ] << ", transformed: " << transformed << "\n";
+								     << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
 							}
+							else
+								if( value_heuristic->get_name().compare( "Antidote Search" ) == 0 )
+								{
+									double transformed = cumulated_delta_errors_antidote[ index ] >= 0 ? 0.0 : -cumulated_delta_errors_antidote[ index ];
+									COUT << "(Antidote Search Value Heuristic) Error for switching var[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value()
+									     << " with var[" << deltas.first << "]=" << model.variables[ deltas.first ].get_value()
+									     << ": " << cumulated_delta_errors_antidote[ index ] << ", transformed: " << transformed << "\n";
+								}
 					}
 					else
 					{
 						if( value_heuristic->get_name().compare( "Adaptive Search" ) == 0 )
 							COUT << "(Adaptive Search Value Heuristic) Error for the value " << deltas.first << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
 						else
-							if( value_heuristic->get_name().compare( "Antidote Search" ) == 0 )
-								COUT << "(Antidote Search Value Heuristic) Error for the value " << deltas.first << ": " << cumulated_delta_errors_antidote[ index ] << "\n";
+							if( value_heuristic->get_name().compare( "Random Walk" ) == 0 )
+								COUT << "(Random Walk Value Heuristic) Error for the value " << deltas.first << ": " << cumulated_delta_errors[ deltas.first ] << "\n";
+							else
+								if( value_heuristic->get_name().compare( "Antidote Search" ) == 0 )
+									COUT << "(Antidote Search Value Heuristic) Error for the value " << deltas.first << ": " << cumulated_delta_errors_antidote[ index ] << "\n";
 					}
 					++index;
 				}
@@ -853,17 +869,19 @@ namespace ghost
 				                cumulated_delta_errors_antidote.end(),
 				                cumulated_delta_errors_for_distribution.begin(),
 				                []( auto delta ){ if( delta >= 0) return 0.0; else return -delta; } );
-				
+
+				auto min_conflict_copy = min_conflict;
 				for( const auto& deltas : cumulated_delta_errors )
 				{
-					if( min_conflict > deltas.second )
+					// Should not happen, except for Random Walks. min_conflict is supposed to be, well, the min conflict.
+					if( min_conflict_copy > deltas.second )
 					{
 						candidate_values.clear();
 						candidate_values.push_back( deltas.first );
-						min_conflict = deltas.second;
+						min_conflict_copy = deltas.second;
 					}
 					else
-						if( min_conflict == deltas.second )
+						if( min_conflict_copy == deltas.second )
 							candidate_values.push_back( deltas.first );
 				}
 				
@@ -875,20 +893,28 @@ namespace ghost
 					COUT << "\n";
 				}
 				else
-					if( value_heuristic->get_name().compare( "Antidote Search" ) == 0 )
-					{				
-						auto distrib_value = std::discrete_distribution<int>( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() );
-						std::vector<int> vec_value( domain_to_explore.size(), 0 );
-						for( int n = 0 ; n < 10000 ; ++n )
-							++vec_value[ rng.variate<int, std::discrete_distribution>( distrib_value ) ];
-						std::vector<std::pair<int,int>> vec_value_pair( domain_to_explore.size() );
-						for( int n = 0 ; n < domain_to_explore.size() ; ++n )
-							vec_value_pair[n] = std::make_pair( cumulated_delta_errors_variable_index_correspondance[n], vec_value[n] );
-						std::sort( vec_value_pair.begin(), vec_value_pair.end(), [&](std::pair<int, int> &a, std::pair<int, int> &b){ return a.second > b.second; } );
-						COUT << "\n(Antidote Search Value Heuristic) Cumulated delta error distribution (normalized):\n";
-						for( int n = 0 ; n < domain_to_explore.size() ; ++n )
-							COUT << "value " <<  vec_value_pair[ n ].first << " => " << std::fixed << std::setprecision(3) << static_cast<double>( vec_value_pair[ n ].second ) / 10000 << "\n";
+					if( value_heuristic->get_name().compare( "Random Walk" ) == 0 )
+					{
+						COUT << "(Random Walk Value Heuristic) Min conflict value candidates list: " << candidate_values[0];
+						for( int i = 1 ; i < static_cast<int>( candidate_values.size() ); ++i )
+							COUT << ", " << candidate_values[i];
+						COUT << "\n";
 					}
+					else
+						if( value_heuristic->get_name().compare( "Antidote Search" ) == 0 )
+						{				
+							auto distrib_value = std::discrete_distribution<int>( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() );
+							std::vector<int> vec_value( domain_to_explore.size(), 0 );
+							for( int n = 0 ; n < 10000 ; ++n )
+								++vec_value[ rng.variate<int, std::discrete_distribution>( distrib_value ) ];
+							std::vector<std::pair<int,int>> vec_value_pair( domain_to_explore.size() );
+							for( int n = 0 ; n < domain_to_explore.size() ; ++n )
+								vec_value_pair[n] = std::make_pair( cumulated_delta_errors_variable_index_correspondance[n], vec_value[n] );
+							std::sort( vec_value_pair.begin(), vec_value_pair.end(), [&](std::pair<int, int> &a, std::pair<int, int> &b){ return a.second > b.second; } );
+							COUT << "\n(Antidote Search Value Heuristic) Cumulated delta error distribution (normalized):\n";
+							for( int n = 0 ; n < domain_to_explore.size() ; ++n )
+								COUT << "value " <<  vec_value_pair[ n ].first << " => " << std::fixed << std::setprecision(3) << static_cast<double>( vec_value_pair[ n ].second ) / 10000 << "\n";
+						}
 				
 				if( model.permutation_problem )
 					COUT << "\nPicked variable index for min conflict: "
@@ -901,6 +927,38 @@ namespace ghost
 					
 #endif // GHOST_TRACE
 
+#if defined GHOST_RANDOM_WALK
+				local_move( variable_to_change, new_value, min_conflict, delta_errors );
+				if( data.is_optimization )
+					data.current_opt_cost = model.objective->cost();
+				if( data.best_sat_error > data.current_sat_error )
+				{
+#if defined GHOST_TRACE
+					COUT << "Best satisfaction error so far (in an optimization problem). Before: " << data.best_sat_error << ", now: " << data.current_sat_error << "\n";
+#endif
+					data.best_sat_error = data.current_sat_error;
+					std::transform( model.variables.begin(),
+					                model.variables.end(),
+					                final_solution.begin(),
+					                [&](auto& var){ return var.get_value(); } );
+				}
+				else
+					if( data.is_optimization && data.current_sat_error == 0.0 && data.best_opt_cost > data.current_opt_cost )
+					{
+#if defined GHOST_TRACE
+						COUT << "Best objective function value so far. Before: " << data.best_opt_cost << ", now: " << data.current_opt_cost << "\n";
+#endif
+						data.best_opt_cost = data.current_opt_cost;
+						std::transform( model.variables.begin(),
+						                model.variables.end(),
+						                final_solution.begin(),
+						                [&](auto& var){ return var.get_value(); } );
+					}
+
+				elapsed_time = std::chrono::steady_clock::now() - start;
+				continue;				
+#endif
+				
 				/****************************************
 				 * 3. Error improved => make local move *
 				 ****************************************/

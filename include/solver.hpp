@@ -68,6 +68,13 @@
 
 #include "algorithms/culprit_search_error_projection_algorithm.hpp"
 
+#if defined GHOST_RANDOM_WALK
+#include "algorithms/random_walk_variable_heuristic.hpp"
+#include "algorithms/random_walk_variable_candidates_heuristic.hpp"
+#include "algorithms/random_walk_value_heuristic.hpp"
+#include "algorithms/null_error_projection_algorithm.hpp"
+#endif
+
 #include "macros.hpp"
 
 namespace ghost
@@ -463,6 +470,13 @@ namespace ghost
 			if( _options.number_start_samplings < 0 )
 				_options.number_start_samplings = 10;
 
+#if defined GHOST_RANDOM_WALK
+			_options.percent_chance_escape_plateau = 0;
+			_options.tabu_time_local_min = 0;
+			_options.tabu_time_selected = 0;
+			_options.number_start_samplings = 1;
+#endif
+			
 			double chrono_search;
 			double chrono_full_computation;
 
@@ -483,9 +497,17 @@ namespace ghost
 			// sequential runs
 			if( is_sequential )
 			{
+#if defined GHOST_RANDOM_WALK
+				SearchUnit search_unit( _model_builder.build_model(),
+				                        _options,
+				                        std::make_unique<algorithms::RandomWalkVariableHeuristic>(),
+				                        std::make_unique<algorithms::RandomWalkVariableCandidatesHeuristic>(),
+				                        std::make_unique<algorithms::RandomWalkValueHeuristic>(),
+				                        std::make_unique<algorithms::NullErrorProjection>() );
+#else				
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options );
-
+#endif
 				is_optimization = search_unit.data.is_optimization;
 				std::future<bool> unit_future = search_unit.solution_found.get_future();
 
@@ -521,8 +543,17 @@ namespace ghost
 				for( int i = 0 ; i < _options.number_threads; ++i )
 				{
 					// Instantiate one model per thread
+#if defined GHOST_RANDOM_WALK
+					units.emplace_back( _model_builder.build_model(),
+					                    _options,
+					                    std::make_unique<algorithms::RandomWalkVariableHeuristic>(),
+					                    std::make_unique<algorithms::RandomWalkVariableCandidatesHeuristic>(),
+					                    std::make_unique<algorithms::RandomWalkValueHeuristic>(),
+					                    std::make_unique<algorithms::NullErrorProjection>() );
+#else				
 					units.emplace_back( _model_builder.build_model(),
 					                    _options );
+#endif
 				}
 
 				is_optimization = units[0].data.is_optimization;

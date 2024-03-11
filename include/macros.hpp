@@ -37,3 +37,7 @@
 #else
 #define COUT std::cout
 #endif
+
+#if defined GHOST_RANDOM_WALK
+#define GHOST_TRACE
+#endif
