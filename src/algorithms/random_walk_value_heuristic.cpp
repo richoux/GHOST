@@ -47,35 +47,7 @@ int RandomWalkValueHeuristic::select_value( int variable_to_change,
                                             double& min_conflict,
                                             randutils::mt19937_rng& rng ) const
 {
-	std::vector<int> candidate_values;
-	std::map<int, double> cumulated_delta_errors;
-	for( const auto& deltas : delta_errors )
-		cumulated_delta_errors[ deltas.first ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
-
-	for( const auto& deltas : cumulated_delta_errors )
-	{
-		if( min_conflict > deltas.second )
-		{
-			candidate_values.clear();
-			candidate_values.push_back( deltas.first );
-			min_conflict = deltas.second;
-		}
-		else
-			if( min_conflict == deltas.second )
-				candidate_values.push_back( deltas.first );
-	}
-
-	if( candidate_values.empty() )
-		return variable_to_change;
-
-	// if we deal with an optimization problem, find the value minimizing to objective function
-	if( data.is_optimization )
-	{
-		if( model.permutation_problem )
-			return static_cast<int>( model.objective->heuristic_value_permutation( variable_to_change, candidate_values, rng ) );
-		else
-			return model.objective->heuristic_value( variable_to_change, candidate_values, rng );
-	}
-	else
-		return rng.pick( candidate_values );
+	auto pick_value_and_errors = static_cast<std::pair<int, std::vector<double>>>( rng.pick( delta_errors ) );
+	min_conflict = std::accumulate( pick_value_and_errors.second.begin(), pick_value_and_errors.second.end(), 0.0 );
+	return pick_value_and_errors.first;
 }

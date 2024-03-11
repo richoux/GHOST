@@ -27,23 +27,27 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/null_error_projection_algorithm.hpp"
+#pragma once
 
-using ghost::algorithms::NullErrorProjectionErrorProjection;
-using ghost::Variable;
-using ghost::Constraint;
+#include "error_projection_algorithm.hpp"
 
-NullErrorProjection::NullErrorProjectionErrorProjection()
-	: ErrorProjection( "Null Error Projection" )
-{ }
-
-void NullErrorProjectionErrorProjection::compute_variable_errors( const std::vector<Variable>& variables,                                                             
-                                                                  const std::vector<std::shared_ptr<Constraint>>& constraints,
-                                                                  SearchUnitData& data )
-{}
-
-void NullErrorProjectionErrorProjection::update_variable_errors( const std::vector<Variable>& variables,
-                                                                 std::shared_ptr<Constraint> constraint,
-                                                                 SearchUnitData& data,                                                            
-                                                                 double delta )
-{}
+namespace ghost
+{
+	namespace algorithms
+	{
+		class NullErrorProjection : public ErrorProjection
+		{
+		public:
+			NullErrorProjection();
+			
+			void compute_variable_errors( const std::vector<Variable>& variables,
+			                              const std::vector<std::shared_ptr<Constraint>>& constraints,
+			                              SearchUnitData& data ) override;
+			
+			void update_variable_errors( const std::vector<Variable>& variables,
+			                             std::shared_ptr<Constraint> constraint,
+			                             SearchUnitData& data,
+			                             double delta ) override;
+		};
+	}
+}
