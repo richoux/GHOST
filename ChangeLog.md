@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
+## [3.1.0] - 2024-03-11
+- Add Random Walk and Hill Climbing as search algorithms, for landscape analysis.
+- Minor changes in the global solver algorithm, such as removing the probability to force tabu-marking a variable. 
+
 ## [3.0.2] - 2023-09-26
 - Fix a mistake with maximization objectives in the complete solver, and a bug that happened with the compiler Clang.
 

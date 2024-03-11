@@ -56,7 +56,7 @@
 #include "algorithms/value_heuristic.hpp"
 #include "algorithms/error_projection_algorithm.hpp"
 
-#include "algorithms/adaptive_search_variable_heuristic.hpp"
+#include "algorithms/uniform_variable_heuristic.hpp"
 #include "algorithms/adaptive_search_variable_candidates_heuristic.hpp"
 #include "algorithms/adaptive_search_value_heuristic.hpp"
 #include "algorithms/adaptive_search_error_projection_algorithm.hpp"
@@ -67,11 +67,13 @@
 
 #include "algorithms/culprit_search_error_projection_algorithm.hpp"
 
-#if defined GHOST_RANDOM_WALK
-#include "algorithms/random_walk_variable_heuristic.hpp"
-#include "algorithms/random_walk_variable_candidates_heuristic.hpp"
-#include "algorithms/random_walk_value_heuristic.hpp"
+#if defined GHOST_RANDOM_WALK || defined GHOST_HILL_CLIMBING
+#include "algorithms/all_free_variable_candidates_heuristic.hpp"
 #include "algorithms/null_error_projection_algorithm.hpp"
+#endif
+
+#if defined GHOST_RANDOM_WALK 
+#include "algorithms/random_walk_value_heuristic.hpp"
 #endif
 
 #include "macros.hpp"
@@ -499,10 +501,12 @@ namespace ghost
 		//                              Otherwise try them first.)
 		void local_minimum_management( int variable_to_change, int new_value, bool no_other_variables_to_try )
 		{
+			must_compute_variable_candidates = false;
+
 			if( no_other_variables_to_try ) // || rng.uniform(1, 100) <= 10 //10% chance to force tabu-marking even if there are other variables to explore.
 			{
 				data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
-				must_compute_variable_candidates = true;
+				// must_compute_variable_candidates = true;
 				++data.local_minimum;
 			}
 			else
@@ -510,7 +514,7 @@ namespace ghost
 #if defined GHOST_TRACE
 				COUT << "Try other variables: not a local minimum yet.\n";
 #endif
-				must_compute_variable_candidates = false;
+				// must_compute_variable_candidates = false;
 			}
 		}
 
@@ -581,7 +585,7 @@ namespace ghost
 		SearchUnit( Model&& moved_model, const Options& options )
 			: SearchUnit( std::move( moved_model ),
 			              options,
-			              std::make_unique<algorithms::AdaptiveSearchVariableHeuristic>(),
+			              std::make_unique<algorithms::UniformVariableHeuristic>(),
 			              std::make_unique<algorithms::AdaptiveSearchVariableCandidatesHeuristic>(),
 			              std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
 			              std::make_unique<algorithms::AdaptiveSearchErrorProjection>() )
@@ -674,8 +678,6 @@ namespace ghost
 					COUT << "Projected error of var[" << i << "]: " << data.error_variables[i] << "\n";
 #endif
 
-
-				// TODO: to replace after a potential reset() call (l700), to save some computations?
 				// Estimate which variables need to be changed
 				if( must_compute_variable_candidates )
 					variable_candidates = variable_candidates_heuristic->compute_variable_candidates( data );
@@ -702,7 +704,7 @@ namespace ghost
 				}
 
 #if defined GHOST_TRACE
-				if( variable_heuristic->get_name().compare( "Adaptive Search" ) == 0 )
+				if( variable_candidates_heuristic->get_name().compare( "Adaptive Search" ) == 0 )
 				{
 					COUT << "\n(Adaptive Search Variable Candidates Heuristic) Variable candidates: v[" << static_cast<int>( variable_candidates[0] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[0] ) ].get_value();
 					for( int i = 1 ; i < static_cast<int>( variable_candidates.size() ) ; ++i )
@@ -710,20 +712,28 @@ namespace ghost
 					COUT << "\n";
 				}
 				else
-					if( variable_heuristic->get_name().compare( "Antidote Search" ) == 0 )
+					if( variable_candidates_heuristic->get_name().compare( "All Free" ) == 0 )
 					{
-						auto distrib = std::discrete_distribution<int>( data.error_variables.begin(), data.error_variables.end() );
-						std::vector<int> vec( data.number_variables, 0 );
-						for( int n = 0 ; n < 10000 ; ++n )
-							++vec[ rng.variate<int, std::discrete_distribution>( distrib ) ];
-						std::vector<std::pair<int,int>> vec_pair( data.number_variables );
-						for( int n = 0 ; n < data.number_variables ; ++n )
-							vec_pair[n] = std::make_pair( n, vec[n] );
-						std::sort( vec_pair.begin(), vec_pair.end(), [&](std::pair<int, int> &a, std::pair<int, int> &b){ return a.second > b.second; } );
-						COUT << "\n(Antidote Search Variable Candidates Heuristic) Variable errors (normalized):\n";
-						for( auto &v : vec_pair )
-							COUT << "v[" << v.first << "]: " << std::fixed << std::setprecision(3) << static_cast<double>( v.second ) / 10000 << "\n";
+						COUT << "\n(All Free Variable Candidates Heuristic) Variable candidates: v[" << static_cast<int>( variable_candidates[0] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[0] ) ].get_value();
+						for( int i = 1 ; i < static_cast<int>( variable_candidates.size() ) ; ++i )
+							COUT << ", v[" << static_cast<int>( variable_candidates[i] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[i] ) ].get_value();
+						COUT << "\n";
 					}
+					else
+						if( variable_candidates_heuristic->get_name().compare( "Antidote Search" ) == 0 )
+						{
+							auto distrib = std::discrete_distribution<int>( data.error_variables.begin(), data.error_variables.end() );
+							std::vector<int> vec( data.number_variables, 0 );
+							for( int n = 0 ; n < 10000 ; ++n )
+								++vec[ rng.variate<int, std::discrete_distribution>( distrib ) ];
+							std::vector<std::pair<int,int>> vec_pair( data.number_variables );
+							for( int n = 0 ; n < data.number_variables ; ++n )
+								vec_pair[n] = std::make_pair( n, vec[n] );
+							std::sort( vec_pair.begin(), vec_pair.end(), [&](std::pair<int, int> &a, std::pair<int, int> &b){ return a.second > b.second; } );
+							COUT << "\n(Antidote Search Variable Candidates Heuristic) Variable errors (normalized):\n";
+							for( auto &v : vec_pair )
+								COUT << "v[" << v.first << "]: " << std::fixed << std::setprecision(3) << static_cast<double>( v.second ) / 10000 << "\n";
+						}
 #endif
 
 				variable_to_change = variable_heuristic->select_variable( variable_candidates, data, rng );

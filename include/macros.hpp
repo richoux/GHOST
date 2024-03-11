@@ -41,3 +41,7 @@
 #if defined GHOST_RANDOM_WALK
 #define GHOST_TRACE
 #endif
+
+#if defined GHOST_HILL_CLIMBING
+#define GHOST_TRACE
+#endif

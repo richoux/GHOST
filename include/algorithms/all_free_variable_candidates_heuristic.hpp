@@ -27,17 +27,22 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/random_walk_variable_candidates_heuristic.hpp"
+#pragma once
 
-using ghost::algorithms::RandomWalkVariableCandidatesHeuristic;
+#include <vector>
 
-RandomWalkVariableCandidatesHeuristic::RandomWalkVariableCandidatesHeuristic()
-	: VariableCandidatesHeuristic( "Random Walk" )
-{ }
-		
-std::vector<double> RandomWalkVariableCandidatesHeuristic::compute_variable_candidates( const SearchUnitData& data ) const
+#include "variable_candidates_heuristic.hpp"
+
+namespace ghost
 {
-	std::vector<double> full_variables_list(data.number_variables);
-	std::iota( full_variables_list.begin(), full_variables_list.end(), 0.0 );
-	return full_variables_list;
+	namespace algorithms
+	{
+		class AllFreeVariableCandidatesHeuristic : public VariableCandidatesHeuristic
+		{
+		public:
+			AllFreeVariableCandidatesHeuristic();
+			
+			std::vector<double> compute_variable_candidates( const SearchUnitData& data ) const override;
+		};
+	}
 }

@@ -27,15 +27,20 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/adaptive_search_variable_heuristic.hpp"
+#include "algorithms/all_free_variable_candidates_heuristic.hpp"
 
-using ghost::algorithms::AdaptiveSearchVariableHeuristic;
+using ghost::algorithms::AllFreeVariableCandidatesHeuristic;
 
-AdaptiveSearchVariableHeuristic::AdaptiveSearchVariableHeuristic()
-	: VariableHeuristic( "Adaptive Search" )
+AllFreeVariableCandidatesHeuristic::AllFreeVariableCandidatesHeuristic()
+	: VariableCandidatesHeuristic( "All Free" )
 { }
-
-int AdaptiveSearchVariableHeuristic::select_variable( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
+		
+std::vector<double> AllFreeVariableCandidatesHeuristic::compute_variable_candidates( const SearchUnitData& data ) const
 {
-	return static_cast<int>( rng.pick( candidates ) );
+	std::vector<double> free_variables_list;
+	for( int variable_id = 0 ; variable_id < data.number_variables ; ++variable_id )
+		if( data.tabu_list[ variable_id ] <= data.local_moves )
+			free_variables_list.push_back( variable_id );
+	
+	return free_variables_list;
 }

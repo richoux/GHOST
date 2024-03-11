@@ -57,7 +57,7 @@
 #include "algorithms/value_heuristic.hpp"
 #include "algorithms/error_projection_algorithm.hpp"
 
-#include "algorithms/adaptive_search_variable_heuristic.hpp"
+#include "algorithms/uniform_variable_heuristic.hpp"
 #include "algorithms/adaptive_search_variable_candidates_heuristic.hpp"
 #include "algorithms/adaptive_search_value_heuristic.hpp"
 #include "algorithms/adaptive_search_error_projection_algorithm.hpp"
@@ -68,11 +68,13 @@
 
 #include "algorithms/culprit_search_error_projection_algorithm.hpp"
 
-#if defined GHOST_RANDOM_WALK
-#include "algorithms/random_walk_variable_heuristic.hpp"
-#include "algorithms/random_walk_variable_candidates_heuristic.hpp"
-#include "algorithms/random_walk_value_heuristic.hpp"
+#if defined GHOST_RANDOM_WALK || defined GHOST_HILL_CLIMBING
+#include "algorithms/all_free_variable_candidates_heuristic.hpp"
 #include "algorithms/null_error_projection_algorithm.hpp"
+#endif
+
+#if defined GHOST_RANDOM_WALK 
+#include "algorithms/random_walk_value_heuristic.hpp"
 #endif
 
 #include "macros.hpp"
@@ -470,13 +472,13 @@ namespace ghost
 			if( _options.number_start_samplings < 0 )
 				_options.number_start_samplings = 10;
 
-#if defined GHOST_RANDOM_WALK
+#if defined GHOST_RANDOM_WALK || defined GHOST_HILL_CLIMBING
 			_options.percent_chance_escape_plateau = 0;
+			_options.number_start_samplings = 1;
 			_options.tabu_time_local_min = 0;
 			_options.tabu_time_selected = 0;
-			_options.number_start_samplings = 1;
 #endif
-			
+
 			double chrono_search;
 			double chrono_full_computation;
 
@@ -500,9 +502,16 @@ namespace ghost
 #if defined GHOST_RANDOM_WALK
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options,
-				                        std::make_unique<algorithms::RandomWalkVariableHeuristic>(),
-				                        std::make_unique<algorithms::RandomWalkVariableCandidatesHeuristic>(),
+				                        std::make_unique<algorithms::UniformVariableHeuristic>(),
+				                        std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
 				                        std::make_unique<algorithms::RandomWalkValueHeuristic>(),
+				                        std::make_unique<algorithms::NullErrorProjection>() );
+#elif defined GHOST_HILL_CLIMBING
+				SearchUnit search_unit( _model_builder.build_model(),
+				                        _options,
+				                        std::make_unique<algorithms::UniformVariableHeuristic>(),
+				                        std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
+				                        std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
 				                        std::make_unique<algorithms::NullErrorProjection>() );
 #else				
 				SearchUnit search_unit( _model_builder.build_model(),
@@ -546,9 +555,16 @@ namespace ghost
 #if defined GHOST_RANDOM_WALK
 					units.emplace_back( _model_builder.build_model(),
 					                    _options,
-					                    std::make_unique<algorithms::RandomWalkVariableHeuristic>(),
-					                    std::make_unique<algorithms::RandomWalkVariableCandidatesHeuristic>(),
+					                    std::make_unique<algorithms::UniformVariableHeuristic>(),
+					                    std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
 					                    std::make_unique<algorithms::RandomWalkValueHeuristic>(),
+					                    std::make_unique<algorithms::NullErrorProjection>() );
+#elif defined GHOST_HILL_CLIMBING
+					units.emplace_back( _model_builder.build_model(),
+					                    _options,
+					                    std::make_unique<algorithms::UniformVariableHeuristic>(),
+					                    std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
+					                    std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
 					                    std::make_unique<algorithms::NullErrorProjection>() );
 #else				
 					units.emplace_back( _model_builder.build_model(),

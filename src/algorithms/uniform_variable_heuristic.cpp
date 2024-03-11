@@ -27,15 +27,15 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/random_walk_variable_heuristic.hpp"
+#include "algorithms/uniform_variable_heuristic.hpp"
 
-using ghost::algorithms::RandomWalkVariableHeuristic;
+using ghost::algorithms::UniformVariableHeuristic;
 
-RandomWalkVariableHeuristic::RandomWalkVariableHeuristic()
-	: VariableHeuristic( "Random Walk" )
+UniformVariableHeuristic::UniformVariableHeuristic()
+	: VariableHeuristic( "Uniform" )
 { }
 
-int RandomWalkVariableHeuristic::select_variable( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
+int UniformVariableHeuristic::select_variable( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
 {
 	return static_cast<int>( rng.pick( candidates ) );
 }
