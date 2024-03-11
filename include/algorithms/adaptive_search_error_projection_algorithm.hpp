@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2023 Florian Richoux
+ * Copyright (C) 2014-2024 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -29,34 +29,24 @@
 
 #pragma once
 
-#include "error_projection_heuristic.hpp"
+#include "error_projection_algorithm.hpp"
 
 namespace ghost
 {
 	namespace algorithms
 	{
-		class CulpritSearchErrorProjection : public ErrorProjection
+		class AdaptiveSearchErrorProjection : public ErrorProjection
 		{
-			std::vector<std::vector<double>> _error_variables_by_constraints;
-			
-			void compute_variable_errors_on_constraint( const std::vector<Variable>& variables,
-			                                            const std::vector<std::vector<int>>& matrix_var_ctr,
-			                                            std::shared_ptr<Constraint> constraint );
-			
 		public:
-			CulpritSearchErrorProjection();
-
-			void initialize_data_structures() override;
-
-			void compute_variable_errors( std::vector<double>& error_variables,
-			                              const std::vector<Variable>& variables,
-			                              const std::vector<std::vector<int>>& matrix_var_ctr,
-			                              const std::vector<std::shared_ptr<Constraint>>& constraints ) override;
+			AdaptiveSearchErrorProjection();
 			
-			void update_variable_errors( std::vector<double>& error_variables,
-			                             const std::vector<Variable>& variables,
-			                             const std::vector<std::vector<int>>& matrix_var_ctr,
+			void compute_variable_errors( const std::vector<Variable>& variables,
+			                              const std::vector<std::shared_ptr<Constraint>>& constraints,
+			                              SearchUnitData& data ) override;
+			
+			void update_variable_errors( const std::vector<Variable>& variables,
 			                             std::shared_ptr<Constraint> constraint,
+			                             SearchUnitData& data,
 			                             double delta ) override;
 		};
 	}

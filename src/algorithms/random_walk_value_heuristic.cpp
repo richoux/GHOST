@@ -27,38 +27,27 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include <cmath>
+#include <algorithm>
+#include <numeric>
 
-#include "global_constraints/fix_value.hpp"
+#include "algorithms/random_walk_value_heuristic.hpp"
 
-using ghost::global_constraints::FixValue;
+using ghost::algorithms::RandomWalkValueHeuristic;
+using ghost::SearchUnitData;
+using ghost::Model;
 
-FixValue::FixValue( const std::vector<int>& variables_index, int value )
-	: Constraint( variables_index ),
-	  _value( value )
+RandomWalkValueHeuristic::RandomWalkValueHeuristic()
+	: ValueHeuristic( "Random Walk" )
 { }
-
-FixValue::FixValue( const std::vector<Variable>& variables, int value )
-	: Constraint( variables ),
-	  _value( value )
-{ }
-
-double FixValue::required_error( const std::vector<Variable*>& variables ) const
+		
+int RandomWalkValueHeuristic::select_value( int variable_to_change,
+                                            const SearchUnitData& data,
+                                            const Model& model,
+                                            const std::map<int, std::vector<double>>& delta_errors,
+                                            double& min_conflict,
+                                            randutils::mt19937_rng& rng ) const
 {
-	double error = 0.;
-	for( auto& var : variables )
-		error += std::abs( var->get_value() - _value );
-	return error;
+	auto pick_value_and_errors = static_cast<std::pair<int, std::vector<double>>>( rng.pick( delta_errors ) );
+	min_conflict = std::accumulate( pick_value_and_errors.second.begin(), pick_value_and_errors.second.end(), 0.0 );
+	return pick_value_and_errors.first;
 }
-
-double FixValue::optional_delta_error( const std::vector<Variable*>& variables,
-                                       const std::vector<int>& variable_indexes,
-                                       const std::vector<int>& candidate_values ) const
-{
-	double diff = 0.;
-	for( int index = 0 ; index < static_cast<int>( variable_indexes.size() ) ; ++index )
-		diff += std::abs( candidate_values[ index ] - _value )
-			- std::abs( variables[ variable_indexes[ index ] ]->get_value() - _value );
-	
-	return diff;
-} 

@@ -27,38 +27,22 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include <cmath>
+#pragma once
 
-#include "global_constraints/fix_value.hpp"
+#include <vector>
 
-using ghost::global_constraints::FixValue;
+#include "variable_heuristic.hpp"
 
-FixValue::FixValue( const std::vector<int>& variables_index, int value )
-	: Constraint( variables_index ),
-	  _value( value )
-{ }
-
-FixValue::FixValue( const std::vector<Variable>& variables, int value )
-	: Constraint( variables ),
-	  _value( value )
-{ }
-
-double FixValue::required_error( const std::vector<Variable*>& variables ) const
+namespace ghost
 {
-	double error = 0.;
-	for( auto& var : variables )
-		error += std::abs( var->get_value() - _value );
-	return error;
+	namespace algorithms
+	{
+		class UniformVariableHeuristic : public VariableHeuristic
+		{
+		public:
+			UniformVariableHeuristic();
+			
+			int select_variable( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const override;
+		};
+	}
 }
-
-double FixValue::optional_delta_error( const std::vector<Variable*>& variables,
-                                       const std::vector<int>& variable_indexes,
-                                       const std::vector<int>& candidate_values ) const
-{
-	double diff = 0.;
-	for( int index = 0 ; index < static_cast<int>( variable_indexes.size() ) ; ++index )
-		diff += std::abs( candidate_values[ index ] - _value )
-			- std::abs( variables[ variable_indexes[ index ] ]->get_value() - _value );
-	
-	return diff;
-} 

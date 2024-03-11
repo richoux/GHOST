@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2023 Florian Richoux
+ * Copyright (C) 2014-2024 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -55,18 +55,27 @@
 #include "algorithms/variable_heuristic.hpp"
 #include "algorithms/variable_candidates_heuristic.hpp"
 #include "algorithms/value_heuristic.hpp"
-#include "algorithms/error_projection_heuristic.hpp"
+#include "algorithms/error_projection_algorithm.hpp"
 
-#include "algorithms/adaptive_search_variable_heuristic.hpp"
+#include "algorithms/uniform_variable_heuristic.hpp"
 #include "algorithms/adaptive_search_variable_candidates_heuristic.hpp"
 #include "algorithms/adaptive_search_value_heuristic.hpp"
-#include "algorithms/adaptive_search_error_projection_heuristic.hpp"
+#include "algorithms/adaptive_search_error_projection_algorithm.hpp"
 
 #include "algorithms/antidote_search_variable_heuristic.hpp"
 #include "algorithms/antidote_search_variable_candidates_heuristic.hpp"
 #include "algorithms/antidote_search_value_heuristic.hpp"
 
-#include "algorithms/culprit_search_error_projection_heuristic.hpp"
+#include "algorithms/culprit_search_error_projection_algorithm.hpp"
+
+#if defined GHOST_RANDOM_WALK || defined GHOST_HILL_CLIMBING
+#include "algorithms/all_free_variable_candidates_heuristic.hpp"
+#include "algorithms/null_error_projection_algorithm.hpp"
+#endif
+
+#if defined GHOST_RANDOM_WALK 
+#include "algorithms/random_walk_value_heuristic.hpp"
+#endif
 
 #include "macros.hpp"
 
@@ -139,7 +148,7 @@ namespace ghost
 		std::string _variable_heuristic;
 		std::string _variable_candidates_heuristic;
 		std::string _value_heuristic;
-		std::string _error_projection_heuristic;
+		std::string _error_projection_algorithm;
 
 		// From search_unit_data
 		// Matrix to know which constraints contain a given variable
@@ -463,6 +472,13 @@ namespace ghost
 			if( _options.number_start_samplings < 0 )
 				_options.number_start_samplings = 10;
 
+#if defined GHOST_RANDOM_WALK || defined GHOST_HILL_CLIMBING
+			_options.percent_chance_escape_plateau = 0;
+			_options.number_start_samplings = 1;
+			_options.tabu_time_local_min = 0;
+			_options.tabu_time_selected = 0;
+#endif
+
 			double chrono_search;
 			double chrono_full_computation;
 
@@ -483,9 +499,24 @@ namespace ghost
 			// sequential runs
 			if( is_sequential )
 			{
+#if defined GHOST_RANDOM_WALK
+				SearchUnit search_unit( _model_builder.build_model(),
+				                        _options,
+				                        std::make_unique<algorithms::UniformVariableHeuristic>(),
+				                        std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
+				                        std::make_unique<algorithms::RandomWalkValueHeuristic>(),
+				                        std::make_unique<algorithms::NullErrorProjection>() );
+#elif defined GHOST_HILL_CLIMBING
+				SearchUnit search_unit( _model_builder.build_model(),
+				                        _options,
+				                        std::make_unique<algorithms::UniformVariableHeuristic>(),
+				                        std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
+				                        std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
+				                        std::make_unique<algorithms::NullErrorProjection>() );
+#else				
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options );
-
+#endif
 				is_optimization = search_unit.data.is_optimization;
 				std::future<bool> unit_future = search_unit.solution_found.get_future();
 
@@ -508,7 +539,7 @@ namespace ghost
 				_variable_heuristic = search_unit.variable_heuristic->get_name();
 				_variable_candidates_heuristic = search_unit.variable_candidates_heuristic->get_name();
 				_value_heuristic = search_unit.value_heuristic->get_name();
-				_error_projection_heuristic = search_unit.error_projection_heuristic->get_name();
+				_error_projection_algorithm = search_unit.error_projection_algorithm->get_name();
 				
 				_model = std::move( search_unit.transfer_model() );
 			}
@@ -521,8 +552,24 @@ namespace ghost
 				for( int i = 0 ; i < _options.number_threads; ++i )
 				{
 					// Instantiate one model per thread
+#if defined GHOST_RANDOM_WALK
+					units.emplace_back( _model_builder.build_model(),
+					                    _options,
+					                    std::make_unique<algorithms::UniformVariableHeuristic>(),
+					                    std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
+					                    std::make_unique<algorithms::RandomWalkValueHeuristic>(),
+					                    std::make_unique<algorithms::NullErrorProjection>() );
+#elif defined GHOST_HILL_CLIMBING
+					units.emplace_back( _model_builder.build_model(),
+					                    _options,
+					                    std::make_unique<algorithms::UniformVariableHeuristic>(),
+					                    std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
+					                    std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
+					                    std::make_unique<algorithms::NullErrorProjection>() );
+#else				
 					units.emplace_back( _model_builder.build_model(),
 					                    _options );
+#endif
 				}
 
 				is_optimization = units[0].data.is_optimization;
@@ -634,7 +681,7 @@ namespace ghost
 					_variable_heuristic = units.at( winning_thread ).variable_heuristic->get_name();
 					_variable_candidates_heuristic = units.at( winning_thread ).variable_candidates_heuristic->get_name();
 					_value_heuristic = units.at( winning_thread ).value_heuristic->get_name();
-					_error_projection_heuristic = units.at( winning_thread ).error_projection_heuristic->get_name();
+					_error_projection_algorithm = units.at( winning_thread ).error_projection_algorithm->get_name();
 
 					_model = std::move( units.at( winning_thread ).transfer_model() );
 				}
@@ -670,7 +717,7 @@ namespace ghost
 					_variable_heuristic = units.at( best_non_solution ).variable_heuristic->get_name();
 					_variable_candidates_heuristic = units.at( best_non_solution ).variable_candidates_heuristic->get_name();
 					_value_heuristic = units.at( best_non_solution ).value_heuristic->get_name();
-					_error_projection_heuristic = units.at( best_non_solution ).error_projection_heuristic->get_name();
+					_error_projection_algorithm = units.at( best_non_solution ).error_projection_algorithm->get_name();
 					
 					_model = std::move( units.at( best_non_solution ).transfer_model() );
 				}
@@ -719,7 +766,7 @@ namespace ghost
 			          << "Variable heuristic: " << _variable_heuristic << "\n"
 			          << "Variable candidate heuristic: " << _variable_candidates_heuristic << "\n"
 			          << "Value heuristic: " << _value_heuristic << "\n"
-			          << "Error projection heuristic: " << _error_projection_heuristic << "\n"
+			          << "Error projection algorithm: " << _error_projection_algorithm << "\n"
 			          << "Started from a custom variables assignment: " << std::boolalpha << _options.custom_starting_point << "\n"
 			          << "Search resumed from a previous run: " << std::boolalpha << _options.resume_search << "\n"
 			          << "Parallel search: " << std::boolalpha << _options.parallel_runs << "\n"
@@ -736,9 +783,11 @@ namespace ghost
 			std::cout << "############" << "\n";
 
 			// Print solution
-			std::cout << _options.print->print_candidate( _model.variables ).str();
-
-			std::cout << "\n";
+			std::cout << "Solution: ";
+			for (const auto& v: _model.variables)
+				std::cout << v.get_value() << " ";
+			
+			std::cout << "\n" << _options.print->print_candidate( _model.variables ).str() << "\n";
 
 			if( !is_optimization )
 				std::cout << "SATISFACTION run" << "\n";

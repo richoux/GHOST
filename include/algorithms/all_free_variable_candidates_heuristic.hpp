@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2023 Florian Richoux
+ * Copyright (C) 2014-2024 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -27,15 +27,22 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/adaptive_search_variable_heuristic.hpp"
+#pragma once
 
-using ghost::algorithms::AdaptiveSearchVariableHeuristic;
+#include <vector>
 
-AdaptiveSearchVariableHeuristic::AdaptiveSearchVariableHeuristic()
-	: VariableHeuristic( "Adaptive Search" )
-{ }
+#include "variable_candidates_heuristic.hpp"
 
-int AdaptiveSearchVariableHeuristic::select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
+namespace ghost
 {
-	return static_cast<int>( rng.pick( candidates ) );
+	namespace algorithms
+	{
+		class AllFreeVariableCandidatesHeuristic : public VariableCandidatesHeuristic
+		{
+		public:
+			AllFreeVariableCandidatesHeuristic();
+			
+			std::vector<double> compute_variable_candidates( const SearchUnitData& data ) const override;
+		};
+	}
 }

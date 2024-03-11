@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2023 Florian Richoux
+ * Copyright (C) 2014-2024 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -36,7 +36,7 @@ AntidoteSearchVariableHeuristic::AntidoteSearchVariableHeuristic()
 	: VariableHeuristic( "Antidote Search" )
 { }
 		
-int AntidoteSearchVariableHeuristic::select_variable_candidate( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
+int AntidoteSearchVariableHeuristic::select_variable( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
 {
 	// WARNING: must remove variables which are in any constraints
 	return rng.variate<int, std::discrete_distribution>( candidates.begin(), candidates.end() );

@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2023 Florian Richoux
+ * Copyright (C) 2014-2024 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -36,4 +36,12 @@
 #define COUT _log_trace
 #else
 #define COUT std::cout
+#endif
+
+#if defined GHOST_RANDOM_WALK
+#define GHOST_TRACE
+#endif
+
+#if defined GHOST_HILL_CLIMBING
+#define GHOST_TRACE
 #endif

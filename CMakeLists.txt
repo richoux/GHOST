@@ -101,15 +101,18 @@ set(libHeadersAlgorithmsList
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_candidates_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/value_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/error_projection_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_variable_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/error_projection_algorithm.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_variable_candidates_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_value_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_error_projection_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_error_projection_algorithm.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_variable_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_variable_candidates_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_value_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/culprit_search_error_projection_heuristic.hpp")
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/culprit_search_error_projection_algorithm.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/uniform_variable_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/all_free_variable_candidates_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/random_walk_value_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/null_error_projection_algorithm.hpp")
 
 set(libHeadersGlobalConstraintsList
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/all_different.hpp"
@@ -138,14 +141,17 @@ set(toAddInLibs
 	src/model_builder.cpp
 	src/options.cpp
 	src/print.cpp
-	src/algorithms/adaptive_search_variable_heuristic.cpp
 	src/algorithms/adaptive_search_variable_candidates_heuristic.cpp
 	src/algorithms/adaptive_search_value_heuristic.cpp
-	src/algorithms/adaptive_search_error_projection_heuristic.cpp
+	src/algorithms/adaptive_search_error_projection_algorithm.cpp
 	src/algorithms/antidote_search_variable_heuristic.cpp
 	src/algorithms/antidote_search_variable_candidates_heuristic.cpp
 	src/algorithms/antidote_search_value_heuristic.cpp
-	src/algorithms/culprit_search_error_projection_heuristic.cpp
+	src/algorithms/culprit_search_error_projection_algorithm.cpp
+	src/algorithms/uniform_variable_heuristic.cpp
+	src/algorithms/all_free_variable_candidates_heuristic.cpp
+	src/algorithms/random_walk_value_heuristic.cpp
+	src/algorithms/null_error_projection_algorithm.cpp
 	src/global_constraints/all_different.cpp
 	src/global_constraints/all_equal.cpp
 	src/global_constraints/fix_value.cpp
@@ -199,9 +205,9 @@ endif()
 include (InstallRequiredSystemLibraries)
 set (CPACK_PACKAGE_NAME "GHOST")
 set (CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
-set (CPACK_PACKAGE_VERSION_MAJOR "2")
-set (CPACK_PACKAGE_VERSION_MINOR "8")
-set (CPACK_PACKAGE_VERSION_PATCH "2")
+set (CPACK_PACKAGE_VERSION_MAJOR "3")
+set (CPACK_PACKAGE_VERSION_MINOR "1")
+set (CPACK_PACKAGE_VERSION_PATCH "0")
 set (CPACK_PACKAGE_CONTACT "florian.richoux@polytechnique.edu")
 set (CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 include (CPack)

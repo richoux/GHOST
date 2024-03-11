@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2023 Florian Richoux
+ * Copyright (C) 2014-2024 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -39,12 +39,12 @@ AntidoteSearchValueHeuristic::AntidoteSearchValueHeuristic()
 	: ValueHeuristic( "Antidote Search" )
 { }
 		
-int AntidoteSearchValueHeuristic::select_value_candidates( int variable_to_change,
-                                                           const SearchUnitData& data,
-                                                           const Model& model,
-                                                           const std::map<int, std::vector<double>>& delta_errors,
-                                                           double& min_conflict,
-                                                           randutils::mt19937_rng& rng ) const
+int AntidoteSearchValueHeuristic::select_value( int variable_to_change,
+                                                const SearchUnitData& data,
+                                                const Model& model,
+                                                const std::map<int, std::vector<double>>& delta_errors,
+                                                double& min_conflict,
+                                                randutils::mt19937_rng& rng ) const
 {
 	std::vector<double> cumulated_delta_errors( delta_errors.size() );
 	std::vector<double> cumulated_delta_errors_for_distribution( delta_errors.size() );

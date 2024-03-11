@@ -27,38 +27,35 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include <cmath>
+#pragma once
 
-#include "global_constraints/fix_value.hpp"
+#include "error_projection_algorithm.hpp"
 
-using ghost::global_constraints::FixValue;
-
-FixValue::FixValue( const std::vector<int>& variables_index, int value )
-	: Constraint( variables_index ),
-	  _value( value )
-{ }
-
-FixValue::FixValue( const std::vector<Variable>& variables, int value )
-	: Constraint( variables ),
-	  _value( value )
-{ }
-
-double FixValue::required_error( const std::vector<Variable*>& variables ) const
+namespace ghost
 {
-	double error = 0.;
-	for( auto& var : variables )
-		error += std::abs( var->get_value() - _value );
-	return error;
+	namespace algorithms
+	{
+		class CulpritSearchErrorProjection : public ErrorProjection
+		{
+			std::vector<std::vector<double>> _error_variables_by_constraints;
+			
+			void compute_variable_errors_on_constraint( const std::vector<Variable>& variables,
+			                                            const std::vector<std::vector<int>>& matrix_var_ctr,
+			                                            std::shared_ptr<Constraint> constraint );
+			
+		public:
+			CulpritSearchErrorProjection();
+
+			void initialize_data_structures( const SearchUnitData& data ) override;
+
+			void compute_variable_errors( const std::vector<Variable>& variables,
+			                              const std::vector<std::shared_ptr<Constraint>>& constraints,
+			                              SearchUnitData& data ) override;
+			
+			void update_variable_errors( const std::vector<Variable>& variables,
+			                             std::shared_ptr<Constraint> constraint,
+			                             SearchUnitData& data,
+			                             double delta ) override;
+		};
+	}
 }
-
-double FixValue::optional_delta_error( const std::vector<Variable*>& variables,
-                                       const std::vector<int>& variable_indexes,
-                                       const std::vector<int>& candidate_values ) const
-{
-	double diff = 0.;
-	for( int index = 0 ; index < static_cast<int>( variable_indexes.size() ) ; ++index )
-		diff += std::abs( candidate_values[ index ] - _value )
-			- std::abs( variables[ variable_indexes[ index ] ]->get_value() - _value );
-	
-	return diff;
-} 

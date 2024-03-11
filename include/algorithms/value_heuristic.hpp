@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2023 Florian Richoux
+ * Copyright (C) 2014-2024 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -41,11 +41,12 @@ namespace ghost
 	namespace algorithms
 	{
 		/*
-		 * ValueHeuristic follows the Strategy design pattern to implement variable selection heuristics.
+		 * Strategy design pattern to implement variable selection heuristics.
 		 */
 		class ValueHeuristic
 		{
 		protected:
+			// Protected string variable for the heuristic name. Used for debug/trace purposes.
 			std::string name;
 
 		public:
@@ -53,17 +54,28 @@ namespace ghost
 				: name( std::move( name ) )
 			{ }
 
-			//! Default virtual destructor.
+			// Default virtual destructor.
 			virtual ~ValueHeuristic() = default;
 
+			// Inline function returning the heuristic name.
 			inline std::string get_name() const { return name; }
 
-			virtual int select_value_candidates( int variable_to_change,
-			                                     const SearchUnitData& data,
-			                                     const Model& model,
-			                                     const std::map<int, std::vector<double>>& delta_errors,
-			                                     double& min_conflict,
-			                                     randutils::mt19937_rng& rng ) const = 0;
+			/*
+			 * Function to select a value to assign to the variable currently selected by the search algorithm to make a local move.
+			 * \param variable_to_change The index of the variable currently selected by the search algorithm.
+			 * \param data A reference to the SearchUnitData object containing data about the problem instance and the search state, such as the number of variables and constraints, the current projected error on each variable, etc.
+			 * \param model A reference to the problem model, to get access to the objective function for instance.
+			 * \param delta_errors A reference to a map to have the list of delta errors on each variable.
+			 * \param min_conflict A non-constant reference to get the minimal conflict value after calling this function.
+			 * \param rng A reference to the pseudo-random generator, to avoid recreating such object.
+			 * \return The selected value to be assigned to variable_to_change (or the index of a variable in case of permutation moves).
+			 */
+			virtual int select_value( int variable_to_change,
+			                          const SearchUnitData& data,
+			                          const Model& model,
+			                          const std::map<int, std::vector<double>>& delta_errors,
+			                          double& min_conflict,
+			                          randutils::mt19937_rng& rng ) const = 0;
 		};
 	}
 }

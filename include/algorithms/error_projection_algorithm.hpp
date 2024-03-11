@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2023 Florian Richoux
+ * Copyright (C) 2014-2024 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -32,6 +32,7 @@
 #include <vector>
 #include <memory>
 
+#include "../search_unit_data.hpp"
 #include "../constraint.hpp"
 #include "../variable.hpp"
 
@@ -39,36 +40,38 @@ namespace ghost
 {
 	namespace algorithms
 	{
+		/*
+		 * Strategy design pattern to implement error projection algorithm.
+		 */
 		class ErrorProjection
 		{
 		protected:
+			// Protected string variable for the heuristic name. Used for debug/trace purposes.
 			std::string name;
-			int number_variables;
-			int number_constraints;
 
 		public:
 			ErrorProjection( std::string&& name )
 				: name( std::move( name ) )
 			{ }
 
-			//! Default virtual destructor.
+			// Default virtual destructor.
 			virtual ~ErrorProjection() = default;
 
+			// Inline function returning the algorithm name.
 			inline std::string get_name() const { return name; }
-			inline void set_number_variables( int num ) { number_variables = num ; }
-			inline void set_number_constraints( int num ) { number_constraints = num ; }
 
-			virtual void initialize_data_structures() {};
+			// Can be useful to initialize some data structures before computing error projections.
+			virtual void initialize_data_structures( const SearchUnitData& data ) {};
 
-			virtual void compute_variable_errors( std::vector<double>& error_variables,
-			                                      const std::vector<Variable>& variables,
-			                                      const std::vector<std::vector<int>>& matrix_var_ctr,
-			                                      const std::vector<std::shared_ptr<Constraint>>& constraints ) = 0;
+			// Will reset data.error_variables and set the element of this vector to their projected cost
+			virtual void compute_variable_errors( const std::vector<Variable>& variables,
+			                                      const std::vector<std::shared_ptr<Constraint>>& constraints,
+			                                      SearchUnitData& data ) = 0;
 
-			virtual void update_variable_errors( std::vector<double>& error_variables,
-			                                     const std::vector<Variable>& variables,
-			                                     const std::vector<std::vector<int>>& matrix_var_ctr,
+			// Incremental update of data.error_variables
+			virtual void update_variable_errors( const std::vector<Variable>& variables,
 			                                     std::shared_ptr<Constraint> constraint,
+			                                     SearchUnitData& data,
 			                                     double delta ) = 0;
 		};
 	}

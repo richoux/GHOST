@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2023 Florian Richoux
+ * Copyright (C) 2014-2024 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -32,7 +32,7 @@
 #include <functional>
 #include <iostream>
 
-#include "algorithms/culprit_search_error_projection_heuristic.hpp"
+#include "algorithms/culprit_search_error_projection_algorithm.hpp"
 
 using ghost::algorithms::CulpritSearchErrorProjection;
 using ghost::Variable;
@@ -42,9 +42,9 @@ CulpritSearchErrorProjection::CulpritSearchErrorProjection()
 	: ErrorProjection( "Culprit Search" )
 { }
 
-void CulpritSearchErrorProjection::initialize_data_structures()
+void CulpritSearchErrorProjection::initialize_data_structures( const SearchUnitData& data )
 {
-	_error_variables_by_constraints = std::vector<std::vector<double>>( number_constraints, std::vector<double>( number_variables, 0. ) );
+	_error_variables_by_constraints = std::vector<std::vector<double>>( data.number_constraints, std::vector<double>( data.number_variables, 0. ) );
 }
 
 void CulpritSearchErrorProjection::compute_variable_errors_on_constraint( const std::vector<Variable>& variables,
@@ -109,45 +109,43 @@ void CulpritSearchErrorProjection::compute_variable_errors_on_constraint( const 
 	}
 }
 
-void CulpritSearchErrorProjection::compute_variable_errors( std::vector<double>& error_variables,
-                                                            const std::vector<Variable>& variables,
-                                                            const std::vector<std::vector<int>>& matrix_var_ctr,
-                                                            const std::vector<std::shared_ptr<Constraint>>& constraints )
+void CulpritSearchErrorProjection::compute_variable_errors( const std::vector<Variable>& variables,
+                                                            const std::vector<std::shared_ptr<Constraint>>& constraints,
+                                                            SearchUnitData& data )
 {
-	std::fill( error_variables.begin(), error_variables.end(), 0. );
+	std::fill( data.error_variables.begin(), data.error_variables.end(), 0. );
 	
 	for( auto constraint : constraints )
 	{
-		compute_variable_errors_on_constraint( variables, matrix_var_ctr, constraint );
+		compute_variable_errors_on_constraint( variables, data.matrix_var_ctr, constraint );
 		
 		// add normalize deltas of the current constraint to the error variables vector.
 		std::transform( _error_variables_by_constraints[ constraint->_id ].cbegin(),
 		                _error_variables_by_constraints[ constraint->_id ].cend(),
-		                error_variables.cbegin(),
-		                error_variables.begin(),
+		                data.error_variables.cbegin(),
+		                data.error_variables.begin(),
 		                std::plus<>{} );
 	}
 }
 
-void CulpritSearchErrorProjection::update_variable_errors( std::vector<double>& error_variables,
-                                                           const std::vector<Variable>& variables,
-                                                           const std::vector<std::vector<int>>& matrix_var_ctr,
+void CulpritSearchErrorProjection::update_variable_errors( const std::vector<Variable>& variables,
                                                            std::shared_ptr<Constraint> constraint,
+                                                           SearchUnitData& data,
                                                            double delta )
 {
 	// remove current deltas of the given constraint to the error variables vector.
 	std::transform( _error_variables_by_constraints[ constraint->_id ].cbegin(),
 	                _error_variables_by_constraints[ constraint->_id ].cend(),
-	                error_variables.cbegin(),
-	                error_variables.begin(),
+	                data.error_variables.cbegin(),
+	                data.error_variables.begin(),
 	                std::minus<>{} );
 
-	compute_variable_errors_on_constraint( variables, matrix_var_ctr, constraint );
+	compute_variable_errors_on_constraint( variables, data.matrix_var_ctr, constraint );
 
 	// add normalize deltas of the current constraint to the error variables vector.
 	std::transform( _error_variables_by_constraints[ constraint->_id ].cbegin(),
 	                _error_variables_by_constraints[ constraint->_id ].cend(),
-	                error_variables.cbegin(),
-	                error_variables.begin(),
+	                data.error_variables.cbegin(),
+	                data.error_variables.begin(),
 	                std::plus<>{} );
 }
