@@ -784,7 +784,7 @@ namespace ghost
 
 			// Print solution
 			std::cout << "Solution: ";
-			for (const auto& v: _model.variables)
+			for( const auto& v: _model.variables )
 				std::cout << v.get_value() << " ";
 			
 			std::cout << "\n" << _options.print->print_candidate( _model.variables ).str() << "\n";

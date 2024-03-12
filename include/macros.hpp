@@ -45,3 +45,7 @@
 #if defined GHOST_HILL_CLIMBING
 #define GHOST_TRACE
 #endif
+
+#if defined GHOST_FITNESS_CLOUD
+#define GHOST_TRACE
+#endif
