@@ -536,7 +536,6 @@ namespace ghost
 			else
 			{
 				model.variables[ variable_to_change ].set_value( new_value );
-
 				model.auxiliary_data->update( variable_to_change, new_value );
 			}
 		}
@@ -739,7 +738,7 @@ namespace ghost
 				/********************************************
 				 * 1. Choice of worst variable(s) to change *
 				 ********************************************/
-#if defined GHOST_TRACE
+#if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD
 				print_errors();
 
 				for( int i = 0 ; i < data.number_variables; ++i )
@@ -771,7 +770,7 @@ namespace ghost
 					continue;
 				}
 
-#if defined GHOST_TRACE
+#if defined GHOST_TRACE  && not defined GHOST_FITNESS_CLOUD
 				if( variable_candidates_heuristic->get_name().compare( "Adaptive Search" ) == 0 )
 				{
 					COUT << "\n(Adaptive Search Variable Candidates Heuristic) Variable candidates: v[" << static_cast<int>( variable_candidates[0] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[0] ) ].get_value();
@@ -806,7 +805,7 @@ namespace ghost
 
 				variable_to_change = variable_heuristic->select_variable( variable_candidates, data, rng );
 
-#if defined GHOST_TRACE
+#if defined GHOST_TRACE  && not defined GHOST_FITNESS_CLOUD
 				COUT << options.print->print_candidate( model.variables ).str();
 				COUT << "\n********\nNumber of loop iteration: " << data.search_iterations << "\n";
 				COUT << "Number of local moves performed: " << data.local_moves << "\n";
@@ -891,7 +890,7 @@ namespace ghost
 				double min_conflict = std::numeric_limits<double>::max();
 				int new_value = value_heuristic->select_value( variable_to_change, data, model, delta_errors, min_conflict, rng );
 				
-#if defined GHOST_TRACE
+#if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD
 				std::vector<int> candidate_values;
 				std::map<int, double> cumulated_delta_errors;
 				std::vector<double> cumulated_delta_errors_antidote( delta_errors.size() );
