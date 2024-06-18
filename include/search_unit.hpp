@@ -548,7 +548,7 @@ namespace ghost
 			{
 				data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
 				must_compute_variable_candidates = true;
-				++data.plateau_local_minimum;
+				++data.plateau_escape;
 #if defined GHOST_TRACE
 				COUT << "Escape from plateau; variables marked as tabu.\n";
 #endif
