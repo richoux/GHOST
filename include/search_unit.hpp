@@ -700,7 +700,7 @@ namespace ghost
 			// A. Local move (perform local move and update variables/constraints/objective function)
 			// B. Plateau management (local move on the plateau, but x% of chance to escape it, mark the variable as tabu.)
 			// C. local minimum management (if there are no other worst variables to try, mark the variable as tabu.
-			//                              Otherwise try them first, but with x% of chance, the solver fianlly marks the variable as tabu.)
+			//                              Otherwise try them first, but with x% of chance, the solver finally marks the variable as tabu.)
 
 			std::chrono::duration<double,std::micro> elapsed_time( 0 );
 			std::chrono::time_point<std::chrono::steady_clock> start( std::chrono::steady_clock::now() );
