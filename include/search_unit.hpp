@@ -540,17 +540,17 @@ namespace ghost
 			}
 		}
 
-		// B. Plateau management (local move on the plateau, but options.percent_chance_escape_plateau
+		// B. Plateau management (local move on the plateau, but options.percent_chance_force_trying_on_plateau
 		//                        of chance to escape it and mark the variable as tabu.)
 		void plateau_management( int variable_to_change, int new_value, const std::map< int, std::vector<double>>& delta_errors )
 		{
-			if( rng.uniform(1, 100) <= options.percent_chance_escape_plateau )
+			if( rng.uniform(1, 100) <= options.percent_chance_force_trying_on_plateau )
 			{
 				data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
 				must_compute_variable_candidates = true;
 				++data.plateau_force_trying_another_variable;
 #if defined GHOST_TRACE
-				COUT << "Escape from plateau; variables marked as tabu.\n";
+				COUT << "Force the exploration of another variable on a plateau; current variable marked as tabu.\n";
 #endif
 			}
 			else
