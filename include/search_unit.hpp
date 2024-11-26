@@ -90,6 +90,8 @@ namespace ghost
 		std::future<void> _stop_search_check;
 		std::thread::id _thread_id;
 
+		bool _search_in_violation_space; // if false, search in the objective space
+		
 #if defined GHOST_TRACE_PARALLEL
 		std::stringstream _log_filename;
 		std::ofstream _log_trace;
@@ -609,6 +611,7 @@ namespace ghost
 		            std::unique_ptr<algorithms::ValueHeuristic> value_heuristic,
 		            std::unique_ptr<algorithms::ErrorProjection> error_projection_algorithm )
 			: _stop_search_check( _stop_search_signal.get_future() ),
+			  _search_in_violation_space( true ),
 			  model( std::move( moved_model ) ),
 			  data( model ),
 			  variable_heuristic( std::move( variable_heuristic ) ),
