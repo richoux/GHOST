@@ -154,6 +154,7 @@ int Objective::expert_heuristic_value_permutation( const std::vector<Variable*>&
 		++head;
 	}
 
+	variables[ candidate_variables[ tail ] ]->set_value( var->get_value() );
 	var->set_value( backup );
 
 	if( !best_values.empty() ) [[likely]]

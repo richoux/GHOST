@@ -6,23 +6,23 @@ cmake_policy(SET CMP0054 NEW)
 cmake_policy(SET CMP0091 NEW)
 
 # compilation features
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_EXTENSIONS OFF) # prevents cmake compiling with -std=gnu++17 on GNU/Linux instead of a more portable -std=c++17
-set(CMAKE_CXX_STANDARD_REQUIRED ON) # prevents a "decay" to C++98 when the compiler does not support C++17
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_EXTENSIONS OFF) # prevents cmake compiling with -std=gnu++20 on GNU/Linux instead of a more portable -std=c++20
+set(CMAKE_CXX_STANDARD_REQUIRED ON) # prevents a "decay" to C++98 when the compiler does not support C++20
 
-# require a C++17-capable compiler
+# require a C++20-capable compiler
 include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("-std=c++17" COMPILER_SUPPORTS_CXX17)
-CHECK_CXX_COMPILER_FLAG("-std=c++1z" COMPILER_SUPPORTS_CXX1Z)
-CHECK_CXX_COMPILER_FLAG("/std:c++17" COMPILER_SUPPORTS_CXX17_WIN)
-if(COMPILER_SUPPORTS_CXX17)
-  set(CMAKE_CXX_FLAGS "-std=c++17")
-elseif(COMPILER_SUPPORTS_CXX1Z)
-  set(CMAKE_CXX_FLAGS "-std=c++1z")
-elseif(COMPILER_SUPPORTS_CXX17_WIN)
-  set(CMAKE_CXX_FLAGS "/std:c++17")
+CHECK_CXX_COMPILER_FLAG("-std=c++20" COMPILER_SUPPORTS_CXX20)
+CHECK_CXX_COMPILER_FLAG("-std=c++2a" COMPILER_SUPPORTS_CXX2A)
+CHECK_CXX_COMPILER_FLAG("/std:c++20" COMPILER_SUPPORTS_CXX20_WIN)
+if(COMPILER_SUPPORTS_CXX20)
+  set(CMAKE_CXX_FLAGS "-std=c++20")
+elseif(COMPILER_SUPPORTS_CXX2A)
+  set(CMAKE_CXX_FLAGS "-std=c++2A")
+elseif(COMPILER_SUPPORTS_CXX20_WIN)
+  set(CMAKE_CXX_FLAGS "/std:c++20")
 else()
-  message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++17 support. Please use a different C++ compiler.")
+  message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++20 support. Please use a different C++ compiler.")
 endif()
 
 # require g++-7, clang 6 or MSVC 19.14
