@@ -197,7 +197,9 @@ namespace ghost
 		 * While dealing with permutation problems, the solver calls this method to apply an eventual
 		 * user-defined heuristic to choose a variable to swap the value with.
 		 *
-		 * By default, it returns a random variable from the bad_variables vector given as input.
+		 * By default, it returns the variable index for which switching with leads to the lowest objective cost.
+		 * If two or more variable indexes lead to configurations with the same lowest cost, one of them
+		 * is randomly returned.
 		 *
 		 * Like any methods prefixed by 'expert_', users should override this method only if
 		 * they know what they are doing.
@@ -206,14 +208,13 @@ namespace ghost
 		 * scope of the objective function. The solver is calling this method with the vector 
 		 * of variables that has been given to the constructor.
 		 * \param variable_index the index of the variable to change in the vector Objective::_variables.
-		 * \param bad_variables a const reference to the vector of candidate variables the solver
-		 * may swap the value with.
+		 * \param candidate_variables a const reference to the vector of candidate variables the solver may swap the value with.
 		 * \param rng a neat random generator implemented in thirdparty/randutils.hpp, see https://www.pcg-random.org/posts/ease-of-use-without-loss-of-power.html
 		 * \return The index of the selected variable to swap with, according to the heuristic.
 		 */
 		virtual int expert_heuristic_value_permutation( const std::vector<Variable*>& variables,
 		                                                int variable_index,
-		                                                const std::vector<int>& bad_variables,
+		                                                const std::vector<int>& candidate_variables,
 		                                                randutils::mt19937_rng& rng ) const;
 
 		/*!

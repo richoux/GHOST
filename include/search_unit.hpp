@@ -1037,7 +1037,7 @@ namespace ghost
 
 				elapsed_time = std::chrono::steady_clock::now() - start;
 				continue;				
-#endif
+#endif // GHOST_RANDOM_WALK
 				
 				/****************************************
 				 * 3. Error improved => make local move *
