@@ -70,6 +70,7 @@ namespace ghost
 
 		friend class algorithms::AdaptiveSearchValueHeuristic;
 		friend class algorithms::AntidoteSearchValueHeuristic;
+		friend class algorithms::ObjectiveSpaceValueHeuristic;
 		
 		std::vector<Variable*> _variables; // Vector of raw pointers to variables needed to compute the objective function.
 		std::vector<int> _variables_index; // To know where are the constraint's variables in the global variable vector.
