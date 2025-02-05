@@ -25,10 +25,10 @@ else()
   message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++20 support. Please use a different C++ compiler.")
 endif()
 
-# require g++-7, clang 6 or MSVC 19.14
+# require g++-8, clang 6 or MSVC 19.14
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "7")
-    message(FATAL_ERROR "GCC version must be at least 7 to compile GHOST.")
+  if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "8")
+    message(FATAL_ERROR "GCC version must be at least 8 to compile GHOST.")
   endif()
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
   if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "6")
@@ -112,6 +112,7 @@ set(libHeadersAlgorithmsList
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/uniform_variable_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/all_free_variable_candidates_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/random_walk_value_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/optimization_space_value_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/null_error_projection_algorithm.hpp")
 
 set(libHeadersGlobalConstraintsList
@@ -151,6 +152,7 @@ set(toAddInLibs
 	src/algorithms/uniform_variable_heuristic.cpp
 	src/algorithms/all_free_variable_candidates_heuristic.cpp
 	src/algorithms/random_walk_value_heuristic.cpp
+	src/algorithms/optimization_space_value_heuristic.cpp
 	src/algorithms/null_error_projection_algorithm.cpp
 	src/global_constraints/all_different.cpp
 	src/global_constraints/all_equal.cpp
