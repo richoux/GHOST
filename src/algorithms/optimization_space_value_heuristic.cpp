@@ -2,7 +2,7 @@
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework
  * designed to help developers to model and implement optimization problem
  * solving. It contains a meta-heuristic solver aiming to solve any kind of
- * combinatorial and optimization real-time problems represented by a CSP/COP/EF-CSP/EF-COP. 
+ * combinatorial and optimization real-time problems represented by a CSP/COP/EF-CSP/EF-COP.
  *
  * First developed to solve game-related optimization problems, GHOST can be used for
  * any kind of applications where solving combinatorial and optimization problems. In
@@ -39,12 +39,10 @@ using ghost::Model;
 OptimizationSpaceValueHeuristic::OptimizationSpaceValueHeuristic()
 	: ValueHeuristic( "Optimization Space" )
 { }
-		
+
 int OptimizationSpaceValueHeuristic::select_value( int variable_to_change,
                                                    const SearchUnitData& data,
                                                    const Model& model,
-                                                   const std::map<int, std::vector<double>>& delta_errors,
-                                                   double& min_conflict,
                                                    randutils::mt19937_rng& rng ) const
 {
 	// attention
@@ -55,91 +53,94 @@ int OptimizationSpaceValueHeuristic::select_value( int variable_to_change,
 	// - compute the optimization cost of the neighborhood, and return the neighbor with the lowest cost
 	// - min_conflict must contain the optimization cost delta <== undone!
 	// - modify search_unit
-	
+	// - think carefully about permutations
+
 	std::vector<int> candidates; // variable indexes for permutation problems, variable values otherwise
 	std::map<int, double> cumulated_delta_errors;
-	double min_cost = std::numeric_limits<double>::max();	
+	double min_cost = std::numeric_limits<double>::max();
 	double simulated_cost = 0.0;
-	auto vars = model.objective._variables;
+	auto vars = model.objective->_variables;
 	int backup = vars[ variable_to_change ]->get_value();
 
-	for( const auto& deltas : delta_errors )
+	for( const auto& deltas : data.delta_errors )
 		cumulated_delta_errors[ deltas.first ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
 
 	if( model.permutation_problem )
 	{
 		int tmp;
-		size_t head = 0;
-		size_t tail = 0;		
-
-		while( head < cumulated_delta_errors.size() )
+		// size_t head = 0;
+		// size_t tail = 0;
+		auto head = cumulated_delta_errors.begin();
+		auto tail = cumulated_delta_errors.begin();
+		
+		while( head != cumulated_delta_errors.end() )
 		{
 			tmp = vars[ variable_to_change ]->get_value();
-			vars[ variable_to_change ]->set_value( vars[ cumulated_delta_errors[ head ].first ]->get_value() );
-			vars[ cumulated_delta_errors[ head ].first ]->set_value( backup );
-			vars[ cumulated_delta_errors[ tail ].first ]->set_value( tmp );
-			
-			simulated_cost = model.objective->cost();			
-				
-			if( _is_maximization )
+			vars[ variable_to_change ]->set_value( vars[ head->first ]->get_value() );
+			vars[ head->first ]->set_value( backup );
+			vars[ tail->first ]->set_value( tmp );
+
+			simulated_cost = model.objective->cost();
+
+			if( model.objective->_is_maximization )
 				simulated_cost = -simulated_cost;
-			
+
 			if( min_cost > simulated_cost )
 			{
 				min_cost = simulated_cost;
-				min_conflict = cumulated_delta_errors[ head ].second;
 				candidates.clear();
-				candidates.push_back( cumulated_delta_errors[ head ].first );
+				candidates.push_back( head->first );
 			}
 			else
 				if( min_cost == simulated_cost )
 				{
-					if( min_conflict > cumulated_delta_errors[ head ].second )
-					{
-						min_conflict = cumulated_delta_errors[ head ].second;
-						candidates.clear();
-						candidates.push_back( cumulated_delta_errors[ head ].first );
-					}
-					else
-						if( min_conflict == cumulated_delta_errors[ head ].second )
-							candidates.push_back( cumulated_delta_errors[ head ].first );
+					// if( data.min_conflict > cumulated_delta_errors[ head ].second )
+					// {
+					// 	data.update_min_conflict( cumulated_delta_errors[ head ].second );
+					// 	candidates.clear();
+					// 	candidates.push_back( cumulated_delta_errors[ head ].first );
+					// }
+					// else
+					// 	if( data.min_conflict == cumulated_delta_errors[ head ].second )
+					candidates.push_back( head->first );
 				}
-			
+
 			tail = head; // first iteration, tail remains at 0
 			++head;
 		}
-		vars[ cumulated_delta_errors[ tail ].first ]->set_value( vars[ variable_to_change ]->get_value() );
+		vars[ tail->first ]->set_value( vars[ variable_to_change ]->get_value() );
 		vars[ variable_to_change ]->set_value( backup );
 	}
-	else
+	else // not a permutation problem
 	{
 		for( const auto& deltas : cumulated_delta_errors )
 		{
-			vars[ variable_to_change ]->set_value( vars[ deltas.first ]->get_value() );
-			simulated_cost = model.objective->cost();			
-			if( _is_maximization )
+			// vars[ variable_to_change ]->set_value( vars[ deltas.first ]->get_value() ); // this should be for permutation, right?
+			vars[ variable_to_change ]->set_value( deltas.first );
+			simulated_cost = model.objective->cost();
+			if( model.objective->_is_maximization )
 				simulated_cost = -simulated_cost;
 			if( min_cost > simulated_cost )
 			{
 				min_cost = simulated_cost;
-				min_conflict = deltas.second;
 				candidates.clear();
-				candidates.push_back( cumulated_delta_errors[ head ].first );
+				candidates.push_back( deltas.first );
 			}
 			else
 				if( min_cost == simulated_cost )
 				{
-					if( min_conflict > deltas.second )
-					{
-						min_conflict = deltas.second;
-						candidates.clear();
-						candidates.push_back( deltas.first );
-					}
-					else
-						if( min_conflict == deltas.second )
-							candidates.push_back( deltas.first );
+					// if( data.min_conflict > deltas.second )
+					// {
+					// 	data.update_min_conflict( deltas.second );
+					// 	candidates.clear();
+					// 	candidates.push_back( deltas.first );
+					// }
+					// else
+					candidates.push_back( deltas.first );
 				}
 		}
+
+		data.update_delta_cost( min_cost - data.current_opt_cost );
 		vars[ variable_to_change ]->set_value( backup );
 	}
 

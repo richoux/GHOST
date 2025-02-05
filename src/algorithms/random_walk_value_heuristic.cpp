@@ -43,11 +43,9 @@ RandomWalkValueHeuristic::RandomWalkValueHeuristic()
 int RandomWalkValueHeuristic::select_value( int variable_to_change,
                                             const SearchUnitData& data,
                                             const Model& model,
-                                            const std::map<int, std::vector<double>>& delta_errors,
-                                            double& min_conflict,
                                             randutils::mt19937_rng& rng ) const
 {
-	auto pick_value_and_errors = static_cast<std::pair<int, std::vector<double>>>( rng.pick( delta_errors ) );
-	min_conflict = std::accumulate( pick_value_and_errors.second.begin(), pick_value_and_errors.second.end(), 0.0 );
+	auto pick_value_and_errors = static_cast<std::pair<int, std::vector<double>>>( rng.pick( data.delta_errors ) );
+	data.update_min_conflict( std::accumulate( pick_value_and_errors.second.begin(), pick_value_and_errors.second.end(), 0.0 ) );
 	return pick_value_and_errors.first;
 }

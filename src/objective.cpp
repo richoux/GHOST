@@ -2,7 +2,7 @@
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework
  * designed to help developers to model and implement optimization problem
  * solving. It contains a meta-heuristic solver aiming to solve any kind of
- * combinatorial and optimization real-time problems represented by a CSP/COP/EF-CSP/EF-COP. 
+ * combinatorial and optimization real-time problems represented by a CSP/COP/EF-CSP/EF-COP.
  *
  * First developed to solve game-related optimization problems, GHOST can be used for
  * any kind of applications where solving combinatorial and optimization problems. In
@@ -117,7 +117,7 @@ int Objective::expert_heuristic_value_permutation( const std::vector<Variable*>&
 	// Should never happen
 	if( candidate_variables.empty() ) [[unlikely]]
 		return variable_index;
-		
+
 	double min_cost = std::numeric_limits<double>::max();
 	double simulated_cost;
 
@@ -130,11 +130,11 @@ int Objective::expert_heuristic_value_permutation( const std::vector<Variable*>&
 
 	while( head < candidate_variables.size() )
 	{
-		tmp = var->get_value();		
+		tmp = var->get_value();
 		var->set_value( variables[ candidate_variables[ head ] ]->get_value() );
 		variables[ candidate_variables[ head ] ]->set_value( backup );
 		variables[ candidate_variables[ tail ] ]->set_value( tmp );
-		
+
 		simulated_cost = required_cost( variables );
 
 		if( _is_maximization )

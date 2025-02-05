@@ -42,17 +42,17 @@ AntidoteSearchValueHeuristic::AntidoteSearchValueHeuristic()
 int AntidoteSearchValueHeuristic::select_value( int variable_to_change,
                                                 const SearchUnitData& data,
                                                 const Model& model,
-                                                const std::map<int, std::vector<double>>& delta_errors,
-                                                double& min_conflict,
                                                 randutils::mt19937_rng& rng ) const
 {
-	std::vector<double> cumulated_delta_errors( delta_errors.size() );
-	std::vector<double> cumulated_delta_errors_for_distribution( delta_errors.size() );
-	std::vector<int> cumulated_delta_errors_variable_index_correspondance( delta_errors.size() ); // longest variable name ever
+	auto delta_errors_size = data.delta_errors.size();
+	
+	std::vector<double> cumulated_delta_errors( delta_errors_size );
+	std::vector<double> cumulated_delta_errors_for_distribution( delta_errors_size );
+	std::vector<int> cumulated_delta_errors_variable_index_correspondance( delta_errors_size ); // longest variable name ever
 
 	int index = 0;
 
-	for( const auto& deltas : delta_errors )
+	for( const auto& deltas : data.delta_errors )
 	{
 		cumulated_delta_errors[ index ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
 		cumulated_delta_errors_variable_index_correspondance[ index ] = deltas.first;
@@ -65,11 +65,11 @@ int AntidoteSearchValueHeuristic::select_value( int variable_to_change,
 	                []( auto delta ){ if( delta >= 0) return 0.0; else return -delta; } );
 
 	if( *std::max_element( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() ) == 0.0 )
-		index = rng.uniform( 0, static_cast<int>( delta_errors.size() ) - 1 );
+		index = rng.uniform( 0, static_cast<int>( delta_errors_size ) - 1 );
 	else
 		index = rng.variate<int, std::discrete_distribution>( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() );
 
-	min_conflict = cumulated_delta_errors[ index ];
+	data.update_min_conflict( cumulated_delta_errors[ index ] );
 		
 	return cumulated_delta_errors_variable_index_correspondance[ index ];		
 }

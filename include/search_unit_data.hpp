@@ -30,6 +30,7 @@
 
 #pragma once
 
+#include <map>
 #include <vector>
 #include <algorithm>
 
@@ -56,12 +57,15 @@ namespace ghost
 		// tabu_list[6] = 0 --> variable with id=6 is not marked as tabu (therefore, it is selectable during the search process)
 		std::vector<int> tabu_list;
 
-		// Variables about errors of the variables, and global satisfaction/optimization errors
+		// Variables about errors and costs
 		std::vector<double> error_variables;
 		double best_sat_error;
 		double best_opt_cost;
 		double current_sat_error;
 		double current_opt_cost;
+		std::map< int, std::vector<double>> delta_errors;
+		mutable double min_conflict;
+		mutable double delta_cost;
 
 		// Statistics about the current run
 		int restarts;
@@ -83,6 +87,8 @@ namespace ghost
 		  best_opt_cost ( std::numeric_limits<double>::max() ),
 		  current_sat_error ( std::numeric_limits<double>::max() ),
 		  current_opt_cost ( std::numeric_limits<double>::max() ),
+		  min_conflict( 0.0 ),
+		  delta_cost( 0.0 ),
 		  restarts ( 0 ),
 		  resets ( 0 ),
 		  local_moves ( 0 ),
@@ -99,6 +105,16 @@ namespace ghost
 				for( int constraint_id = 0; constraint_id < number_constraints; ++constraint_id )
 					if( model.constraints[ constraint_id ]->has_variable( variable_id ) )
 						matrix_var_ctr[ variable_id ].push_back( constraint_id );
+		}
+
+		void update_min_conflict( double min ) const
+		{
+			min_conflict = min;
+		}
+
+		void update_delta_cost( double delta ) const
+		{
+			delta_cost = delta;
 		}
 	};
 }

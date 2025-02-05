@@ -91,7 +91,7 @@ namespace ghost
 		std::thread::id _thread_id;
 
 		bool _search_in_violation_space; // if false, search in the objective space
-		
+
 #if defined GHOST_TRACE_PARALLEL
 		std::stringstream _log_filename;
 		std::ofstream _log_trace;
@@ -834,8 +834,8 @@ namespace ghost
 				auto domain_to_explore = model.variables[ variable_to_change ].get_full_domain();
 				// Remove the current value
 				domain_to_explore.erase( std::find( domain_to_explore.begin(), domain_to_explore.end(), model.variables[ variable_to_change ].get_value() ) );
-				std::map<int, std::vector<double>> delta_errors;
-
+				data.delta_errors.clear();
+				
 				if( !model.permutation_problem )
 				{
 					// Simulate delta errors (or errors is not Constraint::optional_delta_error method is defined) for each neighbor
@@ -843,12 +843,12 @@ namespace ghost
 					{
 						if( !data.matrix_var_ctr.at( variable_to_change ).empty() ) [[likely]]
 						{
-							delta_errors[ candidate_value ].reserve( data.matrix_var_ctr.at( variable_to_change ).size() );
+							data.delta_errors[ candidate_value ].reserve( data.matrix_var_ctr.at( variable_to_change ).size() );
 							for( const int constraint_id : data.matrix_var_ctr.at( variable_to_change ) )
-								delta_errors[ candidate_value ].push_back( model.constraints[ constraint_id ]->simulate_delta( std::vector<int>{variable_to_change}, std::vector<int>{candidate_value} ) );
+								data.delta_errors[ candidate_value ].push_back( model.constraints[ constraint_id ]->simulate_delta( std::vector<int>{variable_to_change}, std::vector<int>{candidate_value} ) );
 						}
 						else
-							delta_errors[ candidate_value ].push_back( 0.0 );
+							data.delta_errors[ candidate_value ].push_back( 0.0 );
 					}
 				}
 				else
@@ -866,17 +866,17 @@ namespace ghost
 							int current_value = model.variables[ variable_to_change ].get_value();
 							int candidate_value = model.variables[ variable_id ].get_value();
 
-							delta_errors[ variable_id ].reserve( data.matrix_var_ctr.at( variable_to_change ).size() + data.matrix_var_ctr.at( variable_id ).size() );
+							data.delta_errors[ variable_id ].reserve( data.matrix_var_ctr.at( variable_to_change ).size() + data.matrix_var_ctr.at( variable_id ).size() );
 							for( const int constraint_id : data.matrix_var_ctr.at( variable_to_change ) )
 							{
 								constraint_checked[ constraint_id ] = true;
 
 								// check if the other variable also belongs to the constraint scope
 								if( model.constraints[ constraint_id ]->has_variable( variable_id ) )
-									delta_errors[ variable_id ].push_back( model.constraints[ constraint_id ]->simulate_delta( std::vector<int>{variable_to_change, variable_id},
+									data.delta_errors[ variable_id ].push_back( model.constraints[ constraint_id ]->simulate_delta( std::vector<int>{variable_to_change, variable_id},
 										                     std::vector<int>{candidate_value, current_value} ) );
 								else
-									delta_errors[ variable_id ].push_back( model.constraints[ constraint_id ]->simulate_delta( std::vector<int>{variable_to_change},
+									data.delta_errors[ variable_id ].push_back( model.constraints[ constraint_id ]->simulate_delta( std::vector<int>{variable_to_change},
 										                     std::vector<int>{candidate_value} ) );
 							}
 
@@ -884,24 +884,24 @@ namespace ghost
 							for( const int constraint_id : data.matrix_var_ctr.at( variable_id ) )
 								// No need to look at constraint where variable_to_change also appears.
 								if( !constraint_checked[ constraint_id ] )
-									delta_errors[ variable_id ].push_back( model.constraints[ constraint_id ]->simulate_delta( std::vector<int>{variable_id},
+									data.delta_errors[ variable_id ].push_back( model.constraints[ constraint_id ]->simulate_delta( std::vector<int>{variable_id},
 										                     std::vector<int>{current_value} ) );
 						}
 				}
 
-				// Select the next current configuration (local move)
-				double min_conflict = std::numeric_limits<double>::max();
-				int new_value = value_heuristic->select_value( variable_to_change, data, model, delta_errors, min_conflict, rng );
+				// Select the next current configuration (local move)				
+				data.min_conflict = std::numeric_limits<double>::max();
+				int new_value = value_heuristic->select_value( variable_to_change, data, model, rng );
 				
 #if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD
 				std::vector<int> candidate_values;
 				std::map<int, double> cumulated_delta_errors;
-				std::vector<double> cumulated_delta_errors_antidote( delta_errors.size() );
-				std::vector<double> cumulated_delta_errors_for_distribution( delta_errors.size() );
-				std::vector<int> cumulated_delta_errors_variable_index_correspondance( delta_errors.size() );
+				std::vector<double> cumulated_delta_errors_antidote( data.delta_errors.size() );
+				std::vector<double> cumulated_delta_errors_for_distribution( data.delta_errors.size() );
+				std::vector<int> cumulated_delta_errors_variable_index_correspondance( data.delta_errors.size() );
 				int index = 0;
 				
-				for( const auto& deltas : delta_errors )
+				for( const auto& deltas : data.delta_errors )
 				{
 					cumulated_delta_errors[ deltas.first ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
 					cumulated_delta_errors_antidote[ index ] = cumulated_delta_errors[ deltas.first ];
@@ -950,7 +950,7 @@ namespace ghost
 				                cumulated_delta_errors_for_distribution.begin(),
 				                []( auto delta ){ if( delta >= 0) return 0.0; else return -delta; } );
 
-				auto min_conflict_copy = min_conflict;
+				auto min_conflict_copy = data.min_conflict;
 				for( const auto& deltas : cumulated_delta_errors )
 				{
 					// Should not happen, except for Random Walks. min_conflict is supposed to be, well, the min conflict.
@@ -999,16 +999,16 @@ namespace ghost
 				if( model.permutation_problem )
 					COUT << "\nPicked variable index for min conflict: "
 					     << new_value << "\n"
-					     << "Delta: " << min_conflict << "\n\n";
+					     << "Delta: " << data.min_conflict << "\n\n";
 				else
 					COUT << "\nPicked value for min conflict: "
 					     << new_value << "\n"
-					     << "Delta: " << min_conflict << "\n\n";
+					     << "Delta: " << data.min_conflict << "\n\n";
 					
 #endif // GHOST_TRACE
 
 #if defined GHOST_RANDOM_WALK
-				local_move( variable_to_change, new_value, min_conflict, delta_errors );
+				local_move( variable_to_change, new_value, data.min_conflict, data.delta_errors );
 				if( data.is_optimization )
 					data.current_opt_cost = model.objective->cost();
 				if( data.best_sat_error > data.current_sat_error )
@@ -1042,12 +1042,12 @@ namespace ghost
 				/****************************************
 				 * 3. Error improved => make local move *
 				 ****************************************/
-				if( min_conflict < 0.0 )
+				if( data.min_conflict < 0.0 )
 				{
 #if defined GHOST_TRACE
-					COUT << "Global error improved (" << data.current_sat_error << " -> " << data.current_sat_error + min_conflict << "): make local move.\n";
+					COUT << "Global error improved (" << data.current_sat_error << " -> " << data.current_sat_error + data.min_conflict << "): make local move.\n";
 #endif
-					local_move( variable_to_change, new_value, min_conflict, delta_errors );
+					local_move( variable_to_change, new_value, data.min_conflict, data.delta_errors );
 					if( data.is_optimization )
 						data.current_opt_cost = model.objective->cost();
 				}
@@ -1056,7 +1056,7 @@ namespace ghost
 					/*****************
 					 * 4. Same error *
 					 *****************/
-					if( min_conflict == 0.0 )
+					if( data.min_conflict == 0.0 )
 					{
 #if defined GHOST_TRACE
 						COUT << "Global error stable; ";
@@ -1104,7 +1104,7 @@ namespace ghost
 #if defined GHOST_TRACE
 								COUT << "Optimization cost improved (" << data.current_opt_cost << " -> " << candidate_opt_cost << "): make local move.\n";
 #endif
-								local_move( variable_to_change, new_value, min_conflict, delta_errors );
+								local_move( variable_to_change, new_value, data.min_conflict, data.delta_errors );
 								data.current_opt_cost = candidate_opt_cost;
 							}
 							else
@@ -1116,7 +1116,7 @@ namespace ghost
 #if defined GHOST_TRACE
 									COUT << "Optimization cost stable (" << data.current_opt_cost << "): plateau.\n";
 #endif
-									plateau_management( variable_to_change, new_value, delta_errors );
+									plateau_management( variable_to_change, new_value, data.delta_errors );
 								}
 								else // data.current_opt_cost < candidate_opt_cost
 								{
@@ -1144,10 +1144,10 @@ namespace ghost
 #if defined GHOST_TRACE
 							COUT << "No optimization: plateau.\n";
 #endif
-							plateau_management( variable_to_change, new_value, delta_errors );
+							plateau_management( variable_to_change, new_value, data.delta_errors );
 						}
 					}
-					else // min_conflict > 0.0
+					else // data.min_conflict > 0.0
 					{
 						/***********************************
 						 * 5. Worst error => local minimum *

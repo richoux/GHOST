@@ -77,6 +77,10 @@
 #include "algorithms/random_walk_value_heuristic.hpp"
 #endif
 
+#if defined GHOST_TEST // used to test stuffs 
+#include "algorithms/optimization_space_value_heuristic.hpp"
+#endif
+
 #include "macros.hpp"
 
 namespace ghost
@@ -513,6 +517,13 @@ namespace ghost
 				                        std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
 				                        std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
 				                        std::make_unique<algorithms::NullErrorProjection>() );
+#elif defined GHOST_TEST
+				SearchUnit search_unit( _model_builder.build_model(),
+				                        _options,
+				                        std::make_unique<algorithms::UniformVariableHeuristic>(), // normal
+				                        std::make_unique<algorithms::AdaptiveSearchVariableCandidatesHeuristic>(), // normal
+				                        std::make_unique<algorithms::OptimizationSpaceValueHeuristic>(), // TWM
+				                        std::make_unique<algorithms::AdaptiveSearchErrorProjection>() ); // normal
 #else				
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options );
@@ -566,6 +577,13 @@ namespace ghost
 					                    std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
 					                    std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
 					                    std::make_unique<algorithms::NullErrorProjection>() );
+#elif defined GHOST_TEST
+					units.emplace_back( _model_builder.build_model(),
+					                    _options,
+					                    std::make_unique<algorithms::UniformVariableHeuristic>(), // normal
+					                    std::make_unique<algorithms::AdaptiveSearchVariableCandidatesHeuristic>(), // normal
+					                    std::make_unique<algorithms::OptimizationSpaceValueHeuristic>(), // TWM
+					                    std::make_unique<algorithms::AdaptiveSearchErrorProjection>() ); // normal
 #else				
 					units.emplace_back( _model_builder.build_model(),
 					                    _options );
@@ -761,7 +779,7 @@ namespace ghost
 			elapsed_time = std::chrono::steady_clock::now() - start_wall_clock;
 			chrono_full_computation = elapsed_time.count();
 
-#if defined GHOST_DEBUG || defined GHOST_TRACE || defined GHOST_BENCH
+#if defined GHOST_DEBUG || defined GHOST_TRACE || defined GHOST_BENCH || defined GHOST_TEST
 			std::cout << "@@@@@@@@@@@@" << "\n"
 			          << "Variable heuristic: " << _variable_heuristic << "\n"
 			          << "Variable candidate heuristic: " << _variable_candidates_heuristic << "\n"

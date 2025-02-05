@@ -43,25 +43,23 @@ AdaptiveSearchValueHeuristic::AdaptiveSearchValueHeuristic()
 int AdaptiveSearchValueHeuristic::select_value( int variable_to_change,
                                                 const SearchUnitData& data,
                                                 const Model& model,
-                                                const std::map<int, std::vector<double>>& delta_errors,
-                                                double& min_conflict,
                                                 randutils::mt19937_rng& rng ) const
 {
 	std::vector<int> candidates; // variable indexes for permutation problems, variable values otherwise
 	std::map<int, double> cumulated_delta_errors;
-	for( const auto& deltas : delta_errors )
+	for( const auto& deltas : data.delta_errors )
 		cumulated_delta_errors[ deltas.first ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
 
 	for( const auto& deltas : cumulated_delta_errors )
 	{
-		if( min_conflict > deltas.second )
+		if( data.min_conflict > deltas.second )
 		{
 			candidates.clear();
 			candidates.push_back( deltas.first );
-			min_conflict = deltas.second;
+			data.update_min_conflict( deltas.second );
 		}
 		else
-			if( min_conflict == deltas.second )
+			if( data.min_conflict == deltas.second )
 				candidates.push_back( deltas.first );
 	}
 
