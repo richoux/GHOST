@@ -45,13 +45,9 @@ int OptimizationSpaceValueHeuristic::select_value( int variable_to_change,
                                                    const Model& model,
                                                    randutils::mt19937_rng& rng ) const
 {
-	// attention
-	// min_conflict doit contenir le delta du coût d'optimisation
-	// mais on doit toujours être en mesure de calculer les erreurs des contraintes et leur mise à jour
-
 	// Todo
 	// - compute the optimization cost of the neighborhood, and return the neighbor with the lowest cost
-	// - min_conflict must contain the optimization cost delta <== undone!
+	// - min_conflict must be updated!
 	// - modify search_unit
 	// - think carefully about permutations
 
@@ -68,8 +64,6 @@ int OptimizationSpaceValueHeuristic::select_value( int variable_to_change,
 	if( model.permutation_problem )
 	{
 		int tmp;
-		// size_t head = 0;
-		// size_t tail = 0;
 		auto head = cumulated_delta_errors.begin();
 		auto tail = cumulated_delta_errors.begin();
 		
@@ -105,7 +99,7 @@ int OptimizationSpaceValueHeuristic::select_value( int variable_to_change,
 					candidates.push_back( head->first );
 				}
 
-			tail = head; // first iteration, tail remains at 0
+			tail = head; // first iteration, tail remains at index 0
 			++head;
 		}
 		vars[ tail->first ]->set_value( vars[ variable_to_change ]->get_value() );
@@ -115,7 +109,6 @@ int OptimizationSpaceValueHeuristic::select_value( int variable_to_change,
 	{
 		for( const auto& deltas : cumulated_delta_errors )
 		{
-			// vars[ variable_to_change ]->set_value( vars[ deltas.first ]->get_value() ); // this should be for permutation, right?
 			vars[ variable_to_change ]->set_value( deltas.first );
 			simulated_cost = model.objective->cost();
 			if( model.objective->_is_maximization )

@@ -448,14 +448,14 @@ namespace ghost
 			return satisfaction_error;
 		}
 
-		void update_errors( int variable_to_change, int new_value, const std::map< int, std::vector<double>>& delta_errors )
+		void update_errors( int variable_to_change, int new_value )
 		{
 			int delta_index = 0;
 			if( !model.permutation_problem )
 			{
 				for( const int constraint_id : data.matrix_var_ctr.at( variable_to_change ) )
 				{
-					auto delta = delta_errors.at( new_value )[ delta_index++ ];
+					auto delta = data.delta_errors.at( new_value )[ delta_index++ ];
 					model.constraints[ constraint_id ]->_current_error += delta;
 					
 					error_projection_algorithm->update_variable_errors( model.variables,
@@ -478,7 +478,7 @@ namespace ghost
 				for( const int constraint_id : data.matrix_var_ctr.at( variable_to_change ) )
 				{
 					constraint_checked[ constraint_id ] = true;
-					auto delta = delta_errors.at( new_value )[ delta_index++ ];
+					auto delta = data.delta_errors.at( new_value )[ delta_index++ ];
 					model.constraints[ constraint_id ]->_current_error += delta;
 
 					error_projection_algorithm->update_variable_errors( model.variables,
@@ -495,7 +495,7 @@ namespace ghost
 				for( const int constraint_id : data.matrix_var_ctr.at( new_value ) )
 					if( !constraint_checked[ constraint_id ] )
 					{
-						auto delta = delta_errors.at( new_value )[ delta_index++ ];
+						auto delta = data.delta_errors.at( new_value )[ delta_index++ ];
 						model.constraints[ constraint_id ]->_current_error += delta;
 
 						error_projection_algorithm->update_variable_errors( model.variables,
@@ -515,14 +515,14 @@ namespace ghost
 		}
 
 		// A. Local move (perform local move and update variables/constraints/objective function)
-		void local_move( int variable_to_change, int new_value, double min_conflict, const std::map< int, std::vector<double>>& delta_errors )
+		void local_move( int variable_to_change, int new_value )
 		{
 			++data.local_moves;
-			data.current_sat_error += min_conflict;
+			data.current_sat_error += data.min_conflict;
 			data.tabu_list[ variable_to_change ] = options.tabu_time_selected + data.local_moves;
 			must_compute_variable_candidates = true;
 
-			update_errors( variable_to_change, new_value, delta_errors );
+			update_errors( variable_to_change, new_value );
 
 			if( model.permutation_problem )
 			{
@@ -544,7 +544,7 @@ namespace ghost
 
 		// B. Plateau management (local move on the plateau, but options.percent_chance_force_trying_on_plateau
 		//                        of chance to escape it and mark the variable as tabu.)
-		void plateau_management( int variable_to_change, int new_value, const std::map< int, std::vector<double>>& delta_errors )
+		void plateau_management( int variable_to_change, int new_value )
 		{
 			if( rng.uniform(1, 100) <= options.percent_chance_force_trying_on_plateau )
 			{
@@ -557,7 +557,8 @@ namespace ghost
 			}
 			else
 			{
-				local_move( variable_to_change, new_value, 0, delta_errors );
+				data.min_conflict = 0;
+				local_move( variable_to_change, new_value );
 				++data.plateau_moves;
 			}
 		}
@@ -1008,7 +1009,7 @@ namespace ghost
 #endif // GHOST_TRACE
 
 #if defined GHOST_RANDOM_WALK
-				local_move( variable_to_change, new_value, data.min_conflict, data.delta_errors );
+				local_move( variable_to_change, new_value );
 				if( data.is_optimization )
 					data.current_opt_cost = model.objective->cost();
 				if( data.best_sat_error > data.current_sat_error )
@@ -1047,7 +1048,7 @@ namespace ghost
 #if defined GHOST_TRACE
 					COUT << "Global error improved (" << data.current_sat_error << " -> " << data.current_sat_error + data.min_conflict << "): make local move.\n";
 #endif
-					local_move( variable_to_change, new_value, data.min_conflict, data.delta_errors );
+					local_move( variable_to_change, new_value );
 					if( data.is_optimization )
 						data.current_opt_cost = model.objective->cost();
 				}
@@ -1104,7 +1105,7 @@ namespace ghost
 #if defined GHOST_TRACE
 								COUT << "Optimization cost improved (" << data.current_opt_cost << " -> " << candidate_opt_cost << "): make local move.\n";
 #endif
-								local_move( variable_to_change, new_value, data.min_conflict, data.delta_errors );
+								local_move( variable_to_change, new_value );
 								data.current_opt_cost = candidate_opt_cost;
 							}
 							else
@@ -1116,7 +1117,7 @@ namespace ghost
 #if defined GHOST_TRACE
 									COUT << "Optimization cost stable (" << data.current_opt_cost << "): plateau.\n";
 #endif
-									plateau_management( variable_to_change, new_value, data.delta_errors );
+									plateau_management( variable_to_change, new_value );
 								}
 								else // data.current_opt_cost < candidate_opt_cost
 								{
@@ -1144,7 +1145,7 @@ namespace ghost
 #if defined GHOST_TRACE
 							COUT << "No optimization: plateau.\n";
 #endif
-							plateau_management( variable_to_change, new_value, data.delta_errors );
+							plateau_management( variable_to_change, new_value );
 						}
 					}
 					else // data.min_conflict > 0.0
