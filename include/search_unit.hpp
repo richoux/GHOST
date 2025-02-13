@@ -1037,12 +1037,28 @@ namespace ghost
 					}
 
 				elapsed_time = std::chrono::steady_clock::now() - start;
-				continue;				
+				continue;
 #endif // GHOST_RANDOM_WALK
-				
+
 				/****************************************
 				 * 3. Error improved => make local move *
 				 ****************************************/
+
+				// TODO: to finish
+				if( data.min_conflict == std::numeric_limits<double>::max() ) // meaning we did a local move in the optimization space, not in the violation space
+				{
+					if( data.optimization_space_moves >= 10 // 10 iterations top in the optimization space
+					    || data.delta_cost >= data.current_opt_cost ) // local minimum in the optimization space
+					{
+						value_heuristic = std::make_unique<algorithms::AdaptiveSearchValueHeuristic>();						
+					}
+					else // continue exploring the optimization space
+					{
+
+					}
+				}
+
+
 				if( data.min_conflict < 0.0 )
 				{
 #if defined GHOST_TRACE
