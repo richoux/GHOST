@@ -37,10 +37,10 @@ namespace ghost
 {
 	namespace algorithms
 	{
-		class RandomWalkValueHeuristic : public ValueHeuristic
+		class ValueHeuristicAdaptiveSearch : public ValueHeuristic
 		{
 		public:
-			RandomWalkValueHeuristic();
+			ValueHeuristicAdaptiveSearch();
 			
 			int select_value( int variable_to_change,
 			                  const SearchUnitData& data,

@@ -31,18 +31,21 @@
 
 #include <vector>
 
-#include "variable_candidates_heuristic.hpp"
+#include "value_heuristic.hpp"
 
 namespace ghost
 {
 	namespace algorithms
 	{
-		class AdaptiveSearchVariableCandidatesHeuristic : public VariableCandidatesHeuristic
+		class ValueHeuristicRandomWalk : public ValueHeuristic
 		{
 		public:
-			AdaptiveSearchVariableCandidatesHeuristic();
+			ValueHeuristicRandomWalk();
 			
-			std::vector<double> compute_variable_candidates( const SearchUnitData& data ) const override;
+			int select_value( int variable_to_change,
+			                  const SearchUnitData& data,
+			                  const Model& model,
+			                  randutils::mt19937_rng& rng ) const override;
 		};
 	}
 }

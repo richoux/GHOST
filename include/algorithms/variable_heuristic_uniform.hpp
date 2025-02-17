@@ -27,22 +27,22 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/antidote_search_variable_candidates_heuristic.hpp"
-#include "thirdparty/randutils.hpp"
+#pragma once
 
-using ghost::algorithms::AntidoteSearchVariableCandidatesHeuristic;
+#include <vector>
 
-AntidoteSearchVariableCandidatesHeuristic::AntidoteSearchVariableCandidatesHeuristic()
-	: VariableCandidatesHeuristic( "Antidote Search" )
-{ }
+#include "variable_heuristic.hpp"
 
-std::vector<double> AntidoteSearchVariableCandidatesHeuristic::compute_variable_candidates( const SearchUnitData& data ) const
+namespace ghost
 {
-	auto error_variables = data.error_variables;
-		
-	for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
-		if( data.tabu_list[ variable_id ] > data.local_moves )
-			error_variables[ variable_id ] = 0.0;
-
-	return error_variables;
+	namespace algorithms
+	{
+		class VariableHeuristicUniform : public VariableHeuristic
+		{
+		public:
+			VariableHeuristicUniform();
+			
+			int select_variable( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const override;
+		};
+	}
 }

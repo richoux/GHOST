@@ -57,28 +57,28 @@
 #include "algorithms/value_heuristic.hpp"
 #include "algorithms/error_projection_algorithm.hpp"
 
-#include "algorithms/uniform_variable_heuristic.hpp"
-#include "algorithms/adaptive_search_variable_candidates_heuristic.hpp"
-#include "algorithms/adaptive_search_value_heuristic.hpp"
-#include "algorithms/adaptive_search_error_projection_algorithm.hpp"
+#include "algorithms/variable_heuristic_uniform.hpp"
+#include "algorithms/variable_candidates_heuristic_adaptive_search.hpp"
+#include "algorithms/value_heuristic_adaptive_search.hpp"
+#include "algorithms/error_projection_algorithm_adaptive_search.hpp"
 
-#include "algorithms/antidote_search_variable_heuristic.hpp"
-#include "algorithms/antidote_search_variable_candidates_heuristic.hpp"
-#include "algorithms/antidote_search_value_heuristic.hpp"
+#include "algorithms/variable_heuristic_antidote_search.hpp"
+#include "algorithms/variable_candidates_heuristic_antidote_search.hpp"
+#include "algorithms/value_heuristic_antidote_search.hpp"
 
-#include "algorithms/culprit_search_error_projection_algorithm.hpp"
+#include "algorithms/error_projection_algorithm_culprit_search.hpp"
 
 #if defined GHOST_RANDOM_WALK || defined GHOST_HILL_CLIMBING
-#include "algorithms/all_free_variable_candidates_heuristic.hpp"
-#include "algorithms/null_error_projection_algorithm.hpp"
+#include "algorithms/variable_candidates_heuristic_all_free.hpp"
+#include "algorithms/error_projection_algorithm_null.hpp"
 #endif
 
 #if defined GHOST_RANDOM_WALK 
-#include "algorithms/random_walk_value_heuristic.hpp"
+#include "algorithms/value_heuristic_random_walk.hpp"
 #endif
 
 #if defined GHOST_TEST // used to test stuffs 
-#include "algorithms/optimization_space_value_heuristic.hpp"
+#include "algorithms/value_heuristic_optimization_space.hpp"
 #endif
 
 #include "macros.hpp"
@@ -506,24 +506,24 @@ namespace ghost
 #if defined GHOST_RANDOM_WALK
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options,
-				                        std::make_unique<algorithms::UniformVariableHeuristic>(),
-				                        std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
-				                        std::make_unique<algorithms::RandomWalkValueHeuristic>(),
-				                        std::make_unique<algorithms::NullErrorProjection>() );
+				                        std::make_unique<algorithms::VariableHeuristicUniform>(),
+				                        std::make_unique<algorithms::VariableCandidatesHeuristicAllFree>(),
+				                        std::make_unique<algorithms::ValueHeuristicRandomWalk>(),
+				                        std::make_unique<algorithms::ErrorProjectionNull>() );
 #elif defined GHOST_HILL_CLIMBING
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options,
-				                        std::make_unique<algorithms::UniformVariableHeuristic>(),
-				                        std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
-				                        std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
-				                        std::make_unique<algorithms::NullErrorProjection>() );
+				                        std::make_unique<algorithms::VariableHeuristicUniform>(),
+				                        std::make_unique<algorithms::VariableCandidatesHeuristicAllFree>(),
+				                        std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>(),
+				                        std::make_unique<algorithms::ErrorProjectionNull>() );
 #elif defined GHOST_TEST
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options,
-				                        std::make_unique<algorithms::UniformVariableHeuristic>(), // normal
-				                        std::make_unique<algorithms::AdaptiveSearchVariableCandidatesHeuristic>(), // normal
-				                        std::make_unique<algorithms::OptimizationSpaceValueHeuristic>(), // TWM
-				                        std::make_unique<algorithms::AdaptiveSearchErrorProjection>() ); // normal
+				                        std::make_unique<algorithms::VariableHeuristicUniform>(), // normal
+				                        std::make_unique<algorithms::VariableCandidatesHeuristicAdaptiveSearch>(), // normal
+				                        std::make_unique<algorithms::ValueHeuristicOptimizationSpace>(), // TWM
+				                        std::make_unique<algorithms::ErrorProjectionAdaptiveSearch>() ); // normal
 #else				
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options );
@@ -566,24 +566,24 @@ namespace ghost
 #if defined GHOST_RANDOM_WALK
 					units.emplace_back( _model_builder.build_model(),
 					                    _options,
-					                    std::make_unique<algorithms::UniformVariableHeuristic>(),
-					                    std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
-					                    std::make_unique<algorithms::RandomWalkValueHeuristic>(),
-					                    std::make_unique<algorithms::NullErrorProjection>() );
+					                    std::make_unique<algorithms::VariableHeuristicUniform>(),
+					                    std::make_unique<algorithms::VariableCandidatesHeuristicAllFree>(),
+					                    std::make_unique<algorithms::ValueHeuristicRandomWalk>(),
+					                    std::make_unique<algorithms::ErrorProjectionNull>() );
 #elif defined GHOST_HILL_CLIMBING
 					units.emplace_back( _model_builder.build_model(),
 					                    _options,
-					                    std::make_unique<algorithms::UniformVariableHeuristic>(),
-					                    std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
-					                    std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
-					                    std::make_unique<algorithms::NullErrorProjection>() );
+					                    std::make_unique<algorithms::VariableHeuristicUniform>(),
+					                    std::make_unique<algorithms::VariableCandidatesHeuristicAllFree>(),
+					                    std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>(),
+					                    std::make_unique<algorithms::ErrorProjectionNull>() );
 #elif defined GHOST_TEST
 					units.emplace_back( _model_builder.build_model(),
 					                    _options,
-					                    std::make_unique<algorithms::UniformVariableHeuristic>(), // normal
-					                    std::make_unique<algorithms::AdaptiveSearchVariableCandidatesHeuristic>(), // normal
-					                    std::make_unique<algorithms::OptimizationSpaceValueHeuristic>(), // TWM
-					                    std::make_unique<algorithms::AdaptiveSearchErrorProjection>() ); // normal
+					                    std::make_unique<algorithms::VariableHeuristicUniform>(), // normal
+					                    std::make_unique<algorithms::VariableCandidatesHeuristicAdaptiveSearch>(), // normal
+					                    std::make_unique<algorithms::ValueHeuristicOptimizationSpace>(), // TWM
+					                    std::make_unique<algorithms::ErrorProjectionAdaptiveSearch>() ); // normal
 #else				
 					units.emplace_back( _model_builder.build_model(),
 					                    _options );

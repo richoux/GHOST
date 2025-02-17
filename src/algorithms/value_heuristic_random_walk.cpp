@@ -27,22 +27,25 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#pragma once
+#include <algorithm>
+#include <numeric>
 
-#include <vector>
+#include "algorithms/value_heuristic_random_walk.hpp"
 
-#include "variable_heuristic.hpp"
+using ghost::algorithms::ValueHeuristicRandomWalk;
+using ghost::SearchUnitData;
+using ghost::Model;
 
-namespace ghost
+ValueHeuristicRandomWalk::ValueHeuristicRandomWalk()
+	: ValueHeuristic( "Random Walk" )
+{ }
+		
+int ValueHeuristicRandomWalk::select_value( int variable_to_change,
+                                            const SearchUnitData& data,
+                                            const Model& model,
+                                            randutils::mt19937_rng& rng ) const
 {
-	namespace algorithms
-	{
-		class UniformVariableHeuristic : public VariableHeuristic
-		{
-		public:
-			UniformVariableHeuristic();
-			
-			int select_variable( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const override;
-		};
-	}
+	auto pick_value_and_errors = static_cast<std::pair<int, std::vector<double>>>( rng.pick( data.delta_errors ) );
+	data.update_min_conflict( std::accumulate( pick_value_and_errors.second.begin(), pick_value_and_errors.second.end(), 0.0 ) );
+	return pick_value_and_errors.first;
 }

@@ -27,15 +27,27 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/uniform_variable_heuristic.hpp"
+#pragma once
 
-using ghost::algorithms::UniformVariableHeuristic;
+#include "error_projection_algorithm.hpp"
 
-UniformVariableHeuristic::UniformVariableHeuristic()
-	: VariableHeuristic( "Uniform" )
-{ }
-
-int UniformVariableHeuristic::select_variable( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
+namespace ghost
 {
-	return static_cast<int>( rng.pick( candidates ) );
+	namespace algorithms
+	{
+		class ErrorProjectionAdaptiveSearch : public ErrorProjection
+		{
+		public:
+			ErrorProjectionAdaptiveSearch();
+			
+			void compute_variable_errors( const std::vector<Variable>& variables,
+			                              const std::vector<std::shared_ptr<Constraint>>& constraints,
+			                              SearchUnitData& data ) override;
+			
+			void update_variable_errors( const std::vector<Variable>& variables,
+			                             std::shared_ptr<Constraint> constraint,
+			                             SearchUnitData& data,
+			                             double delta ) override;
+		};
+	}
 }

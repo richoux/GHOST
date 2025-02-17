@@ -37,10 +37,10 @@ namespace ghost
 {
 	namespace algorithms
 	{
-		class AntidoteSearchValueHeuristic : public ValueHeuristic
+		class ValueHeuristicAntidoteSearch : public ValueHeuristic
 		{
 		public:
-			AntidoteSearchValueHeuristic();
+			ValueHeuristicAntidoteSearch();
 			
 			int select_value( int variable_to_change,
 			                  const SearchUnitData& data,

@@ -27,23 +27,20 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/null_error_projection_algorithm.hpp"
+#include "algorithms/variable_candidates_heuristic_all_free.hpp"
 
-using ghost::algorithms::NullErrorProjection;
-using ghost::Variable;
-using ghost::Constraint;
+using ghost::algorithms::VariableCandidatesHeuristicAllFree;
 
-NullErrorProjection::NullErrorProjection()
-	: ErrorProjection( "Null Error Projection" )
-{}
-
-void NullErrorProjection::compute_variable_errors( const std::vector<Variable>& variables,                                                             
-                                                   const std::vector<std::shared_ptr<Constraint>>& constraints,
-                                                   SearchUnitData& data )
-{}
-
-void NullErrorProjection::update_variable_errors( const std::vector<Variable>& variables,
-                                                  std::shared_ptr<Constraint> constraint,
-                                                  SearchUnitData& data,                                                            
-                                                  double delta )
-{}
+VariableCandidatesHeuristicAllFree::VariableCandidatesHeuristicAllFree()
+	: VariableCandidatesHeuristic( "All Free" )
+{ }
+		
+std::vector<double> VariableCandidatesHeuristicAllFree::compute_variable_candidates( const SearchUnitData& data ) const
+{
+	std::vector<double> free_variables_list;
+	for( int variable_id = 0 ; variable_id < data.number_variables ; ++variable_id )
+		if( data.tabu_list[ variable_id ] <= data.local_moves )
+			free_variables_list.push_back( variable_id );
+	
+	return free_variables_list;
+}

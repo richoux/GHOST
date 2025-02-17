@@ -27,27 +27,34 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#pragma once
+#include "algorithms/variable_candidates_heuristic_adaptive_search.hpp"
 
-#include "error_projection_algorithm.hpp"
+using ghost::algorithms::VariableCandidatesHeuristicAdaptiveSearch;
 
-namespace ghost
+VariableCandidatesHeuristicAdaptiveSearch::VariableCandidatesHeuristicAdaptiveSearch()
+	: VariableCandidatesHeuristic( "Adaptive Search" )
+{ }
+		
+std::vector<double> VariableCandidatesHeuristicAdaptiveSearch::compute_variable_candidates( const SearchUnitData& data ) const
 {
-	namespace algorithms
-	{
-		class AdaptiveSearchErrorProjection : public ErrorProjection
+	std::vector<double> worst_variables_list;
+	double worst_variable_cost = -1;
+
+	for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
+		if( worst_variable_cost <= data.error_variables[ variable_id ]
+		    && data.tabu_list[ variable_id ] <= data.local_moves
+		    && ( !data.matrix_var_ctr.at( variable_id ).empty() || ( data.is_optimization && data.current_sat_error == 0 ) ) )
 		{
-		public:
-			AdaptiveSearchErrorProjection();
-			
-			void compute_variable_errors( const std::vector<Variable>& variables,
-			                              const std::vector<std::shared_ptr<Constraint>>& constraints,
-			                              SearchUnitData& data ) override;
-			
-			void update_variable_errors( const std::vector<Variable>& variables,
-			                             std::shared_ptr<Constraint> constraint,
-			                             SearchUnitData& data,
-			                             double delta ) override;
-		};
-	}
+			if( worst_variable_cost < data.error_variables[ variable_id ] )
+			{
+				worst_variables_list.clear();
+				worst_variables_list.push_back( variable_id );
+				worst_variable_cost = data.error_variables[ variable_id ];
+			}
+			else
+				if( worst_variable_cost == data.error_variables[ variable_id ] )
+					worst_variables_list.push_back( variable_id );
+		}
+		
+	return worst_variables_list;
 }

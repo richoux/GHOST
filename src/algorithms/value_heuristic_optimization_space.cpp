@@ -30,17 +30,17 @@
 #include <algorithm>
 #include <numeric>
 
-#include "algorithms/optimization_space_value_heuristic.hpp"
+#include "algorithms/value_heuristic_optimization_space.hpp"
 
-using ghost::algorithms::OptimizationSpaceValueHeuristic;
+using ghost::algorithms::ValueHeuristicOptimizationSpace;
 using ghost::SearchUnitData;
 using ghost::Model;
 
-OptimizationSpaceValueHeuristic::OptimizationSpaceValueHeuristic()
+ValueHeuristicOptimizationSpace::ValueHeuristicOptimizationSpace()
 	: ValueHeuristic( "Optimization Space" )
 { }
 
-int OptimizationSpaceValueHeuristic::select_value( int variable_to_change,
+int ValueHeuristicOptimizationSpace::select_value( int variable_to_change,
                                                    const SearchUnitData& data,
                                                    const Model& model,
                                                    randutils::mt19937_rng& rng ) const

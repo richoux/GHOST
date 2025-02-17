@@ -44,9 +44,9 @@ namespace ghost
 {
 	namespace algorithms
 	{
-		class AdaptiveSearchValueHeuristic;
-		class AntidoteSearchValueHeuristic;
-		class OptimizationSpaceValueHeuristic;
+		class ValueHeuristicAdaptiveSearch;
+		class ValueHeuristicAntidoteSearch;
+		class ValueHeuristicOptimizationSpace;
 	}
 	
 	/*!
@@ -69,9 +69,9 @@ namespace ghost
 		friend class Minimize;
 		friend class Maximize;
 
-		friend class algorithms::AdaptiveSearchValueHeuristic;
-		friend class algorithms::AntidoteSearchValueHeuristic;
-		friend class algorithms::OptimizationSpaceValueHeuristic;
+		friend class algorithms::ValueHeuristicAdaptiveSearch;
+		friend class algorithms::ValueHeuristicAntidoteSearch;
+		friend class algorithms::ValueHeuristicOptimizationSpace;
 
 		std::vector<Variable*> _variables; // Vector of raw pointers to variables needed to compute the objective function.
 		std::vector<int> _variables_index; // To know where are the constraint's variables in the global variable vector.

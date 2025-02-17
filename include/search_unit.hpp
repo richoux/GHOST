@@ -56,24 +56,24 @@
 #include "algorithms/value_heuristic.hpp"
 #include "algorithms/error_projection_algorithm.hpp"
 
-#include "algorithms/uniform_variable_heuristic.hpp"
-#include "algorithms/adaptive_search_variable_candidates_heuristic.hpp"
-#include "algorithms/adaptive_search_value_heuristic.hpp"
-#include "algorithms/adaptive_search_error_projection_algorithm.hpp"
+#include "algorithms/variable_heuristic_uniform.hpp"
+#include "algorithms/variable_candidates_heuristic_adaptive_search.hpp"
+#include "algorithms/value_heuristic_adaptive_search.hpp"
+#include "algorithms/error_projection_algorithm_adaptive_search.hpp"
 
-#include "algorithms/antidote_search_variable_heuristic.hpp"
-#include "algorithms/antidote_search_variable_candidates_heuristic.hpp"
-#include "algorithms/antidote_search_value_heuristic.hpp"
+#include "algorithms/variable_heuristic_antidote_search.hpp"
+#include "algorithms/variable_candidates_heuristic_antidote_search.hpp"
+#include "algorithms/value_heuristic_antidote_search.hpp"
 
-#include "algorithms/culprit_search_error_projection_algorithm.hpp"
+#include "algorithms/error_projection_algorithm_culprit_search.hpp"
 
 #if defined GHOST_RANDOM_WALK || defined GHOST_HILL_CLIMBING
-#include "algorithms/all_free_variable_candidates_heuristic.hpp"
-#include "algorithms/null_error_projection_algorithm.hpp"
+#include "algorithms/variable_candidates_heuristic_all_free.hpp"
+#include "algorithms/error_projection_algorithm_null.hpp"
 #endif
 
 #if defined GHOST_RANDOM_WALK 
-#include "algorithms/random_walk_value_heuristic.hpp"
+#include "algorithms/value_heuristic_random_walk.hpp"
 #endif
 
 #include "macros.hpp"
@@ -652,10 +652,10 @@ namespace ghost
 		SearchUnit( Model&& moved_model, const Options& options )
 			: SearchUnit( std::move( moved_model ),
 			              options,
-			              std::make_unique<algorithms::UniformVariableHeuristic>(),
-			              std::make_unique<algorithms::AdaptiveSearchVariableCandidatesHeuristic>(),
-			              std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
-			              std::make_unique<algorithms::AdaptiveSearchErrorProjection>() )
+			              std::make_unique<algorithms::VariableHeuristicUniform>(),
+			              std::make_unique<algorithms::VariableCandidatesHeuristicAdaptiveSearch>(),
+			              std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>(),
+			              std::make_unique<algorithms::ErrorProjectionAdaptiveSearch>() )
 		{ }
 		
 		// Check if the thread must stop search
@@ -1050,7 +1050,7 @@ namespace ghost
 					if( data.optimization_space_moves >= 10 // 10 iterations top in the optimization space
 					    || data.delta_cost >= data.current_opt_cost ) // local minimum in the optimization space
 					{
-						value_heuristic = std::make_unique<algorithms::AdaptiveSearchValueHeuristic>();						
+						value_heuristic = std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>();						
 					}
 					else // continue exploring the optimization space
 					{

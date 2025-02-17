@@ -30,46 +30,50 @@
 #include <algorithm>
 #include <numeric>
 
-#include "algorithms/antidote_search_value_heuristic.hpp"
-#include "thirdparty/randutils.hpp"
+#include "algorithms/value_heuristic_adaptive_search.hpp"
 
-using ghost::algorithms::AntidoteSearchValueHeuristic;
+using ghost::algorithms::ValueHeuristicAdaptiveSearch;
+using ghost::SearchUnitData;
+using ghost::Model;
 
-AntidoteSearchValueHeuristic::AntidoteSearchValueHeuristic()
-	: ValueHeuristic( "Antidote Search" )
+ValueHeuristicAdaptiveSearch::ValueHeuristicAdaptiveSearch()
+	: ValueHeuristic( "Adaptive Search" )
 { }
 		
-int AntidoteSearchValueHeuristic::select_value( int variable_to_change,
+int ValueHeuristicAdaptiveSearch::select_value( int variable_to_change,
                                                 const SearchUnitData& data,
                                                 const Model& model,
                                                 randutils::mt19937_rng& rng ) const
 {
-	auto delta_errors_size = data.delta_errors.size();
-	
-	std::vector<double> cumulated_delta_errors( delta_errors_size );
-	std::vector<double> cumulated_delta_errors_for_distribution( delta_errors_size );
-	std::vector<int> cumulated_delta_errors_variable_index_correspondance( delta_errors_size ); // longest variable name ever
-
-	int index = 0;
-
+	std::vector<int> candidates; // variable indexes for permutation problems, variable values otherwise
+	std::map<int, double> cumulated_delta_errors;
 	for( const auto& deltas : data.delta_errors )
+		cumulated_delta_errors[ deltas.first ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
+
+	for( const auto& deltas : cumulated_delta_errors )
 	{
-		cumulated_delta_errors[ index ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
-		cumulated_delta_errors_variable_index_correspondance[ index ] = deltas.first;
-		++index;
+		if( data.min_conflict > deltas.second )
+		{
+			candidates.clear();
+			candidates.push_back( deltas.first );
+			data.update_min_conflict( deltas.second );
+		}
+		else
+			if( data.min_conflict == deltas.second )
+				candidates.push_back( deltas.first );
 	}
 
-	std::transform( cumulated_delta_errors.begin(),
-	                cumulated_delta_errors.end(),
-	                cumulated_delta_errors_for_distribution.begin(),
-	                []( auto delta ){ if( delta >= 0) return 0.0; else return -delta; } );
+	if( candidates.empty() )
+		return variable_to_change;
 
-	if( *std::max_element( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() ) == 0.0 )
-		index = rng.uniform( 0, static_cast<int>( delta_errors_size ) - 1 );
+	// if we deal with an optimization problem, find the value minimizing to objective function
+	if( data.is_optimization )
+	{
+		if( model.permutation_problem )
+			return static_cast<int>( model.objective->heuristic_value_permutation( variable_to_change, candidates, rng ) );
+		else
+			return model.objective->heuristic_value( variable_to_change, candidates, rng );
+	}
 	else
-		index = rng.variate<int, std::discrete_distribution>( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() );
-
-	data.update_min_conflict( cumulated_delta_errors[ index ] );
-		
-	return cumulated_delta_errors_variable_index_correspondance[ index ];		
+		return rng.pick( candidates );
 }

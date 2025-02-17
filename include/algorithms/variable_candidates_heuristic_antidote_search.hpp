@@ -27,20 +27,22 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/all_free_variable_candidates_heuristic.hpp"
+#pragma once
 
-using ghost::algorithms::AllFreeVariableCandidatesHeuristic;
+#include <vector>
 
-AllFreeVariableCandidatesHeuristic::AllFreeVariableCandidatesHeuristic()
-	: VariableCandidatesHeuristic( "All Free" )
-{ }
-		
-std::vector<double> AllFreeVariableCandidatesHeuristic::compute_variable_candidates( const SearchUnitData& data ) const
+#include "variable_candidates_heuristic.hpp"
+
+namespace ghost
 {
-	std::vector<double> free_variables_list;
-	for( int variable_id = 0 ; variable_id < data.number_variables ; ++variable_id )
-		if( data.tabu_list[ variable_id ] <= data.local_moves )
-			free_variables_list.push_back( variable_id );
-	
-	return free_variables_list;
+	namespace algorithms
+	{
+		class VariableCandidatesHeuristicAntidoteSearch : public VariableCandidatesHeuristic
+		{
+		public:
+			VariableCandidatesHeuristicAntidoteSearch();
+			
+			std::vector<double> compute_variable_candidates( const SearchUnitData& data ) const override;
+		};
+	}
 }

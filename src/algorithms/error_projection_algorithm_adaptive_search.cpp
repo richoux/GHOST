@@ -27,17 +27,17 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/adaptive_search_error_projection_algorithm.hpp"
+#include "algorithms/error_projection_algorithm_adaptive_search.hpp"
 
-using ghost::algorithms::AdaptiveSearchErrorProjection;
+using ghost::algorithms::ErrorProjectionAdaptiveSearch;
 using ghost::Variable;
 using ghost::Constraint;
 
-AdaptiveSearchErrorProjection::AdaptiveSearchErrorProjection()
+ErrorProjectionAdaptiveSearch::ErrorProjectionAdaptiveSearch()
 	: ErrorProjection( "Adaptive Search" )
 { }
 
-void AdaptiveSearchErrorProjection::compute_variable_errors( const std::vector<Variable>& variables,                                                             
+void ErrorProjectionAdaptiveSearch::compute_variable_errors( const std::vector<Variable>& variables,                                                             
                                                              const std::vector<std::shared_ptr<Constraint>>& constraints,
                                                              SearchUnitData& data )
 {
@@ -48,7 +48,7 @@ void AdaptiveSearchErrorProjection::compute_variable_errors( const std::vector<V
 			data.error_variables[ variable_id ] += constraints[ constraint_id ]->_current_error;
 }
 
-void AdaptiveSearchErrorProjection::update_variable_errors( const std::vector<Variable>& variables,
+void ErrorProjectionAdaptiveSearch::update_variable_errors( const std::vector<Variable>& variables,
                                                             std::shared_ptr<Constraint> constraint,
                                                             SearchUnitData& data,                                                            
                                                             double delta )
