@@ -33,45 +33,19 @@
 #include <map>
 
 #include "../search_unit_data.hpp"
-// #include "../macros.hpp"
-#include "../thirdparty/randutils.hpp"
+#include "space.hpp"
 
 namespace ghost
 {
 	namespace algorithms
 	{
-		/*
-		 * Strategy design pattern to implement variable selection heuristics.
-		 */
-		class ValueHeuristic
+		class SpaceOfOptimization : public Space
 		{
-		protected:
-			// Protected string variable for the heuristic name. Used for debug/trace purposes.
-			std::string name;
-
 		public:
-			ValueHeuristic( std::string&& name )
-				: name( std::move( name ) )
-			{ }
+			SpaceOfOptimization();
 
-			// Default virtual destructor.
-			virtual ~ValueHeuristic() = default;
-
-			// Inline function returning the heuristic name.
-			inline std::string get_name() const { return name; }
-
-			/*
-			 * Function to select a value to assign to the variable currently selected by the search algorithm to make a local move.
-			 * \param variable_to_change The index of the variable currently selected by the search algorithm.
-			 * \param data A reference to the SearchUnitData object containing data about the problem instance and the search state, such as the number of variables and constraints, the current projected error on each variable, etc.
-			 * \param model A reference to the problem model, to get access to the objective function for instance.
-			 * \param rng A reference to the pseudo-random generator, to avoid recreating such object.
-			 * \return The selected value to be assigned to variable_to_change (or the index of a variable in case of permutation moves).
-			 */
-			virtual int select_value( int variable_to_change,
-			                          const SearchUnitData& data,
-			                          const Model& model,
-			                          randutils::mt19937_rng& rng ) const = 0;
+			double get_fitness_variation( const SearchUnitData& data ) const override;
+			void update_fitness( const SearchUnitData& data ) const override;
 		};
 	}
 }

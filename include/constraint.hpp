@@ -48,6 +48,8 @@ namespace ghost
 	{
 		class ErrorProjectionAdaptiveSearch;
 		class ErrorProjectionCulpritSearch;
+		class Regular;
+		class SwitchOptimization;
 	}
 
 	/*!
@@ -61,12 +63,13 @@ namespace ghost
 	 */
 	class Constraint
 	{
-		friend class SearchUnit;
 		template<typename ModelBuilderType> friend class Solver;
 		friend class ModelBuilder;
 		friend class algorithms::ErrorProjectionAdaptiveSearch;
 		friend class algorithms::ErrorProjectionCulpritSearch;
-
+		friend class algorithms::Regular;
+		friend class algorithms::SwitchOptimization;
+		
 		std::vector<Variable*> _variables;
 		std::vector<int> _variables_index; // To know where are the constraint's variables in the global variable vector
 		std::map<int,int> _variables_position; // To know where are global variables in the constraint's variables vector 

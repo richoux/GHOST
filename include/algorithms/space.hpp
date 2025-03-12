@@ -29,49 +29,49 @@
 
 #pragma once
 
-#include <vector>
-#include <map>
-
+#include <memory>
 #include "../search_unit_data.hpp"
-// #include "../macros.hpp"
-#include "../thirdparty/randutils.hpp"
 
 namespace ghost
 {
 	namespace algorithms
 	{
 		/*
-		 * Strategy design pattern to implement variable selection heuristics.
+		 * Strategy design pattern to implement different search spaces.
 		 */
-		class ValueHeuristic
+		class Space
 		{
 		protected:
-			// Protected string variable for the heuristic name. Used for debug/trace purposes.
+			// Protected string variable for the space name. Used for debug/trace purposes.
 			std::string name;
-
+			bool violation_space;
+			
 		public:
-			ValueHeuristic( std::string&& name )
-				: name( std::move( name ) )
-			{ }
+			Space( std::string&& name,
+			       bool violation_space );
 
-			// Default virtual destructor.
-			virtual ~ValueHeuristic() = default;
+			virtual ~Space() = default;
 
-			// Inline function returning the heuristic name.
 			inline std::string get_name() const { return name; }
+			inline bool is_violation_space() const { return violation_space; }
 
 			/*
-			 * Function to select a value to assign to the variable currently selected by the search algorithm to make a local move.
-			 * \param variable_to_change The index of the variable currently selected by the search algorithm.
+			 * Function returning the fitness variation the search aims to minimize while exploring the search space.
+			 * Indeed, this value depends on the value heuristics. Most of the time, we will explore
+			 * the violation space, thus the value to minimize is SearchUnitData::min_conflict (value outputed by default).
+			 * But when exploring the optimization space, SearchUnitData::delta_cost should be returned.
 			 * \param data A reference to the SearchUnitData object containing data about the problem instance and the search state, such as the number of variables and constraints, the current projected error on each variable, etc.
-			 * \param model A reference to the problem model, to get access to the objective function for instance.
-			 * \param rng A reference to the pseudo-random generator, to avoid recreating such object.
-			 * \return The selected value to be assigned to variable_to_change (or the index of a variable in case of permutation moves).
+			 * \return The value the search unit is trying to minimize while exploring the search space.
 			 */
-			virtual int select_value( int variable_to_change,
-			                          const SearchUnitData& data,
-			                          const Model& model,
-			                          randutils::mt19937_rng& rng ) const = 0;
+			virtual double get_fitness_variation( const SearchUnitData& data ) const = 0;
+			
+			/*
+			 * Procedure updating the current fitness of the search space in data.
+			 * This corresponds to current_sat_error on a violation space, and current_opt_cost on an optimization space.
+			 * Those values are updated by adding min_conflict or delta_cost, respectively.
+			 * \param data A reference to the SearchUnitData object containing data about the problem instance and the search state, such as the number of variables and constraints, the current projected error on each variable, etc.
+			 */
+			virtual void update_fitness( const SearchUnitData& data ) const = 0;
 		};
 	}
 }

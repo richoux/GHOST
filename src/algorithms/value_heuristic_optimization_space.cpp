@@ -47,7 +47,6 @@ int ValueHeuristicOptimizationSpace::select_value( int variable_to_change,
 {
 	// Todo
 	// - compute the optimization cost of the neighborhood, and return the neighbor with the lowest cost
-	// - min_conflict must be updated!
 	// - modify search_unit
 	// - think carefully about permutations
 
@@ -87,17 +86,7 @@ int ValueHeuristicOptimizationSpace::select_value( int variable_to_change,
 			}
 			else
 				if( min_cost == simulated_cost )
-				{
-					// if( data.min_conflict > cumulated_delta_errors[ head ].second )
-					// {
-					// 	data.update_min_conflict( cumulated_delta_errors[ head ].second );
-					// 	candidates.clear();
-					// 	candidates.push_back( cumulated_delta_errors[ head ].first );
-					// }
-					// else
-					// 	if( data.min_conflict == cumulated_delta_errors[ head ].second )
 					candidates.push_back( head->first );
-				}
 
 			tail = head; // first iteration, tail remains at index 0
 			++head;
@@ -121,16 +110,7 @@ int ValueHeuristicOptimizationSpace::select_value( int variable_to_change,
 			}
 			else
 				if( min_cost == simulated_cost )
-				{
-					// if( data.min_conflict > deltas.second )
-					// {
-					// 	data.update_min_conflict( deltas.second );
-					// 	candidates.clear();
-					// 	candidates.push_back( deltas.first );
-					// }
-					// else
 					candidates.push_back( deltas.first );
-				}
 		}
 
 		data.update_delta_cost( min_cost - data.current_opt_cost );

@@ -47,6 +47,8 @@ namespace ghost
 		class ValueHeuristicAdaptiveSearch;
 		class ValueHeuristicAntidoteSearch;
 		class ValueHeuristicOptimizationSpace;
+		class Regular;
+		class SwitchOptimization;
 	}
 	
 	/*!
@@ -72,6 +74,8 @@ namespace ghost
 		friend class algorithms::ValueHeuristicAdaptiveSearch;
 		friend class algorithms::ValueHeuristicAntidoteSearch;
 		friend class algorithms::ValueHeuristicOptimizationSpace;
+		friend class algorithms::Regular;
+		friend class algorithms::SwitchOptimization;
 
 		std::vector<Variable*> _variables; // Vector of raw pointers to variables needed to compute the objective function.
 		std::vector<int> _variables_index; // To know where are the constraint's variables in the global variable vector.

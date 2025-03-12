@@ -52,24 +52,24 @@
 #include "thirdparty/randutils.hpp"
 
 #include "algorithms/variable_heuristic.hpp"
-#include "algorithms/variable_candidates_heuristic.hpp"
-#include "algorithms/value_heuristic.hpp"
-#include "algorithms/error_projection_algorithm.hpp"
-
 #include "algorithms/variable_heuristic_uniform.hpp"
-#include "algorithms/variable_candidates_heuristic_adaptive_search.hpp"
-#include "algorithms/value_heuristic_adaptive_search.hpp"
-#include "algorithms/error_projection_algorithm_adaptive_search.hpp"
-
 #include "algorithms/variable_heuristic_antidote_search.hpp"
-#include "algorithms/variable_candidates_heuristic_antidote_search.hpp"
-#include "algorithms/value_heuristic_antidote_search.hpp"
 
-#include "algorithms/error_projection_algorithm_culprit_search.hpp"
+#include "algorithms/variable_candidates_heuristic.hpp"
+#include "algorithms/variable_candidates_heuristic_adaptive_search.hpp"
+#include "algorithms/variable_candidates_heuristic_antidote_search.hpp"
+
+#include "algorithms/value_heuristic.hpp"
+#include "algorithms/value_heuristic_adaptive_search.hpp"
+#include "algorithms/value_heuristic_antidote_search.hpp"
+#include "algorithms/value_heuristic_optimization_space.hpp"
+
+#include "algorithms/space_policy.hpp"
+#include "algorithms/space_policy_regular.hpp"
+#include "algorithms/space_policy_switch_optimization.hpp"
 
 #if defined GHOST_RANDOM_WALK || defined GHOST_HILL_CLIMBING
 #include "algorithms/variable_candidates_heuristic_all_free.hpp"
-#include "algorithms/error_projection_algorithm_null.hpp"
 #endif
 
 #if defined GHOST_RANDOM_WALK 
@@ -89,8 +89,6 @@ namespace ghost
 		std::promise<void> _stop_search_signal;
 		std::future<void> _stop_search_check;
 		std::thread::id _thread_id;
-
-		bool _search_in_violation_space; // if false, search in the objective space
 
 #if defined GHOST_TRACE_PARALLEL
 		std::stringstream _log_filename;
@@ -313,9 +311,9 @@ namespace ghost
 			}
 
 			// Reset variable costs and recompute them
-			error_projection_algorithm->compute_variable_errors( model.variables,
-			                                                     model.constraints,
-			                                                     data );
+			space_policy->compute_variable_errors( model.variables,
+			                                       model.constraints,
+			                                       data );
 		}
 
 		void initialize_data_structures( Model& model )
@@ -448,82 +446,21 @@ namespace ghost
 			return satisfaction_error;
 		}
 
-		void update_errors( int variable_to_change, int new_value )
-		{
-			int delta_index = 0;
-			if( !model.permutation_problem )
-			{
-				for( const int constraint_id : data.matrix_var_ctr.at( variable_to_change ) )
-				{
-					auto delta = data.delta_errors.at( new_value )[ delta_index++ ];
-					model.constraints[ constraint_id ]->_current_error += delta;
-					
-					error_projection_algorithm->update_variable_errors( model.variables,
-					                                                    model.constraints[ constraint_id ],
-					                                                    data,
-					                                                    delta );
-
-					model.constraints[ constraint_id ]->update( variable_to_change, new_value );
-				}
-
-				if( data.is_optimization )
-					model.objective->update( variable_to_change, new_value );
-			}
-			else
-			{
-				std::vector<bool> constraint_checked( data.number_constraints, false );
-				int current_value = model.variables[ variable_to_change ].get_value();
-				int next_value = model.variables[ new_value ].get_value();
-
-				for( const int constraint_id : data.matrix_var_ctr.at( variable_to_change ) )
-				{
-					constraint_checked[ constraint_id ] = true;
-					auto delta = data.delta_errors.at( new_value )[ delta_index++ ];
-					model.constraints[ constraint_id ]->_current_error += delta;
-
-					error_projection_algorithm->update_variable_errors( model.variables,
-					                                                    model.constraints[ constraint_id ],
-					                                                    data,
-					                                                    delta );
-					
-					model.constraints[ constraint_id ]->update( variable_to_change, next_value );
-
-					if( model.constraints[ constraint_id ]->has_variable( new_value ) )
-						model.constraints[ constraint_id ]->update( new_value, current_value );
-				}
-
-				for( const int constraint_id : data.matrix_var_ctr.at( new_value ) )
-					if( !constraint_checked[ constraint_id ] )
-					{
-						auto delta = data.delta_errors.at( new_value )[ delta_index++ ];
-						model.constraints[ constraint_id ]->_current_error += delta;
-
-						error_projection_algorithm->update_variable_errors( model.variables,
-						                                                    model.constraints[ constraint_id ],
-						                                                    data,
-						                                                    delta );
-						
-						model.constraints[ constraint_id ]->update( new_value, current_value );
-					}
-
-				if( data.is_optimization )
-				{
-					model.objective->update( variable_to_change, next_value );
-					model.objective->update( new_value, current_value );
-				}
-			}
-		}
-
 		// A. Local move (perform local move and update variables/constraints/objective function)
 		void local_move( int variable_to_change, int new_value )
 		{
 			++data.local_moves;
-			data.current_sat_error += data.min_conflict;
+
+			space_policy->update_fitness( data );
+			space_policy->update_errors( variable_to_change,
+			                             new_value,
+			                             data,
+			                             model );
+						
 			data.tabu_list[ variable_to_change ] = options.tabu_time_selected + data.local_moves;
 			must_compute_variable_candidates = true;
 
-			update_errors( variable_to_change, new_value );
-
+			// the move itself
 			if( model.permutation_problem )
 			{
 				int current_value = model.variables[ variable_to_change ].get_value();
@@ -546,6 +483,7 @@ namespace ghost
 		//                        of chance to escape it and mark the variable as tabu.)
 		void plateau_management( int variable_to_change, int new_value )
 		{
+			// TODO rechange name?
 			if( rng.uniform(1, 100) <= options.percent_chance_force_trying_on_plateau )
 			{
 				data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
@@ -558,31 +496,32 @@ namespace ghost
 			else
 			{
 				data.min_conflict = 0;
+				data.delta_cost = 0;
 				local_move( variable_to_change, new_value );
 				++data.plateau_moves;
 			}
 		}
 
-		// C. local minimum management (if there are no other worst variables to try, mark the variable as tabu.
-		//                              Otherwise try them first.)
-		void local_minimum_management( int variable_to_change, int new_value, bool no_other_variables_to_try )
-		{
-			must_compute_variable_candidates = false;
+// 		// C. local minimum management (if there are no other worst variables to try, mark the variable as tabu.
+// 		//                              Otherwise try them first.)
+// 		void local_minimum_management( int variable_to_change, int new_value, bool no_other_variables_to_try )
+// 		{
+// 			must_compute_variable_candidates = false;
 
-			if( no_other_variables_to_try ) // || rng.uniform(1, 100) <= 10 //10% chance to force tabu-marking even if there are other variables to explore.
-			{
-				data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
-				// must_compute_variable_candidates = true;
-				++data.local_minimum;
-			}
-			else
-			{
-#if defined GHOST_TRACE
-				COUT << "Try other variables: not a local minimum yet.\n";
-#endif
-				// must_compute_variable_candidates = false;
-			}
-		}
+// 			if( no_other_variables_to_try ) // || rng.uniform(1, 100) <= 10 //10% chance to force tabu-marking even if there are other variables to explore.
+// 			{
+// 				data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
+// 				// must_compute_variable_candidates = true;
+// 				++data.local_minimum;
+// 			}
+// 			else
+// 			{
+// #if defined GHOST_TRACE
+// 				COUT << "Try other variables: not a local minimum yet.\n";
+// #endif
+// 				// must_compute_variable_candidates = false;
+// 			}
+// 		}
 
 	public:
 		Model model;
@@ -594,7 +533,7 @@ namespace ghost
 		std::unique_ptr<algorithms::VariableHeuristic> variable_heuristic;
 		std::unique_ptr<algorithms::VariableCandidatesHeuristic> variable_candidates_heuristic;
 		std::unique_ptr<algorithms::ValueHeuristic> value_heuristic;
-		std::unique_ptr<algorithms::ErrorProjection> error_projection_algorithm;
+		std::unique_ptr<algorithms::SpacePolicy> space_policy;
 				
 		std::vector<int> final_solution;
 
@@ -610,15 +549,14 @@ namespace ghost
 		            std::unique_ptr<algorithms::VariableHeuristic> variable_heuristic,
 		            std::unique_ptr<algorithms::VariableCandidatesHeuristic> variable_candidates_heuristic,
 		            std::unique_ptr<algorithms::ValueHeuristic> value_heuristic,
-		            std::unique_ptr<algorithms::ErrorProjection> error_projection_algorithm )
+		            std::unique_ptr<algorithms::SpacePolicy> space_policy )
 			: _stop_search_check( _stop_search_signal.get_future() ),
-			  _search_in_violation_space( true ),
 			  model( std::move( moved_model ) ),
 			  data( model ),
 			  variable_heuristic( std::move( variable_heuristic ) ),
 			  variable_candidates_heuristic( std::move( variable_candidates_heuristic ) ),
 			  value_heuristic( std::move( value_heuristic ) ),
-			  error_projection_algorithm( std::move( error_projection_algorithm ) ),
+			  space_policy( std::move( space_policy ) ),
 			  final_solution( std::vector<int>( data.number_variables, 0 ) ),
 			  variable_candidates(), 
 			  must_compute_variable_candidates ( true ),
@@ -631,7 +569,7 @@ namespace ghost
 
 			initialize_data_structures( model );
 			data.initialize_matrix( model );
-			this->error_projection_algorithm->initialize_data_structures( data );
+			space_policy->initialize_data_structures( data );
 
 #if defined GHOST_TRACE
 			COUT << "Creating a Solver object\n\n"
@@ -655,7 +593,7 @@ namespace ghost
 			              std::make_unique<algorithms::VariableHeuristicUniform>(),
 			              std::make_unique<algorithms::VariableCandidatesHeuristicAdaptiveSearch>(),
 			              std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>(),
-			              std::make_unique<algorithms::ErrorProjectionAdaptiveSearch>() )
+			              std::make_unique<algorithms::Regular() )
 		{ }
 		
 		// Check if the thread must stop search
@@ -891,8 +829,8 @@ namespace ghost
 				}
 
 				// Select the next current configuration (local move)				
-				data.min_conflict = std::numeric_limits<double>::max();
 				int new_value = value_heuristic->select_value( variable_to_change, data, model, rng );
+				double fitness_variation = value_heuristic->get_fitness_variation( data );
 				
 #if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD
 				std::vector<int> candidate_values;
@@ -1043,37 +981,26 @@ namespace ghost
 				/****************************************
 				 * 3. Error improved => make local move *
 				 ****************************************/
-
-				// TODO: to finish
-				if( data.min_conflict == std::numeric_limits<double>::max() ) // meaning we did a local move in the optimization space, not in the violation space
+				if( fitness_variation < 0.0 )
 				{
-					if( data.optimization_space_moves >= 10 // 10 iterations top in the optimization space
-					    || data.delta_cost >= data.current_opt_cost ) // local minimum in the optimization space
+#if defined GHOST_TRACE					
+					if( space_policy->is_violation_space() )
 					{
-						value_heuristic = std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>();						
+						COUT << "Global error improved in the violation space (" << data.current_sat_error << " -> " << data.current_sat_error + data.min_conflict << "): make local move.\n";
 					}
-					else // continue exploring the optimization space
+					else
 					{
-
+						COUT << "Global error improved in the optimization space (" << data.current_opt_cost << " -> " << data.current_opt_cost + data.delta_cost << "): make local move.\n";
 					}
-				}
-
-
-				if( data.min_conflict < 0.0 )
-				{
-#if defined GHOST_TRACE
-					COUT << "Global error improved (" << data.current_sat_error << " -> " << data.current_sat_error + data.min_conflict << "): make local move.\n";
 #endif
 					local_move( variable_to_change, new_value );
-					if( data.is_optimization )
-						data.current_opt_cost = model.objective->cost();
 				}
 				else
 				{
 					/*****************
 					 * 4. Same error *
 					 *****************/
-					if( data.min_conflict == 0.0 )
+					if( fitness_variation == 0.0 )
 					{
 #if defined GHOST_TRACE
 						COUT << "Global error stable; ";
@@ -1150,7 +1077,19 @@ namespace ghost
 										COUT << "\nLocal minimum cost: " << data.current_opt_cost << "\n";
 									}
 #endif
-									local_minimum_management( variable_to_change, new_value, variable_candidates.empty() );
+									must_compute_variable_candidates = variable_candidates.empty();
+									if( space_policy->local_minimum_management( variable_to_change, new_value, options.tabu_time_local_min, variable_candidates.empty() ) )
+									{
+										if( space_policy->is_violation_space() )
+										{
+											value_heuristic = std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>();
+											initialize_data_structures();
+										}
+										else
+										{
+											value_heuristic = std::make_unique<algorithms::ValueHeuristicOptimizationSpace>();
+										}
+									}
 								}
 						}
 						else
@@ -1164,7 +1103,7 @@ namespace ghost
 							plateau_management( variable_to_change, new_value );
 						}
 					}
-					else // data.min_conflict > 0.0
+					else // fitness_variation > 0.0
 					{
 						/***********************************
 						 * 5. Worst error => local minimum *
@@ -1179,14 +1118,26 @@ namespace ghost
 							COUT << "\nLocal minimum error: " << data.current_sat_error << "\n";
 						}
 #endif
-						local_minimum_management( variable_to_change, new_value, variable_candidates.empty() );
+						must_compute_variable_candidates = variable_candidates.empty();
+						if( space_policy->local_minimum_management( variable_to_change, new_value, options.tabu_time_local_min, variable_candidates.empty() ) )
+						{
+							if( space_policy->is_violation_space() )
+							{
+								value_heuristic = std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>();
+								initialize_data_structures();
+							}
+							else
+							{
+								value_heuristic = std::make_unique<algorithms::ValueHeuristicOptimizationSpace>();
+							}
+						}
 					}
 				}
 
 				if( data.best_sat_error > data.current_sat_error )
 				{
 #if defined GHOST_TRACE
-					COUT << "Best satisfaction error so far (in an optimization problem). Before: " << data.best_sat_error << ", now: " << data.current_sat_error << "\n";
+					COUT << "Best satisfaction error so far. Before: " << data.best_sat_error << ", now: " << data.current_sat_error << "\n";
 #endif
 					data.best_sat_error = data.current_sat_error;
 					std::transform( model.variables.begin(),
@@ -1195,16 +1146,22 @@ namespace ghost
 					                [&](auto& var){ return var.get_value(); } );
 				}
 				else
-					if( data.is_optimization && data.current_sat_error == 0.0 && data.best_opt_cost > data.current_opt_cost )
+					if( data.is_optimization && data.current_sat_error == 0.0 )
 					{
+						if( value_heuristic->get_name().compare( "Optimization Space" ) != 0 )
+							data.current_opt_cost = model.objective->cost();
+
+						if( data.best_opt_cost > data.current_opt_cost )
+						{
 #if defined GHOST_TRACE
-						COUT << "Best objective function value so far. Before: " << data.best_opt_cost << ", now: " << data.current_opt_cost << "\n";
+							COUT << "Best objective function value so far. Before: " << data.best_opt_cost << ", now: " << data.current_opt_cost << "\n";
 #endif
-						data.best_opt_cost = data.current_opt_cost;
-						std::transform( model.variables.begin(),
-						                model.variables.end(),
-						                final_solution.begin(),
-						                [&](auto& var){ return var.get_value(); } );
+							data.best_opt_cost = data.current_opt_cost;
+							std::transform( model.variables.begin(),
+							                model.variables.end(),
+							                final_solution.begin(),
+							                [&](auto& var){ return var.get_value(); } );
+						}
 					}
 
 				elapsed_time = std::chrono::steady_clock::now() - start;

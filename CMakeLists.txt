@@ -98,22 +98,28 @@ set(libHeadersList
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/macros.hpp")
 
 set(libHeadersAlgorithmsList
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_candidates_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/value_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/error_projection_algorithm.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_variable_candidates_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_value_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/adaptive_search_error_projection_algorithm.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_variable_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_variable_candidates_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/antidote_search_value_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/culprit_search_error_projection_algorithm.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/uniform_variable_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/all_free_variable_candidates_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/random_walk_value_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/optimization_space_value_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/null_error_projection_algorithm.hpp")
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/error_projection_algorithm_adaptive_search.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/error_projection_algorithm_culprit_search.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/error_projection_algorithm_null.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/space.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/space_of_optimization.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/space_of_violation.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/space_policy.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/space_policy_regular.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/space_policy_switch_optimization.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/value_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/value_heuristic_adaptive_search.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/value_heuristic_antidote_search.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/value_heuristic_optimization_space.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/value_heuristic_random_walk.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_candidates_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_candidates_heuristic_adaptive_search.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_candidates_heuristic_antidote_search.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_candidates_heuristic_all_free.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_heuristic.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_heuristic_antidote_search.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_heuristic_uniform.hpp")
 
 set(libHeadersGlobalConstraintsList
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/all_different.hpp"
@@ -142,18 +148,24 @@ set(toAddInLibs
 	src/model_builder.cpp
 	src/options.cpp
 	src/print.cpp
-	src/algorithms/adaptive_search_variable_candidates_heuristic.cpp
-	src/algorithms/adaptive_search_value_heuristic.cpp
-	src/algorithms/adaptive_search_error_projection_algorithm.cpp
-	src/algorithms/antidote_search_variable_heuristic.cpp
-	src/algorithms/antidote_search_variable_candidates_heuristic.cpp
-	src/algorithms/antidote_search_value_heuristic.cpp
-	src/algorithms/culprit_search_error_projection_algorithm.cpp
-	src/algorithms/uniform_variable_heuristic.cpp
-	src/algorithms/all_free_variable_candidates_heuristic.cpp
-	src/algorithms/random_walk_value_heuristic.cpp
-	src/algorithms/optimization_space_value_heuristic.cpp
-	src/algorithms/null_error_projection_algorithm.cpp
+	src/algorithms/error_projection_algorithm_adaptive_search.cpp
+	src/algorithms/error_projection_algorithm_culprit_search.cpp
+	src/algorithms/error_projection_algorithm_null.cpp
+	src/algorithms/space.cpp
+	src/algorithms/space_of_optimization.cpp
+	src/algorithms/space_of_violation.cpp
+	src/algorithms/space_policy.cpp
+	src/algorithms/space_policy_regular.cpp
+	src/algorithms/space_policy_switch_optimization.cpp
+	src/algorithms/value_heuristic_adaptive_search.cpp
+	src/algorithms/value_heuristic_antidote_search.cpp
+	src/algorithms/value_heuristic_optimization_space.cpp
+	src/algorithms/value_heuristic_random_walk.cpp
+	src/algorithms/variable_candidates_heuristic_adaptive_search.cpp
+	src/algorithms/variable_candidates_heuristic_antidote_search.cpp
+	src/algorithms/variable_candidates_heuristic_all_free.cpp
+	src/algorithms/variable_heuristic_antidote_search.cpp
+	src/algorithms/variable_heuristic_uniform.cpp
 	src/global_constraints/all_different.cpp
 	src/global_constraints/all_equal.cpp
 	src/global_constraints/fix_value.cpp

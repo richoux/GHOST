@@ -61,8 +61,8 @@ namespace ghost
 		std::vector<double> error_variables;
 		double best_sat_error;
 		double best_opt_cost;
-		double current_sat_error;
-		double current_opt_cost;
+		mutable double current_sat_error;
+		mutable double current_opt_cost;
 		std::map< int, std::vector<double>> delta_errors;
 		mutable double min_conflict;
 		mutable double delta_cost;
@@ -115,6 +115,16 @@ namespace ghost
 		void update_delta_cost( double delta ) const
 		{
 			delta_cost = delta;
+		}
+
+		void update_sat_error() const
+		{
+			current_sat_error += min_conflict;
+		}
+
+		void update_opt_cost() const
+		{
+			current_opt_cost += delta_cost;
 		}
 	};
 }

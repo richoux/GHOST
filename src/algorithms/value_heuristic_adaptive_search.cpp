@@ -47,22 +47,25 @@ int ValueHeuristicAdaptiveSearch::select_value( int variable_to_change,
 {
 	std::vector<int> candidates; // variable indexes for permutation problems, variable values otherwise
 	std::map<int, double> cumulated_delta_errors;
+	double min_error = std::numeric_limits<double>::max();
 	for( const auto& deltas : data.delta_errors )
 		cumulated_delta_errors[ deltas.first ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
 
 	for( const auto& deltas : cumulated_delta_errors )
 	{
-		if( data.min_conflict > deltas.second )
+		if( min_error > deltas.second )
 		{
 			candidates.clear();
 			candidates.push_back( deltas.first );
-			data.update_min_conflict( deltas.second );
+			min_error = deltas.second;
 		}
 		else
-			if( data.min_conflict == deltas.second )
+			if( min_error == deltas.second )
 				candidates.push_back( deltas.first );
 	}
 
+	data.update_min_conflict( min_error );
+	
 	if( candidates.empty() )
 		return variable_to_change;
 
