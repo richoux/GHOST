@@ -148,6 +148,7 @@ set(toAddInLibs
 	src/model_builder.cpp
 	src/options.cpp
 	src/print.cpp
+	src/algorithms/error_projection_algorithm.cpp
 	src/algorithms/error_projection_algorithm_adaptive_search.cpp
 	src/algorithms/error_projection_algorithm_culprit_search.cpp
 	src/algorithms/error_projection_algorithm_null.cpp

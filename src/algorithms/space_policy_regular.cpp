@@ -35,7 +35,7 @@ using ghost::algorithms::Regular;
 
 Regular::Regular( std::unique_ptr<algorithms::ErrorProjection> error_projection )
 	: SpacePolicy( "Regular space policy",
-	               std::move( error_projection ) )	  
+	               std::move( error_projection ) )
 {
 	space_pool.emplace_back( std::make_unique<algorithms::SpaceOfViolation>() );
 }

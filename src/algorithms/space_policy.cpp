@@ -27,7 +27,10 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
+#include <cassert>
 #include "algorithms/space_policy.hpp"
+
+#include "algorithms/error_projection_algorithm_adaptive_search.hpp"
 
 using ghost::algorithms::SpacePolicy;
 
@@ -41,11 +44,20 @@ SpacePolicy::SpacePolicy( std::string&& name,
 
 SpacePolicy::SpacePolicy( std::string&& name,
                           std::unique_ptr<algorithms::ErrorProjection> error_projection )
-	: SpacePolicy( std::move( name ), std::move( error_projection ), 0 )
+	: SpacePolicy( std::move( name ),
+	               std::move( error_projection ),
+	               0 )
+{ }
+
+SpacePolicy::SpacePolicy( std::string&& name )
+	: SpacePolicy( std::move( name ),
+	               std::make_unique<algorithms::ErrorProjectionAdaptiveSearch>(),
+	               0 )
 { }
 
 void SpacePolicy::initialize_data_structures( const SearchUnitData& data ) const
 {
+	assert(error_projection);
 	error_projection->initialize_data_structures( data );
 }
 

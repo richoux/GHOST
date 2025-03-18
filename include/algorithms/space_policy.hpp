@@ -46,7 +46,6 @@ namespace ghost
 		{
 		protected:
 			std::string name;
-
 			std::unique_ptr<algorithms::ErrorProjection> error_projection;
 			std::vector< std::unique_ptr<algorithms::Space> > space_pool;
 			int index_space_pool;
@@ -58,6 +57,8 @@ namespace ghost
 
 			SpacePolicy( std::string&& name,
 			             std::unique_ptr<algorithms::ErrorProjection> error_projection );
+
+			SpacePolicy( std::string&& name );
 
 			virtual ~SpacePolicy() = default;
 

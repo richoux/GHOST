@@ -46,6 +46,7 @@ namespace ghost
 {
 	namespace algorithms
 	{
+		class SearchUnit;
 		class ErrorProjectionAdaptiveSearch;
 		class ErrorProjectionCulpritSearch;
 		class Regular;
@@ -65,6 +66,7 @@ namespace ghost
 	{
 		template<typename ModelBuilderType> friend class Solver;
 		friend class ModelBuilder;
+		friend class SearchUnit;
 		friend class algorithms::ErrorProjectionAdaptiveSearch;
 		friend class algorithms::ErrorProjectionCulpritSearch;
 		friend class algorithms::Regular;

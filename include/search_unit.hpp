@@ -569,7 +569,7 @@ namespace ghost
 
 			initialize_data_structures( model );
 			data.initialize_matrix( model );
-			space_policy->initialize_data_structures( data );
+			this->space_policy->initialize_data_structures( data );
 
 #if defined GHOST_TRACE
 			COUT << "Creating a Solver object\n\n"
@@ -593,7 +593,7 @@ namespace ghost
 			              std::make_unique<algorithms::VariableHeuristicUniform>(),
 			              std::make_unique<algorithms::VariableCandidatesHeuristicAdaptiveSearch>(),
 			              std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>(),
-			              std::make_unique<algorithms::Regular() )
+			              std::make_unique<algorithms::Regular>() )
 		{ }
 		
 		// Check if the thread must stop search
@@ -830,7 +830,7 @@ namespace ghost
 
 				// Select the next current configuration (local move)				
 				int new_value = value_heuristic->select_value( variable_to_change, data, model, rng );
-				double fitness_variation = value_heuristic->get_fitness_variation( data );
+				double fitness_variation = space_policy->get_fitness_variation( data );
 				
 #if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD
 				std::vector<int> candidate_values;
@@ -1078,7 +1078,7 @@ namespace ghost
 									}
 #endif
 									must_compute_variable_candidates = variable_candidates.empty();
-									if( space_policy->local_minimum_management( variable_to_change, new_value, options.tabu_time_local_min, variable_candidates.empty() ) )
+									if( space_policy->local_minimum_management( variable_to_change, data, options.tabu_time_local_min, variable_candidates.empty() ) )
 									{
 										if( space_policy->is_violation_space() )
 										{
@@ -1119,7 +1119,7 @@ namespace ghost
 						}
 #endif
 						must_compute_variable_candidates = variable_candidates.empty();
-						if( space_policy->local_minimum_management( variable_to_change, new_value, options.tabu_time_local_min, variable_candidates.empty() ) )
+						if( space_policy->local_minimum_management( variable_to_change, data, options.tabu_time_local_min, variable_candidates.empty() ) )
 						{
 							if( space_policy->is_violation_space() )
 							{
