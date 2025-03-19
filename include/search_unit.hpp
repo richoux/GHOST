@@ -76,6 +76,10 @@
 #include "algorithms/value_heuristic_random_walk.hpp"
 #endif
 
+#if defined GHOST_TEST
+#define GHOST_TRACE
+#endif
+
 #include "macros.hpp"
 
 namespace ghost
@@ -1146,7 +1150,7 @@ namespace ghost
 					                [&](auto& var){ return var.get_value(); } );
 				}
 				else
-					if( data.is_optimization && data.current_sat_error == 0.0 )
+					if( data.is_optimization && data.best_sat_error == data.current_sat_error )
 					{
 						if( value_heuristic->get_name().compare( "Optimization Space" ) != 0 )
 							data.current_opt_cost = model.objective->cost();

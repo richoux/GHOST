@@ -66,7 +66,6 @@
 
 #include "algorithms/space_policy.hpp"
 #include "algorithms/space_policy_regular.hpp"
-#include "algorithms/space_policy_switch_optimization.hpp"
 
 #if defined GHOST_RANDOM_WALK || defined GHOST_HILL_CLIMBING
 #include "algorithms/variable_candidates_heuristic_all_free.hpp"
@@ -77,7 +76,7 @@
 #endif
 
 #if defined GHOST_TEST // used to test stuffs 
-#include "algorithms/value_heuristic_optimization_space.hpp"
+#include "algorithms/space_policy_switch_optimization.hpp"
 #endif
 
 #include "macros.hpp"
