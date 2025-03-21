@@ -1092,6 +1092,7 @@ namespace ghost
 										else
 										{
 											value_heuristic = std::make_unique<algorithms::ValueHeuristicOptimizationSpace>();
+											// TODO compute current cost
 										}
 									}
 								}

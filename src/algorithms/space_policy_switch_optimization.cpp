@@ -129,16 +129,18 @@ bool SwitchOptimization::local_minimum_management( int variable_to_change,
 	if( no_other_variables_to_try )
 	{
 		// data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
-		// must_compute_variable_candidates = true;
 		++data.local_minimum;
+		auto old_space_name = space_pool[index_space_pool]->get_name();
 		index_space_pool = std::abs( index_space_pool - 1 );
+#if defined GHOST_TRACE
+		COUT << "Switching landscape from " << old_space_name << " to " << space_pool[index_space_pool]->get_name() << ".\n";
+#endif
 		return true;
 	}
 	else
 	{
 #if defined GHOST_TRACE
 		COUT << "Try other variables: not a local minimum yet.\n";
-		// must_compute_variable_candidates = false;
 #endif
 		return false;
 	}
