@@ -61,9 +61,9 @@ namespace ghost
 			/*
 			 * Function to compute variable candidates, for instance regarding their projected error.
 			 * \param data A reference to the SearchUnitData object containing data about the problem instance and the search state, such as the number of variables and constraints, the current projected error on each variable, etc.
-			 * \return A vector of double to be more generic, allowing for instance a vector of errors rather than a vector of ID.
+			 * \return A vector of ID.
 			 */
-			virtual std::vector<double> compute_variable_candidates( const SearchUnitData& data ) const = 0;
+			virtual std::vector<int> compute_variable_candidates( const SearchUnitData& data ) const = 0;
 		};
 	}
 }

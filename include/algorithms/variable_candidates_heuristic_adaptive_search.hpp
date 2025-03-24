@@ -42,7 +42,7 @@ namespace ghost
 		public:
 			VariableCandidatesHeuristicAdaptiveSearch();
 			
-			std::vector<double> compute_variable_candidates( const SearchUnitData& data ) const override;
+			std::vector<int> compute_variable_candidates( const SearchUnitData& data ) const override;
 		};
 	}
 }

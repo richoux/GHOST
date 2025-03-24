@@ -75,7 +75,7 @@
 #include "algorithms/value_heuristic_random_walk.hpp"
 #endif
 
-#if defined GHOST_TEST // used to test stuffs 
+#if defined GHOST_TWM // traveling without moving 
 #include "algorithms/space_policy_switch_optimization.hpp"
 #endif
 
@@ -516,13 +516,20 @@ namespace ghost
 				                        std::make_unique<algorithms::VariableCandidatesHeuristicAllFree>(),
 				                        std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>(),
 				                        std::make_unique<algorithms::Regular>( std::make_unique<algorithms::ErrorProjectionNull() ) );
-#elif defined GHOST_TEST
+#elif defined GHOST_TWM
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options,
 				                        std::make_unique<algorithms::VariableHeuristicUniform>(), // normal
 				                        std::make_unique<algorithms::VariableCandidatesHeuristicAdaptiveSearch>(), // normal
 				                        std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>(), // normal
-				                        std::make_unique<algorithms::SwitchOptimization>() ); // TWM 
+				                        std::make_unique<algorithms::SwitchOptimization>() ); // TWM
+#elif defined GHOST_ANTIDOTE
+				SearchUnit search_unit( _model_builder.build_model(),
+				                        _options,
+				                        std::make_unique<algorithms::VariableHeuristicAntidoteSearch>(),
+				                        std::make_unique<algorithms::VariableCandidatesHeuristicAntidoteSearch>(),
+				                        std::make_unique<algorithms::ValueHeuristicAntidoteSearch>(),
+				                        std::make_unique<algorithms::Regular>() );
 #else				
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options );
@@ -576,13 +583,20 @@ namespace ghost
 					                    std::make_unique<algorithms::VariableCandidatesHeuristicAllFree>(),
 					                    std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>(),
 					                    std::make_unique<algorithms::Regular>( std::make_unique<algorithms::ErrorProjectionNull>() ) );
-#elif defined GHOST_TEST
+#elif defined GHOST_TWM
 					units.emplace_back( _model_builder.build_model(),
 					                    _options,
 					                    std::make_unique<algorithms::VariableHeuristicUniform>(), // normal
 					                    std::make_unique<algorithms::VariableCandidatesHeuristicAdaptiveSearch>(), // normal
 					                    std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>(), // normal
 					                    std::make_unique<algorithms::SwitchOptimization>() ); // TWM
+#elif defined GHOST_ANTIDOTE
+					units.emplace_back( _model_builder.build_model(),
+					                    _options,
+					                    std::make_unique<algorithms::VariableHeuristicAntidoteSearch>(),
+					                    std::make_unique<algorithms::VariableCandidatesHeuristicAntidoteSearch>(),
+					                    std::make_unique<algorithms::ValueHeuristicAntidoteSearch>(),
+					                    std::make_unique<algorithms::Regular>() );
 #else				
 					units.emplace_back( _model_builder.build_model(),
 					                    _options );
@@ -780,7 +794,7 @@ namespace ghost
 			elapsed_time = std::chrono::steady_clock::now() - start_wall_clock;
 			chrono_full_computation = elapsed_time.count();
 
-#if defined GHOST_DEBUG || defined GHOST_TRACE || defined GHOST_BENCH || defined GHOST_TEST
+#if defined GHOST_DEBUG || defined GHOST_TRACE || defined GHOST_BENCH || defined GHOST_TWM || defined GHOST_ANTIDOTE
 			std::cout << "@@@@@@@@@@@@" << "\n"
 			          << "Variable heuristic: " << _variable_heuristic << "\n"
 			          << "Variable candidate heuristic: " << _variable_candidates_heuristic << "\n"

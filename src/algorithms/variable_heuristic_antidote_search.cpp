@@ -36,8 +36,7 @@ VariableHeuristicAntidoteSearch::VariableHeuristicAntidoteSearch()
 	: VariableHeuristic( "Antidote Search" )
 { }
 		
-int VariableHeuristicAntidoteSearch::select_variable( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
+int VariableHeuristicAntidoteSearch::select_variable( const std::vector<int>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
 {
-	// WARNING: must remove variables which are in any constraints
-	return rng.variate<int, std::discrete_distribution>( candidates.begin(), candidates.end() );
+	return rng.variate<int, std::discrete_distribution>( data.error_distribution.begin(), data.error_distribution.end() );
 }

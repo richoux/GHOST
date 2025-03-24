@@ -36,13 +36,15 @@ VariableCandidatesHeuristicAntidoteSearch::VariableCandidatesHeuristicAntidoteSe
 	: VariableCandidatesHeuristic( "Antidote Search" )
 { }
 
-std::vector<double> VariableCandidatesHeuristicAntidoteSearch::compute_variable_candidates( const SearchUnitData& data ) const
+std::vector<int> VariableCandidatesHeuristicAntidoteSearch::compute_variable_candidates( const SearchUnitData& data ) const
 {
-	auto error_variables = data.error_variables;
+	data.make_error_distribution();
 		
 	for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
 		if( data.tabu_list[ variable_id ] > data.local_moves )
-			error_variables[ variable_id ] = 0.0;
+			data.erase_error_at( variable_id );
 
-	return error_variables;
+	// return a (non empty) dummy vector; only computing error_distribution is important here
+	// returning an empty vector would trigger a reset
+	return std::vector<int>{-1};
 }

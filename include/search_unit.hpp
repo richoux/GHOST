@@ -76,8 +76,9 @@
 #include "algorithms/value_heuristic_random_walk.hpp"
 #endif
 
-#if defined GHOST_TEST
+#if defined GHOST_TWM || defined GHOST_ANTIDOTE
 #define GHOST_TRACE
+#undef GHOST_FITNESS_CLOUD
 #endif
 
 #include "macros.hpp"
@@ -541,7 +542,7 @@ namespace ghost
 				
 		std::vector<int> final_solution;
 
-		std::vector<double> variable_candidates;
+		std::vector<int> variable_candidates;
 		bool must_compute_variable_candidates;
 
 		std::promise<bool> solution_found;
@@ -716,20 +717,20 @@ namespace ghost
 					continue;
 				}
 
-#if defined GHOST_TRACE  && not defined GHOST_FITNESS_CLOUD
+#if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD
 				if( variable_candidates_heuristic->get_name().compare( "Adaptive Search" ) == 0 )
 				{
-					COUT << "\n(Adaptive Search Variable Candidates Heuristic) Variable candidates: v[" << static_cast<int>( variable_candidates[0] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[0] ) ].get_value();
+					COUT << "\n(Adaptive Search Variable Candidates Heuristic) Variable candidates: v[" << variable_candidates[0] << "]=" << model.variables[ variable_candidates[0] ].get_value();
 					for( int i = 1 ; i < static_cast<int>( variable_candidates.size() ) ; ++i )
-						COUT << ", v[" << static_cast<int>( variable_candidates[i] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[i] ) ].get_value();
+						COUT << ", v[" << variable_candidates[i] << "]=" << model.variables[ variable_candidates[i] ].get_value();
 					COUT << "\n";
 				}
 				else
 					if( variable_candidates_heuristic->get_name().compare( "All Free" ) == 0 )
 					{
-						COUT << "\n(All Free Variable Candidates Heuristic) Variable candidates: v[" << static_cast<int>( variable_candidates[0] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[0] ) ].get_value();
+						COUT << "\n(All Free Variable Candidates Heuristic) Variable candidates: v[" << variable_candidates[0] << "]=" << model.variables[ variable_candidates[0] ].get_value();
 						for( int i = 1 ; i < static_cast<int>( variable_candidates.size() ) ; ++i )
-							COUT << ", v[" << static_cast<int>( variable_candidates[i] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[i] ) ].get_value();
+							COUT << ", v[" << variable_candidates[i] << "]=" << model.variables[ variable_candidates[i] ].get_value();
 						COUT << "\n";
 					}
 					else
@@ -751,7 +752,7 @@ namespace ghost
 
 				variable_to_change = variable_heuristic->select_variable( variable_candidates, data, rng );
 
-#if defined GHOST_TRACE  && not defined GHOST_FITNESS_CLOUD
+#if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD
 				COUT << options.print->print_candidate( model.variables ).str();
 				COUT << "\n********\nNumber of loop iteration: " << data.search_iterations << "\n";
 				COUT << "Number of local moves performed: " << data.local_moves << "\n";
@@ -769,7 +770,7 @@ namespace ghost
 				 * 2. Choice of their new value *
 				 ********************************/
 				// Can we erase an element by "mistake" if we use the Antidote's variable heuristic? Is it a big deal?
-				auto ref = std::find( variable_candidates.begin(), variable_candidates.end(), static_cast<double>( variable_to_change ) );
+				auto ref = std::find( variable_candidates.begin(), variable_candidates.end(), variable_to_change );
 				if( ref != variable_candidates.end() )
 					variable_candidates.erase( ref );
 				

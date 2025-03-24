@@ -35,9 +35,9 @@ VariableCandidatesHeuristicAllFree::VariableCandidatesHeuristicAllFree()
 	: VariableCandidatesHeuristic( "All Free" )
 { }
 		
-std::vector<double> VariableCandidatesHeuristicAllFree::compute_variable_candidates( const SearchUnitData& data ) const
+std::vector<int> VariableCandidatesHeuristicAllFree::compute_variable_candidates( const SearchUnitData& data ) const
 {
-	std::vector<double> free_variables_list;
+	std::vector<int> free_variables_list;
 	for( int variable_id = 0 ; variable_id < data.number_variables ; ++variable_id )
 		if( data.tabu_list[ variable_id ] <= data.local_moves )
 			free_variables_list.push_back( variable_id );

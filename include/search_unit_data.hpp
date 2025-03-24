@@ -59,6 +59,7 @@ namespace ghost
 
 		// Variables about errors and costs
 		std::vector<double> error_variables;
+		mutable std::vector<double> error_distribution;
 		double best_sat_error;
 		double best_opt_cost;
 		mutable double current_sat_error;
@@ -125,6 +126,16 @@ namespace ghost
 		void update_opt_cost() const
 		{
 			current_opt_cost += delta_cost;
+		}
+
+		void make_error_distribution() const
+		{
+			error_distribution = error_variables;
+		}
+
+		void erase_error_at( int id ) const
+		{
+			error_distribution[ id ] = 0.0;
 		}
 	};
 }

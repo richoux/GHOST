@@ -61,12 +61,12 @@ namespace ghost
 
 			/*
 			 * Function to select, among a vector of candidates, a variable from which the search algorithm will make a local move.
-			 * \param candidates A const reference to a double vector to be more generic, allowing for instance a vector of errors, rather than a vector of ID, although it would certainly be often the case in practice.
+			 * \param candidates A const reference to a vector of ID.
 			 * \param data A reference to the SearchUnitData object containing data about the problem instance and the search state, such as the number of variables and constraints, the current projected error on each variable, etc.
 			 * \param rng A reference to the pseudo-random generator, to avoid recreating such object.
 			 * \return The index of the selected variable in the candidates vector.
 			 */
-			virtual int select_variable( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const = 0;
+			virtual int select_variable( const std::vector<int>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const = 0;
 		};
 	}
 }
