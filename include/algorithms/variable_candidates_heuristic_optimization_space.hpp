@@ -42,7 +42,9 @@ namespace ghost
 		public:
 			VariableCandidatesHeuristicOptimizationSpace();
 			
-			std::vector<int> compute_variable_candidates( const SearchUnitData& data, randutils::mt19937_rng& rng ) const override;
+			std::vector<int> compute_variable_candidates( const SearchUnitData& data,
+																										randutils::mt19937_rng& rng,
+																										int number_variables_to_sample ) const override;
 		};
 	}
 }

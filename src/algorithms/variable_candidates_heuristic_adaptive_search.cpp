@@ -35,7 +35,9 @@ VariableCandidatesHeuristicAdaptiveSearch::VariableCandidatesHeuristicAdaptiveSe
 	: VariableCandidatesHeuristic( "Adaptive Search" )
 { }
 		
-std::vector<int> VariableCandidatesHeuristicAdaptiveSearch::compute_variable_candidates( const SearchUnitData& data, randutils::mt19937_rng& rng ) const
+std::vector<int> VariableCandidatesHeuristicAdaptiveSearch::compute_variable_candidates( const SearchUnitData& data,
+																																												 randutils::mt19937_rng& rng,
+																																												 int number_variables_to_sample ) const
 {
 	std::vector<int> worst_variables_list;
 	double worst_variable_cost = -1;

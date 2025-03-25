@@ -35,7 +35,9 @@ VariableCandidatesHeuristicAllFree::VariableCandidatesHeuristicAllFree()
 	: VariableCandidatesHeuristic( "All Free" )
 { }
 		
-std::vector<int> VariableCandidatesHeuristicAllFree::compute_variable_candidates( const SearchUnitData& data, randutils::mt19937_rng& rng ) const
+std::vector<int> VariableCandidatesHeuristicAllFree::compute_variable_candidates( const SearchUnitData& data,
+																																									randutils::mt19937_rng& rng,
+																																									int number_variables_to_sample ) const
 {
 	std::vector<int> free_variables_list;
 	for( int variable_id = 0 ; variable_id < data.number_variables ; ++variable_id )

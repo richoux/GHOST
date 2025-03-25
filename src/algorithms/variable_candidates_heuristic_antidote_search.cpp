@@ -36,7 +36,9 @@ VariableCandidatesHeuristicAntidoteSearch::VariableCandidatesHeuristicAntidoteSe
 	: VariableCandidatesHeuristic( "Antidote Search" )
 { }
 
-std::vector<int> VariableCandidatesHeuristicAntidoteSearch::compute_variable_candidates( const SearchUnitData& data, randutils::mt19937_rng& rng ) const
+std::vector<int> VariableCandidatesHeuristicAntidoteSearch::compute_variable_candidates( const SearchUnitData& data,
+																																												 randutils::mt19937_rng& rng,
+																																												 int number_variables_to_sample ) const
 {
 	data.make_error_distribution();
 		

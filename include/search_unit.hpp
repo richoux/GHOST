@@ -58,6 +58,7 @@
 #include "algorithms/variable_candidates_heuristic.hpp"
 #include "algorithms/variable_candidates_heuristic_adaptive_search.hpp"
 #include "algorithms/variable_candidates_heuristic_antidote_search.hpp"
+#include "algorithms/variable_candidates_heuristic_optimization_space.hpp"
 
 #include "algorithms/value_heuristic.hpp"
 #include "algorithms/value_heuristic_adaptive_search.hpp"
@@ -694,7 +695,7 @@ namespace ghost
 
 				// Estimate which variables need to be changed
 				if( must_compute_variable_candidates )
-					variable_candidates = variable_candidates_heuristic->compute_variable_candidates( data, rng );
+					variable_candidates = variable_candidates_heuristic->compute_variable_candidates( data, rng, options.number_variables_to_sample );
 
 #if defined GHOST_TRACE
 				if( std::count_if( data.tabu_list.begin(),

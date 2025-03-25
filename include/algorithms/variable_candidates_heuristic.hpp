@@ -61,9 +61,13 @@ namespace ghost
 			/*
 			 * Function to compute variable candidates, for instance regarding their projected error.
 			 * \param data A reference to the SearchUnitData object containing data about the problem instance and the search state, such as the number of variables and constraints, the current projected error on each variable, etc.
+			 * \param rng A reference to the pseudo-random generator, to avoid recreating such object.
+			 * \param number_variables_to_sample The number of variables to consider during the search (it will be options.number_variables_to_sample)
 			 * \return A vector of ID.
 			 */
-			virtual std::vector<int> compute_variable_candidates( const SearchUnitData& data, randutils::mt19937_rng& rng ) const = 0;
+			virtual std::vector<int> compute_variable_candidates( const SearchUnitData& data,
+																														randutils::mt19937_rng& rng,
+																														int number_variables_to_sample ) const = 0;
 		};
 	}
 }

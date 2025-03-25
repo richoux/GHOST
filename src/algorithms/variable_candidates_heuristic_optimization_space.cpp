@@ -37,11 +37,13 @@ VariableCandidatesHeuristicOptimizationSpace::VariableCandidatesHeuristicOptimiz
 	: VariableCandidatesHeuristic( "Optimization Space" )
 { }
 		
-std::vector<int> VariableCandidatesHeuristicOptimizationSpace::compute_variable_candidates( const SearchUnitData& data, randutils::mt19937_rng& rng ) const
+std::vector<int> VariableCandidatesHeuristicOptimizationSpace::compute_variable_candidates( const SearchUnitData& data,
+																																														randutils::mt19937_rng& rng,
+																																														int number_variables_to_sample ) const
 {
 	std::vector<int> candidates( data.number_variables );
 	// We assume that variable IDs start with 0 and end with data.number_variables - 1, as it should be.
 	std::iota( candidates.begin(), candidates.end(), 0 );
 	rng.shuffle( candidates );
-	return std::vector<int>( candidates.begin(), candidates.begin() + ( data.number_variables_to_sample - 1 ) );
+	return std::vector<int>( candidates.begin(), candidates.begin() + ( number_variables_to_sample - 1 ) );
 }
