@@ -27,34 +27,21 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/variable_candidates_heuristic_adaptive_search.hpp"
+#include <numeric>
 
-using ghost::algorithms::VariableCandidatesHeuristicAdaptiveSearch;
+#include "algorithms/variable_candidates_heuristic_optimization_space.hpp"
 
-VariableCandidatesHeuristicAdaptiveSearch::VariableCandidatesHeuristicAdaptiveSearch()
-	: VariableCandidatesHeuristic( "Adaptive Search" )
+using ghost::algorithms::VariableCandidatesHeuristicOptimizationSpace;
+
+VariableCandidatesHeuristicOptimizationSpace::VariableCandidatesHeuristicOptimizationSpace()
+	: VariableCandidatesHeuristic( "Optimization Space" )
 { }
 		
-std::vector<int> VariableCandidatesHeuristicAdaptiveSearch::compute_variable_candidates( const SearchUnitData& data, randutils::mt19937_rng& rng ) const
+std::vector<int> VariableCandidatesHeuristicOptimizationSpace::compute_variable_candidates( const SearchUnitData& data, randutils::mt19937_rng& rng ) const
 {
-	std::vector<int> worst_variables_list;
-	double worst_variable_cost = -1;
-
-	for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
-		if( worst_variable_cost <= data.error_variables[ variable_id ]
-		    && data.tabu_list[ variable_id ] <= data.local_moves
-		    && ( !data.matrix_var_ctr.at( variable_id ).empty() || ( data.is_optimization && data.current_sat_error == 0 ) ) )
-		{
-			if( worst_variable_cost < data.error_variables[ variable_id ] )
-			{
-				worst_variables_list.clear();
-				worst_variables_list.push_back( variable_id );
-				worst_variable_cost = data.error_variables[ variable_id ];
-			}
-			else
-				if( worst_variable_cost == data.error_variables[ variable_id ] )
-					worst_variables_list.push_back( variable_id );
-		}
-		
-	return worst_variables_list;
+	std::vector<int> candidates( data.number_variables );
+	// We assume that variable IDs start with 0 and end with data.number_variables - 1, as it should be.
+	std::iota( candidates.begin(), candidates.end(), 0 );
+	rng.shuffle( candidates );
+	return std::vector<int>( candidates.begin(), candidates.begin() + ( data.number_variables_to_sample - 1 ) );
 }

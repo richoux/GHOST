@@ -63,7 +63,7 @@ namespace ghost
 			 * \param data A reference to the SearchUnitData object containing data about the problem instance and the search state, such as the number of variables and constraints, the current projected error on each variable, etc.
 			 * \return A vector of ID.
 			 */
-			virtual std::vector<int> compute_variable_candidates( const SearchUnitData& data ) const = 0;
+			virtual std::vector<int> compute_variable_candidates( const SearchUnitData& data, randutils::mt19937_rng& rng ) const = 0;
 		};
 	}
 }

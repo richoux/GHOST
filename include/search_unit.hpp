@@ -694,7 +694,7 @@ namespace ghost
 
 				// Estimate which variables need to be changed
 				if( must_compute_variable_candidates )
-					variable_candidates = variable_candidates_heuristic->compute_variable_candidates( data );
+					variable_candidates = variable_candidates_heuristic->compute_variable_candidates( data, rng );
 
 #if defined GHOST_TRACE
 				if( std::count_if( data.tabu_list.begin(),
@@ -1088,11 +1088,13 @@ namespace ghost
 										if( space_policy->is_violation_space() )
 										{
 											value_heuristic = std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>();
+											variable_candidates_heuristic = std::make_unique<algorithms::VariableCandidatesHeuristicAdaptiveSearch>();
 											initialize_data_structures();
 										}
 										else
 										{
 											value_heuristic = std::make_unique<algorithms::ValueHeuristicOptimizationSpace>();
+											variable_candidates_heuristic = std::make_unique<algorithms::VariableCandidatesHeuristicOptimizationSpace>();
 											// TODO compute current cost
 										}
 									}
@@ -1130,11 +1132,13 @@ namespace ghost
 							if( space_policy->is_violation_space() )
 							{
 								value_heuristic = std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>();
+								variable_candidates_heuristic = std::make_unique<algorithms::VariableCandidatesHeuristicAdaptiveSearch>();
 								initialize_data_structures();
 							}
 							else
 							{
 								value_heuristic = std::make_unique<algorithms::ValueHeuristicOptimizationSpace>();
+								variable_candidates_heuristic = std::make_unique<algorithms::VariableCandidatesHeuristicOptimizationSpace>();
 							}
 						}
 					}

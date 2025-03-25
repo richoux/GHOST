@@ -117,6 +117,7 @@ set(libHeadersAlgorithmsList
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_candidates_heuristic_adaptive_search.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_candidates_heuristic_antidote_search.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_candidates_heuristic_all_free.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_candidates_heuristic_optimization_space.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_heuristic.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_heuristic_antidote_search.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_heuristic_uniform.hpp")
@@ -165,6 +166,7 @@ set(toAddInLibs
 	src/algorithms/variable_candidates_heuristic_adaptive_search.cpp
 	src/algorithms/variable_candidates_heuristic_antidote_search.cpp
 	src/algorithms/variable_candidates_heuristic_all_free.cpp
+	src/algorithms/variable_candidates_heuristic_optimization_space.cpp
 	src/algorithms/variable_heuristic_antidote_search.cpp
 	src/algorithms/variable_heuristic_uniform.cpp
 	src/global_constraints/all_different.cpp
@@ -223,6 +225,6 @@ set (CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set (CPACK_PACKAGE_VERSION_MAJOR "3")
 set (CPACK_PACKAGE_VERSION_MINOR "2")
 set (CPACK_PACKAGE_VERSION_PATCH "0")
-set (CPACK_PACKAGE_CONTACT "florian.richoux@polytechnique.edu")
+set (CPACK_PACKAGE_CONTACT "florian@richoux.fr")
 set (CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 include (CPack)
