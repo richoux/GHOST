@@ -45,5 +45,5 @@ std::vector<int> VariableCandidatesHeuristicOptimizationSpace::compute_variable_
 	// We assume that variable IDs start with 0 and end with data.number_variables - 1, as it should be.
 	std::iota( candidates.begin(), candidates.end(), 0 );
 	rng.shuffle( candidates );
-	return std::vector<int>( candidates.begin(), candidates.begin() + ( number_variables_to_sample - 1 ) );
+	return std::vector<int>( candidates.begin(), candidates.begin() + number_variables_to_sample );
 }

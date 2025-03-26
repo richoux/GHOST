@@ -489,22 +489,28 @@ namespace ghost
 		//                        of chance to escape it and mark the variable as tabu.)
 		void plateau_management( int variable_to_change, int new_value )
 		{
-			// TODO rechange name?
-			if( rng.uniform(1, 100) <= options.percent_chance_force_trying_on_plateau )
-			{
-				data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
-				must_compute_variable_candidates = true;
-				++data.plateau_force_trying_another_variable;
+			if( space_policy->is_violation_space() )
+			{			
+				if( rng.uniform(1, 100) <= options.percent_chance_force_trying_on_plateau )
+				{
+					data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
+					must_compute_variable_candidates = true;
+					++data.plateau_force_trying_another_variable;
 #if defined GHOST_TRACE
-				COUT << "Force the exploration of another variable on a plateau; current variable marked as tabu.\n";
+					COUT << "Force the exploration of another variable on a plateau; current variable marked as tabu.\n";
 #endif
+				}
+				else
+				{
+					data.min_conflict = 0;
+					data.delta_cost = 0;
+					local_move( variable_to_change, new_value );
+					++data.plateau_moves;
+				}
 			}
 			else
 			{
-				data.min_conflict = 0;
-				data.delta_cost = 0;
-				local_move( variable_to_change, new_value );
-				++data.plateau_moves;
+				
 			}
 		}
 
@@ -701,7 +707,10 @@ namespace ghost
 				if( std::count_if( data.tabu_list.begin(),
 				                   data.tabu_list.end(),
 				                   [&](int end_tabu){ return end_tabu > data.local_moves; } ) >= options.reset_threshold )
+				{
 					COUT << "Number of variables marked as tabu above the threshold " << data.local_moves << "\n";
+				}
+				
 				if( variable_candidates.empty() )
 					COUT << "Vector of variable candidates empty\n";
 #endif
@@ -719,36 +728,30 @@ namespace ghost
 				}
 
 #if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD
-				if( variable_candidates_heuristic->get_name().compare( "Adaptive Search" ) == 0 )
+				if( variable_candidates_heuristic->get_name().compare( "Antidote Search" ) == 0 )
 				{
-					COUT << "\n(Adaptive Search Variable Candidates Heuristic) Variable candidates: v[" << variable_candidates[0] << "]=" << model.variables[ variable_candidates[0] ].get_value();
+					auto distrib = std::discrete_distribution<int>( data.error_variables.begin(), data.error_variables.end() );
+					std::vector<int> vec( data.number_variables, 0 );
+					for( int n = 0 ; n < 10000 ; ++n )
+						++vec[ rng.variate<int, std::discrete_distribution>( distrib ) ];
+					std::vector<std::pair<int,int>> vec_pair( data.number_variables );
+					for( int n = 0 ; n < data.number_variables ; ++n )
+						vec_pair[n] = std::make_pair( n, vec[n] );
+					std::sort( vec_pair.begin(), vec_pair.end(), [&](std::pair<int, int> &a, std::pair<int, int> &b){ return a.second > b.second; } );
+					COUT << "\n(Antidote Search Variable Candidates Heuristic) Variable errors (normalized):\n";
+					for( auto &v : vec_pair )
+						COUT << "v[" << v.first << "]: " << std::fixed << std::setprecision(3) << static_cast<double>( v.second ) / 10000 << "\n";
+				}
+				else
+				{
+					COUT << "\n("
+							 << variable_candidates_heuristic->get_name()
+							 << " Variable Candidates Heuristic) Variable candidates: v[" << variable_candidates[0] << "]="
+							 << model.variables[ variable_candidates[0] ].get_value();
 					for( int i = 1 ; i < static_cast<int>( variable_candidates.size() ) ; ++i )
 						COUT << ", v[" << variable_candidates[i] << "]=" << model.variables[ variable_candidates[i] ].get_value();
 					COUT << "\n";
 				}
-				else
-					if( variable_candidates_heuristic->get_name().compare( "All Free" ) == 0 )
-					{
-						COUT << "\n(All Free Variable Candidates Heuristic) Variable candidates: v[" << variable_candidates[0] << "]=" << model.variables[ variable_candidates[0] ].get_value();
-						for( int i = 1 ; i < static_cast<int>( variable_candidates.size() ) ; ++i )
-							COUT << ", v[" << variable_candidates[i] << "]=" << model.variables[ variable_candidates[i] ].get_value();
-						COUT << "\n";
-					}
-					else
-						if( variable_candidates_heuristic->get_name().compare( "Antidote Search" ) == 0 )
-						{
-							auto distrib = std::discrete_distribution<int>( data.error_variables.begin(), data.error_variables.end() );
-							std::vector<int> vec( data.number_variables, 0 );
-							for( int n = 0 ; n < 10000 ; ++n )
-								++vec[ rng.variate<int, std::discrete_distribution>( distrib ) ];
-							std::vector<std::pair<int,int>> vec_pair( data.number_variables );
-							for( int n = 0 ; n < data.number_variables ; ++n )
-								vec_pair[n] = std::make_pair( n, vec[n] );
-							std::sort( vec_pair.begin(), vec_pair.end(), [&](std::pair<int, int> &a, std::pair<int, int> &b){ return a.second > b.second; } );
-							COUT << "\n(Antidote Search Variable Candidates Heuristic) Variable errors (normalized):\n";
-							for( auto &v : vec_pair )
-								COUT << "v[" << v.first << "]: " << std::fixed << std::setprecision(3) << static_cast<double>( v.second ) / 10000 << "\n";
-						}
 #endif
 
 				variable_to_change = variable_heuristic->select_variable( variable_candidates, data, rng );
@@ -956,29 +959,34 @@ namespace ghost
 				local_move( variable_to_change, new_value );
 				if( data.is_optimization )
 					data.current_opt_cost = model.objective->cost();
-				if( data.best_sat_error > data.current_sat_error )
+				if( space_policy->is_violation_space() )
 				{
-#if defined GHOST_TRACE
-					COUT << "Best satisfaction error so far (in an optimization problem). Before: " << data.best_sat_error << ", now: " << data.current_sat_error << "\n";
-#endif
-					data.best_sat_error = data.current_sat_error;
-					std::transform( model.variables.begin(),
-					                model.variables.end(),
-					                final_solution.begin(),
-					                [&](auto& var){ return var.get_value(); } );
-				}
-				else
-					if( data.is_optimization && data.current_sat_error == 0.0 && data.best_opt_cost > data.current_opt_cost )
+					if( data.best_sat_error > data.current_sat_error )
 					{
 #if defined GHOST_TRACE
-						COUT << "Best objective function value so far. Before: " << data.best_opt_cost << ", now: " << data.current_opt_cost << "\n";
+						COUT << "Best satisfaction error so far (in an optimization problem). Before: " << data.best_sat_error << ", now: " << data.current_sat_error << "\n";
 #endif
-						data.best_opt_cost = data.current_opt_cost;
+						data.best_sat_error = data.current_sat_error;
 						std::transform( model.variables.begin(),
-						                model.variables.end(),
-						                final_solution.begin(),
-						                [&](auto& var){ return var.get_value(); } );
+														model.variables.end(),
+														final_solution.begin(),
+														[&](auto& var){ return var.get_value(); } );
 					}
+					else
+						if( data.is_optimization
+								&& data.current_sat_error == 0.0
+								&& data.best_opt_cost > data.current_opt_cost )
+						{
+#if defined GHOST_TRACE
+							COUT << "Best objective function value so far. Before: " << data.best_opt_cost << ", now: " << data.current_opt_cost << "\n";
+#endif
+							data.best_opt_cost = data.current_opt_cost;
+							std::transform( model.variables.begin(),
+															model.variables.end(),
+															final_solution.begin(),
+															[&](auto& var){ return var.get_value(); } );
+						}
+				}
 
 				elapsed_time = std::chrono::steady_clock::now() - start;
 				continue;
@@ -1091,12 +1099,18 @@ namespace ghost
 											value_heuristic = std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>();
 											variable_candidates_heuristic = std::make_unique<algorithms::VariableCandidatesHeuristicAdaptiveSearch>();
 											initialize_data_structures();
+#if defined GHOST_TRACE
+						COUT << "TWM: switching to constraint space.\n";
+#endif
 										}
 										else
 										{
 											value_heuristic = std::make_unique<algorithms::ValueHeuristicOptimizationSpace>();
 											variable_candidates_heuristic = std::make_unique<algorithms::VariableCandidatesHeuristicOptimizationSpace>();
-											// TODO compute current cost
+											data.current_opt_cost = model.objective->cost();
+#if defined GHOST_TRACE
+						COUT << "TWM: switching to optimization space.\n";
+#endif
 										}
 									}
 								}
@@ -1135,45 +1149,50 @@ namespace ghost
 								value_heuristic = std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>();
 								variable_candidates_heuristic = std::make_unique<algorithms::VariableCandidatesHeuristicAdaptiveSearch>();
 								initialize_data_structures();
+#if defined GHOST_TRACE
+						COUT << "TWM: switching to constraint space.\n";
+#endif
 							}
 							else
 							{
 								value_heuristic = std::make_unique<algorithms::ValueHeuristicOptimizationSpace>();
 								variable_candidates_heuristic = std::make_unique<algorithms::VariableCandidatesHeuristicOptimizationSpace>();
+#if defined GHOST_TRACE
+						COUT << "TWM: switching to optimization space.\n";
+#endif
 							}
 						}
 					}
 				}
 
-				if( data.best_sat_error > data.current_sat_error )
+				if( space_policy->is_violation_space() )
 				{
-#if defined GHOST_TRACE
-					COUT << "Best satisfaction error so far. Before: " << data.best_sat_error << ", now: " << data.current_sat_error << "\n";
-#endif
-					data.best_sat_error = data.current_sat_error;
-					std::transform( model.variables.begin(),
-					                model.variables.end(),
-					                final_solution.begin(),
-					                [&](auto& var){ return var.get_value(); } );
-				}
-				else
-					if( data.is_optimization && data.best_sat_error == data.current_sat_error )
+					if( data.best_sat_error > data.current_sat_error )
 					{
-						if( value_heuristic->get_name().compare( "Optimization Space" ) != 0 )
-							data.current_opt_cost = model.objective->cost();
-
-						if( data.best_opt_cost > data.current_opt_cost )
+#if defined GHOST_TRACE
+						COUT << "Best satisfaction error so far. Before: " << data.best_sat_error << ", now: " << data.current_sat_error << "\n";
+#endif
+						data.best_sat_error = data.current_sat_error;
+						std::transform( model.variables.begin(),
+														model.variables.end(),
+														final_solution.begin(),
+														[&](auto& var){ return var.get_value(); } );
+					}
+					else
+						if( data.is_optimization
+								&& data.best_sat_error == data.current_sat_error
+								&& data.best_opt_cost > data.current_opt_cost )
 						{
 #if defined GHOST_TRACE
 							COUT << "Best objective function value so far. Before: " << data.best_opt_cost << ", now: " << data.current_opt_cost << "\n";
 #endif
 							data.best_opt_cost = data.current_opt_cost;
 							std::transform( model.variables.begin(),
-							                model.variables.end(),
-							                final_solution.begin(),
-							                [&](auto& var){ return var.get_value(); } );
+															model.variables.end(),
+															final_solution.begin(),
+															[&](auto& var){ return var.get_value(); } );
 						}
-					}
+				}
 
 				elapsed_time = std::chrono::steady_clock::now() - start;
 			} // while loop

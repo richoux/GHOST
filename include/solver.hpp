@@ -475,6 +475,9 @@ namespace ghost
 			if( _options.number_start_samplings < 0 )
 				_options.number_start_samplings = 10;
 
+			if( _options.number_variables_to_sample < 0 )
+				_options.number_variables_to_sample = std::max( 2, _number_variables / 3 );
+
 #if defined GHOST_RANDOM_WALK || defined GHOST_HILL_CLIMBING
 			_options.percent_chance_force_trying_on_plateau = 0;
 			_options.number_start_samplings = 1;
@@ -806,6 +809,7 @@ namespace ghost
 			          << "Parallel search: " << std::boolalpha << _options.parallel_runs << "\n"
 			          << "Number of threads (not used if no parallel search): " << _options.number_threads << "\n"
 			          << "Number of variable assignments samplings at start (if custom start and resume are set to false): " << _options.number_start_samplings << "\n"
+			          << "Number of variable sampled as candidates (for optimization space search only): " << _options.number_variables_to_sample << "\n"
 			          << "Variables of local minimum are frozen for: " << _options.tabu_time_local_min << " local moves\n"
 			          << "Selected variables are frozen for: " << _options.tabu_time_selected << " local moves\n"
 			          << "Percentage of chance to force exploring another variable on a plateau: " << _options.percent_chance_force_trying_on_plateau << "%\n"

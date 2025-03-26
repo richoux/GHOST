@@ -133,3 +133,26 @@ bool Regular::local_minimum_management( int variable_to_change,
 #endif
 	return false;
 }
+
+bool Regular::plateau_management( int variable_to_change, int new_value )
+{
+	if( rng.uniform(1, 100) <= options.percent_chance_force_trying_on_plateau )
+	{
+		data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
+		must_compute_variable_candidates = true;
+		++data.plateau_force_trying_another_variable;
+#if defined GHOST_TRACE
+		COUT << "Force the exploration of another variable on a plateau; current variable marked as tabu.\n";
+#endif
+	}
+	else
+	{
+		data.min_conflict = 0;
+		data.delta_cost = 0;
+		local_move( variable_to_change, new_value );
+		++data.plateau_moves;
+	}
+
+	return false
+}
+

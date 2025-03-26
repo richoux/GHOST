@@ -115,6 +115,12 @@ namespace ghost
 			                                       SearchUnitData& data,
 			                                       int tabu_time_local_min,
 			                                       bool no_other_variables_to_try ) = 0;
+
+			/*
+			 * TODO
+			 * \return true iff there is space switching.
+			 */
+			virtual bool plateau_management( int variable_to_change, int new_value ) = 0;
 		};
 	}
 }
