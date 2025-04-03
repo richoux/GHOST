@@ -56,7 +56,7 @@ else()
 	else()
 		set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 	endif()
-endif()	
+endif()
 
 # add 'd' at the end of the library name compiled in Debug mode
 set(CMAKE_DEBUG_POSTFIX d)
@@ -65,7 +65,7 @@ if(WIN32)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /permissive-")
 else()
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Wno-unused-parameter")
-endif()	
+endif()
 
 # cmake --install on visual studio
 if("${WIN32}")
@@ -200,6 +200,9 @@ if(NOT("${CMAKE_SYSTEM_NAME}" STREQUAL "Android"))
 	install (FILES ${libHeadersGlobalConstraintsList} DESTINATION "include/ghost/global_constraints")
 	install (FILES ${libExternalHeadersList} DESTINATION "include/ghost/thirdparty")
 endif()
+
+# Add the C API subdirectory
+add_subdirectory(capi)
 
 # build a CPack driven installer package
 include (InstallRequiredSystemLibraries)
