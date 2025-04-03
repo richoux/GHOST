@@ -5,8 +5,10 @@
 #include "include/constraint.hpp"
 #include "include/objective.hpp"
 #include "include/model.hpp"
+#include "include/model_builder.hpp"
 #include "include/options.hpp"
 #include "include/search_unit.hpp"
+#include "include/auxiliary_data.hpp"
 // Specific GHOST Constraints/Objectives/Algorithms needed
 #include "include/global_constraints/linear_equation_eq.hpp"
 #include "include/global_constraints/all_different.hpp"
@@ -30,14 +32,56 @@
 
 // --- Internal Data Structures ---
 
-// Forward declaration for the internal objective class
-class InternalLinearObjective;
+// Structure to hold parameters for variable creation
+struct VariableParams {
+    enum class DomainType { CONTIGUOUS, LIST };
+    DomainType type;
+    int min_val; // For CONTIGUOUS
+    int max_val; // For CONTIGUOUS
+    std::vector<int> domain_list; // For LIST
+    std::string name;
+    // Store initial value index if needed? GHOST Variable constructors take it. Default is 0.
+    int initial_value_index = 0;
+};
+
+// Forward declarations for the internal objective classes
+class InternalLinearMinimizeObjective;
+class InternalLinearMaximizeObjective;
+
+// Helper function to create a model from our data
+ghost::Model create_model_from_data(
+    const std::vector<VariableParams>& variable_params,
+    const std::vector<std::shared_ptr<ghost::Constraint>>& constraints,
+    const std::shared_ptr<ghost::Objective>& objective,
+    bool permutation_problem
+) {
+    // Create variables from params
+    std::vector<ghost::Variable> variables;
+    variables.reserve(variable_params.size());
+
+    for (const auto& params : variable_params) {
+        if (params.type == VariableParams::DomainType::CONTIGUOUS) {
+            size_t domain_size = static_cast<size_t>(params.max_val) - static_cast<size_t>(params.min_val) + 1;
+            variables.emplace_back(params.min_val, domain_size, params.initial_value_index, params.name);
+        } else { // LIST
+            variables.emplace_back(params.domain_list, params.initial_value_index, params.name);
+        }
+    }
+
+    // Create auxiliary data
+    auto auxiliary_data = std::make_shared<ghost::NullAuxiliaryData>();
+
+    // Create a model directly
+    return ghost::Model(std::move(variables), constraints, objective, auxiliary_data, permutation_problem);
+}
+
 
 struct GhostSessionData {
     bool permutation_problem = false;
-    std::vector<ghost::Variable> variables;
+    // Store variable parameters instead of Variable objects
+    std::vector<VariableParams> variable_params;
     std::vector<std::shared_ptr<ghost::Constraint>> constraints;
-    std::shared_ptr<ghost::Objective> objective; // Can hold InternalLinearObjective or others
+    std::shared_ptr<ghost::Objective> objective; // Can hold InternalLinearMinimizeObjective, InternalLinearMaximizeObjective, or others
     // std::shared_ptr<ghost::AuxiliaryData> auxiliary_data; // Add if needed
 
     // Mappings (optional but potentially useful)
@@ -50,9 +94,10 @@ struct GhostSessionData {
     GhostSolutionStatus last_solution_status = GHOST_SOLUTION_STATUS_UNKNOWN;
     double last_objective_value = std::numeric_limits<double>::quiet_NaN();
     double last_sat_error = std::numeric_limits<double>::quiet_NaN();
-    std::vector<int> last_solution_values;
+    std::vector<int> last_solution_values; // Stores final values after solve
 
     // Internal objective data (if using InternalLinearObjective)
+    // Note: objective_var_ids now refer to indices in variable_params
     bool objective_maximize = false;
     std::vector<int> objective_var_ids;
     std::vector<double> objective_coeffs;
@@ -88,46 +133,138 @@ inline GhostOptionsData* get_options_data(GhostOptionsHandle handle) {
     return reinterpret_cast<GhostOptionsData*>(handle);
 }
 
-// --- Internal Objective Class Definition ---
+// --- Internal Objective Classes Definition ---
 
-// Example for a linear objective managed internally by the C API
-class InternalLinearObjective : public ghost::Objective {
+// Linear minimization objective managed internally by the C API
+class InternalLinearMinimizeObjective : public ghost::Minimize {
 private:
     const GhostSessionData* session_data; // Non-owning pointer to access coeffs/ids
 
 public:
-    InternalLinearObjective(const std::vector<int>& var_indices, bool maximize, const GhostSessionData* data)
-        : ghost::Objective(var_indices, maximize, "InternalLinearObjective"), session_data(data) {}
+    InternalLinearMinimizeObjective(const std::vector<int>& var_indices, const GhostSessionData* data)
+        : ghost::Minimize(var_indices, "InternalLinearMinimizeObjective"), session_data(data) {
+        fprintf(stderr, "DEBUG: Created InternalLinearMinimizeObjective with %zu variables\n", var_indices.size());
+    }
 
     double required_cost(const std::vector<ghost::Variable*>& current_variables) const override {
-        if (!session_data) return std::numeric_limits<double>::quiet_NaN(); // Should not happen
+        fprintf(stderr, "DEBUG: required_cost called with %zu variables\n", current_variables.size());
+
+        if (!session_data) {
+            fprintf(stderr, "DEBUG: session_data is null\n");
+            return std::numeric_limits<double>::quiet_NaN(); // Should not happen
+        }
 
         double cost = 0.0;
-        // Assuming session_data->objective_var_ids contains the *original* C API IDs
-        // and session_data->objective_coeffs contains the corresponding coefficients.
-        // We need to map the C API IDs to the indices within current_variables.
-        // The `_variables_position` map in the base Objective class helps here.
-        // It maps the *global* variable ID (from the model) to the *local* index within the objective's scope.
 
-        for (size_t i = 0; i < session_data->objective_var_ids.size(); ++i) {
-            int global_var_id = session_data->objective_var_ids[i];
-            double coeff = session_data->objective_coeffs[i];
-
-            // Find the local index for this global variable ID within the objective's scope
-            auto it = _variables_position.find(global_var_id);
-            if (it != _variables_position.end()) {
-                int local_index = it->second;
-                if (local_index >= 0 && local_index < current_variables.size()) {
-                     cost += coeff * current_variables[local_index]->get_value();
-                } else {
-                     // This indicates an internal inconsistency
-                     return std::numeric_limits<double>::quiet_NaN();
-                }
+        // Map from variable ID to its index in current_variables
+        std::map<int, size_t> var_indices;
+        for (size_t i = 0; i < current_variables.size(); ++i) {
+            if (current_variables[i]) {
+                int id = current_variables[i]->get_id();
+                var_indices[id] = i;
+                fprintf(stderr, "DEBUG: Mapped variable ID %d to index %zu\n", id, i);
             } else {
-                 // Variable ID from objective data not found in objective's scope - error
-                 return std::numeric_limits<double>::quiet_NaN();
+                fprintf(stderr, "DEBUG: current_variables[%zu] is null\n", i);
             }
         }
+
+        // Calculate cost using the mapped indices
+        for (size_t i = 0; i < session_data->objective_var_ids.size(); ++i) {
+            int var_id = session_data->objective_var_ids[i];
+            double coeff = session_data->objective_coeffs[i];
+            fprintf(stderr, "DEBUG: Looking for variable ID %d with coefficient %f\n", var_id, coeff);
+
+            auto it = var_indices.find(var_id);
+            if (it != var_indices.end()) {
+                size_t idx = it->second;
+                if (idx < current_variables.size()) {
+                    if (current_variables[idx]) {
+                        int value = current_variables[idx]->get_value();
+                        cost += coeff * value;
+                        fprintf(stderr, "DEBUG: Added %f * %d = %f to cost\n", coeff, value, coeff * value);
+                    } else {
+                        fprintf(stderr, "DEBUG: current_variables[%zu] is null\n", idx);
+                        return std::numeric_limits<double>::quiet_NaN();
+                    }
+                } else {
+                    // This indicates an internal inconsistency
+                    fprintf(stderr, "DEBUG: Index %zu out of bounds for current_variables size %zu\n", idx, current_variables.size());
+                    return std::numeric_limits<double>::quiet_NaN();
+                }
+            } else {
+                // Variable ID from objective data not found in objective's scope - error
+                fprintf(stderr, "DEBUG: Variable ID %d not found in var_indices\n", var_id);
+                return std::numeric_limits<double>::quiet_NaN();
+            }
+        }
+        fprintf(stderr, "DEBUG: Final cost: %f\n", cost);
+        return cost;
+    }
+};
+
+// Linear maximization objective managed internally by the C API
+class InternalLinearMaximizeObjective : public ghost::Maximize {
+private:
+    const GhostSessionData* session_data; // Non-owning pointer to access coeffs/ids
+
+public:
+    InternalLinearMaximizeObjective(const std::vector<int>& var_indices, const GhostSessionData* data)
+        : ghost::Maximize(var_indices, "InternalLinearMaximizeObjective"), session_data(data) {
+        fprintf(stderr, "DEBUG: Created InternalLinearMaximizeObjective with %zu variables\n", var_indices.size());
+    }
+
+    double required_cost(const std::vector<ghost::Variable*>& current_variables) const override {
+        fprintf(stderr, "DEBUG: required_cost called with %zu variables\n", current_variables.size());
+
+        if (!session_data) {
+            fprintf(stderr, "DEBUG: session_data is null\n");
+            return std::numeric_limits<double>::quiet_NaN(); // Should not happen
+        }
+
+        double cost = 0.0;
+
+        // Map from variable ID to its index in current_variables
+        std::map<int, size_t> var_indices;
+        for (size_t i = 0; i < current_variables.size(); ++i) {
+            if (current_variables[i]) {
+                int id = current_variables[i]->get_id();
+                var_indices[id] = i;
+                fprintf(stderr, "DEBUG: Mapped variable ID %d to index %zu\n", id, i);
+            } else {
+                fprintf(stderr, "DEBUG: current_variables[%zu] is null\n", i);
+            }
+        }
+
+        // Calculate cost using the mapped indices
+        for (size_t i = 0; i < session_data->objective_var_ids.size(); ++i) {
+            int var_id = session_data->objective_var_ids[i];
+            double coeff = session_data->objective_coeffs[i];
+            fprintf(stderr, "DEBUG: Looking for variable ID %d with coefficient %f\n", var_id, coeff);
+
+            auto it = var_indices.find(var_id);
+            if (it != var_indices.end()) {
+                size_t idx = it->second;
+                if (idx < current_variables.size()) {
+                    if (current_variables[idx]) {
+                        int value = current_variables[idx]->get_value();
+                        cost += coeff * value;
+                        fprintf(stderr, "DEBUG: Added %f * %d = %f to cost\n", coeff, value, coeff * value);
+                    } else {
+                        fprintf(stderr, "DEBUG: current_variables[%zu] is null\n", idx);
+                        return std::numeric_limits<double>::quiet_NaN();
+                    }
+                } else {
+                    // This indicates an internal inconsistency
+                    fprintf(stderr, "DEBUG: Index %zu out of bounds for current_variables size %zu\n", idx, current_variables.size());
+                    return std::numeric_limits<double>::quiet_NaN();
+                }
+            } else {
+                // Variable ID from objective data not found in objective's scope - error
+                fprintf(stderr, "DEBUG: Variable ID %d not found in var_indices\n", var_id);
+                return std::numeric_limits<double>::quiet_NaN();
+            }
+        }
+        fprintf(stderr, "DEBUG: Final cost: %f\n", cost);
         return cost;
     }
 };
@@ -182,27 +319,28 @@ int ghost_add_variable(GhostSessionHandle handle, int min_val, int max_val, cons
     }
 
     try {
-        // Calculate size for contiguous domain
-        // Need to handle potential overflow if max_val - min_val is huge, though unlikely for int
-        size_t domain_size = static_cast<size_t>(max_val) - static_cast<size_t>(min_val) + 1;
-        std::string var_name = (name != nullptr) ? name : "";
+        // Store parameters instead of creating Variable object
+        VariableParams params;
+        params.type = VariableParams::DomainType::CONTIGUOUS;
+        params.min_val = min_val;
+        params.max_val = max_val;
+        params.name = (name != nullptr) ? name : "";
+        params.initial_value_index = 0; // Default initial value index
 
-        // Use the constructor: Variable(int starting_value, std::size_t size, int index = 0, const std::string& name = std::string())
-        // We use index 0 by default.
-        data->variables.emplace_back(min_val, domain_size, 0, var_name);
+        data->variable_params.push_back(params);
 
-        // The ID returned by the C API will be the index in the vector
-        int var_id = static_cast<int>(data->variables.size()) - 1;
+        // The ID returned by the C API will be the index in the variable_params vector
+        int var_id = static_cast<int>(data->variable_params.size()) - 1;
         return var_id;
 
     } catch (const std::bad_alloc&) {
-        data->set_error("Memory allocation failed while adding variable.");
+        data->set_error("Memory allocation failed while storing variable parameters.");
         return GHOST_ERROR_MEMORY;
     } catch (const std::exception& e) {
-        data->set_error("GHOST C++ exception during variable creation: " + std::string(e.what()));
+        data->set_error("GHOST C++ exception during variable parameter storage: " + std::string(e.what()));
         return GHOST_ERROR_UNKNOWN;
     } catch (...) {
-        data->set_error("Unknown C++ exception during variable creation.");
+        data->set_error("Unknown C++ exception during variable parameter storage.");
         return GHOST_ERROR_UNKNOWN;
     }
 }
@@ -218,36 +356,35 @@ int ghost_add_variable_domain(GhostSessionHandle handle, const int* domain_value
     }
 
     try {
-        std::vector<int> domain_vec;
+        // Store parameters instead of creating Variable object
+        VariableParams params;
+        params.type = VariableParams::DomainType::LIST;
         if (domain_size > 0) {
-            domain_vec.assign(domain_values, domain_values + domain_size);
+            params.domain_list.assign(domain_values, domain_values + domain_size);
         }
-        // GHOST Variable constructor requires a non-empty domain.
-        // If domain_size is 0, should we error out or create a variable that can never be satisfied?
-        // Let's error out for now, as an empty domain seems problematic.
-        if (domain_vec.empty()) {
+
+        if (params.domain_list.empty()) {
              data->set_error("Variable domain cannot be empty.");
              return GHOST_ERROR_INVALID_ARG;
         }
 
-        std::string var_name = (name != nullptr) ? name : "";
+        params.name = (name != nullptr) ? name : "";
+        params.initial_value_index = 0; // Default initial value index
 
-        // Use the constructor: Variable(const std::vector<int>& domain, int index = 0, const std::string& name = std::string())
-        // We use index 0 by default.
-        data->variables.emplace_back(domain_vec, 0, var_name);
+        data->variable_params.push_back(params);
 
-        // The ID returned by the C API will be the index in the vector
-        int var_id = static_cast<int>(data->variables.size()) - 1;
+        // The ID returned by the C API will be the index in the variable_params vector
+        int var_id = static_cast<int>(data->variable_params.size()) - 1;
         return var_id;
 
     } catch (const std::bad_alloc&) {
-        data->set_error("Memory allocation failed while adding variable with custom domain.");
+        data->set_error("Memory allocation failed while storing variable parameters with custom domain.");
         return GHOST_ERROR_MEMORY;
     } catch (const std::exception& e) {
-        data->set_error("GHOST C++ exception during variable creation: " + std::string(e.what()));
+        data->set_error("GHOST C++ exception during variable parameter storage: " + std::string(e.what()));
         return GHOST_ERROR_UNKNOWN;
     } catch (...) {
-        data->set_error("Unknown C++ exception during variable creation.");
+        data->set_error("Unknown C++ exception during variable parameter storage.");
         return GHOST_ERROR_UNKNOWN;
     }
 }
@@ -261,9 +398,10 @@ inline bool validate_var_ids(GhostSessionData* data, const int* var_ids, size_t 
         data->set_error("var_ids cannot be NULL if num_vars > 0.");
         return false;
     }
+    // Validate against the size of variable_params now
     for (size_t i = 0; i < num_vars; ++i) {
-        if (var_ids[i] < 0 || static_cast<size_t>(var_ids[i]) >= data->variables.size()) {
-            data->set_error("Invalid variable ID provided: " + std::to_string(var_ids[i]));
+        if (var_ids[i] < 0 || static_cast<size_t>(var_ids[i]) >= data->variable_params.size()) {
+            data->set_error("Invalid variable ID (index) provided: " + std::to_string(var_ids[i]));
             return false;
         }
     }
@@ -326,8 +464,9 @@ int ghost_add_alldifferent_constraint(GhostSessionHandle handle, const int* var_
     }
 
     try {
+        // Use the var_ids directly as the variable indices (indices into variable_params)
         std::vector<int> var_indices_vec;
-         if (num_vars > 0) {
+        if (num_vars > 0) {
             var_indices_vec.assign(var_ids, var_ids + num_vars);
         }
 
@@ -367,17 +506,30 @@ GhostStatus ghost_set_linear_objective(GhostSessionHandle handle, bool maximize,
     }
 
     try {
-        // Store objective details for InternalLinearObjective::required_cost
+        fprintf(stderr, "DEBUG: Setting linear objective with maximize=%d, num_vars=%zu\n", maximize, num_vars);
+
+        // Store objective details for the internal objective classes
         data->objective_maximize = maximize;
-        data->objective_var_ids.assign(var_ids, var_ids + num_vars);
-        data->objective_coeffs.assign(coeffs, coeffs + num_vars);
+        data->objective_var_ids.clear();
+        data->objective_coeffs.clear();
+
+        for (size_t i = 0; i < num_vars; ++i) {
+            fprintf(stderr, "DEBUG: Adding variable ID %d with coefficient %f\n", var_ids[i], coeffs[i]);
+            data->objective_var_ids.push_back(var_ids[i]);
+            data->objective_coeffs.push_back(coeffs[i]);
+        }
 
         // Create the internal objective object.
-        // The base ghost::Objective constructor needs the indices of the variables involved.
         std::vector<int> objective_scope_indices(var_ids, var_ids + num_vars);
 
-        // Use make_shared to create the objective instance
-        data->objective = std::make_shared<InternalLinearObjective>(objective_scope_indices, maximize, data);
+        // Create either a minimize or maximize objective based on the flag
+        if (maximize) {
+            fprintf(stderr, "DEBUG: Creating InternalLinearMaximizeObjective\n");
+            data->objective = std::make_shared<InternalLinearMaximizeObjective>(objective_scope_indices, data);
+        } else {
+            fprintf(stderr, "DEBUG: Creating InternalLinearMinimizeObjective\n");
+            data->objective = std::make_shared<InternalLinearMinimizeObjective>(objective_scope_indices, data);
+        }
 
         return GHOST_SUCCESS;
 
@@ -454,20 +606,43 @@ GhostStatus ghost_solve(GhostSessionHandle handle, GhostOptionsHandle options_ha
         return GHOST_ERROR_INVALID_ARG;
     }
 
-    if (data->variables.empty()) {
+    // Check variable_params size now
+    if (data->variable_params.empty()) {
         data->set_error("No variables defined in the model.");
         return GHOST_ERROR_API_USAGE;
     }
 
     try {
-        // Create a ghost::Model from the components in the session data
-        ghost::Model model(
-            std::move(data->variables),  // Move variables into the model
-            data->constraints,           // Share constraints
-            data->objective,             // Share objective
-            nullptr,                     // No auxiliary data for now
-            data->permutation_problem    // Permutation flag
+        fprintf(stderr, "DEBUG: Starting ghost_solve with %zu variables (from params), %zu constraints\n",
+                data->variable_params.size(), data->constraints.size());
+
+        // Check if we have an objective
+        if (data->objective) {
+            fprintf(stderr, "DEBUG: Objective is set, name: %s\n", data->objective->get_name().c_str());
+        } else {
+            fprintf(stderr, "DEBUG: No objective set\n");
+        }
+
+        // Prepare the objective (use NullObjective if none provided)
+        std::shared_ptr<ghost::Objective> objective_to_use;
+        if (data->objective) {
+            objective_to_use = data->objective;
+            fprintf(stderr, "DEBUG: Using provided objective\n");
+        } else {
+            objective_to_use = std::make_shared<ghost::NullObjective>();
+            fprintf(stderr, "DEBUG: Using NullObjective since no objective was provided\n");
+        }
+
+        // Create a model directly from our data
+        fprintf(stderr, "DEBUG: Creating model directly from data\n");
+        ghost::Model model = create_model_from_data(
+            data->variable_params,
+            data->constraints,
+            objective_to_use,
+            data->permutation_problem
         );
+
+        fprintf(stderr, "DEBUG: Created ghost::Model\n");
 
         // Get options (use default if not provided)
         ghost::Options options;
@@ -475,9 +650,15 @@ GhostStatus ghost_solve(GhostSessionHandle handle, GhostOptionsHandle options_ha
             GhostOptionsData* options_data = get_options_data(options_handle);
             if (options_data) {
                 options = options_data->options;
+                fprintf(stderr, "DEBUG: Using provided options\n");
+            } else {
+                fprintf(stderr, "DEBUG: options_data is null, using default options\n");
             }
+        } else {
+            fprintf(stderr, "DEBUG: options_handle is null, using default options\n");
         }
 
+        fprintf(stderr, "DEBUG: Creating SearchUnit\n");
         // Create a SearchUnit directly (bypassing the templated Solver class)
         ghost::SearchUnit search_unit(
             std::move(model),
@@ -488,42 +669,63 @@ GhostStatus ghost_solve(GhostSessionHandle handle, GhostOptionsHandle options_ha
             std::make_unique<ghost::algorithms::AdaptiveSearchErrorProjection>()
         );
 
+        fprintf(stderr, "DEBUG: Created SearchUnit\n");
+
         // Get a future for the solution status
         std::future<bool> solution_future = search_unit.solution_found.get_future();
+
+        fprintf(stderr, "DEBUG: Running local_search with timeout %f microseconds\n", timeout_microseconds);
 
         // Run the search
         search_unit.local_search(timeout_microseconds);
 
+        fprintf(stderr, "DEBUG: local_search completed\n");
+
         // Get the solution status
         bool solution_found = solution_future.get();
 
+        fprintf(stderr, "DEBUG: solution_found = %d\n", solution_found);
+
         // Store the results in the session data
         data->last_sat_error = search_unit.data.best_sat_error;
+        fprintf(stderr, "DEBUG: last_sat_error = %f\n", data->last_sat_error);
+
         if (search_unit.data.is_optimization) {
             data->last_objective_value = search_unit.data.best_opt_cost;
+            fprintf(stderr, "DEBUG: last_objective_value = %f\n", data->last_objective_value);
         }
 
-        // Move the model back to the session data to access the variable values
-        data->variables = std::move(search_unit.transfer_model().variables);
+        fprintf(stderr, "DEBUG: Transferring final model state back from SearchUnit\n");
+        // Move the model back from the search unit to get the final variable state
+        ghost::Model final_model = search_unit.transfer_model();
 
-        // Store the solution values
+        // Store the solution values from the final model state
         data->last_solution_values.clear();
-        data->last_solution_values.reserve(data->variables.size());
-        for (const auto& var : data->variables) {
+        data->last_solution_values.reserve(final_model.variables.size());
+        fprintf(stderr, "DEBUG: Storing final solution values:\n");
+        for (const auto& var : final_model.variables) {
+            // Use the variable's ID (which should now be correctly set by SearchUnit) if needed,
+            // but for storing results, the order is usually sufficient.
             data->last_solution_values.push_back(var.get_value());
+            fprintf(stderr, "DEBUG:   Var ID %d = %d\n", var.get_id(), var.get_value());
         }
+        // Note: data->variables (the vector of VariableParams) remains unchanged.
+        // We only store the *results* in last_solution_values.
 
         // Set the solution status
         if (solution_found) {
             if (search_unit.data.is_optimization) {
                 data->last_solution_status = GHOST_SOLUTION_STATUS_FEASIBLE;
+                fprintf(stderr, "DEBUG: Solution status: FEASIBLE\n");
                 return GHOST_FEASIBLE_FOUND;
             } else {
                 data->last_solution_status = GHOST_SOLUTION_STATUS_SAT;
+                fprintf(stderr, "DEBUG: Solution status: SAT\n");
                 return GHOST_SAT_FOUND;
             }
         } else {
             data->last_solution_status = GHOST_SOLUTION_STATUS_INFEASIBLE;
+            fprintf(stderr, "DEBUG: Solution status: INFEASIBLE\n");
             return GHOST_INFEASIBLE;
         }
 
@@ -559,8 +761,9 @@ GhostStatus ghost_get_variable_value(GhostSessionHandle handle, int var_id, int*
         return GHOST_ERROR_INVALID_ARG;
     }
 
-    if (var_id < 0 || static_cast<size_t>(var_id) >= data->variables.size()) {
-        data->set_error("Invalid variable ID: " + std::to_string(var_id));
+    // Validate var_id against the number of results stored
+    if (var_id < 0 || static_cast<size_t>(var_id) >= data->last_solution_values.size()) {
+        data->set_error("Invalid variable ID or no solution values available for ID: " + std::to_string(var_id));
         return GHOST_ERROR_INVALID_ID;
     }
 
@@ -570,10 +773,12 @@ GhostStatus ghost_get_variable_value(GhostSessionHandle handle, int var_id, int*
     }
 
     try {
-        *value_ptr = data->variables[var_id].get_value();
+        // Retrieve value from the stored results vector
+        *value_ptr = data->last_solution_values[var_id];
         return GHOST_SUCCESS;
     } catch (const std::exception& e) {
-        data->set_error("GHOST C++ exception while getting variable value: " + std::string(e.what()));
+        // Catch potential out_of_range, though size check should prevent it
+        data->set_error("C++ exception while getting stored variable value: " + std::string(e.what()));
         return GHOST_ERROR_UNKNOWN;
     } catch (...) {
         data->set_error("Unknown C++ exception while getting variable value.");
@@ -628,18 +833,18 @@ GhostStatus ghost_get_variable_values(GhostSessionHandle handle, int* values_buf
         return GHOST_ERROR_API_USAGE;
     }
 
-    if (buffer_size < data->variables.size()) {
-        data->set_error("Buffer too small. Need at least " + std::to_string(data->variables.size()) + " elements.");
+    // Check buffer size against the number of stored results
+    if (buffer_size < data->last_solution_values.size()) {
+        data->set_error("Buffer too small. Need at least " + std::to_string(data->last_solution_values.size()) + " elements.");
         return GHOST_ERROR_INVALID_ARG;
     }
 
     try {
-        for (size_t i = 0; i < data->variables.size(); ++i) {
-            values_buffer[i] = data->variables[i].get_value();
-        }
+        // Copy values from the stored results vector
+        std::copy(data->last_solution_values.begin(), data->last_solution_values.end(), values_buffer);
         return GHOST_SUCCESS;
     } catch (const std::exception& e) {
-        data->set_error("GHOST C++ exception while getting variable values: " + std::string(e.what()));
+        data->set_error("C++ exception while copying variable values: " + std::string(e.what()));
         return GHOST_ERROR_UNKNOWN;
     } catch (...) {
         data->set_error("Unknown C++ exception while getting variable values.");
