@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['variables_226',['variables',['../classghost_1_1ModelBuilder.html#a32e92384aa46a0e3f7f144b6769b3c8d',1,'ghost::ModelBuilder']]]
+  ['tabu_5ftime_5flocal_5fmin_0',['tabu_time_local_min',['../structghost_1_1Options.html#aeb3ab7d6229c7925dcd4d844e940daf2',1,'ghost::Options']]],
+  ['tabu_5ftime_5fselected_1',['tabu_time_selected',['../structghost_1_1Options.html#a18e1acddad56b8635a8dda73b22bd048',1,'ghost::Options']]]
 ];

@@ -1,10 +1,17 @@
 <map id="ghost::global_constraints::LinearEquation" name="ghost::global_constraints::LinearEquation">
-<area shape="rect" id="node1" title=" " alt="" coords="481,321,648,501"/>
-<area shape="rect" id="node3" href="$classghost_1_1global__constraints_1_1LinearEquationEq.html" title=" " alt="" coords="5,549,172,685"/>
-<area shape="rect" id="node4" href="$classghost_1_1global__constraints_1_1LinearEquationG.html" title=" " alt="" coords="196,549,363,685"/>
-<area shape="rect" id="node5" href="$classghost_1_1global__constraints_1_1LinearEquationGeq.html" title=" " alt="" coords="387,549,553,685"/>
-<area shape="rect" id="node6" href="$classghost_1_1global__constraints_1_1LinearEquationL.html" title=" " alt="" coords="577,549,744,685"/>
-<area shape="rect" id="node7" href="$classghost_1_1global__constraints_1_1LinearEquationLeq.html" title=" " alt="" coords="768,549,935,685"/>
-<area shape="rect" id="node8" href="$classghost_1_1global__constraints_1_1LinearEquationNeq.html" title=" " alt="" coords="959,549,1125,685"/>
-<area shape="rect" id="node2" href="$classghost_1_1Constraint.html" title=" " alt="" coords="487,5,642,273"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="461,373,620,568"/>
+<area shape="rect" id="Node000003" href="$classghost_1_1global__constraints_1_1LinearEquationEq.html" title=" " alt="" coords="5,616,164,756"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="449,503,318,552,246,583,177,618,166,625,163,620,174,614,243,578,316,547,448,498"/>
+<area shape="rect" id="Node000004" href="$classghost_1_1global__constraints_1_1LinearEquationG.html" title=" " alt="" coords="188,616,347,756"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="452,544,349,625,345,621,449,540"/>
+<area shape="rect" id="Node000005" href="$classghost_1_1global__constraints_1_1LinearEquationGeq.html" title=" " alt="" coords="371,616,529,756"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="497,582,482,617,477,615,492,580"/>
+<area shape="rect" id="Node000006" href="$classghost_1_1global__constraints_1_1LinearEquationL.html" title=" " alt="" coords="553,616,712,756"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="590,580,605,615,600,617,585,582"/>
+<area shape="rect" id="Node000007" href="$classghost_1_1global__constraints_1_1LinearEquationLeq.html" title=" " alt="" coords="736,616,895,756"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="633,540,737,621,734,625,629,544"/>
+<area shape="rect" id="Node000008" href="$classghost_1_1global__constraints_1_1LinearEquationNeq.html" title=" " alt="" coords="919,616,1077,756"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="634,498,766,546,839,578,909,614,920,620,917,625,906,618,837,583,764,551,632,503"/>
+<area shape="rect" id="Node000002" href="$classghost_1_1Constraint.html" title=" " alt="" coords="467,5,614,325"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="543,339,543,373,538,373,538,339"/>
 </map>

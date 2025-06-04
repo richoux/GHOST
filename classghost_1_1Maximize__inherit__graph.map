@@ -1,4 +1,5 @@
 <map id="ghost::Maximize" name="ghost::Maximize">
-<area shape="rect" id="node1" title=" " alt="" coords="31,351,150,501"/>
-<area shape="rect" id="node2" href="$classghost_1_1Objective.html" title=" " alt="" coords="5,5,176,303"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="32,408,143,573"/>
+<area shape="rect" id="Node000002" href="$classghost_1_1Objective.html" title=" " alt="" coords="5,5,169,360"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,374,90,408,85,408,85,374"/>
 </map>

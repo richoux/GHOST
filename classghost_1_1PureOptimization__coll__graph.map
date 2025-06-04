@@ -1,4 +1,5 @@
 <map id="ghost::PureOptimization" name="ghost::PureOptimization">
-<area shape="rect" id="node1" title=" " alt="" coords="5,321,168,399"/>
-<area shape="rect" id="node2" href="$classghost_1_1Constraint.html" title=" " alt="" coords="9,5,164,273"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,373,160,439"/>
+<area shape="rect" id="Node000002" href="$classghost_1_1Constraint.html" title=" " alt="" coords="9,5,156,325"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,339,85,373,80,373,80,339"/>
 </map>
