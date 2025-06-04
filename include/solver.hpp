@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2024 Florian Richoux
+ * Copyright (C) 2014-2025 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -134,7 +134,7 @@ namespace ghost
 		int _search_iterations_total;
 		int _local_minimum_total;
 		int _plateau_moves_total;
-		int _plateau_local_minimum_total;
+		int _plateau_force_trying_another_variable_total;
 
 		// stats of the winning thread
 		int _restarts;
@@ -143,7 +143,7 @@ namespace ghost
 		int _search_iterations;
 		int _local_minimum;
 		int _plateau_moves;
-		int _plateau_local_minimum;
+		int _plateau_force_trying_another_variable;
 
 		std::string _variable_heuristic;
 		std::string _variable_candidates_heuristic;
@@ -365,14 +365,14 @@ namespace ghost
 			  _search_iterations_total( 0 ),
 			  _local_minimum_total( 0 ),
 			  _plateau_moves_total( 0 ),
-			  _plateau_local_minimum_total( 0 ),
+			  _plateau_force_trying_another_variable_total( 0 ),
 			  _restarts( 0 ),
 			  _resets( 0 ),
 			  _local_moves( 0 ),
 			  _search_iterations( 0 ),
 			  _local_minimum( 0 ),
 			  _plateau_moves( 0 ),
-			  _plateau_local_minimum( 0 )
+			  _plateau_force_trying_another_variable( 0 )
 		{	}
 
 		/*!
@@ -455,8 +455,8 @@ namespace ghost
 			if( _options.tabu_time_selected < 0 )
 				_options.tabu_time_selected = 0;
 
-			if( _options.percent_chance_escape_plateau < 0 || _options.percent_chance_escape_plateau > 100 )
-				_options.percent_chance_escape_plateau = 10;
+			if( _options.percent_chance_force_trying_on_plateau < 0 || _options.percent_chance_force_trying_on_plateau > 100 )
+				_options.percent_chance_force_trying_on_plateau = 10;
 
 			if( _options.reset_threshold < 0 )
 				_options.reset_threshold = _options.tabu_time_local_min;
@@ -473,7 +473,7 @@ namespace ghost
 				_options.number_start_samplings = 10;
 
 #if defined GHOST_RANDOM_WALK || defined GHOST_HILL_CLIMBING
-			_options.percent_chance_escape_plateau = 0;
+			_options.percent_chance_force_trying_on_plateau = 0;
 			_options.number_start_samplings = 1;
 			_options.tabu_time_local_min = 0;
 			_options.tabu_time_selected = 0;
@@ -534,7 +534,7 @@ namespace ghost
 				_search_iterations = search_unit.data.search_iterations;
 				_local_minimum = search_unit.data.local_minimum;
 				_plateau_moves = search_unit.data.plateau_moves;
-				_plateau_local_minimum = search_unit.data.plateau_local_minimum;
+				_plateau_force_trying_another_variable = search_unit.data.plateau_force_trying_another_variable;
 
 				_variable_heuristic = search_unit.variable_heuristic->get_name();
 				_variable_candidates_heuristic = search_unit.variable_candidates_heuristic->get_name();
@@ -658,7 +658,7 @@ namespace ghost
 					_search_iterations_total += units.at(i).data.search_iterations;
 					_local_minimum_total += units.at(i).data.local_minimum;
 					_plateau_moves_total += units.at(i).data.plateau_moves;
-					_plateau_local_minimum_total += units.at(i).data.plateau_local_minimum;
+					_plateau_force_trying_another_variable_total += units.at(i).data.plateau_force_trying_another_variable;
 				}
 
 				// ..then the most important: the best solution found so far.
@@ -676,7 +676,7 @@ namespace ghost
 					_search_iterations = units.at( winning_thread ).data.search_iterations;
 					_local_minimum = units.at( winning_thread ).data.local_minimum;
 					_plateau_moves = units.at( winning_thread ).data.plateau_moves;
-					_plateau_local_minimum = units.at( winning_thread ).data.plateau_local_minimum;
+					_plateau_force_trying_another_variable = units.at( winning_thread ).data.plateau_force_trying_another_variable;
 
 					_variable_heuristic = units.at( winning_thread ).variable_heuristic->get_name();
 					_variable_candidates_heuristic = units.at( winning_thread ).variable_candidates_heuristic->get_name();
@@ -712,7 +712,7 @@ namespace ghost
 					_search_iterations = units.at( best_non_solution ).data.search_iterations;
 					_local_minimum = units.at( best_non_solution ).data.local_minimum;
 					_plateau_moves = units.at( best_non_solution ).data.plateau_moves;
-					_plateau_local_minimum = units.at( best_non_solution ).data.plateau_local_minimum;
+					_plateau_force_trying_another_variable = units.at( best_non_solution ).data.plateau_force_trying_another_variable;
 
 					_variable_heuristic = units.at( best_non_solution ).variable_heuristic->get_name();
 					_variable_candidates_heuristic = units.at( best_non_solution ).variable_candidates_heuristic->get_name();
@@ -774,7 +774,7 @@ namespace ghost
 			          << "Number of variable assignments samplings at start (if custom start and resume are set to false): " << _options.number_start_samplings << "\n"
 			          << "Variables of local minimum are frozen for: " << _options.tabu_time_local_min << " local moves\n"
 			          << "Selected variables are frozen for: " << _options.tabu_time_selected << " local moves\n"
-			          << "Percentage of chance to espace a plateau rather than exploring it: " << _options.percent_chance_escape_plateau << "%\n"
+			          << "Percentage of chance to force exploring another variable on a plateau: " << _options.percent_chance_force_trying_on_plateau << "%\n"
 			          << _options.number_variables_to_reset << " variables are reset when " << _options.reset_threshold << " variables are frozen\n";
 			if( _options.restart_threshold > 0 )
 				std::cout << "Do a restart each time " << _options.restart_threshold << " resets are performed\n";
@@ -784,7 +784,7 @@ namespace ghost
 
 			// Print solution
 			std::cout << "Solution: ";
-			for (const auto& v: _model.variables)
+			for( const auto& v: _model.variables )
 				std::cout << v.get_value() << " ";
 			
 			std::cout << "\n" << _options.print->print_candidate( _model.variables ).str() << "\n";
@@ -807,14 +807,16 @@ namespace ghost
 			          << "Satisfaction error: " << _best_sat_error << "\n"
 			          << "Number of search iterations: " << _search_iterations << "\n"
 			          << "Number of local moves: " << _local_moves << " (including on plateau: " << _plateau_moves << ")\n"
-			          << "Number of local minimum: " << _local_minimum << " (including on plateau: " << _plateau_local_minimum << ")\n"
+			          << "Number of local minimum: " << _local_minimum << "\n"
+			          << "Number of variable exploration forcing on a plateau: " << _plateau_force_trying_another_variable << "\n"
 			          << "Number of resets: " << _resets << "\n"
 			          << "Number of restarts: " << _restarts << "\n";
 
 			if( _options.parallel_runs )
 				std::cout << "Total number of search iterations: " << _search_iterations_total << "\n"
 				          << "Total number of local moves: " << _local_moves_total << " (including on plateau: " << _plateau_moves_total << ")\n"
-				          << "Total number of local minimum: " << _local_minimum_total << " (including on plateau: " << _plateau_local_minimum_total << ")\n"
+				          << "Total number of local minimum: " << _local_minimum_total << "\n"
+				          << "Total number of variable exploration forcing on a plateau: " << _plateau_force_trying_another_variable_total << "\n"
 				          << "Total number of resets: " << _resets_total << "\n"
 				          << "Total number of restarts: " << _restarts_total << "\n";
 

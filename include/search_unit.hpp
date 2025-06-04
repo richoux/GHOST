@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2024 Florian Richoux
+ * Copyright (C) 2014-2025 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -366,6 +366,70 @@ namespace ghost
 			initialize_data_structures();
 		}
 
+#if defined GHOST_FITNESS_CLOUD
+		void neighborhood_errors()
+		{
+			double error;
+
+			COUT << "FITNESS_CLOUD Candidate: ";
+			for( int variable_id = 0 ; variable_id < data.number_variables ; ++variable_id )
+				COUT << model.variables[ variable_id ].get_value() << " ";
+			COUT << "\nFITNESS_CLOUD Errors: " << data.current_sat_error << " ";
+
+			if( model.permutation_problem )
+			{
+				for( int variable_id = 0 ; variable_id < data.number_variables - 1 ; ++variable_id )
+					for( int variable_swap = variable_id + 1 ; variable_swap < data.number_variables ; ++variable_swap )
+						if( model.variables[ variable_id ].get_value() != model.variables[ variable_swap ].get_value()
+						    && std::find( model.variables[ variable_id ].get_full_domain().begin(),
+						                  model.variables[ variable_id ].get_full_domain().end(),
+						                  model.variables[ variable_swap ].get_value() ) != model.variables[ variable_id ].get_full_domain().end()
+						    && std::find( model.variables[ variable_swap ].get_full_domain().begin(),
+						                  model.variables[ variable_swap ].get_full_domain().end(),
+						                  model.variables[ variable_id ].get_value() ) != model.variables[ variable_swap ].get_full_domain().end() )
+						{
+							error = data.current_sat_error;
+							std::vector<bool> constraint_checked( data.number_constraints, false );
+							int current_value = model.variables[ variable_id ].get_value();
+							int candidate_value = model.variables[ variable_swap ].get_value();
+
+							for( const int constraint_id : data.matrix_var_ctr.at( variable_id ) )
+							{
+								constraint_checked[ constraint_id ] = true;
+
+								// check if the other variable also belongs to the constraint scope
+								if( model.constraints[ constraint_id ]->has_variable( variable_swap ) )
+									error += model.constraints[ constraint_id ]->simulate_delta( std::vector<int>{variable_id, variable_swap}, std::vector<int>{candidate_value, current_value} );
+								else
+									error += model.constraints[ constraint_id ]->simulate_delta( std::vector<int>{variable_id}, std::vector<int>{candidate_value} );
+							}
+
+							// Since we are switching the value of two variables, we need to also look at the delta error impact of changing the value of the non-selected variable
+							for( const int constraint_id : data.matrix_var_ctr.at( variable_swap ) )
+								// No need to look at constraint where variable_to_change also appears.
+								if( !constraint_checked[ constraint_id ] )
+									error += model.constraints[ constraint_id ]->simulate_delta( std::vector<int>{variable_swap}, std::vector<int>{current_value} );
+
+							COUT << error << " ";
+						}					
+			}
+			else
+			{			
+				for( int variable_id = 0 ; variable_id < data.number_variables ; ++variable_id )
+					for( int value : model.variables[ variable_id ]._domain )
+						if( value != model.variables[ variable_id ].get_value() )
+						{						
+							error = data.current_sat_error;
+							for( const int constraint_id : data.matrix_var_ctr.at( variable_id ) )
+								error += model.constraints[ constraint_id ]->simulate_delta( std::vector<int>{variable_id}, std::vector<int>{value} );
+							COUT << error << " ";						
+						}
+			}
+			
+			COUT << "\n";
+		}
+#endif
+		
 		// Compute the cost of each constraints
 		double compute_constraints_errors()
 		{
@@ -472,22 +536,21 @@ namespace ghost
 			else
 			{
 				model.variables[ variable_to_change ].set_value( new_value );
-
 				model.auxiliary_data->update( variable_to_change, new_value );
 			}
 		}
 
-		// B. Plateau management (local move on the plateau, but options.percent_chance_escape_plateau
+		// B. Plateau management (local move on the plateau, but options.percent_chance_force_trying_on_plateau
 		//                        of chance to escape it and mark the variable as tabu.)
 		void plateau_management( int variable_to_change, int new_value, const std::map< int, std::vector<double>>& delta_errors )
 		{
-			if( rng.uniform(1, 100) <= options.percent_chance_escape_plateau )
+			if( rng.uniform(1, 100) <= options.percent_chance_force_trying_on_plateau )
 			{
 				data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
 				must_compute_variable_candidates = true;
-				++data.plateau_local_minimum;
+				++data.plateau_force_trying_another_variable;
 #if defined GHOST_TRACE
-				COUT << "Escape from plateau; variables marked as tabu.\n";
+				COUT << "Force the exploration of another variable on a plateau; current variable marked as tabu.\n";
 #endif
 			}
 			else
@@ -637,7 +700,7 @@ namespace ghost
 			// A. Local move (perform local move and update variables/constraints/objective function)
 			// B. Plateau management (local move on the plateau, but x% of chance to escape it, mark the variable as tabu.)
 			// C. local minimum management (if there are no other worst variables to try, mark the variable as tabu.
-			//                              Otherwise try them first, but with x% of chance, the solver fianlly marks the variable as tabu.)
+			//                              Otherwise try them first, but with x% of chance, the solver finally marks the variable as tabu.)
 
 			std::chrono::duration<double,std::micro> elapsed_time( 0 );
 			std::chrono::time_point<std::chrono::steady_clock> start( std::chrono::steady_clock::now() );
@@ -667,11 +730,15 @@ namespace ghost
 			       && ( data.best_sat_error > 0.0 || ( data.best_sat_error == 0.0 && data.is_optimization ) ) )
 			{
 				++data.search_iterations;
+				
+#if defined GHOST_FITNESS_CLOUD
+				neighborhood_errors();
+#endif
 
 				/********************************************
 				 * 1. Choice of worst variable(s) to change *
 				 ********************************************/
-#if defined GHOST_TRACE
+#if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD
 				print_errors();
 
 				for( int i = 0 ; i < data.number_variables; ++i )
@@ -703,7 +770,7 @@ namespace ghost
 					continue;
 				}
 
-#if defined GHOST_TRACE
+#if defined GHOST_TRACE  && not defined GHOST_FITNESS_CLOUD
 				if( variable_candidates_heuristic->get_name().compare( "Adaptive Search" ) == 0 )
 				{
 					COUT << "\n(Adaptive Search Variable Candidates Heuristic) Variable candidates: v[" << static_cast<int>( variable_candidates[0] ) << "]=" << model.variables[ static_cast<int>( variable_candidates[0] ) ].get_value();
@@ -738,7 +805,7 @@ namespace ghost
 
 				variable_to_change = variable_heuristic->select_variable( variable_candidates, data, rng );
 
-#if defined GHOST_TRACE
+#if defined GHOST_TRACE  && not defined GHOST_FITNESS_CLOUD
 				COUT << options.print->print_candidate( model.variables ).str();
 				COUT << "\n********\nNumber of loop iteration: " << data.search_iterations << "\n";
 				COUT << "Number of local moves performed: " << data.local_moves << "\n";
@@ -823,7 +890,7 @@ namespace ghost
 				double min_conflict = std::numeric_limits<double>::max();
 				int new_value = value_heuristic->select_value( variable_to_change, data, model, delta_errors, min_conflict, rng );
 				
-#if defined GHOST_TRACE
+#if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD
 				std::vector<int> candidate_values;
 				std::map<int, double> cumulated_delta_errors;
 				std::vector<double> cumulated_delta_errors_antidote( delta_errors.size() );
@@ -991,7 +1058,7 @@ namespace ghost
 #if defined GHOST_TRACE
 						COUT << "Global error stable; ";
 #endif
-						if( data.is_optimization )
+						if( data.is_optimization && options.enable_optimization_guidance )
 						{
 							double candidate_opt_cost;
 							if( model.permutation_problem )

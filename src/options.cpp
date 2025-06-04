@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2024 Florian Richoux
+ * Copyright (C) 2014-2025 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -37,11 +37,12 @@ Options::Options()
 	: custom_starting_point( false ),
 	  resume_search( false ),
 	  parallel_runs( false ),
+		enable_optimization_guidance( true ),
 	  number_threads( std::max( 2, static_cast<int>( std::thread::hardware_concurrency() ) / 2 ) ), // std::thread::hardware_concurrency() returns 0 if it is not able to detect the number of threads
 	  print( std::make_shared<Print>() ),
 	  tabu_time_local_min( -1 ),
 	  tabu_time_selected( -1 ),
-	  percent_chance_escape_plateau( -1 ),
+	  percent_chance_force_trying_on_plateau( -1 ),
 	  reset_threshold( -1 ),
 	  restart_threshold( -1 ),
 	  number_variables_to_reset( -1 ),
@@ -52,11 +53,12 @@ Options::Options( const Options& other )
 	: custom_starting_point( other.custom_starting_point ),
 	  resume_search( other.resume_search ),
 	  parallel_runs( other.parallel_runs ),
+		enable_optimization_guidance( other.enable_optimization_guidance ),
 	  number_threads( other.number_threads ),
 	  print( other.print ),
 	  tabu_time_local_min( other.tabu_time_local_min ),
 	  tabu_time_selected( other.tabu_time_selected ),
-	  percent_chance_escape_plateau( other.percent_chance_escape_plateau ),
+	  percent_chance_force_trying_on_plateau( other.percent_chance_force_trying_on_plateau ),
 	  reset_threshold( other.reset_threshold ),
 	  restart_threshold( other.restart_threshold ),
 	  number_variables_to_reset( other.number_variables_to_reset ),
@@ -67,11 +69,12 @@ Options::Options( Options&& other )
 	: custom_starting_point( other.custom_starting_point ),
 	  resume_search( other.resume_search ),
 	  parallel_runs( other.parallel_runs ),
+		enable_optimization_guidance( other.enable_optimization_guidance ),
 	  number_threads( other.number_threads ),
 	  print( std::move( other.print ) ),
 	  tabu_time_local_min( other.tabu_time_local_min ),
 	  tabu_time_selected( other.tabu_time_selected ),
-	  percent_chance_escape_plateau( other.percent_chance_escape_plateau ),
+	  percent_chance_force_trying_on_plateau( other.percent_chance_force_trying_on_plateau ),
 	  reset_threshold( other.reset_threshold ),
 	  restart_threshold( other.restart_threshold ),
 	  number_variables_to_reset( other.number_variables_to_reset ),
@@ -85,11 +88,12 @@ Options& Options::operator=( Options other )
 		custom_starting_point = other.custom_starting_point;
 		resume_search = other.resume_search;
 		parallel_runs = other.parallel_runs;
+		enable_optimization_guidance = other.enable_optimization_guidance;
 		number_threads = other.number_threads;
 		std::swap( print, other.print );
 		tabu_time_local_min = other.tabu_time_local_min;
 		tabu_time_selected = other.tabu_time_selected;
-		percent_chance_escape_plateau = other.percent_chance_escape_plateau;
+		percent_chance_force_trying_on_plateau = other.percent_chance_force_trying_on_plateau;
 		reset_threshold = other.reset_threshold;
 		restart_threshold = other.restart_threshold;
 		number_variables_to_reset = other.number_variables_to_reset;

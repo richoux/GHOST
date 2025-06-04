@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2024 Florian Richoux
+ * Copyright (C) 2014-2025 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -43,5 +43,9 @@
 #endif
 
 #if defined GHOST_HILL_CLIMBING
+#define GHOST_TRACE
+#endif
+
+#if defined GHOST_FITNESS_CLOUD
 #define GHOST_TRACE
 #endif

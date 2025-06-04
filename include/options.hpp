@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2024 Florian Richoux
+ * Copyright (C) 2014-2025 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -46,11 +46,12 @@ namespace ghost
 		bool custom_starting_point; //!< To force starting the search on a custom variables assignment.
 		bool resume_search; //!< Allowing stop-and-resume computation.
 		bool parallel_runs; //!< To enable parallel runs of the solver. Using all available physical cores if number_threads is not specified.
+		bool enable_optimization_guidance; //!< For optimization problems, consider the optimization cost as a tie-breaker for satisfaction plateau.
 		int number_threads; //!< Number of threads the solver will use for the search.
 		std::shared_ptr<Print> print; //!< Allowing custom solution print (by derivating a class from ghost::Print)
 		int tabu_time_local_min; //!< Number of local moves a variable of a local minimum is marked tabu.
 		int tabu_time_selected; //!< Number of local moves a selected variable is marked tabu.
-		int percent_chance_escape_plateau; //!< Percentage of chance to espace a (1-dimension, ie, related to 1 variable) plateau rather than exploring it.
+		int percent_chance_force_trying_on_plateau; //!< Percentage of chance to force trying another variable rather than doing a move on a plateau.
 		int reset_threshold; //!< Number of variables marked as tabu required to trigger a reset.
 		int restart_threshold; //!< Trigger a restart every 'restart_threshold' reset. Set to 0 to never trigger restarts.
 		int number_variables_to_reset; //!< Number of variables to randomly change the value at each reset.

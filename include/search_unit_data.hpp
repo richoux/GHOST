@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2024 Florian Richoux
+ * Copyright (C) 2014-2025 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -70,7 +70,7 @@ namespace ghost
 		int search_iterations;
 		int local_minimum;
 		int plateau_moves;
-		int plateau_local_minimum;
+		int plateau_force_trying_another_variable;
 
 		SearchUnitData( const Model& model )
 		: number_variables ( static_cast<int>( model.variables.size() ) ),
@@ -89,7 +89,7 @@ namespace ghost
 		  search_iterations ( 0 ),
 		  local_minimum ( 0 ),
 		  plateau_moves ( 0 ),
-		  plateau_local_minimum ( 0 )
+		  plateau_force_trying_another_variable ( 0 )
 		{ }
 
 		void initialize_matrix( const Model& model )

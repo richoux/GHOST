@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
+## [3.2.0] - 2025-06-04
+- Changed `Options.percent_chance_escape_plateau` with `Options.percent_chance_force_trying_on_plateau`, as well as some printed traces.
+- Add `Options.enable_optimization_guidance` to enable (default) or disable the usage of the objective function as a tie-breaker for satisfaction plateau.
+
 ## [3.1.0] - 2024-03-11
 - Add Random Walk and Hill Climbing as search algorithms, for landscape analysis.
 - Minor changes in the global solver algorithm, such as removing the probability to force tabu-marking a variable. 
@@ -17,9 +21,7 @@ All notable changes to this project will be documented in this file, since GHOST
 - Changed the interface `Solver::solve` -> `Solver::fast_search`, to be coherent with the new `Solver::complete_search`
 
 ## [2.8.2] - 2023-07-21
--  Fix  a mistake  in  the  final cost  of  an  objective function  to
-  maximize, where the value v needed to be reset to the opposite value
-  -v.
+-  Fix a mistake in the final cost of an objective function to maximize, where the value v needed to be reset to the opposite value -v.
 
 ## [2.8.1] - 2023-06-22
 -  Change Cmake and build.sh to compile the library for different Android architectures.
@@ -28,8 +30,7 @@ All notable changes to this project will be documented in this file, since GHOST
 - Now allow modeling pure optimization problems.
 
 ## [2.7.0] - 2023-05-30
-- Slight memory management improvement, by pre-allocating memory
-  during the search.
+- Slight memory management improvement, by pre-allocating memory during the search.
 
 ## [2.6.0] - 2023-01-24
 - Add the AllEqual global constraint.
