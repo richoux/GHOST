@@ -37,6 +37,7 @@ Options::Options()
 	: custom_starting_point( false ),
 	  resume_search( false ),
 	  parallel_runs( false ),
+		enable_optimization_guidance( true ),
 	  number_threads( std::max( 2, static_cast<int>( std::thread::hardware_concurrency() ) / 2 ) ), // std::thread::hardware_concurrency() returns 0 if it is not able to detect the number of threads
 	  print( std::make_shared<Print>() ),
 	  tabu_time_local_min( -1 ),
@@ -52,6 +53,7 @@ Options::Options( const Options& other )
 	: custom_starting_point( other.custom_starting_point ),
 	  resume_search( other.resume_search ),
 	  parallel_runs( other.parallel_runs ),
+		enable_optimization_guidance( other.enable_optimization_guidance ),
 	  number_threads( other.number_threads ),
 	  print( other.print ),
 	  tabu_time_local_min( other.tabu_time_local_min ),
@@ -67,6 +69,7 @@ Options::Options( Options&& other )
 	: custom_starting_point( other.custom_starting_point ),
 	  resume_search( other.resume_search ),
 	  parallel_runs( other.parallel_runs ),
+		enable_optimization_guidance( other.enable_optimization_guidance ),
 	  number_threads( other.number_threads ),
 	  print( std::move( other.print ) ),
 	  tabu_time_local_min( other.tabu_time_local_min ),
@@ -85,6 +88,7 @@ Options& Options::operator=( Options other )
 		custom_starting_point = other.custom_starting_point;
 		resume_search = other.resume_search;
 		parallel_runs = other.parallel_runs;
+		enable_optimization_guidance = other.enable_optimization_guidance;
 		number_threads = other.number_threads;
 		std::swap( print, other.print );
 		tabu_time_local_min = other.tabu_time_local_min;

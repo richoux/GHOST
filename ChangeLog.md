@@ -2,8 +2,9 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
-## [3.xx] - 2024-xx-xx
-- Changed Option.percent_chance_escape_plateau with Option.percent_chance_force_trying_on_plateau, as well as some printed traces.
+## [3.2.0] - 2025-06-04
+- Changed `Options.percent_chance_escape_plateau` with `Options.percent_chance_force_trying_on_plateau`, as well as some printed traces.
+- Add `Options.enable_optimization_guidance` to enable (default) or disable the usage of the objective function as a tie-breaker for satisfaction plateau.
 
 ## [3.1.0] - 2024-03-11
 - Add Random Walk and Hill Climbing as search algorithms, for landscape analysis.

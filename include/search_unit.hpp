@@ -1058,7 +1058,7 @@ namespace ghost
 #if defined GHOST_TRACE
 						COUT << "Global error stable; ";
 #endif
-						if( data.is_optimization )
+						if( data.is_optimization && options.enable_optimization_guidance )
 						{
 							double candidate_opt_cost;
 							if( model.permutation_problem )
