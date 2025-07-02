@@ -75,6 +75,7 @@ namespace ghost
 		int search_iterations;
 		int local_minimum;
 		int plateau_moves;
+		int plateau_moves_in_a_row;
 		int plateau_force_trying_another_variable;
 
 		SearchUnitData( const Model& model )
@@ -96,6 +97,7 @@ namespace ghost
 		  search_iterations ( 0 ),
 		  local_minimum ( 0 ),
 		  plateau_moves ( 0 ),
+			plateau_moves_in_a_row ( 0 ),
 		  plateau_force_trying_another_variable ( 0 )
 		{ }
 
@@ -136,6 +138,12 @@ namespace ghost
 		void erase_error_at( int id ) const
 		{
 			error_distribution[ id ] = 0.0;
+		}
+
+		void increment_plateau_moves()
+		{
+			++plateau_moves;
+			++plateau_moves_in_a_row;
 		}
 	};
 }

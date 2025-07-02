@@ -35,7 +35,8 @@ using ghost::algorithms::Regular;
 
 Regular::Regular( std::unique_ptr<algorithms::ErrorProjection> error_projection )
 	: SpacePolicy( "Regular space policy",
-	               std::move( error_projection ) )
+	               std::move( error_projection ),
+								 false )
 {
 	space_pool.emplace_back( std::make_unique<algorithms::SpaceOfViolation>() );
 }
@@ -62,9 +63,11 @@ void Regular::update_errors( int variable_to_change,
 			                                          data,
 			                                          delta );
 
+			// TODO: extract this from update_errors. This is about maintaining the variable assignement within constraints.
 			model.constraints[ constraint_id ]->update( variable_to_change, new_value );
 		}
 
+		// TODO: extract this from update_errors. This is about maintaining the variable assignement within the objective function.
 		if( data.is_optimization )
 			model.objective->update( variable_to_change, new_value );
 	}
@@ -85,9 +88,11 @@ void Regular::update_errors( int variable_to_change,
 			                                          data,
 			                                          delta );
 						
+			// TODO: extract this from update_errors. This is about maintaining the variable assignement within constraints.
 			model.constraints[ constraint_id ]->update( variable_to_change, next_value );
 
 			if( model.constraints[ constraint_id ]->has_variable( new_value ) )
+				// TODO: extract this from update_errors. This is about maintaining the variable assignement within constraints.
 				model.constraints[ constraint_id ]->update( new_value, current_value );
 		}
 
@@ -105,6 +110,7 @@ void Regular::update_errors( int variable_to_change,
 				model.constraints[ constraint_id ]->update( new_value, current_value );
 			}
 
+		// TODO: extract this from update_errors. This is about maintaining the variable assignement within the objective function.
 		if( data.is_optimization )
 		{
 			model.objective->update( variable_to_change, next_value );
@@ -113,46 +119,90 @@ void Regular::update_errors( int variable_to_change,
 	}	
 }
 
-bool Regular::local_minimum_management( int variable_to_change,
-                                        SearchUnitData& data,
-                                        int tabu_time_local_min,
-                                        bool no_other_variables_to_try )
-{
-	if( no_other_variables_to_try ) // || rng.uniform(1, 100) <= 10 //10% chance to force tabu-marking even if there are other variables to explore.
-	{
-		data.tabu_list[ variable_to_change ] = tabu_time_local_min + data.local_moves;
-		// must_compute_variable_candidates = true;
-		++data.local_minimum;
-	}
-#if defined GHOST_TRACE
-	else
-	{
-		COUT << "Try other variables: not a local minimum yet.\n";
-		// must_compute_variable_candidates = false;
-	}
-#endif
-	return false;
-}
+// bool Regular::local_minimum_management( int variable_to_change,
+//                                         SearchUnitData& data,
+//                                         int tabu_time_local_min,
+//                                         bool no_other_variables_to_try )
+// {
+// 	if( no_other_variables_to_try ) // || rng.uniform(1, 100) <= 10 //10% chance to force tabu-marking even if there are other variables to explore.
+// 	{
+// 		data.tabu_list[ variable_to_change ] = tabu_time_local_min + data.local_moves;
+// 		++data.local_minimum;
+// 	}
+// #if defined GHOST_TRACE
+// 	else
+// 	{
+// 		COUT << "Try other variables: not a local minimum yet.\n";
+// 	}
+// #endif
+// 	return false;
+// }
 
-bool Regular::plateau_management( int variable_to_change, int new_value )
-{
-	if( rng.uniform(1, 100) <= options.percent_chance_force_trying_on_plateau )
-	{
-		data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
-		must_compute_variable_candidates = true;
-		++data.plateau_force_trying_another_variable;
-#if defined GHOST_TRACE
-		COUT << "Force the exploration of another variable on a plateau; current variable marked as tabu.\n";
-#endif
-	}
-	else
-	{
-		data.min_conflict = 0;
-		data.delta_cost = 0;
-		local_move( variable_to_change, new_value );
-		++data.plateau_moves;
-	}
+// bool Regular::plateau_management( int variable_to_change,
+// 																	int new_value,
+// 																	SearchUnitData& data,
+// 																	const Options& options )
+// {
+// 	if( rng.uniform(1, 100) <= options.percent_chance_force_trying_on_plateau ) // no moves, try another variable
+// 	{
+// 		data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
+// 		must_compute_variable_candidates = true;
+// 		++data.plateau_force_trying_another_variable;
+// #if defined GHOST_TRACE
+// 		COUT << "Force the exploration of another variable on a plateau; current variable marked as tabu.\n";
+// #endif
+// 	}
+// 	else // We stay on the plateau with a local move
+// 	{
+// 		// min_conflict and delta_cost should be at 0 in a plateau situation
+// 		// but just in case, we assigned them to 0 before calling local_move,
+// 		// that will update the fitness
+// 		data.min_conflict = 0;
+// 		data.delta_cost = 0;
+// 		data.increment_plateau_moves();
+// 		local_move( variable_to_change, new_value );
+// 	}
 
-	return false
-}
+// 	return false
+// }
 
+// bool Regular::reset_management( SearchUnitData& data,
+// 																const Options& options,
+// 																const Model& model )
+// {
+// 	++data.resets;
+// 	data.plateau_moves_in_a_row = 0;
+
+// 	// if we reach the restart threshold, do a restart instead of a reset
+// 	if( options.restart_threshold > 0 && ( data.resets % options.restart_threshold == 0 ) )
+// 	{
+// 		++data.restarts;
+
+// 		// Start from a given starting configuration, or a random one.
+// 		initialize_variable_values();
+
+// #if defined GHOST_TRACE
+// 		COUT << "Number of restarts performed so far: " << data.restarts << "\n";
+// 		COUT << options.print->print_candidate( model.variables ).str();
+// 		COUT << "\n";
+// #endif
+// 	}
+// 	else // real reset
+// 	{
+// 		if( model.permutation_problem )
+// 			random_permutations( options.number_variables_to_reset );
+// 		else
+// 			monte_carlo_sampling( options.number_variables_to_reset );
+
+// 		model.auxiliary_data->update();
+// #if defined GHOST_TRACE
+// 		COUT << "Number of resets performed so far: " << data.resets << "\n";
+// 		COUT << options.print->print_candidate( model.variables ).str();
+// 		COUT << "\n";
+// #endif
+// 	}
+			
+// 	initialize_data_structures();
+
+// 	return false;
+// }

@@ -47,24 +47,27 @@ namespace ghost
 		protected:
 			std::string name;
 			std::unique_ptr<algorithms::ErrorProjection> error_projection;
-			std::vector< std::unique_ptr<algorithms::Space> > space_pool;
+			std::vector< std::unique_ptr<algorithms::Space> > space_pool; // To avoid re-creating spaces each time we switch
+			bool switch_space_instead_reset; // true iff the current policy applies space switching instead of resets.
 			int index_space_pool;
 			
 		public:
 			SpacePolicy( std::string&& name,
 			             std::unique_ptr<algorithms::ErrorProjection> error_projection,
-			             int index_space_pool );
+									 bool switch_space_instead_reset,
+			             int index_space_pool = 0 );
 
 			SpacePolicy( std::string&& name,
-			             std::unique_ptr<algorithms::ErrorProjection> error_projection );
-
-			SpacePolicy( std::string&& name );
+									 bool switch_space_instead_reset );
 
 			virtual ~SpacePolicy() = default;
 
 			inline std::string get_name() const { return name; }
-			inline bool is_violation_space() const { return space_pool[index_space_pool]->is_violation_space(); }
+			inline std::string get_current_space_name() const { return space_pool[index_space_pool]->get_name(); }
 			
+			inline bool is_violation_space() const { return space_pool[index_space_pool]->is_violation_space(); }
+			inline bool does_switch_space_instead_reset() const { return switch_space_instead_reset; }
+						
 			inline void set_error_projection( std::unique_ptr<algorithms::ErrorProjection> ep )
 			{
 				error_projection = std::move( ep );
@@ -92,6 +95,12 @@ namespace ghost
 			void compute_variable_errors( const std::vector<Variable>& variables,
 			                              const std::vector<std::shared_ptr<Constraint>>& constraints,
 			                              SearchUnitData& data ) const;
+
+			/*
+			 * Procedure to switch space for TWM policies.
+			 * Do nothing by default.
+			 */
+			virtual void switch_space();
 			
 			/*
 			 * Procedure updating constraints and variables errors in data, when a local move is applied.
@@ -107,20 +116,31 @@ namespace ghost
 			                            SearchUnitData& data,
 			                            const Model& model ) const = 0;
 
-			/*
-			 * TODO
-			 * \return true iff there is space switching.
-			 */
-			virtual bool local_minimum_management( int variable_to_change,
-			                                       SearchUnitData& data,
-			                                       int tabu_time_local_min,
-			                                       bool no_other_variables_to_try ) = 0;
+			// /*
+			//  * TODO
+			//  * \return true iff there is space switching.
+			//  */
+			// virtual bool local_minimum_management( int variable_to_change,
+			//                                        SearchUnitData& data,
+			//                                        int tabu_time_local_min,
+			//                                        bool no_other_variables_to_try ) = 0;
 
-			/*
-			 * TODO
-			 * \return true iff there is space switching.
-			 */
-			virtual bool plateau_management( int variable_to_change, int new_value ) = 0;
+			// /*
+			//  * TODO
+			//  * \return true iff there is space switching.
+			//  */
+			// virtual bool plateau_management( int variable_to_change,
+			// 																 int new_value,
+			// 																 SearchUnitData& data,
+			// 																 const Options& options ) = 0;
+
+			// /*
+			//  * TODO
+			//  * \return true iff there is space switching.
+			//  */
+			// virtual bool reset_management( SearchUnitData& data,
+			// 															 const Options& options,
+			// 															 const Model& model ) = 0;
 		};
 	}
 }

@@ -322,7 +322,7 @@ namespace ghost
 			                                       data );
 		}
 
-		void initialize_data_structures( Model& model )
+		void check_if_optional_delta_error_implemented( Model& model )
 		{
 			// Determine if optional_delta_error has been user defined or not for each constraint
 			for( int constraint_id = 0; constraint_id < data.number_constraints; ++constraint_id )
@@ -368,8 +368,6 @@ namespace ghost
 				COUT << "\n";
 #endif
 			}
-			
-			initialize_data_structures();
 		}
 
 #if defined GHOST_FITNESS_CLOUD
@@ -486,54 +484,54 @@ namespace ghost
 		}
 
 		// B. Plateau management (local move on the plateau, but options.percent_chance_force_trying_on_plateau
-		//                        of chance to escape it and mark the variable as tabu.)
+		//                        of chance to mark the variable as tabu and maybe escape from the plateau.)
 		void plateau_management( int variable_to_change, int new_value )
 		{
-			if( space_policy->is_violation_space() )
-			{			
-				if( rng.uniform(1, 100) <= options.percent_chance_force_trying_on_plateau )
-				{
-					data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
-					must_compute_variable_candidates = true;
-					++data.plateau_force_trying_another_variable;
+			if( rng.uniform(1, 100) <= options.percent_chance_force_trying_on_plateau ) // no moves, try another variable
+			{
+				data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
+				must_compute_variable_candidates = true;
+				++data.plateau_force_trying_another_variable;
 #if defined GHOST_TRACE
-					COUT << "Force the exploration of another variable on a plateau; current variable marked as tabu.\n";
+				COUT << "Force the exploration of another variable on a plateau; current variable marked as tabu.\n";
 #endif
+			}
+			else 
+			{
+				if( data.plateau_moves_in_a_row >= options.max_stay_on_plateau ) // consider the plateau as a local minimum
+				{
+					data.plateau_moves_in_a_row = 0;
+					data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
+					++data.local_minimum;
 				}
-				else
+				else // we stay on the plateau with a local move
 				{
 					data.min_conflict = 0;
 					data.delta_cost = 0;
+					data.increment_plateau_moves();
 					local_move( variable_to_change, new_value );
-					++data.plateau_moves;
 				}
-			}
-			else
-			{
-				
 			}
 		}
 
-// 		// C. local minimum management (if there are no other worst variables to try, mark the variable as tabu.
-// 		//                              Otherwise try them first.)
-// 		void local_minimum_management( int variable_to_change, int new_value, bool no_other_variables_to_try )
-// 		{
-// 			must_compute_variable_candidates = false;
+		// C. local minimum management (if there are no other worst variables to try, mark the variable as tabu.
+		//                              Otherwise try them first.)
+		void local_minimum_management( int variable_to_change, int new_value, bool no_other_variables_to_try )
+		{
+			must_compute_variable_candidates = false;
 
-// 			if( no_other_variables_to_try ) // || rng.uniform(1, 100) <= 10 //10% chance to force tabu-marking even if there are other variables to explore.
-// 			{
-// 				data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
-// 				// must_compute_variable_candidates = true;
-// 				++data.local_minimum;
-// 			}
-// 			else
-// 			{
-// #if defined GHOST_TRACE
-// 				COUT << "Try other variables: not a local minimum yet.\n";
-// #endif
-// 				// must_compute_variable_candidates = false;
-// 			}
-// 		}
+			if( no_other_variables_to_try ) // || rng.uniform(1, 100) <= 10 //10% chance to force tabu-marking even if there are other variables to explore.
+			{
+				data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
+				++data.local_minimum;
+			}
+			else
+			{
+#if defined GHOST_TRACE
+				COUT << "Try other variables: not a local minimum yet.\n";
+#endif
+			}
+		}
 
 	public:
 		Model model;
@@ -579,7 +577,7 @@ namespace ghost
 			                std::back_inserter( variables_at_start ),
 			                [&]( auto& v){ return v; } );
 
-			initialize_data_structures( model );
+			check_if_optional_delta_error_implemented( model );
 			data.initialize_matrix( model );
 			this->space_policy->initialize_data_structures( data );
 
@@ -723,7 +721,24 @@ namespace ghost
 #if defined GHOST_TRACE
 					COUT << "No variables left to be changed: reset.\n";
 #endif
-					reset();
+					data.plateau_moves_in_a_row = 0;
+
+					if( space_policy->does_switch_space_instead_reset() )
+					{
+#if defined GHOST_TRACE
+						auto old_space_name = space_policy->get_current_space_name();
+#endif
+						
+						space_policy->switch_space();
+						
+#if defined GHOST_TRACE
+						COUT << "Switching landscape from " << old_space_name << " to " << space_policy->get_current_space_name() << ".\n";
+#endif
+					}
+					else
+						reset();
+
+					initialize_data_structures();
 					continue;
 				}
 
@@ -898,18 +913,18 @@ namespace ghost
 				                cumulated_delta_errors_for_distribution.begin(),
 				                []( auto delta ){ if( delta >= 0) return 0.0; else return -delta; } );
 
-				auto min_conflict_copy = data.min_conflict;
+				auto min_conflict_tmp = data.min_conflict;
 				for( const auto& deltas : cumulated_delta_errors )
 				{
 					// Should not happen, except for Random Walks. min_conflict is supposed to be, well, the min conflict.
-					if( min_conflict_copy > deltas.second )
+					if( min_conflict_tmp > deltas.second )
 					{
 						candidate_values.clear();
 						candidate_values.push_back( deltas.first );
-						min_conflict_copy = deltas.second;
+						min_conflict_tmp = deltas.second;
 					}
 					else
-						if( min_conflict_copy == deltas.second )
+						if( min_conflict_tmp == deltas.second )
 							candidate_values.push_back( deltas.first );
 				}
 				
@@ -1007,6 +1022,7 @@ namespace ghost
 						COUT << "Global error improved in the optimization space (" << data.current_opt_cost << " -> " << data.current_opt_cost + data.delta_cost << "): make local move.\n";
 					}
 #endif
+					data.plateau_moves_in_a_row = 0;
 					local_move( variable_to_change, new_value );
 				}
 				else
@@ -1062,6 +1078,7 @@ namespace ghost
 #if defined GHOST_TRACE
 								COUT << "Optimization cost improved (" << data.current_opt_cost << " -> " << candidate_opt_cost << "): make local move.\n";
 #endif
+								data.plateau_moves_in_a_row = 0;
 								local_move( variable_to_change, new_value );
 								data.current_opt_cost = candidate_opt_cost;
 							}
@@ -1092,27 +1109,28 @@ namespace ghost
 									}
 #endif
 									must_compute_variable_candidates = variable_candidates.empty();
-									if( space_policy->local_minimum_management( variable_to_change, data, options.tabu_time_local_min, variable_candidates.empty() ) )
-									{
-										if( space_policy->is_violation_space() )
-										{
-											value_heuristic = std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>();
-											variable_candidates_heuristic = std::make_unique<algorithms::VariableCandidatesHeuristicAdaptiveSearch>();
-											initialize_data_structures();
-#if defined GHOST_TRACE
-						COUT << "TWM: switching to constraint space.\n";
-#endif
-										}
-										else
-										{
-											value_heuristic = std::make_unique<algorithms::ValueHeuristicOptimizationSpace>();
-											variable_candidates_heuristic = std::make_unique<algorithms::VariableCandidatesHeuristicOptimizationSpace>();
-											data.current_opt_cost = model.objective->cost();
-#if defined GHOST_TRACE
-						COUT << "TWM: switching to optimization space.\n";
-#endif
-										}
-									}
+									local_minimum_management( variable_to_change, new_value, must_compute_variable_candidates );
+// 									if( space_policy->local_minimum_management( variable_to_change, data, options.tabu_time_local_min, variable_candidates.empty() ) )
+// 									{
+// 										if( space_policy->is_violation_space() )
+// 										{
+// 											value_heuristic = std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>();
+// 											variable_candidates_heuristic = std::make_unique<algorithms::VariableCandidatesHeuristicAdaptiveSearch>();
+// 											initialize_data_structures();
+// #if defined GHOST_TRACE
+// 						COUT << "TWM: switching to constraint space.\n";
+// #endif
+// 										}
+// 										else
+// 										{
+// 											value_heuristic = std::make_unique<algorithms::ValueHeuristicOptimizationSpace>();
+// 											variable_candidates_heuristic = std::make_unique<algorithms::VariableCandidatesHeuristicOptimizationSpace>();
+// 											data.current_opt_cost = model.objective->cost();
+// #if defined GHOST_TRACE
+// 						COUT << "TWM: switching to optimization space.\n";
+// #endif
+// 										}
+// 									}
 								}
 						}
 						else
@@ -1142,26 +1160,27 @@ namespace ghost
 						}
 #endif
 						must_compute_variable_candidates = variable_candidates.empty();
-						if( space_policy->local_minimum_management( variable_to_change, data, options.tabu_time_local_min, variable_candidates.empty() ) )
-						{
-							if( space_policy->is_violation_space() )
-							{
-								value_heuristic = std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>();
-								variable_candidates_heuristic = std::make_unique<algorithms::VariableCandidatesHeuristicAdaptiveSearch>();
-								initialize_data_structures();
-#if defined GHOST_TRACE
-						COUT << "TWM: switching to constraint space.\n";
-#endif
-							}
-							else
-							{
-								value_heuristic = std::make_unique<algorithms::ValueHeuristicOptimizationSpace>();
-								variable_candidates_heuristic = std::make_unique<algorithms::VariableCandidatesHeuristicOptimizationSpace>();
-#if defined GHOST_TRACE
-						COUT << "TWM: switching to optimization space.\n";
-#endif
-							}
-						}
+						local_minimum_management( variable_to_change, new_value, must_compute_variable_candidates );
+// 						if( space_policy->local_minimum_management( variable_to_change, data, options.tabu_time_local_min, variable_candidates.empty() ) )
+// 						{
+// 							if( space_policy->is_violation_space() )
+// 							{
+// 								value_heuristic = std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>();
+// 								variable_candidates_heuristic = std::make_unique<algorithms::VariableCandidatesHeuristicAdaptiveSearch>();
+// 								initialize_data_structures();
+// #if defined GHOST_TRACE
+// 						COUT << "TWM: switching to constraint space.\n";
+// #endif
+// 							}
+// 							else
+// 							{
+// 								value_heuristic = std::make_unique<algorithms::ValueHeuristicOptimizationSpace>();
+// 								variable_candidates_heuristic = std::make_unique<algorithms::VariableCandidatesHeuristicOptimizationSpace>();
+// #if defined GHOST_TRACE
+// 						COUT << "TWM: switching to optimization space.\n";
+// #endif
+// 							}
+// 						}
 					}
 				}
 

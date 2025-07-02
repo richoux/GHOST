@@ -37,7 +37,8 @@ using ghost::algorithms::SwitchOptimization;
 
 SwitchOptimization::SwitchOptimization( std::unique_ptr<algorithms::ErrorProjection> error_projection )
 	: SpacePolicy( "SwitchOptimization space policy",
-	               std::move( error_projection ) )
+	               std::move( error_projection ),
+								 true )
 {
 	// space_pool[0] : violation space
 	space_pool.emplace_back( std::make_unique<algorithms::SpaceOfViolation>() );
@@ -54,7 +55,7 @@ void SwitchOptimization::update_errors( int variable_to_change,
                                         SearchUnitData& data,
                                         const Model& model ) const
 {
-	if( index_space_pool == 0 ) // if we are currently exploring the violation space
+	if( index_space_pool == 0 ) // if we are currently exploring the violation space. Indeed, there are no errors to update in the optimization space.
 	{
 		int delta_index = 0;
 		if( !model.permutation_problem )
@@ -69,9 +70,11 @@ void SwitchOptimization::update_errors( int variable_to_change,
 				                                          data,
 				                                          delta );
 
+				// TODO: extract this from update_errors. This is about maintaining the variable assignement within the constraint.
 				model.constraints[ constraint_id ]->update( variable_to_change, new_value );
 			}
 
+			// TODO: extract this from update_errors. This is about maintaining the variable assignement within the objective function.
 			if( data.is_optimization )
 				model.objective->update( variable_to_change, new_value );
 		}
@@ -92,8 +95,10 @@ void SwitchOptimization::update_errors( int variable_to_change,
 				                                          data,
 				                                          delta );
 						
+				// TODO: extract this from update_errors. This is about maintaining the variable assignement within the constraint.
 				model.constraints[ constraint_id ]->update( variable_to_change, next_value );
 
+				// TODO: extract this from update_errors. This is about maintaining the variable assignement within the constraint.
 				if( model.constraints[ constraint_id ]->has_variable( new_value ) )
 					model.constraints[ constraint_id ]->update( new_value, current_value );
 			}
@@ -109,9 +114,11 @@ void SwitchOptimization::update_errors( int variable_to_change,
 					                                          data,
 					                                          delta );
 						
+					// TODO: extract this from update_errors. This is about maintaining the variable assignement within the constraint.
 					model.constraints[ constraint_id ]->update( new_value, current_value );
 				}
 
+			// TODO: extract this from update_errors. This is about maintaining the variable assignement within the objective function.
 			if( data.is_optimization )
 			{
 				model.objective->update( variable_to_change, next_value );
@@ -121,27 +128,80 @@ void SwitchOptimization::update_errors( int variable_to_change,
 	}
 }
 
-bool SwitchOptimization::local_minimum_management( int variable_to_change,
-                                                   SearchUnitData& data,
-                                                   int tabu_time_local_min,
-                                                   bool no_other_variables_to_try )
+void SwitchOptimization::switch_space()
 {
-	if( no_other_variables_to_try )
-	{
-		// data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
-		++data.local_minimum;
-		auto old_space_name = space_pool[index_space_pool]->get_name();
-		index_space_pool = std::abs( index_space_pool - 1 );
-#if defined GHOST_TRACE
-		COUT << "Switching landscape from " << old_space_name << " to " << space_pool[index_space_pool]->get_name() << ".\n";
-#endif
-		return true;
-	}
-	else
-	{
-#if defined GHOST_TRACE
-		COUT << "Try other variables: not a local minimum yet.\n";
-#endif
-		return false;
-	}
+	index_space_pool = std::abs( index_space_pool - 1 );
 }
+
+
+// bool SwitchOptimization::local_minimum_management( int variable_to_change,
+//                                                    SearchUnitData& data,
+//                                                    int tabu_time_local_min,
+//                                                    bool no_other_variables_to_try )
+// {
+// 	if( no_other_variables_to_try )
+// 	{
+// 		// data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
+// 		++data.local_minimum;
+// 		data.plateau_moves_in_a_row = 0;
+// 		auto old_space_name = space_pool[index_space_pool]->get_name();
+// 		index_space_pool = std::abs( index_space_pool - 1 );
+// #if defined GHOST_TRACE
+// 		COUT << "Switching landscape from " << old_space_name << " to " << space_pool[index_space_pool]->get_name() << ".\n";
+// #endif
+// 		return true;
+// 	}
+// 	else
+// 	{
+// #if defined GHOST_TRACE
+// 		COUT << "Try other variables: not a local minimum yet.\n";
+// #endif
+// 		return false;
+// 	}
+// }
+
+// bool SwitchOptimization::plateau_management( int variable_to_change,
+// 																						 int new_value,
+// 																						 SearchUnitData& data,
+// 																						 const Options& options )
+// {
+// 	if( rng.uniform(1, 100) <= options.percent_chance_force_trying_on_plateau ) // no moves, try another variable
+// 	{
+// 		data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
+// 		must_compute_variable_candidates = true;
+// 		++data.plateau_force_trying_another_variable;
+// #if defined GHOST_TRACE
+// 		COUT << "Force the exploration of another variable on a plateau; current variable marked as tabu.\n";
+// #endif
+// 	}
+// 	else // We stay on the plateau with a local move
+// 	{
+// 		data.increment_plateau_moves();
+
+// 		if( data.plateau_moves_in_a_row >= options.max_stay_on_plateau ) // then we switch landscape
+// 		{
+// 			data.plateau_moves_in_a_row = 0;
+// 			auto old_space_name = space_pool[index_space_pool]->get_name();
+// 			index_space_pool = std::abs( index_space_pool - 1 );
+// #if defined GHOST_TRACE
+// 			COUT << "Switching landscape from " << old_space_name << " to " << space_pool[index_space_pool]->get_name() << ".\n";
+// #endif
+// 			return true;
+// 		}
+// 		else
+// 		{		
+// 			data.min_conflict = 0;
+// 			data.delta_cost = 0;
+// 			local_move( variable_to_change, new_value );
+// 		}
+// 	}
+
+// 	return false;
+// }
+
+// bool SwitchOptimization::reset_management( SearchUnitData& data,
+// 																					 const Options& options,
+// 																					 const Model& model )
+// {
+
+// }

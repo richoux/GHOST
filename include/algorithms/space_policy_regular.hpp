@@ -46,12 +46,19 @@ namespace ghost
 			                    SearchUnitData& data,
 			                    const Model& model ) const override;
 
-			bool local_minimum_management( int variable_to_change,
-			                               SearchUnitData& data,
-			                               int tabu_time_local_min,
-			                               bool no_other_variables_to_try ) override;
+			// bool local_minimum_management( int variable_to_change,
+			//                                SearchUnitData& data,
+			//                                int tabu_time_local_min,
+			//                                bool no_other_variables_to_try ) override;
 
-			bool plateau_management( int variable_to_change, int new_value ) override;
+			// bool plateau_management( int variable_to_change,
+			// 												 int new_value,
+			// 												 SearchUnitData& data,
+			// 												 const Options& options ) override;
+
+			// bool reset_management( SearchUnitData& data,
+			// 											 const Options& options,
+			// 											 const Model& model ) override;
 		};
 	}
 }

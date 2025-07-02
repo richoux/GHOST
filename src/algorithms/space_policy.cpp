@@ -36,23 +36,19 @@ using ghost::algorithms::SpacePolicy;
 
 SpacePolicy::SpacePolicy( std::string&& name,
                           std::unique_ptr<algorithms::ErrorProjection> error_projection,
+													bool switch_space_instead_reset,
                           int index_space_pool )
 	: name( std::move( name ) ),
 	  error_projection( std::move( error_projection ) ),
+		switch_space_instead_reset( switch_space_instead_reset ),
 	  index_space_pool( index_space_pool )
 { }
 
 SpacePolicy::SpacePolicy( std::string&& name,
-                          std::unique_ptr<algorithms::ErrorProjection> error_projection )
-	: SpacePolicy( std::move( name ),
-	               std::move( error_projection ),
-	               0 )
-{ }
-
-SpacePolicy::SpacePolicy( std::string&& name )
+													bool switch_space_instead_reset )
 	: SpacePolicy( std::move( name ),
 	               std::make_unique<algorithms::ErrorProjectionAdaptiveSearch>(),
-	               0 )
+								 switch_space_instead_reset )
 { }
 
 void SpacePolicy::initialize_data_structures( const SearchUnitData& data ) const
@@ -69,3 +65,5 @@ void SpacePolicy::compute_variable_errors( const std::vector<Variable>& variable
 	                                           constraints,
 	                                           data );
 }
+
+void SpacePolicy::switch_space() { }
