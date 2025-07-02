@@ -46,6 +46,7 @@ namespace ghost
 		bool custom_starting_point; //!< To force starting the search on a custom variables assignment.
 		bool resume_search; //!< Allowing stop-and-resume computation.
 		bool parallel_runs; //!< To enable parallel runs of the solver. Using all available physical cores if number_threads is not specified.
+		bool enable_optimization_guidance; //!< For optimization problems, consider the optimization cost as a tie-breaker for satisfaction plateau.
 		int number_threads; //!< Number of threads the solver will use for the search.
 		std::shared_ptr<Print> print; //!< Allowing custom solution print (by derivating a class from ghost::Print)
 		int tabu_time_local_min; //!< Number of local moves a variable of a local minimum is marked tabu.

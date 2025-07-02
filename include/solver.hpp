@@ -461,6 +461,9 @@ namespace ghost
 			if( _options.percent_chance_force_trying_on_plateau < 0 || _options.percent_chance_force_trying_on_plateau > 100 )
 				_options.percent_chance_force_trying_on_plateau = 10;
 
+			if( _options.max_stay_on_plateau )
+				_options.max_stay_on_plateau = _options.tabu_time_local_min;
+
 			if( _options.reset_threshold < 0 )
 				_options.reset_threshold = _options.tabu_time_local_min;
 // 			_options.reset_threshold = static_cast<int>( std::ceil( 1.5 * _options.reset_threshold ) );
@@ -813,6 +816,7 @@ namespace ghost
 			          << "Variables of local minimum are frozen for: " << _options.tabu_time_local_min << " local moves\n"
 			          << "Selected variables are frozen for: " << _options.tabu_time_selected << " local moves\n"
 			          << "Percentage of chance to force exploring another variable on a plateau: " << _options.percent_chance_force_trying_on_plateau << "%\n"
+								<< "Maximal number of moves on the same plateau: " << _options.max_stay_on_plateau << "\n"
 			          << _options.number_variables_to_reset << " variables are reset when " << _options.reset_threshold << " variables are frozen\n";
 			if( _options.restart_threshold > 0 )
 				std::cout << "Do a restart each time " << _options.restart_threshold << " resets are performed\n";
