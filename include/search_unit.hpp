@@ -77,10 +77,10 @@
 #include "algorithms/value_heuristic_random_walk.hpp"
 #endif
 
-#if defined GHOST_TWM || defined GHOST_ANTIDOTE
-#define GHOST_TRACE
-#undef GHOST_FITNESS_CLOUD
-#endif
+// #if defined GHOST_TWM || defined GHOST_ANTIDOTE
+// #define GHOST_TRACE
+// #undef GHOST_FITNESS_CLOUD
+// #endif
 
 #include "macros.hpp"
 
@@ -300,20 +300,21 @@ namespace ghost
 			// (Re)compute the current optimization cost
 			if( data.is_optimization )
 			{
-				if( data.current_sat_error == 0 || !space_policy->is_violation_space() )// [[unlikely]]
+				data.current_opt_cost = model.objective->cost();
+				// if( ( space_policy->is_violation_space() && data.current_sat_error == 0 )
+				// 		|| !space_policy->is_violation_space() ) // [[unlikely]]
+				// 	data.current_opt_cost = model.objective->cost();
+				// else
+				// 	data.current_opt_cost = std::numeric_limits<double>::max();
+
+				if( space_policy->is_violation_space() && data.current_sat_error == 0 && data.best_opt_cost > data.current_opt_cost )
 				{
-					data.current_opt_cost = model.objective->cost();
-					if( data.current_sat_error == 0 && data.best_opt_cost > data.current_opt_cost )
-					{
-						data.best_opt_cost = data.current_opt_cost;
-						std::transform( model.variables.begin(),
-						                model.variables.end(),
-						                final_solution.begin(),
-						                [&](auto& var){ return var.get_value(); } );
-					}
+					data.best_opt_cost = data.current_opt_cost;
+					std::transform( model.variables.begin(),
+													model.variables.end(),
+													final_solution.begin(),
+													[&](auto& var){ return var.get_value(); } );
 				}
-				else
-					data.current_opt_cost = std::numeric_limits<double>::max();
 			}
 
 			// Reset variable costs and recompute them
@@ -455,11 +456,16 @@ namespace ghost
 		{
 			++data.local_moves;
 
+			// TODO: check if working properly
 			space_policy->update_fitness( data );
+			// TODO: check if working properly
+			// Certainly a bug in data.update_cost, and thus in saved cost deltas.
 			space_policy->update_errors( variable_to_change,
-			                             new_value,
-			                             data,
-			                             model );
+																	 new_value,
+																	 data,
+																	 model );
+			// TODO : check also value_heuristic_optimization_space
+
 			
 			data.tabu_list[ variable_to_change ] = options.tabu_time_selected + data.local_moves;
 			must_compute_variable_candidates = override_variable_computation;
@@ -482,11 +488,17 @@ namespace ghost
 				model.auxiliary_data->update( variable_to_change, new_value );
 			}
 
-			if( data.is_optimization && space_policy->is_violation_space() && options.enable_optimization_guidance ) // need to recompute the current objective function
+			if( data.is_optimization && space_policy->is_violation_space() ) // need to recompute the current objective function
 			{
 				data.current_opt_cost = model.objective->cost();
-				if( data.best_sat_error == data.current_sat_error && data.best_opt_cost > data.current_opt_cost )
-					data.best_opt_cost = data.current_opt_cost;
+				// if( data.best_sat_error == data.current_sat_error && data.best_opt_cost > data.current_opt_cost )
+				// {
+				// 	data.best_opt_cost = data.current_opt_cost;
+				// 	std::transform( model.variables.begin(),
+				// 									model.variables.end(),
+				// 									final_solution.begin(),
+				// 									[&](auto& var){ return var.get_value(); } );
+				// }
 			}
 		}
 
@@ -753,8 +765,7 @@ namespace ghost
 						else
 						{
 							value_heuristic = std::make_unique<algorithms::ValueHeuristicOptimizationSpace>();
-							variable_candidates_heuristic = std::make_unique<algorithms::VariableCandidatesHeuristicOptimizationSpace>();
-							data.current_opt_cost = model.objective->cost();
+							variable_candidates_heuristic = std::make_unique<algorithms::VariableCandidatesHeuristicOptimizationSpace>();							
 #if defined GHOST_TRACE
 							COUT << "TWM: switching to optimization space.\n\n";
 #endif
@@ -882,7 +893,8 @@ namespace ghost
 						}
 				}
 
-				// Select the next current configuration (local move)				
+				// Select the next current configuration (local move)
+				// TODO : check value_heuristic_optimization_space
 				int new_value = value_heuristic->select_value( variable_to_change, data, model, rng );
 				double fitness_variation = space_policy->get_fitness_variation( data );
 				
@@ -1113,7 +1125,7 @@ namespace ghost
 #endif
 								data.plateau_moves_in_a_row = 0;
 								local_move( variable_to_change, new_value );
-								data.current_opt_cost = candidate_opt_cost;
+								//data.current_opt_cost = candidate_opt_cost;
 							}
 							else
 								/******************************************
@@ -1229,21 +1241,24 @@ namespace ghost
 														model.variables.end(),
 														final_solution.begin(),
 														[&](auto& var){ return var.get_value(); } );
-					}
 
-					if( data.is_optimization
-							&& data.best_sat_error == data.current_sat_error
-							&& data.best_opt_cost > data.current_opt_cost )
-					{
-#if defined GHOST_TRACE
-						COUT << "Best objective function value so far. Before: " << data.best_opt_cost << ", now: " << data.current_opt_cost << "\n";
-#endif
-						data.best_opt_cost = data.current_opt_cost;
-						std::transform( model.variables.begin(),
-														model.variables.end(),
-														final_solution.begin(),
-														[&](auto& var){ return var.get_value(); } );
+						if( data.is_optimization )
+							data.best_opt_cost = data.current_opt_cost;
 					}
+					else
+						if( data.is_optimization
+								&& data.best_sat_error == data.current_sat_error
+								&& data.best_opt_cost > data.current_opt_cost )
+						{
+#if defined GHOST_TRACE
+							COUT << "Best objective function value so far. Before: " << data.best_opt_cost << ", now: " << data.current_opt_cost << "\n";
+#endif
+							data.best_opt_cost = data.current_opt_cost;
+							std::transform( model.variables.begin(),
+															model.variables.end(),
+															final_solution.begin(),
+															[&](auto& var){ return var.get_value(); } );
+						}
 				}
 
 				elapsed_time = std::chrono::steady_clock::now() - start;
