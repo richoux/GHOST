@@ -45,11 +45,8 @@ int ValueHeuristicOptimizationSpace::select_value( int variable_to_change,
                                                    const Model& model,
                                                    randutils::mt19937_rng& rng ) const
 {
-	// Todo
-	// - compute the optimization cost of the neighborhood, and return the neighbor with the lowest cost
-	// - modify search_unit
-	// - think carefully about permutations
-
+	// The goal is to find the neighbor with the lowest objective cost, while keeping track of the constraint delta errors
+	
 	std::vector<int> candidates; // variable indexes for permutation problems, variable values otherwise
 	std::map<int, double> cumulated_delta_errors;
 	double min_cost = std::numeric_limits<double>::max();
@@ -113,9 +110,13 @@ int ValueHeuristicOptimizationSpace::select_value( int variable_to_change,
 					candidates.push_back( deltas.first );
 		}
 
-		data.update_delta_cost( min_cost - data.current_opt_cost );
 		vars[ variable_to_change ]->set_value( backup );
 	}
 
-	return rng.pick( candidates );
+	data.update_delta_cost( min_cost - data.current_opt_cost );
+
+	auto candidate = rng.pick( candidates );
+	data.update_min_conflict( cumulated_delta_errors[candidate] );
+	
+	return candidate;
 }
