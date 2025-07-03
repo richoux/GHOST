@@ -27,17 +27,23 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/antidote_search_variable_heuristic.hpp"
-#include "thirdparty/randutils.hpp"
+#include "algorithms/error_projection_algorithm_null.hpp"
 
-using ghost::algorithms::AntidoteSearchVariableHeuristic;
+using ghost::algorithms::ErrorProjectionNull;
+using ghost::Variable;
+using ghost::Constraint;
 
-AntidoteSearchVariableHeuristic::AntidoteSearchVariableHeuristic()
-	: VariableHeuristic( "Antidote Search" )
-{ }
-		
-int AntidoteSearchVariableHeuristic::select_variable( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
-{
-	// WARNING: must remove variables which are in any constraints
-	return rng.variate<int, std::discrete_distribution>( candidates.begin(), candidates.end() );
-}
+ErrorProjectionNull::ErrorProjectionNull()
+	: ErrorProjection( "Null Error Projection" )
+{}
+
+void ErrorProjectionNull::compute_variable_errors( const std::vector<Variable>& variables,                                                             
+                                                   const std::vector<std::shared_ptr<Constraint>>& constraints,
+                                                   SearchUnitData& data )
+{}
+
+void ErrorProjectionNull::update_variable_errors( const std::vector<Variable>& variables,
+                                                  std::shared_ptr<Constraint> constraint,
+                                                  SearchUnitData& data,                                                            
+                                                  double delta )
+{}

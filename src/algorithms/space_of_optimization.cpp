@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2024 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -27,22 +27,21 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#pragma once
+#include "algorithms/space_of_optimization.hpp"
 
-#include <vector>
+using ghost::algorithms::SpaceOfOptimization;
 
-#include "variable_heuristic.hpp"
+SpaceOfOptimization::SpaceOfOptimization()
+	: Space( "Optimization Space",
+	         false )
+{ }
 
-namespace ghost
+double SpaceOfOptimization::get_fitness_variation( const SearchUnitData& data ) const
 {
-	namespace algorithms
-	{
-		class UniformVariableHeuristic : public VariableHeuristic
-		{
-		public:
-			UniformVariableHeuristic();
+	return data.delta_cost;
+}
 			
-			int select_variable( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const override;
-		};
-	}
+void SpaceOfOptimization::update_fitness( const SearchUnitData& data ) const
+{
+	return data.update_opt_cost();
 }

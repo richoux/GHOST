@@ -52,10 +52,12 @@ namespace ghost
 		int tabu_time_local_min; //!< Number of local moves a variable of a local minimum is marked tabu.
 		int tabu_time_selected; //!< Number of local moves a selected variable is marked tabu.
 		int percent_chance_force_trying_on_plateau; //!< Percentage of chance to force trying another variable rather than doing a move on a plateau.
+		int max_stay_on_plateau; //!< Maximal number of local moves in a row the solver does on a plateau.
 		int reset_threshold; //!< Number of variables marked as tabu required to trigger a reset.
 		int restart_threshold; //!< Trigger a restart every 'restart_threshold' reset. Set to 0 to never trigger restarts.
 		int number_variables_to_reset; //!< Number of variables to randomly change the value at each reset.
 		int number_start_samplings; //!< Number of variable assignments the solver randomly draw, if custom_starting_point and resume_search are false.
+		int number_variables_to_sample; //!< Number of variables to consider during the search.
 
 		//! Unique constructor
 		Options();

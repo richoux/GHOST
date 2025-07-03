@@ -2,7 +2,7 @@
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework
  * designed to help developers to model and implement optimization problem
  * solving. It contains a meta-heuristic solver aiming to solve any kind of
- * combinatorial and optimization real-time problems represented by a CSP/COP/EF-CSP/EF-COP. 
+ * combinatorial and optimization real-time problems represented by a CSP/COP/EF-CSP/EF-COP.
  *
  * First developed to solve game-related optimization problems, GHOST can be used for
  * any kind of applications where solving combinatorial and optimization problems. In
@@ -71,6 +71,10 @@ int Objective::expert_heuristic_value( const std::vector<Variable*>& variables,
                                        const std::vector<int>& possible_values,
                                        randutils::mt19937_rng& rng ) const
 {
+	// Should never happen
+	if( possible_values.empty() ) [[unlikely]]
+		return variables[ variable_index ]->get_value();
+
 	double min_cost = std::numeric_limits<double>::max();
 	double simulated_cost;
 
@@ -99,21 +103,64 @@ int Objective::expert_heuristic_value( const std::vector<Variable*>& variables,
 
 	var->set_value( backup );
 
-	if( !best_values.empty() )
+	if( !best_values.empty() ) [[likely]]
 		return rng.pick( best_values );
 	else
-		if( !possible_values.empty() )
-			return rng.pick( possible_values );
-		else
-			return backup;			
+		return rng.pick( possible_values );
 }
 
 int Objective::expert_heuristic_value_permutation( const std::vector<Variable*>& variables,
                                                    int variable_index,
-                                                   const std::vector<int>& bad_variables,
+                                                   const std::vector<int>& candidate_variables,
                                                    randutils::mt19937_rng& rng ) const
 {
-	return rng.pick( bad_variables );
+	// Should never happen
+	if( candidate_variables.empty() ) [[unlikely]]
+		return variable_index;
+
+	double min_cost = std::numeric_limits<double>::max();
+	double simulated_cost;
+
+	auto var = variables[ variable_index ];
+	int backup = var->get_value();
+	int tmp;
+	size_t head = 0;
+	size_t tail = 0;
+	std::vector<int> best_values;
+
+	while( head < candidate_variables.size() )
+	{
+		tmp = var->get_value();
+		var->set_value( variables[ candidate_variables[ head ] ]->get_value() );
+		variables[ candidate_variables[ head ] ]->set_value( backup );
+		variables[ candidate_variables[ tail ] ]->set_value( tmp );
+
+		simulated_cost = required_cost( variables );
+
+		if( _is_maximization )
+			simulated_cost = -simulated_cost;
+
+		if( min_cost > simulated_cost )
+		{
+			min_cost = simulated_cost;
+			best_values.clear();
+			best_values.push_back( candidate_variables[ head ] );
+		}
+		else
+			if( min_cost == simulated_cost )
+				best_values.push_back( candidate_variables[ head ] );
+
+		tail = head; // first iteration, tail remains at 0
+		++head;
+	}
+
+	variables[ candidate_variables[ tail ] ]->set_value( var->get_value() );
+	var->set_value( backup );
+
+	if( !best_values.empty() ) [[likely]]
+		return rng.pick( best_values );
+	else
+		return rng.pick( candidate_variables );
 }
 
 double Objective::expert_postprocess( const std::vector<Variable*>& variables,

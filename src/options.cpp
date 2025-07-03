@@ -43,10 +43,12 @@ Options::Options()
 	  tabu_time_local_min( -1 ),
 	  tabu_time_selected( -1 ),
 	  percent_chance_force_trying_on_plateau( -1 ),
+		max_stay_on_plateau( -1 ),
 	  reset_threshold( -1 ),
 	  restart_threshold( -1 ),
 	  number_variables_to_reset( -1 ),
-	  number_start_samplings( -1 )
+	  number_start_samplings( -1 ),
+		number_variables_to_sample( -1 )
 { }
 
 Options::Options( const Options& other )
@@ -54,15 +56,17 @@ Options::Options( const Options& other )
 	  resume_search( other.resume_search ),
 	  parallel_runs( other.parallel_runs ),
 		enable_optimization_guidance( other.enable_optimization_guidance ),
-	  number_threads( other.number_threads ),
+		number_threads( other.number_threads ),
 	  print( other.print ),
 	  tabu_time_local_min( other.tabu_time_local_min ),
 	  tabu_time_selected( other.tabu_time_selected ),
 	  percent_chance_force_trying_on_plateau( other.percent_chance_force_trying_on_plateau ),
+		max_stay_on_plateau( other.max_stay_on_plateau ),
 	  reset_threshold( other.reset_threshold ),
 	  restart_threshold( other.restart_threshold ),
 	  number_variables_to_reset( other.number_variables_to_reset ),
-	  number_start_samplings( other.number_start_samplings )
+	  number_start_samplings( other.number_start_samplings ),
+		number_variables_to_sample( other.number_variables_to_sample )
 { }
 
 Options::Options( Options&& other )
@@ -75,10 +79,12 @@ Options::Options( Options&& other )
 	  tabu_time_local_min( other.tabu_time_local_min ),
 	  tabu_time_selected( other.tabu_time_selected ),
 	  percent_chance_force_trying_on_plateau( other.percent_chance_force_trying_on_plateau ),
+		max_stay_on_plateau( other.max_stay_on_plateau ),
 	  reset_threshold( other.reset_threshold ),
 	  restart_threshold( other.restart_threshold ),
 	  number_variables_to_reset( other.number_variables_to_reset ),
-	  number_start_samplings( other.number_start_samplings )
+	  number_start_samplings( other.number_start_samplings ),
+		number_variables_to_sample( other.number_variables_to_sample )
 {	}
 
 Options& Options::operator=( Options other )
@@ -94,10 +100,12 @@ Options& Options::operator=( Options other )
 		tabu_time_local_min = other.tabu_time_local_min;
 		tabu_time_selected = other.tabu_time_selected;
 		percent_chance_force_trying_on_plateau = other.percent_chance_force_trying_on_plateau;
+		max_stay_on_plateau = other.max_stay_on_plateau,
 		reset_threshold = other.reset_threshold;
 		restart_threshold = other.restart_threshold;
 		number_variables_to_reset = other.number_variables_to_reset;
 		number_start_samplings = other.number_start_samplings;
+		number_variables_to_sample = other.number_variables_to_sample;
 	}
 
 	return *this;

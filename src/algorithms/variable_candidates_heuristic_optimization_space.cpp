@@ -2,7 +2,7 @@
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework
  * designed to help developers to model and implement optimization problem
  * solving. It contains a meta-heuristic solver aiming to solve any kind of
- * combinatorial and optimization real-time problems represented by a CSP/COP/EF-CSP/EF-COP.
+ * combinatorial and optimization real-time problems represented by a CSP/COP/EF-CSP/EF-COP. 
  *
  * First developed to solve game-related optimization problems, GHOST can be used for
  * any kind of applications where solving combinatorial and optimization problems. In
@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2024 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -27,4 +27,23 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
+#include <numeric>
 
+#include "algorithms/variable_candidates_heuristic_optimization_space.hpp"
+
+using ghost::algorithms::VariableCandidatesHeuristicOptimizationSpace;
+
+VariableCandidatesHeuristicOptimizationSpace::VariableCandidatesHeuristicOptimizationSpace()
+	: VariableCandidatesHeuristic( "Optimization Space" )
+{ }
+		
+std::vector<int> VariableCandidatesHeuristicOptimizationSpace::compute_variable_candidates( const SearchUnitData& data,
+																																														randutils::mt19937_rng& rng,
+																																														int number_variables_to_sample ) const
+{
+	std::vector<int> candidates( data.number_variables );
+	// We assume that variable IDs start with 0 and end with data.number_variables - 1, as it should be.
+	std::iota( candidates.begin(), candidates.end(), 0 );
+	rng.shuffle( candidates );
+	return std::vector<int>( candidates.begin(), candidates.begin() + number_variables_to_sample );
+}

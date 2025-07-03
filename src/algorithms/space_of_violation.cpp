@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2024 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -27,23 +27,21 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/null_error_projection_algorithm.hpp"
+#include "algorithms/space_of_violation.hpp"
 
-using ghost::algorithms::NullErrorProjection;
-using ghost::Variable;
-using ghost::Constraint;
+using ghost::algorithms::SpaceOfViolation;
 
-NullErrorProjection::NullErrorProjection()
-	: ErrorProjection( "Null Error Projection" )
-{}
+SpaceOfViolation::SpaceOfViolation()
+	: Space( "Violation Space",
+	         true )
+{ }
 
-void NullErrorProjection::compute_variable_errors( const std::vector<Variable>& variables,                                                             
-                                                   const std::vector<std::shared_ptr<Constraint>>& constraints,
-                                                   SearchUnitData& data )
-{}
-
-void NullErrorProjection::update_variable_errors( const std::vector<Variable>& variables,
-                                                  std::shared_ptr<Constraint> constraint,
-                                                  SearchUnitData& data,                                                            
-                                                  double delta )
-{}
+double SpaceOfViolation::get_fitness_variation( const SearchUnitData& data ) const
+{
+	return data.min_conflict;
+}
+			
+void SpaceOfViolation::update_fitness( const SearchUnitData& data ) const
+{
+	return data.update_sat_error();
+}

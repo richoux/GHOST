@@ -2,7 +2,7 @@
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework
  * designed to help developers to model and implement optimization problem
  * solving. It contains a meta-heuristic solver aiming to solve any kind of
- * combinatorial and optimization real-time problems represented by a CSP/COP/EF-CSP/EF-COP.
+ * combinatorial and optimization real-time problems represented by a CSP/COP/EF-CSP/EF-COP. 
  *
  * First developed to solve game-related optimization problems, GHOST can be used for
  * any kind of applications where solving combinatorial and optimization problems. In
@@ -27,4 +27,25 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
+#include <algorithm>
+#include <numeric>
 
+#include "algorithms/value_heuristic_random_walk.hpp"
+
+using ghost::algorithms::ValueHeuristicRandomWalk;
+using ghost::SearchUnitData;
+using ghost::Model;
+
+ValueHeuristicRandomWalk::ValueHeuristicRandomWalk()
+	: ValueHeuristic( "Random Walk" )
+{ }
+		
+int ValueHeuristicRandomWalk::select_value( int variable_to_change,
+                                            const SearchUnitData& data,
+                                            const Model& model,
+                                            randutils::mt19937_rng& rng ) const
+{
+	auto pick_value_and_errors = static_cast<std::pair<int, std::vector<double>>>( rng.pick( data.delta_errors ) );
+	data.update_min_conflict( std::accumulate( pick_value_and_errors.second.begin(), pick_value_and_errors.second.end(), 0.0 ) );
+	return pick_value_and_errors.first;
+}

@@ -50,9 +50,7 @@ namespace ghost
 			std::string name;
 
 		public:
-			ErrorProjection( std::string&& name )
-				: name( std::move( name ) )
-			{ }
+			ErrorProjection( std::string&& name );
 
 			// Default virtual destructor.
 			virtual ~ErrorProjection() = default;
@@ -61,7 +59,7 @@ namespace ghost
 			inline std::string get_name() const { return name; }
 
 			// Can be useful to initialize some data structures before computing error projections.
-			virtual void initialize_data_structures( const SearchUnitData& data ) {};
+			virtual void initialize_data_structures( const SearchUnitData& data );
 
 			// Will reset data.error_variables and set the element of this vector to their projected cost
 			virtual void compute_variable_errors( const std::vector<Variable>& variables,

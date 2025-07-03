@@ -29,20 +29,25 @@
 
 #pragma once
 
-#include <vector>
-
-#include "variable_candidates_heuristic.hpp"
+#include "error_projection_algorithm.hpp"
 
 namespace ghost
 {
 	namespace algorithms
 	{
-		class AdaptiveSearchVariableCandidatesHeuristic : public VariableCandidatesHeuristic
+		class ErrorProjectionNull : public ErrorProjection
 		{
 		public:
-			AdaptiveSearchVariableCandidatesHeuristic();
+			ErrorProjectionNull();
 			
-			std::vector<double> compute_variable_candidates( const SearchUnitData& data ) const override;
+			void compute_variable_errors( const std::vector<Variable>& variables,
+			                              const std::vector<std::shared_ptr<Constraint>>& constraints,
+			                              SearchUnitData& data ) override;
+			
+			void update_variable_errors( const std::vector<Variable>& variables,
+			                             std::shared_ptr<Constraint> constraint,
+			                             SearchUnitData& data,
+			                             double delta ) override;
 		};
 	}
 }

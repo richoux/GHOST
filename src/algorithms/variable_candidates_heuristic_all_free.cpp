@@ -27,27 +27,22 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#pragma once
+#include "algorithms/variable_candidates_heuristic_all_free.hpp"
 
-#include <vector>
+using ghost::algorithms::VariableCandidatesHeuristicAllFree;
 
-#include "value_heuristic.hpp"
-
-namespace ghost
+VariableCandidatesHeuristicAllFree::VariableCandidatesHeuristicAllFree()
+	: VariableCandidatesHeuristic( "All Free" )
+{ }
+		
+std::vector<int> VariableCandidatesHeuristicAllFree::compute_variable_candidates( const SearchUnitData& data,
+																																									randutils::mt19937_rng& rng,
+																																									int number_variables_to_sample ) const
 {
-	namespace algorithms
-	{
-		class RandomWalkValueHeuristic : public ValueHeuristic
-		{
-		public:
-			RandomWalkValueHeuristic();
-			
-			int select_value( int variable_to_change,
-			                  const SearchUnitData& data,
-			                  const Model& model,
-			                  const std::map<int, std::vector<double>>& delta_errors,
-			                  double& min_conflict,
-			                  randutils::mt19937_rng& rng ) const override;
-		};
-	}
+	std::vector<int> free_variables_list;
+	for( int variable_id = 0 ; variable_id < data.number_variables ; ++variable_id )
+		if( data.tabu_list[ variable_id ] <= data.local_moves )
+			free_variables_list.push_back( variable_id );
+	
+	return free_variables_list;
 }

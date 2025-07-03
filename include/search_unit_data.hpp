@@ -30,6 +30,7 @@
 
 #pragma once
 
+#include <map>
 #include <vector>
 #include <algorithm>
 
@@ -56,12 +57,16 @@ namespace ghost
 		// tabu_list[6] = 0 --> variable with id=6 is not marked as tabu (therefore, it is selectable during the search process)
 		std::vector<int> tabu_list;
 
-		// Variables about errors of the variables, and global satisfaction/optimization errors
+		// Variables about errors and costs
 		std::vector<double> error_variables;
+		mutable std::vector<double> error_distribution;
 		double best_sat_error;
 		double best_opt_cost;
-		double current_sat_error;
-		double current_opt_cost;
+		mutable double current_sat_error;
+		mutable double current_opt_cost;
+		std::map< int, std::vector<double>> delta_errors;
+		mutable double min_conflict;
+		mutable double delta_cost;
 
 		// Statistics about the current run
 		int restarts;
@@ -70,6 +75,7 @@ namespace ghost
 		int search_iterations;
 		int local_minimum;
 		int plateau_moves;
+		int plateau_moves_in_a_row;
 		int plateau_force_trying_another_variable;
 
 		SearchUnitData( const Model& model )
@@ -83,12 +89,15 @@ namespace ghost
 		  best_opt_cost ( std::numeric_limits<double>::max() ),
 		  current_sat_error ( std::numeric_limits<double>::max() ),
 		  current_opt_cost ( std::numeric_limits<double>::max() ),
+		  min_conflict( 0.0 ),
+		  delta_cost( 0.0 ),
 		  restarts ( 0 ),
 		  resets ( 0 ),
 		  local_moves ( 0 ),
 		  search_iterations ( 0 ),
 		  local_minimum ( 0 ),
 		  plateau_moves ( 0 ),
+			plateau_moves_in_a_row ( 0 ),
 		  plateau_force_trying_another_variable ( 0 )
 		{ }
 
@@ -99,6 +108,42 @@ namespace ghost
 				for( int constraint_id = 0; constraint_id < number_constraints; ++constraint_id )
 					if( model.constraints[ constraint_id ]->has_variable( variable_id ) )
 						matrix_var_ctr[ variable_id ].push_back( constraint_id );
+		}
+
+		void update_min_conflict( double min ) const
+		{
+			min_conflict = min;
+		}
+
+		void update_delta_cost( double delta ) const
+		{
+			delta_cost = delta;
+		}
+
+		void update_sat_error() const
+		{
+			current_sat_error += min_conflict;
+		}
+
+		void update_opt_cost() const
+		{
+			current_opt_cost += delta_cost;
+		}
+
+		void make_error_distribution() const
+		{
+			error_distribution = error_variables;
+		}
+
+		void erase_error_at( int id ) const
+		{
+			error_distribution[ id ] = 0.0;
+		}
+
+		void increment_plateau_moves()
+		{
+			++plateau_moves;
+			++plateau_moves_in_a_row;
 		}
 	};
 }

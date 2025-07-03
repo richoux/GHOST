@@ -30,52 +30,53 @@
 #include <algorithm>
 #include <numeric>
 
-#include "algorithms/adaptive_search_value_heuristic.hpp"
+#include "algorithms/value_heuristic_adaptive_search.hpp"
 
-using ghost::algorithms::AdaptiveSearchValueHeuristic;
+using ghost::algorithms::ValueHeuristicAdaptiveSearch;
 using ghost::SearchUnitData;
 using ghost::Model;
 
-AdaptiveSearchValueHeuristic::AdaptiveSearchValueHeuristic()
+ValueHeuristicAdaptiveSearch::ValueHeuristicAdaptiveSearch()
 	: ValueHeuristic( "Adaptive Search" )
 { }
 		
-int AdaptiveSearchValueHeuristic::select_value( int variable_to_change,
+int ValueHeuristicAdaptiveSearch::select_value( int variable_to_change,
                                                 const SearchUnitData& data,
                                                 const Model& model,
-                                                const std::map<int, std::vector<double>>& delta_errors,
-                                                double& min_conflict,
                                                 randutils::mt19937_rng& rng ) const
 {
-	std::vector<int> candidate_values;
+	std::vector<int> candidates; // variable indexes for permutation problems, variable values otherwise
 	std::map<int, double> cumulated_delta_errors;
-	for( const auto& deltas : delta_errors )
+	double min_error = std::numeric_limits<double>::max();
+	for( const auto& deltas : data.delta_errors )
 		cumulated_delta_errors[ deltas.first ] = std::accumulate( deltas.second.begin(), deltas.second.end(), 0.0 );
 
 	for( const auto& deltas : cumulated_delta_errors )
 	{
-		if( min_conflict > deltas.second )
+		if( min_error > deltas.second )
 		{
-			candidate_values.clear();
-			candidate_values.push_back( deltas.first );
-			min_conflict = deltas.second;
+			candidates.clear();
+			candidates.push_back( deltas.first );
+			min_error = deltas.second;
 		}
 		else
-			if( min_conflict == deltas.second )
-				candidate_values.push_back( deltas.first );
+			if( min_error == deltas.second )
+				candidates.push_back( deltas.first );
 	}
 
-	if( candidate_values.empty() )
+	data.update_min_conflict( min_error );
+	
+	if( candidates.empty() )
 		return variable_to_change;
 
 	// if we deal with an optimization problem, find the value minimizing to objective function
 	if( data.is_optimization )
 	{
 		if( model.permutation_problem )
-			return static_cast<int>( model.objective->heuristic_value_permutation( variable_to_change, candidate_values, rng ) );
+			return static_cast<int>( model.objective->heuristic_value_permutation( variable_to_change, candidates, rng ) );
 		else
-			return model.objective->heuristic_value( variable_to_change, candidate_values, rng );
+			return model.objective->heuristic_value( variable_to_change, candidates, rng );
 	}
 	else
-		return rng.pick( candidate_values );
+		return rng.pick( candidates );
 }

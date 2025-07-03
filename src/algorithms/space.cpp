@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2024 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -27,22 +27,13 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/antidote_search_variable_candidates_heuristic.hpp"
-#include "thirdparty/randutils.hpp"
+#include "algorithms/space.hpp"
 
-using ghost::algorithms::AntidoteSearchVariableCandidatesHeuristic;
+using ghost::algorithms::Space;
 
-AntidoteSearchVariableCandidatesHeuristic::AntidoteSearchVariableCandidatesHeuristic()
-	: VariableCandidatesHeuristic( "Antidote Search" )
+Space::Space( std::string&& name,
+              bool violation_space )
+	: name( std::move( name ) ),
+	  violation_space( violation_space )
 { }
 
-std::vector<double> AntidoteSearchVariableCandidatesHeuristic::compute_variable_candidates( const SearchUnitData& data ) const
-{
-	auto error_variables = data.error_variables;
-		
-	for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
-		if( data.tabu_list[ variable_id ] > data.local_moves )
-			error_variables[ variable_id ] = 0.0;
-
-	return error_variables;
-}

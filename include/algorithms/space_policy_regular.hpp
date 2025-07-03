@@ -2,7 +2,7 @@
  * GHOST (General meta-Heuristic Optimization Solving Tool) is a C++ framework
  * designed to help developers to model and implement optimization problem
  * solving. It contains a meta-heuristic solver aiming to solve any kind of
- * combinatorial and optimization real-time problems represented by a CSP/COP/EF-CSP/EF-COP.
+ * combinatorial and optimization real-time problems represented by a CSP/COP/EF-CSP/EF-COP. 
  *
  * First developed to solve game-related optimization problems, GHOST can be used for
  * any kind of applications where solving combinatorial and optimization problems. In
@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2024 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -27,4 +27,38 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
+#pragma once
 
+#include "space_policy.hpp"
+
+namespace ghost
+{
+	namespace algorithms
+	{
+		class Regular : public SpacePolicy
+		{
+		public:
+			Regular( std::unique_ptr<algorithms::ErrorProjection> error_projection );
+			Regular();
+			
+			void update_errors( int variable_to_change,
+			                    int new_value,
+			                    SearchUnitData& data,
+			                    const Model& model ) const override;
+
+			// bool local_minimum_management( int variable_to_change,
+			//                                SearchUnitData& data,
+			//                                int tabu_time_local_min,
+			//                                bool no_other_variables_to_try ) override;
+
+			// bool plateau_management( int variable_to_change,
+			// 												 int new_value,
+			// 												 SearchUnitData& data,
+			// 												 const Options& options ) override;
+
+			// bool reset_management( SearchUnitData& data,
+			// 											 const Options& options,
+			// 											 const Model& model ) override;
+		};
+	}
+}

@@ -53,28 +53,30 @@
 #include "search_unit.hpp"
 
 #include "algorithms/variable_heuristic.hpp"
+#include "algorithms/variable_heuristic_uniform.hpp"
+#include "algorithms/variable_heuristic_antidote_search.hpp"
+
 #include "algorithms/variable_candidates_heuristic.hpp"
+#include "algorithms/variable_candidates_heuristic_adaptive_search.hpp"
+#include "algorithms/variable_candidates_heuristic_antidote_search.hpp"
+
 #include "algorithms/value_heuristic.hpp"
-#include "algorithms/error_projection_algorithm.hpp"
+#include "algorithms/value_heuristic_adaptive_search.hpp"
+#include "algorithms/value_heuristic_antidote_search.hpp"
 
-#include "algorithms/uniform_variable_heuristic.hpp"
-#include "algorithms/adaptive_search_variable_candidates_heuristic.hpp"
-#include "algorithms/adaptive_search_value_heuristic.hpp"
-#include "algorithms/adaptive_search_error_projection_algorithm.hpp"
-
-#include "algorithms/antidote_search_variable_heuristic.hpp"
-#include "algorithms/antidote_search_variable_candidates_heuristic.hpp"
-#include "algorithms/antidote_search_value_heuristic.hpp"
-
-#include "algorithms/culprit_search_error_projection_algorithm.hpp"
+#include "algorithms/space_policy.hpp"
+#include "algorithms/space_policy_regular.hpp"
 
 #if defined GHOST_RANDOM_WALK || defined GHOST_HILL_CLIMBING
-#include "algorithms/all_free_variable_candidates_heuristic.hpp"
-#include "algorithms/null_error_projection_algorithm.hpp"
+#include "algorithms/variable_candidates_heuristic_all_free.hpp"
 #endif
 
 #if defined GHOST_RANDOM_WALK 
-#include "algorithms/random_walk_value_heuristic.hpp"
+#include "algorithms/value_heuristic_random_walk.hpp"
+#endif
+
+#if defined GHOST_TWM // traveling without moving 
+#include "algorithms/space_policy_switch_optimization.hpp"
 #endif
 
 #include "macros.hpp"
@@ -148,6 +150,7 @@ namespace ghost
 		std::string _variable_heuristic;
 		std::string _variable_candidates_heuristic;
 		std::string _value_heuristic;
+		std::string _space_policy;
 		std::string _error_projection_algorithm;
 
 		// From search_unit_data
@@ -458,6 +461,9 @@ namespace ghost
 			if( _options.percent_chance_force_trying_on_plateau < 0 || _options.percent_chance_force_trying_on_plateau > 100 )
 				_options.percent_chance_force_trying_on_plateau = 10;
 
+			if( _options.max_stay_on_plateau )
+				_options.max_stay_on_plateau = _options.tabu_time_local_min;
+
 			if( _options.reset_threshold < 0 )
 				_options.reset_threshold = _options.tabu_time_local_min;
 // 			_options.reset_threshold = static_cast<int>( std::ceil( 1.5 * _options.reset_threshold ) );
@@ -471,6 +477,9 @@ namespace ghost
 
 			if( _options.number_start_samplings < 0 )
 				_options.number_start_samplings = 10;
+
+			if( _options.number_variables_to_sample < 0 )
+				_options.number_variables_to_sample = std::max( 2, _number_variables / 3 );
 
 #if defined GHOST_RANDOM_WALK || defined GHOST_HILL_CLIMBING
 			_options.percent_chance_force_trying_on_plateau = 0;
@@ -502,17 +511,31 @@ namespace ghost
 #if defined GHOST_RANDOM_WALK
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options,
-				                        std::make_unique<algorithms::UniformVariableHeuristic>(),
-				                        std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
-				                        std::make_unique<algorithms::RandomWalkValueHeuristic>(),
-				                        std::make_unique<algorithms::NullErrorProjection>() );
+				                        std::make_unique<algorithms::VariableHeuristicUniform>(),
+				                        std::make_unique<algorithms::VariableCandidatesHeuristicAllFree>(),
+				                        std::make_unique<algorithms::ValueHeuristicRandomWalk>(),
+				                        std::make_unique<algorithms::Regular>( std::make_unique<algorithms::ErrorProjectionNull() ) );
 #elif defined GHOST_HILL_CLIMBING
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options,
-				                        std::make_unique<algorithms::UniformVariableHeuristic>(),
-				                        std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
-				                        std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
-				                        std::make_unique<algorithms::NullErrorProjection>() );
+				                        std::make_unique<algorithms::VariableHeuristicUniform>(),
+				                        std::make_unique<algorithms::VariableCandidatesHeuristicAllFree>(),
+				                        std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>(),
+				                        std::make_unique<algorithms::Regular>( std::make_unique<algorithms::ErrorProjectionNull() ) );
+#elif defined GHOST_TWM
+				SearchUnit search_unit( _model_builder.build_model(),
+				                        _options,
+				                        std::make_unique<algorithms::VariableHeuristicUniform>(), // normal
+				                        std::make_unique<algorithms::VariableCandidatesHeuristicAdaptiveSearch>(), // normal
+				                        std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>(), // normal
+				                        std::make_unique<algorithms::SwitchOptimization>() ); // TWM
+#elif defined GHOST_ANTIDOTE
+				SearchUnit search_unit( _model_builder.build_model(),
+				                        _options,
+				                        std::make_unique<algorithms::VariableHeuristicAntidoteSearch>(),
+				                        std::make_unique<algorithms::VariableCandidatesHeuristicAntidoteSearch>(),
+				                        std::make_unique<algorithms::ValueHeuristicAntidoteSearch>(),
+				                        std::make_unique<algorithms::Regular>() );
 #else				
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options );
@@ -539,8 +562,8 @@ namespace ghost
 				_variable_heuristic = search_unit.variable_heuristic->get_name();
 				_variable_candidates_heuristic = search_unit.variable_candidates_heuristic->get_name();
 				_value_heuristic = search_unit.value_heuristic->get_name();
-				_error_projection_algorithm = search_unit.error_projection_algorithm->get_name();
-				
+				_space_policy = search_unit.space_policy->get_name();
+				_error_projection_algorithm = search_unit.space_policy->get_error_projection_name();				
 				_model = std::move( search_unit.transfer_model() );
 			}
 			else // call threads
@@ -555,17 +578,31 @@ namespace ghost
 #if defined GHOST_RANDOM_WALK
 					units.emplace_back( _model_builder.build_model(),
 					                    _options,
-					                    std::make_unique<algorithms::UniformVariableHeuristic>(),
-					                    std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
-					                    std::make_unique<algorithms::RandomWalkValueHeuristic>(),
-					                    std::make_unique<algorithms::NullErrorProjection>() );
+					                    std::make_unique<algorithms::VariableHeuristicUniform>(),
+					                    std::make_unique<algorithms::VariableCandidatesHeuristicAllFree>(),
+					                    std::make_unique<algorithms::ValueHeuristicRandomWalk>(),
+					                    std::make_unique<algorithms::Regular>( std::make_unique<algorithms::ErrorProjectionNull>() ) );
 #elif defined GHOST_HILL_CLIMBING
 					units.emplace_back( _model_builder.build_model(),
 					                    _options,
-					                    std::make_unique<algorithms::UniformVariableHeuristic>(),
-					                    std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
-					                    std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
-					                    std::make_unique<algorithms::NullErrorProjection>() );
+					                    std::make_unique<algorithms::VariableHeuristicUniform>(),
+					                    std::make_unique<algorithms::VariableCandidatesHeuristicAllFree>(),
+					                    std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>(),
+					                    std::make_unique<algorithms::Regular>( std::make_unique<algorithms::ErrorProjectionNull>() ) );
+#elif defined GHOST_TWM
+					units.emplace_back( _model_builder.build_model(),
+					                    _options,
+					                    std::make_unique<algorithms::VariableHeuristicUniform>(), // normal
+					                    std::make_unique<algorithms::VariableCandidatesHeuristicAdaptiveSearch>(), // normal
+					                    std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>(), // normal
+					                    std::make_unique<algorithms::SwitchOptimization>() ); // TWM
+#elif defined GHOST_ANTIDOTE
+					units.emplace_back( _model_builder.build_model(),
+					                    _options,
+					                    std::make_unique<algorithms::VariableHeuristicAntidoteSearch>(),
+					                    std::make_unique<algorithms::VariableCandidatesHeuristicAntidoteSearch>(),
+					                    std::make_unique<algorithms::ValueHeuristicAntidoteSearch>(),
+					                    std::make_unique<algorithms::Regular>() );
 #else				
 					units.emplace_back( _model_builder.build_model(),
 					                    _options );
@@ -681,7 +718,8 @@ namespace ghost
 					_variable_heuristic = units.at( winning_thread ).variable_heuristic->get_name();
 					_variable_candidates_heuristic = units.at( winning_thread ).variable_candidates_heuristic->get_name();
 					_value_heuristic = units.at( winning_thread ).value_heuristic->get_name();
-					_error_projection_algorithm = units.at( winning_thread ).error_projection_algorithm->get_name();
+					_space_policy = units.at( winning_thread ).space_policy->get_name();
+					_error_projection_algorithm = units.at( winning_thread ).space_policy->get_error_projection_name();
 
 					_model = std::move( units.at( winning_thread ).transfer_model() );
 				}
@@ -717,7 +755,8 @@ namespace ghost
 					_variable_heuristic = units.at( best_non_solution ).variable_heuristic->get_name();
 					_variable_candidates_heuristic = units.at( best_non_solution ).variable_candidates_heuristic->get_name();
 					_value_heuristic = units.at( best_non_solution ).value_heuristic->get_name();
-					_error_projection_algorithm = units.at( best_non_solution ).error_projection_algorithm->get_name();
+					_space_policy = units.at( best_non_solution ).space_policy->get_name();
+					_error_projection_algorithm = units.at( best_non_solution ).space_policy->get_error_projection_name();
 					
 					_model = std::move( units.at( best_non_solution ).transfer_model() );
 				}
@@ -761,21 +800,29 @@ namespace ghost
 			elapsed_time = std::chrono::steady_clock::now() - start_wall_clock;
 			chrono_full_computation = elapsed_time.count();
 
-#if defined GHOST_DEBUG || defined GHOST_TRACE || defined GHOST_BENCH
+#if defined GHOST_DEBUG || defined GHOST_TRACE || defined GHOST_BENCH || defined GHOST_TWM || defined GHOST_ANTIDOTE
 			std::cout << "@@@@@@@@@@@@" << "\n"
 			          << "Variable heuristic: " << _variable_heuristic << "\n"
 			          << "Variable candidate heuristic: " << _variable_candidates_heuristic << "\n"
 			          << "Value heuristic: " << _value_heuristic << "\n"
+			          << "Space policy: " << _space_policy << "\n"
 			          << "Error projection algorithm: " << _error_projection_algorithm << "\n"
 			          << "Started from a custom variables assignment: " << std::boolalpha << _options.custom_starting_point << "\n"
 			          << "Search resumed from a previous run: " << std::boolalpha << _options.resume_search << "\n"
 			          << "Parallel search: " << std::boolalpha << _options.parallel_runs << "\n"
 			          << "Number of threads (not used if no parallel search): " << _options.number_threads << "\n"
 			          << "Number of variable assignments samplings at start (if custom start and resume are set to false): " << _options.number_start_samplings << "\n"
+			          << "Number of variable sampled as candidates (for optimization space search only): " << _options.number_variables_to_sample << "\n"
 			          << "Variables of local minimum are frozen for: " << _options.tabu_time_local_min << " local moves\n"
 			          << "Selected variables are frozen for: " << _options.tabu_time_selected << " local moves\n"
 			          << "Percentage of chance to force exploring another variable on a plateau: " << _options.percent_chance_force_trying_on_plateau << "%\n"
+								<< "Maximal number of moves on the same plateau: " << _options.max_stay_on_plateau << "\n"
 			          << _options.number_variables_to_reset << " variables are reset when " << _options.reset_threshold << " variables are frozen\n";
+
+#if defined GHOST_TWM
+			std::cout << "\nTWM enabled\n\n";
+#endif
+			
 			if( _options.restart_threshold > 0 )
 				std::cout << "Do a restart each time " << _options.restart_threshold << " resets are performed\n";
 			else

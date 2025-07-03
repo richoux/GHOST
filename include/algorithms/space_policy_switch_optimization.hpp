@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2024 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -29,25 +29,38 @@
 
 #pragma once
 
-#include <vector>
-
-#include "value_heuristic.hpp"
+#include "space_policy.hpp"
 
 namespace ghost
 {
 	namespace algorithms
 	{
-		class AntidoteSearchValueHeuristic : public ValueHeuristic
+		class SwitchOptimization : public SpacePolicy
 		{
 		public:
-			AntidoteSearchValueHeuristic();
+			SwitchOptimization( std::unique_ptr<algorithms::ErrorProjection> error_projection );
+			SwitchOptimization();
 			
-			int select_value( int variable_to_change,
-			                  const SearchUnitData& data,
-			                  const Model& model,
-			                  const std::map<int, std::vector<double>>& delta_errors,
-			                  double& min_conflict,
-			                  randutils::mt19937_rng& rng ) const override;
+			void update_errors( int variable_to_change,
+			                    int new_value,
+			                    SearchUnitData& data,
+			                    const Model& model ) const override;
+
+			void switch_space() override;
+
+			// bool local_minimum_management( int variable_to_change,
+			//                                SearchUnitData& data,
+			//                                int tabu_time_local_min,
+			//                                bool no_other_variables_to_try ) override;			
+
+			// bool plateau_management( int variable_to_change,
+			// 												 int new_value,
+			// 												 SearchUnitData& data,
+			// 												 const Options& options ) override;
+
+			// bool reset_management( SearchUnitData& data,
+			// 											 const Options& options,
+			// 											 const Model& model ) override;
 		};
 	}
 }

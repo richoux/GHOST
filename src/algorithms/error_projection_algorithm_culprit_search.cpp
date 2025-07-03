@@ -32,22 +32,22 @@
 #include <functional>
 #include <iostream>
 
-#include "algorithms/culprit_search_error_projection_algorithm.hpp"
+#include "algorithms/error_projection_algorithm_culprit_search.hpp"
 
-using ghost::algorithms::CulpritSearchErrorProjection;
+using ghost::algorithms::ErrorProjectionCulpritSearch;
 using ghost::Variable;
 using ghost::Constraint;
 
-CulpritSearchErrorProjection::CulpritSearchErrorProjection()
+ErrorProjectionCulpritSearch::ErrorProjectionCulpritSearch()
 	: ErrorProjection( "Culprit Search" )
 { }
 
-void CulpritSearchErrorProjection::initialize_data_structures( const SearchUnitData& data )
+void ErrorProjectionCulpritSearch::initialize_data_structures( const SearchUnitData& data )
 {
 	_error_variables_by_constraints = std::vector<std::vector<double>>( data.number_constraints, std::vector<double>( data.number_variables, 0. ) );
 }
 
-void CulpritSearchErrorProjection::compute_variable_errors_on_constraint( const std::vector<Variable>& variables,
+void ErrorProjectionCulpritSearch::compute_variable_errors_on_constraint( const std::vector<Variable>& variables,
 	                                                                        const std::vector<std::vector<int>>& matrix_var_ctr,
 	                                                                        std::shared_ptr<Constraint> constraint )
 {
@@ -109,7 +109,7 @@ void CulpritSearchErrorProjection::compute_variable_errors_on_constraint( const 
 	}
 }
 
-void CulpritSearchErrorProjection::compute_variable_errors( const std::vector<Variable>& variables,
+void ErrorProjectionCulpritSearch::compute_variable_errors( const std::vector<Variable>& variables,
                                                             const std::vector<std::shared_ptr<Constraint>>& constraints,
                                                             SearchUnitData& data )
 {
@@ -128,7 +128,7 @@ void CulpritSearchErrorProjection::compute_variable_errors( const std::vector<Va
 	}
 }
 
-void CulpritSearchErrorProjection::update_variable_errors( const std::vector<Variable>& variables,
+void ErrorProjectionCulpritSearch::update_variable_errors( const std::vector<Variable>& variables,
                                                            std::shared_ptr<Constraint> constraint,
                                                            SearchUnitData& data,
                                                            double delta )

@@ -27,15 +27,25 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/uniform_variable_heuristic.hpp"
+#pragma once
 
-using ghost::algorithms::UniformVariableHeuristic;
+#include <vector>
 
-UniformVariableHeuristic::UniformVariableHeuristic()
-	: VariableHeuristic( "Uniform" )
-{ }
+#include "value_heuristic.hpp"
 
-int UniformVariableHeuristic::select_variable( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
+namespace ghost
 {
-	return static_cast<int>( rng.pick( candidates ) );
+	namespace algorithms
+	{
+		class ValueHeuristicRandomWalk : public ValueHeuristic
+		{
+		public:
+			ValueHeuristicRandomWalk();
+			
+			int select_value( int variable_to_change,
+			                  const SearchUnitData& data,
+			                  const Model& model,
+			                  randutils::mt19937_rng& rng ) const override;
+		};
+	}
 }

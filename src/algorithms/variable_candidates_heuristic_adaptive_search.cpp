@@ -27,46 +27,36 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#pragma once
+#include "algorithms/variable_candidates_heuristic_adaptive_search.hpp"
 
-#include <vector>
+using ghost::algorithms::VariableCandidatesHeuristicAdaptiveSearch;
 
-#include "../search_unit_data.hpp"
-// #include "../macros.hpp"
-#include "../thirdparty/randutils.hpp"
-
-namespace ghost
+VariableCandidatesHeuristicAdaptiveSearch::VariableCandidatesHeuristicAdaptiveSearch()
+	: VariableCandidatesHeuristic( "Adaptive Search" )
+{ }
+		
+std::vector<int> VariableCandidatesHeuristicAdaptiveSearch::compute_variable_candidates( const SearchUnitData& data,
+																																												 randutils::mt19937_rng& rng,
+																																												 int number_variables_to_sample ) const
 {
-	namespace algorithms
-	{
-		/*
-		 * Strategy design pattern to implement variable selection heuristics.
-		 */
-		class VariableHeuristic
+	std::vector<int> worst_variables_list;
+	double worst_variable_cost = -1;
+
+	for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
+		if( worst_variable_cost <= data.error_variables[ variable_id ]
+		    && data.tabu_list[ variable_id ] <= data.local_moves
+		    && ( !data.matrix_var_ctr.at( variable_id ).empty() || ( data.is_optimization && data.current_sat_error == 0 ) ) )
 		{
-		protected:
-			// Protected string variable for the heuristic name. Used for debug/trace purposes.
-			std::string name;
-
-		public:
-			VariableHeuristic( std::string&& name )
-				: name( std::move( name ) )
-			{ }
-
-			// Default virtual destructor.
-			virtual ~VariableHeuristic() = default;
-
-			// Inline function returning the heuristic name.
-			inline std::string get_name() const { return name; }
-
-			/*
-			 * Function to select, among a vector of candidates, a variable from which the search algorithm will make a local move.
-			 * \param candidates A const reference to a vector of ID.
-			 * \param data A reference to the SearchUnitData object containing data about the problem instance and the search state, such as the number of variables and constraints, the current projected error on each variable, etc.
-			 * \param rng A reference to the pseudo-random generator, to avoid recreating such object.
-			 * \return The index of the selected variable in the candidates vector.
-			 */
-			virtual int select_variable( const std::vector<int>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const = 0;
-		};
-	}
+			if( worst_variable_cost < data.error_variables[ variable_id ] )
+			{
+				worst_variables_list.clear();
+				worst_variables_list.push_back( variable_id );
+				worst_variable_cost = data.error_variables[ variable_id ];
+			}
+			else
+				if( worst_variable_cost == data.error_variables[ variable_id ] )
+					worst_variables_list.push_back( variable_id );
+		}
+		
+	return worst_variables_list;
 }
