@@ -517,7 +517,7 @@ namespace ghost
 			}
 			else 
 			{
-				if( data.plateau_moves_in_a_row >= options.max_stay_on_plateau ) // consider the plateau as a local minimum
+				if( data.plateau_moves_in_a_row >= options.max_stay_on_plateau && options.max_stay_on_plateau > 0 ) // consider the plateau as a local minimum
 				{
 					data.plateau_moves_in_a_row = 0;
 					data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
