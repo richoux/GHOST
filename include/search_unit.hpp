@@ -452,7 +452,7 @@ namespace ghost
 		}
 
 		// A. Local move (perform local move and update variables/constraints/objective function)
-		void local_move( int variable_to_change, int new_value, bool override_variable_computation = true )
+		void local_move( int variable_to_change, int new_value )
 		{
 			++data.local_moves;
 
@@ -468,7 +468,7 @@ namespace ghost
 
 			
 			data.tabu_list[ variable_to_change ] = options.tabu_time_selected + data.local_moves;
-			must_compute_variable_candidates = override_variable_computation;
+			must_compute_variable_candidates = true;
 
 			// the move itself
 			if( model.permutation_problem )
@@ -528,7 +528,7 @@ namespace ghost
 					data.min_conflict = 0;
 					data.delta_cost = 0;
 					data.increment_plateau_moves();
-					local_move( variable_to_change, new_value, false );
+					local_move( variable_to_change, new_value );
 				}
 			}
 		}

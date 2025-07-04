@@ -33,7 +33,7 @@ function release()
     mkdir -p build/$RELEASE
     cd build/$RELEASE
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=$CXX ../..
-    make
+    make -j
     sudo make install
 }
 
@@ -42,7 +42,7 @@ function debug()
     mkdir -p build/$DEBUG
     cd build/$DEBUG
     cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=$CXX ../..
-    make
+    make -j
     sudo make install
 }
 
@@ -51,7 +51,7 @@ function debug_no_asan()
     mkdir -p build/$DEBUG
     cd build/$DEBUG
     cmake -DCMAKE_BUILD_TYPE=Debug -DNO_ASAN=ON -DCMAKE_CXX_COMPILER=$CXX ../..
-    make
+    make -j
     sudo make install
 }
 
@@ -60,7 +60,7 @@ function rel_dbg_info()
     mkdir -p build/$RELEASEDBGINFO
     cd build/$RELEASEDBGINFO
     cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_COMPILER=$CXX ../..
-    make
+    make -j
     sudo make install    
 }
 
@@ -75,25 +75,25 @@ function android()
     mkdir -p build/${ANDROID}_arm64
     cd build/${ANDROID}_arm64
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=31 -DCMAKE_ANDROID_ARCH_ABI=arm64-v8a -DCMAKE_ANDROID_NDK="${ANDROID_NDK}" -DCMAKE_C_COMPILER="/usr/bin/aarch64-linux-gnu-gcc-11" -DCMAKE_CXX_COMPILER="/usr/bin/aarch64-linux-gnu-g++-11" -DCMAKE_CROSSCOMPILING=TRUE ../..
-    make
+    make -j
 
 		cd ../..
     mkdir -p build/${ANDROID}_armelf
     cd build/${ANDROID}_armelf
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=31 -DCMAKE_ANDROID_ARCH_ABI=armeabi-v7a -DCMAKE_ANDROID_NDK="${ANDROID_NDK}" -DCMAKE_C_COMPILER="/usr/bin/aarch64-linux-gnu-gcc-11" -DCMAKE_CXX_COMPILER="/usr/bin/aarch64-linux-gnu-g++-11" -DCMAKE_CROSSCOMPILING=TRUE ../..
-		make
+		make -j
 
 		cd ../..
     mkdir -p build/${ANDROID}_x86
     cd build/${ANDROID}_x86
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=31 -DCMAKE_ANDROID_ARCH_ABI=x86 -DCMAKE_ANDROID_NDK="${ANDROID_NDK}" -DCMAKE_C_COMPILER="/usr/bin/aarch64-linux-gnu-gcc-11" -DCMAKE_CXX_COMPILER="/usr/bin/aarch64-linux-gnu-g++-11" -DCMAKE_CROSSCOMPILING=TRUE ../..
-		make
+		make -j
 
 		cd ../..
     mkdir -p build/${ANDROID}_x86_64
     cd build/${ANDROID}_x86_64
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=31 -DCMAKE_ANDROID_ARCH_ABI=x86_64 -DCMAKE_ANDROID_NDK="${ANDROID_NDK}" -DCMAKE_C_COMPILER="/usr/bin/aarch64-linux-gnu-gcc-11" -DCMAKE_CXX_COMPILER="/usr/bin/aarch64-linux-gnu-g++-11" -DCMAKE_CROSSCOMPILING=TRUE ../..
-    make
+    make -j
 }
 
 function clean()
@@ -191,7 +191,7 @@ function tests()
     mkdir -p build
     cd build
     cmake ..
-    make
+    make -j
 }
 
 function tutorial()
@@ -201,12 +201,12 @@ function tutorial()
     mkdir -p build
     cd build
     cmake ..
-    make
+    make -j
 		cd ../../video
     mkdir -p build
     cd build
     cmake ..
-    make
+    make -j
 }
 
 function first_compile()
