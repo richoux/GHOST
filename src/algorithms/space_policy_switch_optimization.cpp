@@ -128,9 +128,10 @@ void SwitchOptimization::update_errors( int variable_to_change,
 	}
 }
 
-void SwitchOptimization::switch_space()
+void SwitchOptimization::switch_space( SearchUnitData& data )
 {
 	index_space_pool = std::abs( index_space_pool - 1 );
+	++data.space_switchings;
 }
 
 

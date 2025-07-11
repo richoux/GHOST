@@ -46,7 +46,7 @@ namespace ghost
 			                    SearchUnitData& data,
 			                    const Model& model ) const override;
 
-			void switch_space() override;
+			void switch_space( SearchUnitData& data ) override;
 
 			// bool local_minimum_management( int variable_to_change,
 			//                                SearchUnitData& data,

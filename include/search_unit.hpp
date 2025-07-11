@@ -488,17 +488,30 @@ namespace ghost
 				model.auxiliary_data->update( variable_to_change, new_value );
 			}
 
-			if( data.is_optimization && space_policy->is_violation_space() ) // need to recompute the current objective function
+			if( data.is_optimization ) // need to recompute the current objective function
 			{
-				data.current_opt_cost = model.objective->cost();
-				// if( data.best_sat_error == data.current_sat_error && data.best_opt_cost > data.current_opt_cost )
-				// {
-				// 	data.best_opt_cost = data.current_opt_cost;
-				// 	std::transform( model.variables.begin(),
-				// 									model.variables.end(),
-				// 									final_solution.begin(),
-				// 									[&](auto& var){ return var.get_value(); } );
-				// }
+				if( space_policy->is_violation_space() )
+				{
+					data.current_opt_cost = model.objective->cost();
+					// if( data.best_sat_error == data.current_sat_error && data.best_opt_cost > data.current_opt_cost )
+					// {
+					// 	data.best_opt_cost = data.current_opt_cost;
+					// 	std::transform( model.variables.begin(),
+					// 									model.variables.end(),
+					// 									final_solution.begin(),
+					// 									[&](auto& var){ return var.get_value(); } );
+					// }
+				}
+				else
+				{
+					++data.moves_in_opt_space;
+					if( data.moves_in_opt_space >= options.max_moves_in_opt_space )
+					{
+						must_compute_variable_candidates = false;
+						variable_candidates.clear(); // to force a space switching
+						data.moves_in_opt_space = 0;
+					}
+				}
 			}
 		}
 
@@ -519,9 +532,13 @@ namespace ghost
 			{
 				if( data.plateau_moves_in_a_row >= options.max_stay_on_plateau && options.max_stay_on_plateau > 0 ) // consider the plateau as a local minimum
 				{
-					data.plateau_moves_in_a_row = 0;
 					data.tabu_list[ variable_to_change ] = options.tabu_time_local_min + data.local_moves;
 					++data.local_minimum;
+					variable_candidates.clear(); // to force a reset or a space switching
+					must_compute_variable_candidates = false;
+#if defined GHOST_TRACE
+					COUT << "Maximal number of local moves on the same plateau (" << data.plateau_moves_in_a_row << ") reached. Proceed with a reset or a space switching.\n";
+#endif
 				}
 				else // we stay on the plateau with a local move
 				{
@@ -529,6 +546,9 @@ namespace ghost
 					data.delta_cost = 0;
 					data.increment_plateau_moves();
 					local_move( variable_to_change, new_value );
+#if defined GHOST_TRACE
+					COUT << "Perform local move on plateau.\n";
+#endif
 				}
 			}
 		}
@@ -748,7 +768,7 @@ namespace ghost
 						auto old_space_name = space_policy->get_current_space_name();
 #endif
 						
-						space_policy->switch_space();
+						space_policy->switch_space( data );
 						
 #if defined GHOST_TRACE
 						COUT << "Switching landscape from " << old_space_name << " to " << space_policy->get_current_space_name() << ".\n";
@@ -797,7 +817,7 @@ namespace ghost
 				{
 					COUT << "\n("
 							 << variable_candidates_heuristic->get_name()
-							 << " Variable Candidates Heuristic) Variable candidates: v[" << variable_candidates[0] << "]="
+					     << " Variable Candidates Heuristic) Variable candidates (" << variable_candidates.size() << "): v[" << variable_candidates[0] << "]="
 							 << model.variables[ variable_candidates[0] ].get_value();
 					for( int i = 1 ; i < static_cast<int>( variable_candidates.size() ) ; ++i )
 						COUT << ", v[" << variable_candidates[i] << "]=" << model.variables[ variable_candidates[i] ].get_value();
@@ -811,6 +831,7 @@ namespace ghost
 				COUT << options.print->print_candidate( model.variables ).str();
 				COUT << "\n********\nNumber of loop iteration: " << data.search_iterations << "\n";
 				COUT << "Number of local moves performed: " << data.local_moves << "\n";
+				COUT << "Number of local moves on the same plateau in a row: " << data.plateau_moves_in_a_row << "\n";				
 				COUT << "Tabu list <until_iteration>:";
 				for( int i = 0 ; i < data.number_variables ; ++i )
 					if( data.tabu_list[i] > data.local_moves )
@@ -1206,6 +1227,7 @@ namespace ghost
 #endif
 						must_compute_variable_candidates = variable_candidates.empty();
 						local_minimum_management( variable_to_change, new_value, must_compute_variable_candidates );
+						
 // 						if( space_policy->local_minimum_management( variable_to_change, data, options.tabu_time_local_min, variable_candidates.empty() ) )
 // 						{
 // 							if( space_policy->is_violation_space() )

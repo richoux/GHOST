@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
+## [3.3.0] - 2025-07-11
+- Add `Options.max_moves_in_opt_space` to set the maximal number of local moves in an optimization space.
+- Add `Options.max_stay_on_plateau` to set the maximal number of local moves in a row the solver does on a plateau.
+- Change `SearchUnit::fast_search` accordingly, to implement these new options.
+
 ## [3.2.0] - 2025-06-04
 - Changed `Options.percent_chance_escape_plateau` with `Options.percent_chance_force_trying_on_plateau`, as well as some printed traces.
 - Add `Options.enable_optimization_guidance` to enable (default) or disable the usage of the objective function as a tie-breaker for satisfaction plateau.

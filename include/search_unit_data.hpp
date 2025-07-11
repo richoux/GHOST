@@ -76,7 +76,9 @@ namespace ghost
 		int local_minimum;
 		int plateau_moves;
 		int plateau_moves_in_a_row;
+		int moves_in_opt_space;
 		int plateau_force_trying_another_variable;
+		int space_switchings;
 
 		SearchUnitData( const Model& model )
 		: number_variables ( static_cast<int>( model.variables.size() ) ),
@@ -98,7 +100,9 @@ namespace ghost
 		  local_minimum ( 0 ),
 		  plateau_moves ( 0 ),
 			plateau_moves_in_a_row ( 0 ),
-		  plateau_force_trying_another_variable ( 0 )
+		  moves_in_opt_space( 0 ),
+		  plateau_force_trying_another_variable ( 0 ),
+		  space_switchings( 0 )
 		{ }
 
 		void initialize_matrix( const Model& model )

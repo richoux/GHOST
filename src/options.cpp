@@ -44,6 +44,7 @@ Options::Options()
 	  tabu_time_selected( -1 ),
 	  percent_chance_force_trying_on_plateau( -1 ),
 		max_stay_on_plateau( -1 ),
+	  max_moves_in_opt_space( -1 ),
 	  reset_threshold( -1 ),
 	  restart_threshold( -1 ),
 	  number_variables_to_reset( -1 ),
@@ -62,6 +63,7 @@ Options::Options( const Options& other )
 	  tabu_time_selected( other.tabu_time_selected ),
 	  percent_chance_force_trying_on_plateau( other.percent_chance_force_trying_on_plateau ),
 		max_stay_on_plateau( other.max_stay_on_plateau ),
+	  max_moves_in_opt_space( other.max_moves_in_opt_space ),
 	  reset_threshold( other.reset_threshold ),
 	  restart_threshold( other.restart_threshold ),
 	  number_variables_to_reset( other.number_variables_to_reset ),
@@ -80,6 +82,7 @@ Options::Options( Options&& other )
 	  tabu_time_selected( other.tabu_time_selected ),
 	  percent_chance_force_trying_on_plateau( other.percent_chance_force_trying_on_plateau ),
 		max_stay_on_plateau( other.max_stay_on_plateau ),
+	  max_moves_in_opt_space( other.max_moves_in_opt_space ),
 	  reset_threshold( other.reset_threshold ),
 	  restart_threshold( other.restart_threshold ),
 	  number_variables_to_reset( other.number_variables_to_reset ),
@@ -101,6 +104,7 @@ Options& Options::operator=( Options other )
 		tabu_time_selected = other.tabu_time_selected;
 		percent_chance_force_trying_on_plateau = other.percent_chance_force_trying_on_plateau;
 		max_stay_on_plateau = other.max_stay_on_plateau,
+		max_moves_in_opt_space = other.max_moves_in_opt_space,
 		reset_threshold = other.reset_threshold;
 		restart_threshold = other.restart_threshold;
 		number_variables_to_reset = other.number_variables_to_reset;

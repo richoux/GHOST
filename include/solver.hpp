@@ -137,7 +137,8 @@ namespace ghost
 		int _local_minimum_total;
 		int _plateau_moves_total;
 		int _plateau_force_trying_another_variable_total;
-
+		int _number_space_switching_total;
+		
 		// stats of the winning thread
 		int _restarts;
 		int _resets;
@@ -146,6 +147,7 @@ namespace ghost
 		int _local_minimum;
 		int _plateau_moves;
 		int _plateau_force_trying_another_variable;
+		int _number_space_switching;
 
 		std::string _variable_heuristic;
 		std::string _variable_candidates_heuristic;
@@ -369,13 +371,15 @@ namespace ghost
 			  _local_minimum_total( 0 ),
 			  _plateau_moves_total( 0 ),
 			  _plateau_force_trying_another_variable_total( 0 ),
+			  _number_space_switching_total( 0 ),
 			  _restarts( 0 ),
 			  _resets( 0 ),
 			  _local_moves( 0 ),
 			  _search_iterations( 0 ),
 			  _local_minimum( 0 ),
 			  _plateau_moves( 0 ),
-			  _plateau_force_trying_another_variable( 0 )
+			  _plateau_force_trying_another_variable( 0 ),
+			  _number_space_switching( 0 )
 		{	}
 
 		/*!
@@ -461,8 +465,11 @@ namespace ghost
 			if( _options.percent_chance_force_trying_on_plateau < 0 || _options.percent_chance_force_trying_on_plateau > 100 )
 				_options.percent_chance_force_trying_on_plateau = 10;
 
-			if( _options.max_stay_on_plateau )
+			if( _options.max_stay_on_plateau < 0 )
 				_options.max_stay_on_plateau = _options.tabu_time_local_min;
+
+			if( _options.max_moves_in_opt_space < 0 )
+				_options.max_moves_in_opt_space = std::max( 3, _options.tabu_time_local_min / 3 );
 
 			if( _options.reset_threshold < 0 )
 				_options.reset_threshold = _options.tabu_time_local_min;
@@ -558,6 +565,7 @@ namespace ghost
 				_local_minimum = search_unit.data.local_minimum;
 				_plateau_moves = search_unit.data.plateau_moves;
 				_plateau_force_trying_another_variable = search_unit.data.plateau_force_trying_another_variable;
+				_number_space_switching = search_unit.data.space_switchings;
 
 				_variable_heuristic = search_unit.variable_heuristic->get_name();
 				_variable_candidates_heuristic = search_unit.variable_candidates_heuristic->get_name();
@@ -696,6 +704,7 @@ namespace ghost
 					_local_minimum_total += units.at(i).data.local_minimum;
 					_plateau_moves_total += units.at(i).data.plateau_moves;
 					_plateau_force_trying_another_variable_total += units.at(i).data.plateau_force_trying_another_variable;
+					_number_space_switching_total += units.at(i).data.space_switchings;
 				}
 
 				// ..then the most important: the best solution found so far.
@@ -714,6 +723,7 @@ namespace ghost
 					_local_minimum = units.at( winning_thread ).data.local_minimum;
 					_plateau_moves = units.at( winning_thread ).data.plateau_moves;
 					_plateau_force_trying_another_variable = units.at( winning_thread ).data.plateau_force_trying_another_variable;
+					_number_space_switching = units.at( winning_thread ).data.space_switchings;
 
 					_variable_heuristic = units.at( winning_thread ).variable_heuristic->get_name();
 					_variable_candidates_heuristic = units.at( winning_thread ).variable_candidates_heuristic->get_name();
@@ -751,6 +761,7 @@ namespace ghost
 					_local_minimum = units.at( best_non_solution ).data.local_minimum;
 					_plateau_moves = units.at( best_non_solution ).data.plateau_moves;
 					_plateau_force_trying_another_variable = units.at( best_non_solution ).data.plateau_force_trying_another_variable;
+					_number_space_switching = units.at( best_non_solution ).data.space_switchings;
 
 					_variable_heuristic = units.at( best_non_solution ).variable_heuristic->get_name();
 					_variable_candidates_heuristic = units.at( best_non_solution ).variable_candidates_heuristic->get_name();
@@ -856,6 +867,7 @@ namespace ghost
 			          << "Number of local moves: " << _local_moves << " (including on plateau: " << _plateau_moves << ")\n"
 			          << "Number of local minimum: " << _local_minimum << "\n"
 			          << "Number of variable exploration forcing on a plateau: " << _plateau_force_trying_another_variable << "\n"
+			          << "Number of space switchings: " << _number_space_switching << "\n"
 			          << "Number of resets: " << _resets << "\n"
 			          << "Number of restarts: " << _restarts << "\n";
 
@@ -864,6 +876,7 @@ namespace ghost
 				          << "Total number of local moves: " << _local_moves_total << " (including on plateau: " << _plateau_moves_total << ")\n"
 				          << "Total number of local minimum: " << _local_minimum_total << "\n"
 				          << "Total number of variable exploration forcing on a plateau: " << _plateau_force_trying_another_variable_total << "\n"
+				          << "Total number of space switchings: " << _number_space_switching_total << "\n"
 				          << "Total number of resets: " << _resets_total << "\n"
 				          << "Total number of restarts: " << _restarts_total << "\n";
 

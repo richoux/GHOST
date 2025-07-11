@@ -66,4 +66,4 @@ void SpacePolicy::compute_variable_errors( const std::vector<Variable>& variable
 	                                           data );
 }
 
-void SpacePolicy::switch_space() { }
+void SpacePolicy::switch_space( SearchUnitData& data ) { }

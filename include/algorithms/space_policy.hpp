@@ -100,7 +100,7 @@ namespace ghost
 			 * Procedure to switch space for TWM policies.
 			 * Do nothing by default.
 			 */
-			virtual void switch_space();
+			virtual void switch_space( SearchUnitData& data );
 			
 			/*
 			 * Procedure updating constraints and variables errors in data, when a local move is applied.
