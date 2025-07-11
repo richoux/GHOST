@@ -828,6 +828,7 @@ namespace ghost
 			          << "Selected variables are frozen for: " << _options.tabu_time_selected << " local moves\n"
 			          << "Percentage of chance to force exploring another variable on a plateau: " << _options.percent_chance_force_trying_on_plateau << "%\n"
 								<< "Maximal number of moves on the same plateau: " << _options.max_stay_on_plateau << "\n"
+								<< "Maximal number of moves before switching back from the optimization to the constraint space: " << _options.max_moves_in_opt_space << "\n"
 			          << _options.number_variables_to_reset << " variables are reset when " << _options.reset_threshold << " variables are frozen\n";
 
 #if defined GHOST_TWM
