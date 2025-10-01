@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
+## [3.3.1] - 2025-10-01
+- Fix typos in `Solver::fast_search`
+
 ## [3.3.0] - 2025-07-11
 - Add `Options.max_moves_in_opt_space` to set the maximal number of local moves in an optimization space.
 - Add `Options.max_stay_on_plateau` to set the maximal number of local moves in a row the solver does on a plateau.

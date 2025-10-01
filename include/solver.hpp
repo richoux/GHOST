@@ -69,6 +69,7 @@
 
 #if defined GHOST_RANDOM_WALK || defined GHOST_HILL_CLIMBING
 #include "algorithms/variable_candidates_heuristic_all_free.hpp"
+#include "algorithms/error_projection_algorithm_null.hpp"
 #endif
 
 #if defined GHOST_RANDOM_WALK 
@@ -521,14 +522,14 @@ namespace ghost
 				                        std::make_unique<algorithms::VariableHeuristicUniform>(),
 				                        std::make_unique<algorithms::VariableCandidatesHeuristicAllFree>(),
 				                        std::make_unique<algorithms::ValueHeuristicRandomWalk>(),
-				                        std::make_unique<algorithms::Regular>( std::make_unique<algorithms::ErrorProjectionNull() ) );
+				                        std::make_unique<algorithms::Regular>( std::make_unique<algorithms::ErrorProjectionNull>() ) );
 #elif defined GHOST_HILL_CLIMBING
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options,
 				                        std::make_unique<algorithms::VariableHeuristicUniform>(),
 				                        std::make_unique<algorithms::VariableCandidatesHeuristicAllFree>(),
 				                        std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>(),
-				                        std::make_unique<algorithms::Regular>( std::make_unique<algorithms::ErrorProjectionNull() ) );
+				                        std::make_unique<algorithms::Regular>( std::make_unique<algorithms::ErrorProjectionNull>() ) );
 #elif defined GHOST_TWM
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options,
