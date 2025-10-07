@@ -720,6 +720,10 @@ namespace ghost
 			       &&  elapsed_time.count() < timeout
 			       && ( data.best_sat_error > 0.0 || ( data.best_sat_error == 0.0 && data.is_optimization ) ) )
 			{
+#if defined GHOST_HILL_CLIMBING
+				if( data.local_minimum >= 1 )
+					break;
+#endif
 				++data.search_iterations;
 				
 #if defined GHOST_FITNESS_CLOUD

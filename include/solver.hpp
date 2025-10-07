@@ -490,6 +490,7 @@ namespace ghost
 				_options.number_variables_to_sample = std::max( 2, _number_variables / 3 );
 
 #if defined GHOST_RANDOM_WALK || defined GHOST_HILL_CLIMBING
+			_options.max_stay_on_plateau = 0;
 			_options.percent_chance_force_trying_on_plateau = 0;
 			_options.number_start_samplings = 1;
 			_options.tabu_time_local_min = 0;
