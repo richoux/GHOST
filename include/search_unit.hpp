@@ -733,7 +733,7 @@ namespace ghost
 				/********************************************
 				 * 1. Choice of worst variable(s) to change *
 				 ********************************************/
-#if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD
+#if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD and not defined GHOST_RANDOM_WALK and not defined GHOST_HILL_CLIMBING
 				print_errors();
 
 				for( int i = 0 ; i < data.number_variables; ++i )
@@ -749,7 +749,7 @@ namespace ghost
 				                   data.tabu_list.end(),
 				                   [&](int end_tabu){ return end_tabu > data.local_moves; } ) >= options.reset_threshold )
 				{
-					COUT << "Number of variables marked as tabu above the threshold " << data.local_moves << "\n";
+					COUT << "Threshold " << options.reset_threshold << " of variables marked reached\n";
 				}
 				
 				if( variable_candidates.empty() )
@@ -802,7 +802,7 @@ namespace ghost
 					continue;
 				}
 
-#if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD
+#if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD and not defined GHOST_RANDOM_WALK and not defined GHOST_HILL_CLIMBING 
 				if( variable_candidates_heuristic->get_name().compare( "Antidote Search" ) == 0 )
 				{
 					auto distrib = std::discrete_distribution<int>( data.error_variables.begin(), data.error_variables.end() );
@@ -831,7 +831,7 @@ namespace ghost
 
 				variable_to_change = variable_heuristic->select_variable( variable_candidates, data, rng );
 
-#if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD
+#if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD and not defined GHOST_RANDOM_WALK and not defined GHOST_HILL_CLIMBING 
 				COUT << options.print->print_candidate( model.variables ).str();
 				COUT << "\n********\nNumber of loop iteration: " << data.search_iterations << "\n";
 				COUT << "Number of local moves performed: " << data.local_moves << "\n";
@@ -840,6 +840,8 @@ namespace ghost
 				for( int i = 0 ; i < data.number_variables ; ++i )
 					if( data.tabu_list[i] > data.local_moves )
 						COUT << " v[" << i << "]:<" << data.tabu_list[i] << ">";
+#endif
+#if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD
 				COUT << "\n\nCurrent candidate: ";
 				print_current_candidate();
 				if( space_policy->is_violation_space() )
@@ -848,8 +850,10 @@ namespace ghost
 					COUT << "\nCurrent error: ?";					
 				if( data.is_optimization )
 					COUT << "\nCurrent cost: " << data.current_opt_cost;
+#endif
+#if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD and not defined GHOST_RANDOM_WALK and not defined GHOST_HILL_CLIMBING
 				COUT << "\nPicked worst variable: v[" << variable_to_change << "]=" << model.variables[ variable_to_change ].get_value() << "\n\n";
-#endif // end GHOST_TRACE
+#endif 
 
 				/********************************
 				 * 2. Choice of their new value *
@@ -923,7 +927,7 @@ namespace ghost
 				int new_value = value_heuristic->select_value( variable_to_change, data, model, rng );
 				double fitness_variation = space_policy->get_fitness_variation( data );
 				
-#if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD
+#if defined GHOST_TRACE && not defined GHOST_FITNESS_CLOUD and not defined GHOST_RANDOM_WALK and not defined GHOST_HILL_CLIMBING 
 				std::vector<int> candidate_values;
 				std::map<int, double> cumulated_delta_errors;
 				std::vector<double> cumulated_delta_errors_antidote( data.delta_errors.size() );
@@ -1003,14 +1007,14 @@ namespace ghost
 					COUT << "\n";
 				}
 				else
-					if( value_heuristic->get_name().compare( "Random Walk" ) == 0 )
-					{
-						COUT << "(Random Walk Value Heuristic) Min conflict value candidates list: " << candidate_values[0];
-						for( int i = 1 ; i < static_cast<int>( candidate_values.size() ); ++i )
-							COUT << ", " << candidate_values[i];
-						COUT << "\n";
-					}
-					else
+					// if( value_heuristic->get_name().compare( "Random Walk" ) == 0 )
+					// {
+					// 	COUT << "(Random Walk Value Heuristic) Min conflict value candidates list: " << candidate_values[0];
+					// 	for( int i = 1 ; i < static_cast<int>( candidate_values.size() ); ++i )
+					// 		COUT << ", " << candidate_values[i];
+					// 	COUT << "\n";
+					// }
+					// else
 						if( value_heuristic->get_name().compare( "Antidote Search" ) == 0 )
 						{				
 							auto distrib_value = std::discrete_distribution<int>( cumulated_delta_errors_for_distribution.begin(), cumulated_delta_errors_for_distribution.end() );
