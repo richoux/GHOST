@@ -1,21 +1,21 @@
-cmake_minimum_required (VERSION 3.1)
+cmake_minimum_required (VERSION 3.15)
 project (ghost_tutorial_wiki)
 
 set( CMAKE_VERBOSE_MAKEFILE on )
 
-# require a C++17-capable compiler
+# require a C++20-capable compiler
 include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("-std=c++17" COMPILER_SUPPORTS_CXX17)
-CHECK_CXX_COMPILER_FLAG("-std=c++1z" COMPILER_SUPPORTS_CXX1Z)
-CHECK_CXX_COMPILER_FLAG("/std:c++17" COMPILER_SUPPORTS_CXX17_WIN)
+CHECK_CXX_COMPILER_FLAG("-std=c++20" COMPILER_SUPPORTS_CXX17)
+CHECK_CXX_COMPILER_FLAG("-std=c++2a" COMPILER_SUPPORTS_CXX1Z)
+CHECK_CXX_COMPILER_FLAG("/std:c++20" COMPILER_SUPPORTS_CXX17_WIN)
 if(COMPILER_SUPPORTS_CXX17)
-  set(CMAKE_CXX_FLAGS "-std=c++17")
+  set(CMAKE_CXX_FLAGS "-std=c++20")
 elseif(COMPILER_SUPPORTS_CXX1Z)
-  set(CMAKE_CXX_FLAGS "-std=c++1z")
+  set(CMAKE_CXX_FLAGS "-std=c++2a")
 elseif(COMPILER_SUPPORTS_CXX17_WIN)
-  set(CMAKE_CXX_FLAGS "/std:c++17")
+  set(CMAKE_CXX_FLAGS "/std:c++20")
 else()
-  message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++17 support. Please use a different C++ compiler.")
+  message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++20 support. Please use a different C++ compiler.")
 endif()
 
 if(WIN32)
@@ -35,7 +35,7 @@ if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
 	set(CMAKE_EXE_FLAGS_DEBUG "-fsanitize=address,undefined,leak")
 endif()
 
-## These two lines are the reason why we need CMake version 3.1.0+
+## These two lines are the reason why we need CMake at least version 3.1.0+
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 

@@ -37,7 +37,7 @@ if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
 	set(CMAKE_EXE_FLAGS_DEBUG "-fsanitize=address,undefined,leak")
 endif()
 
-## These two lines are the reason why we need CMake version at least 3.1.0+
+## These two lines are the reason why we need CMake at least version 3.1.0+
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
