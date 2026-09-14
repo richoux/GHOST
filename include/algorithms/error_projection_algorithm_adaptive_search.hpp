@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2026 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -27,23 +27,26 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/null_error_projection_algorithm.hpp"
+#pragma once
 
-using ghost::algorithms::NullErrorProjection;
-using ghost::Variable;
-using ghost::Constraint;
+#include "error_projection_algorithm.hpp"
 
-NullErrorProjection::NullErrorProjection()
-	: ErrorProjection( "Null Error Projection" )
-{}
-
-void NullErrorProjection::compute_variable_errors( const std::vector<Variable>& variables,                                                             
-                                                   const std::vector<std::shared_ptr<Constraint>>& constraints,
-                                                   SearchUnitData& data )
-{}
-
-void NullErrorProjection::update_variable_errors( const std::vector<Variable>& variables,
-                                                  std::shared_ptr<Constraint> constraint,
-                                                  SearchUnitData& data,                                                            
-                                                  double delta )
-{}
+namespace ghost
+{
+	namespace algorithms
+	{
+		class ErrorProjectionAdaptiveSearch : public ErrorProjection
+		{
+		public:
+			ErrorProjectionAdaptiveSearch();
+			
+			void compute_variable_errors( const Model& model,
+			                              SearchUnitData& data ) override;
+			
+			void update_variable_errors( const Model& model,
+			                             std::shared_ptr<Constraint> constraint,
+			                             SearchUnitData& data,
+			                             double delta ) override;
+		};
+	}
+}

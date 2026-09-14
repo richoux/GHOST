@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2026 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -27,20 +27,34 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/all_free_variable_candidates_heuristic.hpp"
+#pragma once
 
-using ghost::algorithms::AllFreeVariableCandidatesHeuristic;
+#include "error_projection_algorithm.hpp"
 
-AllFreeVariableCandidatesHeuristic::AllFreeVariableCandidatesHeuristic()
-	: VariableCandidatesHeuristic( "All Free" )
-{ }
-		
-std::vector<double> AllFreeVariableCandidatesHeuristic::compute_variable_candidates( const SearchUnitData& data ) const
+namespace ghost
 {
-	std::vector<double> free_variables_list;
-	for( int variable_id = 0 ; variable_id < data.number_variables ; ++variable_id )
-		if( data.tabu_list[ variable_id ] <= data.local_moves )
-			free_variables_list.push_back( variable_id );
-	
-	return free_variables_list;
+	namespace algorithms
+	{
+		class ErrorProjectionCulpritSearch : public ErrorProjection
+		{
+			std::vector<std::vector<double>> _error_variables_by_constraints;
+			
+			void compute_variable_errors_on_constraint( const Model& model,
+			                                            const std::vector<std::vector<int>>& matrix_var_ctr,
+			                                            std::shared_ptr<Constraint> constraint );
+			
+		public:
+			ErrorProjectionCulpritSearch();
+
+			void initialize_data_structures( const SearchUnitData& data ) override;
+
+			void compute_variable_errors( const Model& model,
+			                              SearchUnitData& data ) override;
+			
+			void update_variable_errors( const Model& model,
+			                             std::shared_ptr<Constraint> constraint,
+			                             SearchUnitData& data,
+			                             double delta ) override;
+		};
+	}
 }

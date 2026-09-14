@@ -27,25 +27,22 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#pragma once
+#include "algorithms/variable_candidates_heuristic_antidote_search.hpp"
+#include "thirdparty/randutils.hpp"
 
-#if defined GHOST_TRACE_PARALLEL
-#define GHOST_TRACE
-#include <fstream>
-#include <sstream>
-#define COUT _log_trace
-#else
-#define COUT std::cout
-#endif
+using ghost::algorithms::VariableCandidatesHeuristicAntidoteSearch;
 
-#if defined GHOST_RANDOM_WALK
-#define GHOST_TRACE
-#endif
+VariableCandidatesHeuristicAntidoteSearch::VariableCandidatesHeuristicAntidoteSearch()
+	: VariableCandidatesHeuristic( "Antidote Search" )
+{ }
 
-#if defined GHOST_HILL_CLIMBING
-#define GHOST_TRACE
-#endif
+std::vector<double> VariableCandidatesHeuristicAntidoteSearch::compute_variable_candidates( const SearchUnitData& data ) const
+{
+	auto error_variables = data.error_variables;
+		
+	for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
+		if( data.tabu_list[ variable_id ] > data.local_moves )
+			error_variables[ variable_id ] = 0.0;
 
-#if defined GHOST_FITNESS_CLOUD
-#define GHOST_TRACE
-#endif
+	return error_variables;
+}

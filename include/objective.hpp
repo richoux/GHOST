@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2026 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -44,8 +44,8 @@ namespace ghost
 {
 	namespace algorithms
 	{
-		class AdaptiveSearchValueHeuristic;
-		class AntidoteSearchValueHeuristic;
+		class ValueHeuristicAdaptiveSearch;
+		class ValueHeuristicAntidoteSearch;
 	}
 	
 	/*!
@@ -68,8 +68,8 @@ namespace ghost
 		friend class Minimize;
 		friend class Maximize;
 
-		friend class algorithms::AdaptiveSearchValueHeuristic;
-		friend class algorithms::AntidoteSearchValueHeuristic;
+		friend class algorithms::ValueHeuristicAdaptiveSearch;
+		friend class algorithms::ValueHeuristicAntidoteSearch;
 		
 		std::vector<Variable*> _variables; // Vector of raw pointers to variables needed to compute the objective function.
 		std::vector<int> _variables_index; // To know where are the constraint's variables in the global variable vector.
@@ -239,7 +239,7 @@ namespace ghost
 		 * won't be taken into account by the solver. 
 		 * \param best_cost a double representing the best optimization cost found by the solver
 		 * so far. This helps users be sure that their post-processing leads to actual improvements.
-		 * \return The new error after post-processing.
+		 * \return The new optimization cost after post-processing.
 		 */
 		virtual double expert_postprocess( const std::vector<Variable*>& variables,
 		                                   double best_cost ) const;

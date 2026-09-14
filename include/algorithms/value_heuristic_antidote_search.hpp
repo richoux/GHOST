@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2026 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -27,27 +27,27 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include <algorithm>
-#include <numeric>
+#pragma once
 
-#include "algorithms/random_walk_value_heuristic.hpp"
+#include <vector>
 
-using ghost::algorithms::RandomWalkValueHeuristic;
-using ghost::SearchUnitData;
-using ghost::Model;
+#include "value_heuristic.hpp"
 
-RandomWalkValueHeuristic::RandomWalkValueHeuristic()
-	: ValueHeuristic( "Random Walk" )
-{ }
-		
-int RandomWalkValueHeuristic::select_value( int variable_to_change,
-                                            const SearchUnitData& data,
-                                            const Model& model,
-                                            const std::map<int, std::vector<double>>& delta_errors,
-                                            double& min_conflict,
-                                            randutils::mt19937_rng& rng ) const
+namespace ghost
 {
-	auto pick_value_and_errors = static_cast<std::pair<int, std::vector<double>>>( rng.pick( delta_errors ) );
-	min_conflict = std::accumulate( pick_value_and_errors.second.begin(), pick_value_and_errors.second.end(), 0.0 );
-	return pick_value_and_errors.first;
+	namespace algorithms
+	{
+		class ValueHeuristicAntidoteSearch : public ValueHeuristic
+		{
+		public:
+			ValueHeuristicAntidoteSearch();
+			
+			int select_value( int variable_to_change,
+			                  const SearchUnitData& data,
+			                  const Model& model,
+			                  const std::map<int, std::vector<double>>& delta_errors,
+			                  double& min_conflict,
+			                  randutils::mt19937_rng& rng ) const override;
+		};
+	}
 }

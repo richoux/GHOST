@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2026 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -27,22 +27,26 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/antidote_search_variable_candidates_heuristic.hpp"
-#include "thirdparty/randutils.hpp"
+#pragma once
 
-using ghost::algorithms::AntidoteSearchVariableCandidatesHeuristic;
+#include "error_projection_algorithm.hpp"
 
-AntidoteSearchVariableCandidatesHeuristic::AntidoteSearchVariableCandidatesHeuristic()
-	: VariableCandidatesHeuristic( "Antidote Search" )
-{ }
-
-std::vector<double> AntidoteSearchVariableCandidatesHeuristic::compute_variable_candidates( const SearchUnitData& data ) const
+namespace ghost
 {
-	auto error_variables = data.error_variables;
-		
-	for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
-		if( data.tabu_list[ variable_id ] > data.local_moves )
-			error_variables[ variable_id ] = 0.0;
-
-	return error_variables;
+	namespace algorithms
+	{
+		class ErrorProjectionNull : public ErrorProjection
+		{
+		public:
+			ErrorProjectionNull();
+			
+			void compute_variable_errors( const Model& model,
+			                              SearchUnitData& data ) override;
+			
+			void update_variable_errors( const Model& model,
+			                             std::shared_ptr<Constraint> constraint,
+			                             SearchUnitData& data,
+			                             double delta ) override;
+		};
+	}
 }

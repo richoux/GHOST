@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2026 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -31,18 +31,23 @@
 
 #include <vector>
 
-#include "variable_candidates_heuristic.hpp"
+#include "value_heuristic.hpp"
 
 namespace ghost
 {
 	namespace algorithms
 	{
-		class AllFreeVariableCandidatesHeuristic : public VariableCandidatesHeuristic
+		class ValueHeuristicRandomWalk : public ValueHeuristic
 		{
 		public:
-			AllFreeVariableCandidatesHeuristic();
+			ValueHeuristicRandomWalk();
 			
-			std::vector<double> compute_variable_candidates( const SearchUnitData& data ) const override;
+			int select_value( int variable_to_change,
+			                  const SearchUnitData& data,
+			                  const Model& model,
+			                  const std::map<int, std::vector<double>>& delta_errors,
+			                  double& min_conflict,
+			                  randutils::mt19937_rng& rng ) const override;
 		};
 	}
 }

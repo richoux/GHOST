@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2026 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -27,27 +27,15 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#pragma once
+#include "algorithms/variable_heuristic_uniform.hpp"
 
-#include <vector>
+using ghost::algorithms::VariableHeuristicUniform;
 
-#include "value_heuristic.hpp"
+VariableHeuristicUniform::VariableHeuristicUniform()
+	: VariableHeuristic( "Uniform" )
+{ }
 
-namespace ghost
+int VariableHeuristicUniform::select_variable( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
 {
-	namespace algorithms
-	{
-		class RandomWalkValueHeuristic : public ValueHeuristic
-		{
-		public:
-			RandomWalkValueHeuristic();
-			
-			int select_value( int variable_to_change,
-			                  const SearchUnitData& data,
-			                  const Model& model,
-			                  const std::map<int, std::vector<double>>& delta_errors,
-			                  double& min_conflict,
-			                  randutils::mt19937_rng& rng ) const override;
-		};
-	}
+	return static_cast<int>( rng.pick( candidates ) );
 }

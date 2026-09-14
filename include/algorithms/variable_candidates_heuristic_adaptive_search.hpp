@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2026 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -29,25 +29,20 @@
 
 #pragma once
 
-#include "error_projection_algorithm.hpp"
+#include <vector>
+
+#include "variable_candidates_heuristic.hpp"
 
 namespace ghost
 {
 	namespace algorithms
 	{
-		class AdaptiveSearchErrorProjection : public ErrorProjection
+		class VariableCandidatesHeuristicAdaptiveSearch : public VariableCandidatesHeuristic
 		{
 		public:
-			AdaptiveSearchErrorProjection();
+			VariableCandidatesHeuristicAdaptiveSearch();
 			
-			void compute_variable_errors( const std::vector<Variable>& variables,
-			                              const std::vector<std::shared_ptr<Constraint>>& constraints,
-			                              SearchUnitData& data ) override;
-			
-			void update_variable_errors( const std::vector<Variable>& variables,
-			                             std::shared_ptr<Constraint> constraint,
-			                             SearchUnitData& data,
-			                             double delta ) override;
+			std::vector<double> compute_variable_candidates( const SearchUnitData& data ) const override;
 		};
 	}
 }

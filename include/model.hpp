@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2026 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -42,18 +42,65 @@ namespace ghost
 {
 	struct Model final
 	{
-		std::vector<Variable> variables;
+	private:
+		std::map<int, int> _domain_of_variable; // map<var id, domain index>
+
+	public:
+		std::vector<Variable> variables; 
+		std::vector<std::vector<int>> domains;
 		std::vector<std::shared_ptr<Constraint>> constraints;
 		std::shared_ptr<Objective> objective;
 		std::shared_ptr<AuxiliaryData> auxiliary_data;
 		bool permutation_problem;
 
 		Model() = default;
-		
+
 		Model( std::vector<Variable>&& variables,
+		       std::vector<std::vector<int>>&& domains,
+		       std::map<int, int>&& domain_of_variable,
 		       const std::vector<std::shared_ptr<Constraint>>&	constraints,
 		       const std::shared_ptr<Objective>& objective,
 		       const std::shared_ptr<AuxiliaryData>& auxiliary_data,
 		       bool permutation_problem );
+
+		// Assign to the variable a random values from its domain.
+		inline void set_random_value_to_variable( int var_id, randutils::mt19937_rng& rng ) {	variables[var_id].set_value( rng.pick( domains[ _domain_of_variable[ var_id ] ] ) ); }
+
+		/*
+		 * Inline method returning the domain.
+		 *
+		 * \return The vector of integers composing the domain.
+		 */
+		inline std::vector<int> get_full_domain_of_variable( int var_id ) const { return domains[ _domain_of_variable.at( var_id ) ]; }
+
+		/*
+		 * Method returning the range of values
+		 * [current_value - range/2 [mod domain_size], current_value + range/2 [mod domain_size]]
+		 * from the domain.
+		 *
+		 * \return A vector containing these integers.
+		 */
+		std::vector<int> get_partial_domain_of_variable( int var_id, int range ) const;
+
+		/*
+		 * Inline method returning the size of the domain of the variable.
+		 *
+		 * \return A size_t equals to size of the domain of the variable.
+		 */
+		inline std::size_t get_domain_size_of_variable( int var_id ) const { return domains[ _domain_of_variable.at( var_id ) ].size(); }
+
+		/*
+		 * Inline method returning the minimal value in the variable's domain.
+		 *
+		 * \return The minimal value in the domain, in constant time.
+		 */
+		inline int get_domain_min_value_of_variable( int var_id ) const { return *domains[ _domain_of_variable.at( var_id ) ].begin(); }
+
+		/*
+		 * Inline method returning the maximal value in the variable's domain.
+		 *
+		 * \return The maximal value in the domain, in constant time.
+		 */
+		inline int get_domain_max_value_of_variable( int var_id ) const { return *domains[ _domain_of_variable.at( var_id ) ].rend(); }
 	};
 }

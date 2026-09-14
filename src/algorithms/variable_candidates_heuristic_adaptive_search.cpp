@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2026 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -27,15 +27,34 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/uniform_variable_heuristic.hpp"
+#include "algorithms/variable_candidates_heuristic_adaptive_search.hpp"
 
-using ghost::algorithms::UniformVariableHeuristic;
+using ghost::algorithms::VariableCandidatesHeuristicAdaptiveSearch;
 
-UniformVariableHeuristic::UniformVariableHeuristic()
-	: VariableHeuristic( "Uniform" )
+VariableCandidatesHeuristicAdaptiveSearch::VariableCandidatesHeuristicAdaptiveSearch()
+	: VariableCandidatesHeuristic( "Adaptive Search" )
 { }
-
-int UniformVariableHeuristic::select_variable( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
+		
+std::vector<double> VariableCandidatesHeuristicAdaptiveSearch::compute_variable_candidates( const SearchUnitData& data ) const
 {
-	return static_cast<int>( rng.pick( candidates ) );
+	std::vector<double> worst_variables_list;
+	double worst_variable_cost = -1;
+
+	for( int variable_id = 0; variable_id < data.number_variables; ++variable_id )
+		if( worst_variable_cost <= data.error_variables[ variable_id ]
+		    && data.tabu_list[ variable_id ] <= data.local_moves
+		    && ( !data.matrix_var_ctr.at( variable_id ).empty() || ( data.is_optimization && data.current_sat_error == 0 ) ) )
+		{
+			if( worst_variable_cost < data.error_variables[ variable_id ] )
+			{
+				worst_variables_list.clear();
+				worst_variables_list.push_back( variable_id );
+				worst_variable_cost = data.error_variables[ variable_id ];
+			}
+			else
+				if( worst_variable_cost == data.error_variables[ variable_id ] )
+					worst_variables_list.push_back( variable_id );
+		}
+		
+	return worst_variables_list;
 }

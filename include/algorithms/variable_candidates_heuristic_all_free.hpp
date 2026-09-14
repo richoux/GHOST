@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2026 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -37,10 +37,10 @@ namespace ghost
 {
 	namespace algorithms
 	{
-		class AdaptiveSearchVariableCandidatesHeuristic : public VariableCandidatesHeuristic
+		class VariableCandidatesHeuristicAllFree : public VariableCandidatesHeuristic
 		{
 		public:
-			AdaptiveSearchVariableCandidatesHeuristic();
+			VariableCandidatesHeuristicAllFree();
 			
 			std::vector<double> compute_variable_candidates( const SearchUnitData& data ) const override;
 		};

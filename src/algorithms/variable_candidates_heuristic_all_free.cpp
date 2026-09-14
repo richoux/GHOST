@@ -27,25 +27,20 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#pragma once
+#include "algorithms/variable_candidates_heuristic_all_free.hpp"
 
-#if defined GHOST_TRACE_PARALLEL
-#define GHOST_TRACE
-#include <fstream>
-#include <sstream>
-#define COUT _log_trace
-#else
-#define COUT std::cout
-#endif
+using ghost::algorithms::VariableCandidatesHeuristicAllFree;
 
-#if defined GHOST_RANDOM_WALK
-#define GHOST_TRACE
-#endif
-
-#if defined GHOST_HILL_CLIMBING
-#define GHOST_TRACE
-#endif
-
-#if defined GHOST_FITNESS_CLOUD
-#define GHOST_TRACE
-#endif
+VariableCandidatesHeuristicAllFree::VariableCandidatesHeuristicAllFree()
+	: VariableCandidatesHeuristic( "All Free" )
+{ }
+		
+std::vector<double> VariableCandidatesHeuristicAllFree::compute_variable_candidates( const SearchUnitData& data ) const
+{
+	std::vector<double> free_variables_list;
+	for( int variable_id = 0 ; variable_id < data.number_variables ; ++variable_id )
+		if( data.tabu_list[ variable_id ] <= data.local_moves )
+			free_variables_list.push_back( variable_id );
+	
+	return free_variables_list;
+}

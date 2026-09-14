@@ -8,8 +8,8 @@ TutorialBuilder::TutorialBuilder()
 
 void TutorialBuilder::declare_variables()
 {
-	variables.emplace_back( 0, 51, std::string("bottle") );
-	variables.emplace_back( 0, 11, std::string("sandwich") );
+	create_variable( 0, 51, std::string("bottle") );
+	create_variable( 0, 11, std::string("sandwich") );
 }
 
 void TutorialBuilder::declare_constraints()

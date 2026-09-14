@@ -9,7 +9,7 @@
 
 using namespace std::literals::chrono_literals;
 
-int main( int argc, char** argv )
+int main()
 {
 	KSBuilder builder;
 

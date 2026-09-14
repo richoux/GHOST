@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2026 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -27,27 +27,17 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#pragma once
+#include "algorithms/variable_heuristic_antidote_search.hpp"
+#include "thirdparty/randutils.hpp"
 
-#include <vector>
+using ghost::algorithms::VariableHeuristicAntidoteSearch;
 
-#include "value_heuristic.hpp"
-
-namespace ghost
+VariableHeuristicAntidoteSearch::VariableHeuristicAntidoteSearch()
+	: VariableHeuristic( "Antidote Search" )
+{ }
+		
+int VariableHeuristicAntidoteSearch::select_variable( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
 {
-	namespace algorithms
-	{
-		class AdaptiveSearchValueHeuristic : public ValueHeuristic
-		{
-		public:
-			AdaptiveSearchValueHeuristic();
-			
-			int select_value( int variable_to_change,
-			                  const SearchUnitData& data,
-			                  const Model& model,
-			                  const std::map<int, std::vector<double>>& delta_errors,
-			                  double& min_conflict,
-			                  randutils::mt19937_rng& rng ) const override;
-		};
-	}
+	// WARNING: must remove variables which are in any constraints
+	return rng.variate<int, std::discrete_distribution>( candidates.begin(), candidates.end() );
 }

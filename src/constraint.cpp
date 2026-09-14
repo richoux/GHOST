@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2026 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -75,11 +75,9 @@ double Constraint::delta_error( const std::vector<int>& variables_index, const s
 	double value = optional_delta_error( _variables, variables_index_within_constraint, new_values );
 	if( std::isnan( value ) )
 	{
-		std::vector<Variable> changed_variables( _variables.size() );
-		std::transform( _variables.begin(),
-		                _variables.end(),
-		                changed_variables.begin(),
-		                [&]( auto& var ){ return *var; } );
+		std::vector<ghost::Variable> changed_variables;
+		for( auto& var: _variables )
+			changed_variables.emplace_back( *var );
 
 		for( int i = 0 ; i < static_cast<int>( new_values.size() ) ; ++i )
 			changed_variables[ variables_index_within_constraint[i] ].set_value( new_values[i] );

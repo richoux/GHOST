@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2026 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -53,28 +53,28 @@
 #include "search_unit.hpp"
 
 #include "algorithms/variable_heuristic.hpp"
+#include "algorithms/variable_heuristic_uniform.hpp"
+#include "algorithms/variable_heuristic_antidote_search.hpp"
+
 #include "algorithms/variable_candidates_heuristic.hpp"
+#include "algorithms/variable_candidates_heuristic_adaptive_search.hpp"
+#include "algorithms/variable_candidates_heuristic_antidote_search.hpp"
+
 #include "algorithms/value_heuristic.hpp"
+#include "algorithms/value_heuristic_adaptive_search.hpp"
+#include "algorithms/value_heuristic_antidote_search.hpp"
+
 #include "algorithms/error_projection_algorithm.hpp"
-
-#include "algorithms/uniform_variable_heuristic.hpp"
-#include "algorithms/adaptive_search_variable_candidates_heuristic.hpp"
-#include "algorithms/adaptive_search_value_heuristic.hpp"
-#include "algorithms/adaptive_search_error_projection_algorithm.hpp"
-
-#include "algorithms/antidote_search_variable_heuristic.hpp"
-#include "algorithms/antidote_search_variable_candidates_heuristic.hpp"
-#include "algorithms/antidote_search_value_heuristic.hpp"
-
-#include "algorithms/culprit_search_error_projection_algorithm.hpp"
+#include "algorithms/error_projection_algorithm_adaptive_search.hpp"
+#include "algorithms/error_projection_algorithm_culprit_search.hpp"
 
 #if defined GHOST_RANDOM_WALK || defined GHOST_HILL_CLIMBING
-#include "algorithms/all_free_variable_candidates_heuristic.hpp"
-#include "algorithms/null_error_projection_algorithm.hpp"
+#include "algorithms/variable_candidates_heuristic_all_free.hpp"
+#include "algorithms/error_projection_algorithm_null.hpp"
 #endif
 
 #if defined GHOST_RANDOM_WALK 
-#include "algorithms/random_walk_value_heuristic.hpp"
+#include "algorithms/value_heuristic_random_walk.hpp"
 #endif
 
 #include "macros.hpp"
@@ -121,7 +121,6 @@ namespace ghost
 		ModelBuilderType _model_builder; // Factory building the model
 
 		int _number_variables; // Size of the vector of variables.
-		int _number_constraints; // Size of the vector of constraints.
 
 		double _best_sat_error;
 		double _best_opt_cost;
@@ -442,9 +441,7 @@ namespace ghost
 			/*****************
 			* Initialization *
 			******************/
-			// Only to get the number of variables and constraints
-			_model_builder.declare_variables();
-			_number_variables = _model_builder.get_number_variables();
+			_number_variables = _model_builder.fake_building_and_count_variables();
 
 			_options = options;
 
@@ -502,17 +499,17 @@ namespace ghost
 #if defined GHOST_RANDOM_WALK
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options,
-				                        std::make_unique<algorithms::UniformVariableHeuristic>(),
-				                        std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
-				                        std::make_unique<algorithms::RandomWalkValueHeuristic>(),
-				                        std::make_unique<algorithms::NullErrorProjection>() );
+				                        std::make_unique<algorithms::VariableHeuristicUniform>(),
+				                        std::make_unique<algorithms::VariableCandidatesHeuristicAllFree>(),
+				                        std::make_unique<algorithms::ValueHeuristicRandomWalk>(),
+				                        std::make_unique<algorithms::ErrorProjectionNull>() );
 #elif defined GHOST_HILL_CLIMBING
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options,
-				                        std::make_unique<algorithms::UniformVariableHeuristic>(),
-				                        std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
-				                        std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
-				                        std::make_unique<algorithms::NullErrorProjection>() );
+				                        std::make_unique<algorithms::VariableHeuristicUniform>(),
+				                        std::make_unique<algorithms::VariableCandidatesHeuristicAllFree>(),
+				                        std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>(),
+				                        std::make_unique<algorithms::ErrorProjectionNull>() );
 #else				
 				SearchUnit search_unit( _model_builder.build_model(),
 				                        _options );
@@ -555,17 +552,17 @@ namespace ghost
 #if defined GHOST_RANDOM_WALK
 					units.emplace_back( _model_builder.build_model(),
 					                    _options,
-					                    std::make_unique<algorithms::UniformVariableHeuristic>(),
-					                    std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
-					                    std::make_unique<algorithms::RandomWalkValueHeuristic>(),
-					                    std::make_unique<algorithms::NullErrorProjection>() );
+					                    std::make_unique<algorithms::VariableHeuristicUniform>(),
+					                    std::make_unique<algorithms::VariableCandidatesHeuristicAllFree>(),
+					                    std::make_unique<algorithms::ValueHeuristicRandomWalk>(),
+					                    std::make_unique<algorithms::ErrorProjectionNull>() );
 #elif defined GHOST_HILL_CLIMBING
 					units.emplace_back( _model_builder.build_model(),
 					                    _options,
-					                    std::make_unique<algorithms::UniformVariableHeuristic>(),
-					                    std::make_unique<algorithms::AllFreeVariableCandidatesHeuristic>(),
-					                    std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
-					                    std::make_unique<algorithms::NullErrorProjection>() );
+					                    std::make_unique<algorithms::VariableHeuristicUniform>(),
+					                    std::make_unique<algorithms::VariableCandidatesHeuristicAllFree>(),
+					                    std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>(),
+					                    std::make_unique<algorithms::ErrorProjectionNull>() );
 #else				
 					units.emplace_back( _model_builder.build_model(),
 					                    _options );
@@ -941,7 +938,7 @@ namespace ghost
 
 			std::vector< std::vector<int> > domains;
 			for( auto& var : _model.variables )
-				domains.emplace_back( var.get_full_domain() );
+				domains.emplace_back( _model.get_full_domain_of_variable( var.get_id() ) );
 
 			_matrix_var_ctr.resize( _model.variables.size() );
 			for( int variable_id = 0; variable_id < static_cast<int>( _model.variables.size() ); ++variable_id )

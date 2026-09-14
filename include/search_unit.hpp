@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2026 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -52,32 +52,34 @@
 #include "thirdparty/randutils.hpp"
 
 #include "algorithms/variable_heuristic.hpp"
+#include "algorithms/variable_heuristic_uniform.hpp"
+#include "algorithms/variable_heuristic_antidote_search.hpp"
+
 #include "algorithms/variable_candidates_heuristic.hpp"
+#include "algorithms/variable_candidates_heuristic_adaptive_search.hpp"
+#include "algorithms/variable_candidates_heuristic_antidote_search.hpp"
+
 #include "algorithms/value_heuristic.hpp"
+#include "algorithms/value_heuristic_adaptive_search.hpp"
+#include "algorithms/value_heuristic_antidote_search.hpp"
+
 #include "algorithms/error_projection_algorithm.hpp"
-
-#include "algorithms/uniform_variable_heuristic.hpp"
-#include "algorithms/adaptive_search_variable_candidates_heuristic.hpp"
-#include "algorithms/adaptive_search_value_heuristic.hpp"
-#include "algorithms/adaptive_search_error_projection_algorithm.hpp"
-
-#include "algorithms/antidote_search_variable_heuristic.hpp"
-#include "algorithms/antidote_search_variable_candidates_heuristic.hpp"
-#include "algorithms/antidote_search_value_heuristic.hpp"
-
-#include "algorithms/culprit_search_error_projection_algorithm.hpp"
+#include "algorithms/error_projection_algorithm_adaptive_search.hpp"
+#include "algorithms/error_projection_algorithm_culprit_search.hpp"
 
 #if defined GHOST_RANDOM_WALK || defined GHOST_HILL_CLIMBING
-#include "algorithms/all_free_variable_candidates_heuristic.hpp"
-#include "algorithms/null_error_projection_algorithm.hpp"
+#include "algorithms/variable_candidates_heuristic_all_free.hpp"
+#include "algorithms/error_projection_algorithm_null.hpp"
 #endif
 
 #if defined GHOST_RANDOM_WALK 
-#include "algorithms/random_walk_value_heuristic.hpp"
+#include "algorithms/value_heuristic_random_walk.hpp"
 #endif
 
 #include "macros.hpp"
 
+// TODO: SearchUnit not templated. Why all the code is in the header file?
+// TODO: Make SearchUnit final?
 namespace ghost
 {
 	/*
@@ -163,9 +165,9 @@ namespace ghost
 			do
 			{
 				if( model.permutation_problem )
-					random_permutations();
+					random_permutations( options.number_variables_to_reset );
 				else
-					monte_carlo_sampling();
+					monte_carlo_sampling( options.number_variables_to_reset );
 
 				model.auxiliary_data->update();
 				current_sat_error = 0.0;
@@ -208,7 +210,7 @@ namespace ghost
 			rng.shuffle( variables_index );
 
 			for( int i = 0 ; i < nb_var ; ++i )
-				model.variables[ variables_index[ i ] ].pick_random_value( rng );
+				model.set_random_value_to_variable( variables_index[ i ], rng );
 		}
 
 		// Sample an configuration for permutation problems
@@ -223,12 +225,12 @@ namespace ghost
 						if( rng.uniform( 0, 1 ) == 0
 						    && i != j
 						    && model.variables[ i ].get_value() != model.variables[ j ].get_value()
-						    && std::find( model.variables[ j ].get_full_domain().begin(),
-						                  model.variables[ j ].get_full_domain().end(),
-						                  model.variables[ i ].get_value() ) != model.variables[ j ].get_full_domain().end()
-						    && std::find( model.variables[ i ].get_full_domain().begin(),
-						                  model.variables[ i ].get_full_domain().end(),
-						                  model.variables[ j ].get_value() ) != model.variables[ i ].get_full_domain().end() )
+						    && std::find( model.get_full_domain_of_variable( j ).begin(),
+						                  model.get_full_domain_of_variable( j ).end(),
+						                  model.variables[ i ].get_value() ) != model.get_full_domain_of_variable( j ).end()
+						    && std::find( model.get_full_domain_of_variable( i ).begin(),
+						                  model.get_full_domain_of_variable( i ).end(),
+						                  model.variables[ j ].get_value() ) != model.get_full_domain_of_variable( i ).end() )
 						{
 							std::swap( model.variables[i]._current_value, model.variables[j]._current_value );
 						}
@@ -246,12 +248,12 @@ namespace ghost
 				for( int i = 0 ; i < nb_var ; ++i )
 					if( variables_index_A[i] != variables_index_B[i]
 					    && model.variables[ variables_index_A[i] ].get_value() != model.variables[ variables_index_B[i] ].get_value()
-					    && std::find( model.variables[ variables_index_B[i] ].get_full_domain().begin(),
-					                  model.variables[ variables_index_B[i] ].get_full_domain().end(),
-					                  model.variables[ variables_index_A[i] ].get_value() ) != model.variables[ variables_index_B[i] ].get_full_domain().end()
-					    && std::find( model.variables[ variables_index_A[i] ].get_full_domain().begin(),
-					                  model.variables[ variables_index_A[i] ].get_full_domain().end(),
-					                  model.variables[ variables_index_B[i] ].get_value() ) != model.variables[ variables_index_A[i] ].get_full_domain().end() )
+					    && std::find( model.get_full_domain_of_variable( variables_index_B[i] ).begin(),
+					                  model.get_full_domain_of_variable( variables_index_B[i] ).end(),
+					                  model.variables[ variables_index_A[i] ].get_value() ) != model.get_full_domain_of_variable( variables_index_B[i] ).end()
+					    && std::find( model.get_full_domain_of_variable( variables_index_A[i] ).begin(),
+					                  model.get_full_domain_of_variable( variables_index_A[i] ).end(),
+					                  model.variables[ variables_index_B[i] ].get_value() ) != model.get_full_domain_of_variable( variables_index_A[i] ).end() )
 						std::swap( model.variables[ variables_index_A[i] ]._current_value, model.variables[ variables_index_B[i] ]._current_value );
 			}
 		}
@@ -311,8 +313,7 @@ namespace ghost
 			}
 
 			// Reset variable costs and recompute them
-			error_projection_algorithm->compute_variable_errors( model.variables,
-			                                                     model.constraints,
+			error_projection_algorithm->compute_variable_errors( model,
 			                                                     data );
 		}
 
@@ -381,12 +382,12 @@ namespace ghost
 				for( int variable_id = 0 ; variable_id < data.number_variables - 1 ; ++variable_id )
 					for( int variable_swap = variable_id + 1 ; variable_swap < data.number_variables ; ++variable_swap )
 						if( model.variables[ variable_id ].get_value() != model.variables[ variable_swap ].get_value()
-						    && std::find( model.variables[ variable_id ].get_full_domain().begin(),
-						                  model.variables[ variable_id ].get_full_domain().end(),
-						                  model.variables[ variable_swap ].get_value() ) != model.variables[ variable_id ].get_full_domain().end()
-						    && std::find( model.variables[ variable_swap ].get_full_domain().begin(),
-						                  model.variables[ variable_swap ].get_full_domain().end(),
-						                  model.variables[ variable_id ].get_value() ) != model.variables[ variable_swap ].get_full_domain().end() )
+						    && std::find( model.get_full_domain_of_variable( variable_id ).begin(),
+						                  model.get_full_domain_of_variable( variable_id ).end(),
+						                  model.variables[ variable_swap ].get_value() ) != model.get_full_domain_of_variable( variable_id ).end()
+						    && std::find( model.get_full_domain_of_variable( variable_swap ).begin(),
+						                  model.get_full_domain_of_variable( variable_swap ).end(),
+						                  model.variables[ variable_id ].get_value() ) != model.get_full_domain_of_variable( variable_swap ).end() )
 						{
 							error = data.current_sat_error;
 							std::vector<bool> constraint_checked( data.number_constraints, false );
@@ -416,7 +417,7 @@ namespace ghost
 			else
 			{			
 				for( int variable_id = 0 ; variable_id < data.number_variables ; ++variable_id )
-					for( int value : model.variables[ variable_id ]._domain )
+					for( int value : model.get_full_domain_of_variable( variable_id ) )
 						if( value != model.variables[ variable_id ].get_value() )
 						{						
 							error = data.current_sat_error;
@@ -456,7 +457,7 @@ namespace ghost
 					auto delta = delta_errors.at( new_value )[ delta_index++ ];
 					model.constraints[ constraint_id ]->_current_error += delta;
 					
-					error_projection_algorithm->update_variable_errors( model.variables,
+					error_projection_algorithm->update_variable_errors( model,
 					                                                    model.constraints[ constraint_id ],
 					                                                    data,
 					                                                    delta );
@@ -479,7 +480,7 @@ namespace ghost
 					auto delta = delta_errors.at( new_value )[ delta_index++ ];
 					model.constraints[ constraint_id ]->_current_error += delta;
 
-					error_projection_algorithm->update_variable_errors( model.variables,
+					error_projection_algorithm->update_variable_errors( model,
 					                                                    model.constraints[ constraint_id ],
 					                                                    data,
 					                                                    delta );
@@ -496,7 +497,7 @@ namespace ghost
 						auto delta = delta_errors.at( new_value )[ delta_index++ ];
 						model.constraints[ constraint_id ]->_current_error += delta;
 
-						error_projection_algorithm->update_variable_errors( model.variables,
+						error_projection_algorithm->update_variable_errors( model,
 						                                                    model.constraints[ constraint_id ],
 						                                                    data,
 						                                                    delta );
@@ -648,10 +649,10 @@ namespace ghost
 		SearchUnit( Model&& moved_model, const Options& options )
 			: SearchUnit( std::move( moved_model ),
 			              options,
-			              std::make_unique<algorithms::UniformVariableHeuristic>(),
-			              std::make_unique<algorithms::AdaptiveSearchVariableCandidatesHeuristic>(),
-			              std::make_unique<algorithms::AdaptiveSearchValueHeuristic>(),
-			              std::make_unique<algorithms::AdaptiveSearchErrorProjection>() )
+			              std::make_unique<algorithms::VariableHeuristicUniform>(),
+			              std::make_unique<algorithms::VariableCandidatesHeuristicAdaptiveSearch>(),
+			              std::make_unique<algorithms::ValueHeuristicAdaptiveSearch>(),
+			              std::make_unique<algorithms::ErrorProjectionAdaptiveSearch>() )
 		{ }
 		
 		// Check if the thread must stop search
@@ -828,7 +829,7 @@ namespace ghost
 					variable_candidates.erase( ref );
 				
 				// So far, we consider full domains only.
-				auto domain_to_explore = model.variables[ variable_to_change ].get_full_domain();
+				auto domain_to_explore = model.get_full_domain_of_variable( variable_to_change );
 				// Remove the current value
 				domain_to_explore.erase( std::find( domain_to_explore.begin(), domain_to_explore.end(), model.variables[ variable_to_change ].get_value() ) );
 				std::map<int, std::vector<double>> delta_errors;
@@ -855,9 +856,9 @@ namespace ghost
 						if( variable_id != variable_to_change
 						    && model.variables[ variable_id ].get_value() != model.variables[ variable_to_change ].get_value()
 						    && std::find( domain_to_explore.begin(), domain_to_explore.end(), model.variables[ variable_id ].get_value() ) != domain_to_explore.end()
-						    && std::find( model.variables[ variable_id ].get_full_domain().begin(),
-						                  model.variables[ variable_id ].get_full_domain().end(),
-						                  model.variables[ variable_to_change ].get_value() ) != model.variables[ variable_id ].get_full_domain().end() )
+						    && std::find( model.get_full_domain_of_variable( variable_id ).begin(),
+						                  model.get_full_domain_of_variable( variable_id ).end(),
+						                  model.variables[ variable_to_change ].get_value() ) != model.get_full_domain_of_variable( variable_id ).end() )
 						{
 							std::vector<bool> constraint_checked( data.number_constraints, false );
 							int current_value = model.variables[ variable_to_change ].get_value();

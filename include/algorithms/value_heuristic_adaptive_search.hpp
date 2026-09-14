@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2026 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -29,33 +29,25 @@
 
 #pragma once
 
-#include "error_projection_algorithm.hpp"
+#include <vector>
+
+#include "value_heuristic.hpp"
 
 namespace ghost
 {
 	namespace algorithms
 	{
-		class CulpritSearchErrorProjection : public ErrorProjection
+		class ValueHeuristicAdaptiveSearch : public ValueHeuristic
 		{
-			std::vector<std::vector<double>> _error_variables_by_constraints;
-			
-			void compute_variable_errors_on_constraint( const std::vector<Variable>& variables,
-			                                            const std::vector<std::vector<int>>& matrix_var_ctr,
-			                                            std::shared_ptr<Constraint> constraint );
-			
 		public:
-			CulpritSearchErrorProjection();
-
-			void initialize_data_structures( const SearchUnitData& data ) override;
-
-			void compute_variable_errors( const std::vector<Variable>& variables,
-			                              const std::vector<std::shared_ptr<Constraint>>& constraints,
-			                              SearchUnitData& data ) override;
+			ValueHeuristicAdaptiveSearch();
 			
-			void update_variable_errors( const std::vector<Variable>& variables,
-			                             std::shared_ptr<Constraint> constraint,
-			                             SearchUnitData& data,
-			                             double delta ) override;
+			int select_value( int variable_to_change,
+			                  const SearchUnitData& data,
+			                  const Model& model,
+			                  const std::map<int, std::vector<double>>& delta_errors,
+			                  double& min_conflict,
+			                  randutils::mt19937_rng& rng ) const override;
 		};
 	}
 }

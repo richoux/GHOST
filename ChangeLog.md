@@ -2,9 +2,25 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
+## [3.5.0] - 2026-06-23
+- Greatly improve memory footprint by removing domains from `Variable`. This implied a change in the `ModelBuilder` interface. CODE IN `ModelBuilder` CHILD CLASSES PRIOR TO THIS 3.5 VERSION MAY BECOME INCOMPATIBLE.
+
+## [3.4.0] - 2026-05-13
+- Rollback to the 3.2.0 version. The switch mechanism between optimization space and violation space seems inefficient, and makes the solver slower.
+
+## [3.3.1] - 2025-10-01
+- Fix typos in `Solver::fast_search`
+
+## [3.3.0] - 2025-07-11
+- Add `Options.max_moves_in_opt_space` to set the maximal number of local moves in an optimization space.
+- Add `Options.max_stay_on_plateau` to set the maximal number of local moves in a row the solver does on a plateau.
+- Change `SearchUnit::fast_search` accordingly, to implement these new options.
+
 ## [3.2.0] - 2025-06-04
 - Changed `Options.percent_chance_escape_plateau` with `Options.percent_chance_force_trying_on_plateau`, as well as some printed traces.
 - Add `Options.enable_optimization_guidance` to enable (default) or disable the usage of the objective function as a tie-breaker for satisfaction plateau.
+- Change `Objective::expert_heuristic_value_permutation` to behave like `Objective::expert_heuristic_value`.
+- Set C++20 by default
 
 ## [3.1.0] - 2024-03-11
 - Add Random Walk and Hill Climbing as search algorithms, for landscape analysis.

@@ -10,7 +10,7 @@
  * within some milliseconds, making it very suitable for highly reactive or embedded systems.
  * Please visit https://github.com/richoux/GHOST for further information.
  *
- * Copyright (C) 2014-2025 Florian Richoux
+ * Copyright (C) 2014-2026 Florian Richoux
  *
  * This file is part of GHOST.
  * GHOST is free software: you can redistribute it and/or
@@ -27,17 +27,31 @@
  * along with GHOST. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "algorithms/antidote_search_variable_heuristic.hpp"
-#include "thirdparty/randutils.hpp"
+#include "algorithms/error_projection_algorithm_adaptive_search.hpp"
 
-using ghost::algorithms::AntidoteSearchVariableHeuristic;
+using ghost::algorithms::ErrorProjectionAdaptiveSearch;
+using ghost::Variable;
+using ghost::Constraint;
 
-AntidoteSearchVariableHeuristic::AntidoteSearchVariableHeuristic()
-	: VariableHeuristic( "Antidote Search" )
+ErrorProjectionAdaptiveSearch::ErrorProjectionAdaptiveSearch()
+	: ErrorProjection( "Adaptive Search" )
 { }
-		
-int AntidoteSearchVariableHeuristic::select_variable( const std::vector<double>& candidates, const SearchUnitData& data, randutils::mt19937_rng& rng ) const
+
+void ErrorProjectionAdaptiveSearch::compute_variable_errors( const Model& model,
+                                                             SearchUnitData& data )
 {
-	// WARNING: must remove variables which are in any constraints
-	return rng.variate<int, std::discrete_distribution>( candidates.begin(), candidates.end() );
+	std::fill( data.error_variables.begin(), data.error_variables.end(), 0. );
+
+	for( int variable_id = 0; variable_id < static_cast<int>( model.variables.size() ); ++variable_id )
+		for( int constraint_id : data.matrix_var_ctr.at( variable_id ) )
+			data.error_variables[ variable_id ] += model.constraints[ constraint_id ]->_current_error;
+}
+
+void ErrorProjectionAdaptiveSearch::update_variable_errors( const Model& model,
+                                                            std::shared_ptr<Constraint> constraint,
+                                                            SearchUnitData& data,                                                            
+                                                            double delta )
+{
+	for( const int variable_id : constraint->get_variable_ids() )
+		data.error_variables[ variable_id ] += delta;
 }
