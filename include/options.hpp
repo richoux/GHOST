@@ -56,7 +56,8 @@ namespace ghost
 		int restart_threshold; //!< Trigger a restart every 'restart_threshold' reset. Set to 0 to never trigger restarts.
 		int number_variables_to_reset; //!< Number of variables to randomly change the value at each reset.
 		int number_start_samplings; //!< Number of variable assignments the solver randomly draw, if custom_starting_point and resume_search are false.
-
+		unsigned int seed; //!< Seed for the random generator. In parallel runs, the seed for each thread will be seed + thread number. The given seed must be different from 0u, otherwise, another random seed will be used.
+		
 		//! Unique constructor
 		Options();
 
