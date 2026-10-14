@@ -621,6 +621,16 @@ namespace ghost
 			  must_compute_variable_candidates ( true ),
 			  options ( options )
 		{
+			if( options.seed == 0u )
+				rng.seed(); // generate random seed
+			else
+			{
+				rng.seed( options.seed );
+#if defined GHOST_TRACE
+				COUT << "Custom seed: " << options.seed << "\n";
+#endif
+			}
+
 			std::transform( model.variables.begin(),
 			                model.variables.end(),
 			                std::back_inserter( variables_at_start ),

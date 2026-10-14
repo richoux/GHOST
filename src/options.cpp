@@ -46,7 +46,8 @@ Options::Options()
 	  reset_threshold( -1 ),
 	  restart_threshold( -1 ),
 	  number_variables_to_reset( -1 ),
-	  number_start_samplings( -1 )
+	  number_start_samplings( -1 ),
+	  seed( 0u )
 { }
 
 Options::Options( const Options& other )
@@ -62,7 +63,8 @@ Options::Options( const Options& other )
 	  reset_threshold( other.reset_threshold ),
 	  restart_threshold( other.restart_threshold ),
 	  number_variables_to_reset( other.number_variables_to_reset ),
-	  number_start_samplings( other.number_start_samplings )
+	  number_start_samplings( other.number_start_samplings ),
+	  seed( other.seed )
 { }
 
 Options::Options( Options&& other )
@@ -78,7 +80,8 @@ Options::Options( Options&& other )
 	  reset_threshold( other.reset_threshold ),
 	  restart_threshold( other.restart_threshold ),
 	  number_variables_to_reset( other.number_variables_to_reset ),
-	  number_start_samplings( other.number_start_samplings )
+	  number_start_samplings( other.number_start_samplings ),
+	  seed( other.seed )
 {	}
 
 Options& Options::operator=( Options other )
@@ -98,6 +101,7 @@ Options& Options::operator=( Options other )
 		restart_threshold = other.restart_threshold;
 		number_variables_to_reset = other.number_variables_to_reset;
 		number_start_samplings = other.number_start_samplings;
+		seed = other.seed;
 	}
 
 	return *this;
