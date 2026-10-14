@@ -5,5 +5,6 @@ var searchData=
   ['_7emodelbuilder_2',['~ModelBuilder',['../classghost_1_1ModelBuilder.html#ae067a681ebef7dba8f329a019857ee22',1,'ghost::ModelBuilder']]],
   ['_7eobjective_3',['~Objective',['../classghost_1_1Objective.html#a9b288b785eb9abd31389adffe0e82716',1,'ghost::Objective']]],
   ['_7eoptions_4',['~Options',['../structghost_1_1Options.html#a581311868c1efe2bca4c085aaa1b08fd',1,'ghost::Options']]],
-  ['_7eprint_5',['~Print',['../classghost_1_1Print.html#aa73562a0f546047023c0a4cd8c5b8866',1,'ghost::Print']]]
+  ['_7eprint_5',['~Print',['../classghost_1_1Print.html#aa73562a0f546047023c0a4cd8c5b8866',1,'ghost::Print']]],
+  ['_7evariable_6',['~Variable',['../classghost_1_1Variable.html#a718686ab389bd31ae0f3cbb312c9be77',1,'ghost::Variable']]]
 ];
