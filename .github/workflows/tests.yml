@@ -1,4 +1,4 @@
-name: Linux
+name: Tests
 
 on:
   push:
@@ -56,7 +56,7 @@ jobs:
 
     - name: Run Tutorial Video
       working-directory: ${{runner.workspace}}/GHOST/tutorial/video/bin
-      run: ./tutorial_knapsack 2> /dev/null | grep -E "Optimization cost: 25" 
+      run: ./tutorial_knapsack | grep -E "Optimization cost: 25" 
 
     - name: Clone GHOST benchmarks
       run: git clone https://github.com/richoux/GHOST-benchmarks.git
@@ -67,12 +67,12 @@ jobs:
 
     - uses: GuillaumeFalourd/assert-command-line-output@v2.4
 		  with:
-        command_line: ${{runner.workspace}}/GHOST-benchmarks/n-queens/bin/nqueens_complete 5 2> /dev/null
+        command_line: ${{runner.workspace}}/GHOST-benchmarks/n-queens/bin/nqueens_complete 5 
         assert_file_path: nqueens_complete_5.txt
         expected_result: PASSED
 
     - uses: GuillaumeFalourd/assert-command-line-output@v2.4
 		  with:
-        command_line: ${{runner.workspace}}/GHOST-benchmarks/n-queens/bin/nqueens_seeded 5 2> /dev/null
+        command_line: ${{runner.workspace}}/GHOST-benchmarks/n-queens/bin/nqueens_seeded 5 
         assert_file_path: nqueens_seeded_5.txt
         expected_result: PASSED
