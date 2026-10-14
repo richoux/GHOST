@@ -66,7 +66,6 @@ jobs:
       run: make
 
     - name: Test complete N-Queens 5
-      uses: actions/checkout@v4
       uses: GuillaumeFalourd/assert-command-line-output@main
       with:
         command_line: ${{runner.workspace}}/GHOST-benchmarks/n-queens/bin/nqueens_complete 5 
@@ -74,7 +73,6 @@ jobs:
         expected_result: PASSED
 
     - name: Test seeded N-Queens 5
-      uses: actions/checkout@v4
       uses: GuillaumeFalourd/assert-command-line-output@main
       with:
         command_line: ${{runner.workspace}}/GHOST-benchmarks/n-queens/bin/nqueens_seeded 5 
