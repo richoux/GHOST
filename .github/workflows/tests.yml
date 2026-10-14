@@ -59,7 +59,7 @@ jobs:
       run: ./tutorial_knapsack
 
     - name: Clone GHOST benchmarks
-		  working-directory: ${{runner.workspace}}
+      working-directory: ${{runner.workspace}}
       run: git clone https://github.com/richoux/GHOST-benchmarks.git
 
     - name: Install and run N-Queens benchmark
