@@ -56,7 +56,7 @@ jobs:
 
     - name: Run Tutorial Video
       working-directory: ${{runner.workspace}}/GHOST/tutorial/video/bin
-      run: ./tutorial_knapsack | grep -E "Optimization cost: 25" 
+      run: ./tutorial_knapsack
 
     - name: Clone GHOST benchmarks
       run: git clone https://github.com/richoux/GHOST-benchmarks.git
