@@ -1,3 +1,17 @@
+No optional_delta_error method defined for constraint num. 0
+No optional_delta_error method defined for constraint num. 1
+No optional_delta_error method defined for constraint num. 2
+No optional_delta_error method defined for constraint num. 3
+No optional_delta_error method defined for constraint num. 4
+No optional_delta_error method defined for constraint num. 5
+No optional_delta_error method defined for constraint num. 6
+No optional_delta_error method defined for constraint num. 7
+No optional_delta_error method defined for constraint num. 8
+No optional_delta_error method defined for constraint num. 9
+No optional_delta_error method defined for constraint num. 10
+No optional_delta_error method defined for constraint num. 11
+No optional_delta_error method defined for constraint num. 12
+No optional_delta_error method defined for constraint num. 13
 Solution:
 -----------
 | | |♛| | |

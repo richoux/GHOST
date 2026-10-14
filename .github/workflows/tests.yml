@@ -76,6 +76,6 @@ jobs:
     - name: Test seeded N-Queens 5
       uses: GuillaumeFalourd/assert-command-line-output@main
       with:
-        command_line: ${{runner.workspace}}/GHOST-benchmarks/n-queens/bin/nqueens_seeded 5 2> /dev/null
+        command_line: ${{runner.workspace}}/GHOST-benchmarks/n-queens/bin/nqueens_seeded 5
         assert_file_path: ${{runner.workspace}}/GHOST/.github/workflows/nqueens_seeded_5.txt
         expected_result: PASSED
