@@ -65,14 +65,18 @@ jobs:
       working-directory: ${{runner.workspace}}/GHOST-benchmarks/n-queens
       run: make
 
-    - uses: GuillaumeFalourd/assert-command-line-output@v2.4
-		  with:
+    - name: Test complete N-Queens 5
+      uses: actions/checkout@v4
+      uses: GuillaumeFalourd/assert-command-line-output@main
+      with:
         command_line: ${{runner.workspace}}/GHOST-benchmarks/n-queens/bin/nqueens_complete 5 
         assert_file_path: nqueens_complete_5.txt
         expected_result: PASSED
 
-    - uses: GuillaumeFalourd/assert-command-line-output@v2.4
-		  with:
+    - name: Test seeded N-Queens 5
+      uses: actions/checkout@v4
+      uses: GuillaumeFalourd/assert-command-line-output@main
+      with:
         command_line: ${{runner.workspace}}/GHOST-benchmarks/n-queens/bin/nqueens_seeded 5 
         assert_file_path: nqueens_seeded_5.txt
         expected_result: PASSED
