@@ -1,7 +1,7 @@
 Introduction
 ====
 
-GHOST (General meta-Heuristic Optimization Solving Toolkit) is a C++17
+GHOST (General meta-Heuristic Optimization Solving Toolkit) is a C++20
 library  to  let   a  user  declare  his  or   her  own  combinatorial
 problems. It  implements a meta-heuristic  solver aiming to  solve any
 kind of  combinatorial and optimization RTS-related  problems declared
