@@ -101,8 +101,8 @@ namespace ghost
 		//! Move assignment operator disabled.
 		Variable& operator=( Variable&& other ) = default;
 		
-		//! Default virtual destructor.
-		virtual ~Variable() = default;
+		//! Default destructor.
+		~Variable() = default;
 				
 		/*!
 		 * Inline method to get the current value of the variable.
