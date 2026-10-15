@@ -39,11 +39,16 @@ function release()
 
 function debug()
 {
-    mkdir -p build/$DEBUG
-    cd build/$DEBUG
-    cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=$CXX ../..
-    make
-    sudo make install
+		if [ "$OS" == "Darwin" ]; then
+				# It seems Apple Clang does not support LeakSanitizer, so we call debug_no_asan() instead
+				debug_no_asan
+		else
+				mkdir -p build/$DEBUG
+				cd build/$DEBUG
+				cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=$CXX ../..
+				make
+				sudo make install
+		fi
 }
 
 function debug_no_asan()

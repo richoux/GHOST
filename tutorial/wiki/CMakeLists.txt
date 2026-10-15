@@ -51,16 +51,32 @@ target_compile_definitions( tutorial_cop PUBLIC -DOPTIMIZATION )
 target_compile_definitions( tutorial_efop PUBLIC -DOPTIMIZATION )
 
 if(APPLE)
+if(APPLE)
+	find_package(gtest REQUIRED)
+	find_library( GHOST_LIBRARY_DEBUG NAMES ghost_staticd ghostd
+            PATHS   /usr/lib
+                    /usr/lib64
+                    /usr/local/lib
+                    /usr/local/lib64
+            PATH_SUFFIXES debug )
+
+  find_library( GHOST_LIBRARY_RELEASE NAMES ghost_static ghost
+            PATHS   /usr/lib
+                    /usr/lib64
+                    /usr/local/lib
+                    /usr/local/lib64
+            PATH_SUFFIXES release )
+
 	if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-		target_link_libraries(tutorial_csp /usr/local/lib/libghost_staticd.a Threads::Threads)
-		target_link_libraries(tutorial_cop /usr/local/lib/libghost_staticd.a Threads::Threads)
-		target_link_libraries(tutorial_efsp /usr/local/lib/libghost_staticd.a Threads::Threads)
-		target_link_libraries(tutorial_efop /usr/local/lib/libghost_staticd.a Threads::Threads)
+		target_link_libraries(tutorial_csp ${GHOST_LIBRARY_DEBUG} Threads::Threads)
+		target_link_libraries(tutorial_cop ${GHOST_LIBRARY_DEBUG} Threads::Threads)
+		target_link_libraries(tutorial_efsp ${GHOST_LIBRARY_DEBUG} Threads::Threads)
+		target_link_libraries(tutorial_efop ${GHOST_LIBRARY_DEBUG} Threads::Threads)
 	else()
-		target_link_libraries(tutorial_csp /usr/local/lib/libghost_static.a Threads::Threads)
-		target_link_libraries(tutorial_cop /usr/local/lib/libghost_static.a Threads::Threads)
-		target_link_libraries(tutorial_efsp /usr/local/lib/libghost_static.a Threads::Threads)
-		target_link_libraries(tutorial_efop /usr/local/lib/libghost_static.a Threads::Threads)
+		target_link_libraries(tutorial_csp ${GHOST_LIBRARY_RELEASE} Threads::Threads)
+		target_link_libraries(tutorial_cop ${GHOST_LIBRARY_RELEASE} Threads::Threads)
+		target_link_libraries(tutorial_efsp ${GHOST_LIBRARY_RELEASE} Threads::Threads)
+		target_link_libraries(tutorial_efop ${GHOST_LIBRARY_RELEASE} Threads::Threads)
 	endif()
 else()	
 	if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
