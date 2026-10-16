@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
+## [3.5.1] - 2026-10-16
+- Add `Options.seed` to let users set their own RNG seed.
+- CI now runs small N-Queens and Knapsack instances to check the code integrity.
+- Add `CODE_OF_CONDUCT.md` and `CONTRIBUTING.md` files.
+- Fix some compiling and running issues on OSX.
+
 ## [3.5.0] - 2026-06-23
 - Greatly improve memory footprint by removing domains from `Variable`. This implied a change in the `ModelBuilder` interface. CODE IN `ModelBuilder` CHILD CLASSES PRIOR TO THIS 3.5 VERSION MAY BECOME INCOMPATIBLE.
 
