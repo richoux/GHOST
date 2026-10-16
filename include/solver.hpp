@@ -332,7 +332,7 @@ namespace ghost
 					solutions.emplace_back( solution );
 				}
 				else // not the last variable: recursive call
-				{					
+				{
 					auto partial_solutions = complete_search( next_var, new_domains );
 					if( !partial_solutions.empty() )
 						std::copy_if( partial_solutions.begin(),
