@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['papers_20about_20ghost_3a_0',['Scientific papers about GHOST:',['../md_doc_2mainpage.html#autotoc_md0',1,'']]],
+  ['papers_20about_20ghost_3a_0',['Scientific papers about GHOST:',['../index.html#autotoc_md0',1,'']]],
   ['parallel_5fruns_1',['parallel_runs',['../structghost_1_1Options.html#a5c183c1e20a25662ed4cdfe4aa9e37d1',1,'ghost::Options']]],
   ['percent_5fchance_5fforce_5ftrying_5fon_5fplateau_2',['percent_chance_force_trying_on_plateau',['../structghost_1_1Options.html#adfa30159f3402b2565f7da48c68aa0c1',1,'ghost::Options']]],
   ['permutation_5fproblem_3',['permutation_problem',['../classghost_1_1ModelBuilder.html#a960ce1b192911d0746db850b0c1143e9',1,'ghost::ModelBuilder']]],

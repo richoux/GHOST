@@ -7,8 +7,9 @@ var searchData=
   ['get_5fnumber_5fvariables_4',['get_number_variables',['../classghost_1_1ModelBuilder.html#a177b20a3a76ef9a2ac9b48e490c894f3',1,'ghost::ModelBuilder']]],
   ['get_5fvalue_5',['get_value',['../classghost_1_1Variable.html#a4a0fa047e6fdcc74d9afd7feeb0733a8',1,'ghost::Variable']]],
   ['get_5fvariables_6',['get_variables',['../classghost_1_1Solver.html#a2fb2b1991b9fec9dff400ccd19d3960f',1,'ghost::Solver']]],
-  ['ghost_7',['ghost',['../namespaceghost.html',1,'']]],
-  ['ghost_3a_8',['Scientific papers about GHOST:',['../md_doc_2mainpage.html#autotoc_md0',1,'']]],
-  ['ghost_3a_3aalgorithms_9',['algorithms',['../namespaceghost_1_1algorithms.html',1,'ghost']]],
-  ['ghost_3a_3aglobal_5fconstraints_10',['global_constraints',['../namespaceghost_1_1global__constraints.html',1,'ghost']]]
+  ['ghost_7',['GHOST',['../index.html',1,'']]],
+  ['ghost_8',['ghost',['../namespaceghost.html',1,'']]],
+  ['ghost_3a_9',['Scientific papers about GHOST:',['../index.html#autotoc_md0',1,'']]],
+  ['ghost_3a_3aalgorithms_10',['algorithms',['../namespaceghost_1_1algorithms.html',1,'ghost']]],
+  ['ghost_3a_3aglobal_5fconstraints_11',['global_constraints',['../namespaceghost_1_1global__constraints.html',1,'ghost']]]
 ];

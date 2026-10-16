@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['about_20ghost_3a_0',['Scientific papers about GHOST:',['../md_doc_2mainpage.html#autotoc_md0',1,'']]]
+  ['about_20ghost_3a_0',['Scientific papers about GHOST:',['../index.html#autotoc_md0',1,'']]]
 ];

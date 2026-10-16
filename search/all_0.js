@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['about_20ghost_3a_0',['Scientific papers about GHOST:',['../md_doc_2mainpage.html#autotoc_md0',1,'']]],
+  ['about_20ghost_3a_0',['Scientific papers about GHOST:',['../index.html#autotoc_md0',1,'']]],
   ['all_5fdifferent_2ehpp_1',['all_different.hpp',['../all__different_8hpp.html',1,'']]],
   ['all_5fequal_2ehpp_2',['all_equal.hpp',['../all__equal_8hpp.html',1,'']]],
   ['alldifferent_3',['AllDifferent',['../classghost_1_1global__constraints_1_1AllDifferent.html',1,'ghost::global_constraints::AllDifferent'],['../classghost_1_1global__constraints_1_1AllDifferent.html#a95b71513836c97684a0eb18e842a588e',1,'ghost::global_constraints::AllDifferent::AllDifferent(const std::vector&lt; int &gt; &amp;variables_index)'],['../classghost_1_1global__constraints_1_1AllDifferent.html#a8ec32c296617cffb5ec62f499d474542',1,'ghost::global_constraints::AllDifferent::AllDifferent(const std::vector&lt; Variable &gt; &amp;variables)']]],
