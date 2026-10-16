@@ -24,3 +24,7 @@ Installation steps for GNU/Linux, OSX and Windows can be found here: [wiki How t
 ## User manual
 
 For a short tutorial on Constraint Programming and the 'How to use GHOST' section, please visit the [user manual](https://github.com/richoux/GHOST/wiki).
+
+## Contributing
+
+Please read the [CONTRIBUTING.md](https://github.com/richoux/GHOST/CONTRIBUTING.md) file.
