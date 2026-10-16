@@ -1,6 +1,3 @@
-Introduction
-====
-
 GHOST (General meta-Heuristic Optimization Solving Toolkit) is a C++20
 library  to  let   a  user  declare  his  or   her  own  combinatorial
 problems. It  implements a meta-heuristic  solver aiming to  solve any
@@ -10,14 +7,16 @@ in Constraint Programming.
 GHOST  allows  the  user  to  easily  declare  problems  in  different
 Constraint  Programming  formalisms  such as  Constraint  Satisfaction
 Problems  (CSP),   Constrained  Optimization  Problems   (COP),  Error
-Function Satisfaction Problems (EFSP), and Error Function Optimization
-Problems (EFOP). 
+Function-based  Constraint Satisfaction  Problems (EF-CSP),  and Error
+Function-based Constrained Optimization Problems (EF-COP).
 
 This toolkit has  first been designed to  solved optimization problems
 within the game StarCraft: Brood war, but can be used to deal with any
 combinatorial problems. It is a  generalization of the Wall-in project
 (see
-[github.com/richoux/Wall-in](https://github.com/richoux/Wall-in)).
+[github.com/richoux/Wall-in](https://github.com/richoux/Wall-in)), now
+included                 in                 the                 [GHOST
+benchmarks](https://github.com/richoux/GHOST-benchmarks) repository.
 
 The         source         code        is         available         at
 [github.com/richoux/GHOST](https://github.com/richoux/GHOST),  and the
