@@ -27,4 +27,4 @@ For a short tutorial on Constraint Programming and the 'How to use GHOST' sectio
 
 ## Contributing
 
-Please read the [CONTRIBUTING.md](https://github.com/richoux/GHOST/CONTRIBUTING.md) file.
+Please read the [CONTRIBUTING.md](https://github.com/richoux/GHOST/blob/master/CONTRIBUTING.md) file.
