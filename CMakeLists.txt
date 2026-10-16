@@ -79,58 +79,58 @@ if(NO_ASAN)
 endif()
 
 # add the binary tree to the search path for include files so that we will find headers
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_LIST_DIR})
+include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 
 # gather headers lists
 set(libHeadersList
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/variable.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/constraint.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/objective.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/auxiliary_data.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/model.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/model_builder.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/search_unit.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/search_unit_data.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/solver.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/options.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/print.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/macros.hpp")
+	"${CMAKE_CURRENT_LIST_DIR}/include/variable.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/constraint.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/objective.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/auxiliary_data.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/model.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/model_builder.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/search_unit.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/search_unit_data.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/solver.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/options.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/print.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/macros.hpp")
 
 set(libHeadersAlgorithmsList
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/error_projection_algorithm.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/error_projection_algorithm_adaptive_search.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/error_projection_algorithm_culprit_search.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/error_projection_algorithm_null.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/value_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/value_heuristic_adaptive_search.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/value_heuristic_antidote_search.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/value_heuristic_random_walk.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_candidates_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_candidates_heuristic_adaptive_search.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_candidates_heuristic_antidote_search.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_candidates_heuristic_all_free.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_heuristic.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_heuristic_antidote_search.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/algorithms/variable_heuristic_uniform.hpp")
+	"${CMAKE_CURRENT_LIST_DIR}/include/algorithms/error_projection_algorithm.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/algorithms/error_projection_algorithm_adaptive_search.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/algorithms/error_projection_algorithm_culprit_search.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/algorithms/error_projection_algorithm_null.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/algorithms/value_heuristic.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/algorithms/value_heuristic_adaptive_search.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/algorithms/value_heuristic_antidote_search.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/algorithms/value_heuristic_random_walk.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/algorithms/variable_candidates_heuristic.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/algorithms/variable_candidates_heuristic_adaptive_search.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/algorithms/variable_candidates_heuristic_antidote_search.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/algorithms/variable_candidates_heuristic_all_free.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/algorithms/variable_heuristic.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/algorithms/variable_heuristic_antidote_search.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/algorithms/variable_heuristic_uniform.hpp")
 
 set(libHeadersGlobalConstraintsList
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/all_different.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/all_equal.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/fix_value.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation_eq.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation_neq.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation_leq.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation_geq.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation_l.hpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/global_constraints/linear_equation_g.hpp")
+	"${CMAKE_CURRENT_LIST_DIR}/include/global_constraints/all_different.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/global_constraints/all_equal.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/global_constraints/fix_value.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/global_constraints/linear_equation.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/global_constraints/linear_equation_eq.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/global_constraints/linear_equation_neq.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/global_constraints/linear_equation_leq.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/global_constraints/linear_equation_geq.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/global_constraints/linear_equation_l.hpp"
+	"${CMAKE_CURRENT_LIST_DIR}/include/global_constraints/linear_equation_g.hpp")
 
 set(libExternalHeadersList
-	"${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/randutils.hpp")
+	"${CMAKE_CURRENT_LIST_DIR}/thirdparty/randutils.hpp")
 
 # add the targets
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/lib)
 
 set(toAddInLibs
 	src/variable.cpp
@@ -205,10 +205,10 @@ endif()
 # build a CPack driven installer package
 include (InstallRequiredSystemLibraries)
 set (CPACK_PACKAGE_NAME "GHOST")
-set (CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+set (CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_LIST_DIR}/LICENSE")
 set (CPACK_PACKAGE_VERSION_MAJOR "3")
 set (CPACK_PACKAGE_VERSION_MINOR "5")
-set (CPACK_PACKAGE_VERSION_PATCH "0")
+set (CPACK_PACKAGE_VERSION_PATCH "1")
 set (CPACK_PACKAGE_CONTACT "florian@richoux.fr")
 set (CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 include (CPack)

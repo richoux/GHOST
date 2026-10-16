@@ -332,7 +332,7 @@ namespace ghost
 					solutions.emplace_back( solution );
 				}
 				else // not the last variable: recursive call
-				{					
+				{
 					auto partial_solutions = complete_search( next_var, new_domains );
 					if( !partial_solutions.empty() )
 						std::copy_if( partial_solutions.begin(),
@@ -548,6 +548,10 @@ namespace ghost
 
 				for( int i = 0 ; i < _options.number_threads; ++i )
 				{
+					// To get a unique seed for each thread, if users provide a specific seed
+					if( _options.seed != 0u )
+						++_options.seed;
+
 					// Instantiate one model per thread
 #if defined GHOST_RANDOM_WALK
 					units.emplace_back( _model_builder.build_model(),

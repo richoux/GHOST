@@ -1,4 +1,4 @@
-Please be sure to have CMake v3.15+ and a C++17-capable compiler.
+Please be sure to have CMake v3.15+ and a C++20-capable compiler.
 
 ============
 On GNU/Linux:
@@ -112,14 +112,14 @@ lib directory of this current folder.
 Troubleshooting:
 
 ===
-Got the error 'The compiler /usr/bin/c++ has no C++17 support. Please
+Got the error 'The compiler /usr/bin/c++ has no C++20 support. Please
 use a different C++ compiler.'?
 
-1. Make sure you have installed a C++17-capable compiler
+1. Make sure you have installed a C++20-capable compiler
 
 2. If you have such a compiler but still get the error, before typing
 the command 'cmake ..', type 'export
-CXX=/path/of/your/c++17/compiler/executable_name'
+CXX=/path/of/your/c++20/compiler/executable_name'
 
 ===
 If you have the following warning:

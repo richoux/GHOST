@@ -24,7 +24,7 @@ if(WIN32)
 	link_directories("C:/Program Files (x86)/ghost/lib")
 else()
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
-endif()	
+endif()
 
 if(APPLE)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -isystem\ /usr/local/include")
@@ -46,12 +46,27 @@ add_executable( tutorial_knapsack src/knapsack_alldiff.cpp src/knapsack_capacity
 target_compile_definitions( tutorial_knapsack PUBLIC -DGHOST_BENCH )
 
 if(APPLE)
+	find_package(gtest REQUIRED)
+	find_library( GHOST_LIBRARY_DEBUG NAMES ghost_staticd ghostd
+            PATHS   /usr/lib
+                    /usr/lib64
+                    /usr/local/lib
+                    /usr/local/lib64
+            PATH_SUFFIXES debug )
+
+  find_library( GHOST_LIBRARY_RELEASE NAMES ghost_static ghost
+            PATHS   /usr/lib
+                    /usr/lib64
+                    /usr/local/lib
+                    /usr/local/lib64
+            PATH_SUFFIXES release )
+
 	if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-		target_link_libraries(tutorial_knapsack /usr/local/lib/libghost_staticd.a Threads::Threads)
+		target_link_libraries(tutorial_knapsack ${GHOST_LIBRARY_DEBUG} Threads::Threads)
 	else()
-		target_link_libraries(tutorial_knapsack /usr/local/lib/libghost_static.a Threads::Threads)
+		target_link_libraries(tutorial_knapsack ${GHOST_LIBRARY_RELEASE} Threads::Threads)
 	endif()
-else()	
+else()
 	if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
 		target_link_libraries(tutorial_knapsack ghost Threads::Threads)
 	else()

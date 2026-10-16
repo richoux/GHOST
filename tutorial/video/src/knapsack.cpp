@@ -20,6 +20,7 @@ int main()
 
 	ghost::Options options;
 	options.parallel_runs = true;
+	options.seed = 42;
 
 	solver.fast_search( cost, solution, 100ms, options );
 }

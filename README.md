@@ -1,6 +1,6 @@
 ![](https://github.com/richoux/GHOST/wiki/images/GHOST_banner.png)
 
-[![3.5.0](https://img.shields.io/badge/stable-3.5.0-brightgreen.svg)](https://github.com/richoux/GHOST/releases/tag/3.5.0)
+[![3.5.1](https://img.shields.io/badge/stable-3.5.1-brightgreen.svg)](https://github.com/richoux/GHOST/releases/tag/3.5.0)
 [![3.5.x](https://img.shields.io/badge/latest-3.5.x-f57f17.svg)](https://github.com/richoux/GHOST/tree/develop)
 [![Actions Status](https://github.com/richoux/GHOST/workflows/Linux/badge.svg)](https://github.com/richoux/GHOST/actions)
 [![Actions Status](https://github.com/richoux/GHOST/workflows/MacOS/badge.svg)](https://github.com/richoux/GHOST/actions)
@@ -24,3 +24,7 @@ Installation steps for GNU/Linux, OSX and Windows can be found here: [wiki How t
 ## User manual
 
 For a short tutorial on Constraint Programming and the 'How to use GHOST' section, please visit the [user manual](https://github.com/richoux/GHOST/wiki).
+
+## Contributing
+
+Please read the [CONTRIBUTING.md](https://github.com/richoux/GHOST/blob/master/CONTRIBUTING.md) file.

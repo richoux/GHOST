@@ -50,11 +50,27 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 # Add tests cpp file
 add_executable( test_variable src/test_variable.cpp )
 
+
 if(APPLE)
+	find_package(gtest REQUIRED)
+	find_library( GHOST_LIBRARY_DEBUG NAMES ghost_staticd ghostd
+            PATHS   /usr/lib
+                    /usr/lib64
+                    /usr/local/lib
+                    /usr/local/lib64
+            PATH_SUFFIXES debug )
+
+  find_library( GHOST_LIBRARY_RELEASE NAMES ghost_static ghost
+            PATHS   /usr/lib
+                    /usr/lib64
+                    /usr/local/lib
+                    /usr/local/lib64
+            PATH_SUFFIXES release )
+
 	if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-		target_link_libraries(test_variable /usr/local/lib/libgtest.a /usr/local/lib/libghost_staticd.a Threads::Threads)
+		target_link_libraries(test_variable ${GTEST_LIBRARIES} ${GHOST_LIBRARY_DEBUG} Threads::Threads)
 	else()
-		target_link_libraries(test_variable /usr/local/lib/libgtest.a /usr/local/lib/libghost_static.a Threads::Threads)
+		target_link_libraries(test_variable ${GTEST_LIBRARIES} ${GHOST_LIBRARY_RELEASE} Threads::Threads)
 	endif()
 else()	
 	if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
