@@ -12,10 +12,10 @@
 // Specific GHOST Constraints/Objectives/Algorithms needed
 #include "include/global_constraints/linear_equation_eq.hpp"
 #include "include/global_constraints/all_different.hpp"
-#include "include/algorithms/uniform_variable_heuristic.hpp"
-#include "include/algorithms/adaptive_search_variable_candidates_heuristic.hpp"
-#include "include/algorithms/adaptive_search_value_heuristic.hpp"
-#include "include/algorithms/adaptive_search_error_projection_algorithm.hpp"
+#include "include/algorithms/variable_heuristic_uniform.hpp"
+#include "include/algorithms/variable_candidates_heuristic_adaptive_search.hpp"
+#include "include/algorithms/value_heuristic_adaptive_search.hpp"
+#include "include/algorithms/error_projection_algorithm_adaptive_search.hpp"
 // Include others as needed...
 
 // C++ Standard Library Headers
