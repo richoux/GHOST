@@ -203,7 +203,7 @@ if(NOT("${CMAKE_SYSTEM_NAME}" STREQUAL "Android"))
 endif()
 
 # Add the C API subdirectory
-add_subdirectory(capi)
+# add_subdirectory(capi)
 
 # build a CPack driven installer package
 include (InstallRequiredSystemLibraries)

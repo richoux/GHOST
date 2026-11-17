@@ -663,10 +663,10 @@ GhostStatus ghost_solve(GhostSessionHandle handle, GhostOptionsHandle options_ha
         ghost::SearchUnit search_unit(
             std::move(model),
             options,
-            std::make_unique<ghost::algorithms::UniformVariableHeuristic>(),
-            std::make_unique<ghost::algorithms::AdaptiveSearchVariableCandidatesHeuristic>(),
-            std::make_unique<ghost::algorithms::AdaptiveSearchValueHeuristic>(),
-            std::make_unique<ghost::algorithms::AdaptiveSearchErrorProjection>()
+            std::make_unique<ghost::algorithms::VariableHeuristicUniform>(),
+            std::make_unique<ghost::algorithms::VariableCandidatesHeuristicAdaptiveSearch>(),
+            std::make_unique<ghost::algorithms::ValueHeuristicAdaptiveSearch>(),
+            std::make_unique<ghost::algorithms::ErrorProjectionAdaptiveSearch>()
         );
 
         fprintf(stderr, "DEBUG: Created SearchUnit\n");
