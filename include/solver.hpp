@@ -84,7 +84,7 @@ namespace ghost
 	/*!
 	 * Solver is the class coding the solver itself.
 	 *
-	 * To solve a problem instance, users must instanciate a Solver object, then run Solver::fast_search.
+	 * To solve a problem instance, users must instantiate a Solver object, then run Solver::fast_search.
 	 * This will search for a good quality solution within a given timeout. If all solutions of a problem
 	 * are required, or if the optimality of the solution must be certified, then users can run 
 	 * Solver::complete_search instead. Notice that this will run a significantly slower search method and
