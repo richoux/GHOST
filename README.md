@@ -1,6 +1,6 @@
 ![](https://github.com/richoux/GHOST/wiki/images/GHOST_banner.png)
 
-[![3.5.2](https://img.shields.io/badge/stable-3.5.2-brightgreen.svg)](https://github.com/richoux/GHOST/releases/tag/3.5.2)
+[![3.5.3](https://img.shields.io/badge/stable-3.5.3-brightgreen.svg)](https://github.com/richoux/GHOST/releases/tag/3.5.3)
 [![3.5.x](https://img.shields.io/badge/latest-3.5.x-f57f17.svg)](https://github.com/richoux/GHOST/tree/develop)
 [![Actions Status](https://github.com/richoux/GHOST/workflows/Linux/badge.svg)](https://github.com/richoux/GHOST/actions)
 [![Actions Status](https://github.com/richoux/GHOST/workflows/MacOS/badge.svg)](https://github.com/richoux/GHOST/actions)
@@ -31,4 +31,4 @@ Please read the [CONTRIBUTING.md](https://github.com/richoux/GHOST/blob/master/C
 
 ## Archive on Zenodo
 
-The archive of GHOST v3.5.2 is available on [Zenodo](https://doi.org/10.5281/zenodo.24451545).
+The archive of GHOST v3.5.3 is available on [Zenodo](https://doi.org/10.5281/zenodo.24451545).
