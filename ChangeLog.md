@@ -2,9 +2,6 @@
 
 All notable changes to this project will be documented in this file, since GHOST 2.0.0.
 
-## [3.5.3] - 2026-11-24
-- Hotfix on the JOSS paper.
-
 ## [3.5.2] - 2026-11-24
 - Camera-ready version of the JOSS paper.
 - Merging PR introducing a C API. Disabled for the moment, it needs to be refactored for the current GHOST interface.
